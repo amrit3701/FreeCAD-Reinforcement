@@ -27,7 +27,8 @@ class _StraightRebarTaskPanel:
             elif spacing_check == True:
                 spacing = int(self.form.spacing.text())
                 makeStraightRebar(f_cover, b_cover, s_cover, diameter, rebarAlong, False, spacing)
-             FreeCAD.Console.PrintMessage("Done!\n")
+            FreeCAD.Console.PrintMessage("Done!\n")
+            self.form.hide()
         except Exception as e: FreeCAD.Console.PrintMessage(str(e)+"\n")
 
     def amount_radio_clicked(self):
@@ -53,17 +54,17 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, rebarAlong, amount_sp
             sketch.Support = [(selected_obj.Object, "Face1")]
             sketch.addGeometry(Part.LineSegment(App.Vector(s_cover, -(height/2)+b_cover, 0), App.Vector(length-s_cover, -(height/2)+b_cover, 0)), False)
             if amount_spacing_check == True:
-                structure = Arch.makeRebar(selected_obj.Object, sketch, diameter, amount, f_cover)
+                structure = Arch.makeRebar(selected_obj.Object, sketch, diameter, amount_spacing_value, f_cover)
             else:
                 structure = Arch.makeRebar(selected_obj.Object, sketch, diameter, (length-diameter)/amount_spacing_value, f_cover)
         elif rebarAlong == "Width":
             sketch.Support = [(selected_obj.Object, "Face6")]
             sketch.addGeometry(Part.LineSegment(App.Vector(-(width/2)+s_cover, -(height/2)+b_cover, 0), App.Vector((width/2)-s_cover, -(height/2)+b_cover, 0)), False)
             if amount_spacing_check == True:
-                structure = Arch.makeRebar(selected_obj.Object, sketch, diameter, amount, f_cover)
+                structure = Arch.makeRebar(selected_obj.Object, sketch, diameter, amount_spacing_value, f_cover)
             else:
                 structure = Arch.makeRebar(selected_obj.Object, sketch, diameter, (width-diameter)/amount_spacing_value, f_cover)
-            FreeCAD.ActiveDocument.recompute()
+        FreeCAD.ActiveDocument.recompute()
     except Exception as e: FreeCAD.Console.PrintMessage(str(e)+"\n")
 
 
