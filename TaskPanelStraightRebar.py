@@ -14,11 +14,11 @@ class _StraightRebarTaskPanel:
     def accept(self):
         try:
             f_cover = self.form.frontCover.text()
-            f_cover = FreeCAD.Units.Quantity(f_cover).getValueAs("mm").Value
+            f_cover = FreeCAD.Units.Quantity(f_cover).Value
             b_cover = self.form.bottomCover.text()
-            b_cover = FreeCAD.Units.Quantity(b_cover).getValueAs("mm").Value
+            b_cover = FreeCAD.Units.Quantity(b_cover).Value
             s_cover = self.form.sideCover.text()
-            s_cover = FreeCAD.Units.Quantity(s_cover).getValueAs("mm").Value
+            s_cover = FreeCAD.Units.Quantity(s_cover).Value
             diameter = self.form.diameter.value()
             amount_check = self.form.amount_radio.isChecked()
             spacing_check = self.form.spacing_radio.isChecked()
@@ -27,7 +27,7 @@ class _StraightRebarTaskPanel:
                 makeStraightRebar(f_cover, b_cover, s_cover, diameter, True, amount)
             elif spacing_check == True:
                 spacing = self.form.spacing.text()
-                spacing = FreeCAD.Units.Quantity(spacing).getValueAs("mm").Value
+                spacing = FreeCAD.Units.Quantity(spacing).Value
                 makeStraightRebar(f_cover, b_cover, s_cover, diameter, False, spacing)
             FreeCAD.Console.PrintMessage("Done!\n")
             self.form.hide()
