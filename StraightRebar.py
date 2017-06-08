@@ -1,12 +1,14 @@
 from PySide import QtCore, QtGui
 import FreeCAD, FreeCADGui, os
 
+
 class _StraightRebarTaskPanel:
     def __init__(self):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0]+".ui")
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
         QtCore.QObject.connect(self.form.submit, QtCore.SIGNAL("clicked()"), self.accept)
+        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0]+"/icons/FrontFaceStraightRebar.svg"))
 
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Close)
@@ -83,5 +85,35 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
         structure = Arch.makeRebar(selected_obj.Object, sketch, diameter, int((width-diameter)/amount_spacing_value), f_cover)
     FreeCAD.ActiveDocument.recompute()
 
+def check_selected_face():
+    selected_objs = FreeCADGui.Selection.getSelectionEx()
+    if not selected_objs:
+        showWarning("Please pick any face of structural element.")
+        selected_obj = None
+    else:
+        selected_face_names = selected_objs[0].SubElementNames
+        if not selected_face_names:
+            selected_obj = None
+            showWarning("Please pick any face of structural element.")
+        elif "Face" in selected_face_names[0]:
+            if len(selected_face_names) > 1:
+                showWarning("You have selected too many faces. Please pick only one face of the structural element.")
+                selected_obj = None
+            elif len(selected_face_names) == 1:
+                selected_obj = selected_objs[0]
+        else:
+            showWarning("You have not selected the face. Please pick the correct face.")
+            selected_obj = None
+    return selected_obj
+
+def showWarning(message):
+    msg = QtGui.QMessageBox()
+    msg.setIcon(QtGui.QMessageBox.Warning)
+    msg.setText(message)
+    msg.setStandardButtons(QtGui.QMessageBox.Ok)
+    msg.exec_()
+
 if FreeCAD.GuiUp:
-    FreeCADGui.Control.showDialog(_StraightRebarTaskPanel())
+    selected_obj = check_selected_face()
+    if selected_obj:
+        FreeCADGui.Control.showDialog(_StraightRebarTaskPanel())
