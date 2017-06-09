@@ -88,21 +88,21 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
 def check_selected_face():
     selected_objs = FreeCADGui.Selection.getSelectionEx()
     if not selected_objs:
-        showWarning("Please pick any face of structural element.")
+        showWarning("Select any face of the structural element.")
         selected_obj = None
     else:
         selected_face_names = selected_objs[0].SubElementNames
         if not selected_face_names:
             selected_obj = None
-            showWarning("Please pick any face of structural element.")
+            showWarning("Select any face of the structural element.")
         elif "Face" in selected_face_names[0]:
             if len(selected_face_names) > 1:
-                showWarning("You have selected too many faces. Please pick only one face of the structural element.")
+                showWarning("You have selected more than one face of the structural element.")
                 selected_obj = None
             elif len(selected_face_names) == 1:
                 selected_obj = selected_objs[0]
         else:
-            showWarning("You have not selected the face. Please pick the correct face.")
+            showWarning("Select any face of the selected the face.")
             selected_obj = None
     return selected_obj
 
