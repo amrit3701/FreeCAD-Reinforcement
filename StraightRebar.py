@@ -78,7 +78,7 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
     y2 = y - width/2 + b_cover
     sketch.Support = [(selected_obj.Object, selected_obj.SubElementNames[0])]
     import Part, Arch
-    sketch.addGeometry(Part.LineSegment(App.Vector(x1, y1, 0), App.Vector(x2, y2, 0)), False)
+    sketch.addGeometry(Part.LineSegment(FreeCAD.Vector(x1, y1, 0), FreeCAD.Vector(x2, y2, 0)), False)
     if amount_spacing_check == True:
         structure = Arch.makeRebar(selected_obj.Object, sketch, diameter, amount_spacing_value, f_cover)
     else:
