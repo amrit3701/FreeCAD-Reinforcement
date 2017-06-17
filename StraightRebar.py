@@ -58,7 +58,11 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
     """makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
     Adds the straight reinforcement bar to the selected structural object"""
     selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
+    StructurePRM = getTrueParametersOfStructure(selected_obj.Object)
     FacePRM = getParametersOfFace(selected_obj.Object, selected_obj.SubObjects[0])
+    if not FacePRM:
+        FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
+        return
     # Calculate the start and end points for staight line (x1, y2) and (x2, y2)
     x1 = FacePRM[1][0] - FacePRM[0][0]/2 + s_cover
     y1 = FacePRM[1][1] - FacePRM[0][1]/2 + b_cover
@@ -73,7 +77,7 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
         rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, amount_spacing_value, f_cover)
         FreeCAD.ActiveDocument.recompute()
     else:
-        rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, int((width-diameter)/amount_spacing_value), f_cover)
+        rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, int((StructurePRM[1]-diameter)/amount_spacing_value), f_cover)
     rebar.ViewObject.Proxy.setpropertyRebarShape(rebar.ViewObject, "StraightRebar")
     rebar.ViewObject.FrontCover = f_cover
     rebar.ViewObject.SideCover = s_cover
@@ -86,29 +90,35 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
 
 def editStraightRebar(Rebar, f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
     sketch = Rebar.Base
+    # Assigned values
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
     face = structure.Shape.Faces[int(facename[-1])-1]
+    StructurePRM = getTrueParametersOfStructure(structure)
+    # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, face)
     # Calculate the start and end points for staight line (x1, y2) and (x2, y2)
     x1 = FacePRM[1][0] - FacePRM[0][0]/2 + s_cover
     y1 = FacePRM[1][1] - FacePRM[0][1]/2 + b_cover
     x2 = FacePRM[1][0] - FacePRM[0][0]/2 + FacePRM[0][0] - s_cover
     y2 = FacePRM[1][1] - FacePRM[0][1]/2 + b_cover
-    FreeCAD.Console.PrintMessage(str(x1)+"  "+str(y1)+"  "+str(x2)+" "+str(y2)+"Done!\n")
     sketch.movePoint(0,1,FreeCAD.Vector(x1,y1,0),0)
+    FreeCAD.ActiveDocument.recompute()
     sketch.movePoint(0,2,FreeCAD.Vector(x2,y2,0),0)
+    FreeCAD.ActiveDocument.recompute()
+    Rebar.OffsetStart = f_cover
+    Rebar.OffsetEnd = f_cover
     if amount_spacing_check == True:
         Rebar.Amount = amount_spacing_value
+        FreeCAD.ActiveDocument.recompute()
+        Rebar.ViewObject.AmountCheck = True
     else:
-        Rebar.Amount = int((width-diameter)/amount_spacing_value)
+        Rebar.Amount = int((StructurePRM[1]-diameter)/amount_spacing_value)
+        FreeCAD.ActiveDocument.recompute()
+        Rebar.ViewObject.AmountCheck = False
     Rebar.ViewObject.FrontCover = f_cover
     Rebar.ViewObject.SideCover = s_cover
     Rebar.ViewObject.BottomCover = b_cover
-    if amount_spacing_check:
-        Rebar.ViewObject.AmountCheck = True
-    else:
-        Rebar.ViewObject.AmountCheck = False
     FreeCAD.ActiveDocument.recompute()
 
 def editDialog(vobj):
@@ -122,7 +132,6 @@ def editDialog(vobj):
     FreeCADGui.Control.showDialog(obj)
 
 if FreeCAD.GuiUp:
-    #selected_obj = check_selected_face()
-    selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
+    selected_obj = check_selected_face()
     if selected_obj:
         FreeCADGui.Control.showDialog(_StraightRebarTaskPanel())

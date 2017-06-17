@@ -1,5 +1,6 @@
 from PySide import QtCore, QtGui
 import FreeCADGui, FreeCAD
+import math
 
 def check_selected_face():
     """ check_selected_face(): This function checks whether user have selected
@@ -72,11 +73,13 @@ def getBaseObject(obj):
         return obj
 
 def getTrueParametersOfStructure(obj):
+    """ getTrueParametersOfStructure(obj): This function return actual length,
+    width and height of the structural element in the form of array like
+    [Length, Width, Height]"""
     baseObject = getBaseObject(obj)
     # If selected_obj is not derived from any base object
     if baseObject:
         # If selected_obj is derived from SketchObject
-        #if selected_obj.Object.Base.isDerivedFrom("Sketcher::SketchObject"):
         if baseObject.isDerivedFrom("Sketcher::SketchObject"):
             edges = baseObject.Shape.Edges
             if checkRectangle(edges):
@@ -88,9 +91,10 @@ def getTrueParametersOfStructure(obj):
                         length = edge.Length
                     else:
                         width = edge.Length
+            else:
+                return None
         else:
-            FreeCAD.Console.PrintError("Cannot identified from which base object sturctural element is derived\n")
-            return
+            return None
     else:
 	structuralBaseObject = getBaseStructuralObject(obj)
         length = structuralBaseObject.Length.Value
@@ -99,7 +103,12 @@ def getTrueParametersOfStructure(obj):
     return [length, width, height]
 
 def getParametersOfFace(obj, selected_face):
+    """ getParametersOfFace(obj, selected_face): This function will return
+    length, width and points center of mass of a given face in the form of list like
+    [(FaceLength, FaceWidth), (CenterOfMassX, CenterOfMassY)]"""
     StructurePRM = getTrueParametersOfStructure(obj)
+    if not StructurePRM:
+        return None
     normal = selected_face.normalAt(0,0)
     normal = selected_face.Placement.Rotation.inverted().multVec(normal)
     center_of_mass = selected_face.CenterOfMass
