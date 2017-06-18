@@ -72,6 +72,7 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
     sketch = FreeCAD.activeDocument().addObject('Sketcher::SketchObject','Sketch')
     sketch.MapMode = "FlatFace"
     sketch.Support = [(selected_obj.Object, selected_obj.SubElementNames[0])]
+    FreeCAD.ActiveDocument.recompute()
     sketch.addGeometry(Part.LineSegment(FreeCAD.Vector(x1, y1, 0), FreeCAD.Vector(x2, y2, 0)), False)
     if amount_spacing_check == True:
         rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, amount_spacing_value, f_cover)
