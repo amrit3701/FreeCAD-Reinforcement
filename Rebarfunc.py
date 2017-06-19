@@ -59,7 +59,7 @@ def checkRectangle(edges):
 def getBaseStructuralObject(obj):
     """ getBaseStructuralObject(obj): This function will return last base
         structural object."""
-    if hasattr(obj, "Base"):
+    if not obj.Base:
         return obj
     else:
         return getBaseStructuralObject(obj.Base)
@@ -95,11 +95,12 @@ def getTrueParametersOfStructure(obj):
                 return None
         else:
             return None
+        height = obj.Height.Value
     else:
-	structuralBaseObject = getBaseStructuralObject(obj)
+        structuralBaseObject = getBaseStructuralObject(obj)
         length = structuralBaseObject.Length.Value
         width = structuralBaseObject.Width.Value
-    height = obj.Height.Value
+        height = structuralBaseObject.Height.Value
     return [length, width, height]
 
 def getParametersOfFace(obj, selected_face):
@@ -112,7 +113,8 @@ def getParametersOfFace(obj, selected_face):
     normal = selected_face.normalAt(0,0)
     normal = selected_face.Placement.Rotation.inverted().multVec(normal)
     center_of_mass = selected_face.CenterOfMass
-    center_of_mass = center_of_mass.sub(getBaseStructuralObject(obj).Placement.Base)
+    if not obj.Armatures:
+        center_of_mass = center_of_mass.sub(getBaseStructuralObject(obj).Placement.Base)
     # Set length and width of user selected face of structural element
     flag = True
     for i in range(len(normal)):

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>206</width>
-    <height>403</height>
+    <width>197</width>
+    <height>364</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
    <bool>false</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
+   <item row="4" column="0">
     <widget class="QLabel" name="heading">
      <property name="font">
       <font>
@@ -36,7 +36,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+   <item row="8" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
     <widget class="QPushButton" name="submit">
      <property name="enabled">
       <bool>true</bool>
@@ -55,79 +55,106 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="5" column="0">
     <layout class="QFormLayout" name="formLayout">
+     <property name="fieldGrowthPolicy">
+      <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+     </property>
      <item row="0" column="0">
-      <widget class="QLabel" name="rebarAlongLabel">
-       <property name="text">
-        <string>Rebar Along</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="rebarAlong"/>
-     </item>
-     <item row="1" column="0">
       <widget class="QLabel" name="frontCoverLabel">
        <property name="text">
         <string>Front Cover</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="frontCover"/>
+     <item row="0" column="1">
+      <widget class="Gui::InputField" name="frontCover">
+       <property name="text">
+        <string>0 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
      </item>
-     <item row="2" column="0">
+     <item row="1" column="0">
       <widget class="QLabel" name="sideCoverLabel">
        <property name="text">
         <string>Side Cover</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="sideCover"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="bottomCoverLabel">
+     <item row="1" column="1">
+      <widget class="Gui::InputField" name="sideCover">
        <property name="text">
-        <string>Bottom Cover</string>
+        <string>0 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="bottomCover"/>
+     <item row="2" column="1">
+      <widget class="Gui::InputField" name="bottomCover">
+       <property name="text">
+        <string>0 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
      </item>
-     <item row="4" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="bentLengthLabel">
        <property name="text">
         <string>Bent Length</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="bentLength"/>
+     <item row="3" column="1">
+      <widget class="Gui::InputField" name="bentLength">
+       <property name="text">
+        <string>0 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
      </item>
-     <item row="6" column="0">
+     <item row="4" column="0">
+      <widget class="QLabel" name="roundingLabel">
+       <property name="text">
+        <string>Rounding</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="Gui::PrefSpinBox" name="rounding"/>
+     </item>
+     <item row="5" column="0">
       <widget class="QLabel" name="diameterLabel">
        <property name="text">
         <string>Diameter</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
-      <widget class="QSpinBox" name="diameter"/>
+     <item row="5" column="1">
+      <widget class="Gui::PrefSpinBox" name="diameter"/>
      </item>
-     <item row="7" column="0" colspan="2">
+     <item row="6" column="0" colspan="2">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QRadioButton" name="amount_radio">
+        <widget class="Gui::PrefRadioButton" name="amount_radio">
          <property name="text">
           <string>Amount</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="spacing_radio">
+        <widget class="Gui::PrefRadioButton" name="spacing_radio">
          <property name="text">
           <string>Spacing</string>
          </property>
@@ -135,48 +162,71 @@
        </item>
       </layout>
      </item>
-     <item row="8" column="0">
+     <item row="7" column="0">
       <widget class="QLabel" name="amountLabel">
        <property name="text">
         <string>Amount</string>
        </property>
       </widget>
      </item>
-     <item row="8" column="1">
-      <widget class="QLineEdit" name="amount">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
+     <item row="7" column="1">
+      <widget class="Gui::PrefSpinBox" name="amount"/>
      </item>
-     <item row="10" column="0">
+     <item row="8" column="0">
       <widget class="QLabel" name="spacingLabel">
        <property name="text">
         <string>Spacing</string>
        </property>
       </widget>
      </item>
-     <item row="10" column="1">
-      <widget class="QLineEdit" name="spacing">
+     <item row="2" column="0">
+      <widget class="QLabel" name="bottomCoverLabel">
+       <property name="text">
+        <string>Bottom Cover</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="Gui::InputField" name="spacing">
        <property name="enabled">
         <bool>false</bool>
        </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="roundingLabel">
        <property name="text">
-        <string>Rounding</string>
+        <string>0 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QSpinBox" name="rounding"/>
-     </item>
     </layout>
+   </item>
+   <item row="0" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="image">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::InputField</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/InputField.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefRadioButton</class>
+   <extends>QRadioButton</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
