@@ -234,6 +234,19 @@
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>frontCover</tabstop>
+  <tabstop>sideCover</tabstop>
+  <tabstop>bottomCover</tabstop>
+  <tabstop>bentLength</tabstop>
+  <tabstop>rounding</tabstop>
+  <tabstop>diameter</tabstop>
+  <tabstop>amount_radio</tabstop>
+  <tabstop>spacing_radio</tabstop>
+  <tabstop>amount</tabstop>
+  <tabstop>spacing</tabstop>
+  <tabstop>submit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
