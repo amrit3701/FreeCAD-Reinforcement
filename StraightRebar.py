@@ -1,5 +1,6 @@
 from PySide import QtCore, QtGui
 from Rebarfunc import *
+from PySide.QtCore import QT_TRANSLATE_NOOP
 import FreeCAD, FreeCADGui, os, sys
 import math
 
@@ -79,14 +80,20 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
         FreeCAD.ActiveDocument.recompute()
     else:
         rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, int((StructurePRM[1]-diameter)/amount_spacing_value), f_cover)
-    rebar.ViewObject.Proxy.setpropertyRebarShape(rebar.ViewObject, "StraightRebar")
-    rebar.ViewObject.FrontCover = f_cover
-    rebar.ViewObject.SideCover = s_cover
-    rebar.ViewObject.BottomCover = b_cover
+    rebar.ViewObject.addProperty("App::PropertyString","RebarShape","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Shape of rebar")).RebarShape = "StraightRebar"
+    rebar.ViewObject.setEditorMode("RebarShape",2)
+    rebar.addProperty("App::PropertyLength","FrontCover","RebarDialog","App::Property").FrontCover = f_cover
+    rebar.setEditorMode("FrontCover",2)
+    rebar.addProperty("App::PropertyLength","SideCover","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Side cover of rebar")).SideCover = s_cover
+    rebar.setEditorMode("SideCover",2)
+    rebar.addProperty("App::PropertyLength","BottomCover","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Bottom cover of rebar")).BottomCover = b_cover
+    rebar.setEditorMode("BottomCover",2)
+    rebar.addProperty("App::PropertyBool","AmountCheck","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Amount radio button is checked")).AmountCheck
+    rebar.setEditorMode("AmountCheck",2)
     if amount_spacing_check:
-        rebar.ViewObject.AmountCheck = True
+        rebar.AmountCheck = True
     else:
-        rebar.ViewObject.AmountCheck = False
+        rebar.AmountCheck = False
     FreeCAD.ActiveDocument.recompute()
 
 def editStraightRebar(Rebar, f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
@@ -112,22 +119,22 @@ def editStraightRebar(Rebar, f_cover, b_cover, s_cover, diameter, amount_spacing
     if amount_spacing_check == True:
         Rebar.Amount = amount_spacing_value
         FreeCAD.ActiveDocument.recompute()
-        Rebar.ViewObject.AmountCheck = True
+        Rebar.AmountCheck = True
     else:
         Rebar.Amount = int((StructurePRM[1]-diameter)/amount_spacing_value)
         FreeCAD.ActiveDocument.recompute()
-        Rebar.ViewObject.AmountCheck = False
-    Rebar.ViewObject.FrontCover = f_cover
-    Rebar.ViewObject.SideCover = s_cover
-    Rebar.ViewObject.BottomCover = b_cover
+        Rebar.AmountCheck = False
+    Rebar.FrontCover = f_cover
+    Rebar.SideCover = s_cover
+    Rebar.BottomCover = b_cover
     FreeCAD.ActiveDocument.recompute()
 
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
     obj = _StraightRebarTaskPanel(vobj.Object)
-    obj.form.frontCover.setText(str(vobj.FrontCover))
-    obj.form.sideCover.setText(str(vobj.SideCover))
-    obj.form.bottomCover.setText(str(vobj.BottomCover))
+    obj.form.frontCover.setText(str(vobj.Object.FrontCover))
+    obj.form.sideCover.setText(str(vobj.Object.SideCover))
+    obj.form.bottomCover.setText(str(vobj.Object.BottomCover))
     obj.form.diameter.setText(str(vobj.Object.Diameter))
     obj.form.amount.setValue(vobj.Object.Amount)
     FreeCADGui.Control.showDialog(obj)
