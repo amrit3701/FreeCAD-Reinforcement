@@ -82,7 +82,7 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
         rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, int((StructurePRM[1]-diameter)/amount_spacing_value), f_cover)
     rebar.ViewObject.addProperty("App::PropertyString","RebarShape","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Shape of rebar")).RebarShape = "StraightRebar"
     rebar.ViewObject.setEditorMode("RebarShape",2)
-    rebar.addProperty("App::PropertyLength","FrontCover","RebarDialog","App::Property").FrontCover = f_cover
+    rebar.addProperty("App::PropertyLength","FrontCover","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Front cover of rebar")).FrontCover = f_cover
     rebar.setEditorMode("FrontCover",2)
     rebar.addProperty("App::PropertyLength","SideCover","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Side cover of rebar")).SideCover = s_cover
     rebar.setEditorMode("SideCover",2)
