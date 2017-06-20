@@ -10,7 +10,7 @@ class _StraightRebarTaskPanel:
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
         QtCore.QObject.connect(self.form.submit, QtCore.SIGNAL("clicked()"), self.accept)
-        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0]+"/icons/FrontFaceStraightRebar.svg"))
+        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0]+"/icons/StraightRebar.svg"))
         self.Rebar = Rebar
 
     def getStandardButtons(self):
