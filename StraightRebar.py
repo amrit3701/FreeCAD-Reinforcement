@@ -139,7 +139,8 @@ def editDialog(vobj):
     obj.form.amount.setValue(vobj.Object.Amount)
     FreeCADGui.Control.showDialog(obj)
 
-if FreeCAD.GuiUp:
+def CommandStraightRebar():
+    FreeCAD.Console.PrintMessage("CommandStraightRebar\n")
     selected_obj = check_selected_face()
     if selected_obj:
         FreeCADGui.Control.showDialog(_StraightRebarTaskPanel())
