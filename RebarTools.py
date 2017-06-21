@@ -1,5 +1,5 @@
 from PySide.QtCore import QT_TRANSLATE_NOOP
-import FreeCADGui, FreeCAD
+import FreeCADGui
 import os
 
 class StraightRebarTool:
