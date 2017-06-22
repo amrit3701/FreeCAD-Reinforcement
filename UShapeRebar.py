@@ -103,11 +103,12 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     rebar.setEditorMode("BottomCover",2)
     rebar.addProperty("App::PropertyBool","AmountCheck","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Amount radio button is checked")).AmountCheck
     rebar.setEditorMode("AmountCheck",2)
-    rebar.addProperty("App::PropertyDistance","BentLength","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Bent Length of rebar")).BentLength = t_cover
+    rebar.addProperty("App::PropertyDistance","TopCover","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Top cover of rebar")).TopCover = t_cover
+    rebar.setEditorMode("Top Cover",2)
     rebar.FrontCover = f_cover
     rebar.SideCover = s_cover
     rebar.BottomCover = b_cover
-    rebar.BentLength = t_cover
+    rebar.TopCover = t_cover
     if amount_spacing_check:
         rebar.AmountCheck = True
     else:
@@ -153,7 +154,7 @@ def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, roundin
     Rebar.FrontCover = f_cover
     Rebar.SideCover = s_cover
     Rebar.BottomCover = b_cover
-    Rebar.BentLength = t_cover
+    Rebar.TopCover = t_cover
     Rebar.Rounding = rounding
     FreeCAD.ActiveDocument.recompute()
 
@@ -164,7 +165,7 @@ def editDialog(vobj):
     obj.form.sideCover.setText(str(vobj.Object.SideCover))
     obj.form.bottomCover.setText(str(vobj.Object.BottomCover))
     obj.form.diameter.setText(str(vobj.Object.Diameter))
-    obj.form.topCover.setText(str(vobj.Object.BentLength))
+    obj.form.topCover.setText(str(vobj.Object.TopCover))
     obj.form.rounding.setValue(vobj.Object.Rounding)
     obj.form.amount.setValue(vobj.Object.Amount)
     FreeCADGui.Control.showDialog(obj)
