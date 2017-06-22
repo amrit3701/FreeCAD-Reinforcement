@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>StraightRebar</class>
- <widget class="QDialog" name="StraightRebar">
+ <class>UShapeRebar</class>
+ <widget class="QDialog" name="UShapeRebar">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>197</width>
-    <height>387</height>
+    <height>354</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,38 +23,6 @@
    <bool>false</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="4" column="0">
-    <widget class="QLabel" name="heading">
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Fill all the values</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-    <widget class="QPushButton" name="submit">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>OK</string>
-     </property>
-     <property name="checkable">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
    <item row="5" column="0">
     <layout class="QFormLayout" name="formLayout">
      <property name="fieldGrowthPolicy">
@@ -215,6 +183,19 @@
      </property>
     </widget>
    </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="heading">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Fill all the values</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -245,7 +226,6 @@
   <tabstop>spacing_radio</tabstop>
   <tabstop>amount</tabstop>
   <tabstop>spacing</tabstop>
-  <tabstop>submit</tabstop>
  </tabstops>
  <resources/>
  <connections/>

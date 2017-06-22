@@ -8,14 +8,14 @@ import math
 class _UShapeRebarTaskPanel:
     def __init__(self, Rebar = None):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0]+".ui")
+        self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "U-Shape Rebar", None))
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
-        QtCore.QObject.connect(self.form.submit, QtCore.SIGNAL("clicked()"), self.accept)
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0]+"/icons/UShapeRebar.svg"))
         self.Rebar = Rebar
 
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Close)
+        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)
 
     def accept(self):
         f_cover = self.form.frontCover.text()

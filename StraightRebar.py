@@ -7,14 +7,14 @@ import math
 class _StraightRebarTaskPanel:
     def __init__(self, Rebar = None):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0]+".ui")
+        self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Straight Rebar", None))
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
-        QtCore.QObject.connect(self.form.submit, QtCore.SIGNAL("clicked()"), self.accept)
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0]+"/icons/StraightRebar.svg"))
         self.Rebar = Rebar
 
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Close)
+        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)
 
     def accept(self):
         f_cover = self.form.frontCover.text()
@@ -45,6 +45,7 @@ class _StraightRebarTaskPanel:
                 editStraightRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, False, spacing)
         FreeCAD.Console.PrintMessage("Done!\n")
         FreeCADGui.Control.closeDialog(self)
+
 
     def amount_radio_clicked(self):
         self.form.spacing.setEnabled(False)
