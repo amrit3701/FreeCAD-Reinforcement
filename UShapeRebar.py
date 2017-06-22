@@ -104,7 +104,9 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     rebar.addProperty("App::PropertyBool","AmountCheck","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Amount radio button is checked")).AmountCheck
     rebar.setEditorMode("AmountCheck",2)
     rebar.addProperty("App::PropertyDistance","TopCover","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Top cover of rebar")).TopCover = t_cover
-    rebar.setEditorMode("Top Cover",2)
+    rebar.setEditorMode("TopCover",2)
+    rebar.addProperty("App::PropertyDistance","TrueSpacing","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Spacing between of rebars")).TrueSpacing = amount_spacing_value
+    rebar.setEditorMode("TrueSpacing",2)
     rebar.FrontCover = f_cover
     rebar.SideCover = s_cover
     rebar.BottomCover = b_cover
@@ -113,6 +115,7 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
         rebar.AmountCheck = True
     else:
         rebar.AmountCheck = False
+        rebar.TrueSpacing = amount_spacing_value
     FreeCAD.ActiveDocument.recompute()
 
 def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value):
@@ -156,6 +159,7 @@ def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, roundin
     Rebar.BottomCover = b_cover
     Rebar.TopCover = t_cover
     Rebar.Rounding = rounding
+    Rebar.TrueSpacing = amount_spacing_value
     FreeCAD.ActiveDocument.recompute()
 
 def editDialog(vobj):
@@ -167,7 +171,14 @@ def editDialog(vobj):
     obj.form.diameter.setText(str(vobj.Object.Diameter))
     obj.form.topCover.setText(str(vobj.Object.TopCover))
     obj.form.rounding.setValue(vobj.Object.Rounding)
-    obj.form.amount.setValue(vobj.Object.Amount)
+    if vobj.Object.AmountCheck == True:
+        obj.form.amount.setValue(vobj.Object.Amount)
+    else:
+        obj.form.amount_radio.setChecked(False)
+        obj.form.spacing_radio.setChecked(True)
+        obj.form.amount.setDisabled(True)
+        obj.form.spacing.setEnabled(True)
+        obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
     FreeCADGui.Control.showDialog(obj)
 
 def CommandUShapeRebar():
