@@ -90,10 +90,13 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
     rebar.setEditorMode("BottomCover",2)
     rebar.addProperty("App::PropertyBool","AmountCheck","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Amount radio button is checked")).AmountCheck
     rebar.setEditorMode("AmountCheck",2)
+    rebar.addProperty("App::PropertyDistance","TrueSpacing","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Spacing between of rebars")).TrueSpacing = amount_spacing_value
+    rebar.setEditorMode("TrueSpacing",2)
     if amount_spacing_check:
         rebar.AmountCheck = True
     else:
         rebar.AmountCheck = False
+        rebar.TrueSpacing = amount_spacing_value
     FreeCAD.ActiveDocument.recompute()
 
 def editStraightRebar(Rebar, f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
@@ -127,6 +130,7 @@ def editStraightRebar(Rebar, f_cover, b_cover, s_cover, diameter, amount_spacing
     Rebar.FrontCover = f_cover
     Rebar.SideCover = s_cover
     Rebar.BottomCover = b_cover
+    Rebar.TrueSpacing = amount_spacing_value
     FreeCAD.ActiveDocument.recompute()
 
 def editDialog(vobj):
@@ -136,11 +140,18 @@ def editDialog(vobj):
     obj.form.sideCover.setText(str(vobj.Object.SideCover))
     obj.form.bottomCover.setText(str(vobj.Object.BottomCover))
     obj.form.diameter.setText(str(vobj.Object.Diameter))
-    obj.form.amount.setValue(vobj.Object.Amount)
+    if vobj.Object.AmountCheck == True:
+        obj.form.amount.setValue(vobj.Object.Amount)
+    else:
+        obj.form.amount_radio.setChecked(False)
+        obj.form.spacing_radio.setChecked(True)
+        obj.form.amount.setDisabled(True)
+        obj.form.spacing.setEnabled(True)
+        obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
     FreeCADGui.Control.showDialog(obj)
 
+
 def CommandStraightRebar():
-    FreeCAD.Console.PrintMessage("CommandStraightRebar\n")
     selected_obj = check_selected_face()
     if selected_obj:
         FreeCADGui.Control.showDialog(_StraightRebarTaskPanel())
