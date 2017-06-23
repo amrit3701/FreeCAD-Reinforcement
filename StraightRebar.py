@@ -102,6 +102,10 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
 
 def editStraightRebar(Rebar, f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
     sketch = Rebar.Base
+    # Check if sketch support is empty.
+    if not sketch.Support:
+        showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
+        return
     # Assigned values
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]

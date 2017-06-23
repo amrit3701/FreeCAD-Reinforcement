@@ -121,6 +121,9 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
 def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value):
     sketch = Rebar.Base
     # Assigned values
+    if not sketch.Support:
+        showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
+        return
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
     face = structure.Shape.Faces[int(facename[-1])-1]
