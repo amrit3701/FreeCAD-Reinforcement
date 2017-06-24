@@ -57,7 +57,7 @@ class _StraightRebarTaskPanel:
 
 
 def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
-    """makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
+    """ makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
     Adds the straight reinforcement bar to the selected structural object"""
     selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
     StructurePRM = getTrueParametersOfStructure(selected_obj.Object)
@@ -81,6 +81,7 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
         FreeCAD.ActiveDocument.recompute()
     else:
         rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, int((StructurePRM[1]-diameter)/amount_spacing_value), f_cover)
+    # Adds properties to the rebar object
     rebar.ViewObject.addProperty("App::PropertyString","RebarShape","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Shape of rebar")).RebarShape = "StraightRebar"
     rebar.ViewObject.setEditorMode("RebarShape",2)
     rebar.addProperty("App::PropertyDistance","FrontCover","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Front cover of rebar")).FrontCover = f_cover

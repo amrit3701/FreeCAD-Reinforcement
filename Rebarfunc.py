@@ -105,7 +105,7 @@ def getTrueParametersOfStructure(obj):
 
 def getParametersOfFace(obj, selected_face):
     """ getParametersOfFace(obj, selected_face): This function will return
-    length, width and points center of mass of a given face in the form of list like
+    length, width and points of center of mass of a given face in the form of list like
     [(FaceLength, FaceWidth), (CenterOfMassX, CenterOfMassY)]"""
     StructurePRM = getTrueParametersOfStructure(obj)
     if not StructurePRM:
@@ -137,7 +137,7 @@ def getParametersOfFace(obj, selected_face):
 
 def showWarning(message):
     """ showWarning(message): This function is used to produce warning
-        message for the user."""
+    message for the user."""
     msg = QtGui.QMessageBox()
     msg.setIcon(QtGui.QMessageBox.Warning)
     msg.setText(message)

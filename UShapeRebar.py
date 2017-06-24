@@ -2,7 +2,6 @@ from PySide import QtCore, QtGui
 from Rebarfunc import *
 from PySide.QtCore import QT_TRANSLATE_NOOP
 import FreeCAD, FreeCADGui, os, sys
-import Sketcher
 import math
 
 class _UShapeRebarTaskPanel:
@@ -60,7 +59,7 @@ class _UShapeRebarTaskPanel:
 
 
 def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value):
-    """makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
+    """ makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
     Adds the U-Shape reinforcement bar to the selected structural object"""
     selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
     StructurePRM = getTrueParametersOfStructure(selected_obj.Object)
@@ -68,7 +67,7 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     if not FacePRM:
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
-    # Calculate the start and end points for staight line (x1, y2) and (x2, y2)
+    # Calculate the coordinate values of U-Shape rebar
     x1 = FacePRM[1][0] - FacePRM[0][0]/2 + s_cover
     y1 = FacePRM[1][1] + FacePRM[0][1]/2 - t_cover
     x2 = FacePRM[1][0] - FacePRM[0][0]/2 + s_cover
@@ -84,6 +83,7 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     FreeCAD.ActiveDocument.recompute()
     sketch.addGeometry(Part.LineSegment(FreeCAD.Vector(x1, y1, 0), FreeCAD.Vector(x2, y2, 0)), False)
     sketch.addGeometry(Part.LineSegment(FreeCAD.Vector(x2, y2, 0), FreeCAD.Vector(x3, y3, 0)), False)
+    import Sketcher
     sketch.addConstraint(Sketcher.Constraint('Coincident',0,2,1,1))
     sketch.addGeometry(Part.LineSegment(FreeCAD.Vector(x3, y3, 0), FreeCAD.Vector(x4, y4, 0)), False)
     sketch.addConstraint(Sketcher.Constraint('Coincident',1,2,2,1))
@@ -93,6 +93,7 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     else:
         rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, int((StructurePRM[1]-diameter)/amount_spacing_value), f_cover)
     rebar.Rounding = rounding
+    # Adds properties to the rebar object
     rebar.ViewObject.addProperty("App::PropertyString","RebarShape","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Shape of rebar")).RebarShape = "UShapeRebar"
     rebar.ViewObject.setEditorMode("RebarShape",2)
     rebar.addProperty("App::PropertyDistance","FrontCover","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Front cover of rebar")).FrontCover = f_cover
@@ -120,17 +121,18 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
 
 def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value):
     sketch = Rebar.Base
-    # Assigned values
+    # Check if sketch support is empty.
     if not sketch.Support:
         showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
         return
+    # Assigned values
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
     face = structure.Shape.Faces[int(facename[-1])-1]
     StructurePRM = getTrueParametersOfStructure(structure)
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, face)
-    # Calculate the start and end points for staight line (x1, y2) and (x2, y2)
+    # Calculate the coordinates value of U-Shape rebar
     x1 = FacePRM[1][0] - FacePRM[0][0]/2 + s_cover
     y1 = FacePRM[1][1] + FacePRM[0][1]/2 - t_cover
     x2 = FacePRM[1][0] - FacePRM[0][0]/2 + s_cover
