@@ -5,6 +5,7 @@ import FreeCAD, FreeCADGui, os, sys
 import math
 
 def getpointsOfStirrup(FacePRM, s_cover, bent_factor, diameter, rounding, facenormal):
+    FreeCAD.Console.PrintMessage("diameter: "+str(diameter)+" rounding: "+str(rounding)+"\n")
     if round(facenormal[1]) in {1,-1}:
         x1 = FacePRM[1][0] - FacePRM[0][0]/2 + s_cover
         y1 = FacePRM[1][1]
@@ -156,14 +157,18 @@ def editStirrup(Rebar, s_cover, f_cover, bent_factor, diameter, rounding, amount
     face = structure.Shape.Faces[int(facename[-1])-1]
     StructurePRM = getTrueParametersOfStructure(structure)
     # Get parameters of the face where sketch of rebar is drawn
-    FacePRM = getParametersOfFace(structure, face)
+    FacePRM = getParametersOfFace(structure, face, False)
     FaceNormal = face.normalAt(0,0)
     FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)
 
     # Calculate the coordinates value of U-Shape rebar
-
-
-
+    points = getpointsOfStirrup(FacePRM, s_cover, bent_factor, diameter, rounding, FaceNormal)
+    Rebar.Base.Points = points
+    FreeCAD.ActiveDocument.recompute()
+    Rebar.OffsetStart = f_cover
+    Rebar.OffsetEnd = f_cover
+    Rebar.Rounding = rounding
+    Rebar.Diameter = diameter
     if amount_spacing_check == True:
         Rebar.Amount = amount_spacing_value
         FreeCAD.ActiveDocument.recompute()
