@@ -108,10 +108,10 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     rebar.setEditorMode("TopCover",2)
     rebar.addProperty("App::PropertyDistance","TrueSpacing","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Spacing between of rebars")).TrueSpacing = amount_spacing_value
     rebar.setEditorMode("TrueSpacing",2)
-    rebar.FrontCover = f_cover
-    rebar.SideCover = s_cover
-    rebar.BottomCover = b_cover
-    rebar.TopCover = t_cover
+#    rebar.FrontCover = f_cover
+#    rebar.SideCover = s_cover
+#    rebar.BottomCover = b_cover
+#    rebar.TopCover = t_cover
     if amount_spacing_check:
         rebar.AmountCheck = True
     else:

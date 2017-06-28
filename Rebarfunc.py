@@ -103,7 +103,7 @@ def getTrueParametersOfStructure(obj):
         height = structuralBaseObject.Height.Value
     return [length, width, height]
 
-def getParametersOfFace(obj, selected_face):
+def getParametersOfFace(obj, selected_face, sketch=True):
     """ getParametersOfFace(obj, selected_face): This function will return
     length, width and points of center of mass of a given face in the form of list like
     [(FaceLength, FaceWidth), (CenterOfMassX, CenterOfMassY)]"""
@@ -133,6 +133,11 @@ def getParametersOfFace(obj, selected_face):
             elif i == 2:
                 y = center_of_mass[i]
                 facewidth = StructurePRM[2]
+        else:
+            z = center_of_mass[i]
+    if not sketch:
+        center_of_mass = selected_face.CenterOfMass
+        return [(facelength, facewidth), center_of_mass]
     return [(facelength, facewidth), (x, y)]
 
 def showWarning(message):

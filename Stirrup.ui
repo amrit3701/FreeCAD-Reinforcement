@@ -88,9 +88,6 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="Gui::UIntSpinBox" name="rounding"/>
-     </item>
      <item row="4" column="0">
       <widget class="QLabel" name="diameterLabel">
        <property name="text">
@@ -193,6 +190,9 @@
        </property>
       </widget>
      </item>
+     <item row="3" column="1">
+      <widget class="Gui::PrefSpinBox" name="rounding"/>
+     </item>
     </layout>
    </item>
   </layout>
@@ -202,11 +202,6 @@
    <class>Gui::InputField</class>
    <extends>QLineEdit</extends>
    <header>Gui/InputField.h</header>
-  </customwidget>
-  <customwidget>
-   <class>Gui::UIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>Gui/SpinBox.h</header>
   </customwidget>
   <customwidget>
    <class>Gui::PrefSpinBox</class>
