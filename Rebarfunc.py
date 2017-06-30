@@ -140,6 +140,18 @@ def getParametersOfFace(obj, selected_face, sketch=True):
         return [(facelength, facewidth), center_of_mass]
     return [(facelength, facewidth), (x, y)]
 
+def extendedTangentPartLength(rounding, diameter, angle):
+    radius = rounding*diameter
+    x1 = radius/math.tan(math.radians(angle))
+    x2 = radius/math.cos(math.radians(90-angle))-radius
+    return x1+x2
+
+def extendedTangentLength(rounding, diameter, angle):
+    radius = rounding*diameter
+    x1 = radius/math.sin(math.radians(angle))
+    x2 = radius*math.tan(math.radians(90-angle))
+    return x1+x2
+
 def showWarning(message):
     """ showWarning(message): This function is used to produce warning
     message for the user."""
