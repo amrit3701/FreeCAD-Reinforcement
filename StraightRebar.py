@@ -1,6 +1,6 @@
 # ***************************************************************************
 # *                                                                         *
-# *   Copyright (c) 2017 - Amritpal Singh <amrit3701@gmail.com              *
+# *   Copyright (c) 2017 - Amritpal Singh <amrit3701@gmail.com>             *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -27,16 +27,28 @@ __url__ = "https://www.freecadweb.org"
 from PySide import QtCore, QtGui
 from Rebarfunc import *
 from PySide.QtCore import QT_TRANSLATE_NOOP
-import FreeCAD, FreeCADGui, os, sys
+import FreeCAD
+import FreeCADGui
+import os
+import sys
 import math
+
+def getpointsOfStraightRebar(FacePRM, s_cover, b_cover):
+    """ getpointsOfStraightRebar(FacePRM, s_cover, b_cover):
+    Return points of the Straight rebar in the form of array for sketch"""
+    x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
+    y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+    x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - s_cover
+    y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+    return [FreeCAD.Vector(x1, y1, 0), FreeCAD.Vector(x2, y2, 0)]
 
 class _StraightRebarTaskPanel:
     def __init__(self, Rebar = None):
-        self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0]+".ui")
+        self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Straight Rebar", None))
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
-        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0]+"/icons/StraightRebar.svg"))
+        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/StraightRebar.svg"))
         self.Rebar = Rebar
 
     def getStandardButtons(self):
@@ -54,24 +66,22 @@ class _StraightRebarTaskPanel:
         amount_check = self.form.amount_radio.isChecked()
         spacing_check = self.form.spacing_radio.isChecked()
         if not self.Rebar:
-            if amount_check == True:
+            if amount_check:
                 amount = self.form.amount.value()
                 makeStraightRebar(f_cover, b_cover, s_cover, diameter, True, amount)
-            elif spacing_check == True:
+            elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
                 makeStraightRebar(f_cover, b_cover, s_cover, diameter, False, spacing)
         else:
-            if amount_check == True:
+            if amount_check:
                 amount = self.form.amount.value()
                 editStraightRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, True, amount)
-            elif spacing_check == True:
+            elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
                 editStraightRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, False, spacing)
-        FreeCAD.Console.PrintMessage("Done!\n")
         FreeCADGui.Control.closeDialog(self)
-
 
     def amount_radio_clicked(self):
         self.form.spacing.setEnabled(False)
@@ -91,35 +101,33 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
     if not FacePRM:
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
-    # Calculate the start and end points for staight line (x1, y2) and (x2, y2)
-    x1 = FacePRM[1][0] - FacePRM[0][0]/2 + s_cover
-    y1 = FacePRM[1][1] - FacePRM[0][1]/2 + b_cover
-    x2 = FacePRM[1][0] - FacePRM[0][0]/2 + FacePRM[0][0] - s_cover
-    y2 = FacePRM[1][1] - FacePRM[0][1]/2 + b_cover
-    import Part, Arch
-    sketch = FreeCAD.activeDocument().addObject('Sketcher::SketchObject','Sketch')
+    # Get points of Striaght rebar
+    points = getpointsOfStraightRebar(FacePRM, s_cover, b_cover)
+    import Part
+    import Arch
+    sketch = FreeCAD.activeDocument().addObject('Sketcher::SketchObject', 'Sketch')
     sketch.MapMode = "FlatFace"
     sketch.Support = [(selected_obj.Object, selected_obj.SubElementNames[0])]
     FreeCAD.ActiveDocument.recompute()
-    sketch.addGeometry(Part.LineSegment(FreeCAD.Vector(x1, y1, 0), FreeCAD.Vector(x2, y2, 0)), False)
-    if amount_spacing_check == True:
+    sketch.addGeometry(Part.LineSegment(points[0], points[1]), False)
+    if amount_spacing_check:
         rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, amount_spacing_value, f_cover)
         FreeCAD.ActiveDocument.recompute()
     else:
-        rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, int((StructurePRM[1]-diameter)/amount_spacing_value), f_cover)
+        rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, int((StructurePRM[1] - diameter) / amount_spacing_value), f_cover)
     # Adds properties to the rebar object
-    rebar.ViewObject.addProperty("App::PropertyString","RebarShape","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Shape of rebar")).RebarShape = "StraightRebar"
-    rebar.ViewObject.setEditorMode("RebarShape",2)
-    rebar.addProperty("App::PropertyDistance","FrontCover","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Front cover of rebar")).FrontCover = f_cover
-    rebar.setEditorMode("FrontCover",2)
-    rebar.addProperty("App::PropertyDistance","SideCover","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Side cover of rebar")).SideCover = s_cover
-    rebar.setEditorMode("SideCover",2)
-    rebar.addProperty("App::PropertyDistance","BottomCover","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Bottom cover of rebar")).BottomCover = b_cover
-    rebar.setEditorMode("BottomCover",2)
-    rebar.addProperty("App::PropertyBool","AmountCheck","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Amount radio button is checked")).AmountCheck
-    rebar.setEditorMode("AmountCheck",2)
-    rebar.addProperty("App::PropertyDistance","TrueSpacing","RebarDialog",QT_TRANSLATE_NOOP("App::Property","Spacing between of rebars")).TrueSpacing = amount_spacing_value
-    rebar.setEditorMode("TrueSpacing",2)
+    rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).RebarShape = "StraightRebar"
+    rebar.ViewObject.setEditorMode("RebarShape", 2)
+    rebar.addProperty("App::PropertyDistance", "FrontCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Front cover of rebar")).FrontCover = f_cover
+    rebar.setEditorMode("FrontCover", 2)
+    rebar.addProperty("App::PropertyDistance", "SideCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Side cover of rebar")).SideCover = s_cover
+    rebar.setEditorMode("SideCover", 2)
+    rebar.addProperty("App::PropertyDistance", "BottomCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Bottom cover of rebar")).BottomCover = b_cover
+    rebar.setEditorMode("BottomCover", 2)
+    rebar.addProperty("App::PropertyBool", "AmountCheck", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Amount radio button is checked")).AmountCheck
+    rebar.setEditorMode("AmountCheck", 2)
+    rebar.addProperty("App::PropertyDistance", "TrueSpacing", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Spacing between of rebars")).TrueSpacing = amount_spacing_value
+    rebar.setEditorMode("TrueSpacing", 2)
     if amount_spacing_check:
         rebar.AmountCheck = True
     else:
@@ -136,27 +144,24 @@ def editStraightRebar(Rebar, f_cover, b_cover, s_cover, diameter, amount_spacing
     # Assigned values
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
-    face = structure.Shape.Faces[int(facename[-1])-1]
+    face = structure.Shape.Faces[int(facename[-1]) - 1]
     StructurePRM = getTrueParametersOfStructure(structure)
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, face)
-    # Calculate the start and end points for staight line (x1, y2) and (x2, y2)
-    x1 = FacePRM[1][0] - FacePRM[0][0]/2 + s_cover
-    y1 = FacePRM[1][1] - FacePRM[0][1]/2 + b_cover
-    x2 = FacePRM[1][0] - FacePRM[0][0]/2 + FacePRM[0][0] - s_cover
-    y2 = FacePRM[1][1] - FacePRM[0][1]/2 + b_cover
-    sketch.movePoint(0,1,FreeCAD.Vector(x1,y1,0),0)
+    # Get points of Striaght rebar
+    points = getpointsOfStraightRebar(FacePRM, s_cover, b_cover)
+    sketch.movePoint(0, 1, points[0], 0)
     FreeCAD.ActiveDocument.recompute()
-    sketch.movePoint(0,2,FreeCAD.Vector(x2,y2,0),0)
+    sketch.movePoint(0, 2, points[1], 0)
     FreeCAD.ActiveDocument.recompute()
     Rebar.OffsetStart = f_cover
     Rebar.OffsetEnd = f_cover
-    if amount_spacing_check == True:
+    if amount_spacing_check:
         Rebar.Amount = amount_spacing_value
         FreeCAD.ActiveDocument.recompute()
         Rebar.AmountCheck = True
     else:
-        Rebar.Amount = int((StructurePRM[1]-diameter)/amount_spacing_value)
+        Rebar.Amount = int((StructurePRM[1] - diameter) / amount_spacing_value)
         FreeCAD.ActiveDocument.recompute()
         Rebar.AmountCheck = False
     Rebar.FrontCover = f_cover
@@ -172,7 +177,7 @@ def editDialog(vobj):
     obj.form.sideCover.setText(str(vobj.Object.SideCover))
     obj.form.bottomCover.setText(str(vobj.Object.BottomCover))
     obj.form.diameter.setText(str(vobj.Object.Diameter))
-    if vobj.Object.AmountCheck == True:
+    if vobj.Object.AmountCheck:
         obj.form.amount.setValue(vobj.Object.Amount)
     else:
         obj.form.amount_radio.setChecked(False)

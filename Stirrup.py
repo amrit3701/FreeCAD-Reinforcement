@@ -1,6 +1,6 @@
 # ***************************************************************************
 # *                                                                         *
-# *   Copyright (c) 2017 - Amritpal Singh <amrit3701@gmail.com              *
+# *   Copyright (c) 2017 - Amritpal Singh <amrit3701@gmail.com>             *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -150,7 +150,6 @@ class _StirrupTaskPanel:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
                 editStirrup(self.Rebar, s_cover, f_cover, bentAngle, diameter, rounding, False, spacing)
-        FreeCAD.Console.PrintMessage("Done!\n")
         FreeCADGui.Control.closeDialog(self)
 
     def amount_radio_clicked(self):
@@ -194,8 +193,6 @@ def makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding, amount_spacing_
     rebar.setEditorMode("FrontCover", 2)
     rebar.addProperty("App::PropertyInteger", "BentAngle", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Bent angle between at the end of rebar")).BentAngle = bentAngle
     rebar.setEditorMode("BentAngle", 2)
-    rebar.addProperty("App::PropertyInteger", "TrueRounding", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Bottom cover of rebar")).TrueRounding = rounding
-    rebar.setEditorMode("TrueRounding", 2)
     rebar.addProperty("App::PropertyBool", "AmountCheck", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Amount radio button is checked")).AmountCheck
     rebar.setEditorMode("AmountCheck", 2)
     rebar.addProperty("App::PropertyDistance", "TrueSpacing", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Spacing between of rebars")).TrueSpacing = amount_spacing_value
@@ -241,7 +238,6 @@ def editStirrup(Rebar, s_cover, f_cover, bentAngle, diameter, rounding, amount_s
         Rebar.AmountCheck = False
     Rebar.FrontCover = f_cover
     Rebar.SideCover = s_cover
-    Rebar.TrueRounding = rounding
     Rebar.TrueSpacing = amount_spacing_value
     FreeCAD.ActiveDocument.recompute()
 
@@ -252,7 +248,7 @@ def editDialog(vobj):
     obj.form.sideCover.setText(str(vobj.Object.SideCover))
     obj.form.diameter.setText(str(vobj.Object.Diameter))
     obj.form.bentAngle.setCurrentIndex(obj.form.bentAngle.findText(str(vobj.Object.BentAngle)))
-    obj.form.rounding.setValue(vobj.Object.TrueRounding)
+    obj.form.rounding.setValue(vobj.Object.Rounding)
     if vobj.Object.AmountCheck:
         obj.form.amount.setValue(vobj.Object.Amount)
     else:
