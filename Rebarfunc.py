@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ***************************************************************************
 # *                                                                         *
 # *   Copyright (c) 2017 - Amritpal Singh <amrit3701@gmail.com>             *
@@ -25,7 +26,8 @@ __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
 from PySide import QtCore, QtGui
-import FreeCADGui, FreeCAD
+import FreeCAD
+import FreeCADGui
 import math
 
 def check_selected_face():
@@ -55,7 +57,7 @@ def vec(edge):
     """ vec(edge) or vec(line): returns a vector from an edge or a Part.line."""
     # if edge is not straight, you'll get strange results!
     import Part
-    if isinstance(edge,Part.Shape):
+    if isinstance(edge, Part.Shape):
         return edge.Vertexes[-1].Point.sub(edge.Vertexes[0].Point)
     elif isinstance(edge,Part.Line):
         return edge.EndPoint.sub(edge.StartPoint)
@@ -67,7 +69,6 @@ def getEdgesAngle(edge1, edge2):
     vec1 = vec(edge1)
     vec2 = vec(edge2)
     angle = vec1.getAngle(vec2)
-    import math
     angle = math.degrees(angle)
     return angle
 
@@ -167,16 +168,20 @@ def getParametersOfFace(obj, selected_face, sketch=True):
     return [(facelength, facewidth), (x, y)]
 
 def extendedTangentPartLength(rounding, diameter, angle):
-    radius = rounding*diameter
-    x1 = radius/math.tan(math.radians(angle))
-    x2 = radius/math.cos(math.radians(90-angle))-radius
-    return x1+x2
+    """ extendedTangentPartLength(rounding, diameter, angle): Get a extended
+    length of rounding on corners."""
+    radius = rounding * diameter
+    x1 = radius / math.tan(math.radians(angle))
+    x2 = radius / math.cos(math.radians(90 - angle)) - radius
+    return x1 + x2
 
 def extendedTangentLength(rounding, diameter, angle):
-    radius = rounding*diameter
-    x1 = radius/math.sin(math.radians(angle))
-    x2 = radius*math.tan(math.radians(90-angle))
-    return x1+x2
+    """ extendedTangentLength(rounding, diameter, angle): Get a extended
+    length of rounding at the end of Stirrup for bent."""
+    radius = rounding * diameter
+    x1 = radius / math.sin(math.radians(angle))
+    x2 = radius * math.tan(math.radians(90 - angle))
+    return x1 + x2
 
 def showWarning(message):
     """ showWarning(message): This function is used to produce warning

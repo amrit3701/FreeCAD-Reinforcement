@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ***************************************************************************
 # *                                                                         *
 # *   Copyright (c) 2017 - Amritpal Singh <amrit3701@gmail.com>             *
@@ -163,7 +164,7 @@ class _StirrupTaskPanel:
 
 def makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding, amount_spacing_check, amount_spacing_value):
     """ makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding, amount_spacing_check, amount_spacing_value):
-    Adds the Stirrup reinforcement bar to the selected structural object"""
+    Adds the Stirrup reinforcement bar to the selected structural object."""
     selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
     StructurePRM = getTrueParametersOfStructure(selected_obj.Object)
     FacePRM = getParametersOfFace(selected_obj.Object, selected_obj.SubObjects[0], False)

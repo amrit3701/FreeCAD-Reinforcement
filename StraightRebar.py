@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ***************************************************************************
 # *                                                                         *
 # *   Copyright (c) 2017 - Amritpal Singh <amrit3701@gmail.com>             *
@@ -35,7 +36,7 @@ import math
 
 def getpointsOfStraightRebar(FacePRM, s_cover, b_cover):
     """ getpointsOfStraightRebar(FacePRM, s_cover, b_cover):
-    Return points of the Straight rebar in the form of array for sketch"""
+    Return points of the Straight rebar in the form of array for sketch."""
     x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
     y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
     x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - s_cover
@@ -94,7 +95,7 @@ class _StraightRebarTaskPanel:
 
 def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
     """ makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
-    Adds the straight reinforcement bar to the selected structural object"""
+    Adds the straight reinforcement bar to the selected structural object."""
     selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
     StructurePRM = getTrueParametersOfStructure(selected_obj.Object)
     FacePRM = getParametersOfFace(selected_obj.Object, selected_obj.SubObjects[0])
