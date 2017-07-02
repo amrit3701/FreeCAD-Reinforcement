@@ -49,11 +49,39 @@ class _StraightRebarTaskPanel:
         self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Straight Rebar", None))
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
+        self.form.PickSelectedFace.setCheckable(True)
+        self.form.PickSelectedFace.toggle()
+        self.form.PickSelectedFace.clicked.connect(self.getSelectedFace)
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/StraightRebar.svg"))
         self.Rebar = Rebar
+        self.SelectedObj = None
+        self.FaceName = None
 
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)
+
+    def getSelectedFace(self):
+        if not self.form.PickSelectedFace.isChecked():
+            for i in self.form.children():
+                if hasattr(i, "setDisabled"):
+                    i.setDisabled(True)
+            self.form.PickSelectedFaceLabel.setText("Select face of the Structural element and press 'Done'")
+            self.form.PickSelectedFace.setText("Done")
+            self.form.PickSelectedFace.setEnabled(True)
+            self.form.PickSelectedFaceLabel.setEnabled(True)
+            FreeCADGui.Selection.clearSelection()
+            FreeCADGui.Selection.addSelectionGate('SELECT Part::Feature SUBELEMENT Face')
+        else:
+            for i in self.form.children():
+                if hasattr(i, "setDisabled"):
+                    i.setEnabled(True)
+            self.form.PickSelectedFaceLabel.setText("")
+            self.form.PickSelectedFace.setText("Pick Selected Face")
+            selected_objs = FreeCADGui.Selection.getSelectionEx()
+            if selected_objs:
+                self.SelectedObj = selected_objs[0].Object
+                self.FaceName = selected_objs[0].SubElementNames[0]
+            FreeCADGui.Selection.removeSelectionGate()
 
     def accept(self):
         f_cover = self.form.frontCover.text()
@@ -69,11 +97,11 @@ class _StraightRebarTaskPanel:
         if not self.Rebar:
             if amount_check:
                 amount = self.form.amount.value()
-                makeStraightRebar(f_cover, b_cover, s_cover, diameter, True, amount)
+                makeStraightRebar(f_cover, b_cover, s_cover, diameter, True, amount, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                makeStraightRebar(f_cover, b_cover, s_cover, diameter, False, spacing)
+                makeStraightRebar(f_cover, b_cover, s_cover, diameter, False, spacing, self.SelectedObj, self.FaceName)
         else:
             if amount_check:
                 amount = self.form.amount.value()
@@ -93,12 +121,16 @@ class _StraightRebarTaskPanel:
         self.form.spacing.setEnabled(True)
 
 
-def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
+def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value, structure = None, facename = None):
     """ makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
     Adds the straight reinforcement bar to the selected structural object."""
-    selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
-    StructurePRM = getTrueParametersOfStructure(selected_obj.Object)
-    FacePRM = getParametersOfFace(selected_obj.Object, selected_obj.SubObjects[0])
+    if not structure and not facename:
+        selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
+        structure = selected_obj.Object
+        facename = selected_obj.SubElementNames[0]
+    face = structure.Shape.Faces[int(facename[-1]) - 1]
+    StructurePRM = getTrueParametersOfStructure(structure)
+    FacePRM = getParametersOfFace(structure, face)
     if not FacePRM:
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
@@ -108,14 +140,14 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
     import Arch
     sketch = FreeCAD.activeDocument().addObject('Sketcher::SketchObject', 'Sketch')
     sketch.MapMode = "FlatFace"
-    sketch.Support = [(selected_obj.Object, selected_obj.SubElementNames[0])]
+    sketch.Support = [(structure, facename)]
     FreeCAD.ActiveDocument.recompute()
     sketch.addGeometry(Part.LineSegment(points[0], points[1]), False)
     if amount_spacing_check:
-        rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, amount_spacing_value, f_cover)
+        rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover)
         FreeCAD.ActiveDocument.recompute()
     else:
-        rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, int((StructurePRM[1] - diameter) / amount_spacing_value), f_cover)
+        rebar = Arch.makeRebar(structure, sketch, diameter, int((StructurePRM[1] - diameter) / amount_spacing_value), f_cover)
     # Adds properties to the rebar object
     rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).RebarShape = "StraightRebar"
     rebar.ViewObject.setEditorMode("RebarShape", 2)
@@ -169,6 +201,7 @@ def editStraightRebar(Rebar, f_cover, b_cover, s_cover, diameter, amount_spacing
     Rebar.SideCover = s_cover
     Rebar.BottomCover = b_cover
     Rebar.TrueSpacing = amount_spacing_value
+    Rebar.Diameter = diameter
     FreeCAD.ActiveDocument.recompute()
 
 def editDialog(vobj):
@@ -186,6 +219,8 @@ def editDialog(vobj):
         obj.form.amount.setDisabled(True)
         obj.form.spacing.setEnabled(True)
         obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
+    obj.form.PickSelectedFace.setVisible(False)
+    obj.form.PickSelectedFaceLabel.setVisible(False)
     FreeCADGui.Control.showDialog(obj)
 
 def CommandStraightRebar():
