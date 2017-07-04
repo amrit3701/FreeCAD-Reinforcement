@@ -34,7 +34,7 @@ import os
 import sys
 import math
 
-def getpointsOfStirrup(FacePRM, s_cover, bentAngle, diameter, rounding, facenormal):
+def getpointsOfStirrup(FacePRM, s_cover, bentAngle, bentFactor, diameter, rounding, facenormal):
     """ getpointsOfStirrup(FacePRM, s_cover, bentAngle, diameter, rounding, facenormal):
     Return the coordinates points of the Stirrup in the form of array."""
     angle = 180 - bentAngle
@@ -57,11 +57,11 @@ def getpointsOfStirrup(FacePRM, s_cover, bentAngle, diameter, rounding, facenorm
         y5 = FacePRM[1][1] - FacePRM[0][0] / 2 + s_cover - tangent_part_length
         z5 = FacePRM[1][2] + FacePRM[0][1] / 2 - s_cover
         x0 = x1
-        y0 = y1 + (tangent_length + 4 * diameter) * math.sin(math.radians(angle))
-        z0 = z1 - (tangent_length + 4 * diameter) * math.cos(math.radians(angle))
+        y0 = y1 + (tangent_length + bentFactor * diameter) * math.sin(math.radians(angle))
+        z0 = z1 - (tangent_length + bentFactor * diameter) * math.cos(math.radians(angle))
         x6 = x5
-        y6 = y5 + (tangent_length + 4 * diameter) * math.sin(math.radians(90 - angle))
-        z6 = z5 - (tangent_length + 4 * diameter) * math.cos(math.radians(90 - angle))
+        y6 = y5 + (tangent_length + bentFactor * diameter) * math.sin(math.radians(90 - angle))
+        z6 = z5 - (tangent_length + bentFactor * diameter) * math.cos(math.radians(90 - angle))
     elif round(facenormal[1]) in {1,-1}:
         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
         y1 = FacePRM[1][1]
@@ -78,12 +78,12 @@ def getpointsOfStirrup(FacePRM, s_cover, bentAngle, diameter, rounding, facenorm
         x5 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover - tangent_part_length
         y5 = y4 - diameter / 4
         z5 = FacePRM[1][2] + FacePRM[0][1] / 2 - s_cover
-        x0 = x1 + (tangent_length + 4 * diameter) * math.sin(math.radians(angle))
+        x0 = x1 + (tangent_length + bentFactor * diameter) * math.sin(math.radians(angle))
         y0 = y1
-        z0 = z1 - (tangent_length + 4 * diameter) * math.cos(math.radians(angle))
-        x6 = x5 + (tangent_length + 4 * diameter) * math.sin(math.radians(90 - angle))
+        z0 = z1 - (tangent_length + bentFactor * diameter) * math.cos(math.radians(angle))
+        x6 = x5 + (tangent_length + bentFactor * diameter) * math.sin(math.radians(90 - angle))
         y6 = y5
-        z6 = z5 - (tangent_length + 4 * diameter) * math.cos(math.radians(90 - angle))
+        z6 = z5 - (tangent_length + bentFactor * diameter) * math.cos(math.radians(90 - angle))
     elif round(facenormal[2]) in {1,-1}:
         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - s_cover + tangent_part_length
@@ -100,11 +100,11 @@ def getpointsOfStirrup(FacePRM, s_cover, bentAngle, diameter, rounding, facenorm
         x5 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover - tangent_part_length
         y5 = FacePRM[1][1] + FacePRM[0][1] / 2 - s_cover
         z5 = z4 - diameter / 4
-        x0 = x1 + (tangent_length + 4 * diameter) * math.sin(math.radians(angle))
-        y0 = y1 - (tangent_length + 4 * diameter) * math.cos(math.radians(angle))
+        x0 = x1 + (tangent_length + bentFactor * diameter) * math.sin(math.radians(angle))
+        y0 = y1 - (tangent_length + bentFactor * diameter) * math.cos(math.radians(angle))
         z0 = z1
-        x6 = x5 + (tangent_length + 4 * diameter) * math.sin(math.radians(90 - angle))
-        y6 = y5 - (tangent_length + 4 * diameter) * math.cos(math.radians(90 - angle))
+        x6 = x5 + (tangent_length + bentFactor * diameter) * math.sin(math.radians(90 - angle))
+        y6 = y5 - (tangent_length + bentFactor * diameter) * math.cos(math.radians(90 - angle))
         z6 = z5
     return [FreeCAD.Vector(x0, y0, z0), FreeCAD.Vector(x1, y1, z1),\
             FreeCAD.Vector(x2, y2, z2), FreeCAD.Vector(x3, y3, z3),\
@@ -132,25 +132,30 @@ class _StirrupTaskPanel:
         diameter = self.form.diameter.text()
         diameter = FreeCAD.Units.Quantity(diameter).Value
         bentAngle = int(self.form.bentAngle.currentText())
+        bentFactor = self.form.bentFactor.value()
         rounding = self.form.rounding.value()
         amount_check = self.form.amount_radio.isChecked()
         spacing_check = self.form.spacing_radio.isChecked()
         if not self.Rebar:
             if amount_check:
                 amount = self.form.amount.value()
-                makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding, True, amount)
+                makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter,\
+                    rounding, True, amount)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding, False, spacing)
+                makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter,\
+                    rounding, False, spacing)
         else:
             if amount_check:
                 amount = self.form.amount.value()
-                editStirrup(self.Rebar, s_cover, f_cover, bentAngle, diameter, rounding, True, amount)
+                editStirrup(self.Rebar, s_cover, f_cover, bentAngle, bentFactor,\
+                    diameter, rounding, True, amount)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                editStirrup(self.Rebar, s_cover, f_cover, bentAngle, diameter, rounding, False, spacing)
+                editStirrup(self.Rebar, s_cover, f_cover, bentAngle, bentFactor,\
+                    diameter, rounding, False, spacing)
         FreeCADGui.Control.closeDialog(self)
 
     def amount_radio_clicked(self):
@@ -162,9 +167,11 @@ class _StirrupTaskPanel:
         self.form.spacing.setEnabled(True)
 
 
-def makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding, amount_spacing_check, amount_spacing_value):
-    """ makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding, amount_spacing_check, amount_spacing_value):
-    Adds the Stirrup reinforcement bar to the selected structural object."""
+def makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
+        amount_spacing_check, amount_spacing_value):
+    """ makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding,
+    amount_spacing_check, amount_spacing_value): Adds the Stirrup reinforcement bar
+    to the selected structural object."""
     selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
     StructurePRM = getTrueParametersOfStructure(selected_obj.Object)
     FacePRM = getParametersOfFace(selected_obj.Object, selected_obj.SubObjects[0], False)
@@ -174,7 +181,7 @@ def makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding, amount_spacing_
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
     # Calculate the coordinate values of Stirrup
-    points = getpointsOfStirrup(FacePRM, s_cover, bentAngle, diameter, rounding, FaceNormal)
+    points = getpointsOfStirrup(FacePRM, s_cover, bentAngle, bentFactor, diameter, rounding, FaceNormal)
     import Draft
     line = Draft.makeWire(points, closed = False, face = True, support = None)
     import Arch
@@ -182,21 +189,31 @@ def makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding, amount_spacing_
     if amount_spacing_check:
         rebar = Arch.makeRebar(selected_obj.Object, line, diameter, amount_spacing_value, f_cover)
     else:
-        rebar = Arch.makeRebar(selected_obj.Object, line, diameter, int((StructurePRM[1] - diameter) / amount_spacing_value), f_cover)
+        rebar = Arch.makeRebar(selected_obj.Object, line, diameter,\
+            int((StructurePRM[1] - diameter) / amount_spacing_value), f_cover)
     rebar.Direction = FaceNormal.negative()
     rebar.Rounding = rounding
     # Adds properties to the rebar object
-    rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property","Shape of rebar")).RebarShape = "Stirrup"
+    rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog",\
+        QT_TRANSLATE_NOOP("App::Property","Shape of rebar")).RebarShape = "Stirrup"
     rebar.ViewObject.setEditorMode("RebarShape", 2)
-    rebar.addProperty("App::PropertyDistance", "SideCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Side cover of rebar")).SideCover = s_cover
+    rebar.addProperty("App::PropertyDistance", "SideCover", "RebarDialog",\
+        QT_TRANSLATE_NOOP("App::Property", "Side cover of rebar")).SideCover = s_cover
     rebar.setEditorMode("SideCover", 2)
-    rebar.addProperty("App::PropertyDistance", "FrontCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Top cover of rebar")).FrontCover = f_cover
+    rebar.addProperty("App::PropertyDistance", "FrontCover", "RebarDialog",\
+        QT_TRANSLATE_NOOP("App::Property", "Top cover of rebar")).FrontCover = f_cover
     rebar.setEditorMode("FrontCover", 2)
-    rebar.addProperty("App::PropertyInteger", "BentAngle", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Bent angle between at the end of rebar")).BentAngle = bentAngle
+    rebar.addProperty("App::PropertyInteger", "BentAngle", "RebarDialog",\
+        QT_TRANSLATE_NOOP("App::Property", "Bent angle between at the end of rebar")).BentAngle = bentAngle
     rebar.setEditorMode("BentAngle", 2)
-    rebar.addProperty("App::PropertyBool", "AmountCheck", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Amount radio button is checked")).AmountCheck
+    rebar.addProperty("App::PropertyInteger", "BentFactor", "RebarDialog",\
+        QT_TRANSLATE_NOOP("App::Property", "Bent Length is the equal to BentFactor * Diameter")).BentFactor = bentFactor
+    rebar.setEditorMode("BentFactor", 2)
+    rebar.addProperty("App::PropertyBool", "AmountCheck", "RebarDialog",\
+        QT_TRANSLATE_NOOP("App::Property", "Amount radio button is checked")).AmountCheck
     rebar.setEditorMode("AmountCheck", 2)
-    rebar.addProperty("App::PropertyDistance", "TrueSpacing", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Spacing between of rebars")).TrueSpacing = amount_spacing_value
+    rebar.addProperty("App::PropertyDistance", "TrueSpacing", "RebarDialog",\
+        QT_TRANSLATE_NOOP("App::Property", "Spacing between of rebars")).TrueSpacing = amount_spacing_value
     rebar.setEditorMode("TrueSpacing", 2)
     if amount_spacing_check:
         rebar.AmountCheck = True
@@ -205,7 +222,8 @@ def makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding, amount_spacing_
         rebar.TrueSpacing = amount_spacing_value
     FreeCAD.ActiveDocument.recompute()
 
-def editStirrup(Rebar, s_cover, f_cover, bentAngle, diameter, rounding, amount_spacing_check, amount_spacing_value):
+def editStirrup(Rebar, s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
+        amount_spacing_check, amount_spacing_value):
     sketch = Rebar.Base
     # Check if sketch support is empty.
     if not sketch.Support:
@@ -216,17 +234,19 @@ def editStirrup(Rebar, s_cover, f_cover, bentAngle, diameter, rounding, amount_s
     structure = sketch.Support[0][0]
     face = structure.Shape.Faces[int(facename[-1]) - 1]
     StructurePRM = getTrueParametersOfStructure(structure)
+    #FreeCAD.Console.PrintMessage(str(StructurePRM)+"\n")
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, face, False)
     FaceNormal = face.normalAt(0, 0)
     FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)
     # Calculate the coordinates value of U-Shape rebar
-    points = getpointsOfStirrup(FacePRM, s_cover, bentAngle, diameter, rounding, FaceNormal)
+    points = getpointsOfStirrup(FacePRM, s_cover, bentAngle, bentFactor, diameter, rounding, FaceNormal)
     Rebar.Base.Points = points
     FreeCAD.ActiveDocument.recompute()
     Rebar.OffsetStart = f_cover
     Rebar.OffsetEnd = f_cover
     Rebar.BentAngle = bentAngle
+    Rebar.BentFactor = bentFactor
     Rebar.Rounding = rounding
     Rebar.Diameter = diameter
     if amount_spacing_check:
@@ -249,6 +269,7 @@ def editDialog(vobj):
     obj.form.sideCover.setText(str(vobj.Object.SideCover))
     obj.form.diameter.setText(str(vobj.Object.Diameter))
     obj.form.bentAngle.setCurrentIndex(obj.form.bentAngle.findText(str(vobj.Object.BentAngle)))
+    obj.form.bentFactor.setValue(vobj.Object.BentFactor)
     obj.form.rounding.setValue(vobj.Object.Rounding)
     if vobj.Object.AmountCheck:
         obj.form.amount.setValue(vobj.Object.Amount)
