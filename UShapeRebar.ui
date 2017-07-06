@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>197</width>
-    <height>354</height>
+    <height>410</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
      <item row="0" column="1">
       <widget class="Gui::InputField" name="frontCover">
        <property name="text">
-        <string>0 mm</string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -55,7 +55,7 @@
      <item row="1" column="1">
       <widget class="Gui::InputField" name="sideCover">
        <property name="text">
-        <string>0 mm</string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -65,7 +65,7 @@
      <item row="2" column="1">
       <widget class="Gui::InputField" name="bottomCover">
        <property name="text">
-        <string>0 mm</string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -82,7 +82,7 @@
      <item row="3" column="1">
       <widget class="Gui::InputField" name="topCover">
        <property name="text">
-        <string>0 mm</string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -97,7 +97,11 @@
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="Gui::PrefSpinBox" name="rounding"/>
+      <widget class="Gui::PrefSpinBox" name="rounding">
+       <property name="value">
+        <number>2</number>
+       </property>
+      </widget>
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="diameterLabel">
@@ -135,7 +139,11 @@
       </widget>
      </item>
      <item row="7" column="1">
-      <widget class="Gui::PrefSpinBox" name="amount"/>
+      <widget class="Gui::PrefSpinBox" name="amount">
+       <property name="value">
+        <number>3</number>
+       </property>
+      </widget>
      </item>
      <item row="8" column="0">
       <widget class="QLabel" name="spacingLabel">
@@ -157,7 +165,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>0 mm</string>
+        <string>50 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -167,7 +175,7 @@
      <item row="5" column="1">
       <widget class="Gui::InputField" name="diameter">
        <property name="text">
-        <string>0 mm</string>
+        <string>8 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -175,6 +183,13 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="7" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QPushButton" name="PickSelectedFace">
+     <property name="text">
+      <string>Pick Selected Face</string>
+     </property>
+    </widget>
    </item>
    <item row="0" column="0" alignment="Qt::AlignHCenter">
     <widget class="QLabel" name="image">
@@ -193,6 +208,13 @@
      </property>
      <property name="text">
       <string>Fill all the values</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="PickSelectedFaceLabel">
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </item>

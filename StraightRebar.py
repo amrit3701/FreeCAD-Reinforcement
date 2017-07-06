@@ -51,7 +51,7 @@ class _StraightRebarTaskPanel:
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
         self.form.PickSelectedFace.setCheckable(True)
         self.form.PickSelectedFace.toggle()
-        self.form.PickSelectedFace.clicked.connect(self.getSelectedFace)
+        self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/StraightRebar.svg"))
         self.Rebar = Rebar
         self.SelectedObj = None
@@ -59,29 +59,6 @@ class _StraightRebarTaskPanel:
 
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)
-
-    def getSelectedFace(self):
-        if not self.form.PickSelectedFace.isChecked():
-            for i in self.form.children():
-                if hasattr(i, "setDisabled"):
-                    i.setDisabled(True)
-            self.form.PickSelectedFaceLabel.setText("Select face of the Structural element and press 'Done'")
-            self.form.PickSelectedFace.setText("Done")
-            self.form.PickSelectedFace.setEnabled(True)
-            self.form.PickSelectedFaceLabel.setEnabled(True)
-            FreeCADGui.Selection.clearSelection()
-            FreeCADGui.Selection.addSelectionGate('SELECT Part::Feature SUBELEMENT Face')
-        else:
-            for i in self.form.children():
-                if hasattr(i, "setDisabled"):
-                    i.setEnabled(True)
-            self.form.PickSelectedFaceLabel.setText("")
-            self.form.PickSelectedFace.setText("Pick Selected Face")
-            selected_objs = FreeCADGui.Selection.getSelectionEx()
-            if selected_objs:
-                self.SelectedObj = selected_objs[0].Object
-                self.FaceName = selected_objs[0].SubElementNames[0]
-            FreeCADGui.Selection.removeSelectionGate()
 
     def accept(self):
         f_cover = self.form.frontCover.text()
@@ -174,6 +151,9 @@ def editStraightRebar(Rebar, f_cover, b_cover, s_cover, diameter, amount_spacing
     if not sketch.Support:
         showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
         return
+    #if structure and facename:
+    #    sketch.Support = [(structure, facename)]
+    #    FreeCAD.ActiveDocument.recompute()
     # Assigned values
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
@@ -220,7 +200,6 @@ def editDialog(vobj):
         obj.form.spacing.setEnabled(True)
         obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
     obj.form.PickSelectedFace.setVisible(False)
-    obj.form.PickSelectedFaceLabel.setVisible(False)
     FreeCADGui.Control.showDialog(obj)
 
 def CommandStraightRebar():

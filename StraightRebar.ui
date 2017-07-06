@@ -36,6 +36,22 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="image">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="0">
     <layout class="QFormLayout" name="formLayout">
      <property name="fieldGrowthPolicy">
@@ -166,7 +182,7 @@
      <item row="3" column="1">
       <widget class="Gui::InputField" name="diameter">
        <property name="text">
-        <string>8</string>
+        <string>8 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -174,29 +190,6 @@
       </widget>
      </item>
     </layout>
-   </item>
-   <item row="0" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="image">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="PickSelectedFaceLabel">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
    </item>
    <item row="4" column="0" alignment="Qt::AlignHCenter">
     <widget class="QPushButton" name="PickSelectedFace">
@@ -208,6 +201,13 @@
      </property>
      <property name="checkable">
       <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="PickSelectedFaceLabel">
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </item>

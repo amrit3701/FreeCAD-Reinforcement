@@ -54,8 +54,11 @@ class _UShapeRebarTaskPanel:
         self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "U-Shape Rebar", None))
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
+        self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebar.svg"))
         self.Rebar = Rebar
+        self.SelectedObj = None
+        self.FaceName = None
 
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)
@@ -77,11 +80,11 @@ class _UShapeRebarTaskPanel:
         if not self.Rebar:
             if amount_check:
                 amount = self.form.amount.value()
-                makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, True, amount)
+                makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, True, amount, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, False, spacing)
+                makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, False, spacing, self.SelectedObj, self.FaceName)
         else:
             if amount_check:
                 amount = self.form.amount.value()
@@ -101,12 +104,16 @@ class _UShapeRebarTaskPanel:
         self.form.spacing.setEnabled(True)
 
 
-def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value):
+def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, structure = None, facename = None):
     """ makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
     Adds the U-Shape reinforcement bar to the selected structural object."""
-    selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
-    StructurePRM = getTrueParametersOfStructure(selected_obj.Object)
-    FacePRM = getParametersOfFace(selected_obj.Object, selected_obj.SubObjects[0])
+    if not structure and not facename:
+        selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
+        structure = selected_obj.Object
+        facename = selected_obj.SubElementNames[0]
+    face = structure.Shape.Faces[int(facename[-1]) - 1]
+    StructurePRM = getTrueParametersOfStructure(structure)
+    FacePRM = getParametersOfFace(structure, face)
     if not FacePRM:
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
@@ -116,7 +123,7 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     import Arch
     sketch = FreeCAD.activeDocument().addObject('Sketcher::SketchObject', 'Sketch')
     sketch.MapMode = "FlatFace"
-    sketch.Support = [(selected_obj.Object, selected_obj.SubElementNames[0])]
+    sketch.Support = [(structure, facename)]
     FreeCAD.ActiveDocument.recompute()
     sketch.addGeometry(Part.LineSegment(points[0], points[1]), False)
     sketch.addGeometry(Part.LineSegment(points[1], points[2]), False)
@@ -125,10 +132,10 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     sketch.addGeometry(Part.LineSegment(points[2], points[3]), False)
     sketch.addConstraint(Sketcher.Constraint('Coincident', 1, 2, 2, 1))
     if amount_spacing_check:
-        rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, amount_spacing_value, f_cover)
+        rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover)
         FreeCAD.ActiveDocument.recompute()
     else:
-        rebar = Arch.makeRebar(selected_obj.Object, sketch, diameter, int((StructurePRM[1] - diameter) / amount_spacing_value), f_cover)
+        rebar = Arch.makeRebar(structure, sketch, diameter, int((StructurePRM[1] - diameter) / amount_spacing_value), f_cover)
     rebar.Rounding = rounding
     # Adds properties to the rebar object
     rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).RebarShape = "UShapeRebar"
@@ -167,6 +174,7 @@ def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, roundin
     FacePRM = getParametersOfFace(structure, face)
     # Get points of U-Shape rebar
     points = getpointsOfUShapeRebar(FacePRM, s_cover, b_cover, t_cover)
+    FreeCAD.Console.PrintMessage(str(points)+"\n")
     sketch.movePoint(0, 1, points[0], 0)
     FreeCAD.ActiveDocument.recompute()
     sketch.movePoint(0, 2, points[1], 0)
@@ -210,6 +218,7 @@ def editDialog(vobj):
         obj.form.amount.setDisabled(True)
         obj.form.spacing.setEnabled(True)
         obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
+    obj.form.PickSelectedFace.setVisible(False)
     FreeCADGui.Control.showDialog(obj)
 
 def CommandUShapeRebar():

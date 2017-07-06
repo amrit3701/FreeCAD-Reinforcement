@@ -183,6 +183,20 @@ def extendedTangentLength(rounding, diameter, angle):
     x2 = radius * math.tan(math.radians(90 - angle))
     return x1 + x2
 
+def getSelectedFace(self):
+    selected_objs = FreeCADGui.Selection.getSelectionEx()
+    if selected_objs:
+        if len(selected_objs[0].SubObjects) == 1:
+            if "Face" in selected_objs[0].SubElementNames[0]:
+                self.SelectedObj = selected_objs[0].Object
+                self.FaceName = selected_objs[0].SubElementNames[0]
+            else:
+                showWarning("Select any face of the structural element.")
+        else:
+            showWarning("Select only one face of the structural element.")
+    else:
+        showWarning("Select any face of the structural element.")
+
 def showWarning(message):
     """ showWarning(message): This function is used to produce warning
     message for the user."""

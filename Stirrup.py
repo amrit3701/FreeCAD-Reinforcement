@@ -119,7 +119,10 @@ class _StirrupTaskPanel:
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
         #self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0]+"/icons/UShapeRebar.svg"))
+        self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
         self.Rebar = Rebar
+        self.SelectedObj = None
+        self.FaceName = None
 
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)
@@ -140,12 +143,12 @@ class _StirrupTaskPanel:
             if amount_check:
                 amount = self.form.amount.value()
                 makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter,\
-                    rounding, True, amount)
+                    rounding, True, amount, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
                 makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter,\
-                    rounding, False, spacing)
+                    rounding, False, spacing, self.SelectedObj, self.FaceName)
         else:
             if amount_check:
                 amount = self.form.amount.value()
@@ -168,15 +171,19 @@ class _StirrupTaskPanel:
 
 
 def makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
-        amount_spacing_check, amount_spacing_value):
+        amount_spacing_check, amount_spacing_value, structure = None, facename = None):
     """ makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding,
     amount_spacing_check, amount_spacing_value): Adds the Stirrup reinforcement bar
     to the selected structural object."""
-    selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
-    StructurePRM = getTrueParametersOfStructure(selected_obj.Object)
-    FacePRM = getParametersOfFace(selected_obj.Object, selected_obj.SubObjects[0], False)
-    FaceNormal = selected_obj.SubObjects[0].normalAt(0,0)
-    FaceNormal = selected_obj.SubObjects[0].Placement.Rotation.inverted().multVec(FaceNormal)
+    if not structure and not facename:
+        selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
+        structure = selected_obj.Object
+        facename = selected_obj.SubElementNames[0]
+    face = structure.Shape.Faces[int(facename[-1]) - 1]
+    StructurePRM = getTrueParametersOfStructure(structure)
+    FacePRM = getParametersOfFace(structure, face, False)
+    FaceNormal = face.normalAt(0,0)
+    FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)
     if not FacePRM:
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
@@ -185,11 +192,11 @@ def makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
     import Draft
     line = Draft.makeWire(points, closed = False, face = True, support = None)
     import Arch
-    line.Support = [(selected_obj.Object, selected_obj.SubElementNames[0])]
+    line.Support = [(structure, facename)]
     if amount_spacing_check:
-        rebar = Arch.makeRebar(selected_obj.Object, line, diameter, amount_spacing_value, f_cover)
+        rebar = Arch.makeRebar(structure, line, diameter, amount_spacing_value, f_cover)
     else:
-        rebar = Arch.makeRebar(selected_obj.Object, line, diameter,\
+        rebar = Arch.makeRebar(structure, line, diameter,\
             int((StructurePRM[1] - diameter) / amount_spacing_value), f_cover)
     rebar.Direction = FaceNormal.negative()
     rebar.Rounding = rounding
@@ -279,6 +286,7 @@ def editDialog(vobj):
         obj.form.amount.setDisabled(True)
         obj.form.spacing.setEnabled(True)
         obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
+    obj.form.PickSelectedFace.setVisible(False)
     FreeCADGui.Control.showDialog(obj)
 
 def CommandStirrup():
