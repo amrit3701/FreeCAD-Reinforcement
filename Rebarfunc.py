@@ -140,8 +140,8 @@ def getParametersOfFace(obj, selected_face, sketch=True):
     normal = selected_face.normalAt(0,0)
     normal = selected_face.Placement.Rotation.inverted().multVec(normal)
     center_of_mass = selected_face.CenterOfMass
-    if not obj.Armatures:
-        center_of_mass = center_of_mass.sub(getBaseStructuralObject(obj).Placement.Base)
+    #if not obj.Armatures:
+    center_of_mass = center_of_mass.sub(getBaseStructuralObject(obj).Placement.Base)
     # Set length and width of user selected face of structural element
     flag = True
     for i in range(len(normal)):

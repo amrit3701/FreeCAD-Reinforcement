@@ -153,12 +153,12 @@ class _StirrupTaskPanel:
             if amount_check:
                 amount = self.form.amount.value()
                 editStirrup(self.Rebar, s_cover, f_cover, bentAngle, bentFactor,\
-                    diameter, rounding, True, amount)
+                    diameter, rounding, True, amount, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
                 editStirrup(self.Rebar, s_cover, f_cover, bentAngle, bentFactor,\
-                    diameter, rounding, False, spacing)
+                    diameter, rounding, False, spacing, self.SelectedObj, self.FaceName)
         FreeCADGui.Control.closeDialog(self)
 
     def amount_radio_clicked(self):
@@ -230,8 +230,10 @@ def makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
     FreeCAD.ActiveDocument.recompute()
 
 def editStirrup(Rebar, s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
-        amount_spacing_check, amount_spacing_value):
+        amount_spacing_check, amount_spacing_value, structure = None, facename = None):
     sketch = Rebar.Base
+    if structure and facename:
+        sketch.Support = [(structure, facename)]
     # Check if sketch support is empty.
     if not sketch.Support:
         showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
@@ -250,6 +252,7 @@ def editStirrup(Rebar, s_cover, f_cover, bentAngle, bentFactor, diameter, roundi
     points = getpointsOfStirrup(FacePRM, s_cover, bentAngle, bentFactor, diameter, rounding, FaceNormal)
     Rebar.Base.Points = points
     FreeCAD.ActiveDocument.recompute()
+    Rebar.Direction = FaceNormal.negative()
     Rebar.OffsetStart = f_cover
     Rebar.OffsetEnd = f_cover
     Rebar.BentAngle = bentAngle
@@ -286,7 +289,7 @@ def editDialog(vobj):
         obj.form.amount.setDisabled(True)
         obj.form.spacing.setEnabled(True)
         obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
-    obj.form.PickSelectedFace.setVisible(False)
+    #obj.form.PickSelectedFace.setVisible(False)
     FreeCADGui.Control.showDialog(obj)
 
 def CommandStirrup():

@@ -82,11 +82,11 @@ class _StraightRebarTaskPanel:
         else:
             if amount_check:
                 amount = self.form.amount.value()
-                editStraightRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, True, amount)
+                editStraightRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, True, amount, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                editStraightRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, False, spacing)
+                editStraightRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, False, spacing, self.SelectedObj, self.FaceName)
         FreeCADGui.Control.closeDialog(self)
 
     def amount_radio_clicked(self):
@@ -145,15 +145,15 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
         rebar.TrueSpacing = amount_spacing_value
     FreeCAD.ActiveDocument.recompute()
 
-def editStraightRebar(Rebar, f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
+def editStraightRebar(Rebar, f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value, structure = None, facename = None):
     sketch = Rebar.Base
+    if structure and facename:
+        sketch.Support = [(structure, facename)]
+        FreeCAD.ActiveDocument.recompute()
     # Check if sketch support is empty.
     if not sketch.Support:
         showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
         return
-    #if structure and facename:
-    #    sketch.Support = [(structure, facename)]
-    #    FreeCAD.ActiveDocument.recompute()
     # Assigned values
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
@@ -199,7 +199,7 @@ def editDialog(vobj):
         obj.form.amount.setDisabled(True)
         obj.form.spacing.setEnabled(True)
         obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
-    obj.form.PickSelectedFace.setVisible(False)
+    #obj.form.PickSelectedFace.setVisible(False)
     FreeCADGui.Control.showDialog(obj)
 
 def CommandStraightRebar():

@@ -88,11 +88,11 @@ class _UShapeRebarTaskPanel:
         else:
             if amount_check:
                 amount = self.form.amount.value()
-                editUShapeRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, True, amount)
+                editUShapeRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, True, amount, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                editUShapeRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, False, spacing)
+                editUShapeRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, False, spacing, self.SelectedObj, self.FaceName)
         FreeCADGui.Control.closeDialog(self)
 
     def amount_radio_clicked(self):
@@ -159,8 +159,10 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
         rebar.TrueSpacing = amount_spacing_value
     FreeCAD.ActiveDocument.recompute()
 
-def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value):
+def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, structure = None, facename = None):
     sketch = Rebar.Base
+    if structure and facename:
+        sketch.Support = [(structure, facename)]
     # Check if sketch support is empty.
     if not sketch.Support:
         showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
@@ -218,7 +220,7 @@ def editDialog(vobj):
         obj.form.amount.setDisabled(True)
         obj.form.spacing.setEnabled(True)
         obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
-    obj.form.PickSelectedFace.setVisible(False)
+    #obj.form.PickSelectedFace.setVisible(False)
     FreeCADGui.Control.showDialog(obj)
 
 def CommandUShapeRebar():
