@@ -68,7 +68,7 @@ class UShapeRebarTool:
 class StirrupTool:
 
     def GetResources(self):
-        return {#'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/StraightRebar.svg',
+        return {'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/StirrupRebar.svg',
                 'MenuText': QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Stirrup"),
                 'ToolTip' : QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Creates a Stirrup bar reinforcement from the selected face of the Structural element.")}
 
