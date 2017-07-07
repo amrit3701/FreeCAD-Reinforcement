@@ -190,6 +190,7 @@ def getSelectedFace(self):
             if "Face" in selected_objs[0].SubElementNames[0]:
                 self.SelectedObj = selected_objs[0].Object
                 self.FaceName = selected_objs[0].SubElementNames[0]
+                self.form.PickSelectedFaceLabel.setText("Selected face is " + self.FaceName)
             else:
                 showWarning("Select any face of the structural element.")
         else:
