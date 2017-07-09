@@ -2,17 +2,8 @@
                                                                         
 ### Installation
 
-1. Run the below command to download the repository.                    
-```
-$ git clone https://github.com/amrit3701/FreeCAD-Reinforcement.git
-```
-2. Create the structural element. Copy and paste the below code to create structure element.
-```
-import Arch
-s = Arch.makeStructure(length=1000.0,width=800.0,height=200.0)          
-s.Placement.Base = FreeCAD.Vector(0.0,0.0,0.0) FreeCAD.ActiveDocument.recompute()
-```                                                                  
-3. Select any face of the structural element.                           
-4. Go to Macro menu and select Macros.                                  
-5. Copy all files and folders from FreeCAD-Reinforcement folder to FreeCAD macro folder location ```/home/<user>/.FreeCAD``` or you may change the location of macros to the FreeCAD-Reinforcement.
-6. Select the StraightRebar.py and execute.
+1. Open the FreeCAD Addon Manager (Tool -> Addon manager).
+2. When an addon manager will open, select "Reinforcement" from a list of workbenches shown by an addon manager.
+3. After selecting, click on "Install/Update" button.
+4. Restart FreeCAD.
+5. Now you will see a stirrup in a drop-down list of rebar tools. (Arch -> Rebar tools -> Stirrup)
