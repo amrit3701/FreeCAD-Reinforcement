@@ -30,6 +30,7 @@ from Rebarfunc import *
 from PySide.QtCore import QT_TRANSLATE_NOOP
 import FreeCAD
 import FreeCADGui
+import ArchCommands
 import os
 import sys
 import math
@@ -135,7 +136,8 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
         rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover)
         FreeCAD.ActiveDocument.recompute()
     else:
-        rebar = Arch.makeRebar(structure, sketch, diameter, int((StructurePRM[1] - diameter) / amount_spacing_value), f_cover)
+        size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+        rebar = Arch.makeRebar(structure, sketch, diameter, int((size - diameter) / amount_spacing_value), f_cover)
     rebar.Rounding = rounding
     # Adds properties to the rebar object
     rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).RebarShape = "UShapeRebar"
@@ -192,7 +194,8 @@ def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, roundin
         FreeCAD.ActiveDocument.recompute()
         Rebar.AmountCheck = True
     else:
-        Rebar.Amount = int((StructurePRM[1] - diameter) / amount_spacing_value)
+        size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+        Rebar.Amount = int((size - diameter) / amount_spacing_value)
         FreeCAD.ActiveDocument.recompute()
         Rebar.AmountCheck = False
     Rebar.FrontCover = f_cover

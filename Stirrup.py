@@ -30,6 +30,7 @@ from Rebarfunc import *
 from PySide.QtCore import QT_TRANSLATE_NOOP
 import FreeCAD
 import FreeCADGui
+import ArchCommands
 import os
 import sys
 import math
@@ -196,8 +197,9 @@ def makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
     if amount_spacing_check:
         rebar = Arch.makeRebar(structure, line, diameter, amount_spacing_value, f_cover)
     else:
+        size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
         rebar = Arch.makeRebar(structure, line, diameter,\
-            int((StructurePRM[1] - diameter) / amount_spacing_value), f_cover)
+            int((size - diameter) / amount_spacing_value), f_cover)
     rebar.Direction = FaceNormal.negative()
     rebar.Rounding = rounding
     # Adds properties to the rebar object
@@ -264,7 +266,8 @@ def editStirrup(Rebar, s_cover, f_cover, bentAngle, bentFactor, diameter, roundi
         FreeCAD.ActiveDocument.recompute()
         Rebar.AmountCheck = True
     else:
-        Rebar.Amount = int((StructurePRM[1] - diameter) / amount_spacing_value)
+        size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+        Rebar.Amount = int((size - diameter) / amount_spacing_value)
         FreeCAD.ActiveDocument.recompute()
         Rebar.AmountCheck = False
     Rebar.FrontCover = f_cover
