@@ -38,6 +38,7 @@ class _RebarDistributionDialog():
     def __init__(self, Rebar):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Rebar Distribution", None))
+        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/RebarDistribution.svg"))
         self.Rebar = Rebar
 
     def accept(self):
@@ -67,19 +68,49 @@ def setRebarDistribution(Rebar, amount1, spacing1, amount2, spacing2, amount3, s
     facename = Rebar.Base.Support[0][1][0]
     face = structure.Shape.Faces[int(facename[-1]) - 1]
     size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
-    print size
-    if spacing1 and spacing2 and spacing3:
-        seg1_area = amount1 * spacing1 - spacing1 / 2
-        seg3_area = amount3 * spacing3 - spacing3 / 2
-        seg2_area = size - seg1_area - seg3_area - Rebar.OffsetStart.Value - Rebar.OffsetEnd.Value
-        actual_amount2 = math.ceil(seg2_area / spacing2)
-        actual_spacing2 = seg2_area / actual_amount2
-    CustomSpacing = str(amount1)+"@"+str(spacing1)+"+"+str(int(actual_amount2))+"@"+str(actual_spacing2)+"+"+str(amount3)+"@"+str(spacing3)
+    #print size
+    #print "amount1: ", amount1
+    #print "spacing1: ", spacing1
+    #print "amount2: ", amount2
+    #print "spacing2: ", spacing2
+    #print "amount3: ", amount3
+    #print "spacing3: ", spacing3
+    seg1_area = amount1 * spacing1 - spacing1 / 2
+    seg3_area = amount3 * spacing3 - spacing3 / 2
+    seg2_area = size - seg1_area - seg3_area - Rebar.OffsetStart.Value - Rebar.OffsetEnd.Value
+    if spacing1 and spacing2 and spacing3 and amount1 and amount2 and amount3:
+        pass
+    else:
+        if spacing1 and spacing2 and spacing3:
+            amount2 = math.ceil(seg2_area / spacing2)
+            spacing2 = seg2_area / amount2
+        elif amount1 and amount2 and amount3:
+            spacing2 = math.floor(seg2_area / amount2)
+    CustomSpacing = str(amount1)+"@"+str(spacing1)+"+"+str(int(amount2))+"@"+str(spacing2)+"+"+str(amount3)+"@"+str(spacing3)
     Rebar.CustomSpacing = CustomSpacing
-    print CustomSpacing
+    #print CustomSpacing
     FreeCAD.ActiveDocument.recompute()
 
+def getupleOfCustomSpacing(span_string):
+    """ gettupleOfCustomSpacing(span_string): This function take input
+    in specific syntax and return output in the form of list. For eg.
+    Input: "3@100+2@200+3@100"
+    Output: [(3, 100), (2, 200), (3, 100)]"""
+    import string
+    span_st = string.strip(span_string)
+    span_sp = string.split(span_st, '+')
+    index = 0
+    spacinglist = []
+    while index < len(span_sp):
+        # Find "@" recursively in span_sp array.
+        in_sp = string.split(span_sp[index], '@')
+        spacinglist.append((int(in_sp[0]),float(in_sp[1])))
+        index += 1
+    return spacinglist
 
-dialog = _RebarDistributionDialog(FreeCAD.ActiveDocument.Rebar)
-dialog.setupUi()
-dialog.form.exec_()
+def runRebarDistribution(Rebar):
+    dialog = _RebarDistributionDialog(Rebar)
+    dialog.setupUi()
+    dialog.form.exec_()
+
+#runRebarDistribution(App.ActiveDocument.Rebar)

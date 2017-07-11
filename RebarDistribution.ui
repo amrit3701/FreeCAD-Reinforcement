@@ -37,6 +37,13 @@
      </item>
     </layout>
    </item>
+   <item alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="image">
+     <property name="text">
+      <string>image</string>
+     </property>
+    </widget>
+   </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
@@ -55,7 +62,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Amount</string>
+        <string>No. of rebars (n)</string>
        </property>
       </widget>
      </item>
@@ -68,7 +75,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Spacing</string>
+        <string>Spacing (s)</string>
        </property>
       </widget>
      </item>
