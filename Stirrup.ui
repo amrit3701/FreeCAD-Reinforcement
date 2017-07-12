@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>197</width>
-    <height>410</height>
+    <width>273</width>
+    <height>445</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,6 +23,29 @@
    <bool>false</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="6" column="0">
+    <widget class="QPushButton" name="PickSelectedFace">
+     <property name="text">
+      <string>Pick Selected Face</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="image">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="0">
     <layout class="QFormLayout" name="formLayout">
      <property name="fieldGrowthPolicy">
@@ -38,10 +61,24 @@
      <item row="0" column="1">
       <widget class="Gui::InputField" name="sideCover">
        <property name="text">
-        <string>20 mm </string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="frontCoverLabel">
+       <property name="text">
+        <string>Front Cover</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="Gui::InputField" name="frontCover">
+       <property name="text">
+        <string>20 mm</string>
        </property>
       </widget>
      </item>
@@ -52,10 +89,41 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="1">
+      <widget class="Gui::PrefComboBox" name="bentAngle">
+       <property name="prefEntry" stdset="0">
+        <cstring></cstring>
+       </property>
+       <property name="prefPath" stdset="0">
+        <cstring></cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="bentFactorLabel">
+       <property name="text">
+        <string>Bent Factor</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="Gui::PrefSpinBox" name="bentFactor">
+       <property name="value">
+        <number>4</number>
+       </property>
+      </widget>
+     </item>
      <item row="4" column="0">
       <widget class="QLabel" name="roundingLabel">
        <property name="text">
         <string>Rounding</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="Gui::PrefSpinBox" name="rounding">
+       <property name="value">
+        <number>2</number>
        </property>
       </widget>
      </item>
@@ -133,55 +201,34 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>50 mm</string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="frontCoverLabel">
+    </layout>
+   </item>
+   <item row="3" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QPushButton" name="customSpacing">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
-        <string>Front Cover</string>
+        <string>Custom Spacing</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="Gui::InputField" name="frontCover">
+     <item>
+      <widget class="QPushButton" name="removeCustomSpacing">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
-        <string>20 mm</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="Gui::PrefSpinBox" name="rounding">
-       <property name="value">
-        <number>2</number>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="Gui::PrefComboBox" name="bentAngle">
-       <property name="prefEntry" stdset="0">
-        <cstring></cstring>
-       </property>
-       <property name="prefPath" stdset="0">
-        <cstring></cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="bentFactorLabel">
-       <property name="text">
-        <string>Bent Factor</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="Gui::PrefSpinBox" name="bentFactor">
-       <property name="value">
-        <number>4</number>
+        <string>Remove Spacing</string>
        </property>
       </widget>
      </item>
@@ -201,29 +248,6 @@
     </widget>
    </item>
    <item row="4" column="0">
-    <widget class="QPushButton" name="PickSelectedFace">
-     <property name="text">
-      <string>Pick Selected Face</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QLabel" name="image">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
     <widget class="QLabel" name="PickSelectedFaceLabel">
      <property name="text">
       <string/>
@@ -265,6 +289,9 @@
   <tabstop>spacing_radio</tabstop>
   <tabstop>amount</tabstop>
   <tabstop>spacing</tabstop>
+  <tabstop>customSpacing</tabstop>
+  <tabstop>removeCustomSpacing</tabstop>
+  <tabstop>PickSelectedFace</tabstop>
  </tabstops>
  <resources/>
  <connections/>

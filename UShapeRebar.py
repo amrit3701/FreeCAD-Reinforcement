@@ -28,6 +28,7 @@ __url__ = "https://www.freecadweb.org"
 from PySide import QtCore, QtGui
 from Rebarfunc import *
 from PySide.QtCore import QT_TRANSLATE_NOOP
+from RebarDistribution import runRebarDistribution, removeRebarDistribution
 import FreeCAD
 import FreeCADGui
 import ArchCommands
@@ -55,6 +56,8 @@ class _UShapeRebarTaskPanel:
         self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "U-Shape Rebar", None))
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
+        self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(Rebar))
+        self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(Rebar))
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebar.svg"))
         self.Rebar = Rebar
@@ -209,6 +212,8 @@ def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, roundin
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
     obj = _UShapeRebarTaskPanel(vobj.Object)
+    obj.form.customSpacing.setEnabled(True)
+    obj.form.removeCustomSpacing.setEnabled(True)
     obj.form.frontCover.setText(str(vobj.Object.FrontCover))
     obj.form.sideCover.setText(str(vobj.Object.SideCover))
     obj.form.bottomCover.setText(str(vobj.Object.BottomCover))

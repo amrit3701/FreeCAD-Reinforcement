@@ -28,7 +28,7 @@ __url__ = "https://www.freecadweb.org"
 from PySide import QtCore, QtGui
 from Rebarfunc import *
 from PySide.QtCore import QT_TRANSLATE_NOOP
-from RebarDistribution import runRebarDistribution
+from RebarDistribution import runRebarDistribution, removeRebarDistribution
 import FreeCAD
 import FreeCADGui
 import ArchCommands
@@ -52,6 +52,7 @@ class _StraightRebarTaskPanel:
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
         self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(Rebar))
+        self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(Rebar))
         self.form.PickSelectedFace.setCheckable(True)
         self.form.PickSelectedFace.toggle()
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
@@ -193,6 +194,7 @@ def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
     obj = _StraightRebarTaskPanel(vobj.Object)
     obj.form.customSpacing.setEnabled(True)
+    obj.form.removeCustomSpacing.setEnabled(True)
     obj.form.frontCover.setText(str(vobj.Object.FrontCover))
     obj.form.sideCover.setText(str(vobj.Object.SideCover))
     obj.form.bottomCover.setText(str(vobj.Object.BottomCover))

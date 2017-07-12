@@ -113,4 +113,8 @@ def runRebarDistribution(Rebar):
     dialog.setupUi()
     dialog.form.exec_()
 
+def removeRebarDistribution(Rebar):
+    Rebar.CustomSpacing = ""
+    FreeCAD.ActiveDocument.recompute()
+
 #runRebarDistribution(App.ActiveDocument.Rebar)
