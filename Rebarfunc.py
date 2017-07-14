@@ -26,43 +26,14 @@ __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
 from PySide import QtCore, QtGui
+from DraftGeomUtils import vec, isCubic
 import FreeCAD
 import FreeCADGui
 import math
 
-def check_selected_face():
-    """ check_selected_face(): This function checks whether user have selected
-        any face or not."""
-    selected_objs = FreeCADGui.Selection.getSelectionEx()
-    if not selected_objs:
-        showWarning("Select any face of the structural element.")
-        selected_obj = None
-    else:
-        selected_face_names = selected_objs[0].SubElementNames
-        if not selected_face_names:
-            selected_obj = None
-            showWarning("Select any face of the structural element.")
-        elif "Face" in selected_face_names[0]:
-            if len(selected_face_names) > 1:
-                showWarning("You have selected more than one face of the structural element.")
-                selected_obj = None
-            elif len(selected_face_names) == 1:
-                selected_obj = selected_objs[0]
-        else:
-            showWarning("Select any face of the selected the face.")
-            selected_obj = None
-    return selected_obj
-
-def vec(edge):
-    """ vec(edge) or vec(line): returns a vector from an edge or a Part.line."""
-    # if edge is not straight, you'll get strange results!
-    import Part
-    if isinstance(edge, Part.Shape):
-        return edge.Vertexes[-1].Point.sub(edge.Vertexes[0].Point)
-    elif isinstance(edge,Part.Line):
-        return edge.EndPoint.sub(edge.StartPoint)
-    else:
-        return None
+# --------------------------------------------------------------------------
+# Generic functions
+# --------------------------------------------------------------------------
 
 def getEdgesAngle(edge1, edge2):
     """ getEdgesAngle(edge1, edge2): returns a angle between two edges."""
@@ -91,13 +62,25 @@ def getBaseStructuralObject(obj):
     else:
         return getBaseStructuralObject(obj.Base)
 
-
 def getBaseObject(obj):
     """ getBaseObject(obj): This function will return last base object."""
     if hasattr(obj, "Base"):
         return getBaseObject(obj.Base)
     else:
         return obj
+
+def getFaceNumber(s):
+    """ getFaceNumber(facename): This will return a face number from face name.
+    For eg.:
+        Input: "Face12"
+        Output: 12"""
+    head = s.rstrip('0123456789')
+    tail = s[len(head):]
+    return int(tail)
+
+# --------------------------------------------------------------------------
+# Main functions which is use while creating any rebar.
+# --------------------------------------------------------------------------
 
 def getTrueParametersOfStructure(obj):
     """ getTrueParametersOfStructure(obj): This function return actual length,
@@ -130,69 +113,54 @@ def getTrueParametersOfStructure(obj):
         height = structuralBaseObject.Height.Value
     return [length, width, height]
 
-"""def getParametersOfFace11(obj, selected_face, sketch=True):
-    #getParametersOfFace(obj, selected_face): This function will return
-    #length, width and points of center of mass of a given face in the form of list like
-    #[(FaceLength, FaceWidth), (CenterOfMassX, CenterOfMassY)]
-    StructurePRM = getTrueParametersOfStructure(obj)
-    if not StructurePRM:
-        return None
-    normal = selected_face.normalAt(0,0)
-    normal = selected_face.Placement.Rotation.inverted().multVec(normal)
-    center_of_mass = selected_face.CenterOfMass
-    #if not obj.Armatures:
-    center_of_mass = center_of_mass.sub(getBaseStructuralObject(obj).Placement.Base)
-    # Set length and width of user selected face of structural element
-    flag = True
-    for i in range(len(normal)):
-        if round(normal[i]) == 0:
-            if flag and i == 0:
-                x = center_of_mass[i]
-                facelength = StructurePRM[0]
-                flag = False
-            elif flag and i == 1:
-                x = center_of_mass[i]
-                facelength = StructurePRM[1]
-                flag = False
-            if i == 1:
-                y = center_of_mass[i]
-                facewidth = StructurePRM[1]
-            elif i == 2:
-                y = center_of_mass[i]
-                facewidth = StructurePRM[2]
-        else:
-            z = center_of_mass[i]
-    if not sketch:
-        center_of_mass = selected_face.CenterOfMass
-        return [(facelength, facewidth), center_of_mass]
-    print "faceoriginal: ", [(facelength, facewidth), (x, y)]
-    return [(facelength, facewidth), (x, y)]"""
-
 def getParametersOfFace(structure, facename, sketch = True):
+    """ getParametersOfFace(structure, facename, sketch = True): This function will return
+    length, width and points of center of mass of a given face according to the sketch
+    value in the form of list.
+
+    For eg.:
+    Case 1: When sketch is True: We use True when we want to create rebars from sketch
+        (planar rebars) and the sketch is strictly based on 2D so we neglected the normal
+        axis of the face.
+        Output: [(FaceLength, FaceWidth), (CenterOfMassX, CenterOfMassY)]
+
+    Case 2: When sketch is False: When we want to create non-planar rebars(like stirrup)
+        or we want to create rebar from a wire. Also for creating rebar from wire
+        we will require three coordinates (x, y, z).
+        Output: [(FaceLength, FaceWidth), (CenterOfMassX, CenterOfMassY, CenterOfMassZ)]"""
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
     center_of_mass = face.CenterOfMass
     #center_of_mass = center_of_mass.sub(getBaseStructuralObject(structure).Placement.Base)
     center_of_mass = center_of_mass.sub(structure.Placement.Base)
-    from DraftGeomUtils import isCubic
     Edges = []
     facePRM = []
+    # When structure is cubic. It support all structure is derived from
+    # any other object (like a sketch, wire etc).
     if isCubic(structure.Shape):
         for edge in face.Edges:
             if not Edges:
                 Edges.append(edge)
             else:
+                # Checks whether similar edges is already present in Edges list
+                # or not.
                 if (vec(edge)).Length not in [(vec(x)).Length for x in Edges]:
                     Edges.append(edge)
+        # facePRM holds length of a edges.
         facePRM = [(vec(edge)).Length for edge in Edges]
+        # Find the orientation of the face. Also eliminating normal axes
+        # to the edge/face.
+        # When edge is parallel to x-axis
         if Edges[0].tangentAt(0)[0] in {1,-1}:
             x = center_of_mass[0]
             if Edges[1].tangentAt(0)[1] in {1, -1}:
                 y = center_of_mass[1]
             else:
                 y = center_of_mass[2]
+        # When edge is parallel to y-axis
         elif Edges[0].tangentAt(0)[1] in {1,-1}:
             x = center_of_mass[1]
             if Edges[1].tangentAt(0)[0] in {1, -1}:
+                # Change order when edge along x-axis is at second place.
                 facePRM.reverse()
                 y = center_of_mass[1]
             else:
@@ -206,8 +174,12 @@ def getParametersOfFace(structure, facename, sketch = True):
             facePRM.reverse()
         facelength = facePRM[0]
         facewidth = facePRM[1]
+    # When structure is not cubic. For founding parameters of given face
+    # I have used bounding box.
     else:
         boundbox = face.BoundBox
+        # Check that one length of bounding box is zero. Here bounding box
+        # looks like a plane.
         if 0 in {boundbox.XLength, boundbox.YLength, boundbox.ZLength}:
             normal = face.normalAt(0,0)
             normal = face.Placement.Rotation.inverted().multVec(normal)
@@ -216,6 +188,7 @@ def getParametersOfFace(structure, facename, sketch = True):
             #print "z: ", boundbox.ZLength
             # Set length and width of user selected face of structural element
             flag = True
+            # FIXME: Improve below logic.
             for i in range(len(normal)):
                 if round(normal[i]) == 0:
                     if flag and i == 0:
@@ -232,17 +205,19 @@ def getParametersOfFace(structure, facename, sketch = True):
                     elif i == 2:
                         y = center_of_mass[i]
                         facewidth = boundbox.ZLength
-            print [(facelength, facewidth), (x, y)]
+            #print [(facelength, facewidth), (x, y)]
+    # Return parameter of the face when rebar is not created from the sketch.
+    # For eg. non-planar rebars like stirrup etc.
     if not sketch:
         center_of_mass = face.CenterOfMass
         return [(facelength, facewidth), center_of_mass]
+    #TODO: Add support when bounding box have depth. Here bounding box looks
+    # like cuboid. If we given curved face.
     return [(facelength, facewidth), (x, y)]
 
-
-def getFaceNumber(s):
-    head = s.rstrip('0123456789')
-    tail = s[len(head):]
-    return int(tail)
+# -------------------------------------------------------------------------
+# Functions which is mainly used in creating stirrup.
+# -------------------------------------------------------------------------
 
 def extendedTangentPartLength(rounding, diameter, angle):
     """ extendedTangentPartLength(rounding, diameter, angle): Get a extended
@@ -259,6 +234,33 @@ def extendedTangentLength(rounding, diameter, angle):
     x1 = radius / math.sin(math.radians(angle))
     x2 = radius * math.tan(math.radians(90 - angle))
     return x1 + x2
+
+# -------------------------------------------------------------------------
+# Warning / Alert functions when user do something wrong.
+#--------------------------------------------------------------------------
+
+def check_selected_face():
+    """ check_selected_face(): This function checks whether user have selected
+        any face or not."""
+    selected_objs = FreeCADGui.Selection.getSelectionEx()
+    if not selected_objs:
+        showWarning("Select any face of the structural element.")
+        selected_obj = None
+    else:
+        selected_face_names = selected_objs[0].SubElementNames
+        if not selected_face_names:
+            selected_obj = None
+            showWarning("Select any face of the structural element.")
+        elif "Face" in selected_face_names[0]:
+            if len(selected_face_names) > 1:
+                showWarning("You have selected more than one face of the structural element.")
+                selected_obj = None
+            elif len(selected_face_names) == 1:
+                selected_obj = selected_objs[0]
+        else:
+            showWarning("Select any face of the selected the face.")
+            selected_obj = None
+    return selected_obj
 
 def getSelectedFace(self):
     selected_objs = FreeCADGui.Selection.getSelectionEx()
