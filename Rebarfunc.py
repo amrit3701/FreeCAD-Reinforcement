@@ -216,7 +216,7 @@ def getParametersOfFace(structure, facename, sketch = True):
     return [(facelength, facewidth), (x, y)]
 
 # -------------------------------------------------------------------------
-# Functions which is mainly used in creating stirrup.
+# Functions which is mainly used while creating stirrup.
 # -------------------------------------------------------------------------
 
 def extendedTangentPartLength(rounding, diameter, angle):
