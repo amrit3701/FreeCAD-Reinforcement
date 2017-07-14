@@ -115,9 +115,9 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
         structure = selected_obj.Object
         facename = selected_obj.SubElementNames[0]
-    face = structure.Shape.Faces[int(facename[-1]) - 1]
+    face = structure.Shape.Faces[getFaceNumber(facename) - 1]
     StructurePRM = getTrueParametersOfStructure(structure)
-    FacePRM = getParametersOfFace(structure, face)
+    FacePRM = getParametersOfFace(structure, facename)
     if not FacePRM:
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
@@ -175,10 +175,10 @@ def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, roundin
     # Assigned values
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
-    face = structure.Shape.Faces[int(facename[-1]) - 1]
+    face = structure.Shape.Faces[getFaceNumber(facename) - 1]
     StructurePRM = getTrueParametersOfStructure(structure)
     # Get parameters of the face where sketch of rebar is drawn
-    FacePRM = getParametersOfFace(structure, face)
+    FacePRM = getParametersOfFace(structure, facename)
     # Get points of U-Shape rebar
     points = getpointsOfUShapeRebar(FacePRM, s_cover, b_cover, t_cover)
     FreeCAD.Console.PrintMessage(str(points)+"\n")

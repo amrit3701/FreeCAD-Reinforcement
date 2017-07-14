@@ -183,9 +183,9 @@ def makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
         structure = selected_obj.Object
         facename = selected_obj.SubElementNames[0]
-    face = structure.Shape.Faces[int(facename[-1]) - 1]
+    face = structure.Shape.Faces[getFaceNumber(facename) - 1]
     StructurePRM = getTrueParametersOfStructure(structure)
-    FacePRM = getParametersOfFace(structure, face, False)
+    FacePRM = getParametersOfFace(structure, facename, False)
     FaceNormal = face.normalAt(0,0)
     FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)
     if not FacePRM:
@@ -246,11 +246,11 @@ def editStirrup(Rebar, s_cover, f_cover, bentAngle, bentFactor, diameter, roundi
     # Assigned values
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
-    face = structure.Shape.Faces[int(facename[-1]) - 1]
+    face = structure.Shape.Faces[getFaceNumber(facename) - 1]
     StructurePRM = getTrueParametersOfStructure(structure)
     #FreeCAD.Console.PrintMessage(str(StructurePRM)+"\n")
     # Get parameters of the face where sketch of rebar is drawn
-    FacePRM = getParametersOfFace(structure, face, False)
+    FacePRM = getParametersOfFace(structure, facename, False)
     FaceNormal = face.normalAt(0, 0)
     FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)
     # Calculate the coordinates value of U-Shape rebar

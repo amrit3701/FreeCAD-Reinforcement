@@ -130,10 +130,10 @@ def getTrueParametersOfStructure(obj):
         height = structuralBaseObject.Height.Value
     return [length, width, height]
 
-def getParametersOfFace(obj, selected_face, sketch=True):
-    """ getParametersOfFace(obj, selected_face): This function will return
-    length, width and points of center of mass of a given face in the form of list like
-    [(FaceLength, FaceWidth), (CenterOfMassX, CenterOfMassY)]"""
+"""def getParametersOfFace11(obj, selected_face, sketch=True):
+    #getParametersOfFace(obj, selected_face): This function will return
+    #length, width and points of center of mass of a given face in the form of list like
+    #[(FaceLength, FaceWidth), (CenterOfMassX, CenterOfMassY)]
     StructurePRM = getTrueParametersOfStructure(obj)
     if not StructurePRM:
         return None
@@ -165,7 +165,84 @@ def getParametersOfFace(obj, selected_face, sketch=True):
     if not sketch:
         center_of_mass = selected_face.CenterOfMass
         return [(facelength, facewidth), center_of_mass]
+    print "faceoriginal: ", [(facelength, facewidth), (x, y)]
+    return [(facelength, facewidth), (x, y)]"""
+
+def getParametersOfFace(structure, facename, sketch = True):
+    face = structure.Shape.Faces[getFaceNumber(facename) - 1]
+    center_of_mass = face.CenterOfMass
+    #center_of_mass = center_of_mass.sub(getBaseStructuralObject(structure).Placement.Base)
+    center_of_mass = center_of_mass.sub(structure.Placement.Base)
+    from DraftGeomUtils import isCubic
+    Edges = []
+    facePRM = []
+    if isCubic(structure.Shape):
+        for edge in face.Edges:
+            if not Edges:
+                Edges.append(edge)
+            else:
+                if (vec(edge)).Length not in [(vec(x)).Length for x in Edges]:
+                    Edges.append(edge)
+        facePRM = [(vec(edge)).Length for edge in Edges]
+        if Edges[0].tangentAt(0)[0] in {1,-1}:
+            x = center_of_mass[0]
+            if Edges[1].tangentAt(0)[1] in {1, -1}:
+                y = center_of_mass[1]
+            else:
+                y = center_of_mass[2]
+        elif Edges[0].tangentAt(0)[1] in {1,-1}:
+            x = center_of_mass[1]
+            if Edges[1].tangentAt(0)[0] in {1, -1}:
+                facePRM.reverse()
+                y = center_of_mass[1]
+            else:
+                y = center_of_mass[2]
+        elif Edges[0].tangentAt(0)[2] in {1,-1}:
+            y = center_of_mass[2]
+            if Edges[1].tangentAt(0)[0] in {1, -1}:
+                x = center_of_mass[0]
+            else:
+                x = center_of_mass[1]
+            facePRM.reverse()
+        facelength = facePRM[0]
+        facewidth = facePRM[1]
+    else:
+        boundbox = face.BoundBox
+        if 0 in {boundbox.XLength, boundbox.YLength, boundbox.ZLength}:
+            normal = face.normalAt(0,0)
+            normal = face.Placement.Rotation.inverted().multVec(normal)
+            #print "x: ", boundbox.XLength
+            #print "y: ", boundbox.YLength
+            #print "z: ", boundbox.ZLength
+            # Set length and width of user selected face of structural element
+            flag = True
+            for i in range(len(normal)):
+                if round(normal[i]) == 0:
+                    if flag and i == 0:
+                        x = center_of_mass[i]
+                        facelength =  boundbox.XLength
+                        flag = False
+                    elif flag and i == 1:
+                        x = center_of_mass[i]
+                        facelength = boundbox.YLength
+                        flag = False
+                    if i == 1:
+                        y = center_of_mass[i]
+                        facewidth = boundbox.YLength
+                    elif i == 2:
+                        y = center_of_mass[i]
+                        facewidth = boundbox.ZLength
+            print [(facelength, facewidth), (x, y)]
+    if not sketch:
+        center_of_mass = face.CenterOfMass
+        return [(facelength, facewidth), center_of_mass]
     return [(facelength, facewidth), (x, y)]
+
+
+def getFaceNumber(s):
+    head = s.rstrip('0123456789')
+    tail = s[len(head):]
+    return int(tail)
 
 def extendedTangentPartLength(rounding, diameter, angle):
     """ extendedTangentPartLength(rounding, diameter, angle): Get a extended
