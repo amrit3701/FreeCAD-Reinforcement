@@ -148,6 +148,7 @@ def makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check,
     else:
         rebar.AmountCheck = False
         rebar.TrueSpacing = amount_spacing_value
+    rebar.Label = "StraightRebar"
     FreeCAD.ActiveDocument.recompute()
 
 def editStraightRebar(Rebar, f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value, structure = None, facename = None):
