@@ -145,6 +145,8 @@ def getParametersOfFace(structure, facename, sketch = True):
                 # or not.
                 if (vec(edge)).Length not in [(vec(x)).Length for x in Edges]:
                     Edges.append(edge)
+        if len(Edges) == 1:
+            Edges.append(edge)
         # facePRM holds length of a edges.
         facePRM = [(vec(edge)).Length for edge in Edges]
         # Find the orientation of the face. Also eliminating normal axes
