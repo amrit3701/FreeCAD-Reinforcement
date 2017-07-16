@@ -39,7 +39,6 @@ import math
 def getpointsOfLShapeRebar(FacePRM, s_cover, b_cover, t_cover, orientation):
     """ getpointsOfLShapeRebar(FacePRM, s_cover, b_cover, t_cover):
     Return points of the LShape rebar in the form of array for sketch."""
-    print FacePRM
     if orientation == "Bottom Left":
         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
@@ -208,6 +207,7 @@ def makeLShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
         rebar.TrueSpacing = amount_spacing_value
     rebar.Label = "LShapeRebar"
     FreeCAD.ActiveDocument.recompute()
+    return rebar
 
 def editLShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, orientation, structure = None, facename = None):
     sketch = Rebar.Base

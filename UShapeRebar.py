@@ -164,6 +164,7 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
         rebar.TrueSpacing = amount_spacing_value
     rebar.Label = "UShapeRebar"
     FreeCAD.ActiveDocument.recompute()
+    return rebar
 
 def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, structure = None, facename = None):
     sketch = Rebar.Base

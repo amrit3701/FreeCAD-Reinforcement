@@ -234,6 +234,7 @@ def makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
         rebar.TrueSpacing = amount_spacing_value
     rebar.Label = "Stirrup"
     FreeCAD.ActiveDocument.recompute()
+    return rebar
 
 def editStirrup(Rebar, s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
         amount_spacing_check, amount_spacing_value, structure = None, facename = None):
