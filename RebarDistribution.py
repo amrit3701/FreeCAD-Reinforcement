@@ -35,10 +35,11 @@ import sys
 import math
 
 class _RebarDistributionDialog():
-    def __init__(self, Rebar):
+    def __init__(self, Rebar, Size = None, offsetStart = None, offsetEnd = None):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Rebar Distribution", None))
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/RebarDistribution.svg"))
+        #if self.Rebar:
         self.Rebar = Rebar
 
     def accept(self):
@@ -51,7 +52,12 @@ class _RebarDistributionDialog():
         amount3 = self.form.amount3.value()
         spacing3 = self.form.spacing3.text()
         spacing3 = FreeCAD.Units.Quantity(spacing3).Value
-        setRebarDistribution(self.Rebar, amount1, spacing1, amount2, spacing2, amount3, spacing3)
+        if self.Rebar:
+            print 4334234554
+            setRebarDistribution(self.Rebar, amount1, spacing1, amount2, spacing2, amount3, spacing3)
+        #elif Size and offsetStart and offsetEnd:
+        #    CustomSpacing = getCustomSpacingString(size, amount1, spacing1, amount2, spacing2, amount3, spacing3, offsetStart, offsetEnd)
+        #    return CustomSpacing
 
     def setupUi(self):
         # Connect Signals and Slots
@@ -67,17 +73,21 @@ def setRebarDistribution(Rebar, amount1, spacing1, amount2, spacing2, amount3, s
         return
     facename = Rebar.Base.Support[0][1][0]
     face = structure.Shape.Faces[int(facename[-1]) - 1]
+    offsetStart = Rebar.OffsetStart.Value
+    offsetEnd = Rebar.OffsetEnd.Value
     size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
-    #print size
-    #print "amount1: ", amount1
-    #print "spacing1: ", spacing1
-    #print "amount2: ", amount2
-    #print "spacing2: ", spacing2
-    #print "amount3: ", amount3
-    #print "spacing3: ", spacing3
+    CustomSpacing = getCustomSpacingString(size, amount1, spacing1, amount2, spacing2, amount3, spacing3, offsetStart, offsetEnd)
+    print CustomSpacing
+    Rebar.CustomSpacing = CustomSpacing
+    FreeCAD.ActiveDocument.recompute()
+
+def getCustomSpacingString(size, amount1, spacing1, amount2, spacing2, amount3, spacing3, offsetStart, offsetEnd):
     seg1_area = amount1 * spacing1 - spacing1 / 2
     seg3_area = amount3 * spacing3 - spacing3 / 2
-    seg2_area = size - seg1_area - seg3_area - Rebar.OffsetStart.Value - Rebar.OffsetEnd.Value
+    seg2_area = size - seg1_area - seg3_area - offsetStart - offsetEnd
+    if seg2_area < 0:
+        FreeCAD.Console.PrintError("Sum of length of segment 1 and segment 2 is greater than length of rebar expands.\n")
+        return
     if spacing1 and spacing2 and spacing3 and amount1 and amount2 and amount3:
         pass
     else:
@@ -86,10 +96,8 @@ def setRebarDistribution(Rebar, amount1, spacing1, amount2, spacing2, amount3, s
             spacing2 = seg2_area / amount2
         elif amount1 and amount2 and amount3:
             spacing2 = math.floor(seg2_area / amount2)
-    CustomSpacing = str(amount1)+"@"+str(spacing1)+"+"+str(int(amount2))+"@"+str(spacing2)+"+"+str(amount3)+"@"+str(spacing3)
-    Rebar.CustomSpacing = CustomSpacing
-    #print CustomSpacing
-    FreeCAD.ActiveDocument.recompute()
+    CustomSpacing = str(amount1) + "@" + str(spacing1) + "+" + str(int(amount2)) + "@" + str(spacing2) + "+" + str(amount3) + "@" + str(spacing3)
+    return CustomSpacing
 
 def getupleOfCustomSpacing(span_string):
     """ gettupleOfCustomSpacing(span_string): This function take input
@@ -108,8 +116,12 @@ def getupleOfCustomSpacing(span_string):
         index += 1
     return spacinglist
 
-def runRebarDistribution(Rebar):
-    dialog = _RebarDistributionDialog(Rebar)
+def runRebarDistribution(Rebar, Size = None, offsetStart = None, offsetEnd = None):
+    print Rebar, Size, offsetStart, offsetEnd
+    if Rebar:
+        dialog = _RebarDistributionDialog(Rebar)
+    elif Size and offsetStart and offsetEnd:
+        dialog = _RebarDistributionDialog(Size, offsetStart, offsetEnd)
     dialog.setupUi()
     dialog.form.exec_()
 

@@ -36,15 +36,38 @@ import os
 import sys
 import math
 
-def getpointsOfLShapeRebar(FacePRM, s_cover, b_cover, t_cover):
+def getpointsOfLShapeRebar(FacePRM, s_cover, b_cover, t_cover, orientation):
     """ getpointsOfLShapeRebar(FacePRM, s_cover, b_cover, t_cover):
     Return points of the LShape rebar in the form of array for sketch."""
-    x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
-    y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
-    x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
-    y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
-    x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - s_cover
-    y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+    print FacePRM
+    if orientation == "Bottom Left":
+        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
+        y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
+        y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - s_cover
+        y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+    elif orientation == "Bottom Right":
+        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - s_cover
+        y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - s_cover
+        y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
+        y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+    elif orientation == "Top Left":
+        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
+        y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
+        y2 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - s_cover
+        y3 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+    elif orientation == "Top Right":
+        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - s_cover
+        y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - s_cover
+        y2 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
+        y3 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
     return [FreeCAD.Vector(x1, y1, 0), FreeCAD.Vector(x2, y2, 0),\
            FreeCAD.Vector(x3, y3, 0)]
 
@@ -52,15 +75,38 @@ class _LShapeRebarTaskPanel:
     def __init__(self, Rebar = None):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "L-Shape Rebar", None))
+        self.form.orientation.addItems(["Bottom Right", "Bottom Left", "Top Right", "Top Left"])
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
+        #try:
         self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(Rebar))
+        """except NameError:
+            selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
+            structure = selected_obj.Object
+            facename = selected_obj.SubElementNames[0]
+            face = structure.Shape.Faces[getFaceNumber(facename) - 1]
+            size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+            offset = self.form.frontCover.currentTextt()
+            print "ambu"
+            self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(Size = size, offsetStart = offset, offsetEnd = offset))"""
         self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(Rebar))
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
-        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebar.svg"))
+        self.form.orientation.currentIndexChanged.connect(self.getOrientation)
+        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarBR.svg"))
         self.Rebar = Rebar
         self.SelectedObj = None
         self.FaceName = None
+
+    def getOrientation(self):
+        orientation = self.form.orientation.currentText()
+        if orientation == "Bottom Right":
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarBR.svg"))
+        elif orientation == "Bottom Left":
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarBL.svg"))
+        elif orientation == "Top Right":
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarTR.svg"))
+        else:
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarTL.svg"))
 
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)
@@ -77,24 +123,25 @@ class _LShapeRebarTaskPanel:
         diameter = self.form.diameter.text()
         diameter = FreeCAD.Units.Quantity(diameter).Value
         rounding = self.form.rounding.value()
+        orientation = self.form.orientation.currentText()
         amount_check = self.form.amount_radio.isChecked()
         spacing_check = self.form.spacing_radio.isChecked()
         if not self.Rebar:
             if amount_check:
                 amount = self.form.amount.value()
-                makeLShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, True, amount, self.SelectedObj, self.FaceName)
+                makeLShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                makeLShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, False, spacing, self.SelectedObj, self.FaceName)
+                makeLShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName, orientation)
         else:
             if amount_check:
                 amount = self.form.amount.value()
-                editLShapeRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, True, amount, self.SelectedObj, self.FaceName)
+                editLShapeRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                editLShapeRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, False, spacing, self.SelectedObj, self.FaceName)
+                editLShapeRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
         FreeCADGui.Control.closeDialog(self)
 
     def amount_radio_clicked(self):
@@ -106,7 +153,7 @@ class _LShapeRebarTaskPanel:
         self.form.spacing.setEnabled(True)
 
 
-def makeLShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, structure = None, facename = None):
+def makeLShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, orientation = "Bottom Left", structure = None, facename = None):
     """ makeLShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
     Adds the L-Shape reinforcement bar to the selected structural object."""
     if not structure and not facename:
@@ -120,7 +167,7 @@ def makeLShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
     # Get points of L-Shape rebar
-    points = getpointsOfLShapeRebar(FacePRM, s_cover, b_cover, t_cover)
+    points = getpointsOfLShapeRebar(FacePRM, s_cover, b_cover, t_cover, orientation)
     import Part
     import Arch
     sketch = FreeCAD.activeDocument().addObject('Sketcher::SketchObject', 'Sketch')
@@ -130,7 +177,7 @@ def makeLShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     sketch.addGeometry(Part.LineSegment(points[0], points[1]), False)
     sketch.addGeometry(Part.LineSegment(points[1], points[2]), False)
     import Sketcher
-    sketch.addConstraint(Sketcher.Constraint('Coincident', 0, 2, 1, 1))
+    #sketch.addConstraint(Sketcher.Constraint('Coincident', 0, 2, 1, 1))
     if amount_spacing_check:
         rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover)
         FreeCAD.ActiveDocument.recompute()
@@ -152,6 +199,8 @@ def makeLShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     rebar.addProperty("App::PropertyDistance", "TopCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Top cover of rebar")).TopCover = t_cover
     rebar.setEditorMode("TopCover", 2)
     rebar.addProperty("App::PropertyDistance", "TrueSpacing", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Spacing between of rebars")).TrueSpacing = amount_spacing_value
+    rebar.addProperty("App::PropertyString", "Orientation", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).Orientation = orientation
+    rebar.setEditorMode("Orientation", 2)
     rebar.setEditorMode("TrueSpacing", 2)
     if amount_spacing_check:
         rebar.AmountCheck = True
@@ -161,7 +210,7 @@ def makeLShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     rebar.Label = "LShapeRebar"
     FreeCAD.ActiveDocument.recompute()
 
-def editLShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, structure = None, facename = None):
+def editLShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, orientation, structure = None, facename = None):
     sketch = Rebar.Base
     if structure and facename:
         sketch.Support = [(structure, facename)]
@@ -177,11 +226,13 @@ def editLShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, roundin
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, facename)
     # Get points of L-Shape rebar
-    points = getpointsOfLShapeRebar(FacePRM, s_cover, b_cover, t_cover)
+    points = getpointsOfLShapeRebar(FacePRM, s_cover, b_cover, t_cover, orientation)
     FreeCAD.Console.PrintMessage(str(points)+"\n")
     sketch.movePoint(0, 1, points[0], 0)
     FreeCAD.ActiveDocument.recompute()
     sketch.movePoint(0, 2, points[1], 0)
+    FreeCAD.ActiveDocument.recompute()
+    sketch.movePoint(1, 1, points[1], 0)
     FreeCAD.ActiveDocument.recompute()
     sketch.movePoint(1, 2, points[2], 0)
     FreeCAD.ActiveDocument.recompute()
@@ -202,6 +253,7 @@ def editLShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, roundin
     Rebar.TopCover = t_cover
     Rebar.Rounding = rounding
     Rebar.TrueSpacing = amount_spacing_value
+    Rebar.Orientation = orientation
     FreeCAD.ActiveDocument.recompute()
 
 def editDialog(vobj):
@@ -215,6 +267,7 @@ def editDialog(vobj):
     obj.form.diameter.setText(str(vobj.Object.Diameter))
     obj.form.topCover.setText(str(vobj.Object.TopCover))
     obj.form.rounding.setValue(vobj.Object.Rounding)
+    obj.form.orientation.setCurrentIndex(obj.form.orientation.findText(str(vobj.Object.Orientation)))
     if vobj.Object.AmountCheck:
         obj.form.amount.setValue(vobj.Object.Amount)
     else:
