@@ -65,6 +65,26 @@ class UShapeRebarTool:
         # Call to CommandUShaepRebar() function
         UShapeRebar.CommandUShapeRebar()
 
+class LShapeRebarTool:
+
+    def GetResources(self):
+        return {'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/LShapeRebar.svg',
+                'MenuText': QT_TRANSLATE_NOOP("Arch_Rebar_LShape", "L-Shape Rebar"),
+                'ToolTip' : QT_TRANSLATE_NOOP("Arch_Rebar_LShape", "Creates a L-Shape bar reinforcement from the selected face of the Structural element.")}
+
+    def IsActive(self):
+        if FreeCADGui.ActiveDocument:
+            return True
+        else:
+            return False
+
+    def Activated(self):
+        import LShapeRebar
+        # Call to CommandUShaepRebar() function
+        LShapeRebar.CommandLShapeRebar()
+
+
+
 class StirrupTool:
 
     def GetResources(self):
@@ -85,7 +105,8 @@ class StirrupTool:
 
 FreeCADGui.addCommand('Arch_Rebar_Straight', StraightRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_UShape', UShapeRebarTool())
+FreeCADGui.addCommand('Arch_Rebar_LShape', LShapeRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_Stirrup', StirrupTool())
 
 # List of all rebar commands
-RebarCommands = ["Arch_Rebar_Straight", "Arch_Rebar_UShape", "Arch_Rebar_Stirrup"]
+RebarCommands = ["Arch_Rebar_Straight", "Arch_Rebar_UShape", "Arch_Rebar_LShape", "Arch_Rebar_Stirrup"]
