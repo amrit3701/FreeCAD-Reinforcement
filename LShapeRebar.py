@@ -87,7 +87,6 @@ class _LShapeRebarTaskPanel:
             face = structure.Shape.Faces[getFaceNumber(facename) - 1]
             size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
             offset = self.form.frontCover.currentTextt()
-            print "ambu"
             self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(Size = size, offsetStart = offset, offsetEnd = offset))"""
         self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(Rebar))
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))

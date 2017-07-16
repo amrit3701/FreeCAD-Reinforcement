@@ -53,7 +53,6 @@ class _RebarDistributionDialog():
         spacing3 = self.form.spacing3.text()
         spacing3 = FreeCAD.Units.Quantity(spacing3).Value
         if self.Rebar:
-            print 4334234554
             setRebarDistribution(self.Rebar, amount1, spacing1, amount2, spacing2, amount3, spacing3)
         #elif Size and offsetStart and offsetEnd:
         #    CustomSpacing = getCustomSpacingString(size, amount1, spacing1, amount2, spacing2, amount3, spacing3, offsetStart, offsetEnd)
@@ -77,7 +76,6 @@ def setRebarDistribution(Rebar, amount1, spacing1, amount2, spacing2, amount3, s
     offsetEnd = Rebar.OffsetEnd.Value
     size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
     CustomSpacing = getCustomSpacingString(size, amount1, spacing1, amount2, spacing2, amount3, spacing3, offsetStart, offsetEnd)
-    print CustomSpacing
     Rebar.CustomSpacing = CustomSpacing
     FreeCAD.ActiveDocument.recompute()
 
@@ -117,7 +115,6 @@ def getupleOfCustomSpacing(span_string):
     return spacinglist
 
 def runRebarDistribution(Rebar, Size = None, offsetStart = None, offsetEnd = None):
-    print Rebar, Size, offsetStart, offsetEnd
     if Rebar:
         dialog = _RebarDistributionDialog(Rebar)
     elif Size and offsetStart and offsetEnd:
