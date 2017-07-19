@@ -284,6 +284,10 @@ def showWarning(message):
     message for the user."""
     msg = QtGui.QMessageBox()
     msg.setIcon(QtGui.QMessageBox.Warning)
-    msg.setText(message)
+    msg.setText(translate("RebarAddon", message))
     msg.setStandardButtons(QtGui.QMessageBox.Ok)
     msg.exec_()
+
+# Qt tanslation handling
+def translate(context, text, disambig=None):
+    return QtCore.QCoreApplication.translate(context, text, disambig)
