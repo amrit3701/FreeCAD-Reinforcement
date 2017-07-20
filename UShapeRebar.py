@@ -88,10 +88,22 @@ class _UShapeRebarTaskPanel:
         self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(Rebar))
         self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(Rebar))
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
-        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebar.svg"))
+        self.form.orientation.currentIndexChanged.connect(self.getOrientation)
+        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarBottom.svg"))
         self.Rebar = Rebar
         self.SelectedObj = None
         self.FaceName = None
+
+    def getOrientation(self):
+        orientation = self.form.orientation.currentText()
+        if orientation == "Bottom":
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarBottom.svg"))
+        elif orientation == "Top":
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarTop.svg"))
+        elif orientation == "Right":
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarRight.svg"))
+        else:
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarLeft.svg"))
 
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)
