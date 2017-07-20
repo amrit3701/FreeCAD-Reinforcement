@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>283</width>
-    <height>445</height>
+    <height>511</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,14 +55,14 @@
      <property name="fieldGrowthPolicy">
       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
      </property>
-     <item row="0" column="0">
+     <item row="1" column="0">
       <widget class="QLabel" name="frontCoverLabel">
        <property name="text">
         <string>Front Cover</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
+     <item row="1" column="1">
       <widget class="Gui::InputField" name="frontCover">
        <property name="text">
         <string>20 mm</string>
@@ -72,15 +72,15 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="sideCoverLabel">
+     <item row="2" column="0">
+      <widget class="QLabel" name="r_sideCoverLabel">
        <property name="text">
-        <string>Side Cover</string>
+        <string>Right Side Cover</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="Gui::InputField" name="sideCover">
+     <item row="2" column="1">
+      <widget class="Gui::InputField" name="r_sideCover">
        <property name="text">
         <string>20 mm</string>
        </property>
@@ -89,7 +89,7 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="4" column="1">
       <widget class="Gui::InputField" name="bottomCover">
        <property name="text">
         <string>20 mm</string>
@@ -99,14 +99,14 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="5" column="0">
       <widget class="QLabel" name="topCoverLabel">
        <property name="text">
         <string>Top Cover</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="5" column="1">
       <widget class="Gui::InputField" name="topCover">
        <property name="text">
         <string>20 mm</string>
@@ -116,28 +116,28 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
+     <item row="6" column="0">
       <widget class="QLabel" name="roundingLabel">
        <property name="text">
         <string>Rounding</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="6" column="1">
       <widget class="Gui::PrefSpinBox" name="rounding">
        <property name="value">
         <number>2</number>
        </property>
       </widget>
      </item>
-     <item row="5" column="0">
+     <item row="7" column="0">
       <widget class="QLabel" name="diameterLabel">
        <property name="text">
         <string>Diameter</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="0" colspan="2">
+     <item row="8" column="0" colspan="2">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="Gui::PrefRadioButton" name="amount_radio">
@@ -158,35 +158,35 @@
        </item>
       </layout>
      </item>
-     <item row="7" column="0">
+     <item row="9" column="0">
       <widget class="QLabel" name="amountLabel">
        <property name="text">
         <string>Amount</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
+     <item row="9" column="1">
       <widget class="Gui::PrefSpinBox" name="amount">
        <property name="value">
         <number>3</number>
        </property>
       </widget>
      </item>
-     <item row="8" column="0">
+     <item row="10" column="0">
       <widget class="QLabel" name="spacingLabel">
        <property name="text">
         <string>Spacing</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="bottomCoverLabel">
        <property name="text">
         <string>Bottom Cover</string>
        </property>
       </widget>
      </item>
-     <item row="8" column="1">
+     <item row="10" column="1">
       <widget class="Gui::InputField" name="spacing">
        <property name="enabled">
         <bool>false</bool>
@@ -199,13 +199,40 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
+     <item row="7" column="1">
       <widget class="Gui::InputField" name="diameter">
        <property name="text">
         <string>8 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="orientationLabel">
+       <property name="text">
+        <string>Orientation</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="Gui::PrefComboBox" name="orientation"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="Gui::InputField" name="l_sideCover">
+       <property name="text">
+        <string>20 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="l_sideCoverLabel">
+       <property name="text">
+        <string>Left Side Cover</string>
        </property>
       </widget>
      </item>
@@ -260,10 +287,17 @@
    <extends>QRadioButton</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
+  <customwidget>
+   <class>Gui::PrefComboBox</class>
+   <extends>QComboBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>orientation</tabstop>
   <tabstop>frontCover</tabstop>
-  <tabstop>sideCover</tabstop>
+  <tabstop>r_sideCover</tabstop>
+  <tabstop>l_sideCover</tabstop>
   <tabstop>bottomCover</tabstop>
   <tabstop>topCover</tabstop>
   <tabstop>rounding</tabstop>

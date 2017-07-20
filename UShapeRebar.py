@@ -36,17 +36,45 @@ import os
 import sys
 import math
 
-def getpointsOfUShapeRebar(FacePRM, s_cover, b_cover, t_cover):
+def getpointsOfUShapeRebar(FacePRM, r_cover, l_cover, b_cover, t_cover, orientation):
     """ getpointsOfUShapeRebar(FacePRM, s_cover, b_cover, t_cover):
     Return points of the UShape rebar in the form of array for sketch."""
-    x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
-    y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
-    x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
-    y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
-    x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - s_cover
-    y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
-    x4 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - s_cover
-    y4 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+    if orientation == "Bottom":
+        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
+        y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
+        y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
+        y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x4 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
+        y4 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+    elif orientation == "Top":
+        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
+        y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
+        y2 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
+        y3 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x4 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
+        y4 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+    elif orientation == "Left":
+        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
+        y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
+        y2 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
+        y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x4 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
+        y4 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+    elif orientation == "Right":
+        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
+        y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
+        y2 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
+        y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x4 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
+        y4 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
     return [FreeCAD.Vector(x1, y1, 0), FreeCAD.Vector(x2, y2, 0),\
            FreeCAD.Vector(x3, y3, 0), FreeCAD.Vector(x4, y4, 0)]
 
@@ -54,6 +82,7 @@ class _UShapeRebarTaskPanel:
     def __init__(self, Rebar = None):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "U-Shape Rebar", None))
+        self.form.orientation.addItems(["Bottom", "Top", "Right", "Left"])
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
         self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(Rebar))
@@ -72,31 +101,34 @@ class _UShapeRebarTaskPanel:
         f_cover = FreeCAD.Units.Quantity(f_cover).Value
         b_cover = self.form.bottomCover.text()
         b_cover = FreeCAD.Units.Quantity(b_cover).Value
-        s_cover = self.form.sideCover.text()
-        s_cover = FreeCAD.Units.Quantity(s_cover).Value
+        r_cover = self.form.r_sideCover.text()
+        r_cover = FreeCAD.Units.Quantity(r_cover).Value
+        l_cover = self.form.l_sideCover.text()
+        l_cover = FreeCAD.Units.Quantity(l_cover).Value
         t_cover = self.form.topCover.text()
         t_cover = FreeCAD.Units.Quantity(t_cover).Value
         diameter = self.form.diameter.text()
         diameter = FreeCAD.Units.Quantity(diameter).Value
         rounding = self.form.rounding.value()
+        orientation = self.form.orientation.currentText()
         amount_check = self.form.amount_radio.isChecked()
         spacing_check = self.form.spacing_radio.isChecked()
         if not self.Rebar:
             if amount_check:
                 amount = self.form.amount.value()
-                makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, True, amount, self.SelectedObj, self.FaceName)
+                makeUShapeRebar(f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, False, spacing, self.SelectedObj, self.FaceName)
+                makeUShapeRebar(f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
         else:
             if amount_check:
                 amount = self.form.amount.value()
-                editUShapeRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, True, amount, self.SelectedObj, self.FaceName)
+                editUShapeRebar(self.Rebar, f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                editUShapeRebar(self.Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, False, spacing, self.SelectedObj, self.FaceName)
+                editUShapeRebar(self.Rebar, f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
         FreeCADGui.Control.closeDialog(self)
 
     def amount_radio_clicked(self):
@@ -108,7 +140,7 @@ class _UShapeRebarTaskPanel:
         self.form.spacing.setEnabled(True)
 
 
-def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, structure = None, facename = None):
+def makeUShapeRebar(f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, orientation = "Bottom", structure = None, facename = None):
     """ makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
     Adds the U-Shape reinforcement bar to the selected structural object."""
     if not structure and not facename:
@@ -122,7 +154,7 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
     # Get points of U-Shape rebar
-    points = getpointsOfUShapeRebar(FacePRM, s_cover, b_cover, t_cover)
+    points = getpointsOfUShapeRebar(FacePRM, r_cover, l_cover, b_cover, t_cover, orientation)
     import Part
     import Arch
     sketch = FreeCAD.activeDocument().addObject('Sketcher::SketchObject', 'Sketch')
@@ -132,9 +164,9 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     sketch.addGeometry(Part.LineSegment(points[0], points[1]), False)
     sketch.addGeometry(Part.LineSegment(points[1], points[2]), False)
     import Sketcher
-    sketch.addConstraint(Sketcher.Constraint('Coincident', 0, 2, 1, 1))
+    #sketch.addConstraint(Sketcher.Constraint('Coincident', 0, 2, 1, 1))
     sketch.addGeometry(Part.LineSegment(points[2], points[3]), False)
-    sketch.addConstraint(Sketcher.Constraint('Coincident', 1, 2, 2, 1))
+    #sketch.addConstraint(Sketcher.Constraint('Coincident', 1, 2, 2, 1))
     if amount_spacing_check:
         rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover)
         FreeCAD.ActiveDocument.recompute()
@@ -147,8 +179,10 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     rebar.ViewObject.setEditorMode("RebarShape", 2)
     rebar.addProperty("App::PropertyDistance", "FrontCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Front cover of rebar")).FrontCover = f_cover
     rebar.setEditorMode("FrontCover", 2)
-    rebar.addProperty("App::PropertyDistance", "SideCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Side cover of rebar")).SideCover = s_cover
-    rebar.setEditorMode("SideCover", 2)
+    rebar.addProperty("App::PropertyDistance", "RightCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Right Side cover of rebar")).RightCover = r_cover
+    rebar.setEditorMode("RightCover", 2)
+    rebar.addProperty("App::PropertyDistance", "LeftCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Left Side cover of rebar")).LeftCover = l_cover
+    rebar.setEditorMode("LeftCover", 2)
     rebar.addProperty("App::PropertyDistance", "BottomCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Bottom cover of rebar")).BottomCover = b_cover
     rebar.setEditorMode("BottomCover", 2)
     rebar.addProperty("App::PropertyBool", "AmountCheck", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Amount radio button is checked")).AmountCheck
@@ -157,6 +191,8 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     rebar.setEditorMode("TopCover", 2)
     rebar.addProperty("App::PropertyDistance", "TrueSpacing", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Spacing between of rebars")).TrueSpacing = amount_spacing_value
     rebar.setEditorMode("TrueSpacing", 2)
+    rebar.addProperty("App::PropertyString", "Orientation", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).Orientation = orientation
+    rebar.setEditorMode("Orientation", 2)
     if amount_spacing_check:
         rebar.AmountCheck = True
     else:
@@ -166,7 +202,7 @@ def makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, amou
     FreeCAD.ActiveDocument.recompute()
     return rebar
 
-def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, structure = None, facename = None):
+def editUShapeRebar(Rebar, f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, orientation, structure = None, facename = None):
     sketch = Rebar.Base
     if structure and facename:
         sketch.Support = [(structure, facename)]
@@ -182,13 +218,16 @@ def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, roundin
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, facename)
     # Get points of U-Shape rebar
-    points = getpointsOfUShapeRebar(FacePRM, s_cover, b_cover, t_cover)
-    FreeCAD.Console.PrintMessage(str(points)+"\n")
+    points = getpointsOfUShapeRebar(FacePRM, r_cover, l_cover, b_cover, t_cover, orientation)
     sketch.movePoint(0, 1, points[0], 0)
     FreeCAD.ActiveDocument.recompute()
     sketch.movePoint(0, 2, points[1], 0)
     FreeCAD.ActiveDocument.recompute()
+    sketch.movePoint(1, 1, points[1], 0)
+    FreeCAD.ActiveDocument.recompute()
     sketch.movePoint(1, 2, points[2], 0)
+    FreeCAD.ActiveDocument.recompute()
+    sketch.movePoint(2, 1, points[2], 0)
     FreeCAD.ActiveDocument.recompute()
     sketch.movePoint(2, 2, points[3], 0)
     FreeCAD.ActiveDocument.recompute()
@@ -204,11 +243,13 @@ def editUShapeRebar(Rebar, f_cover, b_cover, s_cover, diameter, t_cover, roundin
         FreeCAD.ActiveDocument.recompute()
         Rebar.AmountCheck = False
     Rebar.FrontCover = f_cover
-    Rebar.SideCover = s_cover
+    Rebar.RightCover = r_cover
+    Rebar.LeftCover = l_cover
     Rebar.BottomCover = b_cover
     Rebar.TopCover = t_cover
     Rebar.Rounding = rounding
     Rebar.TrueSpacing = amount_spacing_value
+    Rebar.Orientation = orientation
     FreeCAD.ActiveDocument.recompute()
 
 def editDialog(vobj):
@@ -217,11 +258,13 @@ def editDialog(vobj):
     obj.form.customSpacing.setEnabled(True)
     obj.form.removeCustomSpacing.setEnabled(True)
     obj.form.frontCover.setText(str(vobj.Object.FrontCover))
-    obj.form.sideCover.setText(str(vobj.Object.SideCover))
+    obj.form.r_sideCover.setText(str(vobj.Object.RightCover))
+    obj.form.l_sideCover.setText(str(vobj.Object.LeftCover))
     obj.form.bottomCover.setText(str(vobj.Object.BottomCover))
     obj.form.diameter.setText(str(vobj.Object.Diameter))
     obj.form.topCover.setText(str(vobj.Object.TopCover))
     obj.form.rounding.setValue(vobj.Object.Rounding)
+    obj.form.orientation.setCurrentIndex(obj.form.orientation.findText(str(vobj.Object.Orientation)))
     if vobj.Object.AmountCheck:
         obj.form.amount.setValue(vobj.Object.Amount)
     else:
