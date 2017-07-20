@@ -36,7 +36,7 @@ import os
 import sys
 import math
 
-def getpointsOfStirrup(FacePRM, s_cover, bentAngle, bentFactor, diameter, rounding, facenormal):
+def getpointsOfStirrup(FacePRM, l_cover, r_cover, t_cover, b_cover, bentAngle, bentFactor, diameter, rounding, facenormal):
     """ getpointsOfStirrup(FacePRM, s_cover, bentAngle, diameter, rounding, facenormal):
     Return the coordinates points of the Stirrup in the form of array."""
     angle = 180 - bentAngle
@@ -44,16 +44,16 @@ def getpointsOfStirrup(FacePRM, s_cover, bentAngle, bentFactor, diameter, roundi
     tangent_length = extendedTangentLength(rounding, diameter, angle)
     if round(facenormal[0]) in {1,-1}:
         x1 = FacePRM[1][0]
-        y1 = FacePRM[1][1] - FacePRM[0][0] / 2 + s_cover
-        z1 = FacePRM[1][2] + FacePRM[0][1] / 2 - s_cover + tangent_part_length
-        y2 = FacePRM[1][1] - FacePRM[0][0] / 2 + s_cover
-        z2 = FacePRM[1][2] - FacePRM[0][1] / 2 + s_cover
-        y3 = FacePRM[1][1] + FacePRM[0][0] / 2 - s_cover
-        z3 = FacePRM[1][2] - FacePRM[0][1] / 2 + s_cover
-        y4 = FacePRM[1][1] + FacePRM[0][0] / 2 - s_cover
-        z4 = FacePRM[1][2] + FacePRM[0][1] / 2 - s_cover
-        y5 = FacePRM[1][1] - FacePRM[0][0] / 2 + s_cover - tangent_part_length
-        z5 = FacePRM[1][2] + FacePRM[0][1] / 2 - s_cover
+        y1 = FacePRM[1][1] - FacePRM[0][0] / 2 + l_cover
+        z1 = FacePRM[1][2] + FacePRM[0][1] / 2 - t_cover + tangent_part_length
+        y2 = FacePRM[1][1] - FacePRM[0][0] / 2 + l_cover
+        z2 = FacePRM[1][2] - FacePRM[0][1] / 2 + b_cover
+        y3 = FacePRM[1][1] + FacePRM[0][0] / 2 - r_cover
+        z3 = FacePRM[1][2] - FacePRM[0][1] / 2 + b_cover
+        y4 = FacePRM[1][1] + FacePRM[0][0] / 2 - r_cover
+        z4 = FacePRM[1][2] + FacePRM[0][1] / 2 - t_cover
+        y5 = FacePRM[1][1] - FacePRM[0][0] / 2 + l_cover - tangent_part_length
+        z5 = FacePRM[1][2] + FacePRM[0][1] / 2 - t_cover
         side_length = abs(y5 - y4) - tangent_part_length
         normal_dis = (diameter * (side_length + tangent_part_length)) / side_length
         x2 = x1 - normal_dis / 4
@@ -67,17 +67,17 @@ def getpointsOfStirrup(FacePRM, s_cover, bentAngle, bentFactor, diameter, roundi
         y6 = y5 + (tangent_length + bentFactor * diameter) * math.sin(math.radians(90 - angle))
         z6 = z5 - (tangent_length + bentFactor * diameter) * math.cos(math.radians(90 - angle))
     elif round(facenormal[1]) in {1,-1}:
-        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
+        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
         y1 = FacePRM[1][1]
-        z1 = FacePRM[1][2] + FacePRM[0][1] / 2 - s_cover + tangent_part_length
-        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
-        z2 = FacePRM[1][2] - FacePRM[0][1] / 2 + s_cover
-        x3 = FacePRM[1][0] + FacePRM[0][0] / 2 - s_cover
-        z3 = FacePRM[1][2] - FacePRM[0][1] / 2 + s_cover
-        x4 = FacePRM[1][0] + FacePRM[0][0] / 2 - s_cover
-        z4 = FacePRM[1][2] + FacePRM[0][1] / 2 - s_cover
-        x5 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover - tangent_part_length
-        z5 = FacePRM[1][2] + FacePRM[0][1] / 2 - s_cover
+        z1 = FacePRM[1][2] + FacePRM[0][1] / 2 - t_cover + tangent_part_length
+        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
+        z2 = FacePRM[1][2] - FacePRM[0][1] / 2 + b_cover
+        x3 = FacePRM[1][0] + FacePRM[0][0] / 2 - r_cover
+        z3 = FacePRM[1][2] - FacePRM[0][1] / 2 + b_cover
+        x4 = FacePRM[1][0] + FacePRM[0][0] / 2 - r_cover
+        z4 = FacePRM[1][2] + FacePRM[0][1] / 2 - t_cover
+        x5 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover - tangent_part_length
+        z5 = FacePRM[1][2] + FacePRM[0][1] / 2 - t_cover
         side_length = abs(x5 - x4) - tangent_part_length
         normal_dis = (diameter * (side_length + tangent_part_length)) / side_length
         y2 = y1 - normal_dis / 4
@@ -91,17 +91,17 @@ def getpointsOfStirrup(FacePRM, s_cover, bentAngle, bentFactor, diameter, roundi
         y6 = y5 - normal_dis / 4
         z6 = z5 - (tangent_length + bentFactor * diameter) * math.cos(math.radians(90 - angle))
     elif round(facenormal[2]) in {1,-1}:
-        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
-        y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - s_cover + tangent_part_length
+        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
+        y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover + tangent_part_length
         z1 = FacePRM[1][2]
-        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover
-        y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + s_cover
-        x3 = FacePRM[1][0] + FacePRM[0][0] / 2 - s_cover
-        y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + s_cover
-        x4 = FacePRM[1][0] + FacePRM[0][0] / 2 - s_cover
-        y4 = FacePRM[1][1] + FacePRM[0][1] / 2 - s_cover
-        x5 = FacePRM[1][0] - FacePRM[0][0] / 2 + s_cover - tangent_part_length
-        y5 = FacePRM[1][1] + FacePRM[0][1] / 2 - s_cover
+        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
+        y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x3 = FacePRM[1][0] + FacePRM[0][0] / 2 - r_cover
+        y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x4 = FacePRM[1][0] + FacePRM[0][0] / 2 - r_cover
+        y4 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x5 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover - tangent_part_length
+        y5 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
         side_length = abs(x5 - x4) - tangent_part_length
         normal_dis = (diameter * (side_length + tangent_part_length)) / side_length
         z2 = z1 - normal_dis / 4
@@ -138,8 +138,14 @@ class _StirrupTaskPanel:
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)
 
     def accept(self):
-        s_cover = self.form.sideCover.text()
-        s_cover = FreeCAD.Units.Quantity(s_cover).Value
+        l_cover = self.form.l_sideCover.text()
+        l_cover = FreeCAD.Units.Quantity(l_cover).Value
+        r_cover = self.form.r_sideCover.text()
+        r_cover = FreeCAD.Units.Quantity(r_cover).Value
+        t_cover = self.form.t_sideCover.text()
+        t_cover = FreeCAD.Units.Quantity(t_cover).Value
+        b_cover = self.form.b_sideCover.text()
+        b_cover = FreeCAD.Units.Quantity(b_cover).Value
         f_cover = self.form.frontCover.text()
         f_cover = FreeCAD.Units.Quantity(f_cover).Value
         diameter = self.form.diameter.text()
@@ -152,22 +158,22 @@ class _StirrupTaskPanel:
         if not self.Rebar:
             if amount_check:
                 amount = self.form.amount.value()
-                makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter,\
+                makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor, diameter,\
                     rounding, True, amount, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter,\
+                makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor, diameter,\
                     rounding, False, spacing, self.SelectedObj, self.FaceName)
         else:
             if amount_check:
                 amount = self.form.amount.value()
-                editStirrup(self.Rebar, s_cover, f_cover, bentAngle, bentFactor,\
+                editStirrup(self.Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor,\
                     diameter, rounding, True, amount, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                editStirrup(self.Rebar, s_cover, f_cover, bentAngle, bentFactor,\
+                editStirrup(self.Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor,\
                     diameter, rounding, False, spacing, self.SelectedObj, self.FaceName)
         FreeCADGui.Control.closeDialog(self)
 
@@ -180,7 +186,7 @@ class _StirrupTaskPanel:
         self.form.spacing.setEnabled(True)
 
 
-def makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
+def makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
         amount_spacing_check, amount_spacing_value, structure = None, facename = None):
     """ makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding,
     amount_spacing_check, amount_spacing_value): Adds the Stirrup reinforcement bar
@@ -198,7 +204,7 @@ def makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
     # Calculate the coordinate values of Stirrup
-    points = getpointsOfStirrup(FacePRM, s_cover, bentAngle, bentFactor, diameter, rounding, FaceNormal)
+    points = getpointsOfStirrup(FacePRM, l_cover, r_cover, t_cover, b_cover, bentAngle, bentFactor, diameter, rounding, FaceNormal)
     import Draft
     line = Draft.makeWire(points, closed = False, face = True, support = None)
     import Arch
@@ -215,9 +221,18 @@ def makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
     rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog",\
         QT_TRANSLATE_NOOP("App::Property","Shape of rebar")).RebarShape = "Stirrup"
     rebar.ViewObject.setEditorMode("RebarShape", 2)
-    rebar.addProperty("App::PropertyDistance", "SideCover", "RebarDialog",\
-        QT_TRANSLATE_NOOP("App::Property", "Side cover of rebar")).SideCover = s_cover
-    rebar.setEditorMode("SideCover", 2)
+    rebar.addProperty("App::PropertyDistance", "LeftCover", "RebarDialog",\
+        QT_TRANSLATE_NOOP("App::Property", "Left Side cover of rebar")).LeftCover = l_cover
+    rebar.setEditorMode("LeftCover", 2)
+    rebar.addProperty("App::PropertyDistance", "RightCover", "RebarDialog",\
+        QT_TRANSLATE_NOOP("App::Property", "Right Side cover of rebar")).RightCover = r_cover
+    rebar.setEditorMode("RightCover", 2)
+    rebar.addProperty("App::PropertyDistance", "TopCover", "RebarDialog",\
+        QT_TRANSLATE_NOOP("App::Property", "Top Side cover of rebar")).TopCover = t_cover
+    rebar.setEditorMode("TopCover", 2)
+    rebar.addProperty("App::PropertyDistance", "BottomCover", "RebarDialog",\
+        QT_TRANSLATE_NOOP("App::Property", "Bottom Side cover of rebar")).BottomCover = b_cover
+    rebar.setEditorMode("BottomCover", 2)
     rebar.addProperty("App::PropertyDistance", "FrontCover", "RebarDialog",\
         QT_TRANSLATE_NOOP("App::Property", "Top cover of rebar")).FrontCover = f_cover
     rebar.setEditorMode("FrontCover", 2)
@@ -242,7 +257,7 @@ def makeStirrup(s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
     FreeCAD.ActiveDocument.recompute()
     return rebar
 
-def editStirrup(Rebar, s_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
+def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
         amount_spacing_check, amount_spacing_value, structure = None, facename = None):
     sketch = Rebar.Base
     if structure and facename:
@@ -262,7 +277,7 @@ def editStirrup(Rebar, s_cover, f_cover, bentAngle, bentFactor, diameter, roundi
     FaceNormal = face.normalAt(0, 0)
     FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)
     # Calculate the coordinates value of U-Shape rebar
-    points = getpointsOfStirrup(FacePRM, s_cover, bentAngle, bentFactor, diameter, rounding, FaceNormal)
+    points = getpointsOfStirrup(FacePRM, l_cover, r_cover, t_cover, b_cover, bentAngle, bentFactor, diameter, rounding, FaceNormal)
     Rebar.Base.Points = points
     FreeCAD.ActiveDocument.recompute()
     Rebar.Direction = FaceNormal.negative()
@@ -282,7 +297,10 @@ def editStirrup(Rebar, s_cover, f_cover, bentAngle, bentFactor, diameter, roundi
         FreeCAD.ActiveDocument.recompute()
         Rebar.AmountCheck = False
     Rebar.FrontCover = f_cover
-    Rebar.SideCover = s_cover
+    Rebar.LeftCover = l_cover
+    Rebar.RightCover = r_cover
+    Rebar.TopCover = t_cover
+    Rebar.BottomCover = b_cover
     Rebar.TrueSpacing = amount_spacing_value
     FreeCAD.ActiveDocument.recompute()
 
@@ -292,7 +310,10 @@ def editDialog(vobj):
     obj.form.customSpacing.setEnabled(True)
     obj.form.removeCustomSpacing.setEnabled(True)
     obj.form.frontCover.setText(str(vobj.Object.FrontCover))
-    obj.form.sideCover.setText(str(vobj.Object.SideCover))
+    obj.form.l_sideCover.setText(str(vobj.Object.LeftCover))
+    obj.form.r_sideCover.setText(str(vobj.Object.RightCover))
+    obj.form.t_sideCover.setText(str(vobj.Object.TopCover))
+    obj.form.b_sideCover.setText(str(vobj.Object.BottomCover))
     obj.form.diameter.setText(str(vobj.Object.Diameter))
     obj.form.bentAngle.setCurrentIndex(obj.form.bentAngle.findText(str(vobj.Object.BentAngle)))
     obj.form.bentFactor.setValue(vobj.Object.BentFactor)
