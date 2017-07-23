@@ -78,7 +78,7 @@ class _StraightRebarTaskPanel:
         self.form.PickSelectedFace.setCheckable(True)
         self.form.PickSelectedFace.toggle()
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
-        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/StraightRebar.svg"))
+        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/StraightRebarH.svg"))
         self.form.orientation.currentIndexChanged.connect(self.changeOrientation)
         self.form.coverAlong.currentIndexChanged.connect(self.changeCoverAlong)
         self.Rebar = Rebar
@@ -88,11 +88,13 @@ class _StraightRebarTaskPanel:
     def changeOrientation(self):
         orientation = self.form.orientation.currentText()
         if orientation == "Horizontal":
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/StraightRebarH.svg"))
             self.form.r_sideCoverLabel.setText("Right Side Cover")
             self.form.l_sideCoverLabel.setText("Left Side Cover")
             self.form.coverAlong.clear()
             self.form.coverAlong.addItems(["Bottom Side", "Top Side"])
         else:
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/StraightRebarV.svg"))
             self.form.r_sideCoverLabel.setText("Top Side Cover")
             self.form.l_sideCoverLabel.setText("Bottom Side Cover")
             self.form.coverAlong.clear()
