@@ -199,7 +199,7 @@ def makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFact
     StructurePRM = getTrueParametersOfStructure(structure)
     FacePRM = getParametersOfFace(structure, facename, False)
     FaceNormal = face.normalAt(0,0)
-    FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)
+    #FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)
     if not FacePRM:
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
