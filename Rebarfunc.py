@@ -143,7 +143,7 @@ def getParametersOfFace(structure, facename, sketch = True):
             else:
                 # Checks whether similar edges is already present in Edges list
                 # or not.
-                if (vec(edge)).Length not in [(vec(x)).Length for x in Edges]:
+                if round((vec(edge)).Length) not in [round((vec(x)).Length) for x in Edges]:
                     Edges.append(edge)
         if len(Edges) == 1:
             Edges.append(edge)
@@ -152,24 +152,24 @@ def getParametersOfFace(structure, facename, sketch = True):
         # Find the orientation of the face. Also eliminating normal axes
         # to the edge/face.
         # When edge is parallel to x-axis
-        if Edges[0].tangentAt(0)[0] in {1,-1}:
+        if round(Edges[0].tangentAt(0)[0]) in {1,-1}:
             x = center_of_mass[0]
-            if Edges[1].tangentAt(0)[1] in {1, -1}:
+            if round(Edges[1].tangentAt(0)[1]) in {1, -1}:
                 y = center_of_mass[1]
             else:
                 y = center_of_mass[2]
         # When edge is parallel to y-axis
-        elif Edges[0].tangentAt(0)[1] in {1,-1}:
+        elif round(Edges[0].tangentAt(0)[1]) in {1,-1}:
             x = center_of_mass[1]
-            if Edges[1].tangentAt(0)[0] in {1, -1}:
+            if round(Edges[1].tangentAt(0)[0]) in {1, -1}:
                 # Change order when edge along x-axis is at second place.
                 facePRM.reverse()
                 y = center_of_mass[1]
             else:
                 y = center_of_mass[2]
-        elif Edges[0].tangentAt(0)[2] in {1,-1}:
+        elif round(Edges[0].tangentAt(0)[2]) in {1,-1}:
             y = center_of_mass[2]
-            if Edges[1].tangentAt(0)[0] in {1, -1}:
+            if round(Edges[1].tangentAt(0)[0]) in {1, -1}:
                 x = center_of_mass[0]
             else:
                 x = center_of_mass[1]

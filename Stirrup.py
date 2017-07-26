@@ -275,7 +275,7 @@ def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, b
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, facename, False)
     FaceNormal = face.normalAt(0, 0)
-    FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)
+    #FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)
     # Calculate the coordinates value of U-Shape rebar
     points = getpointsOfStirrup(FacePRM, l_cover, r_cover, t_cover, b_cover, bentAngle, bentFactor, diameter, rounding, FaceNormal)
     Rebar.Base.Points = points
