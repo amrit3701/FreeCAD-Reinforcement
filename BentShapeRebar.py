@@ -143,8 +143,7 @@ class _BentShapeRebarTaskPanel:
         t_cover = FreeCAD.Units.Quantity(t_cover).Value
         bentLength = self.form.bentLength.text()
         bentLength = FreeCAD.Units.Quantity(bentLength).Value
-        bentAngle = self.form.bentAngle.text()
-        bentAngle = FreeCAD.Units.Quantity(bentAngle).Value
+        bentAngle = self.form.bentAngle.value()
         diameter = self.form.diameter.text()
         diameter = FreeCAD.Units.Quantity(diameter).Value
         rounding = self.form.rounding.value()
@@ -321,7 +320,7 @@ def editDialog(vobj):
     obj.form.diameter.setText(str(vobj.Object.Diameter))
     obj.form.topCover.setText(str(vobj.Object.TopCover))
     obj.form.bentLength.setText(str(vobj.Object.BentLength))
-    obj.form.bentAngle.setText(str(vobj.Object.BentAngle))
+    obj.form.bentAngle.setValue(vobj.Object.BentAngle)
     obj.form.rounding.setValue(vobj.Object.Rounding)
     obj.form.orientation.setCurrentIndex(obj.form.orientation.findText(str(vobj.Object.Orientation)))
     if vobj.Object.AmountCheck:

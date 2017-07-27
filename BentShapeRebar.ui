@@ -23,6 +23,13 @@
    <bool>false</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="7" column="0">
+    <widget class="QLabel" name="PickSelectedFaceLabel">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
    <item row="8" column="0" alignment="Qt::AlignHCenter">
     <widget class="QPushButton" name="PickSelectedFace">
      <property name="text">
@@ -40,13 +47,6 @@
      </property>
      <property name="text">
       <string>Fill all the values</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="PickSelectedFaceLabel">
-     <property name="text">
-      <string/>
      </property>
     </widget>
    </item>
@@ -232,7 +232,7 @@
      <item row="6" column="0">
       <widget class="QLabel" name="bentLengthLabel">
        <property name="text">
-        <string>Bent Length</string>
+        <string>Anchor Length</string>
        </property>
       </widget>
      </item>
@@ -253,20 +253,20 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
-      <widget class="Gui::InputField" name="bentAngle">
-       <property name="text">
-        <string>135</string>
-       </property>
-       <property name="unit" stdset="0">
-        <string notr="true"/>
-       </property>
-      </widget>
-     </item>
      <item row="8" column="1">
       <widget class="Gui::PrefSpinBox" name="rounding">
        <property name="value">
         <number>2</number>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="Gui::PrefSpinBox" name="bentAngle">
+       <property name="maximum">
+        <number>179</number>
+       </property>
+       <property name="value">
+        <number>135</number>
        </property>
       </widget>
      </item>
