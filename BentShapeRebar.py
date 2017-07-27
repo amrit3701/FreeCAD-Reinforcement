@@ -157,7 +157,7 @@ class _BentShapeRebarTaskPanel:
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName, orientation)
+                makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
         else:
             if amount_check:
                 amount = self.form.amount.value()

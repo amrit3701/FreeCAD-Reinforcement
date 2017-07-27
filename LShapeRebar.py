@@ -133,7 +133,7 @@ class _LShapeRebarTaskPanel:
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                makeLShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName, orientation)
+                makeLShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
         else:
             if amount_check:
                 amount = self.form.amount.value()
