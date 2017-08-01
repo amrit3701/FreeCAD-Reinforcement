@@ -41,7 +41,7 @@ class PopUpImage(QtGui.QDialog):
         self.verticalLayout.addWidget(self.image)
 
 def showPopUpImageDialog(img):
-   """ showPopUpImageDialog(image): This function will show a given image in a pop-up
-   dialog box."""
-    ui = PopUpImage(img)
-    ui.exec_()
+    """ showPopUpImageDialog(image): This function will show a given image in a pop-up
+    dialog box."""
+    dialog = PopUpImage(img)
+    dialog.exec_()
