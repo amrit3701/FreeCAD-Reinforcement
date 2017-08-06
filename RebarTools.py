@@ -83,8 +83,6 @@ class LShapeRebarTool:
         # Call to CommandUShaepRebar() function
         LShapeRebar.CommandLShapeRebar()
 
-
-
 class StirrupTool:
 
     def GetResources(self):
@@ -121,12 +119,30 @@ class BentShapeRebarTool:
         # Call to CommandBentShaepRebar() function
         BentShapeRebar.CommandBentShapeRebar()
 
+class CircularStirrupTool:
+
+    def GetResources(self):
+        return {'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/StirrupRebar.svg',
+                'MenuText': QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Circular Stirrup"),
+                'ToolTip' : QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Creates a Stirrup bar reinforcement from the selected face of the Structural element.")}
+
+    def IsActive(self):
+        if FreeCADGui.ActiveDocument:
+            return True
+        else:
+            return False
+
+    def Activated(self):
+        import CircularStirrup
+        # Call to CommandStirrup() function
+        CircularStirrup.CommandCircularStirrup()
 
 FreeCADGui.addCommand('Arch_Rebar_Straight', StraightRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_UShape', UShapeRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_LShape', LShapeRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_Stirrup', StirrupTool())
 FreeCADGui.addCommand('Arch_Rebar_BentShape', BentShapeRebarTool())
+FreeCADGui.addCommand('Arch_Rebar_CircularStirrup', CircularStirrupTool())
 
 # List of all rebar commands
-RebarCommands = ["Arch_Rebar_Straight", "Arch_Rebar_UShape", "Arch_Rebar_LShape", "Arch_Rebar_Stirrup", "Arch_Rebar_BentShape"]
+RebarCommands = ["Arch_Rebar_Straight", "Arch_Rebar_UShape", "Arch_Rebar_LShape", "Arch_Rebar_Stirrup", "Arch_Rebar_BentShape", "Arch_Rebar_CircularStirrup"]

@@ -51,23 +51,27 @@ def getpointsOfCircularStirrup(FacePRM, s_cover, b_cover, t_cover, pitch, edges,
     R = diameter / 2 - dx
     R = FacePRM[0][0] / 2 - s_cover
     points = []
-    if direction[2] == 1:
-        z = 0#b_cover
+    if direction[2] in {-1,1}:
+        z = pitch
         l = 0
-        zz = - t_cover
+        if direction[2] == 1:
+            zz = FacePRM[1][2] - t_cover
+        elif direction[2] == -1:
+            zz = FacePRM[1][2] + b_cover
         count = 0
-        print "abs ", abs(size - b_cover - t_cover)
-        while (z < abs(size - b_cover - t_cover)):
-
-            print "z: ", z
+        while (round(z) <= abs(size - b_cover - t_cover)):
             for i in range(0, int(edges)):
                 iAngle = i * (2 * math.pi) / edges
-                x =  R * math.cos(iAngle)
-                y =  R * math.sin(iAngle)
+                x =  FacePRM[1][0] + R * math.cos(iAngle)
+                y =  FacePRM[1][1] + R * math.sin(iAngle)
                 points.append(FreeCAD.Vector(x, y, zz))
                 count += 1
-                zz -= dz
+                if direction[2] == 1:
+                    zz -= dz
+                elif direction[2] == -1:
+                    zz += dz
                 z += dz
+    #print "points: ", points
     return points
 
 class _CircularStirrupTaskPanel:
@@ -160,7 +164,7 @@ def editCircularStirrup(Rebar, s_cover, b_cover, diameter, t_cover, pitch, edges
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
     StructurePRM = getTrueParametersOfStructure(structure)
     # Get parameters of the face where sketch of rebar is drawn
-    FacePRM = getParametersOfFace(structure, facename)
+    FacePRM = getParametersOfFace(structure, facename, False)
     size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
     normal = face.normalAt(0,0)
     normal = face.Placement.Rotation.inverted().multVec(normal)
