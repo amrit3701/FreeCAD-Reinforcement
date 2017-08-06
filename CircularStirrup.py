@@ -45,25 +45,30 @@ def getpointsOfCircularStirrup(FacePRM, s_cover, b_cover, t_cover, pitch, edges,
     #spacing = 150
     #segment = 8*2
     #numCircular = h_col / spacing
-    print FacePRM
     dx = s_cover + diameter / 2
     dz = float(pitch) / edges
     R = diameter / 2 - dx
     R = FacePRM[0][0] / 2 - s_cover
     points = []
     if direction[2] in {-1,1}:
-        z = pitch
+        z = 0
         l = 0
         if direction[2] == 1:
             zz = FacePRM[1][2] - t_cover
         elif direction[2] == -1:
             zz = FacePRM[1][2] + b_cover
         count = 0
-        while (round(z) <= abs(size - b_cover - t_cover)):
-            for i in range(0, int(edges)):
-                iAngle = i * (2 * math.pi) / edges
-                x =  FacePRM[1][0] + R * math.cos(iAngle)
-                y =  FacePRM[1][1] + R * math.sin(iAngle)
+        flag = False
+        while (round(z) < abs(size - b_cover - t_cover)):
+            for i in range(0, int(edges) + 1):
+                if not i and flag:
+                    continue
+                if not flag:
+                    z -= dz
+                    flag = True
+                iAngle = i * 360 / edges
+                x =  FacePRM[1][0] + R * math.cos(math.radians(iAngle))
+                y =  FacePRM[1][1] + R * math.sin(math.radians(iAngle))
                 points.append(FreeCAD.Vector(x, y, zz))
                 count += 1
                 if direction[2] == 1:
@@ -71,7 +76,6 @@ def getpointsOfCircularStirrup(FacePRM, s_cover, b_cover, t_cover, pitch, edges,
                 elif direction[2] == -1:
                     zz += dz
                 z += dz
-    #print "points: ", points
     return points
 
 class _CircularStirrupTaskPanel:
