@@ -128,9 +128,13 @@ class _BentShapeRebarTaskPanel:
         #    self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarTL.svg"))
 
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)
+        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Apply) | int(QtGui.QDialogButtonBox.Cancel)
 
-    def accept(self):
+    def clicked(self, button):
+        if button == int(QtGui.QDialogButtonBox.Apply):
+            self.accept(button)
+
+    def accept(self, signal = None):
         f_cover = self.form.frontCover.text()
         f_cover = FreeCAD.Units.Quantity(f_cover).Value
         b_cover = self.form.bottomCover.text()
@@ -153,20 +157,24 @@ class _BentShapeRebarTaskPanel:
         if not self.Rebar:
             if amount_check:
                 amount = self.form.amount.value()
-                makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
+                rebar = makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
+                rebar = makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
         else:
             if amount_check:
                 amount = self.form.amount.value()
-                editBentShapeRebar(self.Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
+                rebar = editBentShapeRebar(self.Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                editBentShapeRebar(self.Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
-        FreeCADGui.Control.closeDialog(self)
+                rebar = editBentShapeRebar(self.Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
+        self.Rebar = rebar
+        if signal == int(QtGui.QDialogButtonBox.Apply):
+            pass
+        else:
+            FreeCADGui.Control.closeDialog(self)
 
     def amount_radio_clicked(self):
         self.form.spacing.setEnabled(False)
@@ -307,6 +315,7 @@ def editBentShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_co
     Rebar.TrueSpacing = amount_spacing_value
     Rebar.Orientation = orientation
     FreeCAD.ActiveDocument.recompute()
+    return Rebar
 
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()

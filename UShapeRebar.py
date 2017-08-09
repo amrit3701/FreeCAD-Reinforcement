@@ -108,9 +108,13 @@ class _UShapeRebarTaskPanel:
             self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarLeft.svg"))
 
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)
+        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Apply) | int(QtGui.QDialogButtonBox.Cancel)
 
-    def accept(self):
+    def clicked(self, button):
+        if button == int(QtGui.QDialogButtonBox.Apply):
+            self.accept(button)
+
+    def accept(self, signal = None):
         f_cover = self.form.frontCover.text()
         f_cover = FreeCAD.Units.Quantity(f_cover).Value
         b_cover = self.form.bottomCover.text()
@@ -127,23 +131,28 @@ class _UShapeRebarTaskPanel:
         orientation = self.form.orientation.currentText()
         amount_check = self.form.amount_radio.isChecked()
         spacing_check = self.form.spacing_radio.isChecked()
+        print self.Rebar
         if not self.Rebar:
             if amount_check:
                 amount = self.form.amount.value()
-                makeUShapeRebar(f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
+                rebar = makeUShapeRebar(f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                makeUShapeRebar(f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
+                rebar = makeUShapeRebar(f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
         else:
             if amount_check:
                 amount = self.form.amount.value()
-                editUShapeRebar(self.Rebar, f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
+                rebar = editUShapeRebar(self.Rebar, f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                editUShapeRebar(self.Rebar, f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
-        FreeCADGui.Control.closeDialog(self)
+                rebar = editUShapeRebar(self.Rebar, f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
+        self.Rebar = rebar
+        if signal == int(QtGui.QDialogButtonBox.Apply):
+            pass
+        else:
+            FreeCADGui.Control.closeDialog(self)
 
     def amount_radio_clicked(self):
         self.form.spacing.setEnabled(False)
@@ -157,6 +166,7 @@ class _UShapeRebarTaskPanel:
 def makeUShapeRebar(f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, orientation = "Bottom", structure = None, facename = None):
     """ makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
     Adds the U-Shape reinforcement bar to the selected structural object."""
+    print "make is working !!!\n"
     if not structure and not facename:
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
         structure = selected_obj.Object
@@ -265,6 +275,7 @@ def editUShapeRebar(Rebar, f_cover, b_cover, r_cover, l_cover, diameter, t_cover
     Rebar.TrueSpacing = amount_spacing_value
     Rebar.Orientation = orientation
     FreeCAD.ActiveDocument.recompute()
+    return Rebar
 
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()

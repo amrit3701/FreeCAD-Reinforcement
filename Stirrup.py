@@ -135,9 +135,13 @@ class _StirrupTaskPanel:
         self.FaceName = None
 
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)
+        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Apply) | int(QtGui.QDialogButtonBox.Cancel)
 
-    def accept(self):
+    def clicked(self, button):
+        if button == int(QtGui.QDialogButtonBox.Apply):
+            self.accept(button)
+
+    def accept(self, signal = None):
         l_cover = self.form.l_sideCover.text()
         l_cover = FreeCAD.Units.Quantity(l_cover).Value
         r_cover = self.form.r_sideCover.text()
@@ -158,24 +162,28 @@ class _StirrupTaskPanel:
         if not self.Rebar:
             if amount_check:
                 amount = self.form.amount.value()
-                makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor, diameter,\
+                rebar = makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor, diameter,\
                     rounding, True, amount, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor, diameter,\
+                rebar = makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor, diameter,\
                     rounding, False, spacing, self.SelectedObj, self.FaceName)
         else:
             if amount_check:
                 amount = self.form.amount.value()
-                editStirrup(self.Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor,\
+                rebar = editStirrup(self.Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor,\
                     diameter, rounding, True, amount, self.SelectedObj, self.FaceName)
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                editStirrup(self.Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor,\
+                rebar = editStirrup(self.Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor,\
                     diameter, rounding, False, spacing, self.SelectedObj, self.FaceName)
-        FreeCADGui.Control.closeDialog(self)
+        self.Rebar = rebar
+        if signal == int(QtGui.QDialogButtonBox.Apply):
+            pass
+        else:
+            FreeCADGui.Control.closeDialog(self)
 
     def amount_radio_clicked(self):
         self.form.spacing.setEnabled(False)
@@ -303,6 +311,7 @@ def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, b
     Rebar.BottomCover = b_cover
     Rebar.TrueSpacing = amount_spacing_value
     FreeCAD.ActiveDocument.recompute()
+    return Rebar
 
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()

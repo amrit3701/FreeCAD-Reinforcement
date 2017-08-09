@@ -91,9 +91,13 @@ class _CircularStirrupTaskPanel:
         self.FaceName = None
 
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)
+        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Apply) | int(QtGui.QDialogButtonBox.Cancel)
 
-    def accept(self):
+    def clicked(self, button):
+        if button == int(QtGui.QDialogButtonBox.Apply):
+            self.accept(button)
+
+    def accept(self, signal = None):
         b_cover = self.form.bottomCover.text()
         b_cover = FreeCAD.Units.Quantity(b_cover).Value
         s_cover = self.form.sideCover.text()
@@ -107,10 +111,16 @@ class _CircularStirrupTaskPanel:
         diameter = self.form.diameter.text()
         diameter = FreeCAD.Units.Quantity(diameter).Value
         if not self.Rebar:
-            makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, edges, self.SelectedObj, self.FaceName)
+            rebar = makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, edges, self.SelectedObj, self.FaceName)
         else:
-            editCircularStirrup(self.Rebar, s_cover, b_cover, diameter, t_cover, pitch, edges, self.SelectedObj, self.FaceName)
-        FreeCADGui.Control.closeDialog(self)
+            rebar = editCircularStirrup(self.Rebar, s_cover, b_cover, diameter, t_cover, pitch, edges, self.SelectedObj, self.FaceName)
+        self.Rebar = rebar
+        if signal == int(QtGui.QDialogButtonBox.Apply):
+            pass
+        else:
+            FreeCADGui.Control.closeDialog(self)
+
+
 
 def makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, edges, structure = None, facename = None):
     """ makeCircularStirrup(f_cover, b_cover, s_cover, diameter, t_cover, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
@@ -122,7 +132,6 @@ def makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, edges, struc
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
     StructurePRM = getTrueParametersOfStructure(structure)
     FacePRM = getParametersOfFace(structure, facename, False)
-    print FacePRM
     if not FacePRM:
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
@@ -183,6 +192,7 @@ def editCircularStirrup(Rebar, s_cover, b_cover, diameter, t_cover, pitch, edges
     Rebar.Edges = int(edges)
     #Rebar.Orientation = orientation
     FreeCAD.ActiveDocument.recompute()
+    return Rebar
 
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
