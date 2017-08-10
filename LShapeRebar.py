@@ -257,6 +257,7 @@ def editLShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover
         Rebar.Amount = int((size - diameter) / amount_spacing_value)
         FreeCAD.ActiveDocument.recompute()
         Rebar.AmountCheck = False
+    Rebar.Diameter = diameter
     Rebar.FrontCover = f_cover
     Rebar.LeftCover = l_cover
     Rebar.RightCover = r_cover

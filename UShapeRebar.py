@@ -131,7 +131,6 @@ class _UShapeRebarTaskPanel:
         orientation = self.form.orientation.currentText()
         amount_check = self.form.amount_radio.isChecked()
         spacing_check = self.form.spacing_radio.isChecked()
-        print self.Rebar
         if not self.Rebar:
             if amount_check:
                 amount = self.form.amount.value()
@@ -166,7 +165,6 @@ class _UShapeRebarTaskPanel:
 def makeUShapeRebar(f_cover, b_cover, r_cover, l_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, orientation = "Bottom", structure = None, facename = None):
     """ makeUShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
     Adds the U-Shape reinforcement bar to the selected structural object."""
-    print "make is working !!!\n"
     if not structure and not facename:
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
         structure = selected_obj.Object
@@ -266,6 +264,7 @@ def editUShapeRebar(Rebar, f_cover, b_cover, r_cover, l_cover, diameter, t_cover
         Rebar.Amount = int((size - diameter) / amount_spacing_value)
         FreeCAD.ActiveDocument.recompute()
         Rebar.AmountCheck = False
+    Rebar.Diameter = diameter
     Rebar.FrontCover = f_cover
     Rebar.RightCover = r_cover
     Rebar.LeftCover = l_cover
