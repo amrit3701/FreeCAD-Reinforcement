@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>283</width>
-    <height>349</height>
+    <width>245</width>
+    <height>281</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,35 +23,38 @@
    <bool>false</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="5" column="0" rowspan="3">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <property name="spacing">
-      <number>6</number>
+   <item row="1" column="0">
+    <widget class="QLabel" name="heading">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
      </property>
-     <property name="topMargin">
-      <number>0</number>
+     <property name="text">
+      <string>Fill all the values</string>
      </property>
-     <item>
-      <widget class="QPushButton" name="customSpacing">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="text">
-        <string>Custom Spacing</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="removeCustomSpacing">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="text">
-        <string>Remove Spacing</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="PickSelectedFaceLabel">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0" alignment="Qt::AlignHCenter">
+    <widget class="QPushButton" name="PickSelectedFace">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="text">
+      <string>Pick Selected Face</string>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+    </widget>
    </item>
    <item row="0" column="0" alignment="Qt::AlignHCenter">
     <widget class="QLabel" name="image">
@@ -66,39 +69,6 @@
      </property>
      <property name="text">
       <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="heading">
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Fill all the values</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0">
-    <widget class="QLabel" name="PickSelectedFaceLabel">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="0" alignment="Qt::AlignHCenter">
-    <widget class="QPushButton" name="PickSelectedFace">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="text">
-      <string>Pick Selected Face</string>
-     </property>
-     <property name="checkable">
-      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -117,7 +87,7 @@
      <item row="0" column="1">
       <widget class="Gui::InputField" name="sideCover">
        <property name="text">
-        <string>20</string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -134,7 +104,7 @@
      <item row="1" column="1">
       <widget class="Gui::InputField" name="topCover">
        <property name="text">
-        <string>20</string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -151,7 +121,7 @@
      <item row="2" column="1">
       <widget class="Gui::InputField" name="bottomCover">
        <property name="text">
-        <string>20</string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -168,7 +138,7 @@
      <item row="3" column="1">
       <widget class="Gui::InputField" name="pitch">
        <property name="text">
-        <string>30</string>
+        <string>50 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -176,30 +146,16 @@
       </widget>
      </item>
      <item row="4" column="0">
-      <widget class="QLabel" name="edgesLabel">
-       <property name="text">
-        <string>Edges</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="Gui::PrefSpinBox" name="edges">
-       <property name="value">
-        <number>8</number>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
       <widget class="QLabel" name="diameterLabel">
        <property name="text">
         <string>Diameter</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
+     <item row="4" column="1">
       <widget class="Gui::InputField" name="diameter">
        <property name="text">
-        <string>8</string>
+        <string>8 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -216,21 +172,13 @@
    <extends>QLineEdit</extends>
    <header>Gui/InputField.h</header>
   </customwidget>
-  <customwidget>
-   <class>Gui::PrefSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>Gui/PrefWidgets.h</header>
-  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>sideCover</tabstop>
   <tabstop>topCover</tabstop>
   <tabstop>bottomCover</tabstop>
   <tabstop>pitch</tabstop>
-  <tabstop>edges</tabstop>
   <tabstop>diameter</tabstop>
-  <tabstop>customSpacing</tabstop>
-  <tabstop>removeCustomSpacing</tabstop>
   <tabstop>PickSelectedFace</tabstop>
  </tabstops>
  <resources/>

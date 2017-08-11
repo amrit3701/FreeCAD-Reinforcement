@@ -78,6 +78,16 @@ def getFaceNumber(s):
     tail = s[len(head):]
     return int(tail)
 
+def facenormalDirection(structure = None, facename = None):
+    if not structure and not facename:
+        selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
+        structure = selected_obj.Object
+        facename = selected_obj.SubElementNames[0]
+    face = structure.Shape.Faces[getFaceNumber(facename) - 1]
+    normal = face.normalAt(0,0)
+    normal = face.Placement.Rotation.inverted().multVec(normal)
+    return normal
+
 # --------------------------------------------------------------------------
 # Main functions which is use while creating any rebar.
 # --------------------------------------------------------------------------
@@ -137,6 +147,7 @@ def getParametersOfFace(structure, facename, sketch = True):
     # When structure is cubic. It support all structure is derived from
     # any other object (like a sketch, wire etc).
     if isCubic(structure.Shape):
+        print 423
         for edge in face.Edges:
             if not Edges:
                 Edges.append(edge)
@@ -182,7 +193,7 @@ def getParametersOfFace(structure, facename, sketch = True):
         boundbox = face.BoundBox
         # Check that one length of bounding box is zero. Here bounding box
         # looks like a plane.
-        if 0 in {boundbox.XLength, boundbox.YLength, boundbox.ZLength}:
+        if 0 in {round(boundbox.XLength), round(boundbox.YLength), round(boundbox.ZLength)}:
             normal = face.normalAt(0,0)
             normal = face.Placement.Rotation.inverted().multVec(normal)
             #print "x: ", boundbox.XLength

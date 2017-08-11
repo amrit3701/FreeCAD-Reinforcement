@@ -28,16 +28,12 @@ __url__ = "https://www.freecadweb.org"
 from PySide import QtCore, QtGui
 from Rebarfunc import *
 from PySide.QtCore import QT_TRANSLATE_NOOP
-from RebarDistribution import runRebarDistribution, removeRebarDistribution
 import FreeCAD
 import FreeCADGui
 import ArchCommands
 import os
 import sys
 import math
-
-#def getsubEleCoordinatesCircularStirrup(angel, edges, b_cover, t_cover, size, direction):
-#    if direction
 
 def getpointsOfCircularStirrup(FacePRM, s_cover, b_cover, t_cover, pitch, edges, diameter, size, direction):
     """ getpointsOfCircularStirrup(FacePRM, s_cover, b_cover, t_cover):
@@ -78,13 +74,48 @@ def getpointsOfCircularStirrup(FacePRM, s_cover, b_cover, t_cover, pitch, edges,
                 z += dz
     return points
 
+def createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, direction, helix = None):
+    import Part
+    if not helix:
+        helix = FreeCAD.ActiveDocument.addObject("Part::Helix","Helix")
+    helix.Pitch = pitch
+    helix.Radius = FacePRM[0][0] / 2 - s_cover
+    helix.Angle = 0
+    helix.LocalCoord = 0
+    helix.Height = size - b_cover - t_cover
+    if round(direction.x) == 1:
+        helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0] - b_cover, FacePRM[1][1], FacePRM[1][2])
+        helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, -1, 0), 90)
+    elif round(direction.x) == -1:
+        helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0] + t_cover, FacePRM[1][1], FacePRM[1][2])
+        helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, -1, 0), -90)
+    elif round(direction.y) == 1:
+        helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1] - b_cover, FacePRM[1][2])
+        helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(1, 0, 0), 90)
+    elif round(direction.y) == -1:
+        helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1] + t_cover, FacePRM[1][2])
+        helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(-1, 0, 0), 90)
+    elif round(direction.z) == 1:
+        helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1], FacePRM[1][2] - size + b_cover)
+        helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, 0, 1), 0)
+    elif round(direction.z) == -1:
+        helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1], FacePRM[1][2] + b_cover)
+        helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, 0, -1), 0)
+    FreeCAD.ActiveDocument.recompute()
+    return helix
+
 class _CircularStirrupTaskPanel:
     def __init__(self, Rebar = None):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Circular Stirrup Rebar", None))
-        self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(Rebar))
-        self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(Rebar))
-        self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
+        if not Rebar:
+            normal = facenormalDirection()
+        else:
+            normal = facenormalDirection(Rebar.Base.Support[0][0], Rebar.Base.Support[0][1][0])
+        if not round(normal.z) in {1, -1}:
+            self.form.topCoverLabel.setText(translate("RebarAddon", "Left Cover"))
+            self.form.bottomCoverLabel.setText(translate("RebarAddon", "Right Cover"))
+        self.form.PickSelectedFace.clicked.connect(self.getSelectedFace)
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/CircularStirrupBR.svg"))
         self.Rebar = Rebar
         self.SelectedObj = None
@@ -97,6 +128,17 @@ class _CircularStirrupTaskPanel:
         if button == int(QtGui.QDialogButtonBox.Apply):
             self.accept(button)
 
+    def getSelectedFace(self):
+        getSelectedFace(self)
+        normal = facenormalDirection()
+        if not round(normal.z) in {1, -1}:
+            self.form.topCoverLabel.setText(translate("RebarAddon", "Left Cover"))
+            self.form.bottomCoverLabel.setText(translate("RebarAddon", "Right Cover"))
+        else:
+            self.form.topCoverLabel.setText(translate("RebarAddon", "Top Cover"))
+            self.form.bottomCoverLabel.setText(translate("RebarAddon", "Bottom Cover"))
+
+
     def accept(self, signal = None):
         b_cover = self.form.bottomCover.text()
         b_cover = FreeCAD.Units.Quantity(b_cover).Value
@@ -106,23 +148,19 @@ class _CircularStirrupTaskPanel:
         t_cover = FreeCAD.Units.Quantity(t_cover).Value
         pitch = self.form.pitch.text()
         pitch = FreeCAD.Units.Quantity(pitch).Value
-        edges = self.form.edges.text()
-        edges = FreeCAD.Units.Quantity(edges).Value
         diameter = self.form.diameter.text()
         diameter = FreeCAD.Units.Quantity(diameter).Value
         if not self.Rebar:
-            rebar = makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, edges, self.SelectedObj, self.FaceName)
+            rebar = makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, self.SelectedObj, self.FaceName)
         else:
-            rebar = editCircularStirrup(self.Rebar, s_cover, b_cover, diameter, t_cover, pitch, edges, self.SelectedObj, self.FaceName)
+            rebar = editCircularStirrup(self.Rebar, s_cover, b_cover, diameter, t_cover, pitch, self.SelectedObj, self.FaceName)
         self.Rebar = rebar
         if signal == int(QtGui.QDialogButtonBox.Apply):
             pass
         else:
             FreeCADGui.Control.closeDialog(self)
 
-
-
-def makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, edges, structure = None, facename = None):
+def makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, structure = None, facename = None):
     """ makeCircularStirrup(f_cover, b_cover, s_cover, diameter, t_cover, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
     Adds the L-Shape reinforcement bar to the selected structural object."""
     if not structure and not facename:
@@ -137,14 +175,14 @@ def makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, edges, struc
         return
     size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
     normal = face.normalAt(0,0)
-    normal = face.Placement.Rotation.inverted().multVec(normal)
+    #normal = face.Placement.Rotation.inverted().multVec(normal)
     # Get points of L-Shape rebar
-    points = getpointsOfCircularStirrup(FacePRM, s_cover, b_cover, t_cover, pitch, edges, diameter, size, normal)
     import Arch
-    import Draft
-    wire = Draft.makeWire(points,closed=False,face=True,support=None)
-    wire.Support = [(structure, facename)]
-    rebar = Arch.makeRebar(structure, wire, diameter, 1, 0)
+    helix = createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, normal)
+    helix.Support = [(structure, facename)]
+    rebar = Arch.makeRebar(structure, helix, diameter, 1, 0)
+    rebar.OffsetStart = 0
+    rebar.OffsetEnd = 0
     FreeCAD.ActiveDocument.recompute()
     # Adds properties to the rebar object
     rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).RebarShape = "CircularStirrup"
@@ -153,8 +191,6 @@ def makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, edges, struc
     rebar.setEditorMode("SideCover", 2)
     rebar.addProperty("App::PropertyDistance", "Pitch", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Left Side cover of rebar")).Pitch = pitch
     rebar.setEditorMode("Pitch", 2)
-    rebar.addProperty("App::PropertyInteger", "Edges", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Right Side cover of rebar")).Edges = int(edges)
-    rebar.setEditorMode("Edges", 2)
     rebar.addProperty("App::PropertyDistance", "BottomCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Bottom cover of rebar")).BottomCover = b_cover
     rebar.setEditorMode("BottomCover", 2)
     rebar.addProperty("App::PropertyDistance", "TopCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Top cover of rebar")).TopCover = t_cover
@@ -163,7 +199,7 @@ def makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, edges, struc
     FreeCAD.ActiveDocument.recompute()
     return rebar
 
-def editCircularStirrup(Rebar, s_cover, b_cover, diameter, t_cover, pitch, edges, structure = None, facename = None):
+def editCircularStirrup(Rebar, s_cover, b_cover, diameter, t_cover, pitch, structure = None, facename = None):
     sketch = Rebar.Base
     if structure and facename:
         sketch.Support = [(structure, facename)]
@@ -180,17 +216,14 @@ def editCircularStirrup(Rebar, s_cover, b_cover, diameter, t_cover, pitch, edges
     FacePRM = getParametersOfFace(structure, facename, False)
     size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
     normal = face.normalAt(0,0)
-    normal = face.Placement.Rotation.inverted().multVec(normal)
-    # Get points of L-Shape rebar
-    points = getpointsOfCircularStirrup(FacePRM, s_cover, b_cover, t_cover, pitch, edges, diameter, size, normal)
-    Rebar.Base.Points = points
+    #normal = face.Placement.Rotation.inverted().multVec(normal)
+    helix = createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, normal, Rebar.Base)
     FreeCAD.ActiveDocument.recompute()
+    Rebar.Diameter = diameter
     Rebar.SideCover = s_cover
     Rebar.BottomCover = b_cover
     Rebar.TopCover = t_cover
     Rebar.Pitch = pitch
-    Rebar.Edges = int(edges)
-    #Rebar.Orientation = orientation
     FreeCAD.ActiveDocument.recompute()
     return Rebar
 
@@ -201,9 +234,7 @@ def editDialog(vobj):
     obj.form.bottomCover.setText(str(vobj.Object.BottomCover))
     obj.form.diameter.setText(str(vobj.Object.Diameter))
     obj.form.topCover.setText(str(vobj.Object.TopCover))
-    obj.form.edges.setValue(vobj.Object.Edges)
     obj.form.pitch.setText(str(vobj.Object.Pitch))
-    #obj.form.orientation.setCurrentIndex(obj.form.orientation.findText(str(vobj.Object.Orientation)))
     FreeCADGui.Control.showDialog(obj)
 
 def CommandCircularStirrup():
