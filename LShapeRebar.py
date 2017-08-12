@@ -29,6 +29,7 @@ from PySide import QtCore, QtGui
 from Rebarfunc import *
 from PySide.QtCore import QT_TRANSLATE_NOOP
 from RebarDistribution import runRebarDistribution, removeRebarDistribution
+from PopUpImage import showPopUpImageDialog
 import FreeCAD
 import FreeCADGui
 import ArchCommands
@@ -91,6 +92,7 @@ class _LShapeRebarTaskPanel:
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
         self.form.orientation.currentIndexChanged.connect(self.getOrientation)
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarBR.svg"))
+        self.form.toolButton.clicked.connect(lambda: showPopUpImageDialog(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarDetailed.svg"))
         self.Rebar = Rebar
         self.SelectedObj = None
         self.FaceName = None
