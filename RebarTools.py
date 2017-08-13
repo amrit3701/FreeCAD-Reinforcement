@@ -104,7 +104,7 @@ class StirrupTool:
 class BentShapeRebarTool:
 
     def GetResources(self):
-        return {#'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/LShapeRebar.svg',
+        return {'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/BentShapeRebar.svg',
                 'MenuText': QT_TRANSLATE_NOOP("Arch_Rebar_LShape", "Bent-Shape Rebar"),
                 'ToolTip' : QT_TRANSLATE_NOOP("Arch_Rebar_LShape", "Creates a BentShape bar reinforcement from the selected face of the Structural element.")}
 
@@ -122,7 +122,7 @@ class BentShapeRebarTool:
 class CircularStirrupTool:
 
     def GetResources(self):
-        return {'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/StirrupRebar.svg',
+        return {'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/HelixShapeRebar.svg',
                 'MenuText': QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Circular Stirrup"),
                 'ToolTip' : QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Creates a Stirrup bar reinforcement from the selected face of the Structural element.")}
 
