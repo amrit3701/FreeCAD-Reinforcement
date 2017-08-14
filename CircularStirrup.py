@@ -117,6 +117,7 @@ class _CircularStirrupTaskPanel:
             self.form.bottomCoverLabel.setText(translate("RebarAddon", "Right Cover"))
         self.form.PickSelectedFace.clicked.connect(self.getSelectedFace)
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/CircularStirrupBR.svg"))
+        #self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(QtGui.QStyle.SP_DialogHelpButton))
         self.Rebar = Rebar
         self.SelectedObj = None
         self.FaceName = None

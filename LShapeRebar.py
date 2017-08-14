@@ -92,6 +92,7 @@ class _LShapeRebarTaskPanel:
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
         self.form.orientation.currentIndexChanged.connect(self.getOrientation)
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarBR.svg"))
+        self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(QtGui.QStyle.SP_DialogHelpButton))
         self.form.toolButton.clicked.connect(lambda: showPopUpImageDialog(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarDetailed.svg"))
         self.Rebar = Rebar
         self.SelectedObj = None
