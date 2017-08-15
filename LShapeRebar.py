@@ -172,7 +172,7 @@ def makeLShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, round
         structure = selected_obj.Object
         facename = selected_obj.SubElementNames[0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
-    StructurePRM = getTrueParametersOfStructure(structure)
+    #StructurePRM = getTrueParametersOfStructure(structure)
     FacePRM = getParametersOfFace(structure, facename)
     if not FacePRM:
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
@@ -236,7 +236,7 @@ def editLShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
-    StructurePRM = getTrueParametersOfStructure(structure)
+    #StructurePRM = getTrueParametersOfStructure(structure)
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, facename)
     # Get points of L-Shape rebar

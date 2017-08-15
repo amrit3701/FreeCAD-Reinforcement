@@ -169,7 +169,7 @@ def makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, structure = 
         structure = selected_obj.Object
         facename = selected_obj.SubElementNames[0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
-    StructurePRM = getTrueParametersOfStructure(structure)
+    #StructurePRM = getTrueParametersOfStructure(structure)
     FacePRM = getParametersOfFace(structure, facename, False)
     if not FacePRM:
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
@@ -212,7 +212,7 @@ def editCircularStirrup(Rebar, s_cover, b_cover, diameter, t_cover, pitch, struc
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
-    StructurePRM = getTrueParametersOfStructure(structure)
+    #StructurePRM = getTrueParametersOfStructure(structure)
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, facename, False)
     size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length

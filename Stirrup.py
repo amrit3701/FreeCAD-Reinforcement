@@ -207,7 +207,7 @@ def makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFact
         structure = selected_obj.Object
         facename = selected_obj.SubElementNames[0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
-    StructurePRM = getTrueParametersOfStructure(structure)
+    #StructurePRM = getTrueParametersOfStructure(structure)
     FacePRM = getParametersOfFace(structure, facename, False)
     FaceNormal = face.normalAt(0,0)
     #FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)
@@ -281,8 +281,7 @@ def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, b
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
-    StructurePRM = getTrueParametersOfStructure(structure)
-    #FreeCAD.Console.PrintMessage(str(StructurePRM)+"\n")
+    #StructurePRM = getTrueParametersOfStructure(structure)
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, facename, False)
     FaceNormal = face.normalAt(0, 0)
