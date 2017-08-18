@@ -108,7 +108,7 @@ def createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, direction
 class _CircularStirrupTaskPanel:
     def __init__(self, Rebar = None):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
-        self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Circular Stirrup Rebar", None))
+        self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Helical Rebar", None))
         if not Rebar:
             normal = facenormalDirection()
         else:
