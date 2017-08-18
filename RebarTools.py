@@ -119,12 +119,12 @@ class BentShapeRebarTool:
         # Call to CommandBentShaepRebar() function
         BentShapeRebar.CommandBentShapeRebar()
 
-class CircularStirrupTool:
+class HelicalRebarTool:
 
     def GetResources(self):
         return {'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/HelixShapeRebar.svg',
-                'MenuText': QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Circular Stirrup"),
-                'ToolTip' : QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Creates a Stirrup bar reinforcement from the selected face of the Structural element.")}
+                'MenuText': QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Helical Rebar"),
+                'ToolTip' : QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Creates a Helical bar reinforcement from the selected face of the Structural element.")}
 
     def IsActive(self):
         if FreeCADGui.ActiveDocument:
@@ -133,16 +133,16 @@ class CircularStirrupTool:
             return False
 
     def Activated(self):
-        import CircularStirrup
-        # Call to CommandStirrup() function
-        CircularStirrup.CommandCircularStirrup()
+        import HelicalRebar
+        # Call to CommandHelicalRebar() function
+        HelicalRebar.CommandHelicalRebar()
 
 FreeCADGui.addCommand('Arch_Rebar_Straight', StraightRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_UShape', UShapeRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_LShape', LShapeRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_Stirrup', StirrupTool())
 FreeCADGui.addCommand('Arch_Rebar_BentShape', BentShapeRebarTool())
-FreeCADGui.addCommand('Arch_Rebar_CircularStirrup', CircularStirrupTool())
+FreeCADGui.addCommand('Arch_Rebar_Helical', HelicalRebarTool())
 
 # List of all rebar commands
-RebarCommands = ["Arch_Rebar_Straight", "Arch_Rebar_UShape", "Arch_Rebar_LShape", "Arch_Rebar_Stirrup", "Arch_Rebar_BentShape", "Arch_Rebar_CircularStirrup"]
+RebarCommands = ["Arch_Rebar_Straight", "Arch_Rebar_UShape", "Arch_Rebar_LShape", "Arch_Rebar_Stirrup", "Arch_Rebar_BentShape", "Arch_Rebar_Helical"]

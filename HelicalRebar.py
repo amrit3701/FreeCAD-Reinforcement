@@ -21,7 +21,7 @@
 # *                                                                         *
 # ***************************************************************************
 
-__title__ = "CircularStirrup"
+__title__ = "HelicalRebar"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
@@ -36,8 +36,8 @@ import os
 import sys
 import math
 
-def getpointsOfCircularStirrup(FacePRM, s_cover, b_cover, t_cover, pitch, edges, diameter, size, direction):
-    """ getpointsOfCircularStirrup(FacePRM, s_cover, b_cover, t_cover):
+def getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover, pitch, edges, diameter, size, direction):
+    """ getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover):
     Return points of the LShape rebar in the form of array for sketch."""
     #spacing = 150
     #segment = 8*2
@@ -105,7 +105,7 @@ def createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, direction
     FreeCAD.ActiveDocument.recompute()
     return helix
 
-class _CircularStirrupTaskPanel:
+class _HelicalRebarTaskPanel:
     def __init__(self, Rebar = None):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Helical Rebar", None))
@@ -154,17 +154,17 @@ class _CircularStirrupTaskPanel:
         diameter = self.form.diameter.text()
         diameter = FreeCAD.Units.Quantity(diameter).Value
         if not self.Rebar:
-            rebar = makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, self.SelectedObj, self.FaceName)
+            rebar = makeHelicalRebar(s_cover, b_cover, diameter, t_cover, pitch, self.SelectedObj, self.FaceName)
         else:
-            rebar = editCircularStirrup(self.Rebar, s_cover, b_cover, diameter, t_cover, pitch, self.SelectedObj, self.FaceName)
+            rebar = editHelicalRebar(self.Rebar, s_cover, b_cover, diameter, t_cover, pitch, self.SelectedObj, self.FaceName)
         self.Rebar = rebar
         if signal == int(QtGui.QDialogButtonBox.Apply):
             pass
         else:
             FreeCADGui.Control.closeDialog(self)
 
-def makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, structure = None, facename = None):
-    """ makeCircularStirrup(f_cover, b_cover, s_cover, diameter, t_cover, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
+def makeHelicalRebar(s_cover, b_cover, diameter, t_cover, pitch, structure = None, facename = None):
+    """ makeHelicalRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
     Adds the L-Shape reinforcement bar to the selected structural object."""
     if not structure and not facename:
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
@@ -188,7 +188,7 @@ def makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, structure = 
     rebar.OffsetEnd = 0
     FreeCAD.ActiveDocument.recompute()
     # Adds properties to the rebar object
-    rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).RebarShape = "CircularStirrup"
+    rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).RebarShape = "HelicalRebar"
     rebar.ViewObject.setEditorMode("RebarShape", 2)
     rebar.addProperty("App::PropertyDistance", "SideCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Front cover of rebar")).SideCover = s_cover
     rebar.setEditorMode("SideCover", 2)
@@ -198,11 +198,11 @@ def makeCircularStirrup(s_cover, b_cover, diameter, t_cover, pitch, structure = 
     rebar.setEditorMode("BottomCover", 2)
     rebar.addProperty("App::PropertyDistance", "TopCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Top cover of rebar")).TopCover = t_cover
     rebar.setEditorMode("TopCover", 2)
-    rebar.Label = "CircularStirrup"
+    rebar.Label = "HelicalRebar"
     FreeCAD.ActiveDocument.recompute()
     return rebar
 
-def editCircularStirrup(Rebar, s_cover, b_cover, diameter, t_cover, pitch, structure = None, facename = None):
+def editHelicalRebar(Rebar, s_cover, b_cover, diameter, t_cover, pitch, structure = None, facename = None):
     sketch = Rebar.Base
     if structure and facename:
         sketch.Support = [(structure, facename)]
@@ -232,7 +232,7 @@ def editCircularStirrup(Rebar, s_cover, b_cover, diameter, t_cover, pitch, struc
 
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
-    obj = _CircularStirrupTaskPanel(vobj.Object)
+    obj = _HelicalRebarTaskPanel(vobj.Object)
     obj.form.sideCover.setText(str(vobj.Object.SideCover))
     obj.form.bottomCover.setText(str(vobj.Object.BottomCover))
     obj.form.diameter.setText(str(vobj.Object.Diameter))
@@ -240,7 +240,7 @@ def editDialog(vobj):
     obj.form.pitch.setText(str(vobj.Object.Pitch))
     FreeCADGui.Control.showDialog(obj)
 
-def CommandCircularStirrup():
+def CommandHelicalRebar():
     selected_obj = check_selected_face()
     if selected_obj:
-        FreeCADGui.Control.showDialog(_CircularStirrupTaskPanel())
+        FreeCADGui.Control.showDialog(_HelicalRebarTaskPanel())
