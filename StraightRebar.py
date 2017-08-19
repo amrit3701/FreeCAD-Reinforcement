@@ -38,8 +38,14 @@ import sys
 import math
 
 def getpointsOfStraightRebar(FacePRM, rt_cover, lb_cover, coverAlong, orientation):
-    """ getpointsOfStraightRebar(FacePRM, s_cover, b_cover):
-    Return points of the Straight rebar in the form of array for sketch."""
+    """ getpointsOfStraightRebar(FacePRM, RightTopcover, LeftBottomcover, CoverAlong, Orientation):
+    Return points of the Straight rebar in the form of array for sketch.
+
+    Case I: When Orientation is 'Horizontal':
+        We have two option in CoverAlong i.e. 'Bottom Side' or 'Top Side'
+    Case II: When Orientation is 'Vertical':
+        We have two option in CoverAlong i.e. 'Left Side' or 'Right Side'
+    """
     if orientation == "Horizontal":
         if coverAlong[0] == "Bottom Side":
             x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + lb_cover
@@ -168,8 +174,22 @@ class _StraightRebarTaskPanel:
 
 
 def makeStraightRebar(f_cover, coverAlong, rt_cover, lb_cover, diameter, amount_spacing_check, amount_spacing_value, orientation = "Horizontal", structure = None, facename = None):
-    """ makeStraightRebar(f_cover, b_cover, s_cover, diameter, amount_spacing_check, amount_spacing_value):
-    Adds the straight reinforcement bar to the selected structural object."""
+    """ Adds the straight reinforcement bar to the selected structural object.
+
+    Case I: When orientation of straight rebar is 'Horizontal':
+        makeStraightRebar(FrontCover, CoverAlong, RightCover, LeftCover, Diameter, AmountSpacingCheck, AmountSpacingValue, Orientation = "Horizontal",
+        Structure, Facename)
+        Note: Type of CoverAlong argument is a tuple. Syntax: (<Along>, <Value>). Here we have horizontal orientation so we can pass Top Side
+        and Bottom Side to <Along> arguments.
+        For eg. ("Top Side", 20) and ("Bottom Side", 20)
+
+    Case II: When orientation of straight rebar is 'Vertical':
+        makeStraightRebar(FrontCover, CoverAlong, TopCover, BottomCover, Diameter, AmountSpacingCheck, AmountSpacingValue, Orientation = "Horizontal",
+        Structure, Facename)
+        Note: Type of CoverAlong argument is a tuple. Syntax: (<Along>, <Value>). Here we have vertical orientation so we can pass Left Side
+        and Right Side to <Along> arguments.
+        For eg. ("Left Side", 20) and ("Right Side", 20)
+    """
     if not structure and not facename:
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
         structure = selected_obj.Object

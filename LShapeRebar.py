@@ -38,8 +38,10 @@ import sys
 import math
 
 def getpointsOfLShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, orientation):
-    """ getpointsOfLShapeRebar(FacePRM, s_cover, b_cover, t_cover):
-    Return points of the LShape rebar in the form of array for sketch."""
+    """ getpointsOfLShapeRebar(FacePRM, LeftCover, RightCover, BottomCover, TopCover, Orientation):
+    Return points of the LShape rebar in the form of array for sketch.
+    It takes four different orientations input i.e. 'Bottom Left', 'Bottom Right ', 'Top Left', 'Top Right'.
+    """
     if orientation == "Bottom Left":
         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
@@ -165,8 +167,10 @@ class _LShapeRebarTaskPanel:
 
 
 def makeLShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, orientation = "Bottom Left", structure = None, facename = None):
-    """ makeLShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
-    Adds the L-Shape reinforcement bar to the selected structural object."""
+    """ makeLShapeRebar(FrontCover, BottomCover, LeftCover, RightCover, Diameter, TopCover, Rounding, AmountSpacingCheck, AmountSpacingValue,
+    Orientation, Structure, Facename): Adds the L-Shape reinforcement bar to the selected structural object.
+    It takes four different orientations input i.e. 'Bottom Left', 'Bottom Right ', 'Top Left', 'Top Right'.
+    """
     if not structure and not facename:
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
         structure = selected_obj.Object
@@ -188,7 +192,6 @@ def makeLShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, round
     sketch.addGeometry(Part.LineSegment(points[0], points[1]), False)
     sketch.addGeometry(Part.LineSegment(points[1], points[2]), False)
     import Sketcher
-    #sketch.addConstraint(Sketcher.Constraint('Coincident', 0, 2, 1, 1))
     if amount_spacing_check:
         rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover)
         FreeCAD.ActiveDocument.recompute()
