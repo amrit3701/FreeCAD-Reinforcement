@@ -39,9 +39,6 @@ import math
 def getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover, pitch, edges, diameter, size, direction):
     """ getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover):
     Return points of the LShape rebar in the form of array for sketch."""
-    #spacing = 150
-    #segment = 8*2
-    #numCircular = h_col / spacing
     dx = s_cover + diameter / 2
     dz = float(pitch) / edges
     R = diameter / 2 - dx
@@ -76,6 +73,8 @@ def getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover, pitch, edges, di
     return points
 
 def createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, direction, helix = None):
+    """ createHelicalWire(FacePRM, SideCover, BottomCover, TopCover, Pitch, Size, Direction, Helix = None):
+    It creates a helical wire."""
     import Part
     if not helix:
         helix = FreeCAD.ActiveDocument.addObject("Part::Helix","Helix")
@@ -164,8 +163,8 @@ class _HelicalRebarTaskPanel:
             FreeCADGui.Control.closeDialog(self)
 
 def makeHelicalRebar(s_cover, b_cover, diameter, t_cover, pitch, structure = None, facename = None):
-    """ makeHelicalRebar(f_cover, b_cover, s_cover, diameter, t_cover, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
-    Adds the L-Shape reinforcement bar to the selected structural object."""
+    """ makeHelicalRebar(SideCover, BottomCover, Diameter, TopCover, Pitch, Structure, Facename):
+    Adds the Helical reinforcement bar to the selected structural object."""
     if not structure and not facename:
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
         structure = selected_obj.Object
@@ -179,7 +178,6 @@ def makeHelicalRebar(s_cover, b_cover, diameter, t_cover, pitch, structure = Non
     size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
     normal = face.normalAt(0,0)
     #normal = face.Placement.Rotation.inverted().multVec(normal)
-    # Get points of L-Shape rebar
     import Arch
     helix = createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, normal)
     helix.Support = [(structure, facename)]

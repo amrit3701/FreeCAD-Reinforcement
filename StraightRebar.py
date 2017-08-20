@@ -75,7 +75,7 @@ def getpointsOfStraightRebar(FacePRM, rt_cover, lb_cover, coverAlong, orientatio
 class _StraightRebarTaskPanel:
     def __init__(self, Rebar = None):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
-        self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Straight Rebar", None))
+        self.form.setWindowTitle(QtGui.QApplication.translate("RebarAddon", "Straight Rebar", None))
         self.form.orientation.addItems(["Horizontal", "Vertical"])
         self.form.coverAlong.addItems(["Bottom Side", "Top Side"])
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)

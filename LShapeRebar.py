@@ -76,7 +76,7 @@ def getpointsOfLShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, orientat
 class _LShapeRebarTaskPanel:
     def __init__(self, Rebar = None):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
-        self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "L-Shape Rebar", None))
+        self.form.setWindowTitle(QtGui.QApplication.translate("RebarAddon", "L-Shape Rebar", None))
         self.form.orientation.addItems(["Bottom Right", "Bottom Left", "Top Right", "Top Left"])
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)

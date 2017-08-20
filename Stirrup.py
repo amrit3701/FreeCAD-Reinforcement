@@ -38,7 +38,7 @@ import sys
 import math
 
 def getpointsOfStirrup(FacePRM, l_cover, r_cover, t_cover, b_cover, bentAngle, bentFactor, diameter, rounding, facenormal):
-    """ getpointsOfStirrup(FacePRM, s_cover, bentAngle, diameter, rounding, facenormal):
+    """ getpointsOfStirrup(FacePRM, LeftCover, RightCover, TopCover, BottomCover, BentAngle, BentFactor, Diameter, Rounding, FaceNormal):
     Return the coordinates points of the Stirrup in the form of array."""
     angle = 180 - bentAngle
     tangent_part_length = extendedTangentPartLength(rounding, diameter, angle)
@@ -123,7 +123,7 @@ def getpointsOfStirrup(FacePRM, l_cover, r_cover, t_cover, b_cover, bentAngle, b
 class _StirrupTaskPanel:
     def __init__(self, Rebar = None):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
-        self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Stirrup Rebar", None))
+        self.form.setWindowTitle(QtGui.QApplication.translate("RebarAddon", "Stirrup Rebar", None))
         self.form.bentAngle.addItems(["135", "90"])
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
@@ -199,9 +199,9 @@ class _StirrupTaskPanel:
 
 def makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor, diameter, rounding,\
         amount_spacing_check, amount_spacing_value, structure = None, facename = None):
-    """ makeStirrup(s_cover, f_cover, bentAngle, diameter, rounding,
-    amount_spacing_check, amount_spacing_value): Adds the Stirrup reinforcement bar
-    to the selected structural object."""
+    """ makeStirrup(LeftCover, RightCover, TopCover, BottomCover, FrontCover, BentAngle,
+    BentFactor, Diameter, Rounding, AmountSpacingCheck, AmountSpacingValue, Structure, Facename):
+    Adds the Stirrup reinforcement bar to the selected structural object."""
     if not structure and not facename:
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
         structure = selected_obj.Object
@@ -286,7 +286,7 @@ def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, b
     FacePRM = getParametersOfFace(structure, facename, False)
     FaceNormal = face.normalAt(0, 0)
     #FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)
-    # Calculate the coordinates value of U-Shape rebar
+    # Calculate the coordinates value of Stirrup rebar
     points = getpointsOfStirrup(FacePRM, l_cover, r_cover, t_cover, b_cover, bentAngle, bentFactor, diameter, rounding, FaceNormal)
     Rebar.Base.Points = points
     FreeCAD.ActiveDocument.recompute()

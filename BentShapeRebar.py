@@ -38,8 +38,10 @@ import sys
 import math
 
 def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentLength, bentAngle, orientation):
-    """ getpointsOfBentShapeRebar(FacePRM, s_cover, b_cover, t_cover):
-    Return points of the LShape rebar in the form of array for sketch."""
+    """ getpointsOfBentShapeRebar(FacePRM, LeftCover, RightCover, BottomCover, TopCover, BentLength, BentAngle, Orientation):
+    Return points of the LShape rebar in the form of array for sketch.
+    It takes four different orientations input i.e. 'Bottom', 'Top', 'Left', 'Right'.
+    """
     if orientation == "Bottom":
         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
@@ -82,7 +84,6 @@ def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentL
         y5 = y4 - dis
         x6 = x5
         y6 = y5 - bentLength
-
     elif orientation == "Right":
         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
@@ -104,7 +105,7 @@ def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentL
 class _BentShapeRebarTaskPanel:
     def __init__(self, Rebar = None):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
-        self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Bent Shape Rebar", None))
+        self.form.setWindowTitle(QtGui.QApplication.translate("RebarAddon", "Bent Shape Rebar", None))
         self.form.orientation.addItems(["Bottom", "Top", "Right", "Left"])
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
@@ -189,8 +190,11 @@ class _BentShapeRebarTaskPanel:
 
 
 def makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, amount_spacing_check, amount_spacing_value, orientation = "Bottom Left", structure = None, facename = None):
-    """ makeBentShapeRebar(f_cover, b_cover, s_cover, diameter, t_cover, bentLength, bentAngle, rounding, rebarAlong, amount_spacing_check, amount_spacing_value):
-    Adds the L-Shape reinforcement bar to the selected structural object."""
+    """ makeBentShapeRebar(FrontCover, BottomCover, LeftCover, RightCover, Diameter, TopCover, BentLength, BentAngle, Rounding,
+    AmountSpacingCheck, AmountSpacingValue, Orientation, Structure, Facename): Adds the Bent-Shape reinforcement bar to the
+    selected structural object.
+    It takes four different orientations input i.e. 'Bottom', 'Top', 'Left', 'Right'.
+    """
     if not structure and not facename:
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
         structure = selected_obj.Object
@@ -215,7 +219,6 @@ def makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, be
     sketch.addGeometry(Part.LineSegment(points[3], points[4]), False)
     sketch.addGeometry(Part.LineSegment(points[4], points[5]), False)
     import Sketcher
-    #sketch.addConstraint(Sketcher.Constraint('Coincident', 0, 2, 1, 1))
     if amount_spacing_check:
         rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover)
         FreeCAD.ActiveDocument.recompute()
