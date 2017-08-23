@@ -122,20 +122,26 @@ def getpointsOfStirrup(FacePRM, l_cover, r_cover, t_cover, b_cover, bentAngle, b
 
 class _StirrupTaskPanel:
     def __init__(self, Rebar = None):
+        self.CustomSpacing = None
+        if not Rebar:
+            selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
+            self.SelectedObj = selected_obj.Object
+            self.FaceName = selected_obj.SubElementNames[0]
+        else:
+            self.FaceName = Rebar.Base.Support[0][1][0]
+            self.SelectedObj = Rebar.Base.Support[0][0]
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("RebarAddon", "Stirrup Rebar", None))
         self.form.bentAngle.addItems(["135", "90"])
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0]+"/icons/Stirrup.svg"))
-        self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(Rebar))
-        self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(Rebar))
+        self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(self))
+        self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(self))
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
         self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(QtGui.QStyle.SP_DialogHelpButton))
         self.form.toolButton.clicked.connect(lambda: showPopUpImageDialog(os.path.split(os.path.abspath(__file__))[0] + "/icons/StirrupDetailed.svg"))
         self.Rebar = Rebar
-        self.SelectedObj = None
-        self.FaceName = None
 
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Apply) | int(QtGui.QDialogButtonBox.Cancel)
@@ -182,6 +188,9 @@ class _StirrupTaskPanel:
                 spacing = FreeCAD.Units.Quantity(spacing).Value
                 rebar = editStirrup(self.Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor,\
                     diameter, rounding, False, spacing, self.SelectedObj, self.FaceName)
+        if self.CustomSpacing:
+            rebar.CustomSpacing = self.CustomSpacing
+            FreeCAD.ActiveDocument.recompute()
         self.Rebar = rebar
         if signal == int(QtGui.QDialogButtonBox.Apply):
             pass
@@ -318,8 +327,6 @@ def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, b
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
     obj = _StirrupTaskPanel(vobj.Object)
-    obj.form.customSpacing.setEnabled(True)
-    obj.form.removeCustomSpacing.setEnabled(True)
     obj.form.frontCover.setText(str(vobj.Object.FrontCover))
     obj.form.l_sideCover.setText(str(vobj.Object.LeftCover))
     obj.form.r_sideCover.setText(str(vobj.Object.RightCover))

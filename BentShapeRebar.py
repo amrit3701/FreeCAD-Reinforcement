@@ -104,21 +104,26 @@ def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentL
 
 class _BentShapeRebarTaskPanel:
     def __init__(self, Rebar = None):
+        if not Rebar:
+            selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
+            self.SelectedObj = selected_obj.Object
+            self.FaceName = selected_obj.SubElementNames[0]
+        else:
+            self.FaceName = Rebar.Base.Support[0][1][0]
+            self.SelectedObj = Rebar.Base.Support[0][0]
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("RebarAddon", "Bent Shape Rebar", None))
         self.form.orientation.addItems(["Bottom", "Top", "Right", "Left"])
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
-        self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(Rebar))
-        self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(Rebar))
+        self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(self))
+        self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(self))
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
         self.form.orientation.currentIndexChanged.connect(self.getOrientation)
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/BentShapeRebar.svg"))
         self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(QtGui.QStyle.SP_DialogHelpButton))
         self.form.toolButton.clicked.connect(lambda: showPopUpImageDialog(os.path.split(os.path.abspath(__file__))[0] + "/icons/BentShapeRebarDetailed.svg"))
         self.Rebar = Rebar
-        self.SelectedObj = None
-        self.FaceName = None
 
     def getOrientation(self):
         orientation = self.form.orientation.currentText()
@@ -174,6 +179,9 @@ class _BentShapeRebarTaskPanel:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
                 rebar = editBentShapeRebar(self.Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
+        if self.CustomSpacing:
+            rebar.CustomSpacing = self.CustomSpacing
+            FreeCAD.ActiveDocument.recompute()
         self.Rebar = rebar
         if signal == int(QtGui.QDialogButtonBox.Apply):
             pass
@@ -327,8 +335,6 @@ def editBentShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_co
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
     obj = _BentShapeRebarTaskPanel(vobj.Object)
-    obj.form.customSpacing.setEnabled(True)
-    obj.form.removeCustomSpacing.setEnabled(True)
     obj.form.frontCover.setText(str(vobj.Object.FrontCover))
     obj.form.l_sideCover.setText(str(vobj.Object.LeftCover))
     obj.form.r_sideCover.setText(str(vobj.Object.RightCover))
