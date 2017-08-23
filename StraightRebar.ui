@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>283</width>
-    <height>478</height>
+    <height>488</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
      <item>
       <widget class="QPushButton" name="customSpacing">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Custom Spacing</string>
@@ -44,7 +44,7 @@
      <item>
       <widget class="QPushButton" name="removeCustomSpacing">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Remove Spacing</string>

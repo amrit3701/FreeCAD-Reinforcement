@@ -30,17 +30,18 @@ from Rebarfunc import *
 from PySide.QtCore import QT_TRANSLATE_NOOP
 import FreeCAD
 import FreeCADGui
+import ArchCommands
 import os
 import sys
 import math
 
 class _RebarDistributionDialog():
-    def __init__(self, Rebar, Size = None, offsetStart = None, offsetEnd = None):
+    def __init__(self, frontCover, size):
+        self.FrontCover = frontCover
+        self.ExpandingLength = size
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Rebar Distribution", None))
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/RebarDistribution.svg"))
-        #if self.Rebar:
-        self.Rebar = Rebar
 
     def accept(self):
         amount1 = self.form.amount1.value()
@@ -52,37 +53,17 @@ class _RebarDistributionDialog():
         amount3 = self.form.amount3.value()
         spacing3 = self.form.spacing3.text()
         spacing3 = FreeCAD.Units.Quantity(spacing3).Value
-        if self.Rebar:
-            setRebarDistribution(self.Rebar, amount1, spacing1, amount2, spacing2, amount3, spacing3)
-        #elif Size and offsetStart and offsetEnd:
-        #    CustomSpacing = getCustomSpacingString(size, amount1, spacing1, amount2, spacing2, amount3, spacing3, offsetStart, offsetEnd)
-        #    return CustomSpacing
+        self.CustomSpacing = getCustomSpacingString(amount1, spacing1, amount2, spacing2, amount3, spacing3, self.FrontCover, self.ExpandingLength)
 
     def setupUi(self):
         # Connect Signals and Slots
         self.form.buttonBox.accepted.connect(self.accept)
         pass
 
-def setRebarDistribution(Rebar, amount1, spacing1, amount2, spacing2, amount3, spacing3):
-    import ArchCommands
-    structure = Rebar.Host
-    # Check if sketch support is empty.
-    if not Rebar.Base.Support:
-        showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
-        return
-    facename = Rebar.Base.Support[0][1][0]
-    face = structure.Shape.Faces[int(facename[-1]) - 1]
-    offsetStart = Rebar.OffsetStart.Value
-    offsetEnd = Rebar.OffsetEnd.Value
-    size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
-    CustomSpacing = getCustomSpacingString(size, amount1, spacing1, amount2, spacing2, amount3, spacing3, offsetStart, offsetEnd)
-    Rebar.CustomSpacing = CustomSpacing
-    FreeCAD.ActiveDocument.recompute()
-
-def getCustomSpacingString(size, amount1, spacing1, amount2, spacing2, amount3, spacing3, offsetStart, offsetEnd):
+def getCustomSpacingString(amount1, spacing1, amount2, spacing2, amount3, spacing3, frontCover, size):
     seg1_area = amount1 * spacing1 - spacing1 / 2
     seg3_area = amount3 * spacing3 - spacing3 / 2
-    seg2_area = size - seg1_area - seg3_area - offsetStart - offsetEnd
+    seg2_area = size - seg1_area - seg3_area - 2 * frontCover
     if seg2_area < 0:
         FreeCAD.Console.PrintError("Sum of length of segment 1 and segment 2 is greater than length of rebar expands.\n")
         return
@@ -114,16 +95,19 @@ def getupleOfCustomSpacing(span_string):
         index += 1
     return spacinglist
 
-def runRebarDistribution(Rebar, Size = None, offsetStart = None, offsetEnd = None):
-    if Rebar:
-        dialog = _RebarDistributionDialog(Rebar)
-    elif Size and offsetStart and offsetEnd:
-        dialog = _RebarDistributionDialog(Size, offsetStart, offsetEnd)
+def runRebarDistribution(self):
+    frontCover = self.form.frontCover.text()
+    frontCover = FreeCAD.Units.Quantity(frontCover).Value
+    face = self.SelectedObj.Shape.Faces[getFaceNumber(self.FaceName) - 1]
+    size = (ArchCommands.projectToVector(self.SelectedObj.Shape.copy(), face.normalAt(0, 0))).Length
+    dialog = _RebarDistributionDialog(frontCover, size)
     dialog.setupUi()
     dialog.form.exec_()
+    self.CustomSpacing = dialog.CustomSpacing
 
-def removeRebarDistribution(Rebar):
-    Rebar.CustomSpacing = ""
+def removeRebarDistribution(self):
+    self.CustomSpacing = ""
+    self.Rebar.CustomSpacing = ""
     FreeCAD.ActiveDocument.recompute()
 
 #runRebarDistribution(App.ActiveDocument.Rebar)

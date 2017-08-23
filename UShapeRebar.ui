@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>283</width>
-    <height>511</height>
+    <height>521</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -65,7 +65,7 @@
      <item row="1" column="1">
       <widget class="Gui::InputField" name="frontCover">
        <property name="text">
-        <string>20</string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -82,7 +82,7 @@
      <item row="2" column="1">
       <widget class="Gui::InputField" name="r_sideCover">
        <property name="text">
-        <string>20</string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -92,7 +92,7 @@
      <item row="4" column="1">
       <widget class="Gui::InputField" name="bottomCover">
        <property name="text">
-        <string>20</string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -109,7 +109,7 @@
      <item row="5" column="1">
       <widget class="Gui::InputField" name="topCover">
        <property name="text">
-        <string>20</string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -192,7 +192,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>50</string>
+        <string>50 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -202,7 +202,7 @@
      <item row="7" column="1">
       <widget class="Gui::InputField" name="diameter">
        <property name="text">
-        <string>8</string>
+        <string>8 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -222,7 +222,7 @@
      <item row="3" column="1">
       <widget class="Gui::InputField" name="l_sideCover">
        <property name="text">
-        <string>20</string>
+        <string>20 mm</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true"/>
@@ -243,7 +243,7 @@
      <item>
       <widget class="QPushButton" name="customSpacing">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Custom Spacing</string>
@@ -253,7 +253,7 @@
      <item>
       <widget class="QPushButton" name="removeCustomSpacing">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Remove Spacing</string>
