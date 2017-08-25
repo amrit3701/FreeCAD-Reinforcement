@@ -29,3 +29,7 @@ This project is aimed at easing up the process of rebaring in FreeCAD. In this p
 3. After selecting, click on ```Install/Update``` button.
 4. Restart FreeCAD.
 5. Now you will see different rebars in a drop-down list of rebar tools (```Arch -> Rebar tools -> Different rebars```).
+
+# Extras
+- [FreeCAD Forum](https://forum.freecadweb.org/viewtopic.php?f=8&t=22760)
+- [Development logs](brlcad.org/wiki/User:Amritpal_singh/GSoC17/logs)
