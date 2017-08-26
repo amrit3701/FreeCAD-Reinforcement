@@ -1,6 +1,6 @@
 # Rebar Addon for FreeCAD
 
-![screenshot](https://forum.freecadweb.org/download/file.php?id=40579)
+![screenshot](http://i.imgur.com/r9b5l7K.jpg)
 
 ## Documentation
 This project is aimed at easing up the process of rebaring in FreeCAD. In this project, list of rebars will be provided to user under Rebar tools in the form of dropdown. This project covers six different rebar shapes as given below:
