@@ -1,6 +1,6 @@
 # Rebar Addon for FreeCAD
 
-Started as a Google Summer of Code ([GSoC](https://en.wikipedia.org/wiki/Google_Summer_of_Code) 2016) [project](https://summerofcode.withgoogle.com/archive/2017/projects/6536382147198976).
+Started as a Google Summer of Code ([GSoC](https://en.wikipedia.org/wiki/Google_Summer_of_Code) 2017) [project](https://summerofcode.withgoogle.com/archive/2017/projects/6536382147198976).
 
 ![screenshot](http://i.imgur.com/r9b5l7K.jpg)
 
