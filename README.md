@@ -47,4 +47,4 @@ Each rebar tool has two files, one is ```Python``` file and second is there resp
 ## Extras
 - [FreeCAD forum thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=22760)
 - [GSoC proposal](https://brlcad.org/wiki/User:Amritpal_singh/gsoc_proposal)
-- [Development logs](brlcad.org/wiki/User:Amritpal_singh/GSoC17/logs)
+- [Development logs](https://brlcad.org/wiki/User:Amritpal_singh/GSoC17/logs)
