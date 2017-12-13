@@ -1,0 +1,9 @@
+<map id="UShapeRebar._UShapeRebarTaskPanel.accept" name="UShapeRebar._UShapeRebarTaskPanel.accept">
+<area shape="rect" id="node2" href="$namespaceUShapeRebar.html#adb9f6e4b9ec41d7a1fdfe58ad174fec3" title="UShapeRebar.makeUShapeRebar" alt="" coords="251,28,473,55"/>
+<area shape="rect" id="node6" href="$namespaceUShapeRebar.html#a461f60869fd97a93fc015af4828467ee" title="UShapeRebar.editUShapeRebar" alt="" coords="257,83,467,109"/>
+<area shape="rect" id="node3" href="$namespaceRebarfunc.html#a3885b3b63e3a41508ac79bc7550cf301" title="Rebarfunc.getFaceNumber" alt="" coords="792,24,971,51"/>
+<area shape="rect" id="node4" href="$namespaceRebarfunc.html#a92122b3d7cedd3d47bb63380a5ac4d08" title="Rebarfunc.getParametersOfFace" alt="" coords="525,24,740,51"/>
+<area shape="rect" id="node5" href="$namespaceUShapeRebar.html#ac12ae9bce6b5211759f2fff4091b0221" title="UShapeRebar.getpointsOfUShape\lRebar" alt="" coords="521,75,744,117"/>
+<area shape="rect" id="node7" href="$namespaceRebarfunc.html#a2278a0602d46a62953af1fcf2e574a94" title="Rebarfunc.showWarning" alt="" coords="550,192,715,219"/>
+<area shape="rect" id="node8" href="$namespaceRebarfunc.html#a1467a55852e36c36c472e222855bb937" title="Rebarfunc.translate" alt="" coords="813,192,949,219"/>
+</map>

@@ -1,0 +1,114 @@
+\hypertarget{classRebarTools_1_1HelicalRebarTool}{}\section{Rebar\+Tools.\+Helical\+Rebar\+Tool Class Reference}
+\label{classRebarTools_1_1HelicalRebarTool}\index{Rebar\+Tools.\+Helical\+Rebar\+Tool@{Rebar\+Tools.\+Helical\+Rebar\+Tool}}
+
+
+Collaboration diagram for Rebar\+Tools.\+Helical\+Rebar\+Tool\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=225pt]{classRebarTools_1_1HelicalRebarTool__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classRebarTools_1_1HelicalRebarTool_a39f9bcf98fd9ddcfe2bb6c8da77fa1a3}{Get\+Resources} (self)
+\item 
+def \hyperlink{classRebarTools_1_1HelicalRebarTool_a2ed003d863d6095b2b1525c48a0f4c78}{Is\+Active} (self)
+\item 
+def \hyperlink{classRebarTools_1_1HelicalRebarTool_a07cfe1e1107dbdea6f0370d049a9c0f7}{Activated} (self)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line \hyperlink{RebarTools_8py_source_l00122}{122} of file \hyperlink{RebarTools_8py_source}{Rebar\+Tools.\+py}.
+
+
+
+\subsection{Member Function Documentation}
+\index{Rebar\+Tools\+::\+Helical\+Rebar\+Tool@{Rebar\+Tools\+::\+Helical\+Rebar\+Tool}!Activated@{Activated}}
+\index{Activated@{Activated}!Rebar\+Tools\+::\+Helical\+Rebar\+Tool@{Rebar\+Tools\+::\+Helical\+Rebar\+Tool}}
+\subsubsection[{\texorpdfstring{Activated(self)}{Activated(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Rebar\+Tools.\+Helical\+Rebar\+Tool.\+Activated (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classRebarTools_1_1HelicalRebarTool_a07cfe1e1107dbdea6f0370d049a9c0f7}{}\label{classRebarTools_1_1HelicalRebarTool_a07cfe1e1107dbdea6f0370d049a9c0f7}
+
+
+Definition at line \hyperlink{RebarTools_8py_source_l00135}{135} of file \hyperlink{RebarTools_8py_source}{Rebar\+Tools.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classRebarTools_1_1HelicalRebarTool.tex_l00135}{}\hyperlink{classRebarTools_1_1HelicalRebarTool_a07cfe1e1107dbdea6f0370d049a9c0f7}{00135}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1HelicalRebarTool_a07cfe1e1107dbdea6f0370d049a9c0f7}{Activated}(self):
+00136         \textcolor{keyword}{import} HelicalRebar
+00137         \textcolor{comment}{# Call to CommandHelicalRebar() function}
+00138         \hyperlink{namespaceHelicalRebar_ad8ff0caf1e8a56ac47ce25062db8bc46}{HelicalRebar.CommandHelicalRebar}()
+00139 
+00140 FreeCADGui.addCommand(\textcolor{stringliteral}{'Arch\_Rebar\_Straight'}, \hyperlink{classRebarTools_1_1StraightRebarTool}{StraightRebarTool}())
+00141 FreeCADGui.addCommand(\textcolor{stringliteral}{'Arch\_Rebar\_UShape'}, \hyperlink{classRebarTools_1_1UShapeRebarTool}{UShapeRebarTool}())
+00142 FreeCADGui.addCommand(\textcolor{stringliteral}{'Arch\_Rebar\_LShape'}, \hyperlink{classRebarTools_1_1LShapeRebarTool}{LShapeRebarTool}())
+00143 FreeCADGui.addCommand(\textcolor{stringliteral}{'Arch\_Rebar\_Stirrup'}, \hyperlink{classRebarTools_1_1StirrupTool}{StirrupTool}())
+00144 FreeCADGui.addCommand(\textcolor{stringliteral}{'Arch\_Rebar\_BentShape'}, \hyperlink{classRebarTools_1_1BentShapeRebarTool}{BentShapeRebarTool}())
+00145 FreeCADGui.addCommand(\textcolor{stringliteral}{'Arch\_Rebar\_Helical'}, \hyperlink{classRebarTools_1_1HelicalRebarTool}{HelicalRebarTool}())
+00146 
+00147 \textcolor{comment}{# List of all rebar commands}
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classRebarTools_1_1HelicalRebarTool_a07cfe1e1107dbdea6f0370d049a9c0f7_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{Rebar\+Tools\+::\+Helical\+Rebar\+Tool@{Rebar\+Tools\+::\+Helical\+Rebar\+Tool}!Get\+Resources@{Get\+Resources}}
+\index{Get\+Resources@{Get\+Resources}!Rebar\+Tools\+::\+Helical\+Rebar\+Tool@{Rebar\+Tools\+::\+Helical\+Rebar\+Tool}}
+\subsubsection[{\texorpdfstring{Get\+Resources(self)}{GetResources(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Rebar\+Tools.\+Helical\+Rebar\+Tool.\+Get\+Resources (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classRebarTools_1_1HelicalRebarTool_a39f9bcf98fd9ddcfe2bb6c8da77fa1a3}{}\label{classRebarTools_1_1HelicalRebarTool_a39f9bcf98fd9ddcfe2bb6c8da77fa1a3}
+
+
+Definition at line \hyperlink{RebarTools_8py_source_l00124}{124} of file \hyperlink{RebarTools_8py_source}{Rebar\+Tools.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classRebarTools_1_1HelicalRebarTool.tex_l00124}{}\hyperlink{classRebarTools_1_1HelicalRebarTool_a39f9bcf98fd9ddcfe2bb6c8da77fa1a3}{00124}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1HelicalRebarTool_a39f9bcf98fd9ddcfe2bb6c8da77fa1a3}{GetResources}(self):
+00125         \textcolor{keywordflow}{return} \{\textcolor{stringliteral}{'Pixmap'}  : os.path.split(os.path.abspath(\_\_file\_\_))[0]+\textcolor{stringliteral}{'
+      /icons/dropdown\_list/HelixShapeRebar.svg'},
+00126                 \textcolor{stringliteral}{'MenuText'}: QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Helical Rebar"}),
+00127                 \textcolor{stringliteral}{'ToolTip'} : QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Creates a Helical bar reinforcement from the
+       selected face of the Structural element."})\}
+00128 
+\end{DoxyCode}
+\index{Rebar\+Tools\+::\+Helical\+Rebar\+Tool@{Rebar\+Tools\+::\+Helical\+Rebar\+Tool}!Is\+Active@{Is\+Active}}
+\index{Is\+Active@{Is\+Active}!Rebar\+Tools\+::\+Helical\+Rebar\+Tool@{Rebar\+Tools\+::\+Helical\+Rebar\+Tool}}
+\subsubsection[{\texorpdfstring{Is\+Active(self)}{IsActive(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Rebar\+Tools.\+Helical\+Rebar\+Tool.\+Is\+Active (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classRebarTools_1_1HelicalRebarTool_a2ed003d863d6095b2b1525c48a0f4c78}{}\label{classRebarTools_1_1HelicalRebarTool_a2ed003d863d6095b2b1525c48a0f4c78}
+
+
+Definition at line \hyperlink{RebarTools_8py_source_l00129}{129} of file \hyperlink{RebarTools_8py_source}{Rebar\+Tools.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classRebarTools_1_1HelicalRebarTool.tex_l00129}{}\hyperlink{classRebarTools_1_1HelicalRebarTool_a2ed003d863d6095b2b1525c48a0f4c78}{00129}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1HelicalRebarTool_a2ed003d863d6095b2b1525c48a0f4c78}{IsActive}(self):
+00130         \textcolor{keywordflow}{if} FreeCADGui.ActiveDocument:
+00131             \textcolor{keywordflow}{return} \textcolor{keyword}{True}
+00132         \textcolor{keywordflow}{else}:
+00133             \textcolor{keywordflow}{return} \textcolor{keyword}{False}
+00134 
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{RebarTools_8py}{Rebar\+Tools.\+py}\end{DoxyCompactItemize}

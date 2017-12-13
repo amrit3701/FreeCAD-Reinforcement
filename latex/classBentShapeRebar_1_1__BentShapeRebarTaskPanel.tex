@@ -1,0 +1,333 @@
+\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel}{}\section{Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel Class Reference}
+\label{classBentShapeRebar_1_1__BentShapeRebarTaskPanel}\index{Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}}
+
+
+Collaboration diagram for Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=227pt]{classBentShapeRebar_1_1__BentShapeRebarTaskPanel__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a0f978d5a751619f8ae7dfe178fb0473e}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_aae8fd4e66d675c566d0afcee0af2341f}{Rebar}=None)
+\item 
+def \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ab33579342d5fa4d4bf0bc8c9b9dfa526}{get\+Orientation} (self)
+\item 
+def \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_af363d8287c33547f2b7fc6f6f326d47a}{get\+Standard\+Buttons} (self)
+\item 
+def \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ae92dd6ab03c4b967b064fac00fa0d906}{clicked} (self, button)
+\item 
+def \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_afdcf71c6a16711a535971366558ea918}{accept} (self, signal=None)
+\item 
+def \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ad99f80f17842220db5920e1926ff45a2}{amount\+\_\+radio\+\_\+clicked} (self)
+\item 
+def \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a7fb1b14fac066c36380036c6d3f3ab4a}{spacing\+\_\+radio\+\_\+clicked} (self)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a24d363ab6c058ce4436a2b29e9c0b279}{Selected\+Obj}
+\item 
+\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a499514a87885d4c9462e3c6dc314ec9c}{Face\+Name}
+\item 
+\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_acbe07c5ace61552cc4e4899b668d93e5}{form}
+\item 
+\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_aae8fd4e66d675c566d0afcee0af2341f}{Rebar}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00105}{105} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+(self, Rebar=\+None)}{__init__(self, Rebar=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel.\+\_\+\+\_\+init\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{Rebar = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a0f978d5a751619f8ae7dfe178fb0473e}{}\label{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a0f978d5a751619f8ae7dfe178fb0473e}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00106}{106} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel.tex_l00106}{}\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a0f978d5a751619f8ae7dfe178fb0473e}{00106}     \textcolor{keyword}{def }\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a0f978d5a751619f8ae7dfe178fb0473e}{\_\_init\_\_}(self, Rebar = None):
+00107         \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} Rebar:
+00108             selected\_obj = FreeCADGui.Selection.getSelectionEx()[0]
+\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel.tex_l00109}{}\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a24d363ab6c058ce4436a2b29e9c0b279}{00109}             self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a24d363ab6c058ce4436a2b29e9c0b279}{SelectedObj} = selected\_obj.Object
+\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel.tex_l00110}{}\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a499514a87885d4c9462e3c6dc314ec9c}{00110}             self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a499514a87885d4c9462e3c6dc314ec9c}{FaceName} = selected\_obj.SubElementNames[0]
+00111         \textcolor{keywordflow}{else}:
+00112             self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a499514a87885d4c9462e3c6dc314ec9c}{FaceName} = Rebar.Base.Support[0][1][0]
+00113             self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a24d363ab6c058ce4436a2b29e9c0b279}{SelectedObj} = Rebar.Base.Support[0][0]
+\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel.tex_l00114}{}\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_acbe07c5ace61552cc4e4899b668d93e5}{00114}         self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_acbe07c5ace61552cc4e4899b668d93e5}{form} = FreeCADGui.PySideUic.loadUi(os.path.splitext(\_\_file\_\_)[0] + \textcolor{stringliteral}{".ui"})
+00115         self.form.setWindowTitle(QtGui.QApplication.translate(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Bent Shape Rebar"}, \textcolor{keywordtype}{None}))
+00116         self.form.orientation.addItems([\textcolor{stringliteral}{"Bottom"}, \textcolor{stringliteral}{"Top"}, \textcolor{stringliteral}{"Right"}, \textcolor{stringliteral}{"Left"}])
+00117         self.form.amount\_radio.clicked.connect(self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ad99f80f17842220db5920e1926ff45a2}{amount\_radio\_clicked})
+00118         self.form.spacing\_radio.clicked.connect(self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a7fb1b14fac066c36380036c6d3f3ab4a}{spacing\_radio\_clicked})
+00119         self.form.customSpacing.clicked.connect(\textcolor{keyword}{lambda}: \hyperlink{namespaceRebarDistribution_aa547df5cb10d2e64eaa0b51c445fa30b}{runRebarDistribution}(self))
+00120         self.form.removeCustomSpacing.clicked.connect(\textcolor{keyword}{lambda}: 
+      \hyperlink{namespaceRebarDistribution_a85270a1b6e8c782a9e0ba54add518f2a}{removeRebarDistribution}(self))
+00121         self.form.PickSelectedFace.clicked.connect(\textcolor{keyword}{lambda}: \hyperlink{namespaceRebarfunc_a8c003df49ac5f249bd9ea4acfb7d2f8d}{getSelectedFace}(self))
+00122         self.form.orientation.currentIndexChanged.connect(self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ab33579342d5fa4d4bf0bc8c9b9dfa526}{getOrientation})
+00123         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0] + \textcolor{stringliteral}{"
+      /icons/BentShapeRebar.svg"}))
+00124         self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(
+      QtGui.QStyle.SP\_DialogHelpButton))
+00125         self.form.toolButton.clicked.connect(\textcolor{keyword}{lambda}: \hyperlink{namespacePopUpImage_a8c565620d7de9b4882a44eacb870ad05}{showPopUpImageDialog}(os.path.split
+      (os.path.abspath(\_\_file\_\_))[0] + \textcolor{stringliteral}{"/icons/BentShapeRebarDetailed.svg"}))
+\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel.tex_l00126}{}\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_aae8fd4e66d675c566d0afcee0af2341f}{00126}         self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_aae8fd4e66d675c566d0afcee0af2341f}{Rebar} = Rebar
+00127 
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}!accept@{accept}}
+\index{accept@{accept}!Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{accept(self, signal=\+None)}{accept(self, signal=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel.\+accept (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{signal = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_afdcf71c6a16711a535971366558ea918}{}\label{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_afdcf71c6a16711a535971366558ea918}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00146}{146} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel.tex_l00146}{}\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_afdcf71c6a16711a535971366558ea918}{00146}     \textcolor{keyword}{def }\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_afdcf71c6a16711a535971366558ea918}{accept}(self, signal = None):
+00147         f\_cover = self.form.frontCover.text()
+00148         f\_cover = FreeCAD.Units.Quantity(f\_cover).Value
+00149         b\_cover = self.form.bottomCover.text()
+00150         b\_cover = FreeCAD.Units.Quantity(b\_cover).Value
+00151         l\_cover = self.form.l\_sideCover.text()
+00152         l\_cover = FreeCAD.Units.Quantity(l\_cover).Value
+00153         r\_cover = self.form.r\_sideCover.text()
+00154         r\_cover = FreeCAD.Units.Quantity(r\_cover).Value
+00155         t\_cover = self.form.topCover.text()
+00156         t\_cover = FreeCAD.Units.Quantity(t\_cover).Value
+00157         bentLength = self.form.bentLength.text()
+00158         bentLength = FreeCAD.Units.Quantity(bentLength).Value
+00159         bentAngle = self.form.bentAngle.value()
+00160         diameter = self.form.diameter.text()
+00161         diameter = FreeCAD.Units.Quantity(diameter).Value
+00162         rounding = self.form.rounding.value()
+00163         orientation = self.form.orientation.currentText()
+00164         amount\_check = self.form.amount\_radio.isChecked()
+00165         spacing\_check = self.form.spacing\_radio.isChecked()
+00166         \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_aae8fd4e66d675c566d0afcee0af2341f}{Rebar}:
+00167             \textcolor{keywordflow}{if} amount\_check:
+00168                 amount = self.form.amount.value()
+00169                 rebar = \hyperlink{namespaceBentShapeRebar_aac46779d3e1905db5a3788917f6e2476}{makeBentShapeRebar}(f\_cover, b\_cover, l\_cover, r\_cover, diameter, 
+      t\_cover, bentLength, bentAngle, rounding, \textcolor{keyword}{True}, amount, orientation, self.
+      \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a24d363ab6c058ce4436a2b29e9c0b279}{SelectedObj}, self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a499514a87885d4c9462e3c6dc314ec9c}{FaceName})
+00170             \textcolor{keywordflow}{elif} spacing\_check:
+00171                 spacing = self.form.spacing.text()
+00172                 spacing = FreeCAD.Units.Quantity(spacing).Value
+00173                 rebar = \hyperlink{namespaceBentShapeRebar_aac46779d3e1905db5a3788917f6e2476}{makeBentShapeRebar}(f\_cover, b\_cover, l\_cover, r\_cover, diameter, 
+      t\_cover, bentLength, bentAngle, rounding, \textcolor{keyword}{False}, spacing, orientation, self.
+      \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a24d363ab6c058ce4436a2b29e9c0b279}{SelectedObj}, self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a499514a87885d4c9462e3c6dc314ec9c}{FaceName})
+00174         \textcolor{keywordflow}{else}:
+00175             \textcolor{keywordflow}{if} amount\_check:
+00176                 amount = self.form.amount.value()
+00177                 rebar = \hyperlink{namespaceBentShapeRebar_a941d005845cd497c0beb12bb8fef9171}{editBentShapeRebar}(self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_aae8fd4e66d675c566d0afcee0af2341f}{Rebar}, f\_cover, b\_cover, l\_cover, 
+      r\_cover, diameter, t\_cover, bentLength, bentAngle, rounding, \textcolor{keyword}{True}, amount, orientation, self.
+      \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a24d363ab6c058ce4436a2b29e9c0b279}{SelectedObj}, self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a499514a87885d4c9462e3c6dc314ec9c}{FaceName})
+00178             \textcolor{keywordflow}{elif} spacing\_check:
+00179                 spacing = self.form.spacing.text()
+00180                 spacing = FreeCAD.Units.Quantity(spacing).Value
+00181                 rebar = \hyperlink{namespaceBentShapeRebar_a941d005845cd497c0beb12bb8fef9171}{editBentShapeRebar}(self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_aae8fd4e66d675c566d0afcee0af2341f}{Rebar}, f\_cover, b\_cover, l\_cover, 
+      r\_cover, diameter, t\_cover, bentLength, bentAngle, rounding, \textcolor{keyword}{False}, spacing, orientation, self.
+      \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a24d363ab6c058ce4436a2b29e9c0b279}{SelectedObj}, self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a499514a87885d4c9462e3c6dc314ec9c}{FaceName})
+00182         \textcolor{keywordflow}{if} self.CustomSpacing:
+00183             rebar.CustomSpacing = self.CustomSpacing
+00184             FreeCAD.ActiveDocument.recompute()
+00185         self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_aae8fd4e66d675c566d0afcee0af2341f}{Rebar} = rebar
+00186         \textcolor{keywordflow}{if} signal == int(QtGui.QDialogButtonBox.Apply):
+00187             \textcolor{keywordflow}{pass}
+00188         \textcolor{keywordflow}{else}:
+00189             FreeCADGui.Control.closeDialog(self)
+00190 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_afdcf71c6a16711a535971366558ea918_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_afdcf71c6a16711a535971366558ea918_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}!amount\+\_\+radio\+\_\+clicked@{amount\+\_\+radio\+\_\+clicked}}
+\index{amount\+\_\+radio\+\_\+clicked@{amount\+\_\+radio\+\_\+clicked}!Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{amount\+\_\+radio\+\_\+clicked(self)}{amount_radio_clicked(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel.\+amount\+\_\+radio\+\_\+clicked (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ad99f80f17842220db5920e1926ff45a2}{}\label{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ad99f80f17842220db5920e1926ff45a2}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00191}{191} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel.tex_l00191}{}\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ad99f80f17842220db5920e1926ff45a2}{00191}     \textcolor{keyword}{def }\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ad99f80f17842220db5920e1926ff45a2}{amount\_radio\_clicked}(self):
+00192         self.form.spacing.setEnabled(\textcolor{keyword}{False})
+00193         self.form.amount.setEnabled(\textcolor{keyword}{True})
+00194 
+\end{DoxyCode}
+\index{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}!clicked@{clicked}}
+\index{clicked@{clicked}!Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{clicked(self, button)}{clicked(self, button)}}]{\setlength{\rightskip}{0pt plus 5cm}def Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel.\+clicked (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{button}
+\end{DoxyParamCaption}
+)}\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ae92dd6ab03c4b967b064fac00fa0d906}{}\label{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ae92dd6ab03c4b967b064fac00fa0d906}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00142}{142} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel.tex_l00142}{}\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ae92dd6ab03c4b967b064fac00fa0d906}{00142}     \textcolor{keyword}{def }\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ae92dd6ab03c4b967b064fac00fa0d906}{clicked}(self, button):
+00143         \textcolor{keywordflow}{if} button == int(QtGui.QDialogButtonBox.Apply):
+00144             self.\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_afdcf71c6a16711a535971366558ea918}{accept}(button)
+00145 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ae92dd6ab03c4b967b064fac00fa0d906_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}!get\+Orientation@{get\+Orientation}}
+\index{get\+Orientation@{get\+Orientation}!Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{get\+Orientation(self)}{getOrientation(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel.\+get\+Orientation (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ab33579342d5fa4d4bf0bc8c9b9dfa526}{}\label{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ab33579342d5fa4d4bf0bc8c9b9dfa526}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00128}{128} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel.tex_l00128}{}\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ab33579342d5fa4d4bf0bc8c9b9dfa526}{00128}     \textcolor{keyword}{def }\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_ab33579342d5fa4d4bf0bc8c9b9dfa526}{getOrientation}(self):
+00129         orientation = self.form.orientation.currentText()
+00130         \textcolor{comment}{#if orientation == "Bottom":}
+00131         \textcolor{comment}{#    self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0] +
+       "/icons/LShapeRebarBR.svg"))}
+00132         \textcolor{comment}{#elif orientation == "Top":}
+00133         \textcolor{comment}{#    self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0] +
+       "/icons/LShapeRebarBL.svg"))}
+00134         \textcolor{comment}{#elif orientation == "Right":}
+00135         \textcolor{comment}{#    self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0] +
+       "/icons/LShapeRebarTR.svg"))}
+00136         \textcolor{comment}{#else:}
+00137         \textcolor{comment}{#    self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0] +
+       "/icons/LShapeRebarTL.svg"))}
+00138 
+\end{DoxyCode}
+\index{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}!get\+Standard\+Buttons@{get\+Standard\+Buttons}}
+\index{get\+Standard\+Buttons@{get\+Standard\+Buttons}!Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{get\+Standard\+Buttons(self)}{getStandardButtons(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel.\+get\+Standard\+Buttons (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_af363d8287c33547f2b7fc6f6f326d47a}{}\label{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_af363d8287c33547f2b7fc6f6f326d47a}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00139}{139} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel.tex_l00139}{}\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_af363d8287c33547f2b7fc6f6f326d47a}{00139}     \textcolor{keyword}{def }\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_af363d8287c33547f2b7fc6f6f326d47a}{getStandardButtons}(self):
+00140         \textcolor{keywordflow}{return} int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Apply) | int(
+      QtGui.QDialogButtonBox.Cancel)
+00141 
+\end{DoxyCode}
+\index{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}!spacing\+\_\+radio\+\_\+clicked@{spacing\+\_\+radio\+\_\+clicked}}
+\index{spacing\+\_\+radio\+\_\+clicked@{spacing\+\_\+radio\+\_\+clicked}!Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{spacing\+\_\+radio\+\_\+clicked(self)}{spacing_radio_clicked(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel.\+spacing\+\_\+radio\+\_\+clicked (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a7fb1b14fac066c36380036c6d3f3ab4a}{}\label{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a7fb1b14fac066c36380036c6d3f3ab4a}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00195}{195} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel.tex_l00195}{}\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a7fb1b14fac066c36380036c6d3f3ab4a}{00195}     \textcolor{keyword}{def }\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a7fb1b14fac066c36380036c6d3f3ab4a}{spacing\_radio\_clicked}(self):
+00196         self.form.amount.setEnabled(\textcolor{keyword}{False})
+00197         self.form.spacing.setEnabled(\textcolor{keyword}{True})
+00198 
+00199 
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}!Face\+Name@{Face\+Name}}
+\index{Face\+Name@{Face\+Name}!Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{Face\+Name}{FaceName}}]{\setlength{\rightskip}{0pt plus 5cm}Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel.\+Face\+Name}\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a499514a87885d4c9462e3c6dc314ec9c}{}\label{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a499514a87885d4c9462e3c6dc314ec9c}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00110}{110} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+\index{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}!form@{form}}
+\index{form@{form}!Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{form}{form}}]{\setlength{\rightskip}{0pt plus 5cm}Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel.\+form}\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_acbe07c5ace61552cc4e4899b668d93e5}{}\label{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_acbe07c5ace61552cc4e4899b668d93e5}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00114}{114} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+\index{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}!Rebar@{Rebar}}
+\index{Rebar@{Rebar}!Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{Rebar}{Rebar}}]{\setlength{\rightskip}{0pt plus 5cm}Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel.\+Rebar}\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_aae8fd4e66d675c566d0afcee0af2341f}{}\label{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_aae8fd4e66d675c566d0afcee0af2341f}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00126}{126} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+\index{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}!Selected\+Obj@{Selected\+Obj}}
+\index{Selected\+Obj@{Selected\+Obj}!Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel@{Bent\+Shape\+Rebar\+::\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{Selected\+Obj}{SelectedObj}}]{\setlength{\rightskip}{0pt plus 5cm}Bent\+Shape\+Rebar.\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel.\+Selected\+Obj}\hypertarget{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a24d363ab6c058ce4436a2b29e9c0b279}{}\label{classBentShapeRebar_1_1__BentShapeRebarTaskPanel_a24d363ab6c058ce4436a2b29e9c0b279}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00109}{109} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{BentShapeRebar_8py}{Bent\+Shape\+Rebar.\+py}\end{DoxyCompactItemize}

@@ -1,0 +1,11 @@
+<map id="Stirrup._StirrupTaskPanel.spacing_radio_clicked" name="Stirrup._StirrupTaskPanel.spacing_radio_clicked">
+<area shape="rect" id="node2" href="$namespaceStirrup.html#a705fc121e2af9c8ac05eb299f4fb9f2f" title="Stirrup.makeStirrup" alt="" coords="273,52,408,79"/>
+<area shape="rect" id="node3" href="$namespaceRebarfunc.html#a3885b3b63e3a41508ac79bc7550cf301" title="Rebarfunc.getFaceNumber" alt="" coords="893,27,1072,53"/>
+<area shape="rect" id="node4" href="$namespaceRebarfunc.html#a92122b3d7cedd3d47bb63380a5ac4d08" title="Rebarfunc.getParametersOfFace" alt="" coords="627,27,841,53"/>
+<area shape="rect" id="node5" href="$namespaceStirrup.html#aa6df5118806bfe9d3a799e1bf549bb0a" title="Stirrup.getpointsOfStirrup" alt="" coords="649,179,819,205"/>
+<area shape="rect" id="node8" href="$namespaceStirrup.html#a1f6d278ace7fe116895dba342e2a3573" title="Stirrup.editStirrup" alt="" coords="456,77,579,104"/>
+<area shape="rect" id="node6" href="$namespaceRebarfunc.html#aaeecb468e0fcfc5eee69d6a24c5c5aef" title="Rebarfunc.extendedTangent\lPartLength" alt="" coords="889,237,1076,278"/>
+<area shape="rect" id="node7" href="$namespaceRebarfunc.html#ab5637ab0a8e202409ee8657d39ca87a0" title="Rebarfunc.extendedTangent\lLength" alt="" coords="889,171,1076,213"/>
+<area shape="rect" id="node9" href="$namespaceRebarfunc.html#a2278a0602d46a62953af1fcf2e574a94" title="Rebarfunc.showWarning" alt="" coords="651,128,817,155"/>
+<area shape="rect" id="node10" href="$namespaceRebarfunc.html#a1467a55852e36c36c472e222855bb937" title="Rebarfunc.translate" alt="" coords="915,120,1051,147"/>
+</map>

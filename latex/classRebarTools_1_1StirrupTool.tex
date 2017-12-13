@@ -1,0 +1,106 @@
+\hypertarget{classRebarTools_1_1StirrupTool}{}\section{Rebar\+Tools.\+Stirrup\+Tool Class Reference}
+\label{classRebarTools_1_1StirrupTool}\index{Rebar\+Tools.\+Stirrup\+Tool@{Rebar\+Tools.\+Stirrup\+Tool}}
+
+
+Collaboration diagram for Rebar\+Tools.\+Stirrup\+Tool\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=197pt]{classRebarTools_1_1StirrupTool__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classRebarTools_1_1StirrupTool_ae5e84a5bf49fdbd2541edda370cb259f}{Get\+Resources} (self)
+\item 
+def \hyperlink{classRebarTools_1_1StirrupTool_a7b94e476610d82023e0ac1a0e344f5f8}{Is\+Active} (self)
+\item 
+def \hyperlink{classRebarTools_1_1StirrupTool_a8ab82071978a99ee1f68cbf5b971ac8a}{Activated} (self)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line \hyperlink{RebarTools_8py_source_l00086}{86} of file \hyperlink{RebarTools_8py_source}{Rebar\+Tools.\+py}.
+
+
+
+\subsection{Member Function Documentation}
+\index{Rebar\+Tools\+::\+Stirrup\+Tool@{Rebar\+Tools\+::\+Stirrup\+Tool}!Activated@{Activated}}
+\index{Activated@{Activated}!Rebar\+Tools\+::\+Stirrup\+Tool@{Rebar\+Tools\+::\+Stirrup\+Tool}}
+\subsubsection[{\texorpdfstring{Activated(self)}{Activated(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Rebar\+Tools.\+Stirrup\+Tool.\+Activated (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classRebarTools_1_1StirrupTool_a8ab82071978a99ee1f68cbf5b971ac8a}{}\label{classRebarTools_1_1StirrupTool_a8ab82071978a99ee1f68cbf5b971ac8a}
+
+
+Definition at line \hyperlink{RebarTools_8py_source_l00099}{99} of file \hyperlink{RebarTools_8py_source}{Rebar\+Tools.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classRebarTools_1_1StirrupTool.tex_l00099}{}\hyperlink{classRebarTools_1_1StirrupTool_a8ab82071978a99ee1f68cbf5b971ac8a}{00099}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1StirrupTool_a8ab82071978a99ee1f68cbf5b971ac8a}{Activated}(self):
+00100         \textcolor{keyword}{import} Stirrup
+00101         \textcolor{comment}{# Call to CommandStirrup() function}
+00102         \hyperlink{namespaceStirrup_a3863ce61c716794557101a50f41597b5}{Stirrup.CommandStirrup}()
+00103 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classRebarTools_1_1StirrupTool_a8ab82071978a99ee1f68cbf5b971ac8a_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{Rebar\+Tools\+::\+Stirrup\+Tool@{Rebar\+Tools\+::\+Stirrup\+Tool}!Get\+Resources@{Get\+Resources}}
+\index{Get\+Resources@{Get\+Resources}!Rebar\+Tools\+::\+Stirrup\+Tool@{Rebar\+Tools\+::\+Stirrup\+Tool}}
+\subsubsection[{\texorpdfstring{Get\+Resources(self)}{GetResources(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Rebar\+Tools.\+Stirrup\+Tool.\+Get\+Resources (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classRebarTools_1_1StirrupTool_ae5e84a5bf49fdbd2541edda370cb259f}{}\label{classRebarTools_1_1StirrupTool_ae5e84a5bf49fdbd2541edda370cb259f}
+
+
+Definition at line \hyperlink{RebarTools_8py_source_l00088}{88} of file \hyperlink{RebarTools_8py_source}{Rebar\+Tools.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classRebarTools_1_1StirrupTool.tex_l00088}{}\hyperlink{classRebarTools_1_1StirrupTool_ae5e84a5bf49fdbd2541edda370cb259f}{00088}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1StirrupTool_ae5e84a5bf49fdbd2541edda370cb259f}{GetResources}(self):
+00089         \textcolor{keywordflow}{return} \{\textcolor{stringliteral}{'Pixmap'}  : os.path.split(os.path.abspath(\_\_file\_\_))[0]+\textcolor{stringliteral}{'
+      /icons/dropdown\_list/StirrupRebar.svg'},
+00090                 \textcolor{stringliteral}{'MenuText'}: QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Stirrup"}),
+00091                 \textcolor{stringliteral}{'ToolTip'} : QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Creates a Stirrup bar reinforcement from the
+       selected face of the Structural element."})\}
+00092 
+\end{DoxyCode}
+\index{Rebar\+Tools\+::\+Stirrup\+Tool@{Rebar\+Tools\+::\+Stirrup\+Tool}!Is\+Active@{Is\+Active}}
+\index{Is\+Active@{Is\+Active}!Rebar\+Tools\+::\+Stirrup\+Tool@{Rebar\+Tools\+::\+Stirrup\+Tool}}
+\subsubsection[{\texorpdfstring{Is\+Active(self)}{IsActive(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Rebar\+Tools.\+Stirrup\+Tool.\+Is\+Active (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classRebarTools_1_1StirrupTool_a7b94e476610d82023e0ac1a0e344f5f8}{}\label{classRebarTools_1_1StirrupTool_a7b94e476610d82023e0ac1a0e344f5f8}
+
+
+Definition at line \hyperlink{RebarTools_8py_source_l00093}{93} of file \hyperlink{RebarTools_8py_source}{Rebar\+Tools.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classRebarTools_1_1StirrupTool.tex_l00093}{}\hyperlink{classRebarTools_1_1StirrupTool_a7b94e476610d82023e0ac1a0e344f5f8}{00093}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1StirrupTool_a7b94e476610d82023e0ac1a0e344f5f8}{IsActive}(self):
+00094         \textcolor{keywordflow}{if} FreeCADGui.ActiveDocument:
+00095             \textcolor{keywordflow}{return} \textcolor{keyword}{True}
+00096         \textcolor{keywordflow}{else}:
+00097             \textcolor{keywordflow}{return} \textcolor{keyword}{False}
+00098 
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{RebarTools_8py}{Rebar\+Tools.\+py}\end{DoxyCompactItemize}

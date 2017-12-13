@@ -1,0 +1,413 @@
+\hypertarget{namespaceHelicalRebar}{}\section{Helical\+Rebar Namespace Reference}
+\label{namespaceHelicalRebar}\index{Helical\+Rebar@{Helical\+Rebar}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel}{\+\_\+\+Helical\+Rebar\+Task\+Panel}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespaceHelicalRebar_a4fcf2dabc065c39ce5c8cf6995051352}{getpoints\+Of\+Helical\+Rebar} (Face\+P\+RM, s\+\_\+cover, b\+\_\+cover, t\+\_\+cover, pitch, edges, diameter, size, direction)
+\item 
+def \hyperlink{namespaceHelicalRebar_a1a2b3ce39b904ab0c3892ed0965d2844}{create\+Helical\+Wire} (Face\+P\+RM, s\+\_\+cover, b\+\_\+cover, t\+\_\+cover, pitch, size, direction, helix=None)
+\item 
+def \hyperlink{namespaceHelicalRebar_a8a4f12ed70819996ac31877957dfab08}{make\+Helical\+Rebar} (s\+\_\+cover, b\+\_\+cover, diameter, t\+\_\+cover, pitch, structure=None, facename=None)
+\item 
+def \hyperlink{namespaceHelicalRebar_aea0d3838b1b171f801acf1046d111c8b}{edit\+Helical\+Rebar} (Rebar, s\+\_\+cover, b\+\_\+cover, diameter, t\+\_\+cover, pitch, structure=None, facename=None)
+\item 
+def \hyperlink{namespaceHelicalRebar_ab9725ab4f1e5650133dba94c24907331}{edit\+Dialog} (vobj)
+\item 
+def \hyperlink{namespaceHelicalRebar_ad8ff0caf1e8a56ac47ce25062db8bc46}{Command\+Helical\+Rebar} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{namespaceHelicalRebar_a28c95505364eadd0c2d4abbd80091bef}{\+\_\+\+\_\+title\+\_\+\+\_\+} = \char`\"{}Helical\+Rebar\char`\"{}
+\item 
+string \hyperlink{namespaceHelicalRebar_a925dcfed2ffef215413157f48d7b6e57}{\+\_\+\+\_\+author\+\_\+\+\_\+} = \char`\"{}Amritpal Singh\char`\"{}
+\item 
+string \hyperlink{namespaceHelicalRebar_a9c74e4634d00eef07ed630054e69fbff}{\+\_\+\+\_\+url\+\_\+\+\_\+} = \char`\"{}https\+://www.\+freecadweb.\+org\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{Helical\+Rebar@{Helical\+Rebar}!Command\+Helical\+Rebar@{Command\+Helical\+Rebar}}
+\index{Command\+Helical\+Rebar@{Command\+Helical\+Rebar}!Helical\+Rebar@{Helical\+Rebar}}
+\subsubsection[{\texorpdfstring{Command\+Helical\+Rebar()}{CommandHelicalRebar()}}]{\setlength{\rightskip}{0pt plus 5cm}def Helical\+Rebar.\+Command\+Helical\+Rebar (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceHelicalRebar_ad8ff0caf1e8a56ac47ce25062db8bc46}{}\label{namespaceHelicalRebar_ad8ff0caf1e8a56ac47ce25062db8bc46}
+
+
+Definition at line \hyperlink{HelicalRebar_8py_source_l00241}{241} of file \hyperlink{HelicalRebar_8py_source}{Helical\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceHelicalRebar.tex_l00241}{}\hyperlink{namespaceHelicalRebar_ad8ff0caf1e8a56ac47ce25062db8bc46}{00241} \textcolor{keyword}{def }\hyperlink{namespaceHelicalRebar_ad8ff0caf1e8a56ac47ce25062db8bc46}{CommandHelicalRebar}():
+00242     selected\_obj = \hyperlink{namespaceRebarfunc_adae2713855a7e1b4bda04081ae671542}{check\_selected\_face}()
+00243     \textcolor{keywordflow}{if} selected\_obj:
+00244         FreeCADGui.Control.showDialog(\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel}{\_HelicalRebarTaskPanel}())
+00245 \end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceHelicalRebar_ad8ff0caf1e8a56ac47ce25062db8bc46_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceHelicalRebar_ad8ff0caf1e8a56ac47ce25062db8bc46_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Helical\+Rebar@{Helical\+Rebar}!create\+Helical\+Wire@{create\+Helical\+Wire}}
+\index{create\+Helical\+Wire@{create\+Helical\+Wire}!Helical\+Rebar@{Helical\+Rebar}}
+\subsubsection[{\texorpdfstring{create\+Helical\+Wire(\+Face\+P\+R\+M, s\+\_\+cover, b\+\_\+cover, t\+\_\+cover, pitch, size, direction, helix=\+None)}{createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, direction, helix=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Helical\+Rebar.\+create\+Helical\+Wire (
+\begin{DoxyParamCaption}
+\item[{}]{Face\+P\+RM, }
+\item[{}]{s\+\_\+cover, }
+\item[{}]{b\+\_\+cover, }
+\item[{}]{t\+\_\+cover, }
+\item[{}]{pitch, }
+\item[{}]{size, }
+\item[{}]{direction, }
+\item[{}]{helix = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceHelicalRebar_a1a2b3ce39b904ab0c3892ed0965d2844}{}\label{namespaceHelicalRebar_a1a2b3ce39b904ab0c3892ed0965d2844}
+\begin{DoxyVerb}createHelicalWire(FacePRM, SideCover, BottomCover, TopCover, Pitch, Size, Direction, Helix = None):
+It creates a helical wire.\end{DoxyVerb}
+ 
+
+Definition at line \hyperlink{HelicalRebar_8py_source_l00075}{75} of file \hyperlink{HelicalRebar_8py_source}{Helical\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceHelicalRebar.tex_l00075}{}\hyperlink{namespaceHelicalRebar_a1a2b3ce39b904ab0c3892ed0965d2844}{00075} \textcolor{keyword}{def }\hyperlink{namespaceHelicalRebar_a1a2b3ce39b904ab0c3892ed0965d2844}{createHelicalWire}(FacePRM, s\_cover, b\_cover, t\_cover, pitch, size, direction, helix = 
+      None):
+00076     \textcolor{stringliteral}{""" createHelicalWire(FacePRM, SideCover, BottomCover, TopCover, Pitch, Size, Direction, Helix = None):}
+00077 \textcolor{stringliteral}{    It creates a helical wire."""}
+00078     \textcolor{keyword}{import} Part
+00079     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} helix:
+00080         helix = FreeCAD.ActiveDocument.addObject(\textcolor{stringliteral}{"Part::Helix"},\textcolor{stringliteral}{"Helix"})
+00081     helix.Pitch = pitch
+00082     helix.Radius = FacePRM[0][0] / 2 - s\_cover
+00083     helix.Angle = 0
+00084     helix.LocalCoord = 0
+00085     helix.Height = size - b\_cover - t\_cover
+00086     \textcolor{keywordflow}{if} round(direction.x) == 1:
+00087         helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0] - b\_cover, FacePRM[1][1], FacePRM[1][2])
+00088         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, -1, 0), 90)
+00089     \textcolor{keywordflow}{elif} round(direction.x) == -1:
+00090         helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0] + t\_cover, FacePRM[1][1], FacePRM[1][2])
+00091         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, -1, 0), -90)
+00092     \textcolor{keywordflow}{elif} round(direction.y) == 1:
+00093         helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1] - b\_cover, FacePRM[1][2])
+00094         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(1, 0, 0), 90)
+00095     \textcolor{keywordflow}{elif} round(direction.y) == -1:
+00096         helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1] + t\_cover, FacePRM[1][2])
+00097         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(-1, 0, 0), 90)
+00098     \textcolor{keywordflow}{elif} round(direction.z) == 1:
+00099         helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1], FacePRM[1][2] - size + b\_cover)
+00100         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, 0, 1), 0)
+00101     \textcolor{keywordflow}{elif} round(direction.z) == -1:
+00102         helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1], FacePRM[1][2] + b\_cover)
+00103         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, 0, -1), 0)
+00104     FreeCAD.ActiveDocument.recompute()
+00105     \textcolor{keywordflow}{return} helix
+00106 
+\end{DoxyCode}
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceHelicalRebar_a1a2b3ce39b904ab0c3892ed0965d2844_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Helical\+Rebar@{Helical\+Rebar}!edit\+Dialog@{edit\+Dialog}}
+\index{edit\+Dialog@{edit\+Dialog}!Helical\+Rebar@{Helical\+Rebar}}
+\subsubsection[{\texorpdfstring{edit\+Dialog(vobj)}{editDialog(vobj)}}]{\setlength{\rightskip}{0pt plus 5cm}def Helical\+Rebar.\+edit\+Dialog (
+\begin{DoxyParamCaption}
+\item[{}]{vobj}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceHelicalRebar_ab9725ab4f1e5650133dba94c24907331}{}\label{namespaceHelicalRebar_ab9725ab4f1e5650133dba94c24907331}
+
+
+Definition at line \hyperlink{HelicalRebar_8py_source_l00231}{231} of file \hyperlink{HelicalRebar_8py_source}{Helical\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceHelicalRebar.tex_l00231}{}\hyperlink{namespaceHelicalRebar_ab9725ab4f1e5650133dba94c24907331}{00231} \textcolor{keyword}{def }\hyperlink{namespaceHelicalRebar_ab9725ab4f1e5650133dba94c24907331}{editDialog}(vobj):
+00232     FreeCADGui.Control.closeDialog()
+00233     obj = \hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel}{\_HelicalRebarTaskPanel}(vobj.Object)
+00234     obj.form.sideCover.setText(str(vobj.Object.SideCover))
+00235     obj.form.bottomCover.setText(str(vobj.Object.BottomCover))
+00236     obj.form.diameter.setText(str(vobj.Object.Diameter))
+00237     obj.form.topCover.setText(str(vobj.Object.TopCover))
+00238     obj.form.pitch.setText(str(vobj.Object.Pitch))
+00239     FreeCADGui.Control.showDialog(obj)
+00240 
+\end{DoxyCode}
+\index{Helical\+Rebar@{Helical\+Rebar}!edit\+Helical\+Rebar@{edit\+Helical\+Rebar}}
+\index{edit\+Helical\+Rebar@{edit\+Helical\+Rebar}!Helical\+Rebar@{Helical\+Rebar}}
+\subsubsection[{\texorpdfstring{edit\+Helical\+Rebar(\+Rebar, s\+\_\+cover, b\+\_\+cover, diameter, t\+\_\+cover, pitch, structure=\+None, facename=\+None)}{editHelicalRebar(Rebar, s_cover, b_cover, diameter, t_cover, pitch, structure=None, facename=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Helical\+Rebar.\+edit\+Helical\+Rebar (
+\begin{DoxyParamCaption}
+\item[{}]{Rebar, }
+\item[{}]{s\+\_\+cover, }
+\item[{}]{b\+\_\+cover, }
+\item[{}]{diameter, }
+\item[{}]{t\+\_\+cover, }
+\item[{}]{pitch, }
+\item[{}]{structure = {\ttfamily None}, }
+\item[{}]{facename = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceHelicalRebar_aea0d3838b1b171f801acf1046d111c8b}{}\label{namespaceHelicalRebar_aea0d3838b1b171f801acf1046d111c8b}
+
+
+Definition at line \hyperlink{HelicalRebar_8py_source_l00203}{203} of file \hyperlink{HelicalRebar_8py_source}{Helical\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceHelicalRebar.tex_l00203}{}\hyperlink{namespaceHelicalRebar_aea0d3838b1b171f801acf1046d111c8b}{00203} \textcolor{keyword}{def }\hyperlink{namespaceHelicalRebar_aea0d3838b1b171f801acf1046d111c8b}{editHelicalRebar}(Rebar, s\_cover, b\_cover, diameter, t\_cover, pitch, structure = None, 
+      facename = None):
+00204     sketch = Rebar.Base
+00205     \textcolor{keywordflow}{if} structure \textcolor{keywordflow}{and} facename:
+00206         sketch.Support = [(structure, facename)]
+00207     \textcolor{comment}{# Check if sketch support is empty.}
+00208     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} sketch.Support:
+00209         \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"You have checked remove external geometry of base sketchs when needed.\(\backslash\)nTo
+       unchecked Edit->Preferences->Arch."})
+00210         \textcolor{keywordflow}{return}
+00211     \textcolor{comment}{# Assigned values}
+00212     facename = sketch.Support[0][1][0]
+00213     structure = sketch.Support[0][0]
+00214     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00215     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00216     \textcolor{comment}{# Get parameters of the face where sketch of rebar is drawn}
+00217     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename, \textcolor{keyword}{False})
+00218     size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00219     normal = face.normalAt(0,0)
+00220     \textcolor{comment}{#normal = face.Placement.Rotation.inverted().multVec(normal)}
+00221     helix = \hyperlink{namespaceHelicalRebar_a1a2b3ce39b904ab0c3892ed0965d2844}{createHelicalWire}(FacePRM, s\_cover, b\_cover, t\_cover, pitch, size, normal, 
+      Rebar.Base)
+00222     FreeCAD.ActiveDocument.recompute()
+00223     Rebar.Diameter = diameter
+00224     Rebar.SideCover = s\_cover
+00225     Rebar.BottomCover = b\_cover
+00226     Rebar.TopCover = t\_cover
+00227     Rebar.Pitch = pitch
+00228     FreeCAD.ActiveDocument.recompute()
+00229     \textcolor{keywordflow}{return} Rebar
+00230 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceHelicalRebar_aea0d3838b1b171f801acf1046d111c8b_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceHelicalRebar_aea0d3838b1b171f801acf1046d111c8b_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Helical\+Rebar@{Helical\+Rebar}!getpoints\+Of\+Helical\+Rebar@{getpoints\+Of\+Helical\+Rebar}}
+\index{getpoints\+Of\+Helical\+Rebar@{getpoints\+Of\+Helical\+Rebar}!Helical\+Rebar@{Helical\+Rebar}}
+\subsubsection[{\texorpdfstring{getpoints\+Of\+Helical\+Rebar(\+Face\+P\+R\+M, s\+\_\+cover, b\+\_\+cover, t\+\_\+cover, pitch, edges, diameter, size, direction)}{getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover, pitch, edges, diameter, size, direction)}}]{\setlength{\rightskip}{0pt plus 5cm}def Helical\+Rebar.\+getpoints\+Of\+Helical\+Rebar (
+\begin{DoxyParamCaption}
+\item[{}]{Face\+P\+RM, }
+\item[{}]{s\+\_\+cover, }
+\item[{}]{b\+\_\+cover, }
+\item[{}]{t\+\_\+cover, }
+\item[{}]{pitch, }
+\item[{}]{edges, }
+\item[{}]{diameter, }
+\item[{}]{size, }
+\item[{}]{direction}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceHelicalRebar_a4fcf2dabc065c39ce5c8cf6995051352}{}\label{namespaceHelicalRebar_a4fcf2dabc065c39ce5c8cf6995051352}
+\begin{DoxyVerb}getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover):
+Return points of the LShape rebar in the form of array for sketch.\end{DoxyVerb}
+ 
+
+Definition at line \hyperlink{HelicalRebar_8py_source_l00039}{39} of file \hyperlink{HelicalRebar_8py_source}{Helical\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceHelicalRebar.tex_l00039}{}\hyperlink{namespaceHelicalRebar_a4fcf2dabc065c39ce5c8cf6995051352}{00039} \textcolor{keyword}{def }\hyperlink{namespaceHelicalRebar_a4fcf2dabc065c39ce5c8cf6995051352}{getpointsOfHelicalRebar}(FacePRM, s\_cover, b\_cover, t\_cover, pitch, edges, 
+      diameter, size, direction):
+00040     \textcolor{stringliteral}{""" getpointsOfHelicalRebar(FacePRM, s\_cover, b\_cover, t\_cover):}
+00041 \textcolor{stringliteral}{    Return points of the LShape rebar in the form of array for sketch."""}
+00042     dx = s\_cover + diameter / 2
+00043     dz = float(pitch) / edges
+00044     R = diameter / 2 - dx
+00045     R = FacePRM[0][0] / 2 - s\_cover
+00046     points = []
+00047     \textcolor{keywordflow}{if} direction[2] \textcolor{keywordflow}{in} \{-1,1\}:
+00048         z = 0
+00049         l = 0
+00050         \textcolor{keywordflow}{if} direction[2] == 1:
+00051             zz = FacePRM[1][2] - t\_cover
+00052         \textcolor{keywordflow}{elif} direction[2] == -1:
+00053             zz = FacePRM[1][2] + b\_cover
+00054         count = 0
+00055         flag = \textcolor{keyword}{False}
+00056         \textcolor{keywordflow}{while} (round(z) < abs(size - b\_cover - t\_cover)):
+00057             \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(0, int(edges) + 1):
+00058                 \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} i \textcolor{keywordflow}{and} flag:
+00059                     \textcolor{keywordflow}{continue}
+00060                 \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} flag:
+00061                     z -= dz
+00062                     flag = \textcolor{keyword}{True}
+00063                 iAngle = i * 360 / edges
+00064                 x =  FacePRM[1][0] + R * math.cos(math.radians(iAngle))
+00065                 y =  FacePRM[1][1] + R * math.sin(math.radians(iAngle))
+00066                 points.append(FreeCAD.Vector(x, y, zz))
+00067                 count += 1
+00068                 \textcolor{keywordflow}{if} direction[2] == 1:
+00069                     zz -= dz
+00070                 \textcolor{keywordflow}{elif} direction[2] == -1:
+00071                     zz += dz
+00072                 z += dz
+00073     \textcolor{keywordflow}{return} points
+00074 
+\end{DoxyCode}
+\index{Helical\+Rebar@{Helical\+Rebar}!make\+Helical\+Rebar@{make\+Helical\+Rebar}}
+\index{make\+Helical\+Rebar@{make\+Helical\+Rebar}!Helical\+Rebar@{Helical\+Rebar}}
+\subsubsection[{\texorpdfstring{make\+Helical\+Rebar(s\+\_\+cover, b\+\_\+cover, diameter, t\+\_\+cover, pitch, structure=\+None, facename=\+None)}{makeHelicalRebar(s_cover, b_cover, diameter, t_cover, pitch, structure=None, facename=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Helical\+Rebar.\+make\+Helical\+Rebar (
+\begin{DoxyParamCaption}
+\item[{}]{s\+\_\+cover, }
+\item[{}]{b\+\_\+cover, }
+\item[{}]{diameter, }
+\item[{}]{t\+\_\+cover, }
+\item[{}]{pitch, }
+\item[{}]{structure = {\ttfamily None}, }
+\item[{}]{facename = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceHelicalRebar_a8a4f12ed70819996ac31877957dfab08}{}\label{namespaceHelicalRebar_a8a4f12ed70819996ac31877957dfab08}
+\begin{DoxyVerb}makeHelicalRebar(SideCover, BottomCover, Diameter, TopCover, Pitch, Structure, Facename):
+Adds the Helical reinforcement bar to the selected structural object.\end{DoxyVerb}
+ 
+
+Definition at line \hyperlink{HelicalRebar_8py_source_l00165}{165} of file \hyperlink{HelicalRebar_8py_source}{Helical\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceHelicalRebar.tex_l00165}{}\hyperlink{namespaceHelicalRebar_a8a4f12ed70819996ac31877957dfab08}{00165} \textcolor{keyword}{def }\hyperlink{namespaceHelicalRebar_a8a4f12ed70819996ac31877957dfab08}{makeHelicalRebar}(s\_cover, b\_cover, diameter, t\_cover, pitch, structure = None, facename
+       = None):
+00166     \textcolor{stringliteral}{""" makeHelicalRebar(SideCover, BottomCover, Diameter, TopCover, Pitch, Structure, Facename):}
+00167 \textcolor{stringliteral}{    Adds the Helical reinforcement bar to the selected structural object."""}
+00168     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} structure \textcolor{keywordflow}{and} \textcolor{keywordflow}{not} facename:
+00169         selected\_obj = FreeCADGui.Selection.getSelectionEx()[0]
+00170         structure = selected\_obj.Object
+00171         facename = selected\_obj.SubElementNames[0]
+00172     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00173     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00174     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename, \textcolor{keyword}{False})
+00175     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} FacePRM:
+00176         FreeCAD.Console.PrintError(\textcolor{stringliteral}{"Cannot identified shape or from which base object sturctural element is
+       derived\(\backslash\)n"})
+00177         \textcolor{keywordflow}{return}
+00178     size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00179     normal = face.normalAt(0,0)
+00180     \textcolor{comment}{#normal = face.Placement.Rotation.inverted().multVec(normal)}
+00181     \textcolor{keyword}{import} Arch
+00182     helix = \hyperlink{namespaceHelicalRebar_a1a2b3ce39b904ab0c3892ed0965d2844}{createHelicalWire}(FacePRM, s\_cover, b\_cover, t\_cover, pitch, size, normal)
+00183     helix.Support = [(structure, facename)]
+00184     rebar = Arch.makeRebar(structure, helix, diameter, 1, 0)
+00185     rebar.OffsetStart = 0
+00186     rebar.OffsetEnd = 0
+00187     FreeCAD.ActiveDocument.recompute()
+00188     \textcolor{comment}{# Adds properties to the rebar object}
+00189     rebar.ViewObject.addProperty(\textcolor{stringliteral}{"App::PropertyString"}, \textcolor{stringliteral}{"RebarShape"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Shape of rebar"})).RebarShape = \textcolor{stringliteral}{"HelicalRebar"}
+00190     rebar.ViewObject.setEditorMode(\textcolor{stringliteral}{"RebarShape"}, 2)
+00191     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"SideCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property
+      "}, \textcolor{stringliteral}{"Front cover of rebar"})).SideCover = s\_cover
+00192     rebar.setEditorMode(\textcolor{stringliteral}{"SideCover"}, 2)
+00193     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"Pitch"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}, \textcolor{stringliteral}{"
+      Left Side cover of rebar"})).Pitch = pitch
+00194     rebar.setEditorMode(\textcolor{stringliteral}{"Pitch"}, 2)
+00195     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"BottomCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Bottom cover of rebar"})).BottomCover = b\_cover
+00196     rebar.setEditorMode(\textcolor{stringliteral}{"BottomCover"}, 2)
+00197     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"TopCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}
+      , \textcolor{stringliteral}{"Top cover of rebar"})).TopCover = t\_cover
+00198     rebar.setEditorMode(\textcolor{stringliteral}{"TopCover"}, 2)
+00199     rebar.Label = \textcolor{stringliteral}{"HelicalRebar"}
+00200     FreeCAD.ActiveDocument.recompute()
+00201     \textcolor{keywordflow}{return} rebar
+00202 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceHelicalRebar_a8a4f12ed70819996ac31877957dfab08_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceHelicalRebar_a8a4f12ed70819996ac31877957dfab08_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\index{Helical\+Rebar@{Helical\+Rebar}!\+\_\+\+\_\+author\+\_\+\+\_\+@{\+\_\+\+\_\+author\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+author\+\_\+\+\_\+@{\+\_\+\+\_\+author\+\_\+\+\_\+}!Helical\+Rebar@{Helical\+Rebar}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+author\+\_\+\+\_\+}{__author__}}]{\setlength{\rightskip}{0pt plus 5cm}string Helical\+Rebar.\+\_\+\+\_\+author\+\_\+\+\_\+ = \char`\"{}Amritpal Singh\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceHelicalRebar_a925dcfed2ffef215413157f48d7b6e57}{}\label{namespaceHelicalRebar_a925dcfed2ffef215413157f48d7b6e57}
+
+
+Definition at line \hyperlink{HelicalRebar_8py_source_l00025}{25} of file \hyperlink{HelicalRebar_8py_source}{Helical\+Rebar.\+py}.
+
+\index{Helical\+Rebar@{Helical\+Rebar}!\+\_\+\+\_\+title\+\_\+\+\_\+@{\+\_\+\+\_\+title\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+title\+\_\+\+\_\+@{\+\_\+\+\_\+title\+\_\+\+\_\+}!Helical\+Rebar@{Helical\+Rebar}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+title\+\_\+\+\_\+}{__title__}}]{\setlength{\rightskip}{0pt plus 5cm}string Helical\+Rebar.\+\_\+\+\_\+title\+\_\+\+\_\+ = \char`\"{}Helical\+Rebar\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceHelicalRebar_a28c95505364eadd0c2d4abbd80091bef}{}\label{namespaceHelicalRebar_a28c95505364eadd0c2d4abbd80091bef}
+
+
+Definition at line \hyperlink{HelicalRebar_8py_source_l00024}{24} of file \hyperlink{HelicalRebar_8py_source}{Helical\+Rebar.\+py}.
+
+\index{Helical\+Rebar@{Helical\+Rebar}!\+\_\+\+\_\+url\+\_\+\+\_\+@{\+\_\+\+\_\+url\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+url\+\_\+\+\_\+@{\+\_\+\+\_\+url\+\_\+\+\_\+}!Helical\+Rebar@{Helical\+Rebar}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+url\+\_\+\+\_\+}{__url__}}]{\setlength{\rightskip}{0pt plus 5cm}string Helical\+Rebar.\+\_\+\+\_\+url\+\_\+\+\_\+ = \char`\"{}https\+://www.\+freecadweb.\+org\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceHelicalRebar_a9c74e4634d00eef07ed630054e69fbff}{}\label{namespaceHelicalRebar_a9c74e4634d00eef07ed630054e69fbff}
+
+
+Definition at line \hyperlink{HelicalRebar_8py_source_l00026}{26} of file \hyperlink{HelicalRebar_8py_source}{Helical\+Rebar.\+py}.
+

@@ -1,0 +1,9 @@
+<map id="BentShapeRebar._BentShapeRebarTaskPanel.accept" name="BentShapeRebar._BentShapeRebarTaskPanel.accept">
+<area shape="rect" id="node2" href="$namespaceBentShapeRebar.html#aac46779d3e1905db5a3788917f6e2476" title="BentShapeRebar.makeBentShape\lRebar" alt="" coords="249,16,471,58"/>
+<area shape="rect" id="node6" href="$namespaceBentShapeRebar.html#a941d005845cd497c0beb12bb8fef9171" title="BentShapeRebar.editBentShape\lRebar" alt="" coords="255,82,465,123"/>
+<area shape="rect" id="node3" href="$namespaceRebarfunc.html#a3885b3b63e3a41508ac79bc7550cf301" title="Rebarfunc.getFaceNumber" alt="" coords="781,24,960,50"/>
+<area shape="rect" id="node4" href="$namespaceRebarfunc.html#a92122b3d7cedd3d47bb63380a5ac4d08" title="Rebarfunc.getParametersOfFace" alt="" coords="519,24,733,50"/>
+<area shape="rect" id="node5" href="$namespaceBentShapeRebar.html#a33951a8ab21a73bae42af9f81d7c43c3" title="BentShapeRebar.getpoints\lOfBentShapeRebar" alt="" coords="537,75,715,116"/>
+<area shape="rect" id="node7" href="$namespaceRebarfunc.html#a2278a0602d46a62953af1fcf2e574a94" title="Rebarfunc.showWarning" alt="" coords="543,192,709,218"/>
+<area shape="rect" id="node8" href="$namespaceRebarfunc.html#a1467a55852e36c36c472e222855bb937" title="Rebarfunc.translate" alt="" coords="803,192,939,218"/>
+</map>

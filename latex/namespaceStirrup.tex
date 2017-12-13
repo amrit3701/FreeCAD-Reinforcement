@@ -1,0 +1,486 @@
+\hypertarget{namespaceStirrup}{}\section{Stirrup Namespace Reference}
+\label{namespaceStirrup}\index{Stirrup@{Stirrup}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classStirrup_1_1__StirrupTaskPanel}{\+\_\+\+Stirrup\+Task\+Panel}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespaceStirrup_aa6df5118806bfe9d3a799e1bf549bb0a}{getpoints\+Of\+Stirrup} (Face\+P\+RM, l\+\_\+cover, r\+\_\+cover, t\+\_\+cover, b\+\_\+cover, bent\+Angle, bent\+Factor, diameter, rounding, facenormal)
+\item 
+def \hyperlink{namespaceStirrup_a705fc121e2af9c8ac05eb299f4fb9f2f}{make\+Stirrup} (l\+\_\+cover, r\+\_\+cover, t\+\_\+cover, b\+\_\+cover, f\+\_\+cover, bent\+Angle, bent\+Factor, diameter, rounding, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, structure=None, facename=None)
+\item 
+def \hyperlink{namespaceStirrup_a1f6d278ace7fe116895dba342e2a3573}{edit\+Stirrup} (Rebar, l\+\_\+cover, r\+\_\+cover, t\+\_\+cover, b\+\_\+cover, f\+\_\+cover, bent\+Angle, bent\+Factor, diameter, rounding, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, structure=None, facename=None)
+\item 
+def \hyperlink{namespaceStirrup_a8ebd17322b7f4f5fe9e50bd578ba670d}{edit\+Dialog} (vobj)
+\item 
+def \hyperlink{namespaceStirrup_a3863ce61c716794557101a50f41597b5}{Command\+Stirrup} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{namespaceStirrup_aac4f16b6285f67fb07673ac264bac3dc}{\+\_\+\+\_\+title\+\_\+\+\_\+} = \char`\"{}Stirrup\+Rebar\char`\"{}
+\item 
+string \hyperlink{namespaceStirrup_ad470a52dca49f918ddfef810e749291c}{\+\_\+\+\_\+author\+\_\+\+\_\+} = \char`\"{}Amritpal Singh\char`\"{}
+\item 
+string \hyperlink{namespaceStirrup_a3b5b07aa3d0183155a2be24e2d0d4a82}{\+\_\+\+\_\+url\+\_\+\+\_\+} = \char`\"{}https\+://www.\+freecadweb.\+org\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{Stirrup@{Stirrup}!Command\+Stirrup@{Command\+Stirrup}}
+\index{Command\+Stirrup@{Command\+Stirrup}!Stirrup@{Stirrup}}
+\subsubsection[{\texorpdfstring{Command\+Stirrup()}{CommandStirrup()}}]{\setlength{\rightskip}{0pt plus 5cm}def Stirrup.\+Command\+Stirrup (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceStirrup_a3863ce61c716794557101a50f41597b5}{}\label{namespaceStirrup_a3863ce61c716794557101a50f41597b5}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00350}{350} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceStirrup.tex_l00350}{}\hyperlink{namespaceStirrup_a3863ce61c716794557101a50f41597b5}{00350} \textcolor{keyword}{def }\hyperlink{namespaceStirrup_a3863ce61c716794557101a50f41597b5}{CommandStirrup}():
+00351     selected\_obj = \hyperlink{namespaceRebarfunc_adae2713855a7e1b4bda04081ae671542}{check\_selected\_face}()
+00352     \textcolor{keywordflow}{if} selected\_obj:
+00353         FreeCADGui.Control.showDialog(\hyperlink{classStirrup_1_1__StirrupTaskPanel}{\_StirrupTaskPanel}())
+00354 \end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStirrup_a3863ce61c716794557101a50f41597b5_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStirrup_a3863ce61c716794557101a50f41597b5_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Stirrup@{Stirrup}!edit\+Dialog@{edit\+Dialog}}
+\index{edit\+Dialog@{edit\+Dialog}!Stirrup@{Stirrup}}
+\subsubsection[{\texorpdfstring{edit\+Dialog(vobj)}{editDialog(vobj)}}]{\setlength{\rightskip}{0pt plus 5cm}def Stirrup.\+edit\+Dialog (
+\begin{DoxyParamCaption}
+\item[{}]{vobj}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceStirrup_a8ebd17322b7f4f5fe9e50bd578ba670d}{}\label{namespaceStirrup_a8ebd17322b7f4f5fe9e50bd578ba670d}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00327}{327} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceStirrup.tex_l00327}{}\hyperlink{namespaceStirrup_a8ebd17322b7f4f5fe9e50bd578ba670d}{00327} \textcolor{keyword}{def }\hyperlink{namespaceStirrup_a8ebd17322b7f4f5fe9e50bd578ba670d}{editDialog}(vobj):
+00328     FreeCADGui.Control.closeDialog()
+00329     obj = \hyperlink{classStirrup_1_1__StirrupTaskPanel}{\_StirrupTaskPanel}(vobj.Object)
+00330     obj.form.frontCover.setText(str(vobj.Object.FrontCover))
+00331     obj.form.l\_sideCover.setText(str(vobj.Object.LeftCover))
+00332     obj.form.r\_sideCover.setText(str(vobj.Object.RightCover))
+00333     obj.form.t\_sideCover.setText(str(vobj.Object.TopCover))
+00334     obj.form.b\_sideCover.setText(str(vobj.Object.BottomCover))
+00335     obj.form.diameter.setText(str(vobj.Object.Diameter))
+00336     obj.form.bentAngle.setCurrentIndex(obj.form.bentAngle.findText(str(vobj.Object.BentAngle)))
+00337     obj.form.bentFactor.setValue(vobj.Object.BentFactor)
+00338     obj.form.rounding.setValue(vobj.Object.Rounding)
+00339     \textcolor{keywordflow}{if} vobj.Object.AmountCheck:
+00340         obj.form.amount.setValue(vobj.Object.Amount)
+00341     \textcolor{keywordflow}{else}:
+00342         obj.form.amount\_radio.setChecked(\textcolor{keyword}{False})
+00343         obj.form.spacing\_radio.setChecked(\textcolor{keyword}{True})
+00344         obj.form.amount.setDisabled(\textcolor{keyword}{True})
+00345         obj.form.spacing.setEnabled(\textcolor{keyword}{True})
+00346         obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
+00347     \textcolor{comment}{#obj.form.PickSelectedFace.setVisible(False)}
+00348     FreeCADGui.Control.showDialog(obj)
+00349 
+\end{DoxyCode}
+\index{Stirrup@{Stirrup}!edit\+Stirrup@{edit\+Stirrup}}
+\index{edit\+Stirrup@{edit\+Stirrup}!Stirrup@{Stirrup}}
+\subsubsection[{\texorpdfstring{edit\+Stirrup(\+Rebar, l\+\_\+cover, r\+\_\+cover, t\+\_\+cover, b\+\_\+cover, f\+\_\+cover, bent\+Angle, bent\+Factor, diameter, rounding, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, structure=\+None, facename=\+None)}{editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor, diameter, rounding, amount_spacing_check, amount_spacing_value, structure=None, facename=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Stirrup.\+edit\+Stirrup (
+\begin{DoxyParamCaption}
+\item[{}]{Rebar, }
+\item[{}]{l\+\_\+cover, }
+\item[{}]{r\+\_\+cover, }
+\item[{}]{t\+\_\+cover, }
+\item[{}]{b\+\_\+cover, }
+\item[{}]{f\+\_\+cover, }
+\item[{}]{bent\+Angle, }
+\item[{}]{bent\+Factor, }
+\item[{}]{diameter, }
+\item[{}]{rounding, }
+\item[{}]{amount\+\_\+spacing\+\_\+check, }
+\item[{}]{amount\+\_\+spacing\+\_\+value, }
+\item[{}]{structure = {\ttfamily None}, }
+\item[{}]{facename = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceStirrup_a1f6d278ace7fe116895dba342e2a3573}{}\label{namespaceStirrup_a1f6d278ace7fe116895dba342e2a3573}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00281}{281} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceStirrup.tex_l00281}{}\hyperlink{namespaceStirrup_a1f6d278ace7fe116895dba342e2a3573}{00281}         amount\_spacing\_check, amount\_spacing\_value, structure = \textcolor{keywordtype}{None}, facename = \textcolor{keywordtype}{None}):
+00282     sketch = Rebar.Base
+00283     \textcolor{keywordflow}{if} structure \textcolor{keywordflow}{and} facename:
+00284         sketch.Support = [(structure, facename)]
+00285     \textcolor{comment}{# Check if sketch support is empty.}
+00286     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} sketch.Support:
+00287         \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"You have checked remove external geometry of base sketchs when needed.\(\backslash\)nTo
+       unchecked Edit->Preferences->Arch."})
+00288         \textcolor{keywordflow}{return}
+00289     \textcolor{comment}{# Assigned values}
+00290     facename = sketch.Support[0][1][0]
+00291     structure = sketch.Support[0][0]
+00292     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00293     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00294     \textcolor{comment}{# Get parameters of the face where sketch of rebar is drawn}
+00295     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename, \textcolor{keyword}{False})
+00296     FaceNormal = face.normalAt(0, 0)
+00297     \textcolor{comment}{#FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)}
+00298     \textcolor{comment}{# Calculate the coordinates value of Stirrup rebar}
+00299     points = \hyperlink{namespaceStirrup_aa6df5118806bfe9d3a799e1bf549bb0a}{getpointsOfStirrup}(FacePRM, l\_cover, r\_cover, t\_cover, b\_cover, bentAngle, 
+      bentFactor, diameter, rounding, FaceNormal)
+00300     Rebar.Base.Points = points
+00301     FreeCAD.ActiveDocument.recompute()
+00302     Rebar.Direction = FaceNormal.negative()
+00303     Rebar.OffsetStart = f\_cover
+00304     Rebar.OffsetEnd = f\_cover
+00305     Rebar.BentAngle = bentAngle
+00306     Rebar.BentFactor = bentFactor
+00307     Rebar.Rounding = rounding
+00308     Rebar.Diameter = diameter
+00309     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00310         Rebar.Amount = amount\_spacing\_value
+00311         FreeCAD.ActiveDocument.recompute()
+00312         Rebar.AmountCheck = \textcolor{keyword}{True}
+00313     \textcolor{keywordflow}{else}:
+00314         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00315         Rebar.Amount = int((size - diameter) / amount\_spacing\_value)
+00316         FreeCAD.ActiveDocument.recompute()
+00317         Rebar.AmountCheck = \textcolor{keyword}{False}
+00318     Rebar.FrontCover = f\_cover
+00319     Rebar.LeftCover = l\_cover
+00320     Rebar.RightCover = r\_cover
+00321     Rebar.TopCover = t\_cover
+00322     Rebar.BottomCover = b\_cover
+00323     Rebar.TrueSpacing = amount\_spacing\_value
+00324     FreeCAD.ActiveDocument.recompute()
+00325     \textcolor{keywordflow}{return} Rebar
+00326 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStirrup_a1f6d278ace7fe116895dba342e2a3573_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStirrup_a1f6d278ace7fe116895dba342e2a3573_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Stirrup@{Stirrup}!getpoints\+Of\+Stirrup@{getpoints\+Of\+Stirrup}}
+\index{getpoints\+Of\+Stirrup@{getpoints\+Of\+Stirrup}!Stirrup@{Stirrup}}
+\subsubsection[{\texorpdfstring{getpoints\+Of\+Stirrup(\+Face\+P\+R\+M, l\+\_\+cover, r\+\_\+cover, t\+\_\+cover, b\+\_\+cover, bent\+Angle, bent\+Factor, diameter, rounding, facenormal)}{getpointsOfStirrup(FacePRM, l_cover, r_cover, t_cover, b_cover, bentAngle, bentFactor, diameter, rounding, facenormal)}}]{\setlength{\rightskip}{0pt plus 5cm}def Stirrup.\+getpoints\+Of\+Stirrup (
+\begin{DoxyParamCaption}
+\item[{}]{Face\+P\+RM, }
+\item[{}]{l\+\_\+cover, }
+\item[{}]{r\+\_\+cover, }
+\item[{}]{t\+\_\+cover, }
+\item[{}]{b\+\_\+cover, }
+\item[{}]{bent\+Angle, }
+\item[{}]{bent\+Factor, }
+\item[{}]{diameter, }
+\item[{}]{rounding, }
+\item[{}]{facenormal}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceStirrup_aa6df5118806bfe9d3a799e1bf549bb0a}{}\label{namespaceStirrup_aa6df5118806bfe9d3a799e1bf549bb0a}
+\begin{DoxyVerb}getpointsOfStirrup(FacePRM, LeftCover, RightCover, TopCover, BottomCover, BentAngle, BentFactor, Diameter, Rounding, FaceNormal):
+Return the coordinates points of the Stirrup in the form of array.\end{DoxyVerb}
+ 
+
+Definition at line \hyperlink{Stirrup_8py_source_l00040}{40} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceStirrup.tex_l00040}{}\hyperlink{namespaceStirrup_aa6df5118806bfe9d3a799e1bf549bb0a}{00040} \textcolor{keyword}{def }\hyperlink{namespaceStirrup_aa6df5118806bfe9d3a799e1bf549bb0a}{getpointsOfStirrup}(FacePRM, l\_cover, r\_cover, t\_cover, b\_cover, bentAngle, 
+      bentFactor, diameter, rounding, facenormal):
+00041     \textcolor{stringliteral}{""" getpointsOfStirrup(FacePRM, LeftCover, RightCover, TopCover, BottomCover, BentAngle, BentFactor,
+       Diameter, Rounding, FaceNormal):}
+00042 \textcolor{stringliteral}{    Return the coordinates points of the Stirrup in the form of array."""}
+00043     angle = 180 - bentAngle
+00044     tangent\_part\_length = \hyperlink{namespaceRebarfunc_aaeecb468e0fcfc5eee69d6a24c5c5aef}{extendedTangentPartLength}(rounding, diameter, angle)
+00045     tangent\_length = \hyperlink{namespaceRebarfunc_ab5637ab0a8e202409ee8657d39ca87a0}{extendedTangentLength}(rounding, diameter, angle)
+00046     \textcolor{keywordflow}{if} round(facenormal[0]) \textcolor{keywordflow}{in} \{1,-1\}:
+00047         x1 = FacePRM[1][0]
+00048         y1 = FacePRM[1][1] - FacePRM[0][0] / 2 + l\_cover
+00049         z1 = FacePRM[1][2] + FacePRM[0][1] / 2 - t\_cover + tangent\_part\_length
+00050         y2 = FacePRM[1][1] - FacePRM[0][0] / 2 + l\_cover
+00051         z2 = FacePRM[1][2] - FacePRM[0][1] / 2 + b\_cover
+00052         y3 = FacePRM[1][1] + FacePRM[0][0] / 2 - r\_cover
+00053         z3 = FacePRM[1][2] - FacePRM[0][1] / 2 + b\_cover
+00054         y4 = FacePRM[1][1] + FacePRM[0][0] / 2 - r\_cover
+00055         z4 = FacePRM[1][2] + FacePRM[0][1] / 2 - t\_cover
+00056         y5 = FacePRM[1][1] - FacePRM[0][0] / 2 + l\_cover - tangent\_part\_length
+00057         z5 = FacePRM[1][2] + FacePRM[0][1] / 2 - t\_cover
+00058         side\_length = abs(y5 - y4) - tangent\_part\_length
+00059         normal\_dis = (diameter * (side\_length + tangent\_part\_length)) / side\_length
+00060         x2 = x1 - normal\_dis / 4
+00061         x3 = x2 - normal\_dis / 4
+00062         x4 = x3 - normal\_dis / 4
+00063         x5 = x4 - normal\_dis / 4
+00064         x0 = x1 + normal\_dis / 4
+00065         y0 = y1 + (tangent\_length + bentFactor * diameter) * math.sin(math.radians(angle))
+00066         z0 = z1 - (tangent\_length + bentFactor * diameter) * math.cos(math.radians(angle))
+00067         x6 = x5 - normal\_dis / 4
+00068         y6 = y5 + (tangent\_length + bentFactor * diameter) * math.sin(math.radians(90 - angle))
+00069         z6 = z5 - (tangent\_length + bentFactor * diameter) * math.cos(math.radians(90 - angle))
+00070     \textcolor{keywordflow}{elif} round(facenormal[1]) \textcolor{keywordflow}{in} \{1,-1\}:
+00071         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00072         y1 = FacePRM[1][1]
+00073         z1 = FacePRM[1][2] + FacePRM[0][1] / 2 - t\_cover + tangent\_part\_length
+00074         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00075         z2 = FacePRM[1][2] - FacePRM[0][1] / 2 + b\_cover
+00076         x3 = FacePRM[1][0] + FacePRM[0][0] / 2 - r\_cover
+00077         z3 = FacePRM[1][2] - FacePRM[0][1] / 2 + b\_cover
+00078         x4 = FacePRM[1][0] + FacePRM[0][0] / 2 - r\_cover
+00079         z4 = FacePRM[1][2] + FacePRM[0][1] / 2 - t\_cover
+00080         x5 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover - tangent\_part\_length
+00081         z5 = FacePRM[1][2] + FacePRM[0][1] / 2 - t\_cover
+00082         side\_length = abs(x5 - x4) - tangent\_part\_length
+00083         normal\_dis = (diameter * (side\_length + tangent\_part\_length)) / side\_length
+00084         y2 = y1 - normal\_dis / 4
+00085         y3 = y2 - normal\_dis / 4
+00086         y4 = y3 - normal\_dis / 4
+00087         y5 = y4 - normal\_dis / 4
+00088         y0 = y1 + normal\_dis / 4
+00089         x0 = x1 + (tangent\_length + bentFactor * diameter) * math.sin(math.radians(angle))
+00090         z0 = z1 - (tangent\_length + bentFactor * diameter) * math.cos(math.radians(angle))
+00091         x6 = x5 + (tangent\_length + bentFactor * diameter) * math.sin(math.radians(90 - angle))
+00092         y6 = y5 - normal\_dis / 4
+00093         z6 = z5 - (tangent\_length + bentFactor * diameter) * math.cos(math.radians(90 - angle))
+00094     \textcolor{keywordflow}{elif} round(facenormal[2]) \textcolor{keywordflow}{in} \{1,-1\}:
+00095         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00096         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover + tangent\_part\_length
+00097         z1 = FacePRM[1][2]
+00098         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00099         y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00100         x3 = FacePRM[1][0] + FacePRM[0][0] / 2 - r\_cover
+00101         y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00102         x4 = FacePRM[1][0] + FacePRM[0][0] / 2 - r\_cover
+00103         y4 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00104         x5 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover - tangent\_part\_length
+00105         y5 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00106         side\_length = abs(x5 - x4) - tangent\_part\_length
+00107         normal\_dis = (diameter * (side\_length + tangent\_part\_length)) / side\_length
+00108         z2 = z1 - normal\_dis / 4
+00109         z3 = z2 - normal\_dis / 4
+00110         z4 = z3 - normal\_dis / 4
+00111         z5 = z4 - normal\_dis / 4
+00112         z0 = z1 + normal\_dis / 4
+00113         x0 = x1 + (tangent\_length + bentFactor * diameter) * math.sin(math.radians(angle))
+00114         y0 = y1 - (tangent\_length + bentFactor * diameter) * math.cos(math.radians(angle))
+00115         x6 = x5 + (tangent\_length + bentFactor * diameter) * math.sin(math.radians(90 - angle))
+00116         y6 = y5 - (tangent\_length + bentFactor * diameter) * math.cos(math.radians(90 - angle))
+00117         z6 = z5 - normal\_dis / 4
+00118     \textcolor{keywordflow}{return} [FreeCAD.Vector(x0, y0, z0), FreeCAD.Vector(x1, y1, z1),\(\backslash\)
+00119             FreeCAD.Vector(x2, y2, z2), FreeCAD.Vector(x3, y3, z3),\(\backslash\)
+00120             FreeCAD.Vector(x4, y4, z4), FreeCAD.Vector(x5, y5, z5),\(\backslash\)
+00121             FreeCAD.Vector(x6, y6, z6)]
+00122 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStirrup_aa6df5118806bfe9d3a799e1bf549bb0a_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStirrup_aa6df5118806bfe9d3a799e1bf549bb0a_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Stirrup@{Stirrup}!make\+Stirrup@{make\+Stirrup}}
+\index{make\+Stirrup@{make\+Stirrup}!Stirrup@{Stirrup}}
+\subsubsection[{\texorpdfstring{make\+Stirrup(l\+\_\+cover, r\+\_\+cover, t\+\_\+cover, b\+\_\+cover, f\+\_\+cover, bent\+Angle, bent\+Factor, diameter, rounding, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, structure=\+None, facename=\+None)}{makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFactor, diameter, rounding, amount_spacing_check, amount_spacing_value, structure=None, facename=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Stirrup.\+make\+Stirrup (
+\begin{DoxyParamCaption}
+\item[{}]{l\+\_\+cover, }
+\item[{}]{r\+\_\+cover, }
+\item[{}]{t\+\_\+cover, }
+\item[{}]{b\+\_\+cover, }
+\item[{}]{f\+\_\+cover, }
+\item[{}]{bent\+Angle, }
+\item[{}]{bent\+Factor, }
+\item[{}]{diameter, }
+\item[{}]{rounding, }
+\item[{}]{amount\+\_\+spacing\+\_\+check, }
+\item[{}]{amount\+\_\+spacing\+\_\+value, }
+\item[{}]{structure = {\ttfamily None}, }
+\item[{}]{facename = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceStirrup_a705fc121e2af9c8ac05eb299f4fb9f2f}{}\label{namespaceStirrup_a705fc121e2af9c8ac05eb299f4fb9f2f}
+\begin{DoxyVerb}makeStirrup(LeftCover, RightCover, TopCover, BottomCover, FrontCover, BentAngle,
+BentFactor, Diameter, Rounding, AmountSpacingCheck, AmountSpacingValue, Structure, Facename):
+Adds the Stirrup reinforcement bar to the selected structural object.\end{DoxyVerb}
+ 
+
+Definition at line \hyperlink{Stirrup_8py_source_l00210}{210} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceStirrup.tex_l00210}{}\hyperlink{namespaceStirrup_a705fc121e2af9c8ac05eb299f4fb9f2f}{00210}         amount\_spacing\_check, amount\_spacing\_value, structure = \textcolor{keywordtype}{None}, facename = \textcolor{keywordtype}{None}):
+00211     \textcolor{stringliteral}{""" makeStirrup(LeftCover, RightCover, TopCover, BottomCover, FrontCover, BentAngle,}
+00212 \textcolor{stringliteral}{    BentFactor, Diameter, Rounding, AmountSpacingCheck, AmountSpacingValue, Structure, Facename):}
+00213 \textcolor{stringliteral}{    Adds the Stirrup reinforcement bar to the selected structural object."""}
+00214     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} structure \textcolor{keywordflow}{and} \textcolor{keywordflow}{not} facename:
+00215         selected\_obj = FreeCADGui.Selection.getSelectionEx()[0]
+00216         structure = selected\_obj.Object
+00217         facename = selected\_obj.SubElementNames[0]
+00218     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00219     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00220     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename, \textcolor{keyword}{False})
+00221     FaceNormal = face.normalAt(0,0)
+00222     \textcolor{comment}{#FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)}
+00223     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} FacePRM:
+00224         FreeCAD.Console.PrintError(\textcolor{stringliteral}{"Cannot identified shape or from which base object sturctural element is
+       derived\(\backslash\)n"})
+00225         \textcolor{keywordflow}{return}
+00226     \textcolor{comment}{# Calculate the coordinate values of Stirrup}
+00227     points = \hyperlink{namespaceStirrup_aa6df5118806bfe9d3a799e1bf549bb0a}{getpointsOfStirrup}(FacePRM, l\_cover, r\_cover, t\_cover, b\_cover, bentAngle, 
+      bentFactor, diameter, rounding, FaceNormal)
+00228     \textcolor{keyword}{import} Draft
+00229     line = Draft.makeWire(points, closed = \textcolor{keyword}{False}, face = \textcolor{keyword}{True}, support = \textcolor{keywordtype}{None})
+00230     \textcolor{keyword}{import} Arch
+00231     line.Support = [(structure, facename)]
+00232     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00233         rebar = Arch.makeRebar(structure, line, diameter, amount\_spacing\_value, f\_cover)
+00234     \textcolor{keywordflow}{else}:
+00235         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00236         rebar = Arch.makeRebar(structure, line, diameter,\(\backslash\)
+00237             int((size - diameter) / amount\_spacing\_value), f\_cover)
+00238     rebar.Direction = FaceNormal.negative()
+00239     rebar.Rounding = rounding
+00240     \textcolor{comment}{# Adds properties to the rebar object}
+00241     rebar.ViewObject.addProperty(\textcolor{stringliteral}{"App::PropertyString"}, \textcolor{stringliteral}{"RebarShape"}, \textcolor{stringliteral}{"RebarDialog"},\(\backslash\)
+00242         QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"},\textcolor{stringliteral}{"Shape of rebar"})).RebarShape = \textcolor{stringliteral}{"Stirrup"}
+00243     rebar.ViewObject.setEditorMode(\textcolor{stringliteral}{"RebarShape"}, 2)
+00244     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"LeftCover"}, \textcolor{stringliteral}{"RebarDialog"},\(\backslash\)
+00245         QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}, \textcolor{stringliteral}{"Left Side cover of rebar"})).LeftCover = l\_cover
+00246     rebar.setEditorMode(\textcolor{stringliteral}{"LeftCover"}, 2)
+00247     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"RightCover"}, \textcolor{stringliteral}{"RebarDialog"},\(\backslash\)
+00248         QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}, \textcolor{stringliteral}{"Right Side cover of rebar"})).RightCover = r\_cover
+00249     rebar.setEditorMode(\textcolor{stringliteral}{"RightCover"}, 2)
+00250     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"TopCover"}, \textcolor{stringliteral}{"RebarDialog"},\(\backslash\)
+00251         QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}, \textcolor{stringliteral}{"Top Side cover of rebar"})).TopCover = t\_cover
+00252     rebar.setEditorMode(\textcolor{stringliteral}{"TopCover"}, 2)
+00253     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"BottomCover"}, \textcolor{stringliteral}{"RebarDialog"},\(\backslash\)
+00254         QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}, \textcolor{stringliteral}{"Bottom Side cover of rebar"})).BottomCover = b\_cover
+00255     rebar.setEditorMode(\textcolor{stringliteral}{"BottomCover"}, 2)
+00256     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"FrontCover"}, \textcolor{stringliteral}{"RebarDialog"},\(\backslash\)
+00257         QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}, \textcolor{stringliteral}{"Top cover of rebar"})).FrontCover = f\_cover
+00258     rebar.setEditorMode(\textcolor{stringliteral}{"FrontCover"}, 2)
+00259     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyInteger"}, \textcolor{stringliteral}{"BentAngle"}, \textcolor{stringliteral}{"RebarDialog"},\(\backslash\)
+00260         QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}, \textcolor{stringliteral}{"Bent angle between at the end of rebar"})).BentAngle = bentAngle
+00261     rebar.setEditorMode(\textcolor{stringliteral}{"BentAngle"}, 2)
+00262     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyInteger"}, \textcolor{stringliteral}{"BentFactor"}, \textcolor{stringliteral}{"RebarDialog"},\(\backslash\)
+00263         QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}, \textcolor{stringliteral}{"Bent Length is the equal to BentFactor * Diameter"})).BentFactor
+       = bentFactor
+00264     rebar.setEditorMode(\textcolor{stringliteral}{"BentFactor"}, 2)
+00265     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyBool"}, \textcolor{stringliteral}{"AmountCheck"}, \textcolor{stringliteral}{"RebarDialog"},\(\backslash\)
+00266         QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}, \textcolor{stringliteral}{"Amount radio button is checked"})).AmountCheck
+00267     rebar.setEditorMode(\textcolor{stringliteral}{"AmountCheck"}, 2)
+00268     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"TrueSpacing"}, \textcolor{stringliteral}{"RebarDialog"},\(\backslash\)
+00269         QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}, \textcolor{stringliteral}{"Spacing between of rebars"})).TrueSpacing = amount\_spacing\_value
+00270     rebar.setEditorMode(\textcolor{stringliteral}{"TrueSpacing"}, 2)
+00271     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00272         rebar.AmountCheck = \textcolor{keyword}{True}
+00273     \textcolor{keywordflow}{else}:
+00274         rebar.AmountCheck = \textcolor{keyword}{False}
+00275         rebar.TrueSpacing = amount\_spacing\_value
+00276     rebar.Label = \textcolor{stringliteral}{"Stirrup"}
+00277     FreeCAD.ActiveDocument.recompute()
+00278     \textcolor{keywordflow}{return} rebar
+00279 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStirrup_a705fc121e2af9c8ac05eb299f4fb9f2f_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStirrup_a705fc121e2af9c8ac05eb299f4fb9f2f_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\index{Stirrup@{Stirrup}!\+\_\+\+\_\+author\+\_\+\+\_\+@{\+\_\+\+\_\+author\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+author\+\_\+\+\_\+@{\+\_\+\+\_\+author\+\_\+\+\_\+}!Stirrup@{Stirrup}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+author\+\_\+\+\_\+}{__author__}}]{\setlength{\rightskip}{0pt plus 5cm}string Stirrup.\+\_\+\+\_\+author\+\_\+\+\_\+ = \char`\"{}Amritpal Singh\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceStirrup_ad470a52dca49f918ddfef810e749291c}{}\label{namespaceStirrup_ad470a52dca49f918ddfef810e749291c}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00025}{25} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+\index{Stirrup@{Stirrup}!\+\_\+\+\_\+title\+\_\+\+\_\+@{\+\_\+\+\_\+title\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+title\+\_\+\+\_\+@{\+\_\+\+\_\+title\+\_\+\+\_\+}!Stirrup@{Stirrup}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+title\+\_\+\+\_\+}{__title__}}]{\setlength{\rightskip}{0pt plus 5cm}string Stirrup.\+\_\+\+\_\+title\+\_\+\+\_\+ = \char`\"{}Stirrup\+Rebar\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceStirrup_aac4f16b6285f67fb07673ac264bac3dc}{}\label{namespaceStirrup_aac4f16b6285f67fb07673ac264bac3dc}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00024}{24} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+\index{Stirrup@{Stirrup}!\+\_\+\+\_\+url\+\_\+\+\_\+@{\+\_\+\+\_\+url\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+url\+\_\+\+\_\+@{\+\_\+\+\_\+url\+\_\+\+\_\+}!Stirrup@{Stirrup}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+url\+\_\+\+\_\+}{__url__}}]{\setlength{\rightskip}{0pt plus 5cm}string Stirrup.\+\_\+\+\_\+url\+\_\+\+\_\+ = \char`\"{}https\+://www.\+freecadweb.\+org\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceStirrup_a3b5b07aa3d0183155a2be24e2d0d4a82}{}\label{namespaceStirrup_a3b5b07aa3d0183155a2be24e2d0d4a82}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00026}{26} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+

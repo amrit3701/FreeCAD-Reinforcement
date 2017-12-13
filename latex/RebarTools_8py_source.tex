@@ -1,0 +1,165 @@
+\hypertarget{RebarTools_8py_source}{}\section{Rebar\+Tools.\+py}
+
+\begin{DoxyCode}
+\hypertarget{RebarTools_8py_source.tex_l00001}{}\hyperlink{namespaceRebarTools}{00001} \textcolor{comment}{# -*- coding: utf-8 -*-}
+00002 \textcolor{comment}{# ***************************************************************************}
+00003 \textcolor{comment}{# *                                                                         *}
+00004 \textcolor{comment}{# *   Copyright (c) 2017 - Amritpal Singh <amrit3701@gmail.com>             *}
+00005 \textcolor{comment}{# *                                                                         *}
+00006 \textcolor{comment}{# *   This program is free software; you can redistribute it and/or modify  *}
+00007 \textcolor{comment}{# *   it under the terms of the GNU Lesser General Public License (LGPL)    *}
+00008 \textcolor{comment}{# *   as published by the Free Software Foundation; either version 2 of     *}
+00009 \textcolor{comment}{# *   the License, or (at your option) any later version.                   *}
+00010 \textcolor{comment}{# *   for detail see the LICENCE text file.                                 *}
+00011 \textcolor{comment}{# *                                                                         *}
+00012 \textcolor{comment}{# *   This program is distributed in the hope that it will be useful,       *}
+00013 \textcolor{comment}{# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *}
+00014 \textcolor{comment}{# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *}
+00015 \textcolor{comment}{# *   GNU Library General Public License for more details.                  *}
+00016 \textcolor{comment}{# *                                                                         *}
+00017 \textcolor{comment}{# *   You should have received a copy of the GNU Library General Public     *}
+00018 \textcolor{comment}{# *   License along with this program; if not, write to the Free Software   *}
+00019 \textcolor{comment}{# *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *}
+00020 \textcolor{comment}{# *   USA                                                                   *}
+00021 \textcolor{comment}{# *                                                                         *}
+00022 \textcolor{comment}{# ***************************************************************************}
+00023 
+\hypertarget{RebarTools_8py_source.tex_l00024}{}\hyperlink{namespaceRebarTools_a4e380bda06a3907d50e62c4d39b18109}{00024} \_\_title\_\_ = \textcolor{stringliteral}{"RebarCommands"}
+\hypertarget{RebarTools_8py_source.tex_l00025}{}\hyperlink{namespaceRebarTools_a9b758bc71542f069b1d43d0492dfeb35}{00025} \_\_author\_\_ = \textcolor{stringliteral}{"Amritpal Singh"}
+\hypertarget{RebarTools_8py_source.tex_l00026}{}\hyperlink{namespaceRebarTools_ad4d82f49272a3af7991667bf0c7d6998}{00026} \_\_url\_\_ = \textcolor{stringliteral}{"https://www.freecadweb.org"}
+00027 
+00028 \textcolor{keyword}{from} PySide.QtCore \textcolor{keyword}{import} QT\_TRANSLATE\_NOOP
+00029 \textcolor{keyword}{import} FreeCADGui
+00030 \textcolor{keyword}{import} os
+00031 
+\hypertarget{RebarTools_8py_source.tex_l00032}{}\hyperlink{classRebarTools_1_1StraightRebarTool}{00032} \textcolor{keyword}{class }\hyperlink{classRebarTools_1_1StraightRebarTool}{StraightRebarTool}:
+00033 
+\hypertarget{RebarTools_8py_source.tex_l00034}{}\hyperlink{classRebarTools_1_1StraightRebarTool_ac1f2c24d870ac815522a1962084c81c2}{00034}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1StraightRebarTool_ac1f2c24d870ac815522a1962084c81c2}{GetResources}(self):
+00035         \textcolor{keywordflow}{return} \{\textcolor{stringliteral}{'Pixmap'}  : os.path.split(os.path.abspath(\_\_file\_\_))[0]+\textcolor{stringliteral}{'
+      /icons/dropdown\_list/StraightRebar.svg'},
+00036                 \textcolor{stringliteral}{'MenuText'}: QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Straight Rebar"}),
+00037                 \textcolor{stringliteral}{'ToolTip'} : QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Creates a Striaght bar reinforcement from the
+       selected face of the Structural element."})\}
+00038 
+\hypertarget{RebarTools_8py_source.tex_l00039}{}\hyperlink{classRebarTools_1_1StraightRebarTool_ad61b32a063a060aadb475e4b48ea4f34}{00039}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1StraightRebarTool_ad61b32a063a060aadb475e4b48ea4f34}{IsActive}(self):
+00040         \textcolor{keywordflow}{if} FreeCADGui.ActiveDocument:
+00041             \textcolor{keywordflow}{return} \textcolor{keyword}{True}
+00042         \textcolor{keywordflow}{else}:
+00043             \textcolor{keywordflow}{return} \textcolor{keyword}{False}
+00044 
+\hypertarget{RebarTools_8py_source.tex_l00045}{}\hyperlink{classRebarTools_1_1StraightRebarTool_aa297d606f70c0474a1014b5b8ea241bf}{00045}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1StraightRebarTool_aa297d606f70c0474a1014b5b8ea241bf}{Activated}(self):
+00046         \textcolor{keyword}{import} StraightRebar
+00047         \textcolor{comment}{# Call to CommandStraightRebar() function}
+00048         \hyperlink{namespaceStraightRebar_a30f7aada2e2f91cdfae8267da36fe277}{StraightRebar.CommandStraightRebar}()
+00049 
+\hypertarget{RebarTools_8py_source.tex_l00050}{}\hyperlink{classRebarTools_1_1UShapeRebarTool}{00050} \textcolor{keyword}{class }\hyperlink{classRebarTools_1_1UShapeRebarTool}{UShapeRebarTool}:
+00051 
+\hypertarget{RebarTools_8py_source.tex_l00052}{}\hyperlink{classRebarTools_1_1UShapeRebarTool_a34496e5ce63e79b7e48a54153a22eb82}{00052}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1UShapeRebarTool_a34496e5ce63e79b7e48a54153a22eb82}{GetResources}(self):
+00053         \textcolor{keywordflow}{return} \{\textcolor{stringliteral}{'Pixmap'}  : os.path.split(os.path.abspath(\_\_file\_\_))[0]+\textcolor{stringliteral}{'
+      /icons/dropdown\_list/UShapeRebar.svg'},
+00054                 \textcolor{stringliteral}{'MenuText'}: QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"U-Shape Rebar"}),
+00055                 \textcolor{stringliteral}{'ToolTip'} : QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Creates a U-Shape bar reinforcement from the
+       selected face of the Structural element."})\}
+00056 
+\hypertarget{RebarTools_8py_source.tex_l00057}{}\hyperlink{classRebarTools_1_1UShapeRebarTool_a880597c71ba40531b73e460b4517727c}{00057}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1UShapeRebarTool_a880597c71ba40531b73e460b4517727c}{IsActive}(self):
+00058         \textcolor{keywordflow}{if} FreeCADGui.ActiveDocument:
+00059             \textcolor{keywordflow}{return} \textcolor{keyword}{True}
+00060         \textcolor{keywordflow}{else}:
+00061             \textcolor{keywordflow}{return} \textcolor{keyword}{False}
+00062 
+\hypertarget{RebarTools_8py_source.tex_l00063}{}\hyperlink{classRebarTools_1_1UShapeRebarTool_ab20a3f2af1de6e1af899caa94643e01e}{00063}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1UShapeRebarTool_ab20a3f2af1de6e1af899caa94643e01e}{Activated}(self):
+00064         \textcolor{keyword}{import} UShapeRebar
+00065         \textcolor{comment}{# Call to CommandUShaepRebar() function}
+00066         \hyperlink{namespaceUShapeRebar_abd24828525ea7ad774fdff3df325a173}{UShapeRebar.CommandUShapeRebar}()
+00067 
+\hypertarget{RebarTools_8py_source.tex_l00068}{}\hyperlink{classRebarTools_1_1LShapeRebarTool}{00068} \textcolor{keyword}{class }\hyperlink{classRebarTools_1_1LShapeRebarTool}{LShapeRebarTool}:
+00069 
+\hypertarget{RebarTools_8py_source.tex_l00070}{}\hyperlink{classRebarTools_1_1LShapeRebarTool_ad9298059282036c27557d881db7a05aa}{00070}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1LShapeRebarTool_ad9298059282036c27557d881db7a05aa}{GetResources}(self):
+00071         \textcolor{keywordflow}{return} \{\textcolor{stringliteral}{'Pixmap'}  : os.path.split(os.path.abspath(\_\_file\_\_))[0]+\textcolor{stringliteral}{'
+      /icons/dropdown\_list/LShapeRebar.svg'},
+00072                 \textcolor{stringliteral}{'MenuText'}: QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"L-Shape Rebar"}),
+00073                 \textcolor{stringliteral}{'ToolTip'} : QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Creates a L-Shape bar reinforcement from the
+       selected face of the Structural element."})\}
+00074 
+\hypertarget{RebarTools_8py_source.tex_l00075}{}\hyperlink{classRebarTools_1_1LShapeRebarTool_ab6ecdf8b78ed418dc85af4b575b7187a}{00075}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1LShapeRebarTool_ab6ecdf8b78ed418dc85af4b575b7187a}{IsActive}(self):
+00076         \textcolor{keywordflow}{if} FreeCADGui.ActiveDocument:
+00077             \textcolor{keywordflow}{return} \textcolor{keyword}{True}
+00078         \textcolor{keywordflow}{else}:
+00079             \textcolor{keywordflow}{return} \textcolor{keyword}{False}
+00080 
+\hypertarget{RebarTools_8py_source.tex_l00081}{}\hyperlink{classRebarTools_1_1LShapeRebarTool_aa3d0620b97ea017d8225c923b361d224}{00081}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1LShapeRebarTool_aa3d0620b97ea017d8225c923b361d224}{Activated}(self):
+00082         \textcolor{keyword}{import} LShapeRebar
+00083         \textcolor{comment}{# Call to CommandUShaepRebar() function}
+00084         \hyperlink{namespaceLShapeRebar_a5439b0c3265fa6d432d4a81e47f4441e}{LShapeRebar.CommandLShapeRebar}()
+00085 
+\hypertarget{RebarTools_8py_source.tex_l00086}{}\hyperlink{classRebarTools_1_1StirrupTool}{00086} \textcolor{keyword}{class }\hyperlink{classRebarTools_1_1StirrupTool}{StirrupTool}:
+00087 
+\hypertarget{RebarTools_8py_source.tex_l00088}{}\hyperlink{classRebarTools_1_1StirrupTool_ae5e84a5bf49fdbd2541edda370cb259f}{00088}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1StirrupTool_ae5e84a5bf49fdbd2541edda370cb259f}{GetResources}(self):
+00089         \textcolor{keywordflow}{return} \{\textcolor{stringliteral}{'Pixmap'}  : os.path.split(os.path.abspath(\_\_file\_\_))[0]+\textcolor{stringliteral}{'
+      /icons/dropdown\_list/StirrupRebar.svg'},
+00090                 \textcolor{stringliteral}{'MenuText'}: QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Stirrup"}),
+00091                 \textcolor{stringliteral}{'ToolTip'} : QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Creates a Stirrup bar reinforcement from the
+       selected face of the Structural element."})\}
+00092 
+\hypertarget{RebarTools_8py_source.tex_l00093}{}\hyperlink{classRebarTools_1_1StirrupTool_a7b94e476610d82023e0ac1a0e344f5f8}{00093}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1StirrupTool_a7b94e476610d82023e0ac1a0e344f5f8}{IsActive}(self):
+00094         \textcolor{keywordflow}{if} FreeCADGui.ActiveDocument:
+00095             \textcolor{keywordflow}{return} \textcolor{keyword}{True}
+00096         \textcolor{keywordflow}{else}:
+00097             \textcolor{keywordflow}{return} \textcolor{keyword}{False}
+00098 
+\hypertarget{RebarTools_8py_source.tex_l00099}{}\hyperlink{classRebarTools_1_1StirrupTool_a8ab82071978a99ee1f68cbf5b971ac8a}{00099}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1StirrupTool_a8ab82071978a99ee1f68cbf5b971ac8a}{Activated}(self):
+00100         \textcolor{keyword}{import} Stirrup
+00101         \textcolor{comment}{# Call to CommandStirrup() function}
+00102         \hyperlink{namespaceStirrup_a3863ce61c716794557101a50f41597b5}{Stirrup.CommandStirrup}()
+00103 
+\hypertarget{RebarTools_8py_source.tex_l00104}{}\hyperlink{classRebarTools_1_1BentShapeRebarTool}{00104} \textcolor{keyword}{class }\hyperlink{classRebarTools_1_1BentShapeRebarTool}{BentShapeRebarTool}:
+00105 
+\hypertarget{RebarTools_8py_source.tex_l00106}{}\hyperlink{classRebarTools_1_1BentShapeRebarTool_a726f9762c589715cfa91f3b261c83567}{00106}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1BentShapeRebarTool_a726f9762c589715cfa91f3b261c83567}{GetResources}(self):
+00107         \textcolor{keywordflow}{return} \{\textcolor{stringliteral}{'Pixmap'}  : os.path.split(os.path.abspath(\_\_file\_\_))[0]+\textcolor{stringliteral}{'
+      /icons/dropdown\_list/BentShapeRebar.svg'},
+00108                 \textcolor{stringliteral}{'MenuText'}: QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Bent-Shape Rebar"}),
+00109                 \textcolor{stringliteral}{'ToolTip'} : QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Creates a BentShape bar reinforcement from the
+       selected face of the Structural element."})\}
+00110 
+\hypertarget{RebarTools_8py_source.tex_l00111}{}\hyperlink{classRebarTools_1_1BentShapeRebarTool_a517fe05d554f10cb7a01524fe4d46f4e}{00111}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1BentShapeRebarTool_a517fe05d554f10cb7a01524fe4d46f4e}{IsActive}(self):
+00112         \textcolor{keywordflow}{if} FreeCADGui.ActiveDocument:
+00113             \textcolor{keywordflow}{return} \textcolor{keyword}{True}
+00114         \textcolor{keywordflow}{else}:
+00115             \textcolor{keywordflow}{return} \textcolor{keyword}{False}
+00116 
+\hypertarget{RebarTools_8py_source.tex_l00117}{}\hyperlink{classRebarTools_1_1BentShapeRebarTool_a585e9cc95894ac70b9c2257eee535dcb}{00117}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1BentShapeRebarTool_a585e9cc95894ac70b9c2257eee535dcb}{Activated}(self):
+00118         \textcolor{keyword}{import} BentShapeRebar
+00119         \textcolor{comment}{# Call to CommandBentShaepRebar() function}
+00120         \hyperlink{namespaceBentShapeRebar_abc4f0ada7811da5cf9174551bc3c6b37}{BentShapeRebar.CommandBentShapeRebar}()
+00121 
+\hypertarget{RebarTools_8py_source.tex_l00122}{}\hyperlink{classRebarTools_1_1HelicalRebarTool}{00122} \textcolor{keyword}{class }\hyperlink{classRebarTools_1_1HelicalRebarTool}{HelicalRebarTool}:
+00123 
+\hypertarget{RebarTools_8py_source.tex_l00124}{}\hyperlink{classRebarTools_1_1HelicalRebarTool_a39f9bcf98fd9ddcfe2bb6c8da77fa1a3}{00124}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1HelicalRebarTool_a39f9bcf98fd9ddcfe2bb6c8da77fa1a3}{GetResources}(self):
+00125         \textcolor{keywordflow}{return} \{\textcolor{stringliteral}{'Pixmap'}  : os.path.split(os.path.abspath(\_\_file\_\_))[0]+\textcolor{stringliteral}{'
+      /icons/dropdown\_list/HelixShapeRebar.svg'},
+00126                 \textcolor{stringliteral}{'MenuText'}: QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Helical Rebar"}),
+00127                 \textcolor{stringliteral}{'ToolTip'} : QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Creates a Helical bar reinforcement from the
+       selected face of the Structural element."})\}
+00128 
+\hypertarget{RebarTools_8py_source.tex_l00129}{}\hyperlink{classRebarTools_1_1HelicalRebarTool_a2ed003d863d6095b2b1525c48a0f4c78}{00129}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1HelicalRebarTool_a2ed003d863d6095b2b1525c48a0f4c78}{IsActive}(self):
+00130         \textcolor{keywordflow}{if} FreeCADGui.ActiveDocument:
+00131             \textcolor{keywordflow}{return} \textcolor{keyword}{True}
+00132         \textcolor{keywordflow}{else}:
+00133             \textcolor{keywordflow}{return} \textcolor{keyword}{False}
+00134 
+\hypertarget{RebarTools_8py_source.tex_l00135}{}\hyperlink{classRebarTools_1_1HelicalRebarTool_a07cfe1e1107dbdea6f0370d049a9c0f7}{00135}     \textcolor{keyword}{def }\hyperlink{classRebarTools_1_1HelicalRebarTool_a07cfe1e1107dbdea6f0370d049a9c0f7}{Activated}(self):
+00136         \textcolor{keyword}{import} HelicalRebar
+00137         \textcolor{comment}{# Call to CommandHelicalRebar() function}
+00138         \hyperlink{namespaceHelicalRebar_ad8ff0caf1e8a56ac47ce25062db8bc46}{HelicalRebar.CommandHelicalRebar}()
+00139 
+00140 FreeCADGui.addCommand(\textcolor{stringliteral}{'Arch\_Rebar\_Straight'}, \hyperlink{classRebarTools_1_1StraightRebarTool}{StraightRebarTool}())
+00141 FreeCADGui.addCommand(\textcolor{stringliteral}{'Arch\_Rebar\_UShape'}, \hyperlink{classRebarTools_1_1UShapeRebarTool}{UShapeRebarTool}())
+00142 FreeCADGui.addCommand(\textcolor{stringliteral}{'Arch\_Rebar\_LShape'}, \hyperlink{classRebarTools_1_1LShapeRebarTool}{LShapeRebarTool}())
+00143 FreeCADGui.addCommand(\textcolor{stringliteral}{'Arch\_Rebar\_Stirrup'}, \hyperlink{classRebarTools_1_1StirrupTool}{StirrupTool}())
+00144 FreeCADGui.addCommand(\textcolor{stringliteral}{'Arch\_Rebar\_BentShape'}, \hyperlink{classRebarTools_1_1BentShapeRebarTool}{BentShapeRebarTool}())
+00145 FreeCADGui.addCommand(\textcolor{stringliteral}{'Arch\_Rebar\_Helical'}, \hyperlink{classRebarTools_1_1HelicalRebarTool}{HelicalRebarTool}())
+00146 
+00147 \textcolor{comment}{# List of all rebar commands}
+\hypertarget{RebarTools_8py_source.tex_l00148}{}\hyperlink{namespaceRebarTools_ad80a0d98e5b180cb5f37b3d3702d4d4d}{00148} RebarCommands = [\textcolor{stringliteral}{"Arch\_Rebar\_Straight"}, \textcolor{stringliteral}{"Arch\_Rebar\_UShape"}, \textcolor{stringliteral}{"Arch\_Rebar\_LShape"}, \textcolor{stringliteral}{"Arch\_Rebar\_Stirrup"}, \textcolor{stringliteral}{"
+      Arch\_Rebar\_BentShape"}, \textcolor{stringliteral}{"Arch\_Rebar\_Helical"}]
+\end{DoxyCode}

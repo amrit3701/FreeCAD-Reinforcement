@@ -1,0 +1,123 @@
+\hypertarget{RebarDistribution_8py_source}{}\section{Rebar\+Distribution.\+py}
+
+\begin{DoxyCode}
+\hypertarget{RebarDistribution_8py_source.tex_l00001}{}\hyperlink{namespaceRebarDistribution}{00001} \textcolor{comment}{# -*- coding: utf-8 -*-}
+00002 \textcolor{comment}{# ***************************************************************************}
+00003 \textcolor{comment}{# *                                                                         *}
+00004 \textcolor{comment}{# *   Copyright (c) 2017 - Amritpal Singh <amrit3701@gmail.com>             *}
+00005 \textcolor{comment}{# *                                                                         *}
+00006 \textcolor{comment}{# *   This program is free software; you can redistribute it and/or modify  *}
+00007 \textcolor{comment}{# *   it under the terms of the GNU Lesser General Public License (LGPL)    *}
+00008 \textcolor{comment}{# *   as published by the Free Software Foundation; either version 2 of     *}
+00009 \textcolor{comment}{# *   the License, or (at your option) any later version.                   *}
+00010 \textcolor{comment}{# *   for detail see the LICENCE text file.                                 *}
+00011 \textcolor{comment}{# *                                                                         *}
+00012 \textcolor{comment}{# *   This program is distributed in the hope that it will be useful,       *}
+00013 \textcolor{comment}{# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *}
+00014 \textcolor{comment}{# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *}
+00015 \textcolor{comment}{# *   GNU Library General Public License for more details.                  *}
+00016 \textcolor{comment}{# *                                                                         *}
+00017 \textcolor{comment}{# *   You should have received a copy of the GNU Library General Public     *}
+00018 \textcolor{comment}{# *   License along with this program; if not, write to the Free Software   *}
+00019 \textcolor{comment}{# *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *}
+00020 \textcolor{comment}{# *   USA                                                                   *}
+00021 \textcolor{comment}{# *                                                                         *}
+00022 \textcolor{comment}{# ***************************************************************************}
+00023 
+\hypertarget{RebarDistribution_8py_source.tex_l00024}{}\hyperlink{namespaceRebarDistribution_a38609d6513215400fb6b4c0d1b7f2040}{00024} \_\_title\_\_ = \textcolor{stringliteral}{"DialogDistribution"}
+\hypertarget{RebarDistribution_8py_source.tex_l00025}{}\hyperlink{namespaceRebarDistribution_a7bd0602448fa39ff800847e313ca8b25}{00025} \_\_author\_\_ = \textcolor{stringliteral}{"Amritpal Singh"}
+\hypertarget{RebarDistribution_8py_source.tex_l00026}{}\hyperlink{namespaceRebarDistribution_a61d261a603c7a127f83af9b7516547c5}{00026} \_\_url\_\_ = \textcolor{stringliteral}{"https://www.freecadweb.org"}
+00027 
+00028 \textcolor{keyword}{from} PySide \textcolor{keyword}{import} QtCore, QtGui
+00029 \textcolor{keyword}{from} Rebarfunc \textcolor{keyword}{import} *
+00030 \textcolor{keyword}{from} PySide.QtCore \textcolor{keyword}{import} QT\_TRANSLATE\_NOOP
+00031 \textcolor{keyword}{import} FreeCAD
+00032 \textcolor{keyword}{import} FreeCADGui
+00033 \textcolor{keyword}{import} ArchCommands
+00034 \textcolor{keyword}{import} os
+00035 \textcolor{keyword}{import} sys
+00036 \textcolor{keyword}{import} math
+00037 
+\hypertarget{RebarDistribution_8py_source.tex_l00038}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog}{00038} \textcolor{keyword}{class }\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog}{\_RebarDistributionDialog}():
+\hypertarget{RebarDistribution_8py_source.tex_l00039}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aa490091ba4b48aed1a1815e15fd60241}{00039}     \textcolor{keyword}{def }\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aa490091ba4b48aed1a1815e15fd60241}{\_\_init\_\_}(self, frontCover, size):
+\hypertarget{RebarDistribution_8py_source.tex_l00040}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aeda0fd1b138f0b5f3b79d5c6e622b650}{00040}         self.\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aeda0fd1b138f0b5f3b79d5c6e622b650}{FrontCover} = frontCover
+\hypertarget{RebarDistribution_8py_source.tex_l00041}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a4d1d9185846a10dff90c07a397077ae2}{00041}         self.\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a4d1d9185846a10dff90c07a397077ae2}{ExpandingLength} = size
+\hypertarget{RebarDistribution_8py_source.tex_l00042}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a0ef0abff2fac018edc31389739ce284a}{00042}         self.\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a0ef0abff2fac018edc31389739ce284a}{form} = FreeCADGui.PySideUic.loadUi(os.path.splitext(\_\_file\_\_)[0] + \textcolor{stringliteral}{".ui"})
+00043         self.form.setWindowTitle(QtGui.QApplication.translate(\textcolor{stringliteral}{"Arch"}, \textcolor{stringliteral}{"Rebar Distribution"}, \textcolor{keywordtype}{None}))
+00044         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0] + \textcolor{stringliteral}{"
+      /icons/RebarDistribution.svg"}))
+00045 
+\hypertarget{RebarDistribution_8py_source.tex_l00046}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a518692f4a12113a2bcdfeaa0676f87be}{00046}     \textcolor{keyword}{def }\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a518692f4a12113a2bcdfeaa0676f87be}{accept}(self):
+00047         amount1 = self.form.amount1.value()
+00048         spacing1 = self.form.spacing1.text()
+00049         spacing1 = FreeCAD.Units.Quantity(spacing1).Value
+00050         amount2 = self.form.amount2.value()
+00051         spacing2 = self.form.spacing2.text()
+00052         spacing2 = FreeCAD.Units.Quantity(spacing2).Value
+00053         amount3 = self.form.amount3.value()
+00054         spacing3 = self.form.spacing3.text()
+00055         spacing3 = FreeCAD.Units.Quantity(spacing3).Value
+\hypertarget{RebarDistribution_8py_source.tex_l00056}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a97a0dcc8195e3f9e489565af80c0674c}{00056}         self.\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a97a0dcc8195e3f9e489565af80c0674c}{CustomSpacing} = \hyperlink{namespaceRebarDistribution_a22a12f260218752c4099cf68e4e3da5c}{getCustomSpacingString}(amount1, spacing1, 
+      amount2, spacing2, amount3, spacing3, self.\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aeda0fd1b138f0b5f3b79d5c6e622b650}{FrontCover}, self.
+      \hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a4d1d9185846a10dff90c07a397077ae2}{ExpandingLength})
+00057 
+\hypertarget{RebarDistribution_8py_source.tex_l00058}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aa96660ccded2b2b91a36a8099199842d}{00058}     \textcolor{keyword}{def }\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aa96660ccded2b2b91a36a8099199842d}{setupUi}(self):
+00059         \textcolor{comment}{# Connect Signals and Slots}
+00060         self.form.buttonBox.accepted.connect(self.\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a518692f4a12113a2bcdfeaa0676f87be}{accept})
+00061         \textcolor{keywordflow}{pass}
+00062 
+\hypertarget{RebarDistribution_8py_source.tex_l00063}{}\hyperlink{namespaceRebarDistribution_a22a12f260218752c4099cf68e4e3da5c}{00063} \textcolor{keyword}{def }\hyperlink{namespaceRebarDistribution_a22a12f260218752c4099cf68e4e3da5c}{getCustomSpacingString}(amount1, spacing1, amount2, spacing2, amount3, spacing3, 
+      frontCover, size):
+00064     seg1\_area = amount1 * spacing1 - spacing1 / 2
+00065     seg3\_area = amount3 * spacing3 - spacing3 / 2
+00066     seg2\_area = size - seg1\_area - seg3\_area - 2 * frontCover
+00067     \textcolor{keywordflow}{if} seg2\_area < 0:
+00068         FreeCAD.Console.PrintError(\textcolor{stringliteral}{"Sum of length of segment 1 and segment 2 is greater than length of
+       rebar expands.\(\backslash\)n"})
+00069         \textcolor{keywordflow}{return}
+00070     \textcolor{keywordflow}{if} spacing1 \textcolor{keywordflow}{and} spacing2 \textcolor{keywordflow}{and} spacing3 \textcolor{keywordflow}{and} amount1 \textcolor{keywordflow}{and} amount2 \textcolor{keywordflow}{and} amount3:
+00071         \textcolor{keywordflow}{pass}
+00072     \textcolor{keywordflow}{else}:
+00073         \textcolor{keywordflow}{if} spacing1 \textcolor{keywordflow}{and} spacing2 \textcolor{keywordflow}{and} spacing3:
+00074             amount2 = math.ceil(seg2\_area / spacing2)
+00075             spacing2 = seg2\_area / amount2
+00076         \textcolor{keywordflow}{elif} amount1 \textcolor{keywordflow}{and} amount2 \textcolor{keywordflow}{and} amount3:
+00077             spacing2 = math.floor(seg2\_area / amount2)
+00078     CustomSpacing = str(amount1) + \textcolor{stringliteral}{"@"} + str(spacing1) + \textcolor{stringliteral}{"+"} + str(int(amount2)) + \textcolor{stringliteral}{"@"} + str(spacing2) + \textcolor{stringliteral}{"+
+      "} + str(amount3) + \textcolor{stringliteral}{"@"} + str(spacing3)
+00079     \textcolor{keywordflow}{return} CustomSpacing
+00080 
+\hypertarget{RebarDistribution_8py_source.tex_l00081}{}\hyperlink{namespaceRebarDistribution_a59ac567a8536ea3b5e7a9900a898e0c0}{00081} \textcolor{keyword}{def }\hyperlink{namespaceRebarDistribution_a59ac567a8536ea3b5e7a9900a898e0c0}{getupleOfCustomSpacing}(span\_string):
+00082     \textcolor{stringliteral}{""" gettupleOfCustomSpacing(span\_string): This function take input}
+00083 \textcolor{stringliteral}{    in specific syntax and return output in the form of list. For eg.}
+00084 \textcolor{stringliteral}{    Input: "3@100+2@200+3@100"}
+00085 \textcolor{stringliteral}{    Output: [(3, 100), (2, 200), (3, 100)]"""}
+00086     \textcolor{keyword}{import} string
+00087     span\_st = string.strip(span\_string)
+00088     span\_sp = string.split(span\_st, \textcolor{stringliteral}{'+'})
+00089     index = 0
+00090     spacinglist = []
+00091     \textcolor{keywordflow}{while} index < len(span\_sp):
+00092         \textcolor{comment}{# Find "@" recursively in span\_sp array.}
+00093         in\_sp = string.split(span\_sp[index], \textcolor{stringliteral}{'@'})
+00094         spacinglist.append((int(in\_sp[0]),float(in\_sp[1])))
+00095         index += 1
+00096     \textcolor{keywordflow}{return} spacinglist
+00097 
+\hypertarget{RebarDistribution_8py_source.tex_l00098}{}\hyperlink{namespaceRebarDistribution_aa547df5cb10d2e64eaa0b51c445fa30b}{00098} \textcolor{keyword}{def }\hyperlink{namespaceRebarDistribution_aa547df5cb10d2e64eaa0b51c445fa30b}{runRebarDistribution}(self):
+00099     frontCover = self.form.frontCover.text()
+00100     frontCover = FreeCAD.Units.Quantity(frontCover).Value
+00101     face = self.SelectedObj.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(self.FaceName) - 1]
+00102     size = (ArchCommands.projectToVector(self.SelectedObj.Shape.copy(), face.normalAt(0, 0))).Length
+00103     dialog = \hyperlink{classRebarDistribution_1_1__RebarDistributionDialog}{\_RebarDistributionDialog}(frontCover, size)
+00104     dialog.setupUi()
+00105     dialog.form.exec\_()
+\hypertarget{RebarDistribution_8py_source.tex_l00106}{}\hyperlink{namespaceRebarDistribution_a6572ac63b9c553f99eeb53e19f7b4e7c}{00106}     self.CustomSpacing = dialog.CustomSpacing
+00107 
+\hypertarget{RebarDistribution_8py_source.tex_l00108}{}\hyperlink{namespaceRebarDistribution_a85270a1b6e8c782a9e0ba54add518f2a}{00108} \textcolor{keyword}{def }\hyperlink{namespaceRebarDistribution_a85270a1b6e8c782a9e0ba54add518f2a}{removeRebarDistribution}(self):
+00109     self.CustomSpacing = \textcolor{stringliteral}{""}
+00110     self.Rebar.CustomSpacing = \textcolor{stringliteral}{""}
+00111     FreeCAD.ActiveDocument.recompute()
+00112 
+00113 \textcolor{comment}{#runRebarDistribution(App.ActiveDocument.Rebar)}
+\end{DoxyCode}

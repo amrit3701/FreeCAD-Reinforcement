@@ -1,0 +1,324 @@
+\hypertarget{classStirrup_1_1__StirrupTaskPanel}{}\section{Stirrup.\+\_\+\+Stirrup\+Task\+Panel Class Reference}
+\label{classStirrup_1_1__StirrupTaskPanel}\index{Stirrup.\+\_\+\+Stirrup\+Task\+Panel@{Stirrup.\+\_\+\+Stirrup\+Task\+Panel}}
+
+
+Collaboration diagram for Stirrup.\+\_\+\+Stirrup\+Task\+Panel\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classStirrup_1_1__StirrupTaskPanel__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classStirrup_1_1__StirrupTaskPanel_a87e3632f8c08964f97ec549d8d156572}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, \hyperlink{classStirrup_1_1__StirrupTaskPanel_a004a341f992f38ca54893edf92f85faa}{Rebar}=None)
+\item 
+def \hyperlink{classStirrup_1_1__StirrupTaskPanel_a517a35306c1eedd497869edb78b53b8b}{get\+Standard\+Buttons} (self)
+\item 
+def \hyperlink{classStirrup_1_1__StirrupTaskPanel_aa1caeff48053cc3a43ed215e5c5c01c8}{clicked} (self, button)
+\item 
+def \hyperlink{classStirrup_1_1__StirrupTaskPanel_a49957596860a74388ec2e64535eacbc6}{accept} (self, signal=None)
+\item 
+def \hyperlink{classStirrup_1_1__StirrupTaskPanel_acf38bd6966c793e88ebc0d5d01db3148}{amount\+\_\+radio\+\_\+clicked} (self)
+\item 
+def \hyperlink{classStirrup_1_1__StirrupTaskPanel_ac091360b77eb8b65a0f520af0d2c4584}{spacing\+\_\+radio\+\_\+clicked} (self)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classStirrup_1_1__StirrupTaskPanel_a88a444f6e236ba21c053f1a6540dd640}{Custom\+Spacing}
+\item 
+\hyperlink{classStirrup_1_1__StirrupTaskPanel_a25d8b984bd2817ec46c1375b6bec647d}{Selected\+Obj}
+\item 
+\hyperlink{classStirrup_1_1__StirrupTaskPanel_a8c01c4e8108c6aaad15394072b188730}{Face\+Name}
+\item 
+\hyperlink{classStirrup_1_1__StirrupTaskPanel_a5a1680bdb656504a7151fb346b578cd6}{form}
+\item 
+\hyperlink{classStirrup_1_1__StirrupTaskPanel_a004a341f992f38ca54893edf92f85faa}{Rebar}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00123}{123} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+(self, Rebar=\+None)}{__init__(self, Rebar=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Stirrup.\+\_\+\+Stirrup\+Task\+Panel.\+\_\+\+\_\+init\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{Rebar = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{classStirrup_1_1__StirrupTaskPanel_a87e3632f8c08964f97ec549d8d156572}{}\label{classStirrup_1_1__StirrupTaskPanel_a87e3632f8c08964f97ec549d8d156572}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00124}{124} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classStirrup_1_1__StirrupTaskPanel.tex_l00124}{}\hyperlink{classStirrup_1_1__StirrupTaskPanel_a87e3632f8c08964f97ec549d8d156572}{00124}     \textcolor{keyword}{def }\hyperlink{classStirrup_1_1__StirrupTaskPanel_a87e3632f8c08964f97ec549d8d156572}{\_\_init\_\_}(self, Rebar = None):
+\hypertarget{classStirrup_1_1__StirrupTaskPanel.tex_l00125}{}\hyperlink{classStirrup_1_1__StirrupTaskPanel_a88a444f6e236ba21c053f1a6540dd640}{00125}         self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a88a444f6e236ba21c053f1a6540dd640}{CustomSpacing} = \textcolor{keywordtype}{None}
+00126         \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} Rebar:
+00127             selected\_obj = FreeCADGui.Selection.getSelectionEx()[0]
+\hypertarget{classStirrup_1_1__StirrupTaskPanel.tex_l00128}{}\hyperlink{classStirrup_1_1__StirrupTaskPanel_a25d8b984bd2817ec46c1375b6bec647d}{00128}             self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a25d8b984bd2817ec46c1375b6bec647d}{SelectedObj} = selected\_obj.Object
+\hypertarget{classStirrup_1_1__StirrupTaskPanel.tex_l00129}{}\hyperlink{classStirrup_1_1__StirrupTaskPanel_a8c01c4e8108c6aaad15394072b188730}{00129}             self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a8c01c4e8108c6aaad15394072b188730}{FaceName} = selected\_obj.SubElementNames[0]
+00130         \textcolor{keywordflow}{else}:
+00131             self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a8c01c4e8108c6aaad15394072b188730}{FaceName} = Rebar.Base.Support[0][1][0]
+00132             self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a25d8b984bd2817ec46c1375b6bec647d}{SelectedObj} = Rebar.Base.Support[0][0]
+\hypertarget{classStirrup_1_1__StirrupTaskPanel.tex_l00133}{}\hyperlink{classStirrup_1_1__StirrupTaskPanel_a5a1680bdb656504a7151fb346b578cd6}{00133}         self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a5a1680bdb656504a7151fb346b578cd6}{form} = FreeCADGui.PySideUic.loadUi(os.path.splitext(\_\_file\_\_)[0] + \textcolor{stringliteral}{".ui"})
+00134         self.form.setWindowTitle(QtGui.QApplication.translate(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Stirrup Rebar"}, \textcolor{keywordtype}{None}))
+00135         self.form.bentAngle.addItems([\textcolor{stringliteral}{"135"}, \textcolor{stringliteral}{"90"}])
+00136         self.form.amount\_radio.clicked.connect(self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_acf38bd6966c793e88ebc0d5d01db3148}{amount\_radio\_clicked})
+00137         self.form.spacing\_radio.clicked.connect(self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_ac091360b77eb8b65a0f520af0d2c4584}{spacing\_radio\_clicked})
+00138         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0]+\textcolor{stringliteral}{"
+      /icons/Stirrup.svg"}))
+00139         self.form.customSpacing.clicked.connect(\textcolor{keyword}{lambda}: \hyperlink{namespaceRebarDistribution_aa547df5cb10d2e64eaa0b51c445fa30b}{runRebarDistribution}(self))
+00140         self.form.removeCustomSpacing.clicked.connect(\textcolor{keyword}{lambda}: 
+      \hyperlink{namespaceRebarDistribution_a85270a1b6e8c782a9e0ba54add518f2a}{removeRebarDistribution}(self))
+00141         self.form.PickSelectedFace.clicked.connect(\textcolor{keyword}{lambda}: \hyperlink{namespaceRebarfunc_a8c003df49ac5f249bd9ea4acfb7d2f8d}{getSelectedFace}(self))
+00142         self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(
+      QtGui.QStyle.SP\_DialogHelpButton))
+00143         self.form.toolButton.clicked.connect(\textcolor{keyword}{lambda}: \hyperlink{namespacePopUpImage_a8c565620d7de9b4882a44eacb870ad05}{showPopUpImageDialog}(os.path.split
+      (os.path.abspath(\_\_file\_\_))[0] + \textcolor{stringliteral}{"/icons/StirrupDetailed.svg"}))
+\hypertarget{classStirrup_1_1__StirrupTaskPanel.tex_l00144}{}\hyperlink{classStirrup_1_1__StirrupTaskPanel_a004a341f992f38ca54893edf92f85faa}{00144}         self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a004a341f992f38ca54893edf92f85faa}{Rebar} = Rebar
+00145 
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}!accept@{accept}}
+\index{accept@{accept}!Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{accept(self, signal=\+None)}{accept(self, signal=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Stirrup.\+\_\+\+Stirrup\+Task\+Panel.\+accept (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{signal = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{classStirrup_1_1__StirrupTaskPanel_a49957596860a74388ec2e64535eacbc6}{}\label{classStirrup_1_1__StirrupTaskPanel_a49957596860a74388ec2e64535eacbc6}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00153}{153} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classStirrup_1_1__StirrupTaskPanel.tex_l00153}{}\hyperlink{classStirrup_1_1__StirrupTaskPanel_a49957596860a74388ec2e64535eacbc6}{00153}     \textcolor{keyword}{def }\hyperlink{classStirrup_1_1__StirrupTaskPanel_a49957596860a74388ec2e64535eacbc6}{accept}(self, signal = None):
+00154         l\_cover = self.form.l\_sideCover.text()
+00155         l\_cover = FreeCAD.Units.Quantity(l\_cover).Value
+00156         r\_cover = self.form.r\_sideCover.text()
+00157         r\_cover = FreeCAD.Units.Quantity(r\_cover).Value
+00158         t\_cover = self.form.t\_sideCover.text()
+00159         t\_cover = FreeCAD.Units.Quantity(t\_cover).Value
+00160         b\_cover = self.form.b\_sideCover.text()
+00161         b\_cover = FreeCAD.Units.Quantity(b\_cover).Value
+00162         f\_cover = self.form.frontCover.text()
+00163         f\_cover = FreeCAD.Units.Quantity(f\_cover).Value
+00164         diameter = self.form.diameter.text()
+00165         diameter = FreeCAD.Units.Quantity(diameter).Value
+00166         bentAngle = int(self.form.bentAngle.currentText())
+00167         bentFactor = self.form.bentFactor.value()
+00168         rounding = self.form.rounding.value()
+00169         amount\_check = self.form.amount\_radio.isChecked()
+00170         spacing\_check = self.form.spacing\_radio.isChecked()
+00171         \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a004a341f992f38ca54893edf92f85faa}{Rebar}:
+00172             \textcolor{keywordflow}{if} amount\_check:
+00173                 amount = self.form.amount.value()
+00174                 rebar = \hyperlink{namespaceStirrup_a705fc121e2af9c8ac05eb299f4fb9f2f}{makeStirrup}(l\_cover, r\_cover, t\_cover, b\_cover, f\_cover, bentAngle, 
+      bentFactor, diameter,\(\backslash\)
+00175                     rounding, \textcolor{keyword}{True}, amount, self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a25d8b984bd2817ec46c1375b6bec647d}{SelectedObj}, self.
+      \hyperlink{classStirrup_1_1__StirrupTaskPanel_a8c01c4e8108c6aaad15394072b188730}{FaceName})
+00176             \textcolor{keywordflow}{elif} spacing\_check:
+00177                 spacing = self.form.spacing.text()
+00178                 spacing = FreeCAD.Units.Quantity(spacing).Value
+00179                 rebar = \hyperlink{namespaceStirrup_a705fc121e2af9c8ac05eb299f4fb9f2f}{makeStirrup}(l\_cover, r\_cover, t\_cover, b\_cover, f\_cover, bentAngle, 
+      bentFactor, diameter,\(\backslash\)
+00180                     rounding, \textcolor{keyword}{False}, spacing, self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a25d8b984bd2817ec46c1375b6bec647d}{SelectedObj}, self.
+      \hyperlink{classStirrup_1_1__StirrupTaskPanel_a8c01c4e8108c6aaad15394072b188730}{FaceName})
+00181         \textcolor{keywordflow}{else}:
+00182             \textcolor{keywordflow}{if} amount\_check:
+00183                 amount = self.form.amount.value()
+00184                 rebar = \hyperlink{namespaceStirrup_a1f6d278ace7fe116895dba342e2a3573}{editStirrup}(self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a004a341f992f38ca54893edf92f85faa}{Rebar}, l\_cover, r\_cover, t\_cover, b\_cover, f\_cover
+      , bentAngle, bentFactor,\(\backslash\)
+00185                     diameter, rounding, \textcolor{keyword}{True}, amount, self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a25d8b984bd2817ec46c1375b6bec647d}{SelectedObj}, self.
+      \hyperlink{classStirrup_1_1__StirrupTaskPanel_a8c01c4e8108c6aaad15394072b188730}{FaceName})
+00186             \textcolor{keywordflow}{elif} spacing\_check:
+00187                 spacing = self.form.spacing.text()
+00188                 spacing = FreeCAD.Units.Quantity(spacing).Value
+00189                 rebar = \hyperlink{namespaceStirrup_a1f6d278ace7fe116895dba342e2a3573}{editStirrup}(self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a004a341f992f38ca54893edf92f85faa}{Rebar}, l\_cover, r\_cover, t\_cover, b\_cover, f\_cover
+      , bentAngle, bentFactor,\(\backslash\)
+00190                     diameter, rounding, \textcolor{keyword}{False}, spacing, self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a25d8b984bd2817ec46c1375b6bec647d}{SelectedObj}, self.
+      \hyperlink{classStirrup_1_1__StirrupTaskPanel_a8c01c4e8108c6aaad15394072b188730}{FaceName})
+00191         \textcolor{keywordflow}{if} self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a88a444f6e236ba21c053f1a6540dd640}{CustomSpacing}:
+00192             rebar.CustomSpacing = self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a88a444f6e236ba21c053f1a6540dd640}{CustomSpacing}
+00193             FreeCAD.ActiveDocument.recompute()
+00194         self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a004a341f992f38ca54893edf92f85faa}{Rebar} = rebar
+00195         \textcolor{keywordflow}{if} signal == int(QtGui.QDialogButtonBox.Apply):
+00196             \textcolor{keywordflow}{pass}
+00197         \textcolor{keywordflow}{else}:
+00198             FreeCADGui.Control.closeDialog(self)
+00199 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classStirrup_1_1__StirrupTaskPanel_a49957596860a74388ec2e64535eacbc6_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classStirrup_1_1__StirrupTaskPanel_a49957596860a74388ec2e64535eacbc6_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}!amount\+\_\+radio\+\_\+clicked@{amount\+\_\+radio\+\_\+clicked}}
+\index{amount\+\_\+radio\+\_\+clicked@{amount\+\_\+radio\+\_\+clicked}!Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{amount\+\_\+radio\+\_\+clicked(self)}{amount_radio_clicked(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Stirrup.\+\_\+\+Stirrup\+Task\+Panel.\+amount\+\_\+radio\+\_\+clicked (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classStirrup_1_1__StirrupTaskPanel_acf38bd6966c793e88ebc0d5d01db3148}{}\label{classStirrup_1_1__StirrupTaskPanel_acf38bd6966c793e88ebc0d5d01db3148}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00200}{200} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classStirrup_1_1__StirrupTaskPanel.tex_l00200}{}\hyperlink{classStirrup_1_1__StirrupTaskPanel_acf38bd6966c793e88ebc0d5d01db3148}{00200}     \textcolor{keyword}{def }\hyperlink{classStirrup_1_1__StirrupTaskPanel_acf38bd6966c793e88ebc0d5d01db3148}{amount\_radio\_clicked}(self):
+00201         self.form.spacing.setEnabled(\textcolor{keyword}{False})
+00202         self.form.amount.setEnabled(\textcolor{keyword}{True})
+00203 
+\end{DoxyCode}
+\index{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}!clicked@{clicked}}
+\index{clicked@{clicked}!Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{clicked(self, button)}{clicked(self, button)}}]{\setlength{\rightskip}{0pt plus 5cm}def Stirrup.\+\_\+\+Stirrup\+Task\+Panel.\+clicked (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{button}
+\end{DoxyParamCaption}
+)}\hypertarget{classStirrup_1_1__StirrupTaskPanel_aa1caeff48053cc3a43ed215e5c5c01c8}{}\label{classStirrup_1_1__StirrupTaskPanel_aa1caeff48053cc3a43ed215e5c5c01c8}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00149}{149} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classStirrup_1_1__StirrupTaskPanel.tex_l00149}{}\hyperlink{classStirrup_1_1__StirrupTaskPanel_aa1caeff48053cc3a43ed215e5c5c01c8}{00149}     \textcolor{keyword}{def }\hyperlink{classStirrup_1_1__StirrupTaskPanel_aa1caeff48053cc3a43ed215e5c5c01c8}{clicked}(self, button):
+00150         \textcolor{keywordflow}{if} button == int(QtGui.QDialogButtonBox.Apply):
+00151             self.\hyperlink{classStirrup_1_1__StirrupTaskPanel_a49957596860a74388ec2e64535eacbc6}{accept}(button)
+00152 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classStirrup_1_1__StirrupTaskPanel_aa1caeff48053cc3a43ed215e5c5c01c8_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}!get\+Standard\+Buttons@{get\+Standard\+Buttons}}
+\index{get\+Standard\+Buttons@{get\+Standard\+Buttons}!Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{get\+Standard\+Buttons(self)}{getStandardButtons(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Stirrup.\+\_\+\+Stirrup\+Task\+Panel.\+get\+Standard\+Buttons (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classStirrup_1_1__StirrupTaskPanel_a517a35306c1eedd497869edb78b53b8b}{}\label{classStirrup_1_1__StirrupTaskPanel_a517a35306c1eedd497869edb78b53b8b}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00146}{146} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classStirrup_1_1__StirrupTaskPanel.tex_l00146}{}\hyperlink{classStirrup_1_1__StirrupTaskPanel_a517a35306c1eedd497869edb78b53b8b}{00146}     \textcolor{keyword}{def }\hyperlink{classStirrup_1_1__StirrupTaskPanel_a517a35306c1eedd497869edb78b53b8b}{getStandardButtons}(self):
+00147         \textcolor{keywordflow}{return} int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Apply) | int(
+      QtGui.QDialogButtonBox.Cancel)
+00148 
+\end{DoxyCode}
+\index{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}!spacing\+\_\+radio\+\_\+clicked@{spacing\+\_\+radio\+\_\+clicked}}
+\index{spacing\+\_\+radio\+\_\+clicked@{spacing\+\_\+radio\+\_\+clicked}!Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{spacing\+\_\+radio\+\_\+clicked(self)}{spacing_radio_clicked(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Stirrup.\+\_\+\+Stirrup\+Task\+Panel.\+spacing\+\_\+radio\+\_\+clicked (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classStirrup_1_1__StirrupTaskPanel_ac091360b77eb8b65a0f520af0d2c4584}{}\label{classStirrup_1_1__StirrupTaskPanel_ac091360b77eb8b65a0f520af0d2c4584}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00204}{204} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classStirrup_1_1__StirrupTaskPanel.tex_l00204}{}\hyperlink{classStirrup_1_1__StirrupTaskPanel_ac091360b77eb8b65a0f520af0d2c4584}{00204}     \textcolor{keyword}{def }\hyperlink{classStirrup_1_1__StirrupTaskPanel_ac091360b77eb8b65a0f520af0d2c4584}{spacing\_radio\_clicked}(self):
+00205         self.form.amount.setEnabled(\textcolor{keyword}{False})
+00206         self.form.spacing.setEnabled(\textcolor{keyword}{True})
+00207 
+00208 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classStirrup_1_1__StirrupTaskPanel_ac091360b77eb8b65a0f520af0d2c4584_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Data Documentation}
+\index{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}!Custom\+Spacing@{Custom\+Spacing}}
+\index{Custom\+Spacing@{Custom\+Spacing}!Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{Custom\+Spacing}{CustomSpacing}}]{\setlength{\rightskip}{0pt plus 5cm}Stirrup.\+\_\+\+Stirrup\+Task\+Panel.\+Custom\+Spacing}\hypertarget{classStirrup_1_1__StirrupTaskPanel_a88a444f6e236ba21c053f1a6540dd640}{}\label{classStirrup_1_1__StirrupTaskPanel_a88a444f6e236ba21c053f1a6540dd640}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00125}{125} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+\index{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}!Face\+Name@{Face\+Name}}
+\index{Face\+Name@{Face\+Name}!Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{Face\+Name}{FaceName}}]{\setlength{\rightskip}{0pt plus 5cm}Stirrup.\+\_\+\+Stirrup\+Task\+Panel.\+Face\+Name}\hypertarget{classStirrup_1_1__StirrupTaskPanel_a8c01c4e8108c6aaad15394072b188730}{}\label{classStirrup_1_1__StirrupTaskPanel_a8c01c4e8108c6aaad15394072b188730}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00129}{129} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+\index{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}!form@{form}}
+\index{form@{form}!Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{form}{form}}]{\setlength{\rightskip}{0pt plus 5cm}Stirrup.\+\_\+\+Stirrup\+Task\+Panel.\+form}\hypertarget{classStirrup_1_1__StirrupTaskPanel_a5a1680bdb656504a7151fb346b578cd6}{}\label{classStirrup_1_1__StirrupTaskPanel_a5a1680bdb656504a7151fb346b578cd6}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00133}{133} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+\index{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}!Rebar@{Rebar}}
+\index{Rebar@{Rebar}!Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{Rebar}{Rebar}}]{\setlength{\rightskip}{0pt plus 5cm}Stirrup.\+\_\+\+Stirrup\+Task\+Panel.\+Rebar}\hypertarget{classStirrup_1_1__StirrupTaskPanel_a004a341f992f38ca54893edf92f85faa}{}\label{classStirrup_1_1__StirrupTaskPanel_a004a341f992f38ca54893edf92f85faa}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00144}{144} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+\index{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}!Selected\+Obj@{Selected\+Obj}}
+\index{Selected\+Obj@{Selected\+Obj}!Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel@{Stirrup\+::\+\_\+\+Stirrup\+Task\+Panel}}
+\subsubsection[{\texorpdfstring{Selected\+Obj}{SelectedObj}}]{\setlength{\rightskip}{0pt plus 5cm}Stirrup.\+\_\+\+Stirrup\+Task\+Panel.\+Selected\+Obj}\hypertarget{classStirrup_1_1__StirrupTaskPanel_a25d8b984bd2817ec46c1375b6bec647d}{}\label{classStirrup_1_1__StirrupTaskPanel_a25d8b984bd2817ec46c1375b6bec647d}
+
+
+Definition at line \hyperlink{Stirrup_8py_source_l00128}{128} of file \hyperlink{Stirrup_8py_source}{Stirrup.\+py}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Stirrup_8py}{Stirrup.\+py}\end{DoxyCompactItemize}

@@ -1,0 +1,9 @@
+<map id="StraightRebar._StraightRebarTaskPanel.accept" name="StraightRebar._StraightRebarTaskPanel.accept">
+<area shape="rect" id="node2" href="$namespaceStraightRebar.html#af6270367d7beae457813e33718d80faf" title="StraightRebar.makeStraight\lRebar" alt="" coords="247,17,429,58"/>
+<area shape="rect" id="node6" href="$namespaceStraightRebar.html#ab4c578165b01dd7c7d121e5345de2d7b" title="StraightRebar.editStraight\lRebar" alt="" coords="252,82,424,123"/>
+<area shape="rect" id="node3" href="$namespaceRebarfunc.html#a3885b3b63e3a41508ac79bc7550cf301" title="Rebarfunc.getFaceNumber" alt="" coords="740,24,919,51"/>
+<area shape="rect" id="node4" href="$namespaceRebarfunc.html#a92122b3d7cedd3d47bb63380a5ac4d08" title="Rebarfunc.getParametersOfFace" alt="" coords="477,24,692,51"/>
+<area shape="rect" id="node5" href="$namespaceStraightRebar.html#a1873c6f7f59b355a64fdd966ad75f778" title="StraightRebar.getpointsOf\lStraightRebar" alt="" coords="498,75,671,117"/>
+<area shape="rect" id="node7" href="$namespaceRebarfunc.html#a2278a0602d46a62953af1fcf2e574a94" title="Rebarfunc.showWarning" alt="" coords="502,192,667,219"/>
+<area shape="rect" id="node8" href="$namespaceRebarfunc.html#a1467a55852e36c36c472e222855bb937" title="Rebarfunc.translate" alt="" coords="761,192,897,219"/>
+</map>

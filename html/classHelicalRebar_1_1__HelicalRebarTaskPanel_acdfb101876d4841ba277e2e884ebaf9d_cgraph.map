@@ -1,0 +1,9 @@
+<map id="HelicalRebar._HelicalRebarTaskPanel.accept" name="HelicalRebar._HelicalRebarTaskPanel.accept">
+<area shape="rect" id="node2" href="$namespaceHelicalRebar.html#a8a4f12ed70819996ac31877957dfab08" title="HelicalRebar.makeHelical\lRebar" alt="" coords="236,17,409,58"/>
+<area shape="rect" id="node6" href="$namespaceHelicalRebar.html#aea0d3838b1b171f801acf1046d111c8b" title="HelicalRebar.editHelical\lRebar" alt="" coords="241,82,404,123"/>
+<area shape="rect" id="node3" href="$namespaceRebarfunc.html#a3885b3b63e3a41508ac79bc7550cf301" title="Rebarfunc.getFaceNumber" alt="" coords="720,24,899,51"/>
+<area shape="rect" id="node4" href="$namespaceRebarfunc.html#a92122b3d7cedd3d47bb63380a5ac4d08" title="Rebarfunc.getParametersOfFace" alt="" coords="457,24,672,51"/>
+<area shape="rect" id="node5" href="$namespaceHelicalRebar.html#a1a2b3ce39b904ab0c3892ed0965d2844" title="HelicalRebar.createHelicalWire" alt="" coords="463,75,667,101"/>
+<area shape="rect" id="node7" href="$namespaceRebarfunc.html#a2278a0602d46a62953af1fcf2e574a94" title="Rebarfunc.showWarning" alt="" coords="482,176,647,203"/>
+<area shape="rect" id="node8" href="$namespaceRebarfunc.html#a1467a55852e36c36c472e222855bb937" title="Rebarfunc.translate" alt="" coords="741,176,877,203"/>
+</map>

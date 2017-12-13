@@ -1,0 +1,267 @@
+\hypertarget{HelicalRebar_8py_source}{}\section{Helical\+Rebar.\+py}
+
+\begin{DoxyCode}
+\hypertarget{HelicalRebar_8py_source.tex_l00001}{}\hyperlink{namespaceHelicalRebar}{00001} \textcolor{comment}{# -*- coding: utf-8 -*-}
+00002 \textcolor{comment}{# ***************************************************************************}
+00003 \textcolor{comment}{# *                                                                         *}
+00004 \textcolor{comment}{# *   Copyright (c) 2017 - Amritpal Singh <amrit3701@gmail.com>             *}
+00005 \textcolor{comment}{# *                                                                         *}
+00006 \textcolor{comment}{# *   This program is free software; you can redistribute it and/or modify  *}
+00007 \textcolor{comment}{# *   it under the terms of the GNU Lesser General Public License (LGPL)    *}
+00008 \textcolor{comment}{# *   as published by the Free Software Foundation; either version 2 of     *}
+00009 \textcolor{comment}{# *   the License, or (at your option) any later version.                   *}
+00010 \textcolor{comment}{# *   for detail see the LICENCE text file.                                 *}
+00011 \textcolor{comment}{# *                                                                         *}
+00012 \textcolor{comment}{# *   This program is distributed in the hope that it will be useful,       *}
+00013 \textcolor{comment}{# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *}
+00014 \textcolor{comment}{# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *}
+00015 \textcolor{comment}{# *   GNU Library General Public License for more details.                  *}
+00016 \textcolor{comment}{# *                                                                         *}
+00017 \textcolor{comment}{# *   You should have received a copy of the GNU Library General Public     *}
+00018 \textcolor{comment}{# *   License along with this program; if not, write to the Free Software   *}
+00019 \textcolor{comment}{# *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *}
+00020 \textcolor{comment}{# *   USA                                                                   *}
+00021 \textcolor{comment}{# *                                                                         *}
+00022 \textcolor{comment}{# ***************************************************************************}
+00023 
+\hypertarget{HelicalRebar_8py_source.tex_l00024}{}\hyperlink{namespaceHelicalRebar_a28c95505364eadd0c2d4abbd80091bef}{00024} \_\_title\_\_ = \textcolor{stringliteral}{"HelicalRebar"}
+\hypertarget{HelicalRebar_8py_source.tex_l00025}{}\hyperlink{namespaceHelicalRebar_a925dcfed2ffef215413157f48d7b6e57}{00025} \_\_author\_\_ = \textcolor{stringliteral}{"Amritpal Singh"}
+\hypertarget{HelicalRebar_8py_source.tex_l00026}{}\hyperlink{namespaceHelicalRebar_a9c74e4634d00eef07ed630054e69fbff}{00026} \_\_url\_\_ = \textcolor{stringliteral}{"https://www.freecadweb.org"}
+00027 
+00028 \textcolor{keyword}{from} PySide \textcolor{keyword}{import} QtCore, QtGui
+00029 \textcolor{keyword}{from} Rebarfunc \textcolor{keyword}{import} *
+00030 \textcolor{keyword}{from} PySide.QtCore \textcolor{keyword}{import} QT\_TRANSLATE\_NOOP
+00031 \textcolor{keyword}{from} PopUpImage \textcolor{keyword}{import} showPopUpImageDialog
+00032 \textcolor{keyword}{import} FreeCAD
+00033 \textcolor{keyword}{import} FreeCADGui
+00034 \textcolor{keyword}{import} ArchCommands
+00035 \textcolor{keyword}{import} os
+00036 \textcolor{keyword}{import} sys
+00037 \textcolor{keyword}{import} math
+00038 
+\hypertarget{HelicalRebar_8py_source.tex_l00039}{}\hyperlink{namespaceHelicalRebar_a4fcf2dabc065c39ce5c8cf6995051352}{00039} \textcolor{keyword}{def }\hyperlink{namespaceHelicalRebar_a4fcf2dabc065c39ce5c8cf6995051352}{getpointsOfHelicalRebar}(FacePRM, s\_cover, b\_cover, t\_cover, pitch, edges, 
+      diameter, size, direction):
+00040     \textcolor{stringliteral}{""" getpointsOfHelicalRebar(FacePRM, s\_cover, b\_cover, t\_cover):}
+00041 \textcolor{stringliteral}{    Return points of the LShape rebar in the form of array for sketch."""}
+00042     dx = s\_cover + diameter / 2
+00043     dz = float(pitch) / edges
+00044     R = diameter / 2 - dx
+00045     R = FacePRM[0][0] / 2 - s\_cover
+00046     points = []
+00047     \textcolor{keywordflow}{if} direction[2] \textcolor{keywordflow}{in} \{-1,1\}:
+00048         z = 0
+00049         l = 0
+00050         \textcolor{keywordflow}{if} direction[2] == 1:
+00051             zz = FacePRM[1][2] - t\_cover
+00052         \textcolor{keywordflow}{elif} direction[2] == -1:
+00053             zz = FacePRM[1][2] + b\_cover
+00054         count = 0
+00055         flag = \textcolor{keyword}{False}
+00056         \textcolor{keywordflow}{while} (round(z) < abs(size - b\_cover - t\_cover)):
+00057             \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(0, int(edges) + 1):
+00058                 \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} i \textcolor{keywordflow}{and} flag:
+00059                     \textcolor{keywordflow}{continue}
+00060                 \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} flag:
+00061                     z -= dz
+00062                     flag = \textcolor{keyword}{True}
+00063                 iAngle = i * 360 / edges
+00064                 x =  FacePRM[1][0] + R * math.cos(math.radians(iAngle))
+00065                 y =  FacePRM[1][1] + R * math.sin(math.radians(iAngle))
+00066                 points.append(FreeCAD.Vector(x, y, zz))
+00067                 count += 1
+00068                 \textcolor{keywordflow}{if} direction[2] == 1:
+00069                     zz -= dz
+00070                 \textcolor{keywordflow}{elif} direction[2] == -1:
+00071                     zz += dz
+00072                 z += dz
+00073     \textcolor{keywordflow}{return} points
+00074 
+\hypertarget{HelicalRebar_8py_source.tex_l00075}{}\hyperlink{namespaceHelicalRebar_a1a2b3ce39b904ab0c3892ed0965d2844}{00075} \textcolor{keyword}{def }\hyperlink{namespaceHelicalRebar_a1a2b3ce39b904ab0c3892ed0965d2844}{createHelicalWire}(FacePRM, s\_cover, b\_cover, t\_cover, pitch, size, direction, helix = 
+      None):
+00076     \textcolor{stringliteral}{""" createHelicalWire(FacePRM, SideCover, BottomCover, TopCover, Pitch, Size, Direction, Helix = None):}
+00077 \textcolor{stringliteral}{    It creates a helical wire."""}
+00078     \textcolor{keyword}{import} Part
+00079     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} helix:
+00080         helix = FreeCAD.ActiveDocument.addObject(\textcolor{stringliteral}{"Part::Helix"},\textcolor{stringliteral}{"Helix"})
+00081     helix.Pitch = pitch
+00082     helix.Radius = FacePRM[0][0] / 2 - s\_cover
+00083     helix.Angle = 0
+00084     helix.LocalCoord = 0
+00085     helix.Height = size - b\_cover - t\_cover
+00086     \textcolor{keywordflow}{if} round(direction.x) == 1:
+00087         helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0] - b\_cover, FacePRM[1][1], FacePRM[1][2])
+00088         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, -1, 0), 90)
+00089     \textcolor{keywordflow}{elif} round(direction.x) == -1:
+00090         helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0] + t\_cover, FacePRM[1][1], FacePRM[1][2])
+00091         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, -1, 0), -90)
+00092     \textcolor{keywordflow}{elif} round(direction.y) == 1:
+00093         helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1] - b\_cover, FacePRM[1][2])
+00094         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(1, 0, 0), 90)
+00095     \textcolor{keywordflow}{elif} round(direction.y) == -1:
+00096         helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1] + t\_cover, FacePRM[1][2])
+00097         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(-1, 0, 0), 90)
+00098     \textcolor{keywordflow}{elif} round(direction.z) == 1:
+00099         helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1], FacePRM[1][2] - size + b\_cover)
+00100         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, 0, 1), 0)
+00101     \textcolor{keywordflow}{elif} round(direction.z) == -1:
+00102         helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1], FacePRM[1][2] + b\_cover)
+00103         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, 0, -1), 0)
+00104     FreeCAD.ActiveDocument.recompute()
+00105     \textcolor{keywordflow}{return} helix
+00106 
+\hypertarget{HelicalRebar_8py_source.tex_l00107}{}\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel}{00107} \textcolor{keyword}{class }\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel}{\_HelicalRebarTaskPanel}:
+\hypertarget{HelicalRebar_8py_source.tex_l00108}{}\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_a1bc9ff9f8e2cdbf9f12d974dd77c8e24}{00108}     \textcolor{keyword}{def }\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_a1bc9ff9f8e2cdbf9f12d974dd77c8e24}{\_\_init\_\_}(self, Rebar = None):
+\hypertarget{HelicalRebar_8py_source.tex_l00109}{}\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_abfda021716a5b0cd386be846e989ea5f}{00109}         self.\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_abfda021716a5b0cd386be846e989ea5f}{form} = FreeCADGui.PySideUic.loadUi(os.path.splitext(\_\_file\_\_)[0] + \textcolor{stringliteral}{".ui"})
+00110         self.form.setWindowTitle(QtGui.QApplication.translate(\textcolor{stringliteral}{"Arch"}, \textcolor{stringliteral}{"Helical Rebar"}, \textcolor{keywordtype}{None}))
+00111         \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} Rebar:
+00112             normal = \hyperlink{namespaceRebarfunc_a3a8c123c290609baec3a547c20a561b9}{facenormalDirection}()
+00113         \textcolor{keywordflow}{else}:
+00114             normal = \hyperlink{namespaceRebarfunc_a3a8c123c290609baec3a547c20a561b9}{facenormalDirection}(Rebar.Base.Support[0][0], Rebar.Base.Support[0]
+      [1][0])
+00115         \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} round(normal.z) \textcolor{keywordflow}{in} \{1, -1\}:
+00116             self.form.topCoverLabel.setText(\hyperlink{namespaceRebarfunc_a1467a55852e36c36c472e222855bb937}{translate}(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Left Cover"}))
+00117             self.form.bottomCoverLabel.setText(\hyperlink{namespaceRebarfunc_a1467a55852e36c36c472e222855bb937}{translate}(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Right Cover"}))
+00118         self.form.PickSelectedFace.clicked.connect(self.\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_aea514ce88bde89c57ab88576e7a27230}{getSelectedFace})
+00119         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0] + \textcolor{stringliteral}{"
+      /icons/HelicalRebar.svg"}))
+00120         self.form.toolButton.clicked.connect(\textcolor{keyword}{lambda}: \hyperlink{namespacePopUpImage_a8c565620d7de9b4882a44eacb870ad05}{showPopUpImageDialog}(os.path.split
+      (os.path.abspath(\_\_file\_\_))[0] + \textcolor{stringliteral}{"/icons/HelicalRebarDetailed.svg"}))
+00121         self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(
+      QtGui.QStyle.SP\_DialogHelpButton))
+\hypertarget{HelicalRebar_8py_source.tex_l00122}{}\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_a18e1b46858c6d4ca5f6925d69ea15807}{00122}         self.\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_a18e1b46858c6d4ca5f6925d69ea15807}{Rebar} = Rebar
+\hypertarget{HelicalRebar_8py_source.tex_l00123}{}\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_a6666e765dc0ac4e8bd4d5c1825862795}{00123}         self.\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_a6666e765dc0ac4e8bd4d5c1825862795}{SelectedObj} = \textcolor{keywordtype}{None}
+\hypertarget{HelicalRebar_8py_source.tex_l00124}{}\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_ac6f5e0df8c90110fdcb82cb9725ae6b6}{00124}         self.\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_ac6f5e0df8c90110fdcb82cb9725ae6b6}{FaceName} = \textcolor{keywordtype}{None}
+00125 
+\hypertarget{HelicalRebar_8py_source.tex_l00126}{}\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_aef7b43bb1c81a0d21bd80cfbe56229bf}{00126}     \textcolor{keyword}{def }\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_aef7b43bb1c81a0d21bd80cfbe56229bf}{getStandardButtons}(self):
+00127         \textcolor{keywordflow}{return} int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Apply) | int(
+      QtGui.QDialogButtonBox.Cancel)
+00128 
+\hypertarget{HelicalRebar_8py_source.tex_l00129}{}\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_ab0b70379d225d10e3585478005fc53ce}{00129}     \textcolor{keyword}{def }\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_ab0b70379d225d10e3585478005fc53ce}{clicked}(self, button):
+00130         \textcolor{keywordflow}{if} button == int(QtGui.QDialogButtonBox.Apply):
+00131             self.\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_acdfb101876d4841ba277e2e884ebaf9d}{accept}(button)
+00132 
+\hypertarget{HelicalRebar_8py_source.tex_l00133}{}\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_aea514ce88bde89c57ab88576e7a27230}{00133}     \textcolor{keyword}{def }\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_aea514ce88bde89c57ab88576e7a27230}{getSelectedFace}(self):
+00134         \hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_aea514ce88bde89c57ab88576e7a27230}{getSelectedFace}(self)
+00135         normal = \hyperlink{namespaceRebarfunc_a3a8c123c290609baec3a547c20a561b9}{facenormalDirection}()
+00136         \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} round(normal.z) \textcolor{keywordflow}{in} \{1, -1\}:
+00137             self.form.topCoverLabel.setText(\hyperlink{namespaceRebarfunc_a1467a55852e36c36c472e222855bb937}{translate}(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Left Cover"}))
+00138             self.form.bottomCoverLabel.setText(\hyperlink{namespaceRebarfunc_a1467a55852e36c36c472e222855bb937}{translate}(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Right Cover"}))
+00139         \textcolor{keywordflow}{else}:
+00140             self.form.topCoverLabel.setText(\hyperlink{namespaceRebarfunc_a1467a55852e36c36c472e222855bb937}{translate}(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Top Cover"}))
+00141             self.form.bottomCoverLabel.setText(\hyperlink{namespaceRebarfunc_a1467a55852e36c36c472e222855bb937}{translate}(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"Bottom Cover"}))
+00142 
+00143 
+\hypertarget{HelicalRebar_8py_source.tex_l00144}{}\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_acdfb101876d4841ba277e2e884ebaf9d}{00144}     \textcolor{keyword}{def }\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_acdfb101876d4841ba277e2e884ebaf9d}{accept}(self, signal = None):
+00145         b\_cover = self.form.bottomCover.text()
+00146         b\_cover = FreeCAD.Units.Quantity(b\_cover).Value
+00147         s\_cover = self.form.sideCover.text()
+00148         s\_cover = FreeCAD.Units.Quantity(s\_cover).Value
+00149         t\_cover = self.form.topCover.text()
+00150         t\_cover = FreeCAD.Units.Quantity(t\_cover).Value
+00151         pitch = self.form.pitch.text()
+00152         pitch = FreeCAD.Units.Quantity(pitch).Value
+00153         diameter = self.form.diameter.text()
+00154         diameter = FreeCAD.Units.Quantity(diameter).Value
+00155         \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} self.\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_a18e1b46858c6d4ca5f6925d69ea15807}{Rebar}:
+00156             rebar = \hyperlink{namespaceHelicalRebar_a8a4f12ed70819996ac31877957dfab08}{makeHelicalRebar}(s\_cover, b\_cover, diameter, t\_cover, pitch, self.
+      \hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_a6666e765dc0ac4e8bd4d5c1825862795}{SelectedObj}, self.\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_ac6f5e0df8c90110fdcb82cb9725ae6b6}{FaceName})
+00157         \textcolor{keywordflow}{else}:
+00158             rebar = \hyperlink{namespaceHelicalRebar_aea0d3838b1b171f801acf1046d111c8b}{editHelicalRebar}(self.\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_a18e1b46858c6d4ca5f6925d69ea15807}{Rebar}, s\_cover, b\_cover, diameter, t\_cover, 
+      pitch, self.\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_a6666e765dc0ac4e8bd4d5c1825862795}{SelectedObj}, self.\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_ac6f5e0df8c90110fdcb82cb9725ae6b6}{FaceName})
+00159         self.\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel_a18e1b46858c6d4ca5f6925d69ea15807}{Rebar} = rebar
+00160         \textcolor{keywordflow}{if} signal == int(QtGui.QDialogButtonBox.Apply):
+00161             \textcolor{keywordflow}{pass}
+00162         \textcolor{keywordflow}{else}:
+00163             FreeCADGui.Control.closeDialog(self)
+00164 
+\hypertarget{HelicalRebar_8py_source.tex_l00165}{}\hyperlink{namespaceHelicalRebar_a8a4f12ed70819996ac31877957dfab08}{00165} \textcolor{keyword}{def }\hyperlink{namespaceHelicalRebar_a8a4f12ed70819996ac31877957dfab08}{makeHelicalRebar}(s\_cover, b\_cover, diameter, t\_cover, pitch, structure = None, facename
+       = None):
+00166     \textcolor{stringliteral}{""" makeHelicalRebar(SideCover, BottomCover, Diameter, TopCover, Pitch, Structure, Facename):}
+00167 \textcolor{stringliteral}{    Adds the Helical reinforcement bar to the selected structural object."""}
+00168     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} structure \textcolor{keywordflow}{and} \textcolor{keywordflow}{not} facename:
+00169         selected\_obj = FreeCADGui.Selection.getSelectionEx()[0]
+00170         structure = selected\_obj.Object
+00171         facename = selected\_obj.SubElementNames[0]
+00172     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00173     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00174     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename, \textcolor{keyword}{False})
+00175     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} FacePRM:
+00176         FreeCAD.Console.PrintError(\textcolor{stringliteral}{"Cannot identified shape or from which base object sturctural element is
+       derived\(\backslash\)n"})
+00177         \textcolor{keywordflow}{return}
+00178     size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00179     normal = face.normalAt(0,0)
+00180     \textcolor{comment}{#normal = face.Placement.Rotation.inverted().multVec(normal)}
+00181     \textcolor{keyword}{import} Arch
+00182     helix = \hyperlink{namespaceHelicalRebar_a1a2b3ce39b904ab0c3892ed0965d2844}{createHelicalWire}(FacePRM, s\_cover, b\_cover, t\_cover, pitch, size, normal)
+00183     helix.Support = [(structure, facename)]
+00184     rebar = Arch.makeRebar(structure, helix, diameter, 1, 0)
+00185     rebar.OffsetStart = 0
+00186     rebar.OffsetEnd = 0
+00187     FreeCAD.ActiveDocument.recompute()
+00188     \textcolor{comment}{# Adds properties to the rebar object}
+00189     rebar.ViewObject.addProperty(\textcolor{stringliteral}{"App::PropertyString"}, \textcolor{stringliteral}{"RebarShape"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Shape of rebar"})).RebarShape = \textcolor{stringliteral}{"HelicalRebar"}
+00190     rebar.ViewObject.setEditorMode(\textcolor{stringliteral}{"RebarShape"}, 2)
+00191     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"SideCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property
+      "}, \textcolor{stringliteral}{"Front cover of rebar"})).SideCover = s\_cover
+00192     rebar.setEditorMode(\textcolor{stringliteral}{"SideCover"}, 2)
+00193     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"Pitch"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}, \textcolor{stringliteral}{"
+      Left Side cover of rebar"})).Pitch = pitch
+00194     rebar.setEditorMode(\textcolor{stringliteral}{"Pitch"}, 2)
+00195     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"BottomCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Bottom cover of rebar"})).BottomCover = b\_cover
+00196     rebar.setEditorMode(\textcolor{stringliteral}{"BottomCover"}, 2)
+00197     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"TopCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}
+      , \textcolor{stringliteral}{"Top cover of rebar"})).TopCover = t\_cover
+00198     rebar.setEditorMode(\textcolor{stringliteral}{"TopCover"}, 2)
+00199     rebar.Label = \textcolor{stringliteral}{"HelicalRebar"}
+00200     FreeCAD.ActiveDocument.recompute()
+00201     \textcolor{keywordflow}{return} rebar
+00202 
+\hypertarget{HelicalRebar_8py_source.tex_l00203}{}\hyperlink{namespaceHelicalRebar_aea0d3838b1b171f801acf1046d111c8b}{00203} \textcolor{keyword}{def }\hyperlink{namespaceHelicalRebar_aea0d3838b1b171f801acf1046d111c8b}{editHelicalRebar}(Rebar, s\_cover, b\_cover, diameter, t\_cover, pitch, structure = None, 
+      facename = None):
+00204     sketch = Rebar.Base
+00205     \textcolor{keywordflow}{if} structure \textcolor{keywordflow}{and} facename:
+00206         sketch.Support = [(structure, facename)]
+00207     \textcolor{comment}{# Check if sketch support is empty.}
+00208     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} sketch.Support:
+00209         \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"You have checked remove external geometry of base sketchs when needed.\(\backslash\)nTo
+       unchecked Edit->Preferences->Arch."})
+00210         \textcolor{keywordflow}{return}
+00211     \textcolor{comment}{# Assigned values}
+00212     facename = sketch.Support[0][1][0]
+00213     structure = sketch.Support[0][0]
+00214     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00215     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00216     \textcolor{comment}{# Get parameters of the face where sketch of rebar is drawn}
+00217     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename, \textcolor{keyword}{False})
+00218     size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00219     normal = face.normalAt(0,0)
+00220     \textcolor{comment}{#normal = face.Placement.Rotation.inverted().multVec(normal)}
+00221     helix = \hyperlink{namespaceHelicalRebar_a1a2b3ce39b904ab0c3892ed0965d2844}{createHelicalWire}(FacePRM, s\_cover, b\_cover, t\_cover, pitch, size, normal, 
+      Rebar.Base)
+00222     FreeCAD.ActiveDocument.recompute()
+00223     Rebar.Diameter = diameter
+00224     Rebar.SideCover = s\_cover
+00225     Rebar.BottomCover = b\_cover
+00226     Rebar.TopCover = t\_cover
+00227     Rebar.Pitch = pitch
+00228     FreeCAD.ActiveDocument.recompute()
+00229     \textcolor{keywordflow}{return} Rebar
+00230 
+\hypertarget{HelicalRebar_8py_source.tex_l00231}{}\hyperlink{namespaceHelicalRebar_ab9725ab4f1e5650133dba94c24907331}{00231} \textcolor{keyword}{def }\hyperlink{namespaceHelicalRebar_ab9725ab4f1e5650133dba94c24907331}{editDialog}(vobj):
+00232     FreeCADGui.Control.closeDialog()
+00233     obj = \hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel}{\_HelicalRebarTaskPanel}(vobj.Object)
+00234     obj.form.sideCover.setText(str(vobj.Object.SideCover))
+00235     obj.form.bottomCover.setText(str(vobj.Object.BottomCover))
+00236     obj.form.diameter.setText(str(vobj.Object.Diameter))
+00237     obj.form.topCover.setText(str(vobj.Object.TopCover))
+00238     obj.form.pitch.setText(str(vobj.Object.Pitch))
+00239     FreeCADGui.Control.showDialog(obj)
+00240 
+\hypertarget{HelicalRebar_8py_source.tex_l00241}{}\hyperlink{namespaceHelicalRebar_ad8ff0caf1e8a56ac47ce25062db8bc46}{00241} \textcolor{keyword}{def }\hyperlink{namespaceHelicalRebar_ad8ff0caf1e8a56ac47ce25062db8bc46}{CommandHelicalRebar}():
+00242     selected\_obj = \hyperlink{namespaceRebarfunc_adae2713855a7e1b4bda04081ae671542}{check\_selected\_face}()
+00243     \textcolor{keywordflow}{if} selected\_obj:
+00244         FreeCADGui.Control.showDialog(\hyperlink{classHelicalRebar_1_1__HelicalRebarTaskPanel}{\_HelicalRebarTaskPanel}())
+\end{DoxyCode}

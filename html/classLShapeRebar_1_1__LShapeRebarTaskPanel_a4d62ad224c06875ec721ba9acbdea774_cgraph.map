@@ -1,0 +1,9 @@
+<map id="LShapeRebar._LShapeRebarTaskPanel.accept" name="LShapeRebar._LShapeRebarTaskPanel.accept">
+<area shape="rect" id="node2" href="$namespaceLShapeRebar.html#a647a28e94933108c6617da8532d76998" title="LShapeRebar.makeLShapeRebar" alt="" coords="244,28,460,55"/>
+<area shape="rect" id="node6" href="$namespaceLShapeRebar.html#a9915291e3457e1c27f556d7903e02486" title="LShapeRebar.editLShapeRebar" alt="" coords="249,83,455,109"/>
+<area shape="rect" id="node3" href="$namespaceRebarfunc.html#a3885b3b63e3a41508ac79bc7550cf301" title="Rebarfunc.getFaceNumber" alt="" coords="772,24,951,51"/>
+<area shape="rect" id="node4" href="$namespaceRebarfunc.html#a92122b3d7cedd3d47bb63380a5ac4d08" title="Rebarfunc.getParametersOfFace" alt="" coords="509,24,723,51"/>
+<area shape="rect" id="node5" href="$namespaceLShapeRebar.html#a3019960c6f6476cb70df9ee06f330dfb" title="LShapeRebar.getpointsOfLShape\lRebar" alt="" coords="508,75,724,117"/>
+<area shape="rect" id="node7" href="$namespaceRebarfunc.html#a2278a0602d46a62953af1fcf2e574a94" title="Rebarfunc.showWarning" alt="" coords="533,192,699,219"/>
+<area shape="rect" id="node8" href="$namespaceRebarfunc.html#a1467a55852e36c36c472e222855bb937" title="Rebarfunc.translate" alt="" coords="793,192,929,219"/>
+</map>

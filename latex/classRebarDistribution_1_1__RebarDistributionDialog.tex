@@ -1,0 +1,173 @@
+\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog}{}\section{Rebar\+Distribution.\+\_\+\+Rebar\+Distribution\+Dialog Class Reference}
+\label{classRebarDistribution_1_1__RebarDistributionDialog}\index{Rebar\+Distribution.\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution.\+\_\+\+Rebar\+Distribution\+Dialog}}
+
+
+Collaboration diagram for Rebar\+Distribution.\+\_\+\+Rebar\+Distribution\+Dialog\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=205pt]{classRebarDistribution_1_1__RebarDistributionDialog__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aa490091ba4b48aed1a1815e15fd60241}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, front\+Cover, size)
+\item 
+def \hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a518692f4a12113a2bcdfeaa0676f87be}{accept} (self)
+\item 
+def \hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aa96660ccded2b2b91a36a8099199842d}{setup\+Ui} (self)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aeda0fd1b138f0b5f3b79d5c6e622b650}{Front\+Cover}
+\item 
+\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a4d1d9185846a10dff90c07a397077ae2}{Expanding\+Length}
+\item 
+\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a0ef0abff2fac018edc31389739ce284a}{form}
+\item 
+\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a97a0dcc8195e3f9e489565af80c0674c}{Custom\+Spacing}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00038}{38} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+(self, front\+Cover, size)}{__init__(self, frontCover, size)}}]{\setlength{\rightskip}{0pt plus 5cm}def Rebar\+Distribution.\+\_\+\+Rebar\+Distribution\+Dialog.\+\_\+\+\_\+init\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{front\+Cover, }
+\item[{}]{size}
+\end{DoxyParamCaption}
+)}\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog_aa490091ba4b48aed1a1815e15fd60241}{}\label{classRebarDistribution_1_1__RebarDistributionDialog_aa490091ba4b48aed1a1815e15fd60241}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00039}{39} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog.tex_l00039}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aa490091ba4b48aed1a1815e15fd60241}{00039}     \textcolor{keyword}{def }\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aa490091ba4b48aed1a1815e15fd60241}{\_\_init\_\_}(self, frontCover, size):
+\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog.tex_l00040}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aeda0fd1b138f0b5f3b79d5c6e622b650}{00040}         self.\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aeda0fd1b138f0b5f3b79d5c6e622b650}{FrontCover} = frontCover
+\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog.tex_l00041}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a4d1d9185846a10dff90c07a397077ae2}{00041}         self.\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a4d1d9185846a10dff90c07a397077ae2}{ExpandingLength} = size
+\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog.tex_l00042}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a0ef0abff2fac018edc31389739ce284a}{00042}         self.\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a0ef0abff2fac018edc31389739ce284a}{form} = FreeCADGui.PySideUic.loadUi(os.path.splitext(\_\_file\_\_)[0] + \textcolor{stringliteral}{".ui"})
+00043         self.form.setWindowTitle(QtGui.QApplication.translate(\textcolor{stringliteral}{"Arch"}, \textcolor{stringliteral}{"Rebar Distribution"}, \textcolor{keywordtype}{None}))
+00044         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0] + \textcolor{stringliteral}{"
+      /icons/RebarDistribution.svg"}))
+00045 
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}!accept@{accept}}
+\index{accept@{accept}!Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}}
+\subsubsection[{\texorpdfstring{accept(self)}{accept(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Rebar\+Distribution.\+\_\+\+Rebar\+Distribution\+Dialog.\+accept (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog_a518692f4a12113a2bcdfeaa0676f87be}{}\label{classRebarDistribution_1_1__RebarDistributionDialog_a518692f4a12113a2bcdfeaa0676f87be}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00046}{46} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog.tex_l00046}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a518692f4a12113a2bcdfeaa0676f87be}{00046}     \textcolor{keyword}{def }\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a518692f4a12113a2bcdfeaa0676f87be}{accept}(self):
+00047         amount1 = self.form.amount1.value()
+00048         spacing1 = self.form.spacing1.text()
+00049         spacing1 = FreeCAD.Units.Quantity(spacing1).Value
+00050         amount2 = self.form.amount2.value()
+00051         spacing2 = self.form.spacing2.text()
+00052         spacing2 = FreeCAD.Units.Quantity(spacing2).Value
+00053         amount3 = self.form.amount3.value()
+00054         spacing3 = self.form.spacing3.text()
+00055         spacing3 = FreeCAD.Units.Quantity(spacing3).Value
+\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog.tex_l00056}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a97a0dcc8195e3f9e489565af80c0674c}{00056}         self.\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a97a0dcc8195e3f9e489565af80c0674c}{CustomSpacing} = \hyperlink{namespaceRebarDistribution_a22a12f260218752c4099cf68e4e3da5c}{getCustomSpacingString}(amount1, spacing1, 
+      amount2, spacing2, amount3, spacing3, self.\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aeda0fd1b138f0b5f3b79d5c6e622b650}{FrontCover}, self.
+      \hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a4d1d9185846a10dff90c07a397077ae2}{ExpandingLength})
+00057 
+\end{DoxyCode}
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classRebarDistribution_1_1__RebarDistributionDialog_a518692f4a12113a2bcdfeaa0676f87be_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}!setup\+Ui@{setup\+Ui}}
+\index{setup\+Ui@{setup\+Ui}!Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}}
+\subsubsection[{\texorpdfstring{setup\+Ui(self)}{setupUi(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Rebar\+Distribution.\+\_\+\+Rebar\+Distribution\+Dialog.\+setup\+Ui (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog_aa96660ccded2b2b91a36a8099199842d}{}\label{classRebarDistribution_1_1__RebarDistributionDialog_aa96660ccded2b2b91a36a8099199842d}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00058}{58} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog.tex_l00058}{}\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aa96660ccded2b2b91a36a8099199842d}{00058}     \textcolor{keyword}{def }\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_aa96660ccded2b2b91a36a8099199842d}{setupUi}(self):
+00059         \textcolor{comment}{# Connect Signals and Slots}
+00060         self.form.buttonBox.accepted.connect(self.\hyperlink{classRebarDistribution_1_1__RebarDistributionDialog_a518692f4a12113a2bcdfeaa0676f87be}{accept})
+00061         \textcolor{keywordflow}{pass}
+00062 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classRebarDistribution_1_1__RebarDistributionDialog_aa96660ccded2b2b91a36a8099199842d_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Data Documentation}
+\index{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}!Custom\+Spacing@{Custom\+Spacing}}
+\index{Custom\+Spacing@{Custom\+Spacing}!Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}}
+\subsubsection[{\texorpdfstring{Custom\+Spacing}{CustomSpacing}}]{\setlength{\rightskip}{0pt plus 5cm}Rebar\+Distribution.\+\_\+\+Rebar\+Distribution\+Dialog.\+Custom\+Spacing}\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog_a97a0dcc8195e3f9e489565af80c0674c}{}\label{classRebarDistribution_1_1__RebarDistributionDialog_a97a0dcc8195e3f9e489565af80c0674c}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00056}{56} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+\index{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}!Expanding\+Length@{Expanding\+Length}}
+\index{Expanding\+Length@{Expanding\+Length}!Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}}
+\subsubsection[{\texorpdfstring{Expanding\+Length}{ExpandingLength}}]{\setlength{\rightskip}{0pt plus 5cm}Rebar\+Distribution.\+\_\+\+Rebar\+Distribution\+Dialog.\+Expanding\+Length}\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog_a4d1d9185846a10dff90c07a397077ae2}{}\label{classRebarDistribution_1_1__RebarDistributionDialog_a4d1d9185846a10dff90c07a397077ae2}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00041}{41} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+\index{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}!form@{form}}
+\index{form@{form}!Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}}
+\subsubsection[{\texorpdfstring{form}{form}}]{\setlength{\rightskip}{0pt plus 5cm}Rebar\+Distribution.\+\_\+\+Rebar\+Distribution\+Dialog.\+form}\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog_a0ef0abff2fac018edc31389739ce284a}{}\label{classRebarDistribution_1_1__RebarDistributionDialog_a0ef0abff2fac018edc31389739ce284a}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00042}{42} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+\index{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}!Front\+Cover@{Front\+Cover}}
+\index{Front\+Cover@{Front\+Cover}!Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog@{Rebar\+Distribution\+::\+\_\+\+Rebar\+Distribution\+Dialog}}
+\subsubsection[{\texorpdfstring{Front\+Cover}{FrontCover}}]{\setlength{\rightskip}{0pt plus 5cm}Rebar\+Distribution.\+\_\+\+Rebar\+Distribution\+Dialog.\+Front\+Cover}\hypertarget{classRebarDistribution_1_1__RebarDistributionDialog_aeda0fd1b138f0b5f3b79d5c6e622b650}{}\label{classRebarDistribution_1_1__RebarDistributionDialog_aeda0fd1b138f0b5f3b79d5c6e622b650}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00040}{40} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{RebarDistribution_8py}{Rebar\+Distribution.\+py}\end{DoxyCompactItemize}

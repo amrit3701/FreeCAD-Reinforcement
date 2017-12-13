@@ -1,0 +1,444 @@
+\hypertarget{namespaceStraightRebar}{}\section{Straight\+Rebar Namespace Reference}
+\label{namespaceStraightRebar}\index{Straight\+Rebar@{Straight\+Rebar}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classStraightRebar_1_1__StraightRebarTaskPanel}{\+\_\+\+Straight\+Rebar\+Task\+Panel}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespaceStraightRebar_a1873c6f7f59b355a64fdd966ad75f778}{getpoints\+Of\+Straight\+Rebar} (Face\+P\+RM, rt\+\_\+cover, lb\+\_\+cover, cover\+Along, orientation)
+\item 
+def \hyperlink{namespaceStraightRebar_af6270367d7beae457813e33718d80faf}{make\+Straight\+Rebar} (f\+\_\+cover, cover\+Along, rt\+\_\+cover, lb\+\_\+cover, diameter, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, orientation=\char`\"{}Horizontal\char`\"{}, structure=None, facename=None)
+\item 
+def \hyperlink{namespaceStraightRebar_ab4c578165b01dd7c7d121e5345de2d7b}{edit\+Straight\+Rebar} (Rebar, f\+\_\+cover, cover\+Along, rt\+\_\+cover, lb\+\_\+cover, diameter, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, orientation, structure=None, facename=None)
+\item 
+def \hyperlink{namespaceStraightRebar_ad48f93922ce90bb63d051c7c3c794d35}{edit\+Dialog} (vobj)
+\item 
+def \hyperlink{namespaceStraightRebar_a30f7aada2e2f91cdfae8267da36fe277}{Command\+Straight\+Rebar} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{namespaceStraightRebar_ab1d45eb17133c23d9d6a3e2a6f2abb8a}{\+\_\+\+\_\+title\+\_\+\+\_\+} = \char`\"{}Straight\+Rebar\char`\"{}
+\item 
+string \hyperlink{namespaceStraightRebar_ad355d40e3bea5e86c24b6fe813264413}{\+\_\+\+\_\+author\+\_\+\+\_\+} = \char`\"{}Amritpal Singh\char`\"{}
+\item 
+string \hyperlink{namespaceStraightRebar_aebf23f453d8fabed3a611d14f5e7f057}{\+\_\+\+\_\+url\+\_\+\+\_\+} = \char`\"{}https\+://www.\+freecadweb.\+org\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{Straight\+Rebar@{Straight\+Rebar}!Command\+Straight\+Rebar@{Command\+Straight\+Rebar}}
+\index{Command\+Straight\+Rebar@{Command\+Straight\+Rebar}!Straight\+Rebar@{Straight\+Rebar}}
+\subsubsection[{\texorpdfstring{Command\+Straight\+Rebar()}{CommandStraightRebar()}}]{\setlength{\rightskip}{0pt plus 5cm}def Straight\+Rebar.\+Command\+Straight\+Rebar (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceStraightRebar_a30f7aada2e2f91cdfae8267da36fe277}{}\label{namespaceStraightRebar_a30f7aada2e2f91cdfae8267da36fe277}
+
+
+Definition at line \hyperlink{StraightRebar_8py_source_l00320}{320} of file \hyperlink{StraightRebar_8py_source}{Straight\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceStraightRebar.tex_l00320}{}\hyperlink{namespaceStraightRebar_a30f7aada2e2f91cdfae8267da36fe277}{00320} \textcolor{keyword}{def }\hyperlink{namespaceStraightRebar_a30f7aada2e2f91cdfae8267da36fe277}{CommandStraightRebar}():
+00321     selected\_obj = \hyperlink{namespaceRebarfunc_adae2713855a7e1b4bda04081ae671542}{check\_selected\_face}()
+00322     \textcolor{keywordflow}{if} selected\_obj:
+00323         FreeCADGui.Control.showDialog(\hyperlink{classStraightRebar_1_1__StraightRebarTaskPanel}{\_StraightRebarTaskPanel}())
+00324 \end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStraightRebar_a30f7aada2e2f91cdfae8267da36fe277_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStraightRebar_a30f7aada2e2f91cdfae8267da36fe277_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Straight\+Rebar@{Straight\+Rebar}!edit\+Dialog@{edit\+Dialog}}
+\index{edit\+Dialog@{edit\+Dialog}!Straight\+Rebar@{Straight\+Rebar}}
+\subsubsection[{\texorpdfstring{edit\+Dialog(vobj)}{editDialog(vobj)}}]{\setlength{\rightskip}{0pt plus 5cm}def Straight\+Rebar.\+edit\+Dialog (
+\begin{DoxyParamCaption}
+\item[{}]{vobj}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceStraightRebar_ad48f93922ce90bb63d051c7c3c794d35}{}\label{namespaceStraightRebar_ad48f93922ce90bb63d051c7c3c794d35}
+
+
+Definition at line \hyperlink{StraightRebar_8py_source_l00299}{299} of file \hyperlink{StraightRebar_8py_source}{Straight\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceStraightRebar.tex_l00299}{}\hyperlink{namespaceStraightRebar_ad48f93922ce90bb63d051c7c3c794d35}{00299} \textcolor{keyword}{def }\hyperlink{namespaceStraightRebar_ad48f93922ce90bb63d051c7c3c794d35}{editDialog}(vobj):
+00300     FreeCADGui.Control.closeDialog()
+00301     obj = \hyperlink{classStraightRebar_1_1__StraightRebarTaskPanel}{\_StraightRebarTaskPanel}(vobj.Object)
+00302     obj.form.frontCover.setText(str(vobj.Object.FrontCover))
+00303     obj.form.r\_sideCover.setText(str(vobj.Object.RightTopCover))
+00304     obj.form.l\_sideCover.setText(str(vobj.Object.LeftBottomCover))
+00305     obj.form.bottomCover.setText(str(vobj.Object.Cover))
+00306     obj.form.diameter.setText(str(vobj.Object.Diameter))
+00307     obj.form.orientation.setCurrentIndex(obj.form.orientation.findText(str(vobj.Object.Orientation)))
+00308     obj.form.coverAlong.setCurrentIndex(obj.form.coverAlong.findText(str(vobj.Object.CoverAlong)))
+00309     \textcolor{keywordflow}{if} vobj.Object.AmountCheck:
+00310         obj.form.amount.setValue(vobj.Object.Amount)
+00311     \textcolor{keywordflow}{else}:
+00312         obj.form.amount\_radio.setChecked(\textcolor{keyword}{False})
+00313         obj.form.spacing\_radio.setChecked(\textcolor{keyword}{True})
+00314         obj.form.amount.setDisabled(\textcolor{keyword}{True})
+00315         obj.form.spacing.setEnabled(\textcolor{keyword}{True})
+00316         obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
+00317     \textcolor{comment}{#obj.form.PickSelectedFace.setVisible(False)}
+00318     FreeCADGui.Control.showDialog(obj)
+00319 
+\end{DoxyCode}
+\index{Straight\+Rebar@{Straight\+Rebar}!edit\+Straight\+Rebar@{edit\+Straight\+Rebar}}
+\index{edit\+Straight\+Rebar@{edit\+Straight\+Rebar}!Straight\+Rebar@{Straight\+Rebar}}
+\subsubsection[{\texorpdfstring{edit\+Straight\+Rebar(\+Rebar, f\+\_\+cover, cover\+Along, rt\+\_\+cover, lb\+\_\+cover, diameter, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, orientation, structure=\+None, facename=\+None)}{editStraightRebar(Rebar, f_cover, coverAlong, rt_cover, lb_cover, diameter, amount_spacing_check, amount_spacing_value, orientation, structure=None, facename=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Straight\+Rebar.\+edit\+Straight\+Rebar (
+\begin{DoxyParamCaption}
+\item[{}]{Rebar, }
+\item[{}]{f\+\_\+cover, }
+\item[{}]{cover\+Along, }
+\item[{}]{rt\+\_\+cover, }
+\item[{}]{lb\+\_\+cover, }
+\item[{}]{diameter, }
+\item[{}]{amount\+\_\+spacing\+\_\+check, }
+\item[{}]{amount\+\_\+spacing\+\_\+value, }
+\item[{}]{orientation, }
+\item[{}]{structure = {\ttfamily None}, }
+\item[{}]{facename = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceStraightRebar_ab4c578165b01dd7c7d121e5345de2d7b}{}\label{namespaceStraightRebar_ab4c578165b01dd7c7d121e5345de2d7b}
+
+
+Definition at line \hyperlink{StraightRebar_8py_source_l00255}{255} of file \hyperlink{StraightRebar_8py_source}{Straight\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceStraightRebar.tex_l00255}{}\hyperlink{namespaceStraightRebar_ab4c578165b01dd7c7d121e5345de2d7b}{00255} \textcolor{keyword}{def }\hyperlink{namespaceStraightRebar_ab4c578165b01dd7c7d121e5345de2d7b}{editStraightRebar}(Rebar, f\_cover, coverAlong, rt\_cover, lb\_cover, diameter, 
+      amount\_spacing\_check, amount\_spacing\_value, orientation, structure = None, facename = None):
+00256     sketch = Rebar.Base
+00257     \textcolor{keywordflow}{if} structure \textcolor{keywordflow}{and} facename:
+00258         sketch.Support = [(structure, facename)]
+00259         FreeCAD.ActiveDocument.recompute()
+00260     \textcolor{comment}{# Check if sketch support is empty.}
+00261     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} sketch.Support:
+00262         \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"You have checked remove external geometry of base sketchs when needed.\(\backslash\)nTo
+       unchecked Edit->Preferences->Arch."})
+00263         \textcolor{keywordflow}{return}
+00264     \textcolor{comment}{# Assigned values}
+00265     facename = sketch.Support[0][1][0]
+00266     structure = sketch.Support[0][0]
+00267     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00268     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00269     \textcolor{comment}{# Get parameters of the face where sketch of rebar is drawn}
+00270     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename)
+00271     \textcolor{comment}{# Get points of Striaght rebar}
+00272     points = \hyperlink{namespaceStraightRebar_a1873c6f7f59b355a64fdd966ad75f778}{getpointsOfStraightRebar}(FacePRM, rt\_cover, lb\_cover, coverAlong, 
+      orientation)
+00273     sketch.movePoint(0, 1, points[0], 0)
+00274     FreeCAD.ActiveDocument.recompute()
+00275     sketch.movePoint(0, 2, points[1], 0)
+00276     FreeCAD.ActiveDocument.recompute()
+00277     Rebar.OffsetStart = f\_cover
+00278     Rebar.OffsetEnd = f\_cover
+00279     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00280         Rebar.Amount = amount\_spacing\_value
+00281         FreeCAD.ActiveDocument.recompute()
+00282         Rebar.AmountCheck = \textcolor{keyword}{True}
+00283     \textcolor{keywordflow}{else}:
+00284         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00285         Rebar.Amount = int((size - diameter) / amount\_spacing\_value)
+00286         FreeCAD.ActiveDocument.recompute()
+00287         Rebar.AmountCheck = \textcolor{keyword}{False}
+00288     Rebar.FrontCover = f\_cover
+00289     Rebar.RightTopCover = rt\_cover
+00290     Rebar.LeftBottomCover = lb\_cover
+00291     Rebar.CoverAlong = coverAlong[0]
+00292     Rebar.Cover = coverAlong[1]
+00293     Rebar.TrueSpacing = amount\_spacing\_value
+00294     Rebar.Diameter = diameter
+00295     Rebar.Orientation = orientation
+00296     FreeCAD.ActiveDocument.recompute()
+00297     \textcolor{keywordflow}{return} Rebar
+00298 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStraightRebar_ab4c578165b01dd7c7d121e5345de2d7b_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStraightRebar_ab4c578165b01dd7c7d121e5345de2d7b_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Straight\+Rebar@{Straight\+Rebar}!getpoints\+Of\+Straight\+Rebar@{getpoints\+Of\+Straight\+Rebar}}
+\index{getpoints\+Of\+Straight\+Rebar@{getpoints\+Of\+Straight\+Rebar}!Straight\+Rebar@{Straight\+Rebar}}
+\subsubsection[{\texorpdfstring{getpoints\+Of\+Straight\+Rebar(\+Face\+P\+R\+M, rt\+\_\+cover, lb\+\_\+cover, cover\+Along, orientation)}{getpointsOfStraightRebar(FacePRM, rt_cover, lb_cover, coverAlong, orientation)}}]{\setlength{\rightskip}{0pt plus 5cm}def Straight\+Rebar.\+getpoints\+Of\+Straight\+Rebar (
+\begin{DoxyParamCaption}
+\item[{}]{Face\+P\+RM, }
+\item[{}]{rt\+\_\+cover, }
+\item[{}]{lb\+\_\+cover, }
+\item[{}]{cover\+Along, }
+\item[{}]{orientation}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceStraightRebar_a1873c6f7f59b355a64fdd966ad75f778}{}\label{namespaceStraightRebar_a1873c6f7f59b355a64fdd966ad75f778}
+\begin{DoxyVerb}getpointsOfStraightRebar(FacePRM, RightTopcover, LeftBottomcover, CoverAlong, Orientation):
+Return points of the Straight rebar in the form of array for sketch.
+
+Case I: When Orientation is 'Horizontal':
+    We have two option in CoverAlong i.e. 'Bottom Side' or 'Top Side'
+Case II: When Orientation is 'Vertical':
+    We have two option in CoverAlong i.e. 'Left Side' or 'Right Side'
+\end{DoxyVerb}
+ 
+
+Definition at line \hyperlink{StraightRebar_8py_source_l00040}{40} of file \hyperlink{StraightRebar_8py_source}{Straight\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceStraightRebar.tex_l00040}{}\hyperlink{namespaceStraightRebar_a1873c6f7f59b355a64fdd966ad75f778}{00040} \textcolor{keyword}{def }\hyperlink{namespaceStraightRebar_a1873c6f7f59b355a64fdd966ad75f778}{getpointsOfStraightRebar}(FacePRM, rt\_cover, lb\_cover, coverAlong, orientation):
+00041     \textcolor{stringliteral}{""" getpointsOfStraightRebar(FacePRM, RightTopcover, LeftBottomcover, CoverAlong, Orientation):}
+00042 \textcolor{stringliteral}{    Return points of the Straight rebar in the form of array for sketch.}
+00043 \textcolor{stringliteral}{}
+00044 \textcolor{stringliteral}{    Case I: When Orientation is 'Horizontal':}
+00045 \textcolor{stringliteral}{        We have two option in CoverAlong i.e. 'Bottom Side' or 'Top Side'}
+00046 \textcolor{stringliteral}{    Case II: When Orientation is 'Vertical':}
+00047 \textcolor{stringliteral}{        We have two option in CoverAlong i.e. 'Left Side' or 'Right Side'}
+00048 \textcolor{stringliteral}{    """}
+00049     \textcolor{keywordflow}{if} orientation == \textcolor{stringliteral}{"Horizontal"}:
+00050         \textcolor{keywordflow}{if} coverAlong[0] == \textcolor{stringliteral}{"Bottom Side"}:
+00051             x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + lb\_cover
+00052             y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + coverAlong[1]
+00053             x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - rt\_cover
+00054             y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + coverAlong[1]
+00055         \textcolor{keywordflow}{elif} coverAlong[0] == \textcolor{stringliteral}{"Top Side"}:
+00056             cover = FacePRM[0][1] - coverAlong[1]
+00057             x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + lb\_cover
+00058             y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + cover
+00059             x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - rt\_cover
+00060             y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + cover
+00061     \textcolor{keywordflow}{elif} orientation == \textcolor{stringliteral}{"Vertical"}:
+00062         \textcolor{keywordflow}{if} coverAlong[0] == \textcolor{stringliteral}{"Left Side"}:
+00063             x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + coverAlong[1]
+00064             y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + lb\_cover
+00065             x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + coverAlong[1]
+00066             y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + FacePRM[0][1] - rt\_cover
+00067         \textcolor{keywordflow}{elif} coverAlong[0] == \textcolor{stringliteral}{"Right Side"}:
+00068             cover = FacePRM[0][0] - coverAlong[1]
+00069             x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + cover
+00070             y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + lb\_cover
+00071             x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + cover
+00072             y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + FacePRM[0][1] - rt\_cover
+00073     \textcolor{keywordflow}{return} [FreeCAD.Vector(x1, y1, 0), FreeCAD.Vector(x2, y2, 0)]
+00074 
+\end{DoxyCode}
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStraightRebar_a1873c6f7f59b355a64fdd966ad75f778_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Straight\+Rebar@{Straight\+Rebar}!make\+Straight\+Rebar@{make\+Straight\+Rebar}}
+\index{make\+Straight\+Rebar@{make\+Straight\+Rebar}!Straight\+Rebar@{Straight\+Rebar}}
+\subsubsection[{\texorpdfstring{make\+Straight\+Rebar(f\+\_\+cover, cover\+Along, rt\+\_\+cover, lb\+\_\+cover, diameter, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, orientation=""Horizontal"", structure=\+None, facename=\+None)}{makeStraightRebar(f_cover, coverAlong, rt_cover, lb_cover, diameter, amount_spacing_check, amount_spacing_value, orientation="Horizontal", structure=None, facename=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Straight\+Rebar.\+make\+Straight\+Rebar (
+\begin{DoxyParamCaption}
+\item[{}]{f\+\_\+cover, }
+\item[{}]{cover\+Along, }
+\item[{}]{rt\+\_\+cover, }
+\item[{}]{lb\+\_\+cover, }
+\item[{}]{diameter, }
+\item[{}]{amount\+\_\+spacing\+\_\+check, }
+\item[{}]{amount\+\_\+spacing\+\_\+value, }
+\item[{}]{orientation = {\ttfamily \char`\"{}Horizontal\char`\"{}}, }
+\item[{}]{structure = {\ttfamily None}, }
+\item[{}]{facename = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceStraightRebar_af6270367d7beae457813e33718d80faf}{}\label{namespaceStraightRebar_af6270367d7beae457813e33718d80faf}
+\begin{DoxyVerb}Adds the straight reinforcement bar to the selected structural object.
+
+Case I: When orientation of straight rebar is 'Horizontal':
+    makeStraightRebar(FrontCover, CoverAlong, RightCover, LeftCover, Diameter, AmountSpacingCheck, AmountSpacingValue, Orientation = "Horizontal",
+    Structure, Facename)
+    Note: Type of CoverAlong argument is a tuple. Syntax: (<Along>, <Value>). Here we have horizontal orientation so we can pass Top Side
+    and Bottom Side to <Along> arguments.
+    For eg. ("Top Side", 20) and ("Bottom Side", 20)
+
+Case II: When orientation of straight rebar is 'Vertical':
+    makeStraightRebar(FrontCover, CoverAlong, TopCover, BottomCover, Diameter, AmountSpacingCheck, AmountSpacingValue, Orientation = "Horizontal",
+    Structure, Facename)
+    Note: Type of CoverAlong argument is a tuple. Syntax: (<Along>, <Value>). Here we have vertical orientation so we can pass Left Side
+    and Right Side to <Along> arguments.
+    For eg. ("Left Side", 20) and ("Right Side", 20)
+\end{DoxyVerb}
+ 
+
+Definition at line \hyperlink{StraightRebar_8py_source_l00185}{185} of file \hyperlink{StraightRebar_8py_source}{Straight\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceStraightRebar.tex_l00185}{}\hyperlink{namespaceStraightRebar_af6270367d7beae457813e33718d80faf}{00185} \textcolor{keyword}{def }\hyperlink{namespaceStraightRebar_af6270367d7beae457813e33718d80faf}{makeStraightRebar}(f\_cover, coverAlong, rt\_cover, lb\_cover, diameter, 
+      amount\_spacing\_check, amount\_spacing\_value, orientation = "Horizontal", structure = None, facename = None):
+00186     \textcolor{stringliteral}{""" Adds the straight reinforcement bar to the selected structural object.}
+00187 \textcolor{stringliteral}{}
+00188 \textcolor{stringliteral}{    Case I: When orientation of straight rebar is 'Horizontal':}
+00189 \textcolor{stringliteral}{        makeStraightRebar(FrontCover, CoverAlong, RightCover, LeftCover, Diameter, AmountSpacingCheck,
+       AmountSpacingValue, Orientation = "Horizontal",}
+00190 \textcolor{stringliteral}{        Structure, Facename)}
+00191 \textcolor{stringliteral}{        Note: Type of CoverAlong argument is a tuple. Syntax: (<Along>, <Value>). Here we have horizontal
+       orientation so we can pass Top Side}
+00192 \textcolor{stringliteral}{        and Bottom Side to <Along> arguments.}
+00193 \textcolor{stringliteral}{        For eg. ("Top Side", 20) and ("Bottom Side", 20)}
+00194 \textcolor{stringliteral}{}
+00195 \textcolor{stringliteral}{    Case II: When orientation of straight rebar is 'Vertical':}
+00196 \textcolor{stringliteral}{        makeStraightRebar(FrontCover, CoverAlong, TopCover, BottomCover, Diameter, AmountSpacingCheck,
+       AmountSpacingValue, Orientation = "Horizontal",}
+00197 \textcolor{stringliteral}{        Structure, Facename)}
+00198 \textcolor{stringliteral}{        Note: Type of CoverAlong argument is a tuple. Syntax: (<Along>, <Value>). Here we have vertical
+       orientation so we can pass Left Side}
+00199 \textcolor{stringliteral}{        and Right Side to <Along> arguments.}
+00200 \textcolor{stringliteral}{        For eg. ("Left Side", 20) and ("Right Side", 20)}
+00201 \textcolor{stringliteral}{    """}
+00202     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} structure \textcolor{keywordflow}{and} \textcolor{keywordflow}{not} facename:
+00203         selected\_obj = FreeCADGui.Selection.getSelectionEx()[0]
+00204         structure = selected\_obj.Object
+00205         facename = selected\_obj.SubElementNames[0]
+00206     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00207     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00208     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename)
+00209     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} FacePRM:
+00210         FreeCAD.Console.PrintError(\textcolor{stringliteral}{"Cannot identified shape or from which base object sturctural element is
+       derived\(\backslash\)n"})
+00211         \textcolor{keywordflow}{return}
+00212     \textcolor{comment}{# Get points of Striaght rebar}
+00213     points = \hyperlink{namespaceStraightRebar_a1873c6f7f59b355a64fdd966ad75f778}{getpointsOfStraightRebar}(FacePRM, rt\_cover, lb\_cover, coverAlong, 
+      orientation)
+00214     \textcolor{keyword}{import} Part
+00215     \textcolor{keyword}{import} Arch
+00216     sketch = FreeCAD.activeDocument().addObject(\textcolor{stringliteral}{'Sketcher::SketchObject'}, \textcolor{stringliteral}{'Sketch'})
+00217     sketch.MapMode = \textcolor{stringliteral}{"FlatFace"}
+00218     sketch.Support = [(structure, facename)]
+00219     FreeCAD.ActiveDocument.recompute()
+00220     sketch.addGeometry(Part.LineSegment(points[0], points[1]), \textcolor{keyword}{False})
+00221     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00222         rebar = Arch.makeRebar(structure, sketch, diameter, amount\_spacing\_value, f\_cover)
+00223         FreeCAD.ActiveDocument.recompute()
+00224     \textcolor{keywordflow}{else}:
+00225         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00226         rebar = Arch.makeRebar(structure, sketch, diameter, int((size - diameter) / amount\_spacing\_value), 
+      f\_cover)
+00227     \textcolor{comment}{# Adds properties to the rebar object}
+00228     rebar.ViewObject.addProperty(\textcolor{stringliteral}{"App::PropertyString"}, \textcolor{stringliteral}{"RebarShape"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Shape of rebar"})).RebarShape = \textcolor{stringliteral}{"StraightRebar"}
+00229     rebar.ViewObject.setEditorMode(\textcolor{stringliteral}{"RebarShape"}, 2)
+00230     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"FrontCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Front cover of rebar"})).FrontCover = f\_cover
+00231     rebar.setEditorMode(\textcolor{stringliteral}{"FrontCover"}, 2)
+00232     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"RightTopCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Right/Top Side cover of rebar"})).RightTopCover = rt\_cover
+00233     rebar.setEditorMode(\textcolor{stringliteral}{"RightTopCover"}, 2)
+00234     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"LeftBottomCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Left/Bottom Side cover of rebar"})).LeftBottomCover = lb\_cover
+00235     rebar.setEditorMode(\textcolor{stringliteral}{"LeftBottomCover"}, 2)
+00236     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyString"}, \textcolor{stringliteral}{"CoverAlong"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}
+      , \textcolor{stringliteral}{"Cover along"})).CoverAlong = coverAlong[0]
+00237     rebar.setEditorMode(\textcolor{stringliteral}{"CoverAlong"}, 2)
+00238     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"Cover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}, \textcolor{stringliteral}{"
+      Cover of rebar along user selected side"})).Cover = coverAlong[1]
+00239     rebar.setEditorMode(\textcolor{stringliteral}{"Cover"}, 2)
+00240     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyBool"}, \textcolor{stringliteral}{"AmountCheck"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"},
+       \textcolor{stringliteral}{"Amount radio button is checked"})).AmountCheck
+00241     rebar.setEditorMode(\textcolor{stringliteral}{"AmountCheck"}, 2)
+00242     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"TrueSpacing"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Spacing between of rebars"})).TrueSpacing = amount\_spacing\_value
+00243     rebar.setEditorMode(\textcolor{stringliteral}{"TrueSpacing"}, 2)
+00244     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyString"}, \textcolor{stringliteral}{"Orientation"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property
+      "}, \textcolor{stringliteral}{"Shape of rebar"})).Orientation = orientation
+00245     rebar.setEditorMode(\textcolor{stringliteral}{"Orientation"}, 2)
+00246     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00247         rebar.AmountCheck = \textcolor{keyword}{True}
+00248     \textcolor{keywordflow}{else}:
+00249         rebar.AmountCheck = \textcolor{keyword}{False}
+00250         rebar.TrueSpacing = amount\_spacing\_value
+00251     rebar.Label = \textcolor{stringliteral}{"StraightRebar"}
+00252     FreeCAD.ActiveDocument.recompute()
+00253     \textcolor{keywordflow}{return} rebar
+00254 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStraightRebar_af6270367d7beae457813e33718d80faf_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceStraightRebar_af6270367d7beae457813e33718d80faf_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\index{Straight\+Rebar@{Straight\+Rebar}!\+\_\+\+\_\+author\+\_\+\+\_\+@{\+\_\+\+\_\+author\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+author\+\_\+\+\_\+@{\+\_\+\+\_\+author\+\_\+\+\_\+}!Straight\+Rebar@{Straight\+Rebar}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+author\+\_\+\+\_\+}{__author__}}]{\setlength{\rightskip}{0pt plus 5cm}string Straight\+Rebar.\+\_\+\+\_\+author\+\_\+\+\_\+ = \char`\"{}Amritpal Singh\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceStraightRebar_ad355d40e3bea5e86c24b6fe813264413}{}\label{namespaceStraightRebar_ad355d40e3bea5e86c24b6fe813264413}
+
+
+Definition at line \hyperlink{StraightRebar_8py_source_l00025}{25} of file \hyperlink{StraightRebar_8py_source}{Straight\+Rebar.\+py}.
+
+\index{Straight\+Rebar@{Straight\+Rebar}!\+\_\+\+\_\+title\+\_\+\+\_\+@{\+\_\+\+\_\+title\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+title\+\_\+\+\_\+@{\+\_\+\+\_\+title\+\_\+\+\_\+}!Straight\+Rebar@{Straight\+Rebar}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+title\+\_\+\+\_\+}{__title__}}]{\setlength{\rightskip}{0pt plus 5cm}string Straight\+Rebar.\+\_\+\+\_\+title\+\_\+\+\_\+ = \char`\"{}Straight\+Rebar\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceStraightRebar_ab1d45eb17133c23d9d6a3e2a6f2abb8a}{}\label{namespaceStraightRebar_ab1d45eb17133c23d9d6a3e2a6f2abb8a}
+
+
+Definition at line \hyperlink{StraightRebar_8py_source_l00024}{24} of file \hyperlink{StraightRebar_8py_source}{Straight\+Rebar.\+py}.
+
+\index{Straight\+Rebar@{Straight\+Rebar}!\+\_\+\+\_\+url\+\_\+\+\_\+@{\+\_\+\+\_\+url\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+url\+\_\+\+\_\+@{\+\_\+\+\_\+url\+\_\+\+\_\+}!Straight\+Rebar@{Straight\+Rebar}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+url\+\_\+\+\_\+}{__url__}}]{\setlength{\rightskip}{0pt plus 5cm}string Straight\+Rebar.\+\_\+\+\_\+url\+\_\+\+\_\+ = \char`\"{}https\+://www.\+freecadweb.\+org\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceStraightRebar_aebf23f453d8fabed3a611d14f5e7f057}{}\label{namespaceStraightRebar_aebf23f453d8fabed3a611d14f5e7f057}
+
+
+Definition at line \hyperlink{StraightRebar_8py_source_l00026}{26} of file \hyperlink{StraightRebar_8py_source}{Straight\+Rebar.\+py}.
+

@@ -1,0 +1,355 @@
+\hypertarget{UShapeRebar_8py_source}{}\section{U\+Shape\+Rebar.\+py}
+
+\begin{DoxyCode}
+\hypertarget{UShapeRebar_8py_source.tex_l00001}{}\hyperlink{namespaceUShapeRebar}{00001} \textcolor{comment}{# -*- coding: utf-8 -*-}
+00002 \textcolor{comment}{# ***************************************************************************}
+00003 \textcolor{comment}{# *                                                                         *}
+00004 \textcolor{comment}{# *   Copyright (c) 2017 - Amritpal Singh <amrit3701@gmail.com>             *}
+00005 \textcolor{comment}{# *                                                                         *}
+00006 \textcolor{comment}{# *   This program is free software; you can redistribute it and/or modify  *}
+00007 \textcolor{comment}{# *   it under the terms of the GNU Lesser General Public License (LGPL)    *}
+00008 \textcolor{comment}{# *   as published by the Free Software Foundation; either version 2 of     *}
+00009 \textcolor{comment}{# *   the License, or (at your option) any later version.                   *}
+00010 \textcolor{comment}{# *   for detail see the LICENCE text file.                                 *}
+00011 \textcolor{comment}{# *                                                                         *}
+00012 \textcolor{comment}{# *   This program is distributed in the hope that it will be useful,       *}
+00013 \textcolor{comment}{# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *}
+00014 \textcolor{comment}{# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *}
+00015 \textcolor{comment}{# *   GNU Library General Public License for more details.                  *}
+00016 \textcolor{comment}{# *                                                                         *}
+00017 \textcolor{comment}{# *   You should have received a copy of the GNU Library General Public     *}
+00018 \textcolor{comment}{# *   License along with this program; if not, write to the Free Software   *}
+00019 \textcolor{comment}{# *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *}
+00020 \textcolor{comment}{# *   USA                                                                   *}
+00021 \textcolor{comment}{# *                                                                         *}
+00022 \textcolor{comment}{# ***************************************************************************}
+00023 
+\hypertarget{UShapeRebar_8py_source.tex_l00024}{}\hyperlink{namespaceUShapeRebar_ada77465e981ba03265231173a2645e0b}{00024} \_\_title\_\_ = \textcolor{stringliteral}{"UShapeRebar"}
+\hypertarget{UShapeRebar_8py_source.tex_l00025}{}\hyperlink{namespaceUShapeRebar_a97e2ec9c8f01fe19bd22095b5aef9c29}{00025} \_\_author\_\_ = \textcolor{stringliteral}{"Amritpal Singh"}
+\hypertarget{UShapeRebar_8py_source.tex_l00026}{}\hyperlink{namespaceUShapeRebar_a7684dab24892bce1b6ca80c35d20f159}{00026} \_\_url\_\_ = \textcolor{stringliteral}{"https://www.freecadweb.org"}
+00027 
+00028 \textcolor{keyword}{from} PySide \textcolor{keyword}{import} QtCore, QtGui
+00029 \textcolor{keyword}{from} Rebarfunc \textcolor{keyword}{import} *
+00030 \textcolor{keyword}{from} PySide.QtCore \textcolor{keyword}{import} QT\_TRANSLATE\_NOOP
+00031 \textcolor{keyword}{from} RebarDistribution \textcolor{keyword}{import} runRebarDistribution, removeRebarDistribution
+00032 \textcolor{keyword}{from} PopUpImage \textcolor{keyword}{import} showPopUpImageDialog
+00033 \textcolor{keyword}{import} FreeCAD
+00034 \textcolor{keyword}{import} FreeCADGui
+00035 \textcolor{keyword}{import} ArchCommands
+00036 \textcolor{keyword}{import} os
+00037 \textcolor{keyword}{import} sys
+00038 \textcolor{keyword}{import} math
+00039 
+\hypertarget{UShapeRebar_8py_source.tex_l00040}{}\hyperlink{namespaceUShapeRebar_ac12ae9bce6b5211759f2fff4091b0221}{00040} \textcolor{keyword}{def }\hyperlink{namespaceUShapeRebar_ac12ae9bce6b5211759f2fff4091b0221}{getpointsOfUShapeRebar}(FacePRM, r\_cover, l\_cover, b\_cover, t\_cover, orientation):
+00041     \textcolor{stringliteral}{""" getpointsOfUShapeRebar(FacePRM, RightCover, LeftCover, BottomCover, TopCover, Orientation):}
+00042 \textcolor{stringliteral}{    Return points of the UShape rebar in the form of array for sketch.}
+00043 \textcolor{stringliteral}{    It takes four different orientations input i.e. 'Bottom', 'Top', 'Left', 'Right'.}
+00044 \textcolor{stringliteral}{    """}
+00045     \textcolor{keywordflow}{if} orientation == \textcolor{stringliteral}{"Bottom"}:
+00046         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00047         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00048         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00049         y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00050         x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00051         y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00052         x4 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00053         y4 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00054     \textcolor{keywordflow}{elif} orientation == \textcolor{stringliteral}{"Top"}:
+00055         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00056         y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00057         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00058         y2 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00059         x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00060         y3 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00061         x4 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00062         y4 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00063     \textcolor{keywordflow}{elif} orientation == \textcolor{stringliteral}{"Left"}:
+00064         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00065         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00066         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00067         y2 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00068         x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00069         y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00070         x4 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00071         y4 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00072     \textcolor{keywordflow}{elif} orientation == \textcolor{stringliteral}{"Right"}:
+00073         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00074         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00075         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00076         y2 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00077         x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00078         y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00079         x4 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00080         y4 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00081     \textcolor{keywordflow}{return} [FreeCAD.Vector(x1, y1, 0), FreeCAD.Vector(x2, y2, 0),\(\backslash\)
+00082            FreeCAD.Vector(x3, y3, 0), FreeCAD.Vector(x4, y4, 0)]
+00083 
+\hypertarget{UShapeRebar_8py_source.tex_l00084}{}\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel}{00084} \textcolor{keyword}{class }\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel}{\_UShapeRebarTaskPanel}:
+\hypertarget{UShapeRebar_8py_source.tex_l00085}{}\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a242486d55ca470c8e0629508ec295036}{00085}     \textcolor{keyword}{def }\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a242486d55ca470c8e0629508ec295036}{\_\_init\_\_}(self, Rebar = None):
+\hypertarget{UShapeRebar_8py_source.tex_l00086}{}\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_abb7e05e650f1e52e878b0d74be1c9abd}{00086}         self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_abb7e05e650f1e52e878b0d74be1c9abd}{CustomSpacing} = \textcolor{keywordtype}{None}
+00087         \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} Rebar:
+00088             selected\_obj = FreeCADGui.Selection.getSelectionEx()[0]
+\hypertarget{UShapeRebar_8py_source.tex_l00089}{}\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a74e2f5a2b08a8ae07513d6aa8ace25c6}{00089}             self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a74e2f5a2b08a8ae07513d6aa8ace25c6}{SelectedObj} = selected\_obj.Object
+\hypertarget{UShapeRebar_8py_source.tex_l00090}{}\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_abc34324a2e2e788d505002fec92ab78f}{00090}             self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_abc34324a2e2e788d505002fec92ab78f}{FaceName} = selected\_obj.SubElementNames[0]
+00091         \textcolor{keywordflow}{else}:
+00092             self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_abc34324a2e2e788d505002fec92ab78f}{FaceName} = Rebar.Base.Support[0][1][0]
+00093             self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a74e2f5a2b08a8ae07513d6aa8ace25c6}{SelectedObj} = Rebar.Base.Support[0][0]
+\hypertarget{UShapeRebar_8py_source.tex_l00094}{}\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a6f9058a758e84681c44f1abd37d95742}{00094}         self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a6f9058a758e84681c44f1abd37d95742}{form} = FreeCADGui.PySideUic.loadUi(os.path.splitext(\_\_file\_\_)[0] + \textcolor{stringliteral}{".ui"})
+00095         self.form.setWindowTitle(QtGui.QApplication.translate(\textcolor{stringliteral}{"RebarAddon"}, \textcolor{stringliteral}{"U-Shape Rebar"}, \textcolor{keywordtype}{None}))
+00096         self.form.orientation.addItems([\textcolor{stringliteral}{"Bottom"}, \textcolor{stringliteral}{"Top"}, \textcolor{stringliteral}{"Right"}, \textcolor{stringliteral}{"Left"}])
+00097         self.form.amount\_radio.clicked.connect(self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a413995e1628847d66ad62ce177242c51}{amount\_radio\_clicked})
+00098         self.form.spacing\_radio.clicked.connect(self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a6c7a6e22e7d3f9233bf199561beb58b1}{spacing\_radio\_clicked})
+00099         self.form.customSpacing.clicked.connect(\textcolor{keyword}{lambda}: \hyperlink{namespaceRebarDistribution_aa547df5cb10d2e64eaa0b51c445fa30b}{runRebarDistribution}(self))
+00100         self.form.removeCustomSpacing.clicked.connect(\textcolor{keyword}{lambda}: 
+      \hyperlink{namespaceRebarDistribution_a85270a1b6e8c782a9e0ba54add518f2a}{removeRebarDistribution}(self))
+00101         self.form.PickSelectedFace.clicked.connect(\textcolor{keyword}{lambda}: \hyperlink{namespaceRebarfunc_a8c003df49ac5f249bd9ea4acfb7d2f8d}{getSelectedFace}(self))
+00102         self.form.orientation.currentIndexChanged.connect(self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a3389799920a78686a2b4e17131101db0}{getOrientation})
+00103         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0] + \textcolor{stringliteral}{"
+      /icons/UShapeRebarBottom.svg"}))
+00104         self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(
+      QtGui.QStyle.SP\_DialogHelpButton))
+00105         self.form.toolButton.clicked.connect(\textcolor{keyword}{lambda}: \hyperlink{namespacePopUpImage_a8c565620d7de9b4882a44eacb870ad05}{showPopUpImageDialog}(os.path.split
+      (os.path.abspath(\_\_file\_\_))[0] + \textcolor{stringliteral}{"/icons/UShapeRebarDetailed.svg"}))
+\hypertarget{UShapeRebar_8py_source.tex_l00106}{}\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a01238597180da20c197d4c02925814f6}{00106}         self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a01238597180da20c197d4c02925814f6}{Rebar} = Rebar
+00107 
+\hypertarget{UShapeRebar_8py_source.tex_l00108}{}\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a3389799920a78686a2b4e17131101db0}{00108}     \textcolor{keyword}{def }\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a3389799920a78686a2b4e17131101db0}{getOrientation}(self):
+00109         orientation = self.form.orientation.currentText()
+00110         \textcolor{keywordflow}{if} orientation == \textcolor{stringliteral}{"Bottom"}:
+00111             self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0] + \textcolor{stringliteral}{"
+      /icons/UShapeRebarBottom.svg"}))
+00112         \textcolor{keywordflow}{elif} orientation == \textcolor{stringliteral}{"Top"}:
+00113             self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0] + \textcolor{stringliteral}{"
+      /icons/UShapeRebarTop.svg"}))
+00114         \textcolor{keywordflow}{elif} orientation == \textcolor{stringliteral}{"Right"}:
+00115             self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0] + \textcolor{stringliteral}{"
+      /icons/UShapeRebarRight.svg"}))
+00116         \textcolor{keywordflow}{else}:
+00117             self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(\_\_file\_\_))[0] + \textcolor{stringliteral}{"
+      /icons/UShapeRebarLeft.svg"}))
+00118 
+\hypertarget{UShapeRebar_8py_source.tex_l00119}{}\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a38ab35540a5a1657ee9c4fa2feeae575}{00119}     \textcolor{keyword}{def }\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a38ab35540a5a1657ee9c4fa2feeae575}{getStandardButtons}(self):
+00120         \textcolor{keywordflow}{return} int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Apply) | int(
+      QtGui.QDialogButtonBox.Cancel)
+00121 
+\hypertarget{UShapeRebar_8py_source.tex_l00122}{}\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a1d59169cef16d01c4d09766255188fcb}{00122}     \textcolor{keyword}{def }\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a1d59169cef16d01c4d09766255188fcb}{clicked}(self, button):
+00123         \textcolor{keywordflow}{if} button == int(QtGui.QDialogButtonBox.Apply):
+00124             self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a9307d2a59f5d26ba7ce25b4603d78eb6}{accept}(button)
+00125 
+\hypertarget{UShapeRebar_8py_source.tex_l00126}{}\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a9307d2a59f5d26ba7ce25b4603d78eb6}{00126}     \textcolor{keyword}{def }\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a9307d2a59f5d26ba7ce25b4603d78eb6}{accept}(self, signal = None):
+00127         f\_cover = self.form.frontCover.text()
+00128         f\_cover = FreeCAD.Units.Quantity(f\_cover).Value
+00129         b\_cover = self.form.bottomCover.text()
+00130         b\_cover = FreeCAD.Units.Quantity(b\_cover).Value
+00131         r\_cover = self.form.r\_sideCover.text()
+00132         r\_cover = FreeCAD.Units.Quantity(r\_cover).Value
+00133         l\_cover = self.form.l\_sideCover.text()
+00134         l\_cover = FreeCAD.Units.Quantity(l\_cover).Value
+00135         t\_cover = self.form.topCover.text()
+00136         t\_cover = FreeCAD.Units.Quantity(t\_cover).Value
+00137         diameter = self.form.diameter.text()
+00138         diameter = FreeCAD.Units.Quantity(diameter).Value
+00139         rounding = self.form.rounding.value()
+00140         orientation = self.form.orientation.currentText()
+00141         amount\_check = self.form.amount\_radio.isChecked()
+00142         spacing\_check = self.form.spacing\_radio.isChecked()
+00143         \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a01238597180da20c197d4c02925814f6}{Rebar}:
+00144             \textcolor{keywordflow}{if} amount\_check:
+00145                 amount = self.form.amount.value()
+00146                 rebar = \hyperlink{namespaceUShapeRebar_adb9f6e4b9ec41d7a1fdfe58ad174fec3}{makeUShapeRebar}(f\_cover, b\_cover, r\_cover, l\_cover, diameter, 
+      t\_cover, rounding, \textcolor{keyword}{True}, amount, orientation, self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a74e2f5a2b08a8ae07513d6aa8ace25c6}{SelectedObj}, self.
+      \hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_abc34324a2e2e788d505002fec92ab78f}{FaceName})
+00147             \textcolor{keywordflow}{elif} spacing\_check:
+00148                 spacing = self.form.spacing.text()
+00149                 spacing = FreeCAD.Units.Quantity(spacing).Value
+00150                 rebar = \hyperlink{namespaceUShapeRebar_adb9f6e4b9ec41d7a1fdfe58ad174fec3}{makeUShapeRebar}(f\_cover, b\_cover, r\_cover, l\_cover, diameter, 
+      t\_cover, rounding, \textcolor{keyword}{False}, spacing, orientation, self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a74e2f5a2b08a8ae07513d6aa8ace25c6}{SelectedObj}, self.
+      \hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_abc34324a2e2e788d505002fec92ab78f}{FaceName})
+00151         \textcolor{keywordflow}{else}:
+00152             \textcolor{keywordflow}{if} amount\_check:
+00153                 amount = self.form.amount.value()
+00154                 rebar = \hyperlink{namespaceUShapeRebar_a461f60869fd97a93fc015af4828467ee}{editUShapeRebar}(self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a01238597180da20c197d4c02925814f6}{Rebar}, f\_cover, b\_cover, r\_cover, l\_cover,
+       diameter, t\_cover, rounding, \textcolor{keyword}{True}, amount, orientation, self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a74e2f5a2b08a8ae07513d6aa8ace25c6}{SelectedObj}, self.
+      \hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_abc34324a2e2e788d505002fec92ab78f}{FaceName})
+00155             \textcolor{keywordflow}{elif} spacing\_check:
+00156                 spacing = self.form.spacing.text()
+00157                 spacing = FreeCAD.Units.Quantity(spacing).Value
+00158                 rebar = \hyperlink{namespaceUShapeRebar_a461f60869fd97a93fc015af4828467ee}{editUShapeRebar}(self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a01238597180da20c197d4c02925814f6}{Rebar}, f\_cover, b\_cover, r\_cover, l\_cover,
+       diameter, t\_cover, rounding, \textcolor{keyword}{False}, spacing, orientation, self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a74e2f5a2b08a8ae07513d6aa8ace25c6}{SelectedObj}, self.
+      \hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_abc34324a2e2e788d505002fec92ab78f}{FaceName})
+00159         \textcolor{keywordflow}{if} self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_abb7e05e650f1e52e878b0d74be1c9abd}{CustomSpacing}:
+00160             rebar.CustomSpacing = self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_abb7e05e650f1e52e878b0d74be1c9abd}{CustomSpacing}
+00161             FreeCAD.ActiveDocument.recompute()
+00162         self.\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a01238597180da20c197d4c02925814f6}{Rebar} = rebar
+00163         \textcolor{keywordflow}{if} signal == int(QtGui.QDialogButtonBox.Apply):
+00164             \textcolor{keywordflow}{pass}
+00165         \textcolor{keywordflow}{else}:
+00166             FreeCADGui.Control.closeDialog(self)
+00167 
+\hypertarget{UShapeRebar_8py_source.tex_l00168}{}\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a413995e1628847d66ad62ce177242c51}{00168}     \textcolor{keyword}{def }\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a413995e1628847d66ad62ce177242c51}{amount\_radio\_clicked}(self):
+00169         self.form.spacing.setEnabled(\textcolor{keyword}{False})
+00170         self.form.amount.setEnabled(\textcolor{keyword}{True})
+00171 
+\hypertarget{UShapeRebar_8py_source.tex_l00172}{}\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a6c7a6e22e7d3f9233bf199561beb58b1}{00172}     \textcolor{keyword}{def }\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel_a6c7a6e22e7d3f9233bf199561beb58b1}{spacing\_radio\_clicked}(self):
+00173         self.form.amount.setEnabled(\textcolor{keyword}{False})
+00174         self.form.spacing.setEnabled(\textcolor{keyword}{True})
+00175 
+00176 
+\hypertarget{UShapeRebar_8py_source.tex_l00177}{}\hyperlink{namespaceUShapeRebar_adb9f6e4b9ec41d7a1fdfe58ad174fec3}{00177} \textcolor{keyword}{def }\hyperlink{namespaceUShapeRebar_adb9f6e4b9ec41d7a1fdfe58ad174fec3}{makeUShapeRebar}(f\_cover, b\_cover, r\_cover, l\_cover, diameter, t\_cover, rounding, 
+      amount\_spacing\_check, amount\_spacing\_value, orientation = "Bottom", structure = None, facename = None):
+00178     \textcolor{stringliteral}{""" makeUShapeRebar(FrontCover, BottomCover, RightCover, LeftCover, Diameter, Topcover, Rounding,
+       AmountSpacingCheck, AmountSpacingValue,}
+00179 \textcolor{stringliteral}{    Orientation, Structure, Facename): Adds the U-Shape reinforcement bar to the selected structural
+       object.}
+00180 \textcolor{stringliteral}{    It takes four different types of orientations as input i.e 'Bottom', 'Top', 'Right', 'Left'.}
+00181 \textcolor{stringliteral}{    """}
+00182     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} structure \textcolor{keywordflow}{and} \textcolor{keywordflow}{not} facename:
+00183         selected\_obj = FreeCADGui.Selection.getSelectionEx()[0]
+00184         structure = selected\_obj.Object
+00185         facename = selected\_obj.SubElementNames[0]
+00186     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00187     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00188     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename)
+00189     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} FacePRM:
+00190         FreeCAD.Console.PrintError(\textcolor{stringliteral}{"Cannot identified shape or from which base object sturctural element is
+       derived\(\backslash\)n"})
+00191         \textcolor{keywordflow}{return}
+00192     \textcolor{comment}{# Get points of U-Shape rebar}
+00193     points = \hyperlink{namespaceUShapeRebar_ac12ae9bce6b5211759f2fff4091b0221}{getpointsOfUShapeRebar}(FacePRM, r\_cover, l\_cover, b\_cover, t\_cover, 
+      orientation)
+00194     \textcolor{keyword}{import} Part
+00195     \textcolor{keyword}{import} Arch
+00196     sketch = FreeCAD.activeDocument().addObject(\textcolor{stringliteral}{'Sketcher::SketchObject'}, \textcolor{stringliteral}{'Sketch'})
+00197     sketch.MapMode = \textcolor{stringliteral}{"FlatFace"}
+00198     sketch.Support = [(structure, facename)]
+00199     FreeCAD.ActiveDocument.recompute()
+00200     sketch.addGeometry(Part.LineSegment(points[0], points[1]), \textcolor{keyword}{False})
+00201     sketch.addGeometry(Part.LineSegment(points[1], points[2]), \textcolor{keyword}{False})
+00202     \textcolor{keyword}{import} Sketcher
+00203     sketch.addGeometry(Part.LineSegment(points[2], points[3]), \textcolor{keyword}{False})
+00204     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00205         rebar = Arch.makeRebar(structure, sketch, diameter, amount\_spacing\_value, f\_cover)
+00206         FreeCAD.ActiveDocument.recompute()
+00207     \textcolor{keywordflow}{else}:
+00208         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00209         rebar = Arch.makeRebar(structure, sketch, diameter, int((size - diameter) / amount\_spacing\_value), 
+      f\_cover)
+00210     rebar.Rounding = rounding
+00211     \textcolor{comment}{# Adds properties to the rebar object}
+00212     rebar.ViewObject.addProperty(\textcolor{stringliteral}{"App::PropertyString"}, \textcolor{stringliteral}{"RebarShape"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Shape of rebar"})).RebarShape = \textcolor{stringliteral}{"UShapeRebar"}
+00213     rebar.ViewObject.setEditorMode(\textcolor{stringliteral}{"RebarShape"}, 2)
+00214     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"FrontCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Front cover of rebar"})).FrontCover = f\_cover
+00215     rebar.setEditorMode(\textcolor{stringliteral}{"FrontCover"}, 2)
+00216     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"RightCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Right Side cover of rebar"})).RightCover = r\_cover
+00217     rebar.setEditorMode(\textcolor{stringliteral}{"RightCover"}, 2)
+00218     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"LeftCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property
+      "}, \textcolor{stringliteral}{"Left Side cover of rebar"})).LeftCover = l\_cover
+00219     rebar.setEditorMode(\textcolor{stringliteral}{"LeftCover"}, 2)
+00220     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"BottomCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Bottom cover of rebar"})).BottomCover = b\_cover
+00221     rebar.setEditorMode(\textcolor{stringliteral}{"BottomCover"}, 2)
+00222     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyBool"}, \textcolor{stringliteral}{"AmountCheck"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"},
+       \textcolor{stringliteral}{"Amount radio button is checked"})).AmountCheck
+00223     rebar.setEditorMode(\textcolor{stringliteral}{"AmountCheck"}, 2)
+00224     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"TopCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}
+      , \textcolor{stringliteral}{"Top cover of rebar"})).TopCover = t\_cover
+00225     rebar.setEditorMode(\textcolor{stringliteral}{"TopCover"}, 2)
+00226     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"TrueSpacing"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Spacing between of rebars"})).TrueSpacing = amount\_spacing\_value
+00227     rebar.setEditorMode(\textcolor{stringliteral}{"TrueSpacing"}, 2)
+00228     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyString"}, \textcolor{stringliteral}{"Orientation"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property
+      "}, \textcolor{stringliteral}{"Shape of rebar"})).Orientation = orientation
+00229     rebar.setEditorMode(\textcolor{stringliteral}{"Orientation"}, 2)
+00230     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00231         rebar.AmountCheck = \textcolor{keyword}{True}
+00232     \textcolor{keywordflow}{else}:
+00233         rebar.AmountCheck = \textcolor{keyword}{False}
+00234         rebar.TrueSpacing = amount\_spacing\_value
+00235     rebar.Label = \textcolor{stringliteral}{"UShapeRebar"}
+00236     FreeCAD.ActiveDocument.recompute()
+00237     \textcolor{keywordflow}{return} rebar
+00238 
+\hypertarget{UShapeRebar_8py_source.tex_l00239}{}\hyperlink{namespaceUShapeRebar_a461f60869fd97a93fc015af4828467ee}{00239} \textcolor{keyword}{def }\hyperlink{namespaceUShapeRebar_a461f60869fd97a93fc015af4828467ee}{editUShapeRebar}(Rebar, f\_cover, b\_cover, r\_cover, l\_cover, diameter, t\_cover, rounding, 
+      amount\_spacing\_check, amount\_spacing\_value, orientation, structure = None, facename = None):
+00240     sketch = Rebar.Base
+00241     \textcolor{keywordflow}{if} structure \textcolor{keywordflow}{and} facename:
+00242         sketch.Support = [(structure, facename)]
+00243     \textcolor{comment}{# Check if sketch support is empty.}
+00244     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} sketch.Support:
+00245         \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"You have checked remove external geometry of base sketchs when needed.\(\backslash\)nTo
+       unchecked Edit->Preferences->Arch."})
+00246         \textcolor{keywordflow}{return}
+00247     \textcolor{comment}{# Assigned values}
+00248     facename = sketch.Support[0][1][0]
+00249     structure = sketch.Support[0][0]
+00250     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00251     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00252     \textcolor{comment}{# Get parameters of the face where sketch of rebar is drawn}
+00253     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename)
+00254     \textcolor{comment}{# Get points of U-Shape rebar}
+00255     points = \hyperlink{namespaceUShapeRebar_ac12ae9bce6b5211759f2fff4091b0221}{getpointsOfUShapeRebar}(FacePRM, r\_cover, l\_cover, b\_cover, t\_cover, 
+      orientation)
+00256     sketch.movePoint(0, 1, points[0], 0)
+00257     FreeCAD.ActiveDocument.recompute()
+00258     sketch.movePoint(0, 2, points[1], 0)
+00259     FreeCAD.ActiveDocument.recompute()
+00260     sketch.movePoint(1, 1, points[1], 0)
+00261     FreeCAD.ActiveDocument.recompute()
+00262     sketch.movePoint(1, 2, points[2], 0)
+00263     FreeCAD.ActiveDocument.recompute()
+00264     sketch.movePoint(2, 1, points[2], 0)
+00265     FreeCAD.ActiveDocument.recompute()
+00266     sketch.movePoint(2, 2, points[3], 0)
+00267     FreeCAD.ActiveDocument.recompute()
+00268     Rebar.OffsetStart = f\_cover
+00269     Rebar.OffsetEnd = f\_cover
+00270     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00271         Rebar.Amount = amount\_spacing\_value
+00272         FreeCAD.ActiveDocument.recompute()
+00273         Rebar.AmountCheck = \textcolor{keyword}{True}
+00274     \textcolor{keywordflow}{else}:
+00275         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00276         Rebar.Amount = int((size - diameter) / amount\_spacing\_value)
+00277         FreeCAD.ActiveDocument.recompute()
+00278         Rebar.AmountCheck = \textcolor{keyword}{False}
+00279     Rebar.Diameter = diameter
+00280     Rebar.FrontCover = f\_cover
+00281     Rebar.RightCover = r\_cover
+00282     Rebar.LeftCover = l\_cover
+00283     Rebar.BottomCover = b\_cover
+00284     Rebar.TopCover = t\_cover
+00285     Rebar.Rounding = rounding
+00286     Rebar.TrueSpacing = amount\_spacing\_value
+00287     Rebar.Orientation = orientation
+00288     FreeCAD.ActiveDocument.recompute()
+00289     \textcolor{keywordflow}{return} Rebar
+00290 
+\hypertarget{UShapeRebar_8py_source.tex_l00291}{}\hyperlink{namespaceUShapeRebar_a16038a29bc4b605b909e4946d2e022ff}{00291} \textcolor{keyword}{def }\hyperlink{namespaceUShapeRebar_a16038a29bc4b605b909e4946d2e022ff}{editDialog}(vobj):
+00292     FreeCADGui.Control.closeDialog()
+00293     obj = \hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel}{\_UShapeRebarTaskPanel}(vobj.Object)
+00294     obj.form.frontCover.setText(str(vobj.Object.FrontCover))
+00295     obj.form.r\_sideCover.setText(str(vobj.Object.RightCover))
+00296     obj.form.l\_sideCover.setText(str(vobj.Object.LeftCover))
+00297     obj.form.bottomCover.setText(str(vobj.Object.BottomCover))
+00298     obj.form.diameter.setText(str(vobj.Object.Diameter))
+00299     obj.form.topCover.setText(str(vobj.Object.TopCover))
+00300     obj.form.rounding.setValue(vobj.Object.Rounding)
+00301     obj.form.orientation.setCurrentIndex(obj.form.orientation.findText(str(vobj.Object.Orientation)))
+00302     \textcolor{keywordflow}{if} vobj.Object.AmountCheck:
+00303         obj.form.amount.setValue(vobj.Object.Amount)
+00304     \textcolor{keywordflow}{else}:
+00305         obj.form.amount\_radio.setChecked(\textcolor{keyword}{False})
+00306         obj.form.spacing\_radio.setChecked(\textcolor{keyword}{True})
+00307         obj.form.amount.setDisabled(\textcolor{keyword}{True})
+00308         obj.form.spacing.setEnabled(\textcolor{keyword}{True})
+00309         obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
+00310     \textcolor{comment}{#obj.form.PickSelectedFace.setVisible(False)}
+00311     FreeCADGui.Control.showDialog(obj)
+00312 
+\hypertarget{UShapeRebar_8py_source.tex_l00313}{}\hyperlink{namespaceUShapeRebar_abd24828525ea7ad774fdff3df325a173}{00313} \textcolor{keyword}{def }\hyperlink{namespaceUShapeRebar_abd24828525ea7ad774fdff3df325a173}{CommandUShapeRebar}():
+00314     selected\_obj = \hyperlink{namespaceRebarfunc_adae2713855a7e1b4bda04081ae671542}{check\_selected\_face}()
+00315     \textcolor{keywordflow}{if} selected\_obj:
+00316         FreeCADGui.Control.showDialog(\hyperlink{classUShapeRebar_1_1__UShapeRebarTaskPanel}{\_UShapeRebarTaskPanel}())
+\end{DoxyCode}

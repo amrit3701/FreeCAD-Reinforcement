@@ -1,0 +1,430 @@
+\hypertarget{namespaceLShapeRebar}{}\section{L\+Shape\+Rebar Namespace Reference}
+\label{namespaceLShapeRebar}\index{L\+Shape\+Rebar@{L\+Shape\+Rebar}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classLShapeRebar_1_1__LShapeRebarTaskPanel}{\+\_\+\+L\+Shape\+Rebar\+Task\+Panel}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespaceLShapeRebar_a3019960c6f6476cb70df9ee06f330dfb}{getpoints\+Of\+L\+Shape\+Rebar} (Face\+P\+RM, l\+\_\+cover, r\+\_\+cover, b\+\_\+cover, t\+\_\+cover, orientation)
+\item 
+def \hyperlink{namespaceLShapeRebar_a647a28e94933108c6617da8532d76998}{make\+L\+Shape\+Rebar} (f\+\_\+cover, b\+\_\+cover, l\+\_\+cover, r\+\_\+cover, diameter, t\+\_\+cover, rounding, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, orientation=\char`\"{}Bottom Left\char`\"{}, structure=None, facename=None)
+\item 
+def \hyperlink{namespaceLShapeRebar_a9915291e3457e1c27f556d7903e02486}{edit\+L\+Shape\+Rebar} (Rebar, f\+\_\+cover, b\+\_\+cover, l\+\_\+cover, r\+\_\+cover, diameter, t\+\_\+cover, rounding, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, orientation, structure=None, facename=None)
+\item 
+def \hyperlink{namespaceLShapeRebar_a73f1b8d577fecf230a8c071424b2015e}{edit\+Dialog} (vobj)
+\item 
+def \hyperlink{namespaceLShapeRebar_a5439b0c3265fa6d432d4a81e47f4441e}{Command\+L\+Shape\+Rebar} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{namespaceLShapeRebar_a0ac8e9cb97e560c6ce362c1ac5144c31}{\+\_\+\+\_\+title\+\_\+\+\_\+} = \char`\"{}L\+Shape\+Rebar\char`\"{}
+\item 
+string \hyperlink{namespaceLShapeRebar_ad398517c2df8a455dfd0b670e54285ea}{\+\_\+\+\_\+author\+\_\+\+\_\+} = \char`\"{}Amritpal Singh\char`\"{}
+\item 
+string \hyperlink{namespaceLShapeRebar_a7bca929f0dda68928d1f3978b4e877f8}{\+\_\+\+\_\+url\+\_\+\+\_\+} = \char`\"{}https\+://www.\+freecadweb.\+org\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{L\+Shape\+Rebar@{L\+Shape\+Rebar}!Command\+L\+Shape\+Rebar@{Command\+L\+Shape\+Rebar}}
+\index{Command\+L\+Shape\+Rebar@{Command\+L\+Shape\+Rebar}!L\+Shape\+Rebar@{L\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{Command\+L\+Shape\+Rebar()}{CommandLShapeRebar()}}]{\setlength{\rightskip}{0pt plus 5cm}def L\+Shape\+Rebar.\+Command\+L\+Shape\+Rebar (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceLShapeRebar_a5439b0c3265fa6d432d4a81e47f4441e}{}\label{namespaceLShapeRebar_a5439b0c3265fa6d432d4a81e47f4441e}
+
+
+Definition at line \hyperlink{LShapeRebar_8py_source_l00300}{300} of file \hyperlink{LShapeRebar_8py_source}{L\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceLShapeRebar.tex_l00300}{}\hyperlink{namespaceLShapeRebar_a5439b0c3265fa6d432d4a81e47f4441e}{00300} \textcolor{keyword}{def }\hyperlink{namespaceLShapeRebar_a5439b0c3265fa6d432d4a81e47f4441e}{CommandLShapeRebar}():
+00301     selected\_obj = \hyperlink{namespaceRebarfunc_adae2713855a7e1b4bda04081ae671542}{check\_selected\_face}()
+00302     \textcolor{keywordflow}{if} selected\_obj:
+00303         FreeCADGui.Control.showDialog(\hyperlink{classLShapeRebar_1_1__LShapeRebarTaskPanel}{\_LShapeRebarTaskPanel}())
+00304 \end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceLShapeRebar_a5439b0c3265fa6d432d4a81e47f4441e_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceLShapeRebar_a5439b0c3265fa6d432d4a81e47f4441e_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{L\+Shape\+Rebar@{L\+Shape\+Rebar}!edit\+Dialog@{edit\+Dialog}}
+\index{edit\+Dialog@{edit\+Dialog}!L\+Shape\+Rebar@{L\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{edit\+Dialog(vobj)}{editDialog(vobj)}}]{\setlength{\rightskip}{0pt plus 5cm}def L\+Shape\+Rebar.\+edit\+Dialog (
+\begin{DoxyParamCaption}
+\item[{}]{vobj}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceLShapeRebar_a73f1b8d577fecf230a8c071424b2015e}{}\label{namespaceLShapeRebar_a73f1b8d577fecf230a8c071424b2015e}
+
+
+Definition at line \hyperlink{LShapeRebar_8py_source_l00278}{278} of file \hyperlink{LShapeRebar_8py_source}{L\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceLShapeRebar.tex_l00278}{}\hyperlink{namespaceLShapeRebar_a73f1b8d577fecf230a8c071424b2015e}{00278} \textcolor{keyword}{def }\hyperlink{namespaceLShapeRebar_a73f1b8d577fecf230a8c071424b2015e}{editDialog}(vobj):
+00279     FreeCADGui.Control.closeDialog()
+00280     obj = \hyperlink{classLShapeRebar_1_1__LShapeRebarTaskPanel}{\_LShapeRebarTaskPanel}(vobj.Object)
+00281     obj.form.frontCover.setText(str(vobj.Object.FrontCover))
+00282     obj.form.l\_sideCover.setText(str(vobj.Object.LeftCover))
+00283     obj.form.r\_sideCover.setText(str(vobj.Object.RightCover))
+00284     obj.form.bottomCover.setText(str(vobj.Object.BottomCover))
+00285     obj.form.diameter.setText(str(vobj.Object.Diameter))
+00286     obj.form.topCover.setText(str(vobj.Object.TopCover))
+00287     obj.form.rounding.setValue(vobj.Object.Rounding)
+00288     obj.form.orientation.setCurrentIndex(obj.form.orientation.findText(str(vobj.Object.Orientation)))
+00289     \textcolor{keywordflow}{if} vobj.Object.AmountCheck:
+00290         obj.form.amount.setValue(vobj.Object.Amount)
+00291     \textcolor{keywordflow}{else}:
+00292         obj.form.amount\_radio.setChecked(\textcolor{keyword}{False})
+00293         obj.form.spacing\_radio.setChecked(\textcolor{keyword}{True})
+00294         obj.form.amount.setDisabled(\textcolor{keyword}{True})
+00295         obj.form.spacing.setEnabled(\textcolor{keyword}{True})
+00296         obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
+00297     \textcolor{comment}{#obj.form.PickSelectedFace.setVisible(False)}
+00298     FreeCADGui.Control.showDialog(obj)
+00299 
+\end{DoxyCode}
+\index{L\+Shape\+Rebar@{L\+Shape\+Rebar}!edit\+L\+Shape\+Rebar@{edit\+L\+Shape\+Rebar}}
+\index{edit\+L\+Shape\+Rebar@{edit\+L\+Shape\+Rebar}!L\+Shape\+Rebar@{L\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{edit\+L\+Shape\+Rebar(\+Rebar, f\+\_\+cover, b\+\_\+cover, l\+\_\+cover, r\+\_\+cover, diameter, t\+\_\+cover, rounding, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, orientation, structure=\+None, facename=\+None)}{editLShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, orientation, structure=None, facename=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def L\+Shape\+Rebar.\+edit\+L\+Shape\+Rebar (
+\begin{DoxyParamCaption}
+\item[{}]{Rebar, }
+\item[{}]{f\+\_\+cover, }
+\item[{}]{b\+\_\+cover, }
+\item[{}]{l\+\_\+cover, }
+\item[{}]{r\+\_\+cover, }
+\item[{}]{diameter, }
+\item[{}]{t\+\_\+cover, }
+\item[{}]{rounding, }
+\item[{}]{amount\+\_\+spacing\+\_\+check, }
+\item[{}]{amount\+\_\+spacing\+\_\+value, }
+\item[{}]{orientation, }
+\item[{}]{structure = {\ttfamily None}, }
+\item[{}]{facename = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceLShapeRebar_a9915291e3457e1c27f556d7903e02486}{}\label{namespaceLShapeRebar_a9915291e3457e1c27f556d7903e02486}
+
+
+Definition at line \hyperlink{LShapeRebar_8py_source_l00230}{230} of file \hyperlink{LShapeRebar_8py_source}{L\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceLShapeRebar.tex_l00230}{}\hyperlink{namespaceLShapeRebar_a9915291e3457e1c27f556d7903e02486}{00230} \textcolor{keyword}{def }\hyperlink{namespaceLShapeRebar_a9915291e3457e1c27f556d7903e02486}{editLShapeRebar}(Rebar, f\_cover, b\_cover, l\_cover, r\_cover, diameter, t\_cover, rounding, 
+      amount\_spacing\_check, amount\_spacing\_value, orientation, structure = None, facename = None):
+00231     sketch = Rebar.Base
+00232     \textcolor{keywordflow}{if} structure \textcolor{keywordflow}{and} facename:
+00233         sketch.Support = [(structure, facename)]
+00234     \textcolor{comment}{# Check if sketch support is empty.}
+00235     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} sketch.Support:
+00236         \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"You have checked remove external geometry of base sketchs when needed.\(\backslash\)nTo
+       unchecked Edit->Preferences->Arch."})
+00237         \textcolor{keywordflow}{return}
+00238     \textcolor{comment}{# Assigned values}
+00239     facename = sketch.Support[0][1][0]
+00240     structure = sketch.Support[0][0]
+00241     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00242     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00243     \textcolor{comment}{# Get parameters of the face where sketch of rebar is drawn}
+00244     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename)
+00245     \textcolor{comment}{# Get points of L-Shape rebar}
+00246     points = \hyperlink{namespaceLShapeRebar_a3019960c6f6476cb70df9ee06f330dfb}{getpointsOfLShapeRebar}(FacePRM, l\_cover, r\_cover, b\_cover, t\_cover, 
+      orientation)
+00247     sketch.movePoint(0, 1, points[0], 0)
+00248     FreeCAD.ActiveDocument.recompute()
+00249     sketch.movePoint(0, 2, points[1], 0)
+00250     FreeCAD.ActiveDocument.recompute()
+00251     sketch.movePoint(1, 1, points[1], 0)
+00252     FreeCAD.ActiveDocument.recompute()
+00253     sketch.movePoint(1, 2, points[2], 0)
+00254     FreeCAD.ActiveDocument.recompute()
+00255     Rebar.OffsetStart = f\_cover
+00256     Rebar.OffsetEnd = f\_cover
+00257     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00258         Rebar.Amount = amount\_spacing\_value
+00259         FreeCAD.ActiveDocument.recompute()
+00260         Rebar.AmountCheck = \textcolor{keyword}{True}
+00261     \textcolor{keywordflow}{else}:
+00262         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00263         Rebar.Amount = int((size - diameter) / amount\_spacing\_value)
+00264         FreeCAD.ActiveDocument.recompute()
+00265         Rebar.AmountCheck = \textcolor{keyword}{False}
+00266     Rebar.Diameter = diameter
+00267     Rebar.FrontCover = f\_cover
+00268     Rebar.LeftCover = l\_cover
+00269     Rebar.RightCover = r\_cover
+00270     Rebar.BottomCover = b\_cover
+00271     Rebar.TopCover = t\_cover
+00272     Rebar.Rounding = rounding
+00273     Rebar.TrueSpacing = amount\_spacing\_value
+00274     Rebar.Orientation = orientation
+00275     FreeCAD.ActiveDocument.recompute()
+00276     \textcolor{keywordflow}{return} Rebar
+00277 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceLShapeRebar_a9915291e3457e1c27f556d7903e02486_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceLShapeRebar_a9915291e3457e1c27f556d7903e02486_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{L\+Shape\+Rebar@{L\+Shape\+Rebar}!getpoints\+Of\+L\+Shape\+Rebar@{getpoints\+Of\+L\+Shape\+Rebar}}
+\index{getpoints\+Of\+L\+Shape\+Rebar@{getpoints\+Of\+L\+Shape\+Rebar}!L\+Shape\+Rebar@{L\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{getpoints\+Of\+L\+Shape\+Rebar(\+Face\+P\+R\+M, l\+\_\+cover, r\+\_\+cover, b\+\_\+cover, t\+\_\+cover, orientation)}{getpointsOfLShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, orientation)}}]{\setlength{\rightskip}{0pt plus 5cm}def L\+Shape\+Rebar.\+getpoints\+Of\+L\+Shape\+Rebar (
+\begin{DoxyParamCaption}
+\item[{}]{Face\+P\+RM, }
+\item[{}]{l\+\_\+cover, }
+\item[{}]{r\+\_\+cover, }
+\item[{}]{b\+\_\+cover, }
+\item[{}]{t\+\_\+cover, }
+\item[{}]{orientation}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceLShapeRebar_a3019960c6f6476cb70df9ee06f330dfb}{}\label{namespaceLShapeRebar_a3019960c6f6476cb70df9ee06f330dfb}
+\begin{DoxyVerb}getpointsOfLShapeRebar(FacePRM, LeftCover, RightCover, BottomCover, TopCover, Orientation):
+Return points of the LShape rebar in the form of array for sketch.
+It takes four different orientations input i.e. 'Bottom Left', 'Bottom Right ', 'Top Left', 'Top Right'.
+\end{DoxyVerb}
+ 
+
+Definition at line \hyperlink{LShapeRebar_8py_source_l00040}{40} of file \hyperlink{LShapeRebar_8py_source}{L\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceLShapeRebar.tex_l00040}{}\hyperlink{namespaceLShapeRebar_a3019960c6f6476cb70df9ee06f330dfb}{00040} \textcolor{keyword}{def }\hyperlink{namespaceLShapeRebar_a3019960c6f6476cb70df9ee06f330dfb}{getpointsOfLShapeRebar}(FacePRM, l\_cover, r\_cover, b\_cover, t\_cover, orientation):
+00041     \textcolor{stringliteral}{""" getpointsOfLShapeRebar(FacePRM, LeftCover, RightCover, BottomCover, TopCover, Orientation):}
+00042 \textcolor{stringliteral}{    Return points of the LShape rebar in the form of array for sketch.}
+00043 \textcolor{stringliteral}{    It takes four different orientations input i.e. 'Bottom Left', 'Bottom Right ', 'Top Left', 'Top Right'
+      .}
+00044 \textcolor{stringliteral}{    """}
+00045     \textcolor{keywordflow}{if} orientation == \textcolor{stringliteral}{"Bottom Left"}:
+00046         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00047         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00048         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00049         y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00050         x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00051         y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00052     \textcolor{keywordflow}{elif} orientation == \textcolor{stringliteral}{"Bottom Right"}:
+00053         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00054         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00055         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00056         y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00057         x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00058         y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00059     \textcolor{keywordflow}{elif} orientation == \textcolor{stringliteral}{"Top Left"}:
+00060         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00061         y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00062         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00063         y2 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00064         x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00065         y3 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00066     \textcolor{keywordflow}{elif} orientation == \textcolor{stringliteral}{"Top Right"}:
+00067         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00068         y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00069         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r\_cover
+00070         y2 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00071         x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00072         y3 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00073     \textcolor{keywordflow}{return} [FreeCAD.Vector(x1, y1, 0), FreeCAD.Vector(x2, y2, 0),\(\backslash\)
+00074            FreeCAD.Vector(x3, y3, 0)]
+00075 
+\end{DoxyCode}
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceLShapeRebar_a3019960c6f6476cb70df9ee06f330dfb_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{L\+Shape\+Rebar@{L\+Shape\+Rebar}!make\+L\+Shape\+Rebar@{make\+L\+Shape\+Rebar}}
+\index{make\+L\+Shape\+Rebar@{make\+L\+Shape\+Rebar}!L\+Shape\+Rebar@{L\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{make\+L\+Shape\+Rebar(f\+\_\+cover, b\+\_\+cover, l\+\_\+cover, r\+\_\+cover, diameter, t\+\_\+cover, rounding, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, orientation=""Bottom Left"", structure=\+None, facename=\+None)}{makeLShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, rounding, amount_spacing_check, amount_spacing_value, orientation="Bottom Left", structure=None, facename=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def L\+Shape\+Rebar.\+make\+L\+Shape\+Rebar (
+\begin{DoxyParamCaption}
+\item[{}]{f\+\_\+cover, }
+\item[{}]{b\+\_\+cover, }
+\item[{}]{l\+\_\+cover, }
+\item[{}]{r\+\_\+cover, }
+\item[{}]{diameter, }
+\item[{}]{t\+\_\+cover, }
+\item[{}]{rounding, }
+\item[{}]{amount\+\_\+spacing\+\_\+check, }
+\item[{}]{amount\+\_\+spacing\+\_\+value, }
+\item[{}]{orientation = {\ttfamily \char`\"{}Bottom~Left\char`\"{}}, }
+\item[{}]{structure = {\ttfamily None}, }
+\item[{}]{facename = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceLShapeRebar_a647a28e94933108c6617da8532d76998}{}\label{namespaceLShapeRebar_a647a28e94933108c6617da8532d76998}
+\begin{DoxyVerb}makeLShapeRebar(FrontCover, BottomCover, LeftCover, RightCover, Diameter, TopCover, Rounding, AmountSpacingCheck, AmountSpacingValue,
+Orientation, Structure, Facename): Adds the L-Shape reinforcement bar to the selected structural object.
+It takes four different orientations input i.e. 'Bottom Left', 'Bottom Right ', 'Top Left', 'Top Right'.
+\end{DoxyVerb}
+ 
+
+Definition at line \hyperlink{LShapeRebar_8py_source_l00169}{169} of file \hyperlink{LShapeRebar_8py_source}{L\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceLShapeRebar.tex_l00169}{}\hyperlink{namespaceLShapeRebar_a647a28e94933108c6617da8532d76998}{00169} \textcolor{keyword}{def }\hyperlink{namespaceLShapeRebar_a647a28e94933108c6617da8532d76998}{makeLShapeRebar}(f\_cover, b\_cover, l\_cover, r\_cover, diameter, t\_cover, rounding, 
+      amount\_spacing\_check, amount\_spacing\_value, orientation = "Bottom Left", structure = None, facename = None):
+00170     \textcolor{stringliteral}{""" makeLShapeRebar(FrontCover, BottomCover, LeftCover, RightCover, Diameter, TopCover, Rounding,
+       AmountSpacingCheck, AmountSpacingValue,}
+00171 \textcolor{stringliteral}{    Orientation, Structure, Facename): Adds the L-Shape reinforcement bar to the selected structural
+       object.}
+00172 \textcolor{stringliteral}{    It takes four different orientations input i.e. 'Bottom Left', 'Bottom Right ', 'Top Left', 'Top Right'
+      .}
+00173 \textcolor{stringliteral}{    """}
+00174     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} structure \textcolor{keywordflow}{and} \textcolor{keywordflow}{not} facename:
+00175         selected\_obj = FreeCADGui.Selection.getSelectionEx()[0]
+00176         structure = selected\_obj.Object
+00177         facename = selected\_obj.SubElementNames[0]
+00178     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00179     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00180     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename)
+00181     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} FacePRM:
+00182         FreeCAD.Console.PrintError(\textcolor{stringliteral}{"Cannot identified shape or from which base object sturctural element is
+       derived\(\backslash\)n"})
+00183         \textcolor{keywordflow}{return}
+00184     \textcolor{comment}{# Get points of L-Shape rebar}
+00185     points = \hyperlink{namespaceLShapeRebar_a3019960c6f6476cb70df9ee06f330dfb}{getpointsOfLShapeRebar}(FacePRM, l\_cover, r\_cover, b\_cover, t\_cover, 
+      orientation)
+00186     \textcolor{keyword}{import} Part
+00187     \textcolor{keyword}{import} Arch
+00188     sketch = FreeCAD.activeDocument().addObject(\textcolor{stringliteral}{'Sketcher::SketchObject'}, \textcolor{stringliteral}{'Sketch'})
+00189     sketch.MapMode = \textcolor{stringliteral}{"FlatFace"}
+00190     sketch.Support = [(structure, facename)]
+00191     FreeCAD.ActiveDocument.recompute()
+00192     sketch.addGeometry(Part.LineSegment(points[0], points[1]), \textcolor{keyword}{False})
+00193     sketch.addGeometry(Part.LineSegment(points[1], points[2]), \textcolor{keyword}{False})
+00194     \textcolor{keyword}{import} Sketcher
+00195     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00196         rebar = Arch.makeRebar(structure, sketch, diameter, amount\_spacing\_value, f\_cover)
+00197         FreeCAD.ActiveDocument.recompute()
+00198     \textcolor{keywordflow}{else}:
+00199         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00200         rebar = Arch.makeRebar(structure, sketch, diameter, int((size - diameter) / amount\_spacing\_value), 
+      f\_cover)
+00201     rebar.Rounding = rounding
+00202     \textcolor{comment}{# Adds properties to the rebar object}
+00203     rebar.ViewObject.addProperty(\textcolor{stringliteral}{"App::PropertyString"}, \textcolor{stringliteral}{"RebarShape"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Shape of rebar"})).RebarShape = \textcolor{stringliteral}{"LShapeRebar"}
+00204     rebar.ViewObject.setEditorMode(\textcolor{stringliteral}{"RebarShape"}, 2)
+00205     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"FrontCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Front cover of rebar"})).FrontCover = f\_cover
+00206     rebar.setEditorMode(\textcolor{stringliteral}{"FrontCover"}, 2)
+00207     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"LeftCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property
+      "}, \textcolor{stringliteral}{"Left Side cover of rebar"})).LeftCover = l\_cover
+00208     rebar.setEditorMode(\textcolor{stringliteral}{"LeftCover"}, 2)
+00209     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"RightCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Right Side cover of rebar"})).RightCover = r\_cover
+00210     rebar.setEditorMode(\textcolor{stringliteral}{"RightCover"}, 2)
+00211     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"BottomCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Bottom cover of rebar"})).BottomCover = b\_cover
+00212     rebar.setEditorMode(\textcolor{stringliteral}{"BottomCover"}, 2)
+00213     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyBool"}, \textcolor{stringliteral}{"AmountCheck"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"},
+       \textcolor{stringliteral}{"Amount radio button is checked"})).AmountCheck
+00214     rebar.setEditorMode(\textcolor{stringliteral}{"AmountCheck"}, 2)
+00215     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"TopCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}
+      , \textcolor{stringliteral}{"Top cover of rebar"})).TopCover = t\_cover
+00216     rebar.setEditorMode(\textcolor{stringliteral}{"TopCover"}, 2)
+00217     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"TrueSpacing"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Spacing between of rebars"})).TrueSpacing = amount\_spacing\_value
+00218     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyString"}, \textcolor{stringliteral}{"Orientation"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property
+      "}, \textcolor{stringliteral}{"Shape of rebar"})).Orientation = orientation
+00219     rebar.setEditorMode(\textcolor{stringliteral}{"Orientation"}, 2)
+00220     rebar.setEditorMode(\textcolor{stringliteral}{"TrueSpacing"}, 2)
+00221     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00222         rebar.AmountCheck = \textcolor{keyword}{True}
+00223     \textcolor{keywordflow}{else}:
+00224         rebar.AmountCheck = \textcolor{keyword}{False}
+00225         rebar.TrueSpacing = amount\_spacing\_value
+00226     rebar.Label = \textcolor{stringliteral}{"LShapeRebar"}
+00227     FreeCAD.ActiveDocument.recompute()
+00228     \textcolor{keywordflow}{return} rebar
+00229 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceLShapeRebar_a647a28e94933108c6617da8532d76998_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceLShapeRebar_a647a28e94933108c6617da8532d76998_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\index{L\+Shape\+Rebar@{L\+Shape\+Rebar}!\+\_\+\+\_\+author\+\_\+\+\_\+@{\+\_\+\+\_\+author\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+author\+\_\+\+\_\+@{\+\_\+\+\_\+author\+\_\+\+\_\+}!L\+Shape\+Rebar@{L\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+author\+\_\+\+\_\+}{__author__}}]{\setlength{\rightskip}{0pt plus 5cm}string L\+Shape\+Rebar.\+\_\+\+\_\+author\+\_\+\+\_\+ = \char`\"{}Amritpal Singh\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceLShapeRebar_ad398517c2df8a455dfd0b670e54285ea}{}\label{namespaceLShapeRebar_ad398517c2df8a455dfd0b670e54285ea}
+
+
+Definition at line \hyperlink{LShapeRebar_8py_source_l00025}{25} of file \hyperlink{LShapeRebar_8py_source}{L\+Shape\+Rebar.\+py}.
+
+\index{L\+Shape\+Rebar@{L\+Shape\+Rebar}!\+\_\+\+\_\+title\+\_\+\+\_\+@{\+\_\+\+\_\+title\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+title\+\_\+\+\_\+@{\+\_\+\+\_\+title\+\_\+\+\_\+}!L\+Shape\+Rebar@{L\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+title\+\_\+\+\_\+}{__title__}}]{\setlength{\rightskip}{0pt plus 5cm}string L\+Shape\+Rebar.\+\_\+\+\_\+title\+\_\+\+\_\+ = \char`\"{}L\+Shape\+Rebar\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceLShapeRebar_a0ac8e9cb97e560c6ce362c1ac5144c31}{}\label{namespaceLShapeRebar_a0ac8e9cb97e560c6ce362c1ac5144c31}
+
+
+Definition at line \hyperlink{LShapeRebar_8py_source_l00024}{24} of file \hyperlink{LShapeRebar_8py_source}{L\+Shape\+Rebar.\+py}.
+
+\index{L\+Shape\+Rebar@{L\+Shape\+Rebar}!\+\_\+\+\_\+url\+\_\+\+\_\+@{\+\_\+\+\_\+url\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+url\+\_\+\+\_\+@{\+\_\+\+\_\+url\+\_\+\+\_\+}!L\+Shape\+Rebar@{L\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+url\+\_\+\+\_\+}{__url__}}]{\setlength{\rightskip}{0pt plus 5cm}string L\+Shape\+Rebar.\+\_\+\+\_\+url\+\_\+\+\_\+ = \char`\"{}https\+://www.\+freecadweb.\+org\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceLShapeRebar_a7bca929f0dda68928d1f3978b4e877f8}{}\label{namespaceLShapeRebar_a7bca929f0dda68928d1f3978b4e877f8}
+
+
+Definition at line \hyperlink{LShapeRebar_8py_source_l00026}{26} of file \hyperlink{LShapeRebar_8py_source}{L\+Shape\+Rebar.\+py}.
+

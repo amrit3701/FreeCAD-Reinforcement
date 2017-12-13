@@ -1,0 +1,54 @@
+Started as a Google Summer of Code (\href{https://en.wikipedia.org/wiki/Google_Summer_of_Code}{\tt G\+SoC} 2017) \href{https://summerofcode.withgoogle.com/archive/2017/projects/6536382147198976}{\tt project}.
+
+
+
+\subsection*{Documentation}
+
+This project is aimed at easing up the process of rebaring in \href{https://www.freecadweb.org}{\tt Free\+C\+AD}. In this project, list of rebars will be provided to user under Rebar tools in the form of dropdown. This project covers six different rebar shapes as given below\+:
+
+
+\begin{DoxyItemize}
+\item  {\bfseries Straight Rebar}\+: \href{https://www.freecadweb.org/wiki/Arch_Rebar_Straight}{\tt wiki} 
+\item  {\bfseries U\+Shape Rebar}\+: \href{https://www.freecadweb.org/wiki/Arch_Rebar_UShape}{\tt wiki} 
+\item  {\bfseries L\+Shape Rebar}\+: \href{https://www.freecadweb.org/wiki/Arch_Rebar_LShape}{\tt wiki} 
+\item  {\bfseries Bent\+Shpae Rebar}\+: \href{https://www.freecadweb.org/wiki/Arch_Rebar_BentShape}{\tt wiki} 
+\item  {\bfseries \hyperlink{namespaceStirrup}{Stirrup} Rebar}\+: \href{https://www.freecadweb.org/wiki/Arch_Rebar_Stirrup}{\tt wiki} 
+\item  {\bfseries Helical Rebar}\+: \href{https://www.freecadweb.org/wiki/Arch_Rebar_Helical}{\tt wiki} 
+\end{DoxyItemize}
+
+\subsection*{Video Tutorial}
+
+\href{https://www.youtube.com/watch?v=BYQQjEKmx5E&t=1435s}{\tt }
+
+\subsection*{Installation}
+
+\subsubsection*{Pre-\/requisites}
+
+
+\begin{DoxyItemize}
+\item Free\+C\+AD (version $>$= 0.\+17)\+: \href{https://www.freecadweb.org/wiki/Installing}{\tt Installation guide}
+\end{DoxyItemize}
+
+\subsubsection*{Steps to install Rebar Addon in Free\+C\+AD}
+
+
+\begin{DoxyEnumerate}
+\item Open the Free\+C\+AD Addon Manager ({\ttfamily Tool -\/$>$ Addon manager}).
+\item When an addon manager will open, select {\ttfamily Reinforcement} from a list of workbenches shown by an addon manager.
+\item After selecting, click on {\ttfamily Install/\+Update} button.
+\item Restart Free\+C\+AD.
+\item Now you will see different rebars in a drop-\/down list of rebar tools ({\ttfamily Arch -\/$>$ Rebar tools -\/$>$ Different rebars}).
+\end{DoxyEnumerate}
+
+\subsection*{How it works}
+
+Each rebar tool has two files, one is {\ttfamily Python} file and second is there respective name {\ttfamily UI} file like {\ttfamily \hyperlink{StraightRebar_8py}{Straight\+Rebar.\+py}} and {\ttfamily Straight\+Rebar.\+ui} file). Let\textquotesingle{}s take a straight rebar tool. In {\ttfamily \hyperlink{StraightRebar_8py}{Straight\+Rebar.\+py}} file, there are two functions. One is {\ttfamily \hyperlink{namespaceStraightRebar_af6270367d7beae457813e33718d80faf}{make\+Straight\+Rebar()}} function. This function creates straight rebar and adds new properties to the default {\ttfamily Rebar} object. Second function is {\ttfamily edit\+Straight\+Rebar}. This function is used when we want to change a new properties(which is created by {\ttfamily make\+Straight\+Rebar} function) of the rebar object and it will take {\ttfamily Rebar} object as input which is created by {\ttfamily make\+Straight\+Rebar} function. In {\ttfamily \hyperlink{StraightRebar_8py}{Straight\+Rebar.\+py}}, {\ttfamily \+\_\+\+Straight\+Rebar\+Task\+Panel} class is present. This class loads UI(present in {\ttfamily Striaght\+Rebar.\+ui} file) in the task panel of Free\+C\+AD. First time when a user clicks on {\ttfamily Apply} or {\ttfamily Ok} button, then {\ttfamily make\+Straight\+Rebar} function is executed and after that when user want to change the properties of Straight rebar then {\ttfamily edit\+Straight\+Rebar} function is excuted.
+
+\subsection*{Extras}
+
+
+\begin{DoxyItemize}
+\item \href{https://forum.freecadweb.org/viewtopic.php?f=8&t=22760}{\tt Free\+C\+AD forum thread}
+\item \href{https://brlcad.org/wiki/User:Amritpal_singh/gsoc_proposal}{\tt G\+SoC proposal}
+\item \href{https://brlcad.org/wiki/User:Amritpal_singh/GSoC17/logs}{\tt Development logs} 
+\end{DoxyItemize}

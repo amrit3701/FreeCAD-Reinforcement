@@ -1,0 +1,498 @@
+\hypertarget{namespaceBentShapeRebar}{}\section{Bent\+Shape\+Rebar Namespace Reference}
+\label{namespaceBentShapeRebar}\index{Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel}{\+\_\+\+Bent\+Shape\+Rebar\+Task\+Panel}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespaceBentShapeRebar_a33951a8ab21a73bae42af9f81d7c43c3}{getpoints\+Of\+Bent\+Shape\+Rebar} (Face\+P\+RM, l\+\_\+cover, r\+\_\+cover, b\+\_\+cover, t\+\_\+cover, bent\+Length, bent\+Angle, orientation)
+\item 
+def \hyperlink{namespaceBentShapeRebar_aac46779d3e1905db5a3788917f6e2476}{make\+Bent\+Shape\+Rebar} (f\+\_\+cover, b\+\_\+cover, l\+\_\+cover, r\+\_\+cover, diameter, t\+\_\+cover, bent\+Length, bent\+Angle, rounding, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, orientation=\char`\"{}Bottom Left\char`\"{}, structure=None, facename=None)
+\item 
+def \hyperlink{namespaceBentShapeRebar_a941d005845cd497c0beb12bb8fef9171}{edit\+Bent\+Shape\+Rebar} (Rebar, f\+\_\+cover, b\+\_\+cover, l\+\_\+cover, r\+\_\+cover, diameter, t\+\_\+cover, bent\+Length, bent\+Angle, rounding, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, orientation, structure=None, facename=None)
+\item 
+def \hyperlink{namespaceBentShapeRebar_ae5db82a49148a0a8f6fa567fa72d93b2}{edit\+Dialog} (vobj)
+\item 
+def \hyperlink{namespaceBentShapeRebar_abc4f0ada7811da5cf9174551bc3c6b37}{Command\+Bent\+Shape\+Rebar} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{namespaceBentShapeRebar_a38b223debc1826fd2855773a02749bb4}{\+\_\+\+\_\+title\+\_\+\+\_\+} = \char`\"{}Bent\+Shape\+Rebar\char`\"{}
+\item 
+string \hyperlink{namespaceBentShapeRebar_ad79a2dbf88601c24aae561033cb48d34}{\+\_\+\+\_\+author\+\_\+\+\_\+} = \char`\"{}Amritpal Singh\char`\"{}
+\item 
+string \hyperlink{namespaceBentShapeRebar_aec768ca6a259d1cc738ea11c79a124e2}{\+\_\+\+\_\+url\+\_\+\+\_\+} = \char`\"{}https\+://www.\+freecadweb.\+org\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}!Command\+Bent\+Shape\+Rebar@{Command\+Bent\+Shape\+Rebar}}
+\index{Command\+Bent\+Shape\+Rebar@{Command\+Bent\+Shape\+Rebar}!Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{Command\+Bent\+Shape\+Rebar()}{CommandBentShapeRebar()}}]{\setlength{\rightskip}{0pt plus 5cm}def Bent\+Shape\+Rebar.\+Command\+Bent\+Shape\+Rebar (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceBentShapeRebar_abc4f0ada7811da5cf9174551bc3c6b37}{}\label{namespaceBentShapeRebar_abc4f0ada7811da5cf9174551bc3c6b37}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00359}{359} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceBentShapeRebar.tex_l00359}{}\hyperlink{namespaceBentShapeRebar_abc4f0ada7811da5cf9174551bc3c6b37}{00359} \textcolor{keyword}{def }\hyperlink{namespaceBentShapeRebar_abc4f0ada7811da5cf9174551bc3c6b37}{CommandBentShapeRebar}():
+00360     selected\_obj = \hyperlink{namespaceRebarfunc_adae2713855a7e1b4bda04081ae671542}{check\_selected\_face}()
+00361     \textcolor{keywordflow}{if} selected\_obj:
+00362         FreeCADGui.Control.showDialog(\hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel}{\_BentShapeRebarTaskPanel}())
+00363 \end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceBentShapeRebar_abc4f0ada7811da5cf9174551bc3c6b37_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceBentShapeRebar_abc4f0ada7811da5cf9174551bc3c6b37_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}!edit\+Bent\+Shape\+Rebar@{edit\+Bent\+Shape\+Rebar}}
+\index{edit\+Bent\+Shape\+Rebar@{edit\+Bent\+Shape\+Rebar}!Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{edit\+Bent\+Shape\+Rebar(\+Rebar, f\+\_\+cover, b\+\_\+cover, l\+\_\+cover, r\+\_\+cover, diameter, t\+\_\+cover, bent\+Length, bent\+Angle, rounding, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, orientation, structure=\+None, facename=\+None)}{editBentShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, amount_spacing_check, amount_spacing_value, orientation, structure=None, facename=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Bent\+Shape\+Rebar.\+edit\+Bent\+Shape\+Rebar (
+\begin{DoxyParamCaption}
+\item[{}]{Rebar, }
+\item[{}]{f\+\_\+cover, }
+\item[{}]{b\+\_\+cover, }
+\item[{}]{l\+\_\+cover, }
+\item[{}]{r\+\_\+cover, }
+\item[{}]{diameter, }
+\item[{}]{t\+\_\+cover, }
+\item[{}]{bent\+Length, }
+\item[{}]{bent\+Angle, }
+\item[{}]{rounding, }
+\item[{}]{amount\+\_\+spacing\+\_\+check, }
+\item[{}]{amount\+\_\+spacing\+\_\+value, }
+\item[{}]{orientation, }
+\item[{}]{structure = {\ttfamily None}, }
+\item[{}]{facename = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceBentShapeRebar_a941d005845cd497c0beb12bb8fef9171}{}\label{namespaceBentShapeRebar_a941d005845cd497c0beb12bb8fef9171}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00270}{270} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceBentShapeRebar.tex_l00270}{}\hyperlink{namespaceBentShapeRebar_a941d005845cd497c0beb12bb8fef9171}{00270} \textcolor{keyword}{def }\hyperlink{namespaceBentShapeRebar_a941d005845cd497c0beb12bb8fef9171}{editBentShapeRebar}(Rebar, f\_cover, b\_cover, l\_cover, r\_cover, diameter, t\_cover, 
+      bentLength, bentAngle, rounding, amount\_spacing\_check, amount\_spacing\_value, orientation, structure = None, 
+      facename = None):
+00271     sketch = Rebar.Base
+00272     \textcolor{keywordflow}{if} structure \textcolor{keywordflow}{and} facename:
+00273         sketch.Support = [(structure, facename)]
+00274     \textcolor{comment}{# Check if sketch support is empty.}
+00275     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} sketch.Support:
+00276         \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"You have checked remove external geometry of base sketchs when needed.\(\backslash\)nTo
+       unchecked Edit->Preferences->Arch."})
+00277         \textcolor{keywordflow}{return}
+00278     \textcolor{comment}{# Assigned values}
+00279     facename = sketch.Support[0][1][0]
+00280     structure = sketch.Support[0][0]
+00281     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00282     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00283     \textcolor{comment}{# Get parameters of the face where sketch of rebar is drawn}
+00284     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename)
+00285     \textcolor{comment}{# Get points of L-Shape rebar}
+00286     points = \hyperlink{namespaceBentShapeRebar_a33951a8ab21a73bae42af9f81d7c43c3}{getpointsOfBentShapeRebar}(FacePRM, l\_cover, r\_cover, b\_cover, t\_cover
+      , bentLength, bentAngle, orientation)
+00287     sketch.movePoint(0, 1, points[0], 0)
+00288     FreeCAD.ActiveDocument.recompute()
+00289     sketch.movePoint(0, 2, points[1], 0)
+00290     FreeCAD.ActiveDocument.recompute()
+00291     sketch.movePoint(1, 1, points[1], 0)
+00292     FreeCAD.ActiveDocument.recompute()
+00293     sketch.movePoint(1, 2, points[2], 0)
+00294     FreeCAD.ActiveDocument.recompute()
+00295 
+00296     sketch.movePoint(2, 1, points[2], 0)
+00297     FreeCAD.ActiveDocument.recompute()
+00298     sketch.movePoint(2, 2, points[3], 0)
+00299     FreeCAD.ActiveDocument.recompute()
+00300     sketch.movePoint(3, 1, points[3], 0)
+00301     FreeCAD.ActiveDocument.recompute()
+00302     sketch.movePoint(3, 2, points[4], 0)
+00303     FreeCAD.ActiveDocument.recompute()
+00304 
+00305     sketch.movePoint(4, 1, points[4], 0)
+00306     FreeCAD.ActiveDocument.recompute()
+00307     sketch.movePoint(4, 2, points[5], 0)
+00308     FreeCAD.ActiveDocument.recompute()
+00309 
+00310     Rebar.OffsetStart = f\_cover
+00311     Rebar.OffsetEnd = f\_cover
+00312     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00313         Rebar.Amount = amount\_spacing\_value
+00314         FreeCAD.ActiveDocument.recompute()
+00315         Rebar.AmountCheck = \textcolor{keyword}{True}
+00316     \textcolor{keywordflow}{else}:
+00317         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00318         Rebar.Amount = int((size - diameter) / amount\_spacing\_value)
+00319         FreeCAD.ActiveDocument.recompute()
+00320         Rebar.AmountCheck = \textcolor{keyword}{False}
+00321     Rebar.Diameter = diameter
+00322     Rebar.FrontCover = f\_cover
+00323     Rebar.LeftCover = l\_cover
+00324     Rebar.RightCover = r\_cover
+00325     Rebar.BottomCover = b\_cover
+00326     Rebar.TopCover = t\_cover
+00327     Rebar.BentLength = bentLength
+00328     Rebar.BentAngle = bentAngle
+00329     Rebar.Rounding = rounding
+00330     Rebar.TrueSpacing = amount\_spacing\_value
+00331     Rebar.Orientation = orientation
+00332     FreeCAD.ActiveDocument.recompute()
+00333     \textcolor{keywordflow}{return} Rebar
+00334 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceBentShapeRebar_a941d005845cd497c0beb12bb8fef9171_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceBentShapeRebar_a941d005845cd497c0beb12bb8fef9171_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}!edit\+Dialog@{edit\+Dialog}}
+\index{edit\+Dialog@{edit\+Dialog}!Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{edit\+Dialog(vobj)}{editDialog(vobj)}}]{\setlength{\rightskip}{0pt plus 5cm}def Bent\+Shape\+Rebar.\+edit\+Dialog (
+\begin{DoxyParamCaption}
+\item[{}]{vobj}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceBentShapeRebar_ae5db82a49148a0a8f6fa567fa72d93b2}{}\label{namespaceBentShapeRebar_ae5db82a49148a0a8f6fa567fa72d93b2}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00335}{335} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceBentShapeRebar.tex_l00335}{}\hyperlink{namespaceBentShapeRebar_ae5db82a49148a0a8f6fa567fa72d93b2}{00335} \textcolor{keyword}{def }\hyperlink{namespaceBentShapeRebar_ae5db82a49148a0a8f6fa567fa72d93b2}{editDialog}(vobj):
+00336     FreeCADGui.Control.closeDialog()
+00337     obj = \hyperlink{classBentShapeRebar_1_1__BentShapeRebarTaskPanel}{\_BentShapeRebarTaskPanel}(vobj.Object)
+00338     obj.form.frontCover.setText(str(vobj.Object.FrontCover))
+00339     obj.form.l\_sideCover.setText(str(vobj.Object.LeftCover))
+00340     obj.form.r\_sideCover.setText(str(vobj.Object.RightCover))
+00341     obj.form.bottomCover.setText(str(vobj.Object.BottomCover))
+00342     obj.form.diameter.setText(str(vobj.Object.Diameter))
+00343     obj.form.topCover.setText(str(vobj.Object.TopCover))
+00344     obj.form.bentLength.setText(str(vobj.Object.BentLength))
+00345     obj.form.bentAngle.setValue(vobj.Object.BentAngle)
+00346     obj.form.rounding.setValue(vobj.Object.Rounding)
+00347     obj.form.orientation.setCurrentIndex(obj.form.orientation.findText(str(vobj.Object.Orientation)))
+00348     \textcolor{keywordflow}{if} vobj.Object.AmountCheck:
+00349         obj.form.amount.setValue(vobj.Object.Amount)
+00350     \textcolor{keywordflow}{else}:
+00351         obj.form.amount\_radio.setChecked(\textcolor{keyword}{False})
+00352         obj.form.spacing\_radio.setChecked(\textcolor{keyword}{True})
+00353         obj.form.amount.setDisabled(\textcolor{keyword}{True})
+00354         obj.form.spacing.setEnabled(\textcolor{keyword}{True})
+00355         obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
+00356     \textcolor{comment}{#obj.form.PickSelectedFace.setVisible(False)}
+00357     FreeCADGui.Control.showDialog(obj)
+00358 
+\end{DoxyCode}
+\index{Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}!getpoints\+Of\+Bent\+Shape\+Rebar@{getpoints\+Of\+Bent\+Shape\+Rebar}}
+\index{getpoints\+Of\+Bent\+Shape\+Rebar@{getpoints\+Of\+Bent\+Shape\+Rebar}!Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{getpoints\+Of\+Bent\+Shape\+Rebar(\+Face\+P\+R\+M, l\+\_\+cover, r\+\_\+cover, b\+\_\+cover, t\+\_\+cover, bent\+Length, bent\+Angle, orientation)}{getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentLength, bentAngle, orientation)}}]{\setlength{\rightskip}{0pt plus 5cm}def Bent\+Shape\+Rebar.\+getpoints\+Of\+Bent\+Shape\+Rebar (
+\begin{DoxyParamCaption}
+\item[{}]{Face\+P\+RM, }
+\item[{}]{l\+\_\+cover, }
+\item[{}]{r\+\_\+cover, }
+\item[{}]{b\+\_\+cover, }
+\item[{}]{t\+\_\+cover, }
+\item[{}]{bent\+Length, }
+\item[{}]{bent\+Angle, }
+\item[{}]{orientation}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceBentShapeRebar_a33951a8ab21a73bae42af9f81d7c43c3}{}\label{namespaceBentShapeRebar_a33951a8ab21a73bae42af9f81d7c43c3}
+\begin{DoxyVerb}getpointsOfBentShapeRebar(FacePRM, LeftCover, RightCover, BottomCover, TopCover, BentLength, BentAngle, Orientation):
+Return points of the LShape rebar in the form of array for sketch.
+It takes four different orientations input i.e. 'Bottom', 'Top', 'Left', 'Right'.
+\end{DoxyVerb}
+ 
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00040}{40} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceBentShapeRebar.tex_l00040}{}\hyperlink{namespaceBentShapeRebar_a33951a8ab21a73bae42af9f81d7c43c3}{00040} \textcolor{keyword}{def }\hyperlink{namespaceBentShapeRebar_a33951a8ab21a73bae42af9f81d7c43c3}{getpointsOfBentShapeRebar}(FacePRM, l\_cover, r\_cover, b\_cover, t\_cover, 
+      bentLength, bentAngle, orientation):
+00041     \textcolor{stringliteral}{""" getpointsOfBentShapeRebar(FacePRM, LeftCover, RightCover, BottomCover, TopCover, BentLength,
+       BentAngle, Orientation):}
+00042 \textcolor{stringliteral}{    Return points of the LShape rebar in the form of array for sketch.}
+00043 \textcolor{stringliteral}{    It takes four different orientations input i.e. 'Bottom', 'Top', 'Left', 'Right'.}
+00044 \textcolor{stringliteral}{    """}
+00045     \textcolor{keywordflow}{if} orientation == \textcolor{stringliteral}{"Bottom"}:
+00046         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00047         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00048         x2 = x1 + bentLength
+00049         y2 = y1
+00050         dis = (FacePRM[0][1] - t\_cover - b\_cover) * math.tan(math.radians(bentAngle - 90))
+00051         x3 = x2 + dis
+00052         y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00053         x4 = FacePRM[1][0] + FacePRM[0][0] / 2 - r\_cover - bentLength - dis
+00054         y4 = y3
+00055         x5 = x4 + dis
+00056         y5 = y2
+00057         x6 = x5 + bentLength
+00058         y6 = y5
+00059     \textcolor{keywordflow}{elif} orientation == \textcolor{stringliteral}{"Top"}:
+00060         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00061         y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover
+00062         x2 = x1 + bentLength
+00063         y2 = y1
+00064         dis = (FacePRM[0][1] - t\_cover - b\_cover) * math.tan(math.radians(bentAngle - 90))
+00065         x3 = x2 + dis
+00066         y3 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00067         x4 = FacePRM[1][0] + FacePRM[0][0] / 2 - r\_cover - bentLength - dis
+00068         y4 = y3
+00069         x5 = x4 + dis
+00070         y5 = y2
+00071         x6 = x5 + bentLength
+00072         y6 = y5
+00073     \textcolor{keywordflow}{elif} orientation == \textcolor{stringliteral}{"Left"}:
+00074         x1 = FacePRM[1][0] + FacePRM[0][0] / 2 - r\_cover
+00075         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00076         x2 = x1
+00077         y2 = y1 - bentLength
+00078         dis = (FacePRM[0][0] - r\_cover - l\_cover) * math.tan(math.radians(bentAngle - 90))
+00079         x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00080         y3 = y2 - dis
+00081         x4 = x3
+00082         y4 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover + bentLength + dis
+00083         x5 = x2
+00084         y5 = y4 - dis
+00085         x6 = x5
+00086         y6 = y5 - bentLength
+00087     \textcolor{keywordflow}{elif} orientation == \textcolor{stringliteral}{"Right"}:
+00088         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l\_cover
+00089         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t\_cover
+00090         x2 = x1
+00091         y2 = y1 - bentLength
+00092         dis = (FacePRM[0][0] - r\_cover - l\_cover) * math.tan(math.radians(bentAngle - 90))
+00093         x3 = FacePRM[1][0] + FacePRM[0][0] / 2 - r\_cover
+00094         y3 = y2 - dis
+00095         x4 = x3
+00096         y4 = FacePRM[1][1] - FacePRM[0][1] / 2 + b\_cover + bentLength + dis
+00097         x5 = x2
+00098         y5 = y4 - dis
+00099         x6 = x5
+00100         y6 = y5 - bentLength
+00101     \textcolor{keywordflow}{return} [FreeCAD.Vector(x1, y1, 0), FreeCAD.Vector(x2, y2, 0),\(\backslash\)
+00102            FreeCAD.Vector(x3, y3, 0), FreeCAD.Vector(x4, y4, 0),\(\backslash\)
+00103            FreeCAD.Vector(x5, y5, 0), FreeCAD.Vector(x6, y6, 0)]
+00104 
+\end{DoxyCode}
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceBentShapeRebar_a33951a8ab21a73bae42af9f81d7c43c3_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}!make\+Bent\+Shape\+Rebar@{make\+Bent\+Shape\+Rebar}}
+\index{make\+Bent\+Shape\+Rebar@{make\+Bent\+Shape\+Rebar}!Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{make\+Bent\+Shape\+Rebar(f\+\_\+cover, b\+\_\+cover, l\+\_\+cover, r\+\_\+cover, diameter, t\+\_\+cover, bent\+Length, bent\+Angle, rounding, amount\+\_\+spacing\+\_\+check, amount\+\_\+spacing\+\_\+value, orientation=""Bottom Left"", structure=\+None, facename=\+None)}{makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, amount_spacing_check, amount_spacing_value, orientation="Bottom Left", structure=None, facename=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Bent\+Shape\+Rebar.\+make\+Bent\+Shape\+Rebar (
+\begin{DoxyParamCaption}
+\item[{}]{f\+\_\+cover, }
+\item[{}]{b\+\_\+cover, }
+\item[{}]{l\+\_\+cover, }
+\item[{}]{r\+\_\+cover, }
+\item[{}]{diameter, }
+\item[{}]{t\+\_\+cover, }
+\item[{}]{bent\+Length, }
+\item[{}]{bent\+Angle, }
+\item[{}]{rounding, }
+\item[{}]{amount\+\_\+spacing\+\_\+check, }
+\item[{}]{amount\+\_\+spacing\+\_\+value, }
+\item[{}]{orientation = {\ttfamily \char`\"{}Bottom~Left\char`\"{}}, }
+\item[{}]{structure = {\ttfamily None}, }
+\item[{}]{facename = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceBentShapeRebar_aac46779d3e1905db5a3788917f6e2476}{}\label{namespaceBentShapeRebar_aac46779d3e1905db5a3788917f6e2476}
+\begin{DoxyVerb}makeBentShapeRebar(FrontCover, BottomCover, LeftCover, RightCover, Diameter, TopCover, BentLength, BentAngle, Rounding,
+AmountSpacingCheck, AmountSpacingValue, Orientation, Structure, Facename): Adds the Bent-Shape reinforcement bar to the
+selected structural object.
+It takes four different orientations input i.e. 'Bottom', 'Top', 'Left', 'Right'.
+\end{DoxyVerb}
+ 
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00200}{200} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceBentShapeRebar.tex_l00200}{}\hyperlink{namespaceBentShapeRebar_aac46779d3e1905db5a3788917f6e2476}{00200} \textcolor{keyword}{def }\hyperlink{namespaceBentShapeRebar_aac46779d3e1905db5a3788917f6e2476}{makeBentShapeRebar}(f\_cover, b\_cover, l\_cover, r\_cover, diameter, t\_cover, bentLength,
+       bentAngle, rounding, amount\_spacing\_check, amount\_spacing\_value, orientation = "Bottom Left", structure = 
+      None, facename = None):
+00201     \textcolor{stringliteral}{""" makeBentShapeRebar(FrontCover, BottomCover, LeftCover, RightCover, Diameter, TopCover, BentLength,
+       BentAngle, Rounding,}
+00202 \textcolor{stringliteral}{    AmountSpacingCheck, AmountSpacingValue, Orientation, Structure, Facename): Adds the Bent-Shape
+       reinforcement bar to the}
+00203 \textcolor{stringliteral}{    selected structural object.}
+00204 \textcolor{stringliteral}{    It takes four different orientations input i.e. 'Bottom', 'Top', 'Left', 'Right'.}
+00205 \textcolor{stringliteral}{    """}
+00206     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} structure \textcolor{keywordflow}{and} \textcolor{keywordflow}{not} facename:
+00207         selected\_obj = FreeCADGui.Selection.getSelectionEx()[0]
+00208         structure = selected\_obj.Object
+00209         facename = selected\_obj.SubElementNames[0]
+00210     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00211     \textcolor{comment}{#StructurePRM = getTrueParametersOfStructure(structure)}
+00212     FacePRM = \hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename)
+00213     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} FacePRM:
+00214         FreeCAD.Console.PrintError(\textcolor{stringliteral}{"Cannot identified shape or from which base object sturctural element is
+       derived\(\backslash\)n"})
+00215         \textcolor{keywordflow}{return}
+00216     \textcolor{comment}{# Get points of L-Shape rebar}
+00217     points = \hyperlink{namespaceBentShapeRebar_a33951a8ab21a73bae42af9f81d7c43c3}{getpointsOfBentShapeRebar}(FacePRM, l\_cover, r\_cover, b\_cover, t\_cover
+      , bentLength, bentAngle, orientation)
+00218     \textcolor{keyword}{import} Part
+00219     \textcolor{keyword}{import} Arch
+00220     sketch = FreeCAD.activeDocument().addObject(\textcolor{stringliteral}{'Sketcher::SketchObject'}, \textcolor{stringliteral}{'Sketch'})
+00221     sketch.MapMode = \textcolor{stringliteral}{"FlatFace"}
+00222     sketch.Support = [(structure, facename)]
+00223     FreeCAD.ActiveDocument.recompute()
+00224     sketch.addGeometry(Part.LineSegment(points[0], points[1]), \textcolor{keyword}{False})
+00225     sketch.addGeometry(Part.LineSegment(points[1], points[2]), \textcolor{keyword}{False})
+00226     sketch.addGeometry(Part.LineSegment(points[2], points[3]), \textcolor{keyword}{False})
+00227     sketch.addGeometry(Part.LineSegment(points[3], points[4]), \textcolor{keyword}{False})
+00228     sketch.addGeometry(Part.LineSegment(points[4], points[5]), \textcolor{keyword}{False})
+00229     \textcolor{keyword}{import} Sketcher
+00230     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00231         rebar = Arch.makeRebar(structure, sketch, diameter, amount\_spacing\_value, f\_cover)
+00232         FreeCAD.ActiveDocument.recompute()
+00233     \textcolor{keywordflow}{else}:
+00234         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+00235         rebar = Arch.makeRebar(structure, sketch, diameter, int((size - diameter) / amount\_spacing\_value), 
+      f\_cover)
+00236     rebar.Rounding = rounding
+00237     \textcolor{comment}{# Adds properties to the rebar object}
+00238     rebar.ViewObject.addProperty(\textcolor{stringliteral}{"App::PropertyString"}, \textcolor{stringliteral}{"RebarShape"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Shape of rebar"})).RebarShape = \textcolor{stringliteral}{"BentShapeRebar"}
+00239     rebar.ViewObject.setEditorMode(\textcolor{stringliteral}{"RebarShape"}, 2)
+00240     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"FrontCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Front cover of rebar"})).FrontCover = f\_cover
+00241     rebar.setEditorMode(\textcolor{stringliteral}{"FrontCover"}, 2)
+00242     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"LeftCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property
+      "}, \textcolor{stringliteral}{"Left Side cover of rebar"})).LeftCover = l\_cover
+00243     rebar.setEditorMode(\textcolor{stringliteral}{"LeftCover"}, 2)
+00244     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"RightCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Right Side cover of rebar"})).RightCover = r\_cover
+00245     rebar.setEditorMode(\textcolor{stringliteral}{"RightCover"}, 2)
+00246     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"BottomCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Bottom cover of rebar"})).BottomCover = b\_cover
+00247     rebar.setEditorMode(\textcolor{stringliteral}{"BottomCover"}, 2)
+00248     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyBool"}, \textcolor{stringliteral}{"AmountCheck"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"},
+       \textcolor{stringliteral}{"Amount radio button is checked"})).AmountCheck
+00249     rebar.setEditorMode(\textcolor{stringliteral}{"AmountCheck"}, 2)
+00250     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"TopCover"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property"}
+      , \textcolor{stringliteral}{"Top cover of rebar"})).TopCover = t\_cover
+00251     rebar.setEditorMode(\textcolor{stringliteral}{"TopCover"}, 2)
+00252     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"TrueSpacing"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"Spacing between of rebars"})).TrueSpacing = amount\_spacing\_value
+00253     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyString"}, \textcolor{stringliteral}{"Orientation"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property
+      "}, \textcolor{stringliteral}{"Shape of rebar"})).Orientation = orientation
+00254     rebar.setEditorMode(\textcolor{stringliteral}{"Orientation"}, 2)
+00255     rebar.setEditorMode(\textcolor{stringliteral}{"TrueSpacing"}, 2)
+00256     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"BentLength"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"
+      App::Property"}, \textcolor{stringliteral}{"BentLength cover of rebar"})).BentLength = bentLength
+00257     rebar.setEditorMode(\textcolor{stringliteral}{"BentLength"}, 2)
+00258     rebar.addProperty(\textcolor{stringliteral}{"App::PropertyDistance"}, \textcolor{stringliteral}{"BentAngle"}, \textcolor{stringliteral}{"RebarDialog"}, QT\_TRANSLATE\_NOOP(\textcolor{stringliteral}{"App::Property
+      "}, \textcolor{stringliteral}{"Bent Angle of rebar"})).BentAngle = bentAngle
+00259     rebar.setEditorMode(\textcolor{stringliteral}{"BentAngle"}, 2)
+00260 
+00261     \textcolor{keywordflow}{if} amount\_spacing\_check:
+00262         rebar.AmountCheck = \textcolor{keyword}{True}
+00263     \textcolor{keywordflow}{else}:
+00264         rebar.AmountCheck = \textcolor{keyword}{False}
+00265         rebar.TrueSpacing = amount\_spacing\_value
+00266     rebar.Label = \textcolor{stringliteral}{"BentShapeRebar"}
+00267     FreeCAD.ActiveDocument.recompute()
+00268     \textcolor{keywordflow}{return} rebar
+00269 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceBentShapeRebar_aac46779d3e1905db5a3788917f6e2476_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceBentShapeRebar_aac46779d3e1905db5a3788917f6e2476_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\index{Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}!\+\_\+\+\_\+author\+\_\+\+\_\+@{\+\_\+\+\_\+author\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+author\+\_\+\+\_\+@{\+\_\+\+\_\+author\+\_\+\+\_\+}!Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+author\+\_\+\+\_\+}{__author__}}]{\setlength{\rightskip}{0pt plus 5cm}string Bent\+Shape\+Rebar.\+\_\+\+\_\+author\+\_\+\+\_\+ = \char`\"{}Amritpal Singh\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceBentShapeRebar_ad79a2dbf88601c24aae561033cb48d34}{}\label{namespaceBentShapeRebar_ad79a2dbf88601c24aae561033cb48d34}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00025}{25} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+\index{Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}!\+\_\+\+\_\+title\+\_\+\+\_\+@{\+\_\+\+\_\+title\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+title\+\_\+\+\_\+@{\+\_\+\+\_\+title\+\_\+\+\_\+}!Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+title\+\_\+\+\_\+}{__title__}}]{\setlength{\rightskip}{0pt plus 5cm}string Bent\+Shape\+Rebar.\+\_\+\+\_\+title\+\_\+\+\_\+ = \char`\"{}Bent\+Shape\+Rebar\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceBentShapeRebar_a38b223debc1826fd2855773a02749bb4}{}\label{namespaceBentShapeRebar_a38b223debc1826fd2855773a02749bb4}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00024}{24} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+
+\index{Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}!\+\_\+\+\_\+url\+\_\+\+\_\+@{\+\_\+\+\_\+url\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+url\+\_\+\+\_\+@{\+\_\+\+\_\+url\+\_\+\+\_\+}!Bent\+Shape\+Rebar@{Bent\+Shape\+Rebar}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+url\+\_\+\+\_\+}{__url__}}]{\setlength{\rightskip}{0pt plus 5cm}string Bent\+Shape\+Rebar.\+\_\+\+\_\+url\+\_\+\+\_\+ = \char`\"{}https\+://www.\+freecadweb.\+org\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceBentShapeRebar_aec768ca6a259d1cc738ea11c79a124e2}{}\label{namespaceBentShapeRebar_aec768ca6a259d1cc738ea11c79a124e2}
+
+
+Definition at line \hyperlink{BentShapeRebar_8py_source_l00026}{26} of file \hyperlink{BentShapeRebar_8py_source}{Bent\+Shape\+Rebar.\+py}.
+

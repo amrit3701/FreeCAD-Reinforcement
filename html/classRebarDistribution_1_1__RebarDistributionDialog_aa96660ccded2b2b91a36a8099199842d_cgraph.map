@@ -1,0 +1,19 @@
+<map id="RebarDistribution._RebarDistributionDialog.setupUi" name="RebarDistribution._RebarDistributionDialog.setupUi">
+<area shape="rect" id="node2" href="$classBentShapeRebar_1_1__BentShapeRebarTaskPanel.html#afdcf71c6a16711a535971366558ea918" title="BentShapeRebar._BentShape\lRebarTaskPanel.accept" alt="" coords="277,152,473,194"/>
+<area shape="rect" id="node10" href="$classHelicalRebar_1_1__HelicalRebarTaskPanel.html#acdfb101876d4841ba277e2e884ebaf9d" title="HelicalRebar._HelicalRebar\lTaskPanel.accept" alt="" coords="283,311,466,352"/>
+<area shape="rect" id="node14" href="$classLShapeRebar_1_1__LShapeRebarTaskPanel.html#a4d62ad224c06875ec721ba9acbdea774" title="LShapeRebar._LShapeRebar\lTaskPanel.accept" alt="" coords="279,376,470,418"/>
+<area shape="rect" id="node18" href="$classRebarDistribution_1_1__RebarDistributionDialog.html#a518692f4a12113a2bcdfeaa0676f87be" title="RebarDistribution.\l_RebarDistributionDialog.accept" alt="" coords="269,442,480,483"/>
+<area shape="rect" id="node3" href="$namespaceBentShapeRebar.html#aac46779d3e1905db5a3788917f6e2476" title="BentShapeRebar.makeBentShape\lRebar" alt="" coords="528,66,749,107"/>
+<area shape="rect" id="node7" href="$namespaceBentShapeRebar.html#a941d005845cd497c0beb12bb8fef9171" title="BentShapeRebar.editBentShape\lRebar" alt="" coords="533,152,744,194"/>
+<area shape="rect" id="node4" href="$namespaceRebarfunc.html#a3885b3b63e3a41508ac79bc7550cf301" title="Rebarfunc.getFaceNumber" alt="" coords="1061,322,1240,349"/>
+<area shape="rect" id="node5" href="$namespaceRebarfunc.html#a92122b3d7cedd3d47bb63380a5ac4d08" title="Rebarfunc.getParametersOfFace" alt="" coords="798,322,1013,349"/>
+<area shape="rect" id="node6" href="$namespaceBentShapeRebar.html#a33951a8ab21a73bae42af9f81d7c43c3" title="BentShapeRebar.getpoints\lOfBentShapeRebar" alt="" coords="816,54,995,95"/>
+<area shape="rect" id="node8" href="$namespaceRebarfunc.html#a2278a0602d46a62953af1fcf2e574a94" title="Rebarfunc.showWarning" alt="" coords="823,170,988,197"/>
+<area shape="rect" id="node9" href="$namespaceRebarfunc.html#a1467a55852e36c36c472e222855bb937" title="Rebarfunc.translate" alt="" coords="1083,170,1219,197"/>
+<area shape="rect" id="node11" href="$namespaceHelicalRebar.html#a8a4f12ed70819996ac31877957dfab08" title="HelicalRebar.makeHelical\lRebar" alt="" coords="552,315,725,356"/>
+<area shape="rect" id="node13" href="$namespaceHelicalRebar.html#aea0d3838b1b171f801acf1046d111c8b" title="HelicalRebar.editHelical\lRebar" alt="" coords="557,250,720,291"/>
+<area shape="rect" id="node12" href="$namespaceHelicalRebar.html#a1a2b3ce39b904ab0c3892ed0965d2844" title="HelicalRebar.createHelicalWire" alt="" coords="803,272,1007,298"/>
+<area shape="rect" id="node15" href="$namespaceLShapeRebar.html#a647a28e94933108c6617da8532d76998" title="LShapeRebar.makeLShapeRebar" alt="" coords="531,458,747,485"/>
+<area shape="rect" id="node17" href="$namespaceLShapeRebar.html#a9915291e3457e1c27f556d7903e02486" title="LShapeRebar.editLShapeRebar" alt="" coords="536,384,741,410"/>
+<area shape="rect" id="node16" href="$namespaceLShapeRebar.html#a3019960c6f6476cb70df9ee06f330dfb" title="LShapeRebar.getpointsOfLShape\lRebar" alt="" coords="797,475,1013,516"/>
+</map>

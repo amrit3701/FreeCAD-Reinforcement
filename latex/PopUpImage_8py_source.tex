@@ -1,0 +1,51 @@
+\hypertarget{PopUpImage_8py_source}{}\section{Pop\+Up\+Image.\+py}
+
+\begin{DoxyCode}
+\hypertarget{PopUpImage_8py_source.tex_l00001}{}\hyperlink{namespacePopUpImage}{00001} \textcolor{comment}{# -*- coding: utf-8 -*-}
+00002 \textcolor{comment}{# ***************************************************************************}
+00003 \textcolor{comment}{# *                                                                         *}
+00004 \textcolor{comment}{# *   Copyright (c) 2017 - Amritpal Singh <amrit3701@gmail.com>             *}
+00005 \textcolor{comment}{# *                                                                         *}
+00006 \textcolor{comment}{# *   This program is free software; you can redistribute it and/or modify  *}
+00007 \textcolor{comment}{# *   it under the terms of the GNU Lesser General Public License (LGPL)    *}
+00008 \textcolor{comment}{# *   as published by the Free Software Foundation; either version 2 of     *}
+00009 \textcolor{comment}{# *   the License, or (at your option) any later version.                   *}
+00010 \textcolor{comment}{# *   for detail see the LICENCE text file.                                 *}
+00011 \textcolor{comment}{# *                                                                         *}
+00012 \textcolor{comment}{# *   This program is distributed in the hope that it will be useful,       *}
+00013 \textcolor{comment}{# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *}
+00014 \textcolor{comment}{# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *}
+00015 \textcolor{comment}{# *   GNU Library General Public License for more details.                  *}
+00016 \textcolor{comment}{# *                                                                         *}
+00017 \textcolor{comment}{# *   You should have received a copy of the GNU Library General Public     *}
+00018 \textcolor{comment}{# *   License along with this program; if not, write to the Free Software   *}
+00019 \textcolor{comment}{# *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *}
+00020 \textcolor{comment}{# *   USA                                                                   *}
+00021 \textcolor{comment}{# *                                                                         *}
+00022 \textcolor{comment}{# ***************************************************************************}
+00023 
+\hypertarget{PopUpImage_8py_source.tex_l00024}{}\hyperlink{namespacePopUpImage_a4141c27e055e2d28a4b83ce4a05c56f1}{00024} \_\_title\_\_ = \textcolor{stringliteral}{"PopUpImage"}
+\hypertarget{PopUpImage_8py_source.tex_l00025}{}\hyperlink{namespacePopUpImage_ad3422bf98333fc29e0ca232e088d99c3}{00025} \_\_author\_\_ = \textcolor{stringliteral}{"Amritpal Singh"}
+\hypertarget{PopUpImage_8py_source.tex_l00026}{}\hyperlink{namespacePopUpImage_a5c155cc535acd99cd7c1179185e9c857}{00026} \_\_url\_\_ = \textcolor{stringliteral}{"https://www.freecadweb.org"}
+00027 
+00028 
+00029 \textcolor{keyword}{from} PySide \textcolor{keyword}{import} QtCore
+00030 \textcolor{keyword}{from} PySide \textcolor{keyword}{import} QtGui
+00031 \textcolor{keyword}{from} PySide \textcolor{keyword}{import} QtSvg
+00032 \textcolor{keyword}{import} FreeCADGui
+00033 \textcolor{keyword}{import} os
+00034 
+\hypertarget{PopUpImage_8py_source.tex_l00035}{}\hyperlink{classPopUpImage_1_1PopUpImage}{00035} \textcolor{keyword}{class }\hyperlink{classPopUpImage_1_1PopUpImage}{PopUpImage}(QtGui.QDialog):
+\hypertarget{PopUpImage_8py_source.tex_l00036}{}\hyperlink{classPopUpImage_1_1PopUpImage_ab5762e645d43ced84b3e70f61c55d25e}{00036}    \textcolor{keyword}{def }\hyperlink{classPopUpImage_1_1PopUpImage_ab5762e645d43ced84b3e70f61c55d25e}{\_\_init\_\_}(self, img):
+00037         QtGui.QDialog.\_\_init\_\_(self)
+\hypertarget{PopUpImage_8py_source.tex_l00038}{}\hyperlink{classPopUpImage_1_1PopUpImage_a21575164e7b7cc253fd11937f3aa0466}{00038}         self.\hyperlink{classPopUpImage_1_1PopUpImage_a21575164e7b7cc253fd11937f3aa0466}{image} = QtSvg.QSvgWidget(img)
+00039         self.setWindowTitle(QtGui.QApplication.translate(\textcolor{stringliteral}{"RebarTool"}, \textcolor{stringliteral}{"Detailed description"}, \textcolor{keywordtype}{None}))
+\hypertarget{PopUpImage_8py_source.tex_l00040}{}\hyperlink{classPopUpImage_1_1PopUpImage_a2bacc8ca805321016053553bc3b27a20}{00040}         self.\hyperlink{classPopUpImage_1_1PopUpImage_a2bacc8ca805321016053553bc3b27a20}{verticalLayout} = QtGui.QVBoxLayout(self)
+00041         self.verticalLayout.addWidget(self.\hyperlink{classPopUpImage_1_1PopUpImage_a21575164e7b7cc253fd11937f3aa0466}{image})
+00042 
+\hypertarget{PopUpImage_8py_source.tex_l00043}{}\hyperlink{namespacePopUpImage_a8c565620d7de9b4882a44eacb870ad05}{00043} \textcolor{keyword}{def }\hyperlink{namespacePopUpImage_a8c565620d7de9b4882a44eacb870ad05}{showPopUpImageDialog}(img):
+00044     \textcolor{stringliteral}{""" showPopUpImageDialog(image): This function will show a given image in a pop-up}
+00045 \textcolor{stringliteral}{    dialog box."""}
+00046     dialog = \hyperlink{classPopUpImage_1_1PopUpImage}{PopUpImage}(img)
+00047     dialog.exec\_()
+\end{DoxyCode}

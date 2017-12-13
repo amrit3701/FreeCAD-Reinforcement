@@ -1,0 +1,309 @@
+\hypertarget{Rebarfunc_8py_source}{}\section{Rebarfunc.\+py}
+
+\begin{DoxyCode}
+\hypertarget{Rebarfunc_8py_source.tex_l00001}{}\hyperlink{namespaceRebarfunc}{00001} \textcolor{comment}{# -*- coding: utf-8 -*-}
+00002 \textcolor{comment}{# ***************************************************************************}
+00003 \textcolor{comment}{# *                                                                         *}
+00004 \textcolor{comment}{# *   Copyright (c) 2017 - Amritpal Singh <amrit3701@gmail.com>             *}
+00005 \textcolor{comment}{# *                                                                         *}
+00006 \textcolor{comment}{# *   This program is free software; you can redistribute it and/or modify  *}
+00007 \textcolor{comment}{# *   it under the terms of the GNU Lesser General Public License (LGPL)    *}
+00008 \textcolor{comment}{# *   as published by the Free Software Foundation; either version 2 of     *}
+00009 \textcolor{comment}{# *   the License, or (at your option) any later version.                   *}
+00010 \textcolor{comment}{# *   for detail see the LICENCE text file.                                 *}
+00011 \textcolor{comment}{# *                                                                         *}
+00012 \textcolor{comment}{# *   This program is distributed in the hope that it will be useful,       *}
+00013 \textcolor{comment}{# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *}
+00014 \textcolor{comment}{# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *}
+00015 \textcolor{comment}{# *   GNU Library General Public License for more details.                  *}
+00016 \textcolor{comment}{# *                                                                         *}
+00017 \textcolor{comment}{# *   You should have received a copy of the GNU Library General Public     *}
+00018 \textcolor{comment}{# *   License along with this program; if not, write to the Free Software   *}
+00019 \textcolor{comment}{# *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *}
+00020 \textcolor{comment}{# *   USA                                                                   *}
+00021 \textcolor{comment}{# *                                                                         *}
+00022 \textcolor{comment}{# ***************************************************************************}
+00023 
+\hypertarget{Rebarfunc_8py_source.tex_l00024}{}\hyperlink{namespaceRebarfunc_abd5b4d35a8537923b223274433b692e9}{00024} \_\_title\_\_ = \textcolor{stringliteral}{"GenericRebarFuctions"}
+\hypertarget{Rebarfunc_8py_source.tex_l00025}{}\hyperlink{namespaceRebarfunc_aae2a5c81818721137a6cd0f3b66005cb}{00025} \_\_author\_\_ = \textcolor{stringliteral}{"Amritpal Singh"}
+\hypertarget{Rebarfunc_8py_source.tex_l00026}{}\hyperlink{namespaceRebarfunc_a11e5d55bb1ddb9fe8f97d06b7916bb22}{00026} \_\_url\_\_ = \textcolor{stringliteral}{"https://www.freecadweb.org"}
+00027 
+00028 \textcolor{keyword}{from} PySide \textcolor{keyword}{import} QtCore, QtGui
+00029 \textcolor{keyword}{from} DraftGeomUtils \textcolor{keyword}{import} vec, isCubic
+00030 \textcolor{keyword}{import} FreeCAD
+00031 \textcolor{keyword}{import} FreeCADGui
+00032 \textcolor{keyword}{import} math
+00033 
+00034 \textcolor{comment}{# --------------------------------------------------------------------------}
+00035 \textcolor{comment}{# Generic functions}
+00036 \textcolor{comment}{# --------------------------------------------------------------------------}
+00037 
+\hypertarget{Rebarfunc_8py_source.tex_l00038}{}\hyperlink{namespaceRebarfunc_a3c75160aea4e3fd67b08c557e53a6910}{00038} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_a3c75160aea4e3fd67b08c557e53a6910}{getEdgesAngle}(edge1, edge2):
+00039     \textcolor{stringliteral}{""" getEdgesAngle(edge1, edge2): returns a angle between two edges."""}
+00040     vec1 = vec(edge1)
+00041     vec2 = vec(edge2)
+00042     angle = vec1.getAngle(vec2)
+00043     angle = math.degrees(angle)
+00044     \textcolor{keywordflow}{return} angle
+00045 
+\hypertarget{Rebarfunc_8py_source.tex_l00046}{}\hyperlink{namespaceRebarfunc_a24ab60160ea54e86c0ce1b727621bf71}{00046} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_a24ab60160ea54e86c0ce1b727621bf71}{checkRectangle}(edges):
+00047     \textcolor{stringliteral}{""" checkRectangle(edges=[]): This function checks whether the given form rectangle}
+00048 \textcolor{stringliteral}{        or not. It will return True when edges form rectangular shape or return False}
+00049 \textcolor{stringliteral}{        when edges not form a rectangular."""}
+00050     angles = [round(\hyperlink{namespaceRebarfunc_a3c75160aea4e3fd67b08c557e53a6910}{getEdgesAngle}(edges[0], edges[1])), round(
+      \hyperlink{namespaceRebarfunc_a3c75160aea4e3fd67b08c557e53a6910}{getEdgesAngle}(edges[0], edges[2])),
+00051             round(\hyperlink{namespaceRebarfunc_a3c75160aea4e3fd67b08c557e53a6910}{getEdgesAngle}(edges[0], edges[3]))]
+00052     \textcolor{keywordflow}{if} angles.count(90) == 2 \textcolor{keywordflow}{and} (angles.count(180) == 1 \textcolor{keywordflow}{or} angles.count(0) == 1):
+00053         \textcolor{keywordflow}{return} \textcolor{keyword}{True}
+00054     \textcolor{keywordflow}{else}:
+00055         \textcolor{keywordflow}{return} \textcolor{keyword}{False}
+00056 
+\hypertarget{Rebarfunc_8py_source.tex_l00057}{}\hyperlink{namespaceRebarfunc_a20bba2119d962302eada384246cd6270}{00057} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_a20bba2119d962302eada384246cd6270}{getBaseStructuralObject}(obj):
+00058     \textcolor{stringliteral}{""" getBaseStructuralObject(obj): This function will return last base}
+00059 \textcolor{stringliteral}{        structural object."""}
+00060     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} obj.Base:
+00061         \textcolor{keywordflow}{return} obj
+00062     \textcolor{keywordflow}{else}:
+00063         \textcolor{keywordflow}{return} \hyperlink{namespaceRebarfunc_a20bba2119d962302eada384246cd6270}{getBaseStructuralObject}(obj.Base)
+00064 
+\hypertarget{Rebarfunc_8py_source.tex_l00065}{}\hyperlink{namespaceRebarfunc_a7169bcadefe75626e6cfb7549b1deb4b}{00065} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_a7169bcadefe75626e6cfb7549b1deb4b}{getBaseObject}(obj):
+00066     \textcolor{stringliteral}{""" getBaseObject(obj): This function will return last base object."""}
+00067     \textcolor{keywordflow}{if} hasattr(obj, \textcolor{stringliteral}{"Base"}):
+00068         \textcolor{keywordflow}{return} \hyperlink{namespaceRebarfunc_a7169bcadefe75626e6cfb7549b1deb4b}{getBaseObject}(obj.Base)
+00069     \textcolor{keywordflow}{else}:
+00070         \textcolor{keywordflow}{return} obj
+00071 
+\hypertarget{Rebarfunc_8py_source.tex_l00072}{}\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{00072} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(s):
+00073     \textcolor{stringliteral}{""" getFaceNumber(facename): This will return a face number from face name.}
+00074 \textcolor{stringliteral}{    For eg.:}
+00075 \textcolor{stringliteral}{        Input: "Face12"}
+00076 \textcolor{stringliteral}{        Output: 12"""}
+00077     head = s.rstrip(\textcolor{stringliteral}{'0123456789'})
+00078     tail = s[len(head):]
+00079     \textcolor{keywordflow}{return} int(tail)
+00080 
+\hypertarget{Rebarfunc_8py_source.tex_l00081}{}\hyperlink{namespaceRebarfunc_a3a8c123c290609baec3a547c20a561b9}{00081} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_a3a8c123c290609baec3a547c20a561b9}{facenormalDirection}(structure = None, facename = None):
+00082     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} structure \textcolor{keywordflow}{and} \textcolor{keywordflow}{not} facename:
+00083         selected\_obj = FreeCADGui.Selection.getSelectionEx()[0]
+00084         structure = selected\_obj.Object
+00085         facename = selected\_obj.SubElementNames[0]
+00086     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00087     normal = face.normalAt(0,0)
+00088     normal = face.Placement.Rotation.inverted().multVec(normal)
+00089     \textcolor{keywordflow}{return} normal
+00090 
+00091 \textcolor{comment}{# --------------------------------------------------------------------------}
+00092 \textcolor{comment}{# Main functions which is use while creating any rebar.}
+00093 \textcolor{comment}{# --------------------------------------------------------------------------}
+00094 
+\hypertarget{Rebarfunc_8py_source.tex_l00095}{}\hyperlink{namespaceRebarfunc_a56b5187c8b2c8bf1b14b4fc88eb6d54c}{00095} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_a56b5187c8b2c8bf1b14b4fc88eb6d54c}{getTrueParametersOfStructure}(obj):
+00096     \textcolor{stringliteral}{""" getTrueParametersOfStructure(obj): This function return actual length,}
+00097 \textcolor{stringliteral}{    width and height of the structural element in the form of array like}
+00098 \textcolor{stringliteral}{    [Length, Width, Height]"""}
+00099     baseObject = \hyperlink{namespaceRebarfunc_a7169bcadefe75626e6cfb7549b1deb4b}{getBaseObject}(obj)
+00100     \textcolor{comment}{# If selected\_obj is not derived from any base object}
+00101     \textcolor{keywordflow}{if} baseObject:
+00102         \textcolor{comment}{# If selected\_obj is derived from SketchObject}
+00103         \textcolor{keywordflow}{if} baseObject.isDerivedFrom(\textcolor{stringliteral}{"Sketcher::SketchObject"}):
+00104             edges = baseObject.Shape.Edges
+00105             \textcolor{keywordflow}{if} \hyperlink{namespaceRebarfunc_a24ab60160ea54e86c0ce1b727621bf71}{checkRectangle}(edges):
+00106                 \textcolor{keywordflow}{for} edge \textcolor{keywordflow}{in} edges:
+00107                     \textcolor{comment}{# Representation vector of edge}
+00108                     rep\_vector = edge.Vertexes[1].Point.sub(edge.Vertexes[0].Point)
+00109                     rep\_vector\_angle = round(math.degrees(rep\_vector.getAngle(FreeCAD.Vector(1,0,0))))
+00110                     \textcolor{keywordflow}{if} rep\_vector\_angle \textcolor{keywordflow}{in} \{0, 180\}:
+00111                         length = edge.Length
+00112                     \textcolor{keywordflow}{else}:
+00113                         width = edge.Length
+00114             \textcolor{keywordflow}{else}:
+00115                 \textcolor{keywordflow}{return} \textcolor{keywordtype}{None}
+00116         \textcolor{keywordflow}{else}:
+00117             \textcolor{keywordflow}{return} \textcolor{keywordtype}{None}
+00118         height = obj.Height.Value
+00119     \textcolor{keywordflow}{else}:
+00120         structuralBaseObject = \hyperlink{namespaceRebarfunc_a20bba2119d962302eada384246cd6270}{getBaseStructuralObject}(obj)
+00121         length = structuralBaseObject.Length.Value
+00122         width = structuralBaseObject.Width.Value
+00123         height = structuralBaseObject.Height.Value
+00124     \textcolor{keywordflow}{return} [length, width, height]
+00125 
+\hypertarget{Rebarfunc_8py_source.tex_l00126}{}\hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{00126} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_a92122b3d7cedd3d47bb63380a5ac4d08}{getParametersOfFace}(structure, facename, sketch = True):
+00127     \textcolor{stringliteral}{""" getParametersOfFace(structure, facename, sketch = True): This function will return}
+00128 \textcolor{stringliteral}{    length, width and points of center of mass of a given face according to the sketch}
+00129 \textcolor{stringliteral}{    value in the form of list.}
+00130 \textcolor{stringliteral}{}
+00131 \textcolor{stringliteral}{    For eg.:}
+00132 \textcolor{stringliteral}{    Case 1: When sketch is True: We use True when we want to create rebars from sketch}
+00133 \textcolor{stringliteral}{        (planar rebars) and the sketch is strictly based on 2D so we neglected the normal}
+00134 \textcolor{stringliteral}{        axis of the face.}
+00135 \textcolor{stringliteral}{        Output: [(FaceLength, FaceWidth), (CenterOfMassX, CenterOfMassY)]}
+00136 \textcolor{stringliteral}{}
+00137 \textcolor{stringliteral}{    Case 2: When sketch is False: When we want to create non-planar rebars(like stirrup)}
+00138 \textcolor{stringliteral}{        or we want to create rebar from a wire. Also for creating rebar from wire}
+00139 \textcolor{stringliteral}{        we will require three coordinates (x, y, z).}
+00140 \textcolor{stringliteral}{        Output: [(FaceLength, FaceWidth), (CenterOfMassX, CenterOfMassY, CenterOfMassZ)]"""}
+00141     face = structure.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(facename) - 1]
+00142     center\_of\_mass = face.CenterOfMass
+00143     \textcolor{comment}{#center\_of\_mass = center\_of\_mass.sub(getBaseStructuralObject(structure).Placement.Base)}
+00144     center\_of\_mass = center\_of\_mass.sub(structure.Placement.Base)
+00145     Edges = []
+00146     facePRM = []
+00147     \textcolor{comment}{# When structure is cubic. It support all structure is derived from}
+00148     \textcolor{comment}{# any other object (like a sketch, wire etc).}
+00149     \textcolor{keywordflow}{if} isCubic(structure.Shape):
+00150         \textcolor{keywordflow}{print} 423
+00151         \textcolor{keywordflow}{for} edge \textcolor{keywordflow}{in} face.Edges:
+00152             \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} Edges:
+00153                 Edges.append(edge)
+00154             \textcolor{keywordflow}{else}:
+00155                 \textcolor{comment}{# Checks whether similar edges is already present in Edges list}
+00156                 \textcolor{comment}{# or not.}
+00157                 \textcolor{keywordflow}{if} round((vec(edge)).Length) \textcolor{keywordflow}{not} \textcolor{keywordflow}{in} [round((vec(x)).Length) \textcolor{keywordflow}{for} x \textcolor{keywordflow}{in} Edges]:
+00158                     Edges.append(edge)
+00159         \textcolor{keywordflow}{if} len(Edges) == 1:
+00160             Edges.append(edge)
+00161         \textcolor{comment}{# facePRM holds length of a edges.}
+00162         facePRM = [(vec(edge)).Length \textcolor{keywordflow}{for} edge \textcolor{keywordflow}{in} Edges]
+00163         \textcolor{comment}{# Find the orientation of the face. Also eliminating normal axes}
+00164         \textcolor{comment}{# to the edge/face.}
+00165         \textcolor{comment}{# When edge is parallel to x-axis}
+00166         \textcolor{keywordflow}{if} round(Edges[0].tangentAt(0)[0]) \textcolor{keywordflow}{in} \{1,-1\}:
+00167             x = center\_of\_mass[0]
+00168             \textcolor{keywordflow}{if} round(Edges[1].tangentAt(0)[1]) \textcolor{keywordflow}{in} \{1, -1\}:
+00169                 y = center\_of\_mass[1]
+00170             \textcolor{keywordflow}{else}:
+00171                 y = center\_of\_mass[2]
+00172         \textcolor{comment}{# When edge is parallel to y-axis}
+00173         \textcolor{keywordflow}{elif} round(Edges[0].tangentAt(0)[1]) \textcolor{keywordflow}{in} \{1,-1\}:
+00174             x = center\_of\_mass[1]
+00175             \textcolor{keywordflow}{if} round(Edges[1].tangentAt(0)[0]) \textcolor{keywordflow}{in} \{1, -1\}:
+00176                 \textcolor{comment}{# Change order when edge along x-axis is at second place.}
+00177                 facePRM.reverse()
+00178                 y = center\_of\_mass[1]
+00179             \textcolor{keywordflow}{else}:
+00180                 y = center\_of\_mass[2]
+00181         \textcolor{keywordflow}{elif} round(Edges[0].tangentAt(0)[2]) \textcolor{keywordflow}{in} \{1,-1\}:
+00182             y = center\_of\_mass[2]
+00183             \textcolor{keywordflow}{if} round(Edges[1].tangentAt(0)[0]) \textcolor{keywordflow}{in} \{1, -1\}:
+00184                 x = center\_of\_mass[0]
+00185             \textcolor{keywordflow}{else}:
+00186                 x = center\_of\_mass[1]
+00187             facePRM.reverse()
+00188         facelength = facePRM[0]
+00189         facewidth = facePRM[1]
+00190     \textcolor{comment}{# When structure is not cubic. For founding parameters of given face}
+00191     \textcolor{comment}{# I have used bounding box.}
+00192     \textcolor{keywordflow}{else}:
+00193         boundbox = face.BoundBox
+00194         \textcolor{comment}{# Check that one length of bounding box is zero. Here bounding box}
+00195         \textcolor{comment}{# looks like a plane.}
+00196         \textcolor{keywordflow}{if} 0 \textcolor{keywordflow}{in} \{round(boundbox.XLength), round(boundbox.YLength), round(boundbox.ZLength)\}:
+00197             normal = face.normalAt(0,0)
+00198             normal = face.Placement.Rotation.inverted().multVec(normal)
+00199             \textcolor{comment}{#print "x: ", boundbox.XLength}
+00200             \textcolor{comment}{#print "y: ", boundbox.YLength}
+00201             \textcolor{comment}{#print "z: ", boundbox.ZLength}
+00202             \textcolor{comment}{# Set length and width of user selected face of structural element}
+00203             flag = \textcolor{keyword}{True}
+00204             \textcolor{comment}{# FIXME: Improve below logic.}
+00205             \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(len(normal)):
+00206                 \textcolor{keywordflow}{if} round(normal[i]) == 0:
+00207                     \textcolor{keywordflow}{if} flag \textcolor{keywordflow}{and} i == 0:
+00208                         x = center\_of\_mass[i]
+00209                         facelength =  boundbox.XLength
+00210                         flag = \textcolor{keyword}{False}
+00211                     \textcolor{keywordflow}{elif} flag \textcolor{keywordflow}{and} i == 1:
+00212                         x = center\_of\_mass[i]
+00213                         facelength = boundbox.YLength
+00214                         flag = \textcolor{keyword}{False}
+00215                     \textcolor{keywordflow}{if} i == 1:
+00216                         y = center\_of\_mass[i]
+00217                         facewidth = boundbox.YLength
+00218                     \textcolor{keywordflow}{elif} i == 2:
+00219                         y = center\_of\_mass[i]
+00220                         facewidth = boundbox.ZLength
+00221             \textcolor{comment}{#print [(facelength, facewidth), (x, y)]}
+00222     \textcolor{comment}{# Return parameter of the face when rebar is not created from the sketch.}
+00223     \textcolor{comment}{# For eg. non-planar rebars like stirrup etc.}
+00224     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} sketch:
+00225         center\_of\_mass = face.CenterOfMass
+00226         \textcolor{keywordflow}{return} [(facelength, facewidth), center\_of\_mass]
+00227     \textcolor{comment}{#TODO: Add support when bounding box have depth. Here bounding box looks}
+00228     \textcolor{comment}{# like cuboid. If we given curved face.}
+00229     \textcolor{keywordflow}{return} [(facelength, facewidth), (x, y)]
+00230 
+00231 \textcolor{comment}{# -------------------------------------------------------------------------}
+00232 \textcolor{comment}{# Functions which is mainly used while creating stirrup.}
+00233 \textcolor{comment}{# -------------------------------------------------------------------------}
+00234 
+\hypertarget{Rebarfunc_8py_source.tex_l00235}{}\hyperlink{namespaceRebarfunc_aaeecb468e0fcfc5eee69d6a24c5c5aef}{00235} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_aaeecb468e0fcfc5eee69d6a24c5c5aef}{extendedTangentPartLength}(rounding, diameter, angle):
+00236     \textcolor{stringliteral}{""" extendedTangentPartLength(rounding, diameter, angle): Get a extended}
+00237 \textcolor{stringliteral}{    length of rounding on corners."""}
+00238     radius = rounding * diameter
+00239     x1 = radius / math.tan(math.radians(angle))
+00240     x2 = radius / math.cos(math.radians(90 - angle)) - radius
+00241     \textcolor{keywordflow}{return} x1 + x2
+00242 
+\hypertarget{Rebarfunc_8py_source.tex_l00243}{}\hyperlink{namespaceRebarfunc_ab5637ab0a8e202409ee8657d39ca87a0}{00243} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_ab5637ab0a8e202409ee8657d39ca87a0}{extendedTangentLength}(rounding, diameter, angle):
+00244     \textcolor{stringliteral}{""" extendedTangentLength(rounding, diameter, angle): Get a extended}
+00245 \textcolor{stringliteral}{    length of rounding at the end of Stirrup for bent."""}
+00246     radius = rounding * diameter
+00247     x1 = radius / math.sin(math.radians(angle))
+00248     x2 = radius * math.tan(math.radians(90 - angle))
+00249     \textcolor{keywordflow}{return} x1 + x2
+00250 
+00251 \textcolor{comment}{# -------------------------------------------------------------------------}
+00252 \textcolor{comment}{# Warning / Alert functions when user do something wrong.}
+00253 \textcolor{comment}{#--------------------------------------------------------------------------}
+00254 
+\hypertarget{Rebarfunc_8py_source.tex_l00255}{}\hyperlink{namespaceRebarfunc_adae2713855a7e1b4bda04081ae671542}{00255} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_adae2713855a7e1b4bda04081ae671542}{check\_selected\_face}():
+00256     \textcolor{stringliteral}{""" check\_selected\_face(): This function checks whether user have selected}
+00257 \textcolor{stringliteral}{        any face or not."""}
+00258     selected\_objs = FreeCADGui.Selection.getSelectionEx()
+00259     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} selected\_objs:
+00260         \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"Select any face of the structural element."})
+00261         selected\_obj = \textcolor{keywordtype}{None}
+00262     \textcolor{keywordflow}{else}:
+00263         selected\_face\_names = selected\_objs[0].SubElementNames
+00264         \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} selected\_face\_names:
+00265             selected\_obj = \textcolor{keywordtype}{None}
+00266             \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"Select any face of the structural element."})
+00267         \textcolor{keywordflow}{elif} \textcolor{stringliteral}{"Face"} \textcolor{keywordflow}{in} selected\_face\_names[0]:
+00268             \textcolor{keywordflow}{if} len(selected\_face\_names) > 1:
+00269                 \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"You have selected more than one face of the structural element."})
+00270                 selected\_obj = \textcolor{keywordtype}{None}
+00271             \textcolor{keywordflow}{elif} len(selected\_face\_names) == 1:
+00272                 selected\_obj = selected\_objs[0]
+00273         \textcolor{keywordflow}{else}:
+00274             \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"Select any face of the selected the face."})
+00275             selected\_obj = \textcolor{keywordtype}{None}
+00276     \textcolor{keywordflow}{return} selected\_obj
+00277 
+\hypertarget{Rebarfunc_8py_source.tex_l00278}{}\hyperlink{namespaceRebarfunc_a8c003df49ac5f249bd9ea4acfb7d2f8d}{00278} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_a8c003df49ac5f249bd9ea4acfb7d2f8d}{getSelectedFace}(self):
+00279     selected\_objs = FreeCADGui.Selection.getSelectionEx()
+00280     \textcolor{keywordflow}{if} selected\_objs:
+00281         \textcolor{keywordflow}{if} len(selected\_objs[0].SubObjects) == 1:
+00282             \textcolor{keywordflow}{if} \textcolor{stringliteral}{"Face"} \textcolor{keywordflow}{in} selected\_objs[0].SubElementNames[0]:
+\hypertarget{Rebarfunc_8py_source.tex_l00283}{}\hyperlink{namespaceRebarfunc_aca3582a1ad0a9350ca59d02fd3188f80}{00283}                 self.SelectedObj = selected\_objs[0].Object
+\hypertarget{Rebarfunc_8py_source.tex_l00284}{}\hyperlink{namespaceRebarfunc_aa191391fe61fc3fff160a228d66910fc}{00284}                 self.FaceName = selected\_objs[0].SubElementNames[0]
+00285                 self.form.PickSelectedFaceLabel.setText(\textcolor{stringliteral}{"Selected face is "} + self.FaceName)
+00286             \textcolor{keywordflow}{else}:
+00287                 \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"Select any face of the structural element."})
+00288         \textcolor{keywordflow}{else}:
+00289             \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"Select only one face of the structural element."})
+00290     \textcolor{keywordflow}{else}:
+00291         \hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(\textcolor{stringliteral}{"Select any face of the structural element."})
+00292 
+\hypertarget{Rebarfunc_8py_source.tex_l00293}{}\hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{00293} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_a2278a0602d46a62953af1fcf2e574a94}{showWarning}(message):
+00294     \textcolor{stringliteral}{""" showWarning(message): This function is used to produce warning}
+00295 \textcolor{stringliteral}{    message for the user."""}
+00296     msg = QtGui.QMessageBox()
+00297     msg.setIcon(QtGui.QMessageBox.Warning)
+00298     msg.setText(\hyperlink{namespaceRebarfunc_a1467a55852e36c36c472e222855bb937}{translate}(\textcolor{stringliteral}{"RebarAddon"}, message))
+00299     msg.setStandardButtons(QtGui.QMessageBox.Ok)
+00300     msg.exec\_()
+00301 
+00302 \textcolor{comment}{# Qt tanslation handling}
+\hypertarget{Rebarfunc_8py_source.tex_l00303}{}\hyperlink{namespaceRebarfunc_a1467a55852e36c36c472e222855bb937}{00303} \textcolor{keyword}{def }\hyperlink{namespaceRebarfunc_a1467a55852e36c36c472e222855bb937}{translate}(context, text, disambig=None):
+00304     \textcolor{keywordflow}{return} QtCore.QCoreApplication.translate(context, text, disambig)
+\end{DoxyCode}

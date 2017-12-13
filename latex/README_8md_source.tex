@@ -1,0 +1,76 @@
+\hypertarget{README_8md_source}{}\section{R\+E\+A\+D\+M\+E.\+md}
+
+\begin{DoxyCode}
+00001 # Rebar Addon for FreeCAD
+00002 
+00003 Started as a Google Summer of Code ([GSoC](https://en.wikipedia.org/wiki/Google\_Summer\_of\_Code) 2017)
+       [project](https://summerofcode.withgoogle.com/archive/2017/projects/6536382147198976).
+00004 
+00005 ![screenshot](http://i.imgur.com/r9b5l7K.jpg)
+00006 
+00007 ## Documentation
+00008 This project is aimed at easing up the process of rebaring in [FreeCAD](https://www.freecadweb.org).
+       In this project, list of rebars will be provided to user under Rebar tools in the form of dropdown. This
+       project covers six different rebar shapes as given below:
+00009 
+00010 -
+       ![icon](https://www.freecadweb.org/wiki/images/thumb/6/69/Arch\_Rebar\_Straight.png/32px-Arch\_Rebar\_Straight.png) **Straight Rebar**: [wiki](https://www.freecadweb.org/wiki/Arch\_Rebar\_Straight)
+00011 ![screenshot](https://www.freecadweb.org/wiki/images/f/fd/StraightRebar.png)
+00012 
+00013 -
+       ![icon](https://www.freecadweb.org/wiki/images/thumb/4/4d/Arch\_Rebar\_UShape.png/32px-Arch\_Rebar\_UShape.png) **UShape Rebar**: [wiki](https://www.freecadweb.org/wiki/Arch\_Rebar\_UShape)
+00014 ![screenshot](https://www.freecadweb.org/wiki/images/3/35/Footing\_UShapeRebar.png)
+00015 
+00016 -
+       ![icon](https://www.freecadweb.org/wiki/images/thumb/3/38/Arch\_Rebar\_LShape.png/32px-Arch\_Rebar\_LShape.png) **LShape Rebar**: [wiki](https://www.freecadweb.org/wiki/Arch\_Rebar\_LShape)
+00017 ![screenshot](https://www.freecadweb.org/wiki/images/1/10/LShapeRebarNew.png)
+00018 
+00019 -
+       ![icon](https://www.freecadweb.org/wiki/images/thumb/0/0b/Arch\_Rebar\_BentShape.png/32px-Arch\_Rebar\_BentShape.png) **BentShpae Rebar**: [wiki](https://www.freecadweb.org/wiki/Arch\_Rebar\_BentShape)
+00020 ![screenshot](https://www.freecadweb.org/wiki/images/e/e3/BentShapeRebar.png)
+00021 
+00022 -
+       ![icon](https://www.freecadweb.org/wiki/images/thumb/e/ef/Arch\_Rebar\_Stirrup.png/32px-Arch\_Rebar\_Stirrup.png) **Stirrup Rebar**: [wiki](https://www.freecadweb.org/wiki/Arch\_Rebar\_Stirrup)
+00023 ![screenshot](https://www.freecadweb.org/wiki/images/9/9b/Stirrup.png)
+00024 
+00025 -
+       ![icon](https://www.freecadweb.org/wiki/images/thumb/c/c9/Arch\_Rebar\_Helical.png/32px-Arch\_Rebar\_Helical.png) **Helical Rebar**: [wiki](https://www.freecadweb.org/wiki/Arch\_Rebar\_Helical)
+00026 ![screenshot](https://www.freecadweb.org/wiki/images/2/2f/HelicalRebar.png)
+00027 
+00028 ## Video Tutorial
+00029 [![IMAGE ALT TEXT
+       HERE](http://i.imgur.com/ZQGCQoe.png)](https://www.youtube.com/watch?v=BYQQjEKmx5E&t=1435s)
+00030 
+00031 
+00032 ## Installation
+00033 
+00034 ### Pre-requisites
+00035 - FreeCAD (version >= 0.17): [Installation guide](https://www.freecadweb.org/wiki/Installing)
+00036  
+00037 ### Steps to install Rebar Addon in FreeCAD
+00038 1. Open the FreeCAD Addon Manager (```Tool -> Addon manager```).
+00039 2. When an addon manager will open, select ```Reinforcement``` from a list of workbenches shown by an
+       addon manager.
+00040 3. After selecting, click on ```Install/Update``` button.
+00041 4. Restart FreeCAD.
+00042 5. Now you will see different rebars in a drop-down list of rebar tools (```Arch -> Rebar tools ->
+       Different rebars```).
+00043 
+00044 ## How it works
+00045 Each rebar tool has two files, one is ```Python``` file and second is there respective name ```UI```
+       file like ```StraightRebar.py``` and ```StraightRebar.ui``` file). Let's take a straight rebar tool. In
+       ```StraightRebar.py``` file, there are two functions. One is ```makeStraightRebar()``` function. This function
+       creates straight rebar and adds new properties to the default ```Rebar``` object. Second function is
+       ```editStraightRebar```. This function is used when we want to change a new properties(which is created by
+       ```makeStraightRebar``` function) of the rebar object and it will take ```Rebar``` object as input which is created by
+       ```makeStraightRebar``` function. In ```StraightRebar.py```, ```\_StraightRebarTaskPanel``` class is
+       present. This class loads UI(present in ```StriaghtRebar.ui``` file) in the task panel of FreeCAD. First time when
+       a user clicks on ```Apply``` or ```Ok``` button, then ```makeStraightRebar``` function is executed and after
+       that when user want to change the properties of Straight rebar then ```editStraightRebar``` function is
+       excuted. 
+00046 
+00047 ## Extras
+00048 - [FreeCAD forum thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=22760)
+00049 - [GSoC proposal](https://brlcad.org/wiki/User:Amritpal\_singh/gsoc\_proposal)
+00050 - [Development logs](https://brlcad.org/wiki/User:Amritpal\_singh/GSoC17/logs)
+\end{DoxyCode}

@@ -1,0 +1,195 @@
+\hypertarget{namespaceRebarDistribution}{}\section{Rebar\+Distribution Namespace Reference}
+\label{namespaceRebarDistribution}\index{Rebar\+Distribution@{Rebar\+Distribution}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classRebarDistribution_1_1__RebarDistributionDialog}{\+\_\+\+Rebar\+Distribution\+Dialog}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespaceRebarDistribution_a22a12f260218752c4099cf68e4e3da5c}{get\+Custom\+Spacing\+String} (amount1, spacing1, amount2, spacing2, amount3, spacing3, front\+Cover, size)
+\item 
+def \hyperlink{namespaceRebarDistribution_a59ac567a8536ea3b5e7a9900a898e0c0}{getuple\+Of\+Custom\+Spacing} (span\+\_\+string)
+\item 
+def \hyperlink{namespaceRebarDistribution_aa547df5cb10d2e64eaa0b51c445fa30b}{run\+Rebar\+Distribution} (self)
+\item 
+def \hyperlink{namespaceRebarDistribution_a85270a1b6e8c782a9e0ba54add518f2a}{remove\+Rebar\+Distribution} (self)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{namespaceRebarDistribution_a38609d6513215400fb6b4c0d1b7f2040}{\+\_\+\+\_\+title\+\_\+\+\_\+} = \char`\"{}Dialog\+Distribution\char`\"{}
+\item 
+string \hyperlink{namespaceRebarDistribution_a7bd0602448fa39ff800847e313ca8b25}{\+\_\+\+\_\+author\+\_\+\+\_\+} = \char`\"{}Amritpal Singh\char`\"{}
+\item 
+string \hyperlink{namespaceRebarDistribution_a61d261a603c7a127f83af9b7516547c5}{\+\_\+\+\_\+url\+\_\+\+\_\+} = \char`\"{}https\+://www.\+freecadweb.\+org\char`\"{}
+\item 
+\hyperlink{namespaceRebarDistribution_a6572ac63b9c553f99eeb53e19f7b4e7c}{Custom\+Spacing}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{Rebar\+Distribution@{Rebar\+Distribution}!get\+Custom\+Spacing\+String@{get\+Custom\+Spacing\+String}}
+\index{get\+Custom\+Spacing\+String@{get\+Custom\+Spacing\+String}!Rebar\+Distribution@{Rebar\+Distribution}}
+\subsubsection[{\texorpdfstring{get\+Custom\+Spacing\+String(amount1, spacing1, amount2, spacing2, amount3, spacing3, front\+Cover, size)}{getCustomSpacingString(amount1, spacing1, amount2, spacing2, amount3, spacing3, frontCover, size)}}]{\setlength{\rightskip}{0pt plus 5cm}def Rebar\+Distribution.\+get\+Custom\+Spacing\+String (
+\begin{DoxyParamCaption}
+\item[{}]{amount1, }
+\item[{}]{spacing1, }
+\item[{}]{amount2, }
+\item[{}]{spacing2, }
+\item[{}]{amount3, }
+\item[{}]{spacing3, }
+\item[{}]{front\+Cover, }
+\item[{}]{size}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceRebarDistribution_a22a12f260218752c4099cf68e4e3da5c}{}\label{namespaceRebarDistribution_a22a12f260218752c4099cf68e4e3da5c}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00063}{63} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceRebarDistribution.tex_l00063}{}\hyperlink{namespaceRebarDistribution_a22a12f260218752c4099cf68e4e3da5c}{00063} \textcolor{keyword}{def }\hyperlink{namespaceRebarDistribution_a22a12f260218752c4099cf68e4e3da5c}{getCustomSpacingString}(amount1, spacing1, amount2, spacing2, amount3, spacing3, 
+      frontCover, size):
+00064     seg1\_area = amount1 * spacing1 - spacing1 / 2
+00065     seg3\_area = amount3 * spacing3 - spacing3 / 2
+00066     seg2\_area = size - seg1\_area - seg3\_area - 2 * frontCover
+00067     \textcolor{keywordflow}{if} seg2\_area < 0:
+00068         FreeCAD.Console.PrintError(\textcolor{stringliteral}{"Sum of length of segment 1 and segment 2 is greater than length of
+       rebar expands.\(\backslash\)n"})
+00069         \textcolor{keywordflow}{return}
+00070     \textcolor{keywordflow}{if} spacing1 \textcolor{keywordflow}{and} spacing2 \textcolor{keywordflow}{and} spacing3 \textcolor{keywordflow}{and} amount1 \textcolor{keywordflow}{and} amount2 \textcolor{keywordflow}{and} amount3:
+00071         \textcolor{keywordflow}{pass}
+00072     \textcolor{keywordflow}{else}:
+00073         \textcolor{keywordflow}{if} spacing1 \textcolor{keywordflow}{and} spacing2 \textcolor{keywordflow}{and} spacing3:
+00074             amount2 = math.ceil(seg2\_area / spacing2)
+00075             spacing2 = seg2\_area / amount2
+00076         \textcolor{keywordflow}{elif} amount1 \textcolor{keywordflow}{and} amount2 \textcolor{keywordflow}{and} amount3:
+00077             spacing2 = math.floor(seg2\_area / amount2)
+00078     CustomSpacing = str(amount1) + \textcolor{stringliteral}{"@"} + str(spacing1) + \textcolor{stringliteral}{"+"} + str(int(amount2)) + \textcolor{stringliteral}{"@"} + str(spacing2) + \textcolor{stringliteral}{"+
+      "} + str(amount3) + \textcolor{stringliteral}{"@"} + str(spacing3)
+00079     \textcolor{keywordflow}{return} CustomSpacing
+00080 
+\end{DoxyCode}
+\index{Rebar\+Distribution@{Rebar\+Distribution}!getuple\+Of\+Custom\+Spacing@{getuple\+Of\+Custom\+Spacing}}
+\index{getuple\+Of\+Custom\+Spacing@{getuple\+Of\+Custom\+Spacing}!Rebar\+Distribution@{Rebar\+Distribution}}
+\subsubsection[{\texorpdfstring{getuple\+Of\+Custom\+Spacing(span\+\_\+string)}{getupleOfCustomSpacing(span_string)}}]{\setlength{\rightskip}{0pt plus 5cm}def Rebar\+Distribution.\+getuple\+Of\+Custom\+Spacing (
+\begin{DoxyParamCaption}
+\item[{}]{span\+\_\+string}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceRebarDistribution_a59ac567a8536ea3b5e7a9900a898e0c0}{}\label{namespaceRebarDistribution_a59ac567a8536ea3b5e7a9900a898e0c0}
+\begin{DoxyVerb}gettupleOfCustomSpacing(span_string): This function take input
+in specific syntax and return output in the form of list. For eg.
+Input: "3@100+2@200+3@100"
+Output: [(3, 100), (2, 200), (3, 100)]\end{DoxyVerb}
+ 
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00081}{81} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceRebarDistribution.tex_l00081}{}\hyperlink{namespaceRebarDistribution_a59ac567a8536ea3b5e7a9900a898e0c0}{00081} \textcolor{keyword}{def }\hyperlink{namespaceRebarDistribution_a59ac567a8536ea3b5e7a9900a898e0c0}{getupleOfCustomSpacing}(span\_string):
+00082     \textcolor{stringliteral}{""" gettupleOfCustomSpacing(span\_string): This function take input}
+00083 \textcolor{stringliteral}{    in specific syntax and return output in the form of list. For eg.}
+00084 \textcolor{stringliteral}{    Input: "3@100+2@200+3@100"}
+00085 \textcolor{stringliteral}{    Output: [(3, 100), (2, 200), (3, 100)]"""}
+00086     \textcolor{keyword}{import} string
+00087     span\_st = string.strip(span\_string)
+00088     span\_sp = string.split(span\_st, \textcolor{stringliteral}{'+'})
+00089     index = 0
+00090     spacinglist = []
+00091     \textcolor{keywordflow}{while} index < len(span\_sp):
+00092         \textcolor{comment}{# Find "@" recursively in span\_sp array.}
+00093         in\_sp = string.split(span\_sp[index], \textcolor{stringliteral}{'@'})
+00094         spacinglist.append((int(in\_sp[0]),float(in\_sp[1])))
+00095         index += 1
+00096     \textcolor{keywordflow}{return} spacinglist
+00097 
+\end{DoxyCode}
+\index{Rebar\+Distribution@{Rebar\+Distribution}!remove\+Rebar\+Distribution@{remove\+Rebar\+Distribution}}
+\index{remove\+Rebar\+Distribution@{remove\+Rebar\+Distribution}!Rebar\+Distribution@{Rebar\+Distribution}}
+\subsubsection[{\texorpdfstring{remove\+Rebar\+Distribution(self)}{removeRebarDistribution(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Rebar\+Distribution.\+remove\+Rebar\+Distribution (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceRebarDistribution_a85270a1b6e8c782a9e0ba54add518f2a}{}\label{namespaceRebarDistribution_a85270a1b6e8c782a9e0ba54add518f2a}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00108}{108} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceRebarDistribution.tex_l00108}{}\hyperlink{namespaceRebarDistribution_a85270a1b6e8c782a9e0ba54add518f2a}{00108} \textcolor{keyword}{def }\hyperlink{namespaceRebarDistribution_a85270a1b6e8c782a9e0ba54add518f2a}{removeRebarDistribution}(self):
+00109     self.CustomSpacing = \textcolor{stringliteral}{""}
+00110     self.Rebar.CustomSpacing = \textcolor{stringliteral}{""}
+00111     FreeCAD.ActiveDocument.recompute()
+00112 
+00113 \textcolor{comment}{#runRebarDistribution(App.ActiveDocument.Rebar)}
+00114 \end{DoxyCode}
+\index{Rebar\+Distribution@{Rebar\+Distribution}!run\+Rebar\+Distribution@{run\+Rebar\+Distribution}}
+\index{run\+Rebar\+Distribution@{run\+Rebar\+Distribution}!Rebar\+Distribution@{Rebar\+Distribution}}
+\subsubsection[{\texorpdfstring{run\+Rebar\+Distribution(self)}{runRebarDistribution(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Rebar\+Distribution.\+run\+Rebar\+Distribution (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceRebarDistribution_aa547df5cb10d2e64eaa0b51c445fa30b}{}\label{namespaceRebarDistribution_aa547df5cb10d2e64eaa0b51c445fa30b}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00098}{98} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+
+\begin{DoxyCode}
+\hypertarget{namespaceRebarDistribution.tex_l00098}{}\hyperlink{namespaceRebarDistribution_aa547df5cb10d2e64eaa0b51c445fa30b}{00098} \textcolor{keyword}{def }\hyperlink{namespaceRebarDistribution_aa547df5cb10d2e64eaa0b51c445fa30b}{runRebarDistribution}(self):
+00099     frontCover = self.form.frontCover.text()
+00100     frontCover = FreeCAD.Units.Quantity(frontCover).Value
+00101     face = self.SelectedObj.Shape.Faces[\hyperlink{namespaceRebarfunc_a3885b3b63e3a41508ac79bc7550cf301}{getFaceNumber}(self.FaceName) - 1]
+00102     size = (ArchCommands.projectToVector(self.SelectedObj.Shape.copy(), face.normalAt(0, 0))).Length
+00103     dialog = \hyperlink{classRebarDistribution_1_1__RebarDistributionDialog}{\_RebarDistributionDialog}(frontCover, size)
+00104     dialog.setupUi()
+00105     dialog.form.exec\_()
+\hypertarget{namespaceRebarDistribution.tex_l00106}{}\hyperlink{namespaceRebarDistribution_a6572ac63b9c553f99eeb53e19f7b4e7c}{00106}     self.CustomSpacing = dialog.CustomSpacing
+00107 
+\end{DoxyCode}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceRebarDistribution_aa547df5cb10d2e64eaa0b51c445fa30b_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\index{Rebar\+Distribution@{Rebar\+Distribution}!\+\_\+\+\_\+author\+\_\+\+\_\+@{\+\_\+\+\_\+author\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+author\+\_\+\+\_\+@{\+\_\+\+\_\+author\+\_\+\+\_\+}!Rebar\+Distribution@{Rebar\+Distribution}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+author\+\_\+\+\_\+}{__author__}}]{\setlength{\rightskip}{0pt plus 5cm}string Rebar\+Distribution.\+\_\+\+\_\+author\+\_\+\+\_\+ = \char`\"{}Amritpal Singh\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceRebarDistribution_a7bd0602448fa39ff800847e313ca8b25}{}\label{namespaceRebarDistribution_a7bd0602448fa39ff800847e313ca8b25}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00025}{25} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+\index{Rebar\+Distribution@{Rebar\+Distribution}!\+\_\+\+\_\+title\+\_\+\+\_\+@{\+\_\+\+\_\+title\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+title\+\_\+\+\_\+@{\+\_\+\+\_\+title\+\_\+\+\_\+}!Rebar\+Distribution@{Rebar\+Distribution}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+title\+\_\+\+\_\+}{__title__}}]{\setlength{\rightskip}{0pt plus 5cm}string Rebar\+Distribution.\+\_\+\+\_\+title\+\_\+\+\_\+ = \char`\"{}Dialog\+Distribution\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceRebarDistribution_a38609d6513215400fb6b4c0d1b7f2040}{}\label{namespaceRebarDistribution_a38609d6513215400fb6b4c0d1b7f2040}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00024}{24} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+\index{Rebar\+Distribution@{Rebar\+Distribution}!\+\_\+\+\_\+url\+\_\+\+\_\+@{\+\_\+\+\_\+url\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+url\+\_\+\+\_\+@{\+\_\+\+\_\+url\+\_\+\+\_\+}!Rebar\+Distribution@{Rebar\+Distribution}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+url\+\_\+\+\_\+}{__url__}}]{\setlength{\rightskip}{0pt plus 5cm}string Rebar\+Distribution.\+\_\+\+\_\+url\+\_\+\+\_\+ = \char`\"{}https\+://www.\+freecadweb.\+org\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{namespaceRebarDistribution_a61d261a603c7a127f83af9b7516547c5}{}\label{namespaceRebarDistribution_a61d261a603c7a127f83af9b7516547c5}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00026}{26} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
+\index{Rebar\+Distribution@{Rebar\+Distribution}!Custom\+Spacing@{Custom\+Spacing}}
+\index{Custom\+Spacing@{Custom\+Spacing}!Rebar\+Distribution@{Rebar\+Distribution}}
+\subsubsection[{\texorpdfstring{Custom\+Spacing}{CustomSpacing}}]{\setlength{\rightskip}{0pt plus 5cm}Rebar\+Distribution.\+Custom\+Spacing}\hypertarget{namespaceRebarDistribution_a6572ac63b9c553f99eeb53e19f7b4e7c}{}\label{namespaceRebarDistribution_a6572ac63b9c553f99eeb53e19f7b4e7c}
+
+
+Definition at line \hyperlink{RebarDistribution_8py_source_l00106}{106} of file \hyperlink{RebarDistribution_8py_source}{Rebar\+Distribution.\+py}.
+
