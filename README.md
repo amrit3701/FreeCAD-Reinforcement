@@ -4,7 +4,11 @@ Started as a Google Summer of Code ([GSoC](https://en.wikipedia.org/wiki/Google_
 
 ![screenshot](http://i.imgur.com/r9b5l7K.jpg)
 
-## Documentation
+### Developer:
+* [Web](/html/index.html)
+* [PDF](/latex/refman.pdf)                                                      
+
+### User:
 This project is aimed at easing up the process of rebaring in [FreeCAD](https://www.freecadweb.org). In this project, list of rebars will be provided to user under Rebar tools in the form of dropdown. This project covers six different rebar shapes as given below:
 
 - ![icon](https://www.freecadweb.org/wiki/images/thumb/6/69/Arch_Rebar_Straight.png/32px-Arch_Rebar_Straight.png) **Straight Rebar**: [wiki](https://www.freecadweb.org/wiki/Arch_Rebar_Straight)
