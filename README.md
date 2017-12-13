@@ -4,6 +4,7 @@ Started as a Google Summer of Code ([GSoC](https://en.wikipedia.org/wiki/Google_
 
 ![screenshot](http://i.imgur.com/r9b5l7K.jpg)
 
+## Documentation
 ### Developer:
 * [Web](/html/index.html)
 * [PDF](/latex/refman.pdf)                                                      
