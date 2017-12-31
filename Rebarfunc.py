@@ -147,7 +147,6 @@ def getParametersOfFace(structure, facename, sketch = True):
     # When structure is cubic. It support all structure is derived from
     # any other object (like a sketch, wire etc).
     if isCubic(structure.Shape):
-        print 423
         for edge in face.Edges:
             if not Edges:
                 Edges.append(edge)
