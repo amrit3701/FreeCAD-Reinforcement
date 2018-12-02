@@ -84,7 +84,7 @@ class _StraightRebarTaskPanel:
             self.SelectedObj = Rebar.Base.Support[0][0]
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("RebarAddon", "Straight Rebar", None))
-        self.form.orientation.addItems(["Horizontal", "Vertical"])
+        self.form.orientationValue.addItems(["Horizontal", "Vertical"])
         self.form.coverAlong.addItems(["Bottom Side", "Top Side"])
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
@@ -94,14 +94,17 @@ class _StraightRebarTaskPanel:
         self.form.PickSelectedFace.toggle()
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/StraightRebarH.svg"))
-        self.form.orientation.currentIndexChanged.connect(self.changeOrientation)
+        self.form.orientationValue.currentIndexChanged.connect(self.changeOrientation)
         self.form.coverAlong.currentIndexChanged.connect(self.changeCoverAlong)
-        self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(QtGui.QStyle.SP_DialogHelpButton))
+        # help_button = QtWidgets.QStyle()
+        # self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(help_button.SP_DialogHelpButton))
+        # self.form.toolButton2 =  QtWidgets.QToolButton()
+        # self.form.toolButton2.setIcon(self.form.toolButton2.style().standardIcon(QtGui.QStyle.SP_DialogHelpButton))
         self.form.toolButton.clicked.connect(lambda: showPopUpImageDialog(os.path.split(os.path.abspath(__file__))[0] + "/icons/StraightRebarDetailed.svg"))
         self.Rebar = Rebar
 
     def changeOrientation(self):
-        orientation = self.form.orientation.currentText()
+        orientation = self.form.orientationValue.currentText()
         if orientation == "Horizontal":
             self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/StraightRebarH.svg"))
             self.form.r_sideCoverLabel.setText("Right Side Cover")
@@ -142,7 +145,7 @@ class _StraightRebarTaskPanel:
         lb_cover = FreeCAD.Units.Quantity(lb_cover).Value
         rt_cover = self.form.r_sideCover.text()
         rt_cover = FreeCAD.Units.Quantity(rt_cover).Value
-        orientation = self.form.orientation.currentText()
+        orientation = self.form.orientationValue.currentText()
         coverAlong = self.form.coverAlong.currentText()
         diameter = self.form.diameter.text()
         diameter = FreeCAD.Units.Quantity(diameter).Value
@@ -304,7 +307,7 @@ def editDialog(vobj):
     obj.form.l_sideCover.setText(str(vobj.Object.LeftBottomCover))
     obj.form.bottomCover.setText(str(vobj.Object.Cover))
     obj.form.diameter.setText(str(vobj.Object.Diameter))
-    obj.form.orientation.setCurrentIndex(obj.form.orientation.findText(str(vobj.Object.Orientation)))
+    obj.form.orientationValue.setCurrentIndex(obj.form.orientationValue.findText(str(vobj.Object.Orientation)))
     obj.form.coverAlong.setCurrentIndex(obj.form.coverAlong.findText(str(vobj.Object.CoverAlong)))
     if vobj.Object.AmountCheck:
         obj.form.amount.setValue(vobj.Object.Amount)

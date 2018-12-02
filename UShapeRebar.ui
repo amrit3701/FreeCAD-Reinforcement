@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>283</width>
+    <width>313</width>
     <height>521</height>
    </rect>
   </property>
@@ -217,7 +217,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="Gui::PrefComboBox" name="orientation"/>
+      <widget class="Gui::PrefComboBox" name="orientationValue"/>
      </item>
      <item row="3" column="1">
       <widget class="Gui::InputField" name="l_sideCover">
@@ -323,7 +323,7 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>orientation</tabstop>
+  <tabstop>orientationValue</tabstop>
   <tabstop>frontCover</tabstop>
   <tabstop>r_sideCover</tabstop>
   <tabstop>l_sideCover</tabstop>

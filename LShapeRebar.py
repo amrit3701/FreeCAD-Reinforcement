@@ -85,20 +85,20 @@ class _LShapeRebarTaskPanel:
             self.SelectedObj = Rebar.Base.Support[0][0]
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("RebarAddon", "L-Shape Rebar", None))
-        self.form.orientation.addItems(["Bottom Right", "Bottom Left", "Top Right", "Top Left"])
+        self.form.orientationValue.addItems(["Bottom Right", "Bottom Left", "Top Right", "Top Left"])
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
         self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(self))
         self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(self))
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
-        self.form.orientation.currentIndexChanged.connect(self.getOrientation)
+        self.form.orientationValue.currentIndexChanged.connect(self.getOrientation)
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarBR.svg"))
-        self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(QtGui.QStyle.SP_DialogHelpButton))
+        # self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(QtGui.QStyle.SP_DialogHelpButton))
         self.form.toolButton.clicked.connect(lambda: showPopUpImageDialog(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarDetailed.svg"))
         self.Rebar = Rebar
 
     def getOrientation(self):
-        orientation = self.form.orientation.currentText()
+        orientation = self.form.orientationValue.currentText()
         if orientation == "Bottom Right":
             self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarBR.svg"))
         elif orientation == "Bottom Left":
@@ -129,7 +129,7 @@ class _LShapeRebarTaskPanel:
         diameter = self.form.diameter.text()
         diameter = FreeCAD.Units.Quantity(diameter).Value
         rounding = self.form.rounding.value()
-        orientation = self.form.orientation.currentText()
+        orientation = self.form.orientationValue.currentText()
         amount_check = self.form.amount_radio.isChecked()
         spacing_check = self.form.spacing_radio.isChecked()
         if not self.Rebar:
@@ -285,7 +285,7 @@ def editDialog(vobj):
     obj.form.diameter.setText(str(vobj.Object.Diameter))
     obj.form.topCover.setText(str(vobj.Object.TopCover))
     obj.form.rounding.setValue(vobj.Object.Rounding)
-    obj.form.orientation.setCurrentIndex(obj.form.orientation.findText(str(vobj.Object.Orientation)))
+    obj.form.orientationValue.setCurrentIndex(obj.form.orientationValue.findText(str(vobj.Object.Orientation)))
     if vobj.Object.AmountCheck:
         obj.form.amount.setValue(vobj.Object.Amount)
     else:
