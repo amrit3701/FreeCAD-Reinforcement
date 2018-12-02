@@ -158,13 +158,16 @@ def getParametersOfFace(structure, facename, sketch=True):
             Edges.append(edge)
         # facePRM holds length of a edges.
         facePRM = [(vec(edge)).Length for edge in Edges]
-        # Multiply two vector components with each other
-        # (1 - abs(j)): Changing 1 or -1 with 0 and 0 with 1
-        face_center_pt = [i * (1 - abs(j)) for i, j in zip(center_of_mass, face.normalAt(0, 0))]
-        # Remove normal axis point
-        face_center_pt = filter(lambda a: a != 0, face_center_pt)
-        x = face_center_pt[0]
-        y = face_center_pt[1]
+        face_normal = face.normalAt(0, 0)
+        if round(face_normal[0]) in (-1, 1):
+            x = center_of_mass[1]
+            y = center_of_mass[2]
+        elif round(face_normal[1]) in (-1, 1):
+            x = center_of_mass[0]
+            y = center_of_mass[2]
+        elif round(face_normal[2]) in (-1, 1):
+            x = center_of_mass[0]
+            y = center_of_mass[1]
         # When edge is parallel to y-axis
         if round(Edges[0].tangentAt(0)[1]) in {1, -1}:
             if round(Edges[1].tangentAt(0)[0]) in {1, -1}:
@@ -290,3 +293,11 @@ def showWarning(message):
 # Qt tanslation handling
 def translate(context, text, disambig=None):
     return QtCore.QCoreApplication.translate(context, text, disambig)
+
+
+def print_in_freecad_console(*msg):
+    """ Print given arguments on FreeCAD console."""
+    s = ''
+    for m in msg:
+        s += str(m) + ', '
+    FreeCAD.Console.PrintMessage(str(s) + '\n')
