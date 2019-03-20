@@ -104,6 +104,7 @@ def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentL
 
 class _BentShapeRebarTaskPanel:
     def __init__(self, Rebar = None):
+        self.CustomSpacing = None
         if not Rebar:
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
             self.SelectedObj = selected_obj.Object
@@ -113,20 +114,20 @@ class _BentShapeRebarTaskPanel:
             self.SelectedObj = Rebar.Base.Support[0][0]
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("RebarAddon", "Bent Shape Rebar", None))
-        self.form.orientation.addItems(["Bottom", "Top", "Right", "Left"])
+        self.form.orientationValue.addItems(["Bottom", "Top", "Right", "Left"])
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
         self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(self))
         self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(self))
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
-        self.form.orientation.currentIndexChanged.connect(self.getOrientation)
+        self.form.orientationValue.currentIndexChanged.connect(self.getOrientation)
         self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/BentShapeRebar.svg"))
         # self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(QtGui.QStyle.SP_DialogHelpButton))
         self.form.toolButton.clicked.connect(lambda: showPopUpImageDialog(os.path.split(os.path.abspath(__file__))[0] + "/icons/BentShapeRebarDetailed.svg"))
         self.Rebar = Rebar
 
     def getOrientation(self):
-        orientation = self.form.orientation.currentText()
+        orientation = self.form.orientationValue.currentText()
         #if orientation == "Bottom":
         #    self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarBR.svg"))
         #elif orientation == "Top":
@@ -160,7 +161,7 @@ class _BentShapeRebarTaskPanel:
         diameter = self.form.diameter.text()
         diameter = FreeCAD.Units.Quantity(diameter).Value
         rounding = self.form.rounding.value()
-        orientation = self.form.orientation.currentText()
+        orientation = self.form.orientationValue.currentText()
         amount_check = self.form.amount_radio.isChecked()
         spacing_check = self.form.spacing_radio.isChecked()
         if not self.Rebar:
@@ -344,7 +345,7 @@ def editDialog(vobj):
     obj.form.bentLength.setText(str(vobj.Object.BentLength))
     obj.form.bentAngle.setValue(vobj.Object.BentAngle)
     obj.form.rounding.setValue(vobj.Object.Rounding)
-    obj.form.orientation.setCurrentIndex(obj.form.orientation.findText(str(vobj.Object.Orientation)))
+    obj.form.orientationValue.setCurrentIndex(obj.form.orientationValue.findText(str(vobj.Object.Orientation)))
     if vobj.Object.AmountCheck:
         obj.form.amount.setValue(vobj.Object.Amount)
     else:
