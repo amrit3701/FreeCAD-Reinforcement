@@ -104,6 +104,7 @@ def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentL
 
 class _BentShapeRebarTaskPanel:
     def __init__(self, Rebar = None):
+        self.CustomSpacing = None
         if not Rebar:
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
             self.SelectedObj = selected_obj.Object
