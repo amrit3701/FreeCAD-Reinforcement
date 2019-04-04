@@ -100,7 +100,7 @@ class _UShapeRebarTaskPanel:
         self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(self))
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
         self.form.orientationValue.currentIndexChanged.connect(self.getOrientation)
-        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarBottom.svg"))
+        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarBottom.svg").scaledToWidth(250))
         # self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(QtGui.QStyle.SP_DialogHelpButton))
         self.form.toolButton.clicked.connect(lambda: showPopUpImageDialog(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarDetailed.svg"))
         self.Rebar = Rebar
@@ -108,13 +108,13 @@ class _UShapeRebarTaskPanel:
     def getOrientation(self):
         orientation = self.form.orientationValue.currentText()
         if orientation == "Bottom":
-            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarBottom.svg"))
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarBottom.svg").scaledToWidth(250))
         elif orientation == "Top":
-            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarTop.svg"))
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarTop.svg").scaledToWidth(250))
         elif orientation == "Right":
-            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarRight.svg"))
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarRight.svg").scaledToWidth(250))
         else:
-            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarLeft.svg"))
+            self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/UShapeRebarLeft.svg").scaledToWidth(250))
 
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Apply) | int(QtGui.QDialogButtonBox.Cancel)
