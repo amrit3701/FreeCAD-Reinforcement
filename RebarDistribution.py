@@ -41,7 +41,7 @@ class _RebarDistributionDialog():
         self.ExpandingLength = size
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Rebar Distribution", None))
-        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/RebarDistribution.svg").scaledToWidth(500))
+        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/RebarDistribution.svg").scaled(400, 400, QtCore.Qt.KeepAspectRatioByExpanding, QtCore.Qt.SmoothTransformation))
 
     def accept(self):
         amount1 = self.form.amount1.value()
