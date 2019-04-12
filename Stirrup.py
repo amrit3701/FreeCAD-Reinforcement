@@ -237,6 +237,12 @@ def makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFact
             int((size - diameter) / amount_spacing_value), f_cover)
     rebar.Direction = FaceNormal.negative()
     rebar.Rounding = rounding
+
+    # Rotate Stirrups with Structure
+    structureAngle=math.degrees(structure.Placement.Rotation.Angle)
+    stirrupAngle=structureAngle-90
+    rebar.Placement.Rotation.__setattr__('Angle',math.radians(stirrupAngle))
+
     # Adds properties to the rebar object
     rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog",\
         QT_TRANSLATE_NOOP("App::Property","Shape of rebar")).RebarShape = "Stirrup"
@@ -321,6 +327,12 @@ def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, b
     Rebar.TopCover = t_cover
     Rebar.BottomCover = b_cover
     Rebar.TrueSpacing = amount_spacing_value
+ 
+    # Rotate Stirrups with Structure
+    structureAngle=math.degrees(structure.Placement.Rotation.Angle)
+    stirrupAngle=structureAngle-90
+    Rebar.Placement.Rotation.__setattr__('Angle',math.radians(stirrupAngle))
+
     FreeCAD.ActiveDocument.recompute()
     return Rebar
 
