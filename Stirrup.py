@@ -240,11 +240,11 @@ def makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFact
 
     # Rotate Stirrups with Structure
     structureAngle = math.degrees(structure.Placement.Rotation.Angle)
-    if structureAngle in {0.0, 180.0}:
+    if structureAngle in (0.0, 180.0,):
         stirrupAngle = structureAngle
     else:
         stirrupAngle = structureAngle - 90
-    rebar.Placement.Rotation.__setattr__("Angle", math.radians(stirrupAngle))
+    rebar.Placement.Rotation.Angle = math.radians(stirrupAngle)
 
     # Adds properties to the rebar object
     rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog",\
@@ -333,11 +333,11 @@ def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, b
 
     # Rotate Stirrups with Structure
     structureAngle = math.degrees(structure.Placement.Rotation.Angle)
-    if structureAngle in {0.0, 180.0}:
+    if structureAngle in (0.0, 180.0,):
         stirrupAngle = structureAngle
     else:
         stirrupAngle = structureAngle - 90
-    Rebar.Placement.Rotation.__setattr__("Angle", math.radians(stirrupAngle))
+    Rebar.Placement.Rotation.Angle = math.radians(stirrupAngle)
 
     FreeCAD.ActiveDocument.recompute()
     return Rebar
