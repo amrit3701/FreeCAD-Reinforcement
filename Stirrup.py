@@ -227,6 +227,16 @@ def makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFact
     points = getpointsOfStirrup(FacePRM, l_cover, r_cover, t_cover, b_cover, bentAngle, bentFactor, diameter, rounding, FaceNormal)
     import Draft
     line = Draft.makeWire(points, closed = False, face = True, support = None)
+
+    # Rotate Stirrups with Structure
+    structureAngle = math.degrees(structure.Placement.Rotation.Angle)
+    structureAngle = structureAngle % 360
+    if 30 < structureAngle < 150 or 210 < structureAngle <= 330:
+        wireAngle = structureAngle - 90
+    else:
+        wireAngle = structureAngle
+    line.Placement.Rotation.Angle = math.radians(wireAngle)
+
     import Arch
     line.Support = [(structure, facename)]
     if amount_spacing_check:
@@ -237,14 +247,6 @@ def makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFact
             int((size - diameter) / amount_spacing_value), f_cover)
     rebar.Direction = FaceNormal.negative()
     rebar.Rounding = rounding
-
-    # Rotate Stirrups with Structure
-    structureAngle = math.degrees(structure.Placement.Rotation.Angle)
-    if structureAngle in (0.0, 180.0,):
-        stirrupAngle = structureAngle
-    else:
-        stirrupAngle = structureAngle - 90
-    rebar.Placement.Rotation.Angle = math.radians(stirrupAngle)
 
     # Adds properties to the rebar object
     rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog",\
@@ -333,11 +335,12 @@ def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, b
 
     # Rotate Stirrups with Structure
     structureAngle = math.degrees(structure.Placement.Rotation.Angle)
-    if structureAngle in (0.0, 180.0,):
-        stirrupAngle = structureAngle
+    structureAngle = structureAngle % 360
+    if 30 < structureAngle < 150 or 210 < structureAngle <= 330:
+        wireAngle = structureAngle - 90
     else:
-        stirrupAngle = structureAngle - 90
-    Rebar.Placement.Rotation.Angle = math.radians(stirrupAngle)
+        wireAngle = structureAngle
+    Rebar.Base.Placement.Rotation.Angle = math.radians(wireAngle)
 
     FreeCAD.ActiveDocument.recompute()
     return Rebar
