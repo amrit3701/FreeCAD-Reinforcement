@@ -227,18 +227,16 @@ def makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFact
     points = getpointsOfStirrup(FacePRM, l_cover, r_cover, t_cover, b_cover, bentAngle, bentFactor, diameter, rounding, FaceNormal)
     import Draft
     line = Draft.makeWire(points, closed = False, face = True, support = None)
-
-    # Rotate Stirrups with Structure
-    structureAngle = math.degrees(structure.Placement.Rotation.Angle)
-    structureAngle = structureAngle % 360
-    if 30 < structureAngle < 150 or 210 < structureAngle <= 330:
-        wireAngle = structureAngle - 90
-    else:
-        wireAngle = structureAngle
-    line.Placement.Rotation.Angle = math.radians(wireAngle)
-
     import Arch
     line.Support = [(structure, facename)]
+
+    # Rotate Stirrups with Column
+    if structure.IfcRole == "Column":
+        line.MapMode = "FlatFace"
+        elevation = line.Placement.Base.z
+        if elevation is not 0:
+            line.AttachmentOffset.Base.z -= elevation
+
     if amount_spacing_check:
         rebar = Arch.makeRebar(structure, line, diameter, amount_spacing_value, f_cover)
     else:
@@ -332,16 +330,6 @@ def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, b
     Rebar.TopCover = t_cover
     Rebar.BottomCover = b_cover
     Rebar.TrueSpacing = amount_spacing_value
-
-    # Rotate Stirrups with Structure
-    structureAngle = math.degrees(structure.Placement.Rotation.Angle)
-    structureAngle = structureAngle % 360
-    if 30 < structureAngle < 150 or 210 < structureAngle <= 330:
-        wireAngle = structureAngle - 90
-    else:
-        wireAngle = structureAngle
-    Rebar.Base.Placement.Rotation.Angle = math.radians(wireAngle)
-
     FreeCAD.ActiveDocument.recompute()
     return Rebar
 
