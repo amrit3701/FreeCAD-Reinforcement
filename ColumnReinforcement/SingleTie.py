@@ -31,6 +31,8 @@ import sys
 sys.path.append("../")
 from Stirrup import makeStirrup
 from StraightRebar import makeStraightRebar
+from LShapeRebar import makeLShapeRebar
+from Rebarfunc import getParametersOfFace
 
 
 def singleTieColumn1Reinforcement(
@@ -46,23 +48,31 @@ def singleTieColumn1Reinforcement(
     t_offset_of_rebars,
     b_offset_of_rebars,
     rebar_type="StraightRebar",
+    l_rebar_orientation="Top Inside",
+    l_rebar_rounding=None,
+    l_part_length=None,
     structure=None,
 ):
     """ singleTieColumn1Reinforcement(XDirectionCover, YDirectionCover,
     OffsetOfTie, BentAngle, BentFactor, DiameterOfTie, AmountSpacingCheck,
-    AmountSpacingValue, DiameterOfRebars, RebarType, Structure)
+    AmountSpacingValue, DiameterOfRebars, RebarType, LShapeRebarOrientation,
+    LShapeRebarRounding, LShapePartLength, Structure)
     Adds the Single Tie reinforcement to the selected structural column
-    object."""
+    object.
+    It takes four different orientations input for L-shaped rebars i.e. 'Top
+    Inside', 'Top Outside', 'Bottom Inside', 'Bottom Outside'.
+    """
     if not structure:
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
         structure = selected_obj.Object
 
-    # Calculate parameters for Straight rebars
+    # Calculate common parameters for Straight/LShaped rebars
     f_cover = xdir_cover + dia_of_rebars / 2 + dia_of_tie / 2
-    rl_cover = ydir_cover + dia_of_rebars / 2 + dia_of_tie / 2
     t_cover = t_offset_of_rebars
     b_cover = b_offset_of_rebars
-    orientation = "Vertical"
+    rebar_amount_spacing_check = True
+    rebar_amount_spacing_value = 2
+
     # facename = "Face2"
     # find facename of face perpendicular to x-axis
     index = 1
@@ -71,29 +81,101 @@ def singleTieColumn1Reinforcement(
         normal = face.normalAt(0, 0)
         if normal.x == 1 and normal.y == 0 and normal.z == 0:
             facename = "Face" + str(index)
-        index = index + 1
-
-    rebar_amount_spacing_check = True
-    rebar_amount_spacing_value = 2
-    list_coverAlong = ["Right Side", "Left Side"]
+        index += 1
 
     # Create Straight Rebars
-    for coverAlong in list_coverAlong:
-        makeStraightRebar(
-            f_cover,
-            (coverAlong, rl_cover),
-            t_cover,
-            b_cover,
-            dia_of_rebars,
-            rebar_amount_spacing_check,
-            rebar_amount_spacing_value,
-            orientation,
-            structure,
-            facename,
-        )
+    if rebar_type == "StraightRebar":
+        rl_cover = ydir_cover + dia_of_rebars / 2 + dia_of_tie / 2
+        orientation = "Vertical"
+        list_coverAlong = ["Right Side", "Left Side"]
+        for coverAlong in list_coverAlong:
+            makeStraightRebar(
+                f_cover,
+                (coverAlong, rl_cover),
+                t_cover,
+                b_cover,
+                dia_of_rebars,
+                rebar_amount_spacing_check,
+                rebar_amount_spacing_value,
+                orientation,
+                structure,
+                facename,
+            )
+    # Create L-Shaped Rebars
+    elif rebar_type == "LShapeRebar":
+        FacePRM = getParametersOfFace(structure, facename)
+        face_length = FacePRM[0][0]
+        if not l_part_length:
+            l_part_length = (face_length - 2 * ydir_cover) / 3
+        if not l_rebar_rounding:
+            l_rebar_rounding = (float(dia_of_tie) / 2 + dia_of_rebars / 2) / dia_of_tie
+
+        if (
+            l_rebar_orientation == "Top Inside"
+            or l_rebar_orientation == "Bottom Inside"
+        ):
+            l_cover = []
+            r_cover = []
+            l_cover.append(ydir_cover + dia_of_rebars / 2 + dia_of_tie / 2)
+            r_cover.append(
+                face_length
+                - l_part_length
+                - ydir_cover
+                - dia_of_tie / 2
+                - dia_of_rebars / 2
+            )
+            l_cover.append(r_cover[0])
+            r_cover.append(l_cover[0])
+            # Assign orientation value
+            if l_rebar_orientation == "Top Inside":
+                list_orientation = ["Top Left", "Top Right"]
+            else:
+                list_orientation = ["Bottom Left", "Bottom Right"]
+
+        elif (
+            l_rebar_orientation == "Top Outside"
+            or l_rebar_orientation == "Bottom Outside"
+        ):
+            if l_rebar_orientation == "Top Outside":
+                list_orientation = ["Top Left", "Top Right"]
+            else:
+                list_orientation = ["Bottom Left", "Bottom Right"]
+            l_cover = []
+            r_cover = []
+            l_cover.append(ydir_cover + dia_of_rebars / 2 + dia_of_tie / 2)
+            r_cover.append(
+                face_length
+                - ydir_cover
+                - dia_of_tie / 2
+                - dia_of_rebars / 2
+                + l_part_length
+            )
+            l_cover.append(r_cover[0])
+            r_cover.append(l_cover[0])
+
+        i = 0
+        for orientation in list_orientation:
+            makeLShapeRebar(
+                f_cover,
+                b_cover,
+                l_cover[i],
+                r_cover[i],
+                dia_of_rebars,
+                t_cover,
+                l_rebar_rounding,
+                rebar_amount_spacing_check,
+                rebar_amount_spacing_value,
+                orientation,
+                structure,
+                facename,
+            )
+            i += 1
 
     # Calculate parameters for Stirrup
     rounding = (float(dia_of_tie) / 2 + dia_of_rebars / 2) / dia_of_tie
+    l_cover = r_cover = xdir_cover
+    t_cover = b_cover = ydir_cover
+    f_cover = offset_of_tie
 
     # facename = "Face6"
     # find facename of face perpendicular to z-axis
@@ -103,11 +185,7 @@ def singleTieColumn1Reinforcement(
         normal = face.normalAt(0, 0)
         if normal.x == 0 and normal.y == 0 and normal.z == 1:
             facename = "Face" + str(index)
-        index = index + 1
-
-    l_cover = r_cover = xdir_cover
-    t_cover = b_cover = ydir_cover
-    f_cover = offset_of_tie
+        index += 1
 
     # Create Stirrups
     makeStirrup(
