@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ***************************************************************************
 # *                                                                         *
-# *   Copyright (c) 2019 - Suraj <dadralj18@gmail.com>             *
+# *   Copyright (c) 2019 - Suraj <dadralj18@gmail.com>                      *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -26,16 +26,13 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 import FreeCADGui
-import sys
-
-sys.path.append("../")
 from Stirrup import makeStirrup
 from StraightRebar import makeStraightRebar
 from LShapeRebar import makeLShapeRebar
-from Rebarfunc import getParametersOfFace
+from Rebarfunc import getParametersOfFace, getFaceNumber
 
 
-def singleTieColumn1Reinforcement(
+def makeSingleTieFourRebars(
     xdir_cover,
     ydir_cover,
     offset_of_tie,
@@ -52,19 +49,22 @@ def singleTieColumn1Reinforcement(
     l_rebar_rounding=None,
     l_part_length=None,
     structure=None,
+    facename=None,
 ):
-    """ singleTieColumn1Reinforcement(XDirectionCover, YDirectionCover,
-    OffsetOfTie, BentAngle, BentFactor, DiameterOfTie, AmountSpacingCheck,
-    AmountSpacingValue, DiameterOfRebars, RebarType, LShapeRebarOrientation,
-    LShapeRebarRounding, LShapePartLength, Structure)
+    """ makeSingleTieFourRebars(XDirectionCover, YDirectionCover, OffsetofTie,
+    BentAngle, BentFactor, DiameterOfTie, AmountSpacingCheck,
+    AmountSpacingValue, DiameterOfRebars, TopOffsetofRebars,
+    BottomOffsetofRebars, RebarType, LShapeRebarOrientation,
+    LShapeRebarRounding, LShapePartLength, Structure, Facename)
     Adds the Single Tie reinforcement to the selected structural column
     object.
     It takes four different orientations input for L-shaped rebars i.e. 'Top
     Inside', 'Top Outside', 'Bottom Inside', 'Bottom Outside'.
     """
-    if not structure:
+    if not structure and not facename:
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
         structure = selected_obj.Object
+        facename = selected_obj.SubElementNames[0]
 
     # Calculate common parameters for Straight/LShaped rebars
     f_cover = xdir_cover + dia_of_rebars / 2 + dia_of_tie / 2
@@ -73,14 +73,16 @@ def singleTieColumn1Reinforcement(
     rebar_amount_spacing_check = True
     rebar_amount_spacing_value = 2
 
-    # facename = "Face2"
-    # find facename of face perpendicular to x-axis
-    index = 1
+    # Find facename of face normal to selected/provided face
+    face = structure.Shape.Faces[getFaceNumber(facename) - 1]
+    normal1 = face.normalAt(0, 0)
     faces = structure.Shape.Faces
+    index = 1
     for face in faces:
-        normal = face.normalAt(0, 0)
-        if normal.x == 1 and normal.y == 0 and normal.z == 0:
-            facename = "Face" + str(index)
+        normal2 = face.normalAt(0, 0)
+        if int(normal1.dot(normal2)) == 0 and int(normal1.cross(normal2).y) == 1:
+            facename_for_rebars = "Face" + str(index)
+            break
         index += 1
 
     # Create Straight Rebars
@@ -99,11 +101,11 @@ def singleTieColumn1Reinforcement(
                 rebar_amount_spacing_value,
                 orientation,
                 structure,
-                facename,
+                facename_for_rebars,
             )
     # Create L-Shaped Rebars
     elif rebar_type == "LShapeRebar":
-        FacePRM = getParametersOfFace(structure, facename)
+        FacePRM = getParametersOfFace(structure, facename_for_rebars)
         face_length = FacePRM[0][0]
         if not l_part_length:
             l_part_length = (face_length - 2 * ydir_cover) / 3
@@ -167,7 +169,7 @@ def singleTieColumn1Reinforcement(
                 rebar_amount_spacing_value,
                 orientation,
                 structure,
-                facename,
+                facename_for_rebars,
             )
             i += 1
 
@@ -176,16 +178,6 @@ def singleTieColumn1Reinforcement(
     l_cover = r_cover = xdir_cover
     t_cover = b_cover = ydir_cover
     f_cover = offset_of_tie
-
-    # facename = "Face6"
-    # find facename of face perpendicular to z-axis
-    index = 1
-    faces = structure.Shape.Faces
-    for face in faces:
-        normal = face.normalAt(0, 0)
-        if normal.x == 0 and normal.y == 0 and normal.z == 1:
-            facename = "Face" + str(index)
-        index += 1
 
     # Create Stirrups
     makeStirrup(
