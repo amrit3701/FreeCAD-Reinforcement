@@ -54,8 +54,12 @@ class _ColumnTaskPanel:
         )
         self.addDropdownMenuItems()
         self.connectSignalSlots()
+        self.form.mainRebarOrientationWidget.hide()
+        self.form.x_dirRebarOrientationWidget.hide()
+        self.form.y_dirRebarOrientationWidget.hide()
 
     def addDropdownMenuItems(self):
+        """ This function add dropdown items to each Gui::PrefComboBox."""
         self.form.columnConfiguration.addItems(
             ["Custom Configuration", "SingleTieFourRebars"]
         )
@@ -63,13 +67,43 @@ class _ColumnTaskPanel:
         self.form.mainRebarType.addItems(["StraightRebar", "LShapeRebar"])
         self.form.x_dirRebarType.addItems(["StraightRebar", "LShapeRebar"])
         self.form.y_dirRebarType.addItems(["StraightRebar", "LShapeRebar"])
+        hook_orientation_list = [
+            "Top Inside",
+            "Top Outside",
+            "Top Left",
+            "Top Right",
+            "Bottom Inside",
+            "Bottom Outside",
+            "Bottom Left",
+            "Bottom Right",
+        ]
+        self.form.mainRebarHookOrientation.addItems(hook_orientation_list)
+        self.form.x_dirRebarHookOrientation.addItems(hook_orientation_list)
+        self.form.y_dirRebarHookOrientation.addItems(hook_orientation_list)
+        hook_extend_along_list = ["x-axis", "y-axis"]
+        self.form.mainRebarHookExtendAlong.addItems(hook_extend_along_list)
+        self.form.x_dirRebarHookExtendAlong.addItems(hook_extend_along_list)
+        self.form.y_dirRebarHookExtendAlong.addItems(hook_extend_along_list)
 
     def connectSignalSlots(self):
+        """ This function is used to connect different slots in UI to appropriate functions."""
         self.form.columnConfiguration.currentIndexChanged.connect(
             self.changeColumnConfiguration
         )
-        self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
+        self.form.number_radio.clicked.connect(self.number_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
+        self.form.mainRebarType.currentIndexChanged.connect(self.getMainRebarType)
+        self.form.x_dirRebarType.currentIndexChanged.connect(self.getXDirRebarType)
+        self.form.y_dirRebarType.currentIndexChanged.connect(self.getYDirRebarType)
+        self.form.mainRebarHookExtendAlong.currentIndexChanged.connect(
+            self.getHookExtendAlong
+        )
+        self.form.x_dirRebarHookExtendAlong.currentIndexChanged.connect(
+            self.getHookExtendAlong
+        )
+        self.form.y_dirRebarHookExtendAlong.currentIndexChanged.connect(
+            self.getHookExtendAlong
+        )
         self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(self))
         self.form.removeCustomSpacing.clicked.connect(
             lambda: removeRebarDistribution(self)
@@ -77,6 +111,7 @@ class _ColumnTaskPanel:
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
 
     def getStandardButtons(self):
+        """ This function add standard buttons to tool bar."""
         return (
             int(QtGui.QDialogButtonBox.Ok)
             | int(QtGui.QDialogButtonBox.Apply)
@@ -86,6 +121,7 @@ class _ColumnTaskPanel:
         )
 
     def changeColumnConfiguration(self):
+        """ This function is used to find selected column configuration from UI and update UI accordingly."""
         column_configuration = self.form.columnConfiguration.currentText()
         if column_configuration == "Custom Configuration":
             self.form.image.setPixmap(
@@ -94,9 +130,8 @@ class _ColumnTaskPanel:
                     + "/icons/Column_CustomConfiguration.png"
                 )
             )
-            # if self.form.columnConfiguration.oldText() == "SingleTieFourRebars":
-            self.showXdirRebarsForm()
-            self.showYdirRebarsForm()
+            self.showXdirRebarsWidget()
+            self.showYdirRebarsWidget()
         elif column_configuration == "SingleTieFourRebars":
             self.form.image.setPixmap(
                 QtGui.QPixmap(
@@ -104,25 +139,61 @@ class _ColumnTaskPanel:
                     + "/icons/Column_SingleTieFourRebars.png"
                 )
             )
-            self.hideXdirRebarsForm()
-            self.hideYdirRebarsForm()
+            self.hideXdirRebarsWidget()
+            self.hideYdirRebarsWidget()
 
-    def amount_radio_clicked(self):
+    def number_radio_clicked(self):
+        """ This function enable number field and disable spacing field in UI when number radio button is clicked."""
         self.form.spacing.setEnabled(False)
-        self.form.amount.setEnabled(True)
+        self.form.number.setEnabled(True)
 
     def spacing_radio_clicked(self):
-        self.form.amount.setEnabled(False)
+        """ This function enable spacing field and disable number field in UI when spacing radio button is clicked."""
+        self.form.number.setEnabled(False)
         self.form.spacing.setEnabled(True)
 
-    def hideXdirRebarsForm(self):
+    def getMainRebarType(self):
+        """ This function is used to find Main Rebars Type and update UI accordingly."""
+        main_rebar_type = self.form.mainRebarType.currentText()
+        if main_rebar_type == "LShapeRebar":
+            self.form.mainRebarOrientationWidget.show()
+        else:
+            self.form.mainRebarOrientationWidget.hide()
+
+    def getXDirRebarType(self):
+        """ This function is used to find Rebar Type of rebars placed along X-Direction and update UI accordingly."""
+        xdir_rebar_type = self.form.x_dirRebarType.currentText()
+        if xdir_rebar_type == "LShapeRebar":
+            self.form.x_dirRebarOrientationWidget.show()
+        else:
+            self.form.x_dirRebarOrientationWidget.hide()
+
+    def getYDirRebarType(self):
+        """ This function is used to find Rebar Type of rebars placed along Y-Direction and update UI accordingly."""
+        ydir_rebar_type = self.form.y_dirRebarType.currentText()
+        if ydir_rebar_type == "LShapeRebar":
+            self.form.y_dirRebarOrientationWidget.show()
+        else:
+            self.form.y_dirRebarOrientationWidget.hide()
+
+    def getHookExtendAlong(self):
+        """ This function is used to find HookExtendAlong value from UI."""
+        main_hook_extend_along = self.form.mainRebarHookExtendAlong.currentText()
+        xdir_hook_extend_along = self.form.x_dirRebarHookExtendAlong.currentText()
+        ydir_hook_extend_along = self.form.y_dirRebarHookExtendAlong.currentText()
+
+    def hideXdirRebarsWidget(self):
+        """ This function hide widget related to Rebars placed along X-Direction."""
         self.form.x_dirRebarsWidget.hide()
 
-    def hideYdirRebarsForm(self):
+    def hideYdirRebarsWidget(self):
+        """ This function hide widget related to Rebars placed along Y-Direction."""
         self.form.y_dirRebarsWidget.hide()
 
-    def showXdirRebarsForm(self):
+    def showXdirRebarsWidget(self):
+        """ This function show widget related to Rebars placed along X-Direction."""
         self.form.x_dirRebarsWidget.show()
 
-    def showYdirRebarsForm(self):
+    def showYdirRebarsWidget(self):
+        """ This function show widget related to Rebars placed along Y-Direction."""
         self.form.y_dirRebarsWidget.show()
