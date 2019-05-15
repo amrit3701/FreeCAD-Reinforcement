@@ -262,7 +262,7 @@ def editStraightRebar(Rebar, f_cover, coverAlong, rt_cover, lb_cover, diameter, 
         FreeCAD.ActiveDocument.recompute()
     # Check if sketch support is empty.
     if not sketch.Support:
-        showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
+        showWarning("You have checked: 'remove external geometry of base sketches when needed'.\nTo uncheck: Edit->Preferences->Arch.")
         return
     # Assigned values
     facename = sketch.Support[0][1][0]
