@@ -7,162 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>1174</height>
+    <height>1462</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="0">
-    <widget class="QWidget" name="mainRebarsWidget" native="true">
-     <layout class="QFormLayout" name="mainRebarsFormLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="mainRebarHeading">
-        <property name="font">
-         <font>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Main Rebars:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="mainRebarTypeLabel">
-        <property name="minimumSize">
-         <size>
-          <width>127</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Rebar Type</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="Gui::PrefComboBox" name="mainRebarType">
-        <property name="prefEntry" stdset="0">
-         <cstring></cstring>
-        </property>
-        <property name="prefPath" stdset="0">
-         <cstring></cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="mainRebarTopOffsetLabel">
-        <property name="text">
-         <string>Top Offset</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="Gui::InputField" name="mainRebarTopOffset">
-        <property name="text">
-         <string>0 </string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="mainRebarBottomOffsetLabel">
-        <property name="text">
-         <string>Bottom Offset</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="Gui::InputField" name="mainRebarBottomOffset">
-        <property name="text">
-         <string>0 </string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="mainRebarDiameterLabel">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Diameter</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="Gui::InputField" name="mainRebarDiameter">
-        <property name="text">
-         <string>0 </string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QWidget" name="mainRebarOrientationWidget" native="true">
-        <layout class="QGridLayout" name="gridLayout_2">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="mainRebarHookOrientationLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>127</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Hook Orientation</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="Gui::PrefComboBox" name="mainRebarHookOrientation"/>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="mainRebarHookExtendAlongLabel">
-           <property name="text">
-            <string>Hook Extend Along</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="Gui::PrefComboBox" name="mainRebarHookExtendAlong"/>
-         </item>
-        </layout>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
@@ -279,37 +130,51 @@
          <item row="1" column="1">
           <widget class="Gui::PrefComboBox" name="y_dirRebarHookExtendAlong"/>
          </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="y_dirLRebarRoundingLabel">
+           <property name="text">
+            <string>Rounding</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="y_dirRebarHookExtensionLabel">
+           <property name="text">
+            <string>Hook Extension</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="Gui::InputField" name="y_dirRebarHookExtension">
+           <property name="text">
+            <string>50.00 mm</string>
+           </property>
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="Gui::PrefSpinBox" name="y_dirLRebarRounding">
+           <property name="value">
+            <number>2</number>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="4" column="0">
        <widget class="QLabel" name="y_dirRebarTopOffsetLabel">
         <property name="text">
          <string>Top Offset</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="4" column="1">
        <widget class="Gui::InputField" name="y_dirRebarTopOffset">
         <property name="text">
-         <string>0 </string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="y_dirRebarBottomOffsetLabel">
-        <property name="text">
-         <string>Bottom Offset</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="Gui::InputField" name="y_dirRebarBottomOffset">
-        <property name="text">
-         <string>0 </string>
+         <string>20.00 mm</string>
         </property>
         <property name="unit" stdset="0">
          <string notr="true"/>
@@ -317,26 +182,43 @@
        </widget>
       </item>
       <item row="5" column="0">
-       <widget class="QLabel" name="y_dirNumberDiameterLabel">
+       <widget class="QLabel" name="y_dirRebarBottomOffsetLabel">
         <property name="text">
-         <string>Number@Diameter</string>
+         <string>Bottom Offset</string>
         </property>
        </widget>
       </item>
       <item row="5" column="1">
+       <widget class="Gui::InputField" name="y_dirRebarBottomOffset">
+        <property name="text">
+         <string>20.00 mm</string>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="y_dirNumberDiameterLabel">
+        <property name="text">
+         <string>Number#Diameter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
        <widget class="Gui::PrefLineEdit" name="y_dirNumberDiameter">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="focusPolicy">
          <enum>Qt::StrongFocus</enum>
         </property>
         <property name="text">
-         <string>2@20mm+1@16mm+2@20mm</string>
+         <string>2#20mm+1#16mm+2#20mm</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="0" colspan="2">
+      <item row="7" column="0" colspan="2">
        <widget class="QPushButton" name="y_dirEditNumberDiameter">
         <property name="text">
          <string>Edit Number and Diameter</string>
@@ -449,6 +331,13 @@
          <property name="bottomMargin">
           <number>0</number>
          </property>
+         <item row="3" column="0">
+          <widget class="QLabel" name="x_dirLRebarRoundingLabel">
+           <property name="text">
+            <string>Rounding</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
           <widget class="QLabel" name="x_dirRebarHookOrientationLabel">
            <property name="sizePolicy">
@@ -481,6 +370,30 @@
          <item row="1" column="1">
           <widget class="Gui::PrefComboBox" name="x_dirRebarHookExtendAlong"/>
          </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="x_dirRebarHookExtensionLabel">
+           <property name="text">
+            <string>Hook Extension</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="Gui::InputField" name="x_dirRebarHookExtension">
+           <property name="text">
+            <string>50.00 mm</string>
+           </property>
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="Gui::PrefSpinBox" name="x_dirLRebarRounding">
+           <property name="value">
+            <number>2</number>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -494,7 +407,7 @@
       <item row="3" column="1">
        <widget class="Gui::InputField" name="x_dirRebarTopOffset">
         <property name="text">
-         <string>0 </string>
+         <string>20.00 mm</string>
         </property>
         <property name="unit" stdset="0">
          <string notr="true"/>
@@ -511,7 +424,7 @@
       <item row="4" column="1">
        <widget class="Gui::InputField" name="x_dirRebarBottomOffset">
         <property name="text">
-         <string>0 </string>
+         <string>20.00 mm</string>
         </property>
         <property name="unit" stdset="0">
          <string notr="true"/>
@@ -521,20 +434,20 @@
       <item row="5" column="0">
        <widget class="QLabel" name="x_dirNumberDiameterLabel">
         <property name="text">
-         <string>Number@Diameter</string>
+         <string>Number#Diameter</string>
         </property>
        </widget>
       </item>
       <item row="5" column="1">
        <widget class="Gui::PrefLineEdit" name="x_dirNumberDiameter">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="focusPolicy">
          <enum>Qt::StrongFocus</enum>
         </property>
         <property name="text">
-         <string>2@20mm+1@16mm+2@20mm</string>
+         <string>2#20mm+1#16mm+2#20mm</string>
         </property>
        </widget>
       </item>
@@ -574,7 +487,7 @@
       <item row="1" column="1">
        <widget class="Gui::InputField" name="x_dirCover">
         <property name="text">
-         <string>0 </string>
+         <string>20.00 mm</string>
         </property>
         <property name="unit" stdset="0">
          <string notr="true"/>
@@ -591,7 +504,7 @@
       <item row="2" column="1">
        <widget class="Gui::InputField" name="y_dirCover">
         <property name="text">
-         <string>0 </string>
+         <string>20.00 mm</string>
         </property>
         <property name="unit" stdset="0">
          <string notr="true"/>
@@ -608,7 +521,7 @@
       <item row="3" column="1">
        <widget class="Gui::InputField" name="tieOffset">
         <property name="text">
-         <string>0 </string>
+         <string>20.00 mm</string>
         </property>
         <property name="unit" stdset="0">
          <string notr="true"/>
@@ -625,7 +538,7 @@
       <item row="4" column="1">
        <widget class="Gui::InputField" name="tieDiameter">
         <property name="text">
-         <string>0 </string>
+         <string>20.00 mm</string>
         </property>
         <property name="unit" stdset="0">
          <string notr="true"/>
@@ -663,6 +576,33 @@
         </property>
        </widget>
       </item>
+      <item row="7" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="Gui::PrefRadioButton" name="number_radio">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="acceptDrops">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Number</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Gui::PrefRadioButton" name="spacing_radio">
+          <property name="text">
+           <string>Spacing</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
       <item row="8" column="0">
        <widget class="QLabel" name="numberLabel">
         <property name="text">
@@ -693,7 +633,7 @@
          <bool>false</bool>
         </property>
         <property name="text">
-         <string>0 </string>
+         <string>20.00 mm</string>
         </property>
         <property name="unit" stdset="0">
          <string notr="true"/>
@@ -731,33 +671,6 @@
           </property>
           <property name="text">
            <string>Remove Spacing</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="7" column="0" colspan="2">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="Gui::PrefRadioButton" name="number_radio">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="acceptDrops">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Number</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="Gui::PrefRadioButton" name="spacing_radio">
-          <property name="text">
-           <string>Spacing</string>
           </property>
          </widget>
         </item>
@@ -809,6 +722,186 @@
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QWidget" name="mainRebarsWidget" native="true">
+     <layout class="QFormLayout" name="mainRebarsFormLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="mainRebarHeading">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Main Rebars:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="mainRebarTypeLabel">
+        <property name="minimumSize">
+         <size>
+          <width>127</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Rebar Type</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="Gui::PrefComboBox" name="mainRebarType">
+        <property name="prefEntry" stdset="0">
+         <cstring></cstring>
+        </property>
+        <property name="prefPath" stdset="0">
+         <cstring></cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="mainRebarTopOffsetLabel">
+        <property name="text">
+         <string>Top Offset</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="Gui::InputField" name="mainRebarTopOffset">
+        <property name="text">
+         <string>20.00 mm</string>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="mainRebarBottomOffsetLabel">
+        <property name="text">
+         <string>Bottom Offset</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="Gui::InputField" name="mainRebarBottomOffset">
+        <property name="text">
+         <string>20.00 mm</string>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="mainRebarDiameterLabel">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Diameter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="Gui::InputField" name="mainRebarDiameter">
+        <property name="text">
+         <string>20.00 mm</string>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QWidget" name="mainRebarOrientationWidget" native="true">
+        <layout class="QGridLayout" name="gridLayout_2">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="mainRebarHookOrientationLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>127</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Hook Orientation</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="Gui::PrefComboBox" name="mainRebarHookOrientation"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="mainRebarHookExtendAlongLabel">
+           <property name="text">
+            <string>Hook Extend Along</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="Gui::PrefComboBox" name="mainRebarHookExtendAlong"/>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="mainRebarLRebarRoundingLabel">
+           <property name="text">
+            <string>Rounding</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="mainRebarHookExtensionLabel">
+           <property name="text">
+            <string>Hook Extension</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="Gui::InputField" name="mainRebarHookExtension">
+           <property name="text">
+            <string>50.00 mm</string>
+           </property>
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="Gui::PrefSpinBox" name="mainRebarLRebarRounding">
+           <property name="value">
+            <number>2</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
