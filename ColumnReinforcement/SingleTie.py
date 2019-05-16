@@ -180,8 +180,8 @@ def makeSingleTieFourRebars(
     bentAngle,
     extensionFactor,
     dia_of_tie,
-    amount_spacing_check,
-    amount_spacing_value,
+    number_spacing_check,
+    number_spacing_value,
     dia_of_rebars,
     t_offset_of_rebars,
     b_offset_of_rebars,
@@ -219,8 +219,8 @@ def makeSingleTieFourRebars(
         f_cover = xdir_cover + dia_of_rebars / 2 + dia_of_tie / 2
     t_cover = t_offset_of_rebars
     b_cover = b_offset_of_rebars
-    rebar_amount_spacing_check = True
-    rebar_amount_spacing_value = 2
+    rebar_number_spacing_check = True
+    rebar_number_spacing_value = 2
 
     # Find facename of face normal to selected/provided face
     facename_for_rebars = getFacenameforRebar(hook_extend_along, facename, structure)
@@ -240,8 +240,8 @@ def makeSingleTieFourRebars(
                 t_cover,
                 b_cover,
                 dia_of_rebars,
-                rebar_amount_spacing_check,
-                rebar_amount_spacing_value,
+                rebar_number_spacing_check,
+                rebar_number_spacing_value,
                 orientation,
                 structure,
                 facename_for_rebars,
@@ -286,8 +286,8 @@ def makeSingleTieFourRebars(
                 dia_of_rebars,
                 t_cover,
                 l_rebar_rounding,
-                rebar_amount_spacing_check,
-                rebar_amount_spacing_value,
+                rebar_number_spacing_check,
+                rebar_number_spacing_value,
                 orientation,
                 structure,
                 facename_for_rebars,
@@ -311,8 +311,8 @@ def makeSingleTieFourRebars(
         extensionFactor,
         dia_of_tie,
         rounding,
-        amount_spacing_check,
-        amount_spacing_value,
+        number_spacing_check,
+        number_spacing_value,
         structure,
         facename,
     )
