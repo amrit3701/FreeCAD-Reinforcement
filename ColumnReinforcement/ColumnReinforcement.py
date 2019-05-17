@@ -26,7 +26,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 from RebarDistribution import runRebarDistribution, removeRebarDistribution
-from Rebarfunc import getSelectedFace
+from Rebarfunc import getSelectedFace, check_selected_face
 from .SingleTie import makeSingleTieFourRebars
 from PySide import QtGui
 import FreeCAD
@@ -364,3 +364,8 @@ class _ColumnTaskPanel:
             )
             index += 1
         return number_diameter_list
+
+def CommandColumnReinforcement():
+    selected_obj = check_selected_face()
+    if selected_obj:
+        FreeCADGui.Control.showDialog(_ColumnTaskPanel())
