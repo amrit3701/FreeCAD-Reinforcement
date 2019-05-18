@@ -25,7 +25,10 @@ __title__ = "Single Tie Reinforcement"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-import FreeCADGui
+
+if FreeCAD.GuiUp:
+    import FreeCADGui
+
 from Stirrup import makeStirrup
 from StraightRebar import makeStraightRebar
 from LShapeRebar import makeLShapeRebar
@@ -42,7 +45,7 @@ def getLRebarOrientationLeftRightCover(
     dia_of_rebars,
     face_length,
 ):
-    """ getLRebarOrientationLeftRightCover(HookOrientation, HookExtension,
+    """getLRebarOrientationLeftRightCover(HookOrientation, HookExtension,
     HookExtendAlong, XDirectionCover, YDirectionCover, DiameterOfTie,
     DiameterOfRebars, FaceLength):
     Return orientation and left and right cover of LShapeRebar in the form of
@@ -53,9 +56,8 @@ def getLRebarOrientationLeftRightCover(
     It takes two different inputs for hook_extend_along i.e. 'x-axis', 'y-axis'.
     """
     if hook_extend_along == "y-axis":
-        xdir_cover += ydir_cover
-        ydir_cover = xdir_cover - ydir_cover
-        xdir_cover -= ydir_cover
+        # Swap values of xdir_cover and ydir_cover
+        xdir_cover, ydir_cover = ydir_cover, xdir_cover
     l_cover = []
     r_cover = []
     l_cover.append(xdir_cover + dia_of_rebars / 2 + dia_of_tie / 2)
@@ -139,7 +141,7 @@ def getLRebarOrientationLeftRightCover(
 def getLRebarTopBottomCover(
     hook_orientation, dia_of_rebars, t_offset_of_rebars, b_offset_of_rebars
 ):
-    """ getLRebarTopBottomCover(HookOrientation, DiameterOfRebars
+    """getLRebarTopBottomCover(HookOrientation, DiameterOfRebars
     TopOffsetofRebars, BottomOffsetofRebars):
     Return top and bottom cover of LShapeRebar in the form of list. 
     """
@@ -151,7 +153,7 @@ def getLRebarTopBottomCover(
 
 
 def getFacenameforRebar(hook_extend_along, facename, structure):
-    """ getFacenameforRebar(HookExtendAlong, Facename, Structure):
+    """getFacenameforRebar(HookExtendAlong, Facename, Structure):
     Return facename of face normal to selected/provided face
     It takes two different inputs for hook_extend_along i.e. 'x-axis', 'y-axis'.
     """
@@ -193,7 +195,7 @@ def makeSingleTieFourRebars(
     structure=None,
     facename=None,
 ):
-    """ makeSingleTieFourRebars(XDirectionCover, YDirectionCover, OffsetofTie,
+    """makeSingleTieFourRebars(XDirectionCover, YDirectionCover, OffsetofTie,
     BentAngle, BentFactor, DiameterOfTie, AmountSpacingCheck,
     AmountSpacingValue, DiameterOfRebars, TopOffsetofRebars,
     BottomOffsetofRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
@@ -208,9 +210,13 @@ def makeSingleTieFourRebars(
     It takes two different inputs for hook_extend_along i.e. 'x-axis', 'y-axis'.
     """
     if not structure and not facename:
-        selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
-        structure = selected_obj.Object
-        facename = selected_obj.SubElementNames[0]
+        if FreeCAD.GuiUp:
+            selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
+            structure = selected_obj.Object
+            facename = selected_obj.SubElementNames[0]
+        else:
+            print("Error: Pass structure and facename arguments")
+            return None
 
     # Calculate common parameters for Straight/LShaped rebars
     if hook_extend_along == "x-axis":

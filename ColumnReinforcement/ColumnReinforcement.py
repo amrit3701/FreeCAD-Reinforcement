@@ -25,17 +25,20 @@ __title__ = "Column Reinforcement"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
+import os
+from PySide import QtGui
+
+import FreeCAD
+import FreeCADGui
+
 from RebarDistribution import runRebarDistribution, removeRebarDistribution
 from Rebarfunc import getSelectedFace, check_selected_face
 from .SingleTie import makeSingleTieFourRebars
-from PySide import QtGui
-import FreeCAD
-import FreeCADGui
-import os
 
 
 class _ColumnTaskPanel:
     def __init__(self, Rebar=None):
+        """This function set initial data in Column Reinforcement dialog box."""
         self.customSpacing = None
         if not Rebar:
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
@@ -62,7 +65,7 @@ class _ColumnTaskPanel:
         self.Rebar = Rebar
 
     def addDropdownMenuItems(self):
-        """ This function add dropdown items to each Gui::PrefComboBox."""
+        """This function add dropdown items to each Gui::PrefComboBox."""
         self.form.columnConfiguration.addItems(
             ["Custom Configuration", "SingleTieFourRebars"]
         )
@@ -89,7 +92,8 @@ class _ColumnTaskPanel:
         self.form.y_dirRebarHookExtendAlong.addItems(hook_extend_along_list)
 
     def connectSignalSlots(self):
-        """ This function is used to connect different slots in UI to appropriate functions."""
+        """This function is used to connect different slots in UI to appropriate
+        functions."""
         self.form.columnConfiguration.currentIndexChanged.connect(
             self.changeColumnConfiguration
         )
@@ -114,7 +118,7 @@ class _ColumnTaskPanel:
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
 
     def getStandardButtons(self):
-        """ This function add standard buttons to tool bar."""
+        """This function add standard buttons to tool bar."""
         return (
             int(QtGui.QDialogButtonBox.Ok)
             | int(QtGui.QDialogButtonBox.Apply)
@@ -124,10 +128,13 @@ class _ColumnTaskPanel:
         )
 
     def clicked(self, button):
+        """This function is executed when 'Apply' button is clicked from UI."""
         if button == int(QtGui.QDialogButtonBox.Apply):
             self.accept(button)
 
     def accept(self, signal=None):
+        """This function is executed when 'OK' button is clicked from UI. It
+        execute a function to create column reinforcement."""
         self.column_configuration = self.form.columnConfiguration.currentText()
         if not self.Rebar:
             if self.column_configuration == "Custom Configuration":
@@ -156,12 +163,11 @@ class _ColumnTaskPanel:
                     self.FaceName,
                 )
         self.Rebar = True
-        if signal == int(QtGui.QDialogButtonBox.Apply):
-            pass
-        else:
+        if signal != int(QtGui.QDialogButtonBox.Apply):
             FreeCADGui.Control.closeDialog(self)
 
     def getTieData(self):
+        """This function is used to get data related to tie from UI."""
         self.xdir_cover = self.form.x_dirCover.text()
         self.xdir_cover = FreeCAD.Units.Quantity(self.xdir_cover).Value
         self.ydir_cover = self.form.y_dirCover.text()
@@ -177,11 +183,12 @@ class _ColumnTaskPanel:
         if self.number_check:
             self.number_spacing_check = True
             self.number_spacing_value = self.form.number.value()
-        elif self.spacing_check:
+        else:
             self.number_spacing_check = False
             self.number_spacing_value = self.form.spacing.value()
 
     def getMainRebarData(self):
+        """This function is used to get data related to main rebars from UI."""
         self.main_rebar_type = self.form.mainRebarType.currentText()
         self.main_rebar_hook_orientation = (
             self.form.mainRebarHookOrientation.currentText()
@@ -208,6 +215,8 @@ class _ColumnTaskPanel:
         ).Value
 
     def getXDirRebarData(self):
+        """This function is used to get data related to rebars placed along
+        x-direction from UI."""
         self.xdir_rebar_type = self.form.x_dirRebarType.currentText()
         self.xdir_rebar_hook_orientation = (
             self.form.x_dirRebarHookOrientation.currentText()
@@ -234,6 +243,8 @@ class _ColumnTaskPanel:
         )
 
     def getYDirRebarData(self):
+        """This function is used to get data related to rebars placed along
+        y-direction from UI."""
         self.ydir_rebar_type = self.form.y_dirRebarType.currentText()
         self.ydir_rebar_hook_orientation = (
             self.form.y_dirRebarHookOrientation.currentText()
@@ -260,7 +271,7 @@ class _ColumnTaskPanel:
         )
 
     def changeColumnConfiguration(self):
-        """ This function is used to find selected column configuration from UI
+        """This function is used to find selected column configuration from UI
         and update UI accordingly."""
         self.column_configuration = self.form.columnConfiguration.currentText()
         if self.column_configuration == "Custom Configuration":
@@ -283,19 +294,19 @@ class _ColumnTaskPanel:
             self.hideYdirRebarsWidget()
 
     def number_radio_clicked(self):
-        """ This function enable number field and disable spacing field in UI
+        """This function enable number field and disable spacing field in UI
         when number radio button is clicked."""
         self.form.spacing.setEnabled(False)
         self.form.number.setEnabled(True)
 
     def spacing_radio_clicked(self):
-        """ This function enable spacing field and disable number field in UI
+        """This function enable spacing field and disable number field in UI
         when spacing radio button is clicked."""
         self.form.number.setEnabled(False)
         self.form.spacing.setEnabled(True)
 
     def getMainRebarType(self):
-        """ This function is used to find Main Rebars Type and update UI
+        """This function is used to find Main Rebars Type and update UI
         accordingly."""
         self.main_rebar_type = self.form.mainRebarType.currentText()
         if self.main_rebar_type == "LShapeRebar":
@@ -304,7 +315,7 @@ class _ColumnTaskPanel:
             self.form.mainRebarOrientationWidget.hide()
 
     def getXDirRebarType(self):
-        """ This function is used to find Rebar Type of rebars placed along
+        """This function is used to find Rebar Type of rebars placed along
         X-Direction and update UI accordingly."""
         self.xdir_rebar_type = self.form.x_dirRebarType.currentText()
         if self.xdir_rebar_type == "LShapeRebar":
@@ -313,7 +324,7 @@ class _ColumnTaskPanel:
             self.form.x_dirRebarOrientationWidget.hide()
 
     def getYDirRebarType(self):
-        """ This function is used to find Rebar Type of rebars placed along
+        """This function is used to find Rebar Type of rebars placed along
         Y-Direction and update UI accordingly."""
         self.ydir_rebar_type = self.form.y_dirRebarType.currentText()
         if self.ydir_rebar_type == "LShapeRebar":
@@ -322,50 +333,34 @@ class _ColumnTaskPanel:
             self.form.y_dirRebarOrientationWidget.hide()
 
     def getHookExtendAlong(self):
-        """ This function is used to find HookExtendAlong value from UI."""
+        """This function is used to find HookExtendAlong value from UI."""
         self.main_hook_extend_along = self.form.mainRebarHookExtendAlong.currentText()
         self.xdir_hook_extend_along = self.form.x_dirRebarHookExtendAlong.currentText()
         self.ydir_hook_extend_along = self.form.y_dirRebarHookExtendAlong.currentText()
 
     def hideXdirRebarsWidget(self):
-        """ This function hide widget related to Rebars placed along
+        """This function hide widget related to Rebars placed along
         X-Direction."""
         self.form.x_dirRebarsWidget.hide()
 
     def hideYdirRebarsWidget(self):
-        """ This function hide widget related to Rebars placed along
+        """This function hide widget related to Rebars placed along
         Y-Direction."""
         self.form.y_dirRebarsWidget.hide()
 
     def showXdirRebarsWidget(self):
-        """ This function show widget related to Rebars placed along
+        """This function show widget related to Rebars placed along
         X-Direction."""
         self.form.x_dirRebarsWidget.show()
 
     def showYdirRebarsWidget(self):
-        """ This function show widget related to Rebars placed along
+        """This function show widget related to Rebars placed along
         Y-Direction."""
         self.form.y_dirRebarsWidget.show()
 
-    def gettupleOfNumberDiameter(self, diameter_string):
-        """ gettupleOfNumberDiameter(diameter_string): This function take input
-        in specific syntax and return output in the form of list. For eg.
-        Input: "3#100+2#200+3#100"
-        Output: [(3, 100), (2, 200), (3, 100)]"""
-        diameter_st = diameter_string.strip()
-        diameter_sp = diameter_st.split("+")
-        index = 0
-        number_diameter_list = []
-        while index < len(diameter_sp):
-            # Find "#" recursively in diameter_sp array.
-            in_sp = diameter_sp[index].split("#")
-            number_diameter_list.append(
-                (int(in_sp[0]), float(in_sp[1].replace("mm", "")))
-            )
-            index += 1
-        return number_diameter_list
 
 def CommandColumnReinforcement():
+    """This function is used to invoke dialog box for column reinforcement."""
     selected_obj = check_selected_face()
     if selected_obj:
         FreeCADGui.Control.showDialog(_ColumnTaskPanel())
