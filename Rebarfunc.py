@@ -88,6 +88,24 @@ def facenormalDirection(structure = None, facename = None):
     normal = face.Placement.Rotation.inverted().multVec(normal)
     return normal
 
+def gettupleOfNumberDiameter(self, diameter_string):
+    """gettupleOfNumberDiameter(diameter_string): This function take input in
+    specific syntax and return output in the form of list. For eg.
+    Input: "3#100+2#200+3#100"
+    Output: [(3, 100), (2, 200), (3, 100)]"""
+    diameter_st = diameter_string.strip()
+    diameter_sp = diameter_st.split("+")
+    index = 0
+    number_diameter_list = []
+    while index < len(diameter_sp):
+        # Find "#" recursively in diameter_sp array.
+        in_sp = diameter_sp[index].split("#")
+        number_diameter_list.append(
+            (int(in_sp[0]), float(in_sp[1].replace("mm", "")))
+        )
+        index += 1
+    return number_diameter_list
+
 # --------------------------------------------------------------------------
 # Main functions which is use while creating any rebar.
 # --------------------------------------------------------------------------
