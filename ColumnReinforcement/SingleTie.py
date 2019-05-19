@@ -26,13 +26,17 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
-if FreeCAD.GuiUp:
-    import FreeCADGui
+from PySide.QtCore import QT_TRANSLATE_NOOP
+
+import FreeCAD
 
 from Stirrup import makeStirrup
 from StraightRebar import makeStraightRebar
 from LShapeRebar import makeLShapeRebar
 from Rebarfunc import getParametersOfFace, getFaceNumber
+
+if FreeCAD.GuiUp:
+    import FreeCADGui
 
 
 def getLRebarOrientationLeftRightCover(
@@ -175,12 +179,28 @@ def getFacenameforRebar(hook_extend_along, facename, structure):
     return facename_for_rebars
 
 
+def addGroupData(group, properties):
+    for prop in properties:
+        setattr(
+            group.addProperty(
+                prop[0],
+                prop[1],
+                "RebarDialog",
+                QT_TRANSLATE_NOOP("App::Property", prop[2]),
+            ),
+            prop[1],
+            prop[3],
+        )
+        group.setEditorMode(prop[1], prop[4])
+    return group
+
+
 def makeSingleTieFourRebars(
     xdir_cover,
     ydir_cover,
     offset_of_tie,
-    bentAngle,
-    extensionFactor,
+    bent_angle,
+    extension_factor,
     dia_of_tie,
     number_spacing_check,
     number_spacing_value,
@@ -239,18 +259,21 @@ def makeSingleTieFourRebars(
             rl_cover = ydir_cover + dia_of_rebars / 2 + dia_of_tie / 2
         orientation = "Vertical"
         list_coverAlong = ["Right Side", "Left Side"]
+        main_rebars = []
         for coverAlong in list_coverAlong:
-            makeStraightRebar(
-                f_cover,
-                (coverAlong, rl_cover),
-                t_cover,
-                b_cover,
-                dia_of_rebars,
-                rebar_number_spacing_check,
-                rebar_number_spacing_value,
-                orientation,
-                structure,
-                facename_for_rebars,
+            main_rebars.append(
+                makeStraightRebar(
+                    f_cover,
+                    (coverAlong, rl_cover),
+                    t_cover,
+                    b_cover,
+                    dia_of_rebars,
+                    rebar_number_spacing_check,
+                    rebar_number_spacing_value,
+                    orientation,
+                    structure,
+                    facename_for_rebars,
+                )
             )
     # Create L-Shaped Rebars
     elif rebar_type == "LShapeRebar":
@@ -283,20 +306,23 @@ def makeSingleTieFourRebars(
         b_cover = tb_cover[1]
 
         i = 0
+        main_rebars = []
         for orientation in list_orientation:
-            makeLShapeRebar(
-                f_cover,
-                b_cover,
-                l_cover[i],
-                r_cover[i],
-                dia_of_rebars,
-                t_cover,
-                l_rebar_rounding,
-                rebar_number_spacing_check,
-                rebar_number_spacing_value,
-                orientation,
-                structure,
-                facename_for_rebars,
+            main_rebars.append(
+                makeLShapeRebar(
+                    f_cover,
+                    b_cover,
+                    l_cover[i],
+                    r_cover[i],
+                    dia_of_rebars,
+                    t_cover,
+                    l_rebar_rounding,
+                    rebar_number_spacing_check,
+                    rebar_number_spacing_value,
+                    orientation,
+                    structure,
+                    facename_for_rebars,
+                )
             )
             i += 1
 
@@ -307,14 +333,14 @@ def makeSingleTieFourRebars(
     f_cover = offset_of_tie
 
     # Create Stirrups
-    makeStirrup(
+    stirrup = makeStirrup(
         l_cover,
         r_cover,
         t_cover,
         b_cover,
         f_cover,
-        bentAngle,
-        extensionFactor,
+        bent_angle,
+        extension_factor,
         dia_of_tie,
         rounding,
         number_spacing_check,
@@ -322,3 +348,93 @@ def makeSingleTieFourRebars(
         structure,
         facename,
     )
+
+    # Add created rebars to a group
+    SingleTieFourRebars = FreeCAD.ActiveDocument.addObject(
+        "App::DocumentObjectGroupPython", "SingleTieFourRebars"
+    )
+    SingleTieFourRebars.addObject(stirrup)
+    SingleTieFourRebars.addObjects(main_rebars)
+    # Add properties to group of rebars
+    # Syntax to add new property:
+    # properties.append(
+    #     (
+    #         "<property_type>",
+    #         "<property_name>",
+    #         "<property_description>",
+    #         "<property_value>",
+    #         "<property_editor_mode>",
+    #     )
+    #
+    # property_editor_mode:
+    # 0 -- read and write mode
+    # 1 -- read-only mode
+    # 2 -- hidden mode
+
+    properties = []
+    properties.append(
+        (
+            "App::PropertyString",
+            "ColumnConfiguration",
+            "Configuration of Column Reinforcement",
+            "SingleTieFourRebars",
+            1,
+        )
+    )
+    properties.append(
+        (
+            "App::PropertyString",
+            "MainRebarType",
+            "Type of main rebars",
+            rebar_type,
+            1,
+        )
+    )
+    properties.append(
+        (
+            "App::PropertyDistance",
+            "RebarTopOffset",
+            "Top offset of main rebars",
+            t_offset_of_rebars,
+            1,
+        )
+    )
+    properties.append(
+        (
+            "App::PropertyDistance",
+            "RebarBottomOffset",
+            "Bottom offset of main rebars",
+            b_offset_of_rebars,
+            1,
+        )
+    )
+    properties.append(
+        (
+            "App::PropertyString",
+            "HookOrientation",
+            "Orientation of LShaped Rebar Hook",
+            hook_orientation,
+            1,
+        )
+    )
+    properties.append(
+        (
+            "App::PropertyString",
+            "HookExtendAlong",
+            "Direction of hook extension",
+            hook_extend_along,
+            1,
+        )
+    )
+    properties.append(
+        (
+            "App::PropertyDistance",
+            "HookExtension",
+            "Length of hook",
+            hook_extension,
+            1,
+        )
+    )
+    SingleTieFourRebars = addGroupData(SingleTieFourRebars, properties)
+    FreeCAD.ActiveDocument.recompute()
+    return [stirrup, main_rebars]
