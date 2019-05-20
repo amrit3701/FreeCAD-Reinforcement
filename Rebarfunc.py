@@ -257,6 +257,36 @@ def extendedTangentLength(rounding, diameter, angle):
     x2 = radius * math.tan(math.radians(90 - angle))
     return x1 + x2
 
+
+# -------------------------------------------------------------------------
+# Classes which are mainly used while creating Column Reinforcement.
+# -------------------------------------------------------------------------
+
+
+class _RebarGroup:
+    "A Rebar Group object."
+
+    def __init__(self, obj):
+        self.Type = "RebarGroup"
+        self.Object = obj
+
+    def execute(self, obj):
+        pass
+
+
+class _ViewProviderRebarGroup:
+    "A View Provider for the Rebar Group object."
+
+    def __init__(self, vobj):
+        vobj.Proxy = self
+        self.Object = vobj.Object
+
+    def doubleClicked(self, vobj):
+        from ColumnReinforcement import ColumnReinforcement
+
+        ColumnReinforcement.editDialog(vobj)
+
+
 # -------------------------------------------------------------------------
 # Warning / Alert functions when user do something wrong.
 #--------------------------------------------------------------------------

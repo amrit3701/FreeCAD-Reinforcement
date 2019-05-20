@@ -33,7 +33,12 @@ import FreeCAD
 from Stirrup import makeStirrup
 from StraightRebar import makeStraightRebar
 from LShapeRebar import makeLShapeRebar
-from Rebarfunc import getParametersOfFace, getFaceNumber
+from Rebarfunc import (
+    getParametersOfFace,
+    getFaceNumber,
+    _RebarGroup,
+    _ViewProviderRebarGroup,
+)
 
 if FreeCAD.GuiUp:
     import FreeCADGui
@@ -382,13 +387,7 @@ def makeSingleTieFourRebars(
         )
     )
     properties.append(
-        (
-            "App::PropertyString",
-            "MainRebarType",
-            "Type of main rebars",
-            rebar_type,
-            1,
-        )
+        ("App::PropertyString", "MainRebarType", "Type of main rebars", rebar_type, 1)
     )
     properties.append(
         (
@@ -427,14 +426,49 @@ def makeSingleTieFourRebars(
         )
     )
     properties.append(
-        (
-            "App::PropertyDistance",
-            "HookExtension",
-            "Length of hook",
-            hook_extension,
-            1,
-        )
+        ("App::PropertyDistance", "HookExtension", "Length of hook", hook_extension, 1)
     )
     SingleTieFourRebars = addGroupData(SingleTieFourRebars, properties)
+    _RebarGroup(SingleTieFourRebars)
+    if FreeCAD.GuiUp:
+        _ViewProviderRebarGroup(SingleTieFourRebars.ViewObject)
     FreeCAD.ActiveDocument.recompute()
-    return [stirrup, main_rebars]
+    return SingleTieFourRebars
+
+
+def editSingleTieFourRebars(
+    rebar_group,
+    xdir_cover,
+    ydir_cover,
+    offset_of_tie,
+    bent_angle,
+    extension_factor,
+    dia_of_tie,
+    number_spacing_check,
+    number_spacing_value,
+    dia_of_rebars,
+    t_offset_of_rebars,
+    b_offset_of_rebars,
+    rebar_type="StraightRebar",
+    hook_orientation="Top Inside",
+    hook_extend_along="x-axis",
+    l_rebar_rounding=None,
+    hook_extension=None,
+    structure=None,
+    facename=None,
+):
+    """editSingleTieFourRebars(RebarsGroup, XDirectionCover, YDirectionCover,
+    OffsetofTie, BentAngle, BentFactor, DiameterOfTie, AmountSpacingCheck,
+    AmountSpacingValue, DiameterOfRebars, TopOffsetofRebars,
+    BottomOffsetofRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
+    LShapeRebarRounding, LShapeHookLength, Structure, Facename):
+    Edit the Single Tie reinforcement for the selected structural column
+    object.
+    It takes two different inputs for rebar_type i.e. 'StraightRebar',
+    'LShapeRebar'.
+    It takes eight different orientations input for L-shaped hooks i.e. 'Top
+    Inside', 'Top Outside', 'Bottom Inside', 'Bottom Outside', 'Top Left',
+    'Top Right', 'Bottom Left', 'Bottom Right'.
+    It takes two different inputs for hook_extend_along i.e. 'x-axis', 'y-axis'.
+    """
+    print("Implementation in progress")

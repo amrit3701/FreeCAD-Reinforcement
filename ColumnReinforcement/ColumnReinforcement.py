@@ -33,20 +33,23 @@ import FreeCADGui
 
 from RebarDistribution import runRebarDistribution, removeRebarDistribution
 from Rebarfunc import getSelectedFace, check_selected_face
-from .SingleTie import makeSingleTieFourRebars
+from .SingleTie import makeSingleTieFourRebars, editSingleTieFourRebars
 
 
 class _ColumnTaskPanel:
-    def __init__(self, Rebar=None):
+    def __init__(self, RebarGroup=None):
         """This function set initial data in Column Reinforcement dialog box."""
         self.customSpacing = None
-        if not Rebar:
+        if not RebarGroup:
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
             self.SelectedObj = selected_obj.Object
             self.FaceName = selected_obj.SubElementNames[0]
         else:
-            self.FaceName = Rebar.Base.Support[0][1][0]
-            self.SelectedObj = Rebar.Base.Support[0][0]
+            for Rebar in RebarGroup.Group:
+                if Rebar.ViewObject.RebarShape == "Stirrup":
+                    Tie = Rebar
+            self.FaceName = Tie.Base.Support[0][1][0]
+            self.SelectedObj = Tie.Base.Support[0][0]
         self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
         self.form.setWindowTitle(
             QtGui.QApplication.translate("RebarAddon", "Column Reinforcement", None)
@@ -62,7 +65,7 @@ class _ColumnTaskPanel:
         self.form.mainRebarOrientationWidget.hide()
         self.form.x_dirRebarOrientationWidget.hide()
         self.form.y_dirRebarOrientationWidget.hide()
-        self.Rebar = Rebar
+        self.RebarGroup = RebarGroup
 
     def addDropdownMenuItems(self):
         """This function add dropdown items to each Gui::PrefComboBox."""
@@ -136,13 +139,14 @@ class _ColumnTaskPanel:
         """This function is executed when 'OK' button is clicked from UI. It
         execute a function to create column reinforcement."""
         self.column_configuration = self.form.columnConfiguration.currentText()
-        if not self.Rebar:
+        if not self.RebarGroup:
             if self.column_configuration == "Custom Configuration":
                 print("Implementation in progress")
+                rebars_list = None
             elif self.column_configuration == "SingleTieFourRebars":
                 self.getTieData()
                 self.getMainRebarData()
-                makeSingleTieFourRebars(
+                RebarGroup = makeSingleTieFourRebars(
                     self.xdir_cover,
                     self.ydir_cover,
                     self.offset_of_tie,
@@ -162,7 +166,35 @@ class _ColumnTaskPanel:
                     self.SelectedObj,
                     self.FaceName,
                 )
-        self.Rebar = True
+        else:
+            if self.column_configuration == "Custom Configuration":
+                print("Implementation in progress")
+                RebarGroup = None
+            elif self.column_configuration == "SingleTieFourRebars":
+                self.getTieData()
+                self.getMainRebarData()
+                RebarGroup = editSingleTieFourRebars(
+                    self.RebarGroup,
+                    self.xdir_cover,
+                    self.ydir_cover,
+                    self.offset_of_tie,
+                    self.bentAngle,
+                    self.extensionFactor,
+                    self.dia_of_tie,
+                    self.number_spacing_check,
+                    self.number_spacing_value,
+                    self.main_rebar_diameter,
+                    self.main_rebar_t_offset,
+                    self.main_rebar_b_offset,
+                    self.main_rebar_type,
+                    self.main_rebar_hook_orientation,
+                    self.main_rebar_hook_extend_along,
+                    self.main_rebar_rounding,
+                    self.main_rebar_hook_extension,
+                    self.SelectedObj,
+                    self.FaceName,
+                )
+        self.RebarGroup = RebarGroup
         if signal != int(QtGui.QDialogButtonBox.Apply):
             FreeCADGui.Control.closeDialog(self)
 
@@ -357,6 +389,12 @@ class _ColumnTaskPanel:
         """This function show widget related to Rebars placed along
         Y-Direction."""
         self.form.y_dirRebarsWidget.show()
+
+
+def editDialog(vobj):
+    FreeCADGui.Control.closeDialog()
+    obj = _ColumnTaskPanel(vobj.Object)
+    FreeCADGui.Control.showDialog(obj)
 
 
 def CommandColumnReinforcement():
