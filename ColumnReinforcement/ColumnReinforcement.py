@@ -217,7 +217,10 @@ class _ColumnTaskPanel:
             self.number_spacing_value = self.form.number.value()
         else:
             self.number_spacing_check = False
-            self.number_spacing_value = self.form.spacing.value()
+            self.number_spacing_value = self.form.spacing.text()
+            self.number_spacing_value = FreeCAD.Units.Quantity(
+                self.number_spacing_value
+            ).Value
 
     def getMainRebarData(self):
         """This function is used to get data related to main rebars from UI."""
@@ -394,7 +397,53 @@ class _ColumnTaskPanel:
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
     obj = _ColumnTaskPanel(vobj.Object)
+    obj.form.columnConfiguration.setCurrentIndex(
+        obj.form.columnConfiguration.findText(str(vobj.Object.ColumnConfiguration))
+    )
+    setTieData(obj, vobj)
+    setMainRebarData(obj, vobj)
     FreeCADGui.Control.showDialog(obj)
+
+
+def setTieData(obj, vobj):
+    for Rebar in vobj.Object.Group:
+        if Rebar.ViewObject.RebarShape == "Stirrup":
+            Tie = Rebar
+    obj.form.x_dirCover.setText(str(Tie.LeftCover))
+    obj.form.y_dirCover.setText(str(Tie.TopCover))
+    obj.form.tieOffset.setText(str(Tie.FrontCover))
+    obj.form.tieDiameter.setText(str(Tie.Diameter))
+    obj.form.bentAngle.setCurrentIndex(obj.form.bentAngle.findText(str(Tie.BentAngle)))
+    obj.form.extensionFactor.setValue(Tie.BentFactor)
+    if Tie.AmountCheck:
+        obj.form.number.setValue(Tie.Amount)
+    else:
+        obj.form.number_radio.setChecked(False)
+        obj.form.spacing_radio.setChecked(True)
+        obj.form.number.setDisabled(True)
+        obj.form.spacing.setEnabled(True)
+        obj.form.spacing.setText(str(Tie.TrueSpacing))
+
+
+def setMainRebarData(obj, vobj):
+    obj.form.mainRebarType.setCurrentIndex(
+        obj.form.mainRebarType.findText(str(vobj.Object.MainRebarType))
+    )
+    for Rebar in vobj.Object.Group:
+        if str(Rebar.ViewObject.RebarShape) == str(vobj.Object.MainRebarType):
+            MainRebar = Rebar
+    if MainRebar.ViewObject.RebarShape == "LShapeRebar":
+        obj.form.mainRebarHookOrientation.setCurrentIndex(
+            obj.form.mainRebarHookOrientation.findText(str(vobj.Object.HookOrientation))
+        )
+        obj.form.mainRebarHookExtendAlong.setCurrentIndex(
+            obj.form.mainRebarHookExtendAlong.findText(str(vobj.Object.HookExtendAlong))
+        )
+        obj.form.mainRebarHookExtension.setText(str(vobj.Object.HookExtension))
+        obj.form.mainRebarLRebarRounding.setValue(MainRebar.Rounding)
+    obj.form.mainRebarTopOffset.setText(str(vobj.Object.RebarTopOffset))
+    obj.form.mainRebarBottomOffset.setText(str(vobj.Object.RebarBottomOffset))
+    obj.form.mainRebarDiameter.setText(str(MainRebar.Diameter))
 
 
 def CommandColumnReinforcement():

@@ -281,6 +281,12 @@ class _ViewProviderRebarGroup:
         vobj.Proxy = self
         self.Object = vobj.Object
 
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self,state):
+        return None
+
     def doubleClicked(self, vobj):
         from ColumnReinforcement import ColumnReinforcement
 
