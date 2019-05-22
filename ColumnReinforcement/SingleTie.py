@@ -26,8 +26,6 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
-from PySide.QtCore import QT_TRANSLATE_NOOP
-
 import FreeCAD
 
 from Stirrup import makeStirrup
@@ -184,22 +182,6 @@ def getFacenameforRebar(hook_extend_along, facename, structure):
     return facename_for_rebars
 
 
-def addGroupData(group, properties):
-    for prop in properties:
-        setattr(
-            group.addProperty(
-                prop[0],
-                prop[1],
-                "RebarDialog",
-                QT_TRANSLATE_NOOP("App::Property", prop[2]),
-            ),
-            prop[1],
-            prop[3],
-        )
-        group.setEditorMode(prop[1], prop[4])
-    return group
-
-
 def makeSingleTieFourRebars(
     xdir_cover,
     ydir_cover,
@@ -280,6 +262,7 @@ def makeSingleTieFourRebars(
                     facename_for_rebars,
                 )
             )
+
     # Create L-Shaped Rebars
     elif rebar_type == "LShapeRebar":
         FacePRM = getParametersOfFace(structure, facename_for_rebars)
@@ -354,84 +337,23 @@ def makeSingleTieFourRebars(
         facename,
     )
 
-    # Add created rebars to a group
-    SingleTieFourRebars = FreeCAD.ActiveDocument.addObject(
-        "App::DocumentObjectGroupPython", "SingleTieFourRebars"
-    )
+    # Create SingleTieFourRebars group object
+    SingleTieFourRebars = _SingleTieFourRebars()
+
+    # Add created tie and rebars to SingleTieFourRebars group
     SingleTieFourRebars.addObject(stirrup)
     SingleTieFourRebars.addObjects(main_rebars)
-    # Add properties to group of rebars
-    # Syntax to add new property:
-    # properties.append(
-    #     (
-    #         "<property_type>",
-    #         "<property_name>",
-    #         "<property_description>",
-    #         "<property_value>",
-    #         "<property_editor_mode>",
-    #     )
-    #
-    # property_editor_mode:
-    # 0 -- read and write mode
-    # 1 -- read-only mode
-    # 2 -- hidden mode
 
-    properties = []
-    properties.append(
-        (
-            "App::PropertyString",
-            "ColumnConfiguration",
-            "Configuration of Column Reinforcement",
-            "SingleTieFourRebars",
-            1,
-        )
-    )
-    properties.append(
-        ("App::PropertyString", "MainRebarType", "Type of main rebars", rebar_type, 1)
-    )
-    properties.append(
-        (
-            "App::PropertyDistance",
-            "RebarTopOffset",
-            "Top offset of main rebars",
-            t_offset_of_rebars,
-            1,
-        )
-    )
-    properties.append(
-        (
-            "App::PropertyDistance",
-            "RebarBottomOffset",
-            "Bottom offset of main rebars",
-            b_offset_of_rebars,
-            1,
-        )
-    )
-    properties.append(
-        (
-            "App::PropertyString",
-            "HookOrientation",
-            "Orientation of LShaped Rebar Hook",
-            hook_orientation,
-            1,
-        )
-    )
-    properties.append(
-        (
-            "App::PropertyString",
-            "HookExtendAlong",
-            "Direction of hook extension",
-            hook_extend_along,
-            1,
-        )
-    )
-    properties.append(
-        ("App::PropertyDistance", "HookExtension", "Length of hook", hook_extension, 1)
-    )
-    SingleTieFourRebars = addGroupData(SingleTieFourRebars, properties)
-    _RebarGroup(SingleTieFourRebars)
-    if FreeCAD.GuiUp:
-        _ViewProviderRebarGroup(SingleTieFourRebars.ViewObject)
+    # Set properties values for tie and rebars in SingleTieFourRebars group
+    properties_values = []
+    properties_values.append(("ColumnConfiguration", "SingleTieFourRebars"))
+    properties_values.append(("MainRebarType", rebar_type))
+    properties_values.append(("RebarTopOffset", t_offset_of_rebars))
+    properties_values.append(("RebarBottomOffset", b_offset_of_rebars))
+    properties_values.append(("HookOrientation", hook_orientation))
+    properties_values.append(("HookExtendAlong", hook_extend_along))
+    properties_values.append(("HookExtension", hook_extension))
+    SingleTieFourRebars.setPropertiesValues(properties_values)
     FreeCAD.ActiveDocument.recompute()
     return SingleTieFourRebars
 
@@ -457,7 +379,7 @@ def editSingleTieFourRebars(
     structure=None,
     facename=None,
 ):
-    """editSingleTieFourRebars(RebarsGroup, XDirectionCover, YDirectionCover,
+    """editSingleTieFourRebars(RebarGroup, XDirectionCover, YDirectionCover,
     OffsetofTie, BentAngle, BentFactor, DiameterOfTie, AmountSpacingCheck,
     AmountSpacingValue, DiameterOfRebars, TopOffsetofRebars,
     BottomOffsetofRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
@@ -472,3 +394,69 @@ def editSingleTieFourRebars(
     It takes two different inputs for hook_extend_along i.e. 'x-axis', 'y-axis'.
     """
     print("Implementation in progress")
+
+
+class _SingleTieFourRebars(_RebarGroup, _ViewProviderRebarGroup):
+    "A SingleTieFourRebars group object."
+
+    def __init__(self):
+        """Create Group object and add properties to it."""
+        rebar_group = FreeCAD.ActiveDocument.addObject(
+            "App::DocumentObjectGroupPython", "SingleTieFourRebars"
+        )
+        _RebarGroup.__init__(self, rebar_group)
+        if FreeCAD.GuiUp:
+            _ViewProviderRebarGroup.__init__(self, rebar_group.ViewObject)
+        # Add properties to group of rebars
+        # Syntax to add new property:
+        # properties.append(
+        #     (
+        #         "<property_type>",
+        #         "<property_name>",
+        #         "<property_description>",
+        #         "<property_value>",
+        #         "<property_editor_mode>",
+        #     )
+        #
+        # property_editor_mode:
+        # 0 -- read and write mode
+        # 1 -- read-only mode
+        # 2 -- hidden mode
+        properties = []
+        properties.append(
+            (
+                "App::PropertyString",
+                "ColumnConfiguration",
+                "Configuration of Column Reinforcement",
+                1,
+            )
+        )
+        properties.append(
+            ("App::PropertyString", "MainRebarType", "Type of main rebars", 1)
+        )
+        properties.append(
+            ("App::PropertyDistance", "RebarTopOffset", "Top offset of main rebars", 1)
+        )
+        properties.append(
+            (
+                "App::PropertyDistance",
+                "RebarBottomOffset",
+                "Bottom offset of main rebars",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyString",
+                "HookOrientation",
+                "Orientation of LShaped Rebar Hook",
+                1,
+            )
+        )
+        properties.append(
+            ("App::PropertyString", "HookExtendAlong", "Direction of hook extension", 1)
+        )
+        properties.append(
+            ("App::PropertyDistance", "HookExtension", "Length of hook", 1)
+        )
+        self.setProperties(properties)

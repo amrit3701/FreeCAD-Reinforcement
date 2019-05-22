@@ -26,6 +26,7 @@ __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
 from PySide import QtCore, QtGui
+from PySide.QtCore import QT_TRANSLATE_NOOP
 from DraftGeomUtils import vec, isCubic
 import FreeCAD
 import FreeCADGui
@@ -273,6 +274,26 @@ class _RebarGroup:
     def execute(self, obj):
         pass
 
+    def addObject(self, rebar):
+        self.Object.addObject(rebar)
+
+    def addObjects(self, rebars):
+        self.Object.addObjects(rebars)
+
+    def setProperties(self, properties):
+        for prop in properties:
+            self.Object.addProperty(
+                prop[0],
+                prop[1],
+                "RebarDialog",
+                QT_TRANSLATE_NOOP("App::Property", prop[2]),
+            )
+            self.Object.setEditorMode(prop[1], prop[3])
+
+    def setPropertiesValues(self, properties_values):
+        for prop in properties_values:
+            setattr(self.Object, prop[0], prop[1])
+
 
 class _ViewProviderRebarGroup:
     "A View Provider for the Rebar Group object."
@@ -284,7 +305,7 @@ class _ViewProviderRebarGroup:
     def __getstate__(self):
         return None
 
-    def __setstate__(self,state):
+    def __setstate__(self, state):
         return None
 
     def doubleClicked(self, vobj):
