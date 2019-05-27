@@ -46,16 +46,19 @@ def getLRebarOrientationLeftRightCover(
     hook_orientation,
     hook_extension,
     hook_extend_along,
-    xdir_cover,
-    ydir_cover,
+    l_cover_of_tie,
+    r_cover_of_tie,
+    t_cover_of_tie,
+    b_cover_of_tie,
     dia_of_tie,
     dia_of_rebars,
     rounding_of_rebars,
     face_length,
 ):
     """getLRebarOrientationLeftRightCover(HookOrientation, HookExtension,
-    HookExtendAlong, XDirectionCover, YDirectionCover, DiameterOfTie,
-    DiameterOfRebars, RoundingOfRebars, FaceLength):
+    HookExtendAlong, LeftCoverOfTie, RightCoverOfTie, TopCoverOfTie,
+    BottomCoverOfTie, DiameterOfTie, DiameterOfRebars, RoundingOfRebars,
+    FaceLength):
     Return orientation and left and right cover of LShapeRebar in the form of
     dictionary of list.
     It takes eight different orientations input for LShapeHook i.e. 'Top
@@ -64,11 +67,12 @@ def getLRebarOrientationLeftRightCover(
     It takes two different inputs for hook_extend_along i.e. 'x-axis', 'y-axis'.
     """
     if hook_extend_along == "y-axis":
-        # Swap values of xdir_cover and ydir_cover
-        xdir_cover, ydir_cover = ydir_cover, xdir_cover
+        # Swap values of covers
+        l_cover_of_tie, b_cover_of_tie = b_cover_of_tie, l_cover_of_tie
+        r_cover_of_tie, t_cover_of_tie = t_cover_of_tie, r_cover_of_tie
     l_cover = []
     r_cover = []
-    l_cover.append(xdir_cover + dia_of_tie)
+    l_cover.append(l_cover_of_tie + dia_of_tie)
     if hook_orientation == "Top Inside" or hook_orientation == "Bottom Inside":
         # Assign orientation value
         if hook_orientation == "Top Inside":
@@ -77,13 +81,20 @@ def getLRebarOrientationLeftRightCover(
             list_orientation = ["Bottom Left", "Bottom Right"]
         r_cover.append(
             face_length
-            - xdir_cover
+            - l_cover_of_tie
             - dia_of_tie
             - dia_of_rebars / 2
             - rounding_of_rebars * dia_of_rebars
             - hook_extension
         )
-        l_cover.append(r_cover[0])
+        l_cover.append(
+            face_length
+            - r_cover_of_tie
+            - dia_of_tie
+            - dia_of_rebars / 2
+            - rounding_of_rebars * dia_of_rebars
+            - hook_extension
+        )
 
     elif hook_orientation == "Top Outside" or hook_orientation == "Bottom Outside":
         if hook_orientation == "Top Outside":
@@ -92,13 +103,20 @@ def getLRebarOrientationLeftRightCover(
             list_orientation = ["Bottom Left", "Bottom Right"]
         r_cover.append(
             face_length
-            - xdir_cover
+            - l_cover_of_tie
             - dia_of_tie
             - dia_of_rebars / 2
             + rounding_of_rebars * dia_of_rebars
             + hook_extension
         )
-        l_cover.append(r_cover[0])
+        l_cover.append(
+            face_length
+            - r_cover_of_tie
+            - dia_of_tie
+            - dia_of_rebars / 2
+            + rounding_of_rebars * dia_of_rebars
+            + hook_extension
+        )
 
     elif hook_orientation == "Top Left" or hook_orientation == "Bottom Left":
         if hook_orientation == "Top Left":
@@ -107,7 +125,7 @@ def getLRebarOrientationLeftRightCover(
             list_orientation = ["Bottom Left", "Bottom Right"]
         r_cover.append(
             face_length
-            - xdir_cover
+            - l_cover_of_tie
             - dia_of_tie
             - dia_of_rebars / 2
             + rounding_of_rebars * dia_of_rebars
@@ -115,7 +133,7 @@ def getLRebarOrientationLeftRightCover(
         )
         l_cover.append(
             face_length
-            - xdir_cover
+            - r_cover_of_tie
             - dia_of_tie
             - dia_of_rebars / 2
             - rounding_of_rebars * dia_of_rebars
@@ -129,7 +147,7 @@ def getLRebarOrientationLeftRightCover(
             list_orientation = ["Bottom Left", "Bottom Right"]
         r_cover.append(
             face_length
-            - xdir_cover
+            - l_cover_of_tie
             - dia_of_tie
             - dia_of_rebars / 2
             - rounding_of_rebars * dia_of_rebars
@@ -137,14 +155,14 @@ def getLRebarOrientationLeftRightCover(
         )
         l_cover.append(
             face_length
-            - xdir_cover
+            - r_cover_of_tie
             - dia_of_tie
             - dia_of_rebars / 2
             + rounding_of_rebars * dia_of_rebars
             + hook_extension
         )
 
-    r_cover.append(l_cover[0])
+    r_cover.append(r_cover_of_tie + dia_of_tie)
     l_rebar_orientation_cover = {}
     l_rebar_orientation_cover["list_orientation"] = list_orientation
     l_rebar_orientation_cover["l_cover"] = l_cover
@@ -176,8 +194,10 @@ def getFacenameforRebar(hook_extend_along, facename, structure):
 
 
 def makeSingleTieFourRebars(
-    xdir_cover,
-    ydir_cover,
+    l_cover_of_tie,
+    r_cover_of_tie,
+    t_cover_of_tie,
+    b_cover_of_tie,
     offset_of_tie,
     bent_angle,
     extension_factor,
@@ -195,9 +215,9 @@ def makeSingleTieFourRebars(
     structure=None,
     facename=None,
 ):
-    """makeSingleTieFourRebars(XDirectionCover, YDirectionCover, OffsetofTie,
-    BentAngle, BentFactor, DiameterOfTie, AmountSpacingCheck,
-    AmountSpacingValue, DiameterOfRebars, TopOffsetofRebars,
+    """makeSingleTieFourRebars(LeftCoverOfTie, RightCoverOfTie, TopCoverOfTie,
+    BottomCoverOfTie, OffsetofTie, BentAngle, ExtensionFactor, DiameterOfTie,
+    NumberSpacingCheck, NumberSpacingValue, DiameterOfRebars, TopOffsetofRebars,
     BottomOffsetofRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
     LShapeRebarRounding, LShapeHookLength, Structure, Facename):
     Adds the Single Tie reinforcement to the selected structural column
@@ -220,9 +240,9 @@ def makeSingleTieFourRebars(
 
     # Calculate common parameters for Straight/LShaped rebars
     if hook_extend_along == "x-axis":
-        f_cover = ydir_cover + dia_of_tie
+        f_cover = b_cover_of_tie + dia_of_tie
     else:
-        f_cover = xdir_cover + dia_of_tie
+        f_cover = r_cover_of_tie + dia_of_tie
     t_cover = t_offset_of_rebars
     b_cover = b_offset_of_rebars
     rebar_number_spacing_check = True
@@ -233,18 +253,25 @@ def makeSingleTieFourRebars(
 
     # Create Straight Rebars
     if rebar_type == "StraightRebar":
+        # Right and left cover changes with hook_extend_along because facename,
+        # using which rebars created, changes with value of hook_extend_along
         if hook_extend_along == "x-axis":
-            rl_cover = xdir_cover + dia_of_tie
+            r_cover = r_cover_of_tie + dia_of_tie
+            l_cover = l_cover_of_tie + dia_of_tie
         else:
-            rl_cover = ydir_cover + dia_of_tie
+            r_cover = t_cover_of_tie + dia_of_tie
+            l_cover = l_cover_of_tie + dia_of_tie
         orientation = "Vertical"
         list_coverAlong = ["Right Side", "Left Side"]
+        rl_cover = [r_cover, l_cover]
+
+        i = 0
         main_rebars = []
         for coverAlong in list_coverAlong:
             main_rebars.append(
                 makeStraightRebar(
                     f_cover,
-                    (coverAlong, rl_cover),
+                    (coverAlong, rl_cover[i]),
                     t_cover,
                     b_cover,
                     dia_of_rebars,
@@ -255,6 +282,7 @@ def makeSingleTieFourRebars(
                     facename_for_rebars,
                 )
             )
+            i += 1
 
     # Create L-Shaped Rebars
     elif rebar_type == "LShapeRebar":
@@ -264,17 +292,23 @@ def makeSingleTieFourRebars(
         # https://archive.org/details/gov.in.is.sp.16.1980/page/n207
         if not hook_extension:
             if hook_extend_along == "x-axis":
-                hook_extension = (face_length - 2 * xdir_cover) / 3
+                hook_extension = (
+                    face_length - l_cover_of_tie - r_cover_of_tie - 2 * dia_of_tie
+                ) / 3
             else:
-                hook_extension = (face_length - 2 * ydir_cover) / 3
+                hook_extension = (
+                    face_length - t_cover_of_tie - b_cover_of_tie - 2 * dia_of_tie
+                ) / 3
         if not l_rebar_rounding:
             l_rebar_rounding = (float(dia_of_tie) / 2 + dia_of_rebars / 2) / dia_of_tie
         l_rebar_orientation_cover = getLRebarOrientationLeftRightCover(
             hook_orientation,
             hook_extension,
             hook_extend_along,
-            xdir_cover,
-            ydir_cover,
+            l_cover_of_tie,
+            r_cover_of_tie,
+            t_cover_of_tie,
+            b_cover_of_tie,
             dia_of_tie,
             dia_of_rebars,
             l_rebar_rounding,
@@ -309,16 +343,14 @@ def makeSingleTieFourRebars(
 
     # Calculate parameters for Stirrup
     rounding = (float(dia_of_tie) / 2 + dia_of_rebars / 2) / dia_of_tie
-    l_cover = r_cover = xdir_cover
-    t_cover = b_cover = ydir_cover
     f_cover = offset_of_tie
 
     # Create Stirrups
     stirrup = makeStirrup(
-        l_cover,
-        r_cover,
-        t_cover,
-        b_cover,
+        l_cover_of_tie,
+        r_cover_of_tie,
+        t_cover_of_tie,
+        b_cover_of_tie,
         f_cover,
         bent_angle,
         extension_factor,
@@ -353,8 +385,10 @@ def makeSingleTieFourRebars(
 
 def editSingleTieFourRebars(
     rebar_group,
-    xdir_cover,
-    ydir_cover,
+    l_cover_of_tie,
+    r_cover_of_tie,
+    t_cover_of_tie,
+    b_cover_of_tie,
     offset_of_tie,
     bent_angle,
     extension_factor,
@@ -372,11 +406,12 @@ def editSingleTieFourRebars(
     structure=None,
     facename=None,
 ):
-    """editSingleTieFourRebars(RebarGroup, XDirectionCover, YDirectionCover,
-    OffsetofTie, BentAngle, BentFactor, DiameterOfTie, AmountSpacingCheck,
-    AmountSpacingValue, DiameterOfRebars, TopOffsetofRebars,
-    BottomOffsetofRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
-    LShapeRebarRounding, LShapeHookLength, Structure, Facename):
+    """editSingleTieFourRebars(RebarGroup, LeftCoverOfTie, RightCoverOfTie,
+    TopCoverOfTie, BottomCoverOfTie, OffsetofTie, BentAngle, ExtensionFactor,
+    DiameterOfTie, NumberSpacingCheck, NumberSpacingValue, DiameterOfRebars,
+    TopOffsetofRebars, BottomOffsetofRebars, RebarType, LShapeHookOrientation,
+    HookExtendAlong, LShapeRebarRounding, LShapeHookLength, Structure,
+    Facename):
     Edit the Single Tie reinforcement for the selected structural column
     object.
     It takes two different inputs for rebar_type i.e. 'StraightRebar',
