@@ -282,6 +282,14 @@ def makeSingleTieFourRebars(
                     facename_for_rebars,
                 )
             )
+            if hook_extend_along == "x-axis":
+                main_rebars[i].OffsetEnd = (
+                    t_cover_of_tie + dia_of_tie + dia_of_rebars / 2
+                )
+            else:
+                main_rebars[i].OffsetEnd = (
+                    l_cover_of_tie + dia_of_tie + dia_of_rebars / 2
+                )
             i += 1
 
     # Create L-Shaped Rebars
@@ -339,6 +347,14 @@ def makeSingleTieFourRebars(
                     facename_for_rebars,
                 )
             )
+            if hook_extend_along == "x-axis":
+                main_rebars[i].OffsetEnd = (
+                    t_cover_of_tie + dia_of_tie + dia_of_rebars / 2
+                )
+            else:
+                main_rebars[i].OffsetEnd = (
+                    l_cover_of_tie + dia_of_tie + dia_of_rebars / 2
+                )
             i += 1
 
     # Calculate parameters for Stirrup
