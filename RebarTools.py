@@ -137,12 +137,46 @@ class HelicalRebarTool:
         # Call to CommandHelicalRebar() function
         HelicalRebar.CommandHelicalRebar()
 
+
+class ColumnReinforcementTool:
+    def GetResources(self):
+        return {
+            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
+            + "/icons/dropdown_list/Column.svg",
+            "MenuText": QT_TRANSLATE_NOOP("RebarAddon", "Column Reinforcement"),
+            "ToolTip": QT_TRANSLATE_NOOP(
+                "RebarAddon",
+                "Creates a Column Reinforcement from the selected face of the Structural element.",
+            ),
+        }
+
+    def IsActive(self):
+        if FreeCADGui.ActiveDocument:
+            return True
+        else:
+            return False
+
+    def Activated(self):
+        from ColumnReinforcement import ColumnReinforcement
+
+        # Call to CommandColumnReinforcement() function
+        ColumnReinforcement.CommandColumnReinforcement()
+
 FreeCADGui.addCommand('Arch_Rebar_Straight', StraightRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_UShape', UShapeRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_LShape', LShapeRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_Stirrup', StirrupTool())
 FreeCADGui.addCommand('Arch_Rebar_BentShape', BentShapeRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_Helical', HelicalRebarTool())
+FreeCADGui.addCommand("Arch_Column_Reinforcement", ColumnReinforcementTool())
 
 # List of all rebar commands
-RebarCommands = ["Arch_Rebar_Straight", "Arch_Rebar_UShape", "Arch_Rebar_LShape", "Arch_Rebar_Stirrup", "Arch_Rebar_BentShape", "Arch_Rebar_Helical"]
+RebarCommands = [
+    "Arch_Rebar_Straight",
+    "Arch_Rebar_UShape",
+    "Arch_Rebar_LShape",
+    "Arch_Rebar_Stirrup",
+    "Arch_Rebar_BentShape",
+    "Arch_Rebar_Helical",
+    "Arch_Column_Reinforcement",
+]
