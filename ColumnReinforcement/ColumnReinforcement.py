@@ -147,8 +147,10 @@ class _ColumnTaskPanel:
                 self.getTieData()
                 self.getMainRebarData()
                 RebarGroup = makeSingleTieFourRebars(
-                    self.xdir_cover,
-                    self.ydir_cover,
+                    self.l_cover_of_tie,
+                    self.r_cover_of_tie,
+                    self.t_cover_of_tie,
+                    self.b_cover_of_tie,
                     self.offset_of_tie,
                     self.bentAngle,
                     self.extensionFactor,
@@ -175,8 +177,10 @@ class _ColumnTaskPanel:
                 self.getMainRebarData()
                 RebarGroup = editSingleTieFourRebars(
                     self.RebarGroup,
-                    self.xdir_cover,
-                    self.ydir_cover,
+                    self.l_cover_of_tie,
+                    self.r_cover_of_tie,
+                    self.t_cover_of_tie,
+                    self.b_cover_of_tie,
                     self.offset_of_tie,
                     self.bentAngle,
                     self.extensionFactor,
@@ -200,10 +204,14 @@ class _ColumnTaskPanel:
 
     def getTieData(self):
         """This function is used to get data related to tie from UI."""
-        self.xdir_cover = self.form.x_dirCover.text()
-        self.xdir_cover = FreeCAD.Units.Quantity(self.xdir_cover).Value
-        self.ydir_cover = self.form.y_dirCover.text()
-        self.ydir_cover = FreeCAD.Units.Quantity(self.ydir_cover).Value
+        self.l_cover_of_tie = self.form.tieLeftCover.text()
+        self.l_cover_of_tie = FreeCAD.Units.Quantity(self.l_cover_of_tie).Value
+        self.r_cover_of_tie = self.form.tieRightCover.text()
+        self.r_cover_of_tie = FreeCAD.Units.Quantity(self.r_cover_of_tie).Value
+        self.t_cover_of_tie = self.form.tieTopCover.text()
+        self.t_cover_of_tie = FreeCAD.Units.Quantity(self.t_cover_of_tie).Value
+        self.b_cover_of_tie = self.form.tieBottomCover.text()
+        self.b_cover_of_tie = FreeCAD.Units.Quantity(self.b_cover_of_tie).Value
         self.offset_of_tie = self.form.tieOffset.text()
         self.offset_of_tie = FreeCAD.Units.Quantity(self.offset_of_tie).Value
         self.dia_of_tie = self.form.tieDiameter.text()
@@ -409,8 +417,10 @@ def setTieData(obj, vobj):
     for Rebar in vobj.Object.Group:
         if Rebar.ViewObject.RebarShape == "Stirrup":
             Tie = Rebar
-    obj.form.x_dirCover.setText(str(Tie.LeftCover))
-    obj.form.y_dirCover.setText(str(Tie.TopCover))
+    obj.form.tieLeftCover.setText(str(Tie.LeftCover))
+    obj.form.tieRightCover.setText(str(Tie.RightCover))
+    obj.form.tieTopCover.setText(str(Tie.TopCover))
+    obj.form.tieBottomCover.setText(str(Tie.BottomCover))
     obj.form.tieOffset.setText(str(Tie.FrontCover))
     obj.form.tieDiameter.setText(str(Tie.Diameter))
     obj.form.bentAngle.setCurrentIndex(obj.form.bentAngle.findText(str(Tie.BentAngle)))
