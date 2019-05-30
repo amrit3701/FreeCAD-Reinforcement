@@ -31,7 +31,6 @@ from PySide import QtGui
 import FreeCAD
 import FreeCADGui
 
-from RebarDistribution import runRebarDistribution, removeRebarDistribution
 from Rebarfunc import getSelectedFace, check_selected_face
 from .SingleTie import makeSingleTieFourRebars, editSingleTieFourRebars
 
@@ -39,7 +38,7 @@ from .SingleTie import makeSingleTieFourRebars, editSingleTieFourRebars
 class _ColumnTaskPanel:
     def __init__(self, RebarGroup=None):
         """This function set initial data in Column Reinforcement dialog box."""
-        self.customSpacing = None
+        self.CustomSpacing = None
         if not RebarGroup:
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
             self.SelectedObj = selected_obj.Object
@@ -114,10 +113,8 @@ class _ColumnTaskPanel:
         self.form.y_dirRebarHookExtendAlong.currentIndexChanged.connect(
             self.getHookExtendAlong
         )
-        self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(self))
-        self.form.removeCustomSpacing.clicked.connect(
-            lambda: removeRebarDistribution(self)
-        )
+        self.form.customSpacing.clicked.connect(self.runRebarDistribution)
+        self.form.removeCustomSpacing.clicked.connect(self.removeRebarDistribution)
         self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
 
     def getStandardButtons(self):
@@ -198,6 +195,14 @@ class _ColumnTaskPanel:
                     self.SelectedObj,
                     self.FaceName,
                 )
+        if self.CustomSpacing:
+            if RebarGroup:
+                for Rebar in RebarGroup.Object.Group:
+                    if Rebar.ViewObject.RebarShape == "Stirrup":
+                        Tie = Rebar
+                        break
+                Tie.CustomSpacing = self.CustomSpacing
+                FreeCAD.ActiveDocument.recompute()
         self.RebarGroup = RebarGroup
         if signal != int(QtGui.QDialogButtonBox.Apply):
             FreeCADGui.Control.closeDialog(self)
@@ -347,6 +352,23 @@ class _ColumnTaskPanel:
         when spacing radio button is clicked."""
         self.form.number.setEnabled(False)
         self.form.spacing.setEnabled(True)
+
+    def runRebarDistribution(self):
+        offset_of_tie = self.form.tieOffset.text()
+        offset_of_tie = FreeCAD.Units.Quantity(offset_of_tie).Value
+        from RebarDistribution import runRebarDistribution
+
+        runRebarDistribution(self, offset_of_tie)
+
+    def removeRebarDistribution(self):
+        self.CustomSpacing = None
+        if self.RebarGroup:
+            for Rebar in self.RebarGroup.Group:
+                if Rebar.ViewObject.RebarShape == "Stirrup":
+                    Tie = Rebar
+                    break
+            Tie.CustomSpacing = ""
+        FreeCAD.ActiveDocument.recompute()
 
     def getMainRebarType(self):
         """This function is used to find Main Rebars Type and update UI
