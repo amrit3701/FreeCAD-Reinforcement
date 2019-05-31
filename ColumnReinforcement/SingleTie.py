@@ -29,7 +29,7 @@ __url__ = "https://www.freecadweb.org"
 import FreeCAD
 
 from Stirrup import makeStirrup, editStirrup
-from StraightRebar import makeStraightRebar
+from StraightRebar import makeStraightRebar, editStraightRebar
 from LShapeRebar import makeLShapeRebar
 from Rebarfunc import (
     getParametersOfFace,
@@ -440,9 +440,16 @@ def editSingleTieFourRebars(
     for Rebar in rebar_group.Group:
         if Rebar.ViewObject.RebarShape == "Stirrup":
             Tie = Rebar
+        else:
+            prev_rebar_type = Rebar.ViewObject.RebarShape
     if not structure and not facename:
         structure = Tie.Base.Support[0][0]
         faceName = Tie.Base.Support[0][1][0]
+    # Check if main rebar_type changed or not
+    if prev_rebar_type == rebar_type:
+        change_rebar_type = False
+    else:
+        change_rebar_type = True
 
     # Edit Tie
     rounding = (float(dia_of_tie) / 2 + dia_of_rebars / 2) / dia_of_tie
@@ -464,6 +471,98 @@ def editSingleTieFourRebars(
         facename,
     )
     print("WIP: Tie edited")
+
+    # Calculate common parameters for Straight/LShaped rebars
+    if hook_extend_along == "x-axis":
+        f_cover = b_cover_of_tie + dia_of_tie
+    else:
+        f_cover = r_cover_of_tie + dia_of_tie
+    t_cover = t_offset_of_rebars
+    b_cover = b_offset_of_rebars
+    rebar_number_spacing_check = True
+    rebar_number_spacing_value = 2
+
+    # Find facename of face normal to selected/provided face
+    facename_for_rebars = getFacenameforRebar(hook_extend_along, facename, structure)
+
+    # Create/Edit Straight Rebars
+    if rebar_type == "StraightRebar":
+        # Right and left cover changes with hook_extend_along because facename,
+        # using which rebars created, changes with value of hook_extend_along
+        if hook_extend_along == "x-axis":
+            r_cover = r_cover_of_tie + dia_of_tie
+            l_cover = l_cover_of_tie + dia_of_tie
+        else:
+            r_cover = t_cover_of_tie + dia_of_tie
+            l_cover = l_cover_of_tie + dia_of_tie
+        orientation = "Vertical"
+        list_coverAlong = ["Right Side", "Left Side"]
+        rl_cover = [r_cover, l_cover]
+
+        if change_rebar_type:
+            # Delete previously created LShaped rebars
+            for Rebar in rebar_group.Group:
+                if Rebar.ViewObject.RebarShape == prev_rebar_type:
+                    base_name = Rebar.Base.Name
+                    FreeCAD.ActiveDocument.removeObject(Rebar.Name)
+                    FreeCAD.ActiveDocument.removeObject(base_name)
+            i = 0
+            main_rebars = []
+            for coverAlong in list_coverAlong:
+                main_rebars.append(
+                    makeStraightRebar(
+                        f_cover,
+                        (coverAlong, rl_cover[i]),
+                        t_cover,
+                        b_cover,
+                        dia_of_rebars,
+                        rebar_number_spacing_check,
+                        rebar_number_spacing_value,
+                        orientation,
+                        structure,
+                        facename_for_rebars,
+                    )
+                )
+                if hook_extend_along == "x-axis":
+                    main_rebars[i].OffsetEnd = (
+                        t_cover_of_tie + dia_of_tie + dia_of_rebars / 2
+                    )
+                else:
+                    main_rebars[i].OffsetEnd = (
+                        l_cover_of_tie + dia_of_tie + dia_of_rebars / 2
+                    )
+                i += 1
+            rebar_group.addObjects(main_rebars)
+        else:
+            main_rebars = []
+            for Rebar in rebar_group.Group:
+                if Rebar.ViewObject.RebarShape == rebar_type:
+                    main_rebars.append(Rebar)
+            i = 0
+            for coverAlong in list_coverAlong:
+                editStraightRebar(
+                    main_rebars[i],
+                    f_cover,
+                    (coverAlong, rl_cover[i]),
+                    t_cover,
+                    b_cover,
+                    dia_of_rebars,
+                    rebar_number_spacing_check,
+                    rebar_number_spacing_value,
+                    orientation,
+                    structure,
+                    facename_for_rebars,
+                )
+                if hook_extend_along == "x-axis":
+                    main_rebars[i].OffsetEnd = (
+                        t_cover_of_tie + dia_of_tie + dia_of_rebars / 2
+                    )
+                else:
+                    main_rebars[i].OffsetEnd = (
+                        l_cover_of_tie + dia_of_tie + dia_of_rebars / 2
+                    )
+                i += 1
+    FreeCAD.ActiveDocument.recompute()
     return rebar_group
 
 
