@@ -28,7 +28,7 @@ __url__ = "https://www.freecadweb.org"
 
 import FreeCAD
 
-from Stirrup import makeStirrup
+from Stirrup import makeStirrup, editStirrup
 from StraightRebar import makeStraightRebar
 from LShapeRebar import makeLShapeRebar
 from Rebarfunc import (
@@ -362,7 +362,7 @@ def makeSingleTieFourRebars(
     f_cover = offset_of_tie
 
     # Create Stirrups
-    stirrup = makeStirrup(
+    tie = makeStirrup(
         l_cover_of_tie,
         r_cover_of_tie,
         t_cover_of_tie,
@@ -382,7 +382,7 @@ def makeSingleTieFourRebars(
     SingleTieFourRebars = _SingleTieFourRebars()
 
     # Add created tie and rebars to SingleTieFourRebars group
-    SingleTieFourRebars.addObject(stirrup)
+    SingleTieFourRebars.addObject(tie)
     SingleTieFourRebars.addObjects(main_rebars)
 
     # Set properties values for tie and rebars in SingleTieFourRebars group
@@ -396,7 +396,7 @@ def makeSingleTieFourRebars(
     properties_values.append(("HookExtension", hook_extension))
     SingleTieFourRebars.setPropertiesValues(properties_values)
     FreeCAD.ActiveDocument.recompute()
-    return SingleTieFourRebars
+    return SingleTieFourRebars.Object
 
 
 def editSingleTieFourRebars(
@@ -437,7 +437,34 @@ def editSingleTieFourRebars(
     'Top Right', 'Bottom Left', 'Bottom Right'.
     It takes two different inputs for hook_extend_along i.e. 'x-axis', 'y-axis'.
     """
-    print("Implementation in progress")
+    for Rebar in rebar_group.Group:
+        if Rebar.ViewObject.RebarShape == "Stirrup":
+            Tie = Rebar
+    if not structure and not facename:
+        structure = Tie.Base.Support[0][0]
+        faceName = Tie.Base.Support[0][1][0]
+
+    # Edit Tie
+    rounding = (float(dia_of_tie) / 2 + dia_of_rebars / 2) / dia_of_tie
+    f_cover = offset_of_tie
+    tie = editStirrup(
+        Tie,
+        l_cover_of_tie,
+        r_cover_of_tie,
+        t_cover_of_tie,
+        b_cover_of_tie,
+        f_cover,
+        bent_angle,
+        extension_factor,
+        dia_of_tie,
+        rounding,
+        number_spacing_check,
+        number_spacing_value,
+        structure,
+        facename,
+    )
+    print("WIP: Tie edited")
+    return rebar_group
 
 
 class _SingleTieFourRebars(_RebarGroup, _ViewProviderRebarGroup):

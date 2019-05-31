@@ -197,7 +197,7 @@ class _ColumnTaskPanel:
                 )
         if self.CustomSpacing:
             if RebarGroup:
-                for Rebar in RebarGroup.Object.Group:
+                for Rebar in RebarGroup.Group:
                     if Rebar.ViewObject.RebarShape == "Stirrup":
                         Tie = Rebar
                         break
