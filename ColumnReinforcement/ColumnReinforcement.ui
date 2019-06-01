@@ -478,14 +478,14 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="x_dirCoverLabel">
+       <widget class="QLabel" name="tieLeftCoverLabel">
         <property name="text">
-         <string>Clear Cover along x-direction</string>
+         <string>Left Cover</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="Gui::InputField" name="x_dirCover">
+       <widget class="Gui::InputField" name="tieLeftCover">
         <property name="text">
          <string>20.00 mm</string>
         </property>
@@ -495,48 +495,14 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="y_dirCoverLabel">
+       <widget class="QLabel" name="tieRightCoverLabel">
         <property name="text">
-         <string>Clear Cover along y-direction</string>
+         <string>Right Cover</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="Gui::InputField" name="y_dirCover">
-        <property name="text">
-         <string>20.00 mm</string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="tieOffsetLabel">
-        <property name="text">
-         <string>Offset</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="Gui::InputField" name="tieOffset">
-        <property name="text">
-         <string>20.00 mm</string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="tieDiameterLabel">
-        <property name="text">
-         <string>Diameter</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="Gui::InputField" name="tieDiameter">
+       <widget class="Gui::InputField" name="tieRightCover">
         <property name="text">
          <string>20.00 mm</string>
         </property>
@@ -546,13 +512,47 @@
        </widget>
       </item>
       <item row="5" column="0">
+       <widget class="QLabel" name="tieOffsetLabel">
+        <property name="text">
+         <string>Offset</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="Gui::InputField" name="tieOffset">
+        <property name="text">
+         <string>20.00 mm</string>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="tieDiameterLabel">
+        <property name="text">
+         <string>Diameter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="Gui::InputField" name="tieDiameter">
+        <property name="text">
+         <string>20.00 mm</string>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
        <widget class="QLabel" name="bentAngleLabel">
         <property name="text">
          <string>Bent Angle</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="7" column="1">
        <widget class="Gui::PrefComboBox" name="bentAngle">
         <property name="prefEntry" stdset="0">
          <cstring></cstring>
@@ -562,21 +562,21 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
+      <item row="8" column="0">
        <widget class="QLabel" name="extensionFactorLabel">
         <property name="text">
          <string>Extension Factor</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
+      <item row="8" column="1">
        <widget class="Gui::PrefSpinBox" name="extensionFactor">
         <property name="value">
          <number>4</number>
         </property>
        </widget>
       </item>
-      <item row="7" column="0" colspan="2">
+      <item row="9" column="0" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="Gui::PrefRadioButton" name="number_radio">
@@ -603,14 +603,14 @@
         </item>
        </layout>
       </item>
-      <item row="8" column="0">
+      <item row="10" column="0">
        <widget class="QLabel" name="numberLabel">
         <property name="text">
          <string>Number</string>
         </property>
        </widget>
       </item>
-      <item row="8" column="1">
+      <item row="10" column="1">
        <widget class="Gui::PrefSpinBox" name="number">
         <property name="enabled">
          <bool>true</bool>
@@ -620,14 +620,14 @@
         </property>
        </widget>
       </item>
-      <item row="9" column="0">
+      <item row="11" column="0">
        <widget class="QLabel" name="spacingLabel">
         <property name="text">
          <string>Spacing</string>
         </property>
        </widget>
       </item>
-      <item row="9" column="1">
+      <item row="11" column="1">
        <widget class="Gui::InputField" name="spacing">
         <property name="enabled">
          <bool>false</bool>
@@ -640,7 +640,7 @@
         </property>
        </widget>
       </item>
-      <item row="10" column="0" colspan="2">
+      <item row="12" column="0" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout_8">
         <item>
          <widget class="QPushButton" name="customSpacing">
@@ -675,6 +675,40 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="tieTopCoverLabel">
+        <property name="text">
+         <string>Top Cover</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="tieBottomCoverLabel">
+        <property name="text">
+         <string>Bottom Cover</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="Gui::InputField" name="tieTopCover">
+        <property name="text">
+         <string>20.00 mm</string>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="Gui::InputField" name="tieBottomCover">
+        <property name="text">
+         <string>20.00 mm</string>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
