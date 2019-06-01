@@ -296,17 +296,10 @@ def makeSingleTieFourRebars(
     elif rebar_type == "LShapeRebar":
         FacePRM = getParametersOfFace(structure, facename_for_rebars)
         face_length = FacePRM[0][0]
-        # TODO: Implement hook extension values from here:
+        # Implement hook extension values from here:
         # https://archive.org/details/gov.in.is.sp.16.1980/page/n207
         if not hook_extension:
-            if hook_extend_along == "x-axis":
-                hook_extension = (
-                    face_length - l_cover_of_tie - r_cover_of_tie - 2 * dia_of_tie
-                ) / 3
-            else:
-                hook_extension = (
-                    face_length - t_cover_of_tie - b_cover_of_tie - 2 * dia_of_tie
-                ) / 3
+            hook_extension = 4 * dia_of_rebars
         if not l_rebar_rounding:
             l_rebar_rounding = (float(dia_of_tie) / 2 + dia_of_rebars / 2) / dia_of_tie
         l_rebar_orientation_cover = getLRebarOrientationLeftRightCover(
@@ -566,17 +559,10 @@ def editSingleTieFourRebars(
     elif rebar_type == "LShapeRebar":
         FacePRM = getParametersOfFace(structure, facename_for_rebars)
         face_length = FacePRM[0][0]
-        # TODO: Implement hook extension values from here:
+        # Implement hook extension values from here:
         # https://archive.org/details/gov.in.is.sp.16.1980/page/n207
         if not hook_extension:
-            if hook_extend_along == "x-axis":
-                hook_extension = (
-                    face_length - l_cover_of_tie - r_cover_of_tie - 2 * dia_of_tie
-                ) / 3
-            else:
-                hook_extension = (
-                    face_length - t_cover_of_tie - b_cover_of_tie - 2 * dia_of_tie
-                ) / 3
+            hook_extension = 4 * dia_of_rebars
         if not l_rebar_rounding:
             l_rebar_rounding = (float(dia_of_tie) / 2 + dia_of_rebars / 2) / dia_of_tie
         l_rebar_orientation_cover = getLRebarOrientationLeftRightCover(
@@ -665,6 +651,16 @@ def editSingleTieFourRebars(
                         l_cover_of_tie + dia_of_tie + dia_of_rebars / 2
                     )
                 i += 1
+
+    # Set properties values for tie and rebars in SingleTieFourRebars group
+    rebar_group.ColumnConfiguration = "SingleTieFourRebars"
+    rebar_group.MainRebarType = rebar_type
+    rebar_group.RebarTopOffset = t_offset_of_rebars
+    rebar_group.RebarBottomOffset = b_offset_of_rebars
+    rebar_group.HookOrientation = hook_orientation
+    rebar_group.HookExtendAlong = hook_extend_along
+    rebar_group.HookExtension = hook_extension
+
     FreeCAD.ActiveDocument.recompute()
     return rebar_group
 
