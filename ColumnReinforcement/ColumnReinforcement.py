@@ -49,9 +49,13 @@ class _ColumnTaskPanel:
                     Tie = Rebar
             self.FaceName = Tie.Base.Support[0][1][0]
             self.SelectedObj = Tie.Base.Support[0][0]
-        self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
+        self.form = FreeCADGui.PySideUic.loadUi(
+            os.path.splitext(__file__)[0] + ".ui"
+        )
         self.form.setWindowTitle(
-            QtGui.QApplication.translate("RebarAddon", "Column Reinforcement", None)
+            QtGui.QApplication.translate(
+                "RebarAddon", "Column Reinforcement", None
+            )
         )
         self.form.image.setPixmap(
             QtGui.QPixmap(
@@ -101,9 +105,15 @@ class _ColumnTaskPanel:
         )
         self.form.number_radio.clicked.connect(self.number_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
-        self.form.mainRebarType.currentIndexChanged.connect(self.getMainRebarType)
-        self.form.x_dirRebarType.currentIndexChanged.connect(self.getXDirRebarType)
-        self.form.y_dirRebarType.currentIndexChanged.connect(self.getYDirRebarType)
+        self.form.mainRebarType.currentIndexChanged.connect(
+            self.getMainRebarType
+        )
+        self.form.x_dirRebarType.currentIndexChanged.connect(
+            self.getXDirRebarType
+        )
+        self.form.y_dirRebarType.currentIndexChanged.connect(
+            self.getYDirRebarType
+        )
         self.form.mainRebarHookExtendAlong.currentIndexChanged.connect(
             self.getHookExtendAlong
         )
@@ -114,8 +124,12 @@ class _ColumnTaskPanel:
             self.getHookExtendAlong
         )
         self.form.customSpacing.clicked.connect(self.runRebarDistribution)
-        self.form.removeCustomSpacing.clicked.connect(self.removeRebarDistribution)
-        self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
+        self.form.removeCustomSpacing.clicked.connect(
+            self.removeRebarDistribution
+        )
+        self.form.PickSelectedFace.clicked.connect(
+            lambda: getSelectedFace(self)
+        )
 
     def getStandardButtons(self):
         """This function add standard buttons to tool bar."""
@@ -272,7 +286,9 @@ class _ColumnTaskPanel:
         self.xdir_rebar_hook_extend_along = (
             self.form.x_dirRebarHookExtendAlong.currentText()
         )
-        self.xdir_rebar_hook_extension = self.form.x_dirRebarHookExtension.text()
+        self.xdir_rebar_hook_extension = (
+            self.form.x_dirRebarHookExtension.text()
+        )
         self.xdir_rebar_hook_extension = FreeCAD.Units.Quantity(
             self.xdir_rebar_hook_extension
         ).Value
@@ -300,7 +316,9 @@ class _ColumnTaskPanel:
         self.ydir_rebar_hook_extend_along = (
             self.form.y_dirRebarHookExtendAlong.currentText()
         )
-        self.ydir_rebar_hook_extension = self.form.y_dirRebarHookExtension.text()
+        self.ydir_rebar_hook_extension = (
+            self.form.y_dirRebarHookExtension.text()
+        )
         self.ydir_rebar_hook_extension = FreeCAD.Units.Quantity(
             self.ydir_rebar_hook_extension
         ).Value
@@ -325,7 +343,9 @@ class _ColumnTaskPanel:
         if self.column_configuration == "Custom Configuration":
             self.form.image.setPixmap(
                 QtGui.QPixmap(
-                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
                     + "/icons/Column_CustomConfiguration.png"
                 )
             )
@@ -334,7 +354,9 @@ class _ColumnTaskPanel:
         elif self.column_configuration == "SingleTieFourRebars":
             self.form.image.setPixmap(
                 QtGui.QPixmap(
-                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
                     + "/icons/Column_SingleTieFourRebars.png"
                 )
             )
@@ -399,9 +421,15 @@ class _ColumnTaskPanel:
 
     def getHookExtendAlong(self):
         """This function is used to find HookExtendAlong value from UI."""
-        self.main_hook_extend_along = self.form.mainRebarHookExtendAlong.currentText()
-        self.xdir_hook_extend_along = self.form.x_dirRebarHookExtendAlong.currentText()
-        self.ydir_hook_extend_along = self.form.y_dirRebarHookExtendAlong.currentText()
+        self.main_hook_extend_along = (
+            self.form.mainRebarHookExtendAlong.currentText()
+        )
+        self.xdir_hook_extend_along = (
+            self.form.x_dirRebarHookExtendAlong.currentText()
+        )
+        self.ydir_hook_extend_along = (
+            self.form.y_dirRebarHookExtendAlong.currentText()
+        )
 
     def hideXdirRebarsWidget(self):
         """This function hide widget related to Rebars placed along
@@ -428,7 +456,9 @@ def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
     obj = _ColumnTaskPanel(vobj.Object)
     obj.form.columnConfiguration.setCurrentIndex(
-        obj.form.columnConfiguration.findText(str(vobj.Object.ColumnConfiguration))
+        obj.form.columnConfiguration.findText(
+            str(vobj.Object.ColumnConfiguration)
+        )
     )
     setTieData(obj, vobj)
     setMainRebarData(obj, vobj)
@@ -445,7 +475,9 @@ def setTieData(obj, vobj):
     obj.form.tieBottomCover.setText(str(Tie.BottomCover))
     obj.form.tieOffset.setText(str(Tie.FrontCover))
     obj.form.tieDiameter.setText(str(Tie.Diameter))
-    obj.form.bentAngle.setCurrentIndex(obj.form.bentAngle.findText(str(Tie.BentAngle)))
+    obj.form.bentAngle.setCurrentIndex(
+        obj.form.bentAngle.findText(str(Tie.BentAngle))
+    )
     obj.form.extensionFactor.setValue(Tie.BentFactor)
     if Tie.AmountCheck:
         obj.form.number.setValue(Tie.Amount)
@@ -466,10 +498,14 @@ def setMainRebarData(obj, vobj):
             MainRebar = Rebar
     if MainRebar.ViewObject.RebarShape == "LShapeRebar":
         obj.form.mainRebarHookOrientation.setCurrentIndex(
-            obj.form.mainRebarHookOrientation.findText(str(vobj.Object.HookOrientation))
+            obj.form.mainRebarHookOrientation.findText(
+                str(vobj.Object.HookOrientation)
+            )
         )
         obj.form.mainRebarHookExtendAlong.setCurrentIndex(
-            obj.form.mainRebarHookExtendAlong.findText(str(vobj.Object.HookExtendAlong))
+            obj.form.mainRebarHookExtendAlong.findText(
+                str(vobj.Object.HookExtendAlong)
+            )
         )
         obj.form.mainRebarHookExtension.setText(str(vobj.Object.HookExtension))
         obj.form.mainRebarLRebarRounding.setValue(MainRebar.Rounding)
