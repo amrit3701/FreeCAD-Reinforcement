@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>1462</height>
+    <height>1524</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -147,7 +147,7 @@
          <item row="2" column="1">
           <widget class="Gui::InputField" name="y_dirRebarHookExtension">
            <property name="text">
-            <string>50.00 mm</string>
+            <string>80.00 mm</string>
            </property>
            <property name="unit" stdset="0">
             <string notr="true"/>
@@ -380,7 +380,7 @@
          <item row="2" column="1">
           <widget class="Gui::InputField" name="x_dirRebarHookExtension">
            <property name="text">
-            <string>50.00 mm</string>
+            <string>80.00 mm</string>
            </property>
            <property name="unit" stdset="0">
             <string notr="true"/>
@@ -921,7 +921,7 @@
          <item row="2" column="1">
           <widget class="Gui::InputField" name="mainRebarHookExtension">
            <property name="text">
-            <string>50.00 mm</string>
+            <string>80.00 mm</string>
            </property>
            <property name="unit" stdset="0">
             <string notr="true"/>
@@ -970,6 +970,52 @@
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>rectangular_column_radio</tabstop>
+  <tabstop>circular_column_radio</tabstop>
+  <tabstop>columnConfiguration</tabstop>
+  <tabstop>tieLeftCover</tabstop>
+  <tabstop>tieRightCover</tabstop>
+  <tabstop>tieTopCover</tabstop>
+  <tabstop>tieBottomCover</tabstop>
+  <tabstop>tieOffset</tabstop>
+  <tabstop>tieDiameter</tabstop>
+  <tabstop>bentAngle</tabstop>
+  <tabstop>extensionFactor</tabstop>
+  <tabstop>number_radio</tabstop>
+  <tabstop>spacing_radio</tabstop>
+  <tabstop>number</tabstop>
+  <tabstop>spacing</tabstop>
+  <tabstop>customSpacing</tabstop>
+  <tabstop>removeCustomSpacing</tabstop>
+  <tabstop>mainRebarType</tabstop>
+  <tabstop>mainRebarHookOrientation</tabstop>
+  <tabstop>mainRebarHookExtendAlong</tabstop>
+  <tabstop>mainRebarHookExtension</tabstop>
+  <tabstop>mainRebarLRebarRounding</tabstop>
+  <tabstop>mainRebarTopOffset</tabstop>
+  <tabstop>mainRebarBottomOffset</tabstop>
+  <tabstop>mainRebarDiameter</tabstop>
+  <tabstop>x_dirRebarType</tabstop>
+  <tabstop>x_dirRebarHookOrientation</tabstop>
+  <tabstop>x_dirRebarHookExtendAlong</tabstop>
+  <tabstop>x_dirRebarHookExtension</tabstop>
+  <tabstop>x_dirLRebarRounding</tabstop>
+  <tabstop>x_dirRebarTopOffset</tabstop>
+  <tabstop>x_dirRebarBottomOffset</tabstop>
+  <tabstop>x_dirNumberDiameter</tabstop>
+  <tabstop>x_dirEditNumberDiameter</tabstop>
+  <tabstop>y_dirRebarType</tabstop>
+  <tabstop>y_dirRebarHookOrientation</tabstop>
+  <tabstop>y_dirRebarHookExtendAlong</tabstop>
+  <tabstop>y_dirRebarHookExtension</tabstop>
+  <tabstop>y_dirLRebarRounding</tabstop>
+  <tabstop>y_dirRebarTopOffset</tabstop>
+  <tabstop>y_dirRebarBottomOffset</tabstop>
+  <tabstop>y_dirNumberDiameter</tabstop>
+  <tabstop>y_dirEditNumberDiameter</tabstop>
+  <tabstop>PickSelectedFace</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
