@@ -26,6 +26,7 @@ __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
 from PySide import QtCore, QtGui
+from PySide.QtCore import QT_TRANSLATE_NOOP
 from DraftGeomUtils import vec, isCubic
 import FreeCAD
 import FreeCADGui
@@ -256,6 +257,62 @@ def extendedTangentLength(rounding, diameter, angle):
     x1 = radius / math.sin(math.radians(angle))
     x2 = radius * math.tan(math.radians(90 - angle))
     return x1 + x2
+
+
+# -------------------------------------------------------------------------
+# Classes which are mainly used while creating Column Reinforcement.
+# -------------------------------------------------------------------------
+
+
+class _RebarGroup:
+    "A Rebar Group object."
+
+    def __init__(self, obj):
+        self.Type = "RebarGroup"
+        self.Object = obj
+
+    def execute(self, obj):
+        pass
+
+    def addObject(self, rebar):
+        self.Object.addObject(rebar)
+
+    def addObjects(self, rebars):
+        self.Object.addObjects(rebars)
+
+    def setProperties(self, properties):
+        for prop in properties:
+            self.Object.addProperty(
+                prop[0],
+                prop[1],
+                "RebarDialog",
+                QT_TRANSLATE_NOOP("App::Property", prop[2]),
+            )
+            self.Object.setEditorMode(prop[1], prop[3])
+
+    def setPropertiesValues(self, properties_values):
+        for prop in properties_values:
+            setattr(self.Object, prop[0], prop[1])
+
+
+class _ViewProviderRebarGroup:
+    "A View Provider for the Rebar Group object."
+
+    def __init__(self, vobj):
+        vobj.Proxy = self
+        self.Object = vobj.Object
+
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self, state):
+        return None
+
+    def doubleClicked(self, vobj):
+        from ColumnReinforcement import ColumnReinforcement
+
+        ColumnReinforcement.editDialog(vobj)
+
 
 # -------------------------------------------------------------------------
 # Warning / Alert functions when user do something wrong.
