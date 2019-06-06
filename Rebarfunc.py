@@ -89,7 +89,7 @@ def facenormalDirection(structure = None, facename = None):
     normal = face.Placement.Rotation.inverted().multVec(normal)
     return normal
 
-def gettupleOfNumberDiameter(self, diameter_string):
+def gettupleOfNumberDiameter(diameter_string):
     """gettupleOfNumberDiameter(diameter_string): This function take input in
     specific syntax and return output in the form of list. For eg.
     Input: "3#100+2#200+3#100"

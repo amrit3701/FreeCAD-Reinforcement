@@ -220,12 +220,14 @@ def makeSingleTieFourRebars(
     hook_extension=None,
     structure=None,
     facename=None,
+    ColumnConfiguration="SingleTieFourRebars",
 ):
     """makeSingleTieFourRebars(LeftCoverOfTie, RightCoverOfTie, TopCoverOfTie,
     BottomCoverOfTie, OffsetofTie, BentAngle, ExtensionFactor, DiameterOfTie,
     NumberSpacingCheck, NumberSpacingValue, DiameterOfRebars, TopOffsetofRebars,
     BottomOffsetofRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
-    LShapeRebarRounding, LShapeHookLength, Structure, Facename):
+    LShapeRebarRounding, LShapeHookLength, Structure, Facename,
+    ColumnConfiguration):
     Adds the Single Tie reinforcement to the selected structural column
     object.
     It takes two different inputs for rebar_type i.e. 'StraightRebar',
@@ -378,7 +380,7 @@ def makeSingleTieFourRebars(
     )
 
     # Create SingleTieFourRebars group object
-    SingleTieFourRebars = _SingleTieFourRebars()
+    SingleTieFourRebars = _SingleTieFourRebars(ColumnConfiguration)
     if FreeCAD.GuiUp:
         _ViewProviderRebarGroup(SingleTieFourRebars.Object.ViewObject)
 
@@ -388,13 +390,13 @@ def makeSingleTieFourRebars(
 
     # Set properties values for tie and rebars in SingleTieFourRebars group
     properties_values = []
-    properties_values.append(("ColumnConfiguration", "SingleTieFourRebars"))
+    properties_values.append(("ColumnConfiguration", ColumnConfiguration))
     properties_values.append(("MainRebarType", rebar_type))
-    properties_values.append(("RebarTopOffset", t_offset_of_rebars))
-    properties_values.append(("RebarBottomOffset", b_offset_of_rebars))
-    properties_values.append(("HookOrientation", hook_orientation))
-    properties_values.append(("HookExtendAlong", hook_extend_along))
-    properties_values.append(("HookExtension", hook_extension))
+    properties_values.append(("MainRebarTopOffset", t_offset_of_rebars))
+    properties_values.append(("MainRebarBottomOffset", b_offset_of_rebars))
+    properties_values.append(("MainHookOrientation", hook_orientation))
+    properties_values.append(("MainHookExtendAlong", hook_extend_along))
+    properties_values.append(("MainHookExtension", hook_extension))
     SingleTieFourRebars.setPropertiesValues(properties_values)
     FreeCAD.ActiveDocument.recompute()
     return SingleTieFourRebars.Object
@@ -657,13 +659,13 @@ def editSingleTieFourRebars(
                     )
 
     # Set properties values for tie and rebars in SingleTieFourRebars group
-    rebar_group.ColumnConfiguration = "SingleTieFourRebars"
+    rebar_group.ColumnConfiguration = ColumnConfiguration
     rebar_group.MainRebarType = rebar_type
-    rebar_group.RebarTopOffset = t_offset_of_rebars
-    rebar_group.RebarBottomOffset = b_offset_of_rebars
-    rebar_group.HookOrientation = hook_orientation
-    rebar_group.HookExtendAlong = hook_extend_along
-    rebar_group.HookExtension = hook_extension
+    rebar_group.MainRebarTopOffset = t_offset_of_rebars
+    rebar_group.MainRebarBottomOffset = b_offset_of_rebars
+    rebar_group.MainHookOrientation = hook_orientation
+    rebar_group.MainHookExtendAlong = hook_extend_along
+    rebar_group.MainHookExtension = hook_extension
 
     FreeCAD.ActiveDocument.recompute()
     return rebar_group
@@ -672,10 +674,10 @@ def editSingleTieFourRebars(
 class _SingleTieFourRebars(_RebarGroup):
     "A SingleTieFourRebars group object."
 
-    def __init__(self):
+    def __init__(self, ColumnConfiguration="SingleTieFourRebars"):
         """Create Group object and add properties to it."""
         rebar_group = FreeCAD.ActiveDocument.addObject(
-            "App::DocumentObjectGroupPython", "SingleTieFourRebars"
+            "App::DocumentObjectGroupPython", ColumnConfiguration
         )
         _RebarGroup.__init__(self, rebar_group)
         # Add properties to group of rebars
@@ -708,7 +710,7 @@ class _SingleTieFourRebars(_RebarGroup):
         properties.append(
             (
                 "App::PropertyDistance",
-                "RebarTopOffset",
+                "MainRebarTopOffset",
                 "Top offset of main rebars",
                 1,
             )
@@ -716,7 +718,7 @@ class _SingleTieFourRebars(_RebarGroup):
         properties.append(
             (
                 "App::PropertyDistance",
-                "RebarBottomOffset",
+                "MainRebarBottomOffset",
                 "Bottom offset of main rebars",
                 1,
             )
@@ -724,20 +726,25 @@ class _SingleTieFourRebars(_RebarGroup):
         properties.append(
             (
                 "App::PropertyString",
-                "HookOrientation",
-                "Orientation of LShaped Rebar Hook",
+                "MainHookOrientation",
+                "Orientation of LShaped Main Rebar Hook",
                 1,
             )
         )
         properties.append(
             (
                 "App::PropertyString",
-                "HookExtendAlong",
-                "Direction of hook extension",
+                "MainHookExtendAlong",
+                "Direction of main hook extension",
                 1,
             )
         )
         properties.append(
-            ("App::PropertyDistance", "HookExtension", "Length of hook", 1)
+            (
+                "App::PropertyDistance",
+                "MainHookExtension",
+                "Length of main hook",
+                1,
+            )
         )
         self.setProperties(properties)
