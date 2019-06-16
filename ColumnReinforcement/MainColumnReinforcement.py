@@ -1,0 +1,642 @@
+# -*- coding: utf-8 -*-
+# ***************************************************************************
+# *                                                                         *
+# *   Copyright (c) 2019 - Suraj <dadralj18@gmail.com>                      *
+# *                                                                         *
+# *   This program is free software; you can redistribute it and/or modify  *
+# *   it under the terms of the GNU Lesser General Public License (LGPL)    *
+# *   as published by the Free Software Foundation; either version 2 of     *
+# *   the License, or (at your option) any later version.                   *
+# *   for detail see the LICENCE text file.                                 *
+# *                                                                         *
+# *   This program is distributed in the hope that it will be useful,       *
+# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+# *   GNU Library General Public License for more details.                  *
+# *                                                                         *
+# *   You should have received a copy of the GNU Library General Public     *
+# *   License along with this program; if not, write to the Free Software   *
+# *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
+# *   USA                                                                   *
+# *                                                                         *
+# ***************************************************************************
+
+__title__ = "Column Reinforcement"
+__author__ = "Suraj"
+__url__ = "https://www.freecadweb.org"
+
+import os
+from PySide2 import QtGui, QtWidgets
+
+import FreeCAD
+import FreeCADGui
+
+from Rebarfunc import check_selected_face
+from .SingleTie import makeSingleTieFourRebars, editSingleTieFourRebars
+
+
+class _ColumnReinforcementDialog:
+    def __init__(self, RebarGroup=None):
+        """This function set initial data in Column Reinforcement dialog box."""
+        self.CustomSpacing = None
+        if not RebarGroup:
+            selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
+            self.SelectedObj = selected_obj.Object
+            self.FaceName = selected_obj.SubElementNames[0]
+        self.form = FreeCADGui.PySideUic.loadUi(
+            os.path.splitext(__file__)[0] + ".ui"
+        )
+        self.form.setWindowTitle(
+            QtWidgets.QApplication.translate(
+                "RebarAddon", "Column Reinforcement", None
+            )
+        )
+        self.RebarGroup = RebarGroup
+
+    def setupUi(self):
+        # Add items into rebars_listWidget
+        self.form.rebars_listWidget.addItem("Ties")
+        self.form.rebars_listWidget.addItem("Main Rebars")
+        self.form.rebars_listWidget.addItem("XDir Secondary Rebars")
+        self.form.rebars_listWidget.addItem("YDir Secondary Rebars")
+        self.form.rebars_listWidget.setCurrentRow(0)
+        # Load and add widgets into stacked widget
+        self.ties_widget = FreeCADGui.PySideUic.loadUi(
+            os.path.split(os.path.abspath(__file__))[0] + "/Ties.ui"
+        )
+        self.form.rebars_stackedWidget.addWidget(self.ties_widget)
+        self.main_rebars_widget = FreeCADGui.PySideUic.loadUi(
+            os.path.split(os.path.abspath(__file__))[0] + "/MainRebars.ui"
+        )
+        self.form.rebars_stackedWidget.addWidget(self.main_rebars_widget)
+        self.sec_xdir_rebars_widget = FreeCADGui.PySideUic.loadUi(
+            os.path.split(os.path.abspath(__file__))[0] + "/SecXDirRebars.ui"
+        )
+        self.form.rebars_stackedWidget.addWidget(self.sec_xdir_rebars_widget)
+        self.sec_ydir_rebars_widget = FreeCADGui.PySideUic.loadUi(
+            os.path.split(os.path.abspath(__file__))[0] + "/SecYDirRebars.ui"
+        )
+        self.form.rebars_stackedWidget.addWidget(self.sec_ydir_rebars_widget)
+        # Set Ties data Widget in Scroll Area
+        self.ties_widget.ties_scrollArea.setWidget(
+            self.ties_widget.ties_dataWidget
+        )
+        # Add dropdown menu items
+        self.addDropdownMenuItems()
+        # Add image of Single Tie
+        self.ties_widget.ties_configurationImage.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+                + "/icons/Column_SingleTieFourRebars.png"
+            )
+        )
+        self.main_rebars_widget.ties_configurationImage.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+                + "/icons/Column_SingleTieFourRebars.png"
+            )
+        )
+        self.sec_xdir_rebars_widget.ties_configurationImage.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+                + "/icons/Column_SingleTieFourRebars.png"
+            )
+        )
+        self.sec_ydir_rebars_widget.ties_configurationImage.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+                + "/icons/Column_SingleTieFourRebars.png"
+            )
+        )
+        # Set default values in UI
+        self.setDefaultValues()
+        # Connect signals and slots
+        self.connectSignalSlots()
+
+    def setDefaultValues(self):
+        # Set default values in UI
+        # Set Ties data
+        self.ties_widget.ties_configuration.setCurrentIndex(
+            self.ties_widget.ties_configuration.findText("SingleTie")
+        )
+        self.main_rebars_widget.ties_configuration.setCurrentIndex(
+            self.main_rebars_widget.ties_configuration.findText("SingleTie")
+        )
+        self.sec_xdir_rebars_widget.ties_configuration.setCurrentIndex(
+            self.sec_xdir_rebars_widget.ties_configuration.findText("SingleTie")
+        )
+        self.sec_ydir_rebars_widget.ties_configuration.setCurrentIndex(
+            self.sec_ydir_rebars_widget.ties_configuration.findText("SingleTie")
+        )
+        self.ties_widget.ties_leftCover.setText("40.00 mm")
+        self.ties_widget.ties_rightCover.setText("40.00 mm")
+        self.ties_widget.ties_topCover.setText("40.00 mm")
+        self.ties_widget.ties_bottomCover.setText("40.00 mm")
+        self.ties_widget.ties_offset.setText("100.00 mm")
+        self.ties_widget.ties_number.setValue(5)
+        self.ties_widget.ties_spacing.setText("100.00 mm")
+        self.ties_widget.tie1_diameter.setText("8.00 mm")
+        self.ties_widget.tie1_bentAngle.setCurrentIndex(
+            self.ties_widget.tie1_bentAngle.findText("135")
+        )
+        self.ties_widget.tie1_extensionFactor.setValue(2)
+        self.ties_widget.tie2_diameter.setText("8.00 mm")
+        self.ties_widget.tie2_bentAngle.setCurrentIndex(
+            self.ties_widget.tie2_bentAngle.findText("135")
+        )
+        self.ties_widget.tie2_extensionFactor.setValue(2)
+        self.ties_widget.tie3_diameter.setText("8.00 mm")
+        self.ties_widget.tie3_bentAngle.setCurrentIndex(
+            self.ties_widget.tie3_bentAngle.findText("135")
+        )
+        self.ties_widget.tie3_extensionFactor.setValue(2)
+        # Set Main Rebars data
+        self.main_rebars_widget.main_rebars_type.setCurrentIndex(
+            self.main_rebars_widget.main_rebars_type.findText("StraightRebar")
+        )
+        self.main_rebars_widget.main_rebars_hookOrientation.setCurrentIndex(
+            self.main_rebars_widget.main_rebars_hookOrientation.findText(
+                "Top Inside"
+            )
+        )
+        self.main_rebars_widget.main_rebars_hookExtendAlong.setCurrentIndex(
+            self.main_rebars_widget.main_rebars_hookExtendAlong.findText(
+                "x-axis"
+            )
+        )
+        self.main_rebars_widget.main_rebars_hookExtension.setText("40.00 mm")
+        self.main_rebars_widget.main_rebars_rounding.setValue(2)
+        self.main_rebars_widget.main_rebars_topOffset.setText("0.00 mm")
+        self.main_rebars_widget.main_rebars_bottomOffset.setText("0.00 mm")
+        self.main_rebars_widget.main_rebars_diameter.setText("20.00 mm")
+        # Set Secondary Xdir Rebars Data
+        self.sec_xdir_rebars_widget.xdir_rebars_type.setCurrentIndex(
+            self.sec_xdir_rebars_widget.xdir_rebars_type.findText(
+                "StraightRebar"
+            )
+        )
+        self.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.setCurrentIndex(
+            self.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.findText(
+                "Top Inside"
+            )
+        )
+        self.sec_xdir_rebars_widget.xdir_rebars_hookExtendAlong.setCurrentIndex(
+            self.sec_xdir_rebars_widget.xdir_rebars_hookExtendAlong.findText(
+                "x-axis"
+            )
+        )
+        self.sec_xdir_rebars_widget.xdir_rebars_hookExtension.setText(
+            "40.00 mm"
+        )
+        self.sec_xdir_rebars_widget.xdir_rebars_rounding.setValue(2)
+        self.sec_xdir_rebars_widget.xdir_rebars_topOffset.setText("0.00 mm")
+        self.sec_xdir_rebars_widget.xdir_rebars_bottomOffset.setText("0.00 mm")
+        self.sec_xdir_rebars_widget.xdir_rebars_numberDiameter.setText(
+            "2#20mm+1#16mm+2#20mm"
+        )
+        # Set Secondary Ydir Rebars Data
+        self.sec_ydir_rebars_widget.ydir_rebars_type.setCurrentIndex(
+            self.sec_ydir_rebars_widget.ydir_rebars_type.findText(
+                "StraightRebar"
+            )
+        )
+        self.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.setCurrentIndex(
+            self.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.findText(
+                "Top Inside"
+            )
+        )
+        self.sec_ydir_rebars_widget.ydir_rebars_hookExtendAlong.setCurrentIndex(
+            self.sec_ydir_rebars_widget.ydir_rebars_hookExtendAlong.findText(
+                "x-axis"
+            )
+        )
+        self.sec_ydir_rebars_widget.ydir_rebars_hookExtension.setText(
+            "40.00 mm"
+        )
+        self.sec_ydir_rebars_widget.ydir_rebars_rounding.setValue(2)
+        self.sec_ydir_rebars_widget.ydir_rebars_topOffset.setText("0.00 mm")
+        self.sec_ydir_rebars_widget.ydir_rebars_bottomOffset.setText("0.00 mm")
+        self.sec_ydir_rebars_widget.ydir_rebars_numberDiameter.setText(
+            "2#20mm+1#16mm+2#20mm"
+        )
+
+    def addDropdownMenuItems(self):
+        """This function add dropdown items to each Gui::PrefComboBox."""
+        # Add ties configurations
+        self.ties_widget.ties_configuration.addItems(["SingleTie"])
+        self.main_rebars_widget.ties_configuration.addItems(["SingleTie"])
+        self.sec_xdir_rebars_widget.ties_configuration.addItems(["SingleTie"])
+        self.sec_ydir_rebars_widget.ties_configuration.addItems(["SingleTie"])
+        # Add bent angle of ties
+        self.ties_widget.tie1_bentAngle.addItems(["90", "135"])
+        self.ties_widget.tie2_bentAngle.addItems(["90", "135"])
+        self.ties_widget.tie3_bentAngle.addItems(["90", "135"])
+        # Add rebar_type to all rebars widgets
+        self.main_rebars_widget.main_rebars_type.addItems(
+            ["StraightRebar", "LShapeRebar"]
+        )
+        self.sec_xdir_rebars_widget.xdir_rebars_type.addItems(
+            ["StraightRebar", "LShapeRebar"]
+        )
+        self.sec_ydir_rebars_widget.ydir_rebars_type.addItems(
+            ["StraightRebar", "LShapeRebar"]
+        )
+        # Add hook_orientation to all rebars widgets
+        hook_orientation_list = [
+            "Top Inside",
+            "Top Outside",
+            "Top Left",
+            "Top Right",
+            "Bottom Inside",
+            "Bottom Outside",
+            "Bottom Left",
+            "Bottom Right",
+        ]
+        self.main_rebars_widget.main_rebars_hookOrientation.addItems(
+            hook_orientation_list
+        )
+        self.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.addItems(
+            hook_orientation_list
+        )
+        self.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.addItems(
+            hook_orientation_list
+        )
+        # Add hook_extend_along_list to all rebars widgets
+        hook_extend_along_list = ["x-axis", "y-axis"]
+        self.main_rebars_widget.main_rebars_hookExtendAlong.addItems(
+            hook_extend_along_list
+        )
+        self.sec_xdir_rebars_widget.xdir_rebars_hookExtendAlong.addItems(
+            hook_extend_along_list
+        )
+        self.sec_ydir_rebars_widget.ydir_rebars_hookExtendAlong.addItems(
+            hook_extend_along_list
+        )
+
+    def connectSignalSlots(self):
+        """This function is used to connect different slots in UI to appropriate
+        functions."""
+        self.form.rebars_listWidget.currentRowChanged.connect(
+            self.changeRebarsListWidget
+        )
+        self.ties_widget.ties_leftCover.textChanged.connect(
+            self.tiesLeftCoverChanged
+        )
+        self.ties_widget.ties_allCoversEqual.clicked.connect(
+            self.tiesAllCoversEqualClicked
+        )
+        self.ties_widget.ties_number_radio.clicked.connect(
+            self.tiesNumberRadioClicked
+        )
+        self.ties_widget.ties_spacing_radio.clicked.connect(
+            self.tiesSpacingRadioClicked
+        )
+        self.ties_widget.ties_customSpacing.clicked.connect(
+            self.runRebarDistribution
+        )
+        self.ties_widget.ties_removeCustomSpacing.clicked.connect(
+            self.removeRebarDistribution
+        )
+        self.form.next_button.clicked.connect(self.nextButtonCilcked)
+        self.form.back_button.clicked.connect(self.backButtonCilcked)
+        self.form.standardButtonBox.clicked.connect(self.clicked)
+
+    def changeRebarsListWidget(self, index):
+        max_index = self.form.rebars_listWidget.count() - 1
+        if index == max_index:
+            self.form.next_button.setText("Finish")
+        else:
+            self.form.next_button.setText("Next")
+        self.form.rebars_stackedWidget.setCurrentIndex(index)
+
+    def tiesLeftCoverChanged(self):
+        # Set right/top/bottom cover equal to left cover
+        left_cover = self.ties_widget.ties_leftCover.text()
+        self.ties_widget.ties_rightCover.setText(left_cover)
+        self.ties_widget.ties_topCover.setText(left_cover)
+        self.ties_widget.ties_bottomCover.setText(left_cover)
+
+    def tiesAllCoversEqualClicked(self):
+        if self.ties_widget.ties_allCoversEqual.isChecked():
+            # Diable fields for right/top/bottom cover
+            self.ties_widget.ties_rightCover.setEnabled(False)
+            self.ties_widget.ties_topCover.setEnabled(False)
+            self.ties_widget.ties_bottomCover.setEnabled(False)
+            # Set right/top/bottom cover equal to left cover
+            self.tiesLeftCoverChanged()
+            self.ties_widget.ties_leftCover.textChanged.connect(
+                self.tiesLeftCoverChanged
+            )
+        else:
+            self.ties_widget.ties_rightCover.setEnabled(True)
+            self.ties_widget.ties_topCover.setEnabled(True)
+            self.ties_widget.ties_bottomCover.setEnabled(True)
+            self.ties_widget.ties_leftCover.textChanged.disconnect(
+                self.tiesLeftCoverChanged
+            )
+
+    def tiesNumberRadioClicked(self):
+        """This function enable ties_number field and disable ties_spacing field
+        in UI when ties_number_radio button is clicked."""
+        self.ties_widget.ties_spacing.setEnabled(False)
+        self.ties_widget.ties_number.setEnabled(True)
+
+    def tiesSpacingRadioClicked(self):
+        """This function enable ties_spacing field and disable ties_number field
+        in UI when ties_spacing_radio button is clicked."""
+        self.ties_widget.ties_number.setEnabled(False)
+        self.ties_widget.ties_spacing.setEnabled(True)
+
+    def runRebarDistribution(self):
+        offset_of_ties = self.ties_widget.ties_offset.text()
+        offset_of_ties = FreeCAD.Units.Quantity(offset_of_ties).Value
+        from RebarDistribution import runRebarDistribution
+
+        runRebarDistribution(self, offset_of_ties)
+
+    def removeRebarDistribution(self):
+        self.CustomSpacing = None
+        print("WIP")
+        # if self.RebarGroup:
+        #    for Rebar in self.RebarGroup.Group:
+        #        if Rebar.ViewObject.RebarShape == "Stirrup":
+        #            Tie = Rebar
+        #            break
+        #    Tie.CustomSpacing = ""
+        FreeCAD.ActiveDocument.recompute()
+
+    def nextButtonCilcked(self):
+        if self.form.next_button.text() == "Finish":
+            self.accept()
+        index = self.form.rebars_listWidget.currentRow()
+        index += 1
+        max_index = self.form.rebars_listWidget.count() - 1
+        if index <= max_index:
+            self.form.rebars_listWidget.setCurrentRow(index)
+
+    def backButtonCilcked(self):
+        index = self.form.rebars_listWidget.currentRow()
+        index -= 1
+        if index >= 0:
+            self.form.rebars_listWidget.setCurrentRow(index)
+
+    def clicked(self, button):
+        """This function is executed when 'Apply' button is clicked from UI."""
+        if self.form.standardButtonBox.buttonRole(button) in (
+            QtWidgets.QDialogButtonBox.AcceptRole,
+            QtWidgets.QDialogButtonBox.ApplyRole,
+        ):
+            self.accept(button)
+
+        elif (
+            self.form.standardButtonBox.buttonRole(button)
+            == QtWidgets.QDialogButtonBox.RejectRole
+        ):
+            self.form.close()
+
+    def accept(self, button=None):
+        """This function is executed when 'OK' button is clicked from UI. It
+        execute a function to create column reinforcement."""
+        self.ties_configuration = (
+            self.ties_widget.ties_configuration.currentText()
+        )
+        if not self.RebarGroup:
+            if self.ties_configuration == "SingleTie":
+                self.getTiesData()
+                self.getMainRebarsData()
+                RebarGroup = makeSingleTieFourRebars(
+                    self.ties_l_cover,
+                    self.ties_r_cover,
+                    self.ties_t_cover,
+                    self.ties_b_cover,
+                    self.ties_offset,
+                    self.tie1_bent_angle,
+                    self.tie1_extension_factor,
+                    self.tie1_diameter,
+                    self.ties_number_spacing_check,
+                    self.ties_number_spacing_value,
+                    self.main_rebars_diameter,
+                    self.main_rebars_t_offset,
+                    self.main_rebars_b_offset,
+                    self.main_rebars_type,
+                    self.main_rebars_hook_orientation,
+                    self.main_rebars_hook_extend_along,
+                    self.main_rebars_rounding,
+                    self.main_rebars_hook_extension,
+                    self.SelectedObj,
+                    self.FaceName,
+                )
+        else:
+            if self.ties_configuration == "SingleTie":
+                self.getTiesData()
+                self.getMainRebarsData()
+                self.getXDirRebarsData()
+                self.getYDirRebarsData()
+                RebarGroup = editSingleTieFourRebars(
+                    self.RebarGroup,
+                    self.ties_l_cover,
+                    self.ties_r_cover,
+                    self.ties_t_cover,
+                    self.ties_b_cover,
+                    self.ties_offset,
+                    self.tie1_bent_angle,
+                    self.tie1_extension_factor,
+                    self.tie1_diameter,
+                    self.ties_number_spacing_check,
+                    self.ties_number_spacing_value,
+                    self.main_rebars_diameter,
+                    self.main_rebars_t_offset,
+                    self.main_rebars_b_offset,
+                    self.main_rebars_type,
+                    self.main_rebars_hook_orientation,
+                    self.main_rebars_hook_extend_along,
+                    self.main_rebars_rounding,
+                    self.main_rebars_hook_extension,
+                    self.SelectedObj,
+                    self.FaceName,
+                )
+        self.RebarGroup = RebarGroup
+        if (
+            self.form.standardButtonBox.buttonRole(button)
+            != QtWidgets.QDialogButtonBox.ApplyRole
+        ):
+            self.form.close()
+
+    def getTiesData(self):
+        """This function is used to get data related to ties from UI."""
+        # Get ties common data
+        self.ties_l_cover = self.ties_widget.ties_leftCover.text()
+        self.ties_l_cover = FreeCAD.Units.Quantity(self.ties_l_cover).Value
+        self.ties_r_cover = self.ties_widget.ties_rightCover.text()
+        self.ties_r_cover = FreeCAD.Units.Quantity(self.ties_r_cover).Value
+        self.ties_t_cover = self.ties_widget.ties_topCover.text()
+        self.ties_t_cover = FreeCAD.Units.Quantity(self.ties_t_cover).Value
+        self.ties_b_cover = self.ties_widget.ties_bottomCover.text()
+        self.ties_b_cover = FreeCAD.Units.Quantity(self.ties_b_cover).Value
+        self.ties_offset = self.ties_widget.ties_offset.text()
+        self.ties_offset = FreeCAD.Units.Quantity(self.ties_offset).Value
+        self.ties_number_check = self.ties_widget.ties_number_radio.isChecked()
+        if self.ties_number_check:
+            self.ties_number_spacing_check = True
+            self.ties_number_spacing_value = (
+                self.ties_widget.ties_number.value()
+            )
+        else:
+            self.ties_number_spacing_check = False
+            self.ties_number_spacing_value = (
+                self.ties_widget.ties_spacing.text()
+            )
+            self.ties_number_spacing_value = FreeCAD.Units.Quantity(
+                self.ties_number_spacing_value
+            ).Value
+        # Get Tie1 data from UI
+        self.tie1_diameter = self.ties_widget.tie1_diameter.text()
+        self.tie1_diameter = FreeCAD.Units.Quantity(self.tie1_diameter).Value
+        self.tie1_bent_angle = int(
+            self.ties_widget.tie1_bentAngle.currentText()
+        )
+        self.tie1_extension_factor = (
+            self.ties_widget.tie1_extensionFactor.value()
+        )
+        # Get Tie2 data from UI
+        self.tie2_diameter = self.ties_widget.tie2_diameter.text()
+        self.tie2_diameter = FreeCAD.Units.Quantity(self.tie2_diameter).Value
+        self.tie2_bent_angle = int(
+            self.ties_widget.tie2_bentAngle.currentText()
+        )
+        self.tie2_extension_factor = (
+            self.ties_widget.tie2_extensionFactor.value()
+        )
+        # Get Tie3 data from UI
+        self.tie3_diameter = self.ties_widget.tie3_diameter.text()
+        self.tie3_diameter = FreeCAD.Units.Quantity(self.tie3_diameter).Value
+        self.tie3_bent_angle = int(
+            self.ties_widget.tie3_bentAngle.currentText()
+        )
+        self.tie3_extension_factor = (
+            self.ties_widget.tie3_extensionFactor.value()
+        )
+
+    def getMainRebarsData(self):
+        """This function is used to get data related to main rebars from UI."""
+        self.main_rebars_type = (
+            self.main_rebars_widget.main_rebars_type.currentText()
+        )
+        self.main_rebars_hook_orientation = (
+            self.main_rebars_widget.main_rebars_hookOrientation.currentText()
+        )
+        self.main_rebars_hook_extend_along = (
+            self.main_rebars_widget.main_rebars_hookExtendAlong.currentText()
+        )
+        self.main_rebars_hook_extension = (
+            self.main_rebars_widget.main_rebars_hookExtension.text()
+        )
+        self.main_rebars_hook_extension = FreeCAD.Units.Quantity(
+            self.main_rebars_hook_extension
+        ).Value
+        self.main_rebars_rounding = (
+            self.main_rebars_widget.main_rebars_rounding.value()
+        )
+        self.main_rebars_t_offset = (
+            self.main_rebars_widget.main_rebars_topOffset.text()
+        )
+        self.main_rebars_t_offset = FreeCAD.Units.Quantity(
+            self.main_rebars_t_offset
+        ).Value
+        self.main_rebars_b_offset = (
+            self.main_rebars_widget.main_rebars_bottomOffset.text()
+        )
+        self.main_rebars_b_offset = FreeCAD.Units.Quantity(
+            self.main_rebars_b_offset
+        ).Value
+        self.main_rebars_diameter = (
+            self.main_rebars_widget.main_rebars_diameter.text()
+        )
+        self.main_rebars_diameter = FreeCAD.Units.Quantity(
+            self.main_rebars_diameter
+        ).Value
+
+    def getXDirRebarsData(self):
+        """This function is used to get data related to xdir rebars from UI."""
+        self.xdir_rebars_type = (
+            self.sec_xdir_rebars_widget.xdir_rebars_type.currentText()
+        )
+        self.xdir_rebars_hook_orientation = (
+            self.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.currentText()
+        )
+        self.xdir_rebars_hook_extend_along = (
+            self.sec_xdir_rebars_widget.xdir_rebars_hookExtendAlong.currentText()
+        )
+        self.xdir_rebars_hook_extension = (
+            self.sec_xdir_rebars_widget.xdir_rebars_hookExtension.text()
+        )
+        self.xdir_rebars_hook_extension = FreeCAD.Units.Quantity(
+            self.xdir_rebars_hook_extension
+        ).Value
+        self.xdir_rebars_rounding = (
+            self.sec_xdir_rebars_widget.xdir_rebars_rounding.value()
+        )
+        self.xdir_rebars_t_offset = (
+            self.sec_xdir_rebars_widget.xdir_rebars_topOffset.text()
+        )
+        self.xdir_rebars_t_offset = FreeCAD.Units.Quantity(
+            self.xdir_rebars_t_offset
+        ).Value
+        self.xdir_rebars_b_offset = (
+            self.sec_xdir_rebars_widget.xdir_rebars_bottomOffset.text()
+        )
+        self.xdir_rebars_b_offset = FreeCAD.Units.Quantity(
+            self.xdir_rebars_b_offset
+        ).Value
+        self.xdir_rebars_number_diameter = (
+            self.sec_xdir_rebars_widget.xdir_rebars_numberDiameter.text()
+        )
+
+    def getYDirRebarsData(self):
+        """This function is used to get data related to ydir rebars from UI."""
+        self.ydir_rebars_type = (
+            self.sec_ydir_rebars_widget.ydir_rebars_type.currentText()
+        )
+        self.ydir_rebars_hook_orientation = (
+            self.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.currentText()
+        )
+        self.ydir_rebars_hook_extend_along = (
+            self.sec_ydir_rebars_widget.ydir_rebars_hookExtendAlong.currentText()
+        )
+        self.ydir_rebars_hook_extension = (
+            self.sec_ydir_rebars_widget.ydir_rebars_hookExtension.text()
+        )
+        self.ydir_rebars_hook_extension = FreeCAD.Units.Quantity(
+            self.ydir_rebars_hook_extension
+        ).Value
+        self.ydir_rebars_rounding = (
+            self.sec_ydir_rebars_widget.ydir_rebars_rounding.value()
+        )
+        self.ydir_rebars_t_offset = (
+            self.sec_ydir_rebars_widget.ydir_rebars_topOffset.text()
+        )
+        self.ydir_rebars_t_offset = FreeCAD.Units.Quantity(
+            self.ydir_rebars_t_offset
+        ).Value
+        self.ydir_rebars_b_offset = (
+            self.sec_ydir_rebars_widget.ydir_rebars_bottomOffset.text()
+        )
+        self.ydir_rebars_b_offset = FreeCAD.Units.Quantity(
+            self.ydir_rebars_b_offset
+        ).Value
+        self.ydir_rebars_number_diameter = (
+            self.sec_ydir_rebars_widget.ydir_rebars_numberDiameter.text()
+        )
+
+
+def editDialog(vobj):
+    obj = _ColumnReinforcementDialog(vobj.Object)
+
+
+def CommandColumnReinforcement():
+    """This function is used to invoke dialog box for column reinforcement."""
+    selected_obj = check_selected_face()
+    if selected_obj:
+        dialog = _ColumnReinforcementDialog()
+        dialog.setupUi()
+        dialog.form.exec_()

@@ -274,11 +274,14 @@ class _RebarGroup:
     def execute(self, obj):
         pass
 
-    def addObject(self, rebar):
-        self.Object.addObject(rebar)
+    def addTies(self, ties_list):
+        if type(ties_list) == list:
+            self.ties_group.addObjects(ties_list)
+        else:
+            self.ties_group.addObject(ties_list)
 
-    def addObjects(self, rebars):
-        self.Object.addObjects(rebars)
+    def addMainRebars(self, main_rebars_list):
+        self.main_rebars_group.addObjects(main_rebars_list)
 
     def setProperties(self, properties):
         for prop in properties:
@@ -309,9 +312,9 @@ class _ViewProviderRebarGroup:
         return None
 
     def doubleClicked(self, vobj):
-        from ColumnReinforcement import ColumnReinforcement
+        from ColumnReinforcement import MainColumnReinforcement
 
-        ColumnReinforcement.editDialog(vobj)
+        MainColumnReinforcement.editDialog(vobj)
 
 
 # -------------------------------------------------------------------------

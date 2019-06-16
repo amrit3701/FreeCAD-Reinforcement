@@ -220,14 +220,12 @@ def makeSingleTieFourRebars(
     hook_extension=None,
     structure=None,
     facename=None,
-    ColumnConfiguration="SingleTieFourRebars",
 ):
     """makeSingleTieFourRebars(LeftCoverOfTie, RightCoverOfTie, TopCoverOfTie,
     BottomCoverOfTie, OffsetofTie, BentAngle, ExtensionFactor, DiameterOfTie,
     NumberSpacingCheck, NumberSpacingValue, DiameterOfRebars, TopOffsetofRebars,
     BottomOffsetofRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
-    LShapeRebarRounding, LShapeHookLength, Structure, Facename,
-    ColumnConfiguration):
+    LShapeRebarRounding, LShapeHookLength, Structure, Facename):
     Adds the Single Tie reinforcement to the selected structural column
     object.
     It takes two different inputs for rebar_type i.e. 'StraightRebar',
@@ -380,22 +378,24 @@ def makeSingleTieFourRebars(
     )
 
     # Create SingleTieFourRebars group object
-    SingleTieFourRebars = _SingleTieFourRebars(ColumnConfiguration)
+    SingleTieFourRebars = _SingleTieFourRebars()
     if FreeCAD.GuiUp:
         _ViewProviderRebarGroup(SingleTieFourRebars.Object.ViewObject)
 
     # Add created tie and rebars to SingleTieFourRebars group
-    SingleTieFourRebars.addObject(tie)
-    SingleTieFourRebars.addObjects(main_rebars)
+    SingleTieFourRebars.addTies(tie)
+    SingleTieFourRebars.addMainRebars(main_rebars)
 
     # Set properties values for tie and rebars in SingleTieFourRebars group
     properties_values = []
-    properties_values.append(("ColumnConfiguration", ColumnConfiguration))
+    properties_values.append(("TiesConfiguration", "SingleTie"))
     properties_values.append(("MainRebarType", rebar_type))
     properties_values.append(("MainRebarTopOffset", t_offset_of_rebars))
     properties_values.append(("MainRebarBottomOffset", b_offset_of_rebars))
     properties_values.append(("MainHookOrientation", hook_orientation))
     properties_values.append(("MainHookExtendAlong", hook_extend_along))
+    if not hook_extension:
+        hook_extension = "0.00 mm"
     properties_values.append(("MainHookExtension", hook_extension))
     SingleTieFourRebars.setPropertiesValues(properties_values)
     FreeCAD.ActiveDocument.recompute()
@@ -659,12 +659,13 @@ def editSingleTieFourRebars(
                     )
 
     # Set properties values for tie and rebars in SingleTieFourRebars group
-    rebar_group.ColumnConfiguration = ColumnConfiguration
     rebar_group.MainRebarType = rebar_type
     rebar_group.MainRebarTopOffset = t_offset_of_rebars
     rebar_group.MainRebarBottomOffset = b_offset_of_rebars
     rebar_group.MainHookOrientation = hook_orientation
     rebar_group.MainHookExtendAlong = hook_extend_along
+    if not hook_extension:
+        hook_extension = "0.00 mm"
     rebar_group.MainHookExtension = hook_extension
 
     FreeCAD.ActiveDocument.recompute()
@@ -674,12 +675,18 @@ def editSingleTieFourRebars(
 class _SingleTieFourRebars(_RebarGroup):
     "A SingleTieFourRebars group object."
 
-    def __init__(self, ColumnConfiguration="SingleTieFourRebars"):
+    def __init__(self):
         """Create Group object and add properties to it."""
-        rebar_group = FreeCAD.ActiveDocument.addObject(
-            "App::DocumentObjectGroupPython", ColumnConfiguration
+        self.rebar_group = FreeCAD.ActiveDocument.addObject(
+            "App::DocumentObjectGroupPython", "ColumnReinforcement"
         )
-        _RebarGroup.__init__(self, rebar_group)
+        self.ties_group = self.rebar_group.newObject(
+            "App::DocumentObjectGroupPython", "Ties"
+        )
+        self.main_rebars_group = self.rebar_group.newObject(
+            "App::DocumentObjectGroupPython", "MainRebars"
+        )
+        _RebarGroup.__init__(self, self.rebar_group)
         # Add properties to group of rebars
         # Syntax to add new property:
         # properties.append(
@@ -699,8 +706,8 @@ class _SingleTieFourRebars(_RebarGroup):
         properties.append(
             (
                 "App::PropertyString",
-                "ColumnConfiguration",
-                "Configuration of Column Reinforcement",
+                "TiesConfiguration",
+                "Configuration of Ties in Column Reinforcement",
                 1,
             )
         )
