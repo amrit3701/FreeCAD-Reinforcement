@@ -43,6 +43,10 @@ class _ColumnReinforcementDialog:
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
             self.SelectedObj = selected_obj.Object
             self.FaceName = selected_obj.SubElementNames[0]
+        else:
+            Tie = RebarGroup.RebarGroups[0].Ties[0]
+            self.FaceName = Tie.Base.Support[0][1][0]
+            self.SelectedObj = Tie.Base.Support[0][0]
         self.form = FreeCADGui.PySideUic.loadUi(
             os.path.splitext(__file__)[0] + ".ui"
         )
@@ -279,6 +283,9 @@ class _ColumnReinforcementDialog:
         self.form.rebars_listWidget.currentRowChanged.connect(
             self.changeRebarsListWidget
         )
+        self.ties_widget.ties_configuration.currentIndexChanged.connect(
+            self.changeTiesConfiguration
+        )
         self.ties_widget.ties_leftCover.textChanged.connect(
             self.tiesLeftCoverChanged
         )
@@ -297,6 +304,15 @@ class _ColumnReinforcementDialog:
         self.ties_widget.ties_removeCustomSpacing.clicked.connect(
             self.removeRebarDistribution
         )
+        self.main_rebars_widget.main_rebars_type.currentIndexChanged.connect(
+            self.changeMainRebarsType
+        )
+        self.sec_xdir_rebars_widget.xdir_rebars_type.currentIndexChanged.connect(
+            self.changeXDirRebarsType
+        )
+        self.sec_ydir_rebars_widget.ydir_rebars_type.currentIndexChanged.connect(
+            self.changeYDirRebarsType
+        )
         self.form.next_button.clicked.connect(self.nextButtonCilcked)
         self.form.back_button.clicked.connect(self.backButtonCilcked)
         self.form.standardButtonBox.clicked.connect(self.clicked)
@@ -308,6 +324,46 @@ class _ColumnReinforcementDialog:
         else:
             self.form.next_button.setText("Next")
         self.form.rebars_stackedWidget.setCurrentIndex(index)
+
+    def changeTiesConfiguration(self):
+        """This function is used to find selected ties configuration from UI
+        and update UI accordingly."""
+        self.ties_configuration = (
+            self.ties_widget.ties_configuration.currentText()
+        )
+        if self.ties_configuration == "SingleTie":
+            self.ties_widget.ties_configurationImage.setPixmap(
+                QtGui.QPixmap(
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
+                    + "/icons/Column_SingleTieFourRebars.png"
+                )
+            )
+            self.main_rebars_widget.ties_configurationImage.setPixmap(
+                QtGui.QPixmap(
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
+                    + "/icons/Column_SingleTieFourRebars.png"
+                )
+            )
+            self.sec_xdir_rebars_widget.ties_configurationImage.setPixmap(
+                QtGui.QPixmap(
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
+                    + "/icons/Column_SingleTieFourRebars.png"
+                )
+            )
+            self.sec_ydir_rebars_widget.ties_configurationImage.setPixmap(
+                QtGui.QPixmap(
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
+                    + "/icons/Column_SingleTieFourRebars.png"
+                )
+            )
 
     def tiesLeftCoverChanged(self):
         # Set right/top/bottom cover equal to left cover
@@ -356,14 +412,89 @@ class _ColumnReinforcementDialog:
 
     def removeRebarDistribution(self):
         self.CustomSpacing = None
-        print("WIP")
-        # if self.RebarGroup:
-        #    for Rebar in self.RebarGroup.Group:
-        #        if Rebar.ViewObject.RebarShape == "Stirrup":
-        #            Tie = Rebar
-        #            break
-        #    Tie.CustomSpacing = ""
+        if self.RebarGroup:
+            for Tie in self.RebarGroup.RebarGroups[0].Ties:
+                Tie.CustomSpacing = ""
         FreeCAD.ActiveDocument.recompute()
+
+    def changeMainRebarsType(self):
+        """This function is used to update UI according to selected main rebars
+        type."""
+        self.main_rebars_type = (
+            self.main_rebars_widget.main_rebars_type.currentText()
+        )
+        if self.main_rebars_type == "LShapeRebar":
+            self.main_rebars_widget.main_rebars_hookOrientation.setEnabled(True)
+            self.main_rebars_widget.main_rebars_hookExtendAlong.setEnabled(True)
+            self.main_rebars_widget.main_rebars_hookExtension.setEnabled(True)
+            self.main_rebars_widget.main_rebars_rounding.setEnabled(True)
+        else:
+            self.main_rebars_widget.main_rebars_hookOrientation.setEnabled(
+                False
+            )
+            self.main_rebars_widget.main_rebars_hookExtendAlong.setEnabled(
+                False
+            )
+            self.main_rebars_widget.main_rebars_hookExtension.setEnabled(False)
+            self.main_rebars_widget.main_rebars_rounding.setEnabled(False)
+
+    def changeXDirRebarsType(self):
+        """This function is used to update UI according to selected xdir rebars
+        type."""
+        self.xdir_rebars_type = (
+            self.sec_xdir_rebars_widget.xdir_rebars_type.currentText()
+        )
+        if self.xdir_rebars_type == "LShapeRebar":
+            self.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.setEnabled(
+                True
+            )
+            self.sec_xdir_rebars_widget.xdir_rebars_hookExtendAlong.setEnabled(
+                True
+            )
+            self.sec_xdir_rebars_widget.xdir_rebars_hookExtension.setEnabled(
+                True
+            )
+            self.sec_xdir_rebars_widget.xdir_rebars_rounding.setEnabled(True)
+        else:
+            self.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.setEnabled(
+                False
+            )
+            self.sec_xdir_rebars_widget.xdir_rebars_hookExtendAlong.setEnabled(
+                False
+            )
+            self.sec_xdir_rebars_widget.xdir_rebars_hookExtension.setEnabled(
+                False
+            )
+            self.sec_xdir_rebars_widget.xdir_rebars_rounding.setEnabled(False)
+
+    def changeYDirRebarsType(self):
+        """This function is used to update UI according to selected ydir rebars
+        type."""
+        self.ydir_rebars_type = (
+            self.sec_ydir_rebars_widget.ydir_rebars_type.currentText()
+        )
+        if self.ydir_rebars_type == "LShapeRebar":
+            self.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.setEnabled(
+                True
+            )
+            self.sec_ydir_rebars_widget.ydir_rebars_hookExtendAlong.setEnabled(
+                True
+            )
+            self.sec_ydir_rebars_widget.ydir_rebars_hookExtension.setEnabled(
+                True
+            )
+            self.sec_ydir_rebars_widget.ydir_rebars_rounding.setEnabled(True)
+        else:
+            self.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.setEnabled(
+                False
+            )
+            self.sec_ydir_rebars_widget.ydir_rebars_hookExtendAlong.setEnabled(
+                False
+            )
+            self.sec_ydir_rebars_widget.ydir_rebars_hookExtension.setEnabled(
+                False
+            )
+            self.sec_ydir_rebars_widget.ydir_rebars_rounding.setEnabled(False)
 
     def nextButtonCilcked(self):
         if self.form.next_button.text() == "Finish":
@@ -430,8 +561,6 @@ class _ColumnReinforcementDialog:
             if self.ties_configuration == "SingleTie":
                 self.getTiesData()
                 self.getMainRebarsData()
-                self.getXDirRebarsData()
-                self.getYDirRebarsData()
                 RebarGroup = editSingleTieFourRebars(
                     self.RebarGroup,
                     self.ties_l_cover,
@@ -455,6 +584,11 @@ class _ColumnReinforcementDialog:
                     self.SelectedObj,
                     self.FaceName,
                 )
+        if self.CustomSpacing:
+            if RebarGroup:
+                for Tie in RebarGroup.RebarGroups[0].Ties:
+                    Tie.CustomSpacing = self.CustomSpacing
+                FreeCAD.ActiveDocument.recompute()
         self.RebarGroup = RebarGroup
         if (
             self.form.standardButtonBox.buttonRole(button)
@@ -631,6 +765,98 @@ class _ColumnReinforcementDialog:
 
 def editDialog(vobj):
     obj = _ColumnReinforcementDialog(vobj.Object)
+    obj.setupUi()
+    obj.ties_widget.ties_configuration.setCurrentIndex(
+        obj.ties_widget.ties_configuration.findText(
+            str(vobj.Object.RebarGroups[0].TiesConfiguration)
+        )
+    )
+    obj.main_rebars_widget.ties_configuration.setCurrentIndex(
+        obj.ties_widget.ties_configuration.findText(
+            str(vobj.Object.RebarGroups[0].TiesConfiguration)
+        )
+    )
+    obj.sec_xdir_rebars_widget.ties_configuration.setCurrentIndex(
+        obj.ties_widget.ties_configuration.findText(
+            str(vobj.Object.RebarGroups[0].TiesConfiguration)
+        )
+    )
+    obj.sec_ydir_rebars_widget.ties_configuration.setCurrentIndex(
+        obj.ties_widget.ties_configuration.findText(
+            str(vobj.Object.RebarGroups[0].TiesConfiguration)
+        )
+    )
+    setTiesData(obj, vobj)
+    setMainRebarsData(obj, vobj)
+    obj.form.exec_()
+
+
+def setTiesData(obj, vobj):
+    Ties = vobj.Object.RebarGroups[0]
+    if not (
+        str(Ties.LeftCover)
+        == str(Ties.RightCover)
+        == str(Ties.TopCover)
+        == str(Ties.BottomCover)
+    ):
+        obj.ties_widget.ties_allCoversEqual.setChecked(False)
+        obj.tiesAllCoversEqualClicked()
+        obj.ties_widget.ties_rightCover.setEnabled(True)
+        obj.ties_widget.ties_topCover.setEnabled(True)
+        obj.ties_widget.ties_bottomCover.setEnabled(True)
+    obj.ties_widget.ties_leftCover.setText(str(Ties.LeftCover))
+    obj.ties_widget.ties_rightCover.setText(str(Ties.RightCover))
+    obj.ties_widget.ties_topCover.setText(str(Ties.TopCover))
+    obj.ties_widget.ties_bottomCover.setText(str(Ties.BottomCover))
+    Tie1 = Ties.Ties[0]
+    obj.ties_widget.ties_offset.setText(str(Tie1.FrontCover))
+    if Tie1.AmountCheck:
+        obj.ties_widget.ties_number.setValue(Tie1.Amount)
+    else:
+        obj.ties_widget.ties_number_radio.setChecked(False)
+        obj.ties_widget.ties_spacing_radio.setChecked(True)
+        obj.ties_widget.ties_number.setEnabled(False)
+        obj.ties_widget.ties_spacing.setEnabled(True)
+        obj.ties_widget.ties_spacing.setText(str(Tie1.TrueSpacing))
+    obj.ties_widget.tie1_diameter.setText(str(Tie1.Diameter))
+    obj.ties_widget.tie1_bentAngle.setCurrentIndex(
+        obj.ties_widget.tie1_bentAngle.findText(str(Tie1.BentAngle))
+    )
+    obj.ties_widget.tie1_extensionFactor.setValue(Tie1.BentFactor)
+
+
+def setMainRebarsData(obj, vobj):
+    MainRebars = vobj.Object.RebarGroups[1]
+    obj.main_rebars_widget.main_rebars_type.setCurrentIndex(
+        obj.main_rebars_widget.main_rebars_type.findText(
+            str(MainRebars.RebarType)
+        )
+    )
+    obj.main_rebars_widget.main_rebars_hookOrientation.setCurrentIndex(
+        obj.main_rebars_widget.main_rebars_hookOrientation.findText(
+            str(MainRebars.HookOrientation)
+        )
+    )
+    obj.main_rebars_widget.main_rebars_hookExtendAlong.setCurrentIndex(
+        obj.main_rebars_widget.main_rebars_hookExtendAlong.findText(
+            str(MainRebars.HookExtendAlong)
+        )
+    )
+    obj.main_rebars_widget.main_rebars_hookExtension.setText(
+        str(MainRebars.HookExtension)
+    )
+    obj.main_rebars_widget.main_rebars_rounding.setValue(
+        MainRebars.MainRebars[0].Rounding
+    )
+    obj.main_rebars_widget.main_rebars_topOffset.setText(
+        str(MainRebars.TopOffset)
+    )
+    obj.main_rebars_widget.main_rebars_bottomOffset.setText(
+        str(MainRebars.BottomOffset)
+    )
+    obj.main_rebars_widget.main_rebars_diameter.setText(
+        str(MainRebars.MainRebars[0].Diameter)
+    )
 
 
 def CommandColumnReinforcement():

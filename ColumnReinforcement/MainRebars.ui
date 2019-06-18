@@ -60,7 +60,11 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="Gui::PrefComboBox" name="main_rebars_hookOrientation"/>
+       <widget class="Gui::PrefComboBox" name="main_rebars_hookOrientation">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="main_rebars_hookExtendAlongLabel">
@@ -70,7 +74,11 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="Gui::PrefComboBox" name="main_rebars_hookExtendAlong"/>
+       <widget class="Gui::PrefComboBox" name="main_rebars_hookExtendAlong">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
       </item>
       <item row="4" column="0">
        <widget class="QLabel" name="main_rebars_hookExtensionLabel">
@@ -81,6 +89,9 @@
       </item>
       <item row="4" column="1">
        <widget class="Gui::InputField" name="main_rebars_hookExtension">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>0 </string>
         </property>
@@ -98,6 +109,9 @@
       </item>
       <item row="5" column="1">
        <widget class="Gui::PrefSpinBox" name="main_rebars_rounding">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="value">
          <number>2</number>
         </property>
