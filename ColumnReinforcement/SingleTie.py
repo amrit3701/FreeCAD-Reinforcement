@@ -226,7 +226,7 @@ def makeSingleTieFourRebars(
     NumberSpacingCheck, NumberSpacingValue, DiameterOfRebars, TopOffsetofRebars,
     BottomOffsetofRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
     LShapeRebarRounding, LShapeHookLength, Structure, Facename):
-    Adds the Single Tie reinforcement to the selected structural column
+    Adds the Single Tie Four Rebars reinforcement to the selected structural column
     object.
     It takes two different inputs for rebar_type i.e. 'StraightRebar',
     'LShapeRebar'.
@@ -411,7 +411,7 @@ def makeSingleTieFourRebars(
         properties_values, SingleTieFourRebars.main_rebars_group
     )
     FreeCAD.ActiveDocument.recompute()
-    return SingleTieFourRebars.Object
+    return SingleTieFourRebars
 
 
 def editSingleTieFourRebars(

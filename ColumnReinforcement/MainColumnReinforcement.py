@@ -32,7 +32,10 @@ import FreeCAD
 import FreeCADGui
 
 from Rebarfunc import check_selected_face
-from .SingleTie import makeSingleTieFourRebars, editSingleTieFourRebars
+from ColumnReinforcement.SingleTie import editSingleTieFourRebars
+from ColumnReinforcement.SingleTieMultipleRebars import (
+    makeSingleTieMultipleRebars,
+)
 
 
 class _ColumnReinforcementDialog:
@@ -40,13 +43,18 @@ class _ColumnReinforcementDialog:
         """This function set initial data in Column Reinforcement dialog box."""
         self.CustomSpacing = None
         if not RebarGroup:
+            # If column reinforcement is not created yet, then get SelectedObj
+            # from FreeCAD Gui selection
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
             self.SelectedObj = selected_obj.Object
             self.FaceName = selected_obj.SubElementNames[0]
         else:
+            # If column reinforcement is already created, then get selectedObj
+            # from data stored in created Tie
             Tie = RebarGroup.RebarGroups[0].Ties[0]
             self.FaceName = Tie.Base.Support[0][1][0]
             self.SelectedObj = Tie.Base.Support[0][0]
+        # Load ui from file MainColumnReinforcement.ui
         self.form = FreeCADGui.PySideUic.loadUi(
             os.path.splitext(__file__)[0] + ".ui"
         )
@@ -58,6 +66,7 @@ class _ColumnReinforcementDialog:
         self.RebarGroup = RebarGroup
 
     def setupUi(self):
+        """This function is used to add components to ui."""
         # Add items into rebars_listWidget
         self.form.rebars_listWidget.addItem("Ties")
         self.form.rebars_listWidget.addItem("Main Rebars")
@@ -184,15 +193,10 @@ class _ColumnReinforcementDialog:
                 "Top Inside"
             )
         )
-        self.sec_xdir_rebars_widget.xdir_rebars_hookExtendAlong.setCurrentIndex(
-            self.sec_xdir_rebars_widget.xdir_rebars_hookExtendAlong.findText(
-                "x-axis"
-            )
-        )
         self.sec_xdir_rebars_widget.xdir_rebars_hookExtension.setText(
             "40.00 mm"
         )
-        self.sec_xdir_rebars_widget.xdir_rebars_rounding.setValue(2)
+        self.sec_xdir_rebars_widget.xdir_rebars_rounding.setValue(1)
         self.sec_xdir_rebars_widget.xdir_rebars_topOffset.setText("0.00 mm")
         self.sec_xdir_rebars_widget.xdir_rebars_bottomOffset.setText("0.00 mm")
         self.sec_xdir_rebars_widget.xdir_rebars_numberDiameter.setText(
@@ -209,19 +213,14 @@ class _ColumnReinforcementDialog:
                 "Top Inside"
             )
         )
-        self.sec_ydir_rebars_widget.ydir_rebars_hookExtendAlong.setCurrentIndex(
-            self.sec_ydir_rebars_widget.ydir_rebars_hookExtendAlong.findText(
-                "x-axis"
-            )
-        )
         self.sec_ydir_rebars_widget.ydir_rebars_hookExtension.setText(
             "40.00 mm"
         )
-        self.sec_ydir_rebars_widget.ydir_rebars_rounding.setValue(2)
+        self.sec_ydir_rebars_widget.ydir_rebars_rounding.setValue(1)
         self.sec_ydir_rebars_widget.ydir_rebars_topOffset.setText("0.00 mm")
         self.sec_ydir_rebars_widget.ydir_rebars_bottomOffset.setText("0.00 mm")
         self.sec_ydir_rebars_widget.ydir_rebars_numberDiameter.setText(
-            "2#20mm+1#16mm+2#20mm"
+            "1#20mm+1#16mm+1#20mm"
         )
 
     def addDropdownMenuItems(self):
@@ -265,15 +264,9 @@ class _ColumnReinforcementDialog:
         self.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.addItems(
             hook_orientation_list
         )
-        # Add hook_extend_along_list to all rebars widgets
+        # Add hook_extend_along_list to main rebars widgets
         hook_extend_along_list = ["x-axis", "y-axis"]
         self.main_rebars_widget.main_rebars_hookExtendAlong.addItems(
-            hook_extend_along_list
-        )
-        self.sec_xdir_rebars_widget.xdir_rebars_hookExtendAlong.addItems(
-            hook_extend_along_list
-        )
-        self.sec_ydir_rebars_widget.ydir_rebars_hookExtendAlong.addItems(
             hook_extend_along_list
         )
 
@@ -448,18 +441,12 @@ class _ColumnReinforcementDialog:
             self.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.setEnabled(
                 True
             )
-            self.sec_xdir_rebars_widget.xdir_rebars_hookExtendAlong.setEnabled(
-                True
-            )
             self.sec_xdir_rebars_widget.xdir_rebars_hookExtension.setEnabled(
                 True
             )
             self.sec_xdir_rebars_widget.xdir_rebars_rounding.setEnabled(True)
         else:
             self.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.setEnabled(
-                False
-            )
-            self.sec_xdir_rebars_widget.xdir_rebars_hookExtendAlong.setEnabled(
                 False
             )
             self.sec_xdir_rebars_widget.xdir_rebars_hookExtension.setEnabled(
@@ -477,18 +464,12 @@ class _ColumnReinforcementDialog:
             self.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.setEnabled(
                 True
             )
-            self.sec_ydir_rebars_widget.ydir_rebars_hookExtendAlong.setEnabled(
-                True
-            )
             self.sec_ydir_rebars_widget.ydir_rebars_hookExtension.setEnabled(
                 True
             )
             self.sec_ydir_rebars_widget.ydir_rebars_rounding.setEnabled(True)
         else:
             self.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.setEnabled(
-                False
-            )
-            self.sec_ydir_rebars_widget.ydir_rebars_hookExtendAlong.setEnabled(
                 False
             )
             self.sec_ydir_rebars_widget.ydir_rebars_hookExtension.setEnabled(
@@ -535,7 +516,9 @@ class _ColumnReinforcementDialog:
             if self.ties_configuration == "SingleTie":
                 self.getTiesData()
                 self.getMainRebarsData()
-                RebarGroup = makeSingleTieFourRebars(
+                self.getXDirRebarsData()
+                self.getYDirRebarsData()
+                RebarGroup = makeSingleTieMultipleRebars(
                     self.ties_l_cover,
                     self.ties_r_cover,
                     self.ties_t_cover,
@@ -554,6 +537,22 @@ class _ColumnReinforcementDialog:
                     self.main_rebars_hook_extend_along,
                     self.main_rebars_rounding,
                     self.main_rebars_hook_extension,
+                    (self.xdir_rebars_t_offset, self.ydir_rebars_t_offset),
+                    (self.xdir_rebars_b_offset, self.ydir_rebars_b_offset),
+                    (
+                        self.xdir_rebars_number_diameter,
+                        self.ydir_rebars_number_diameter,
+                    ),
+                    (self.xdir_rebars_type, self.ydir_rebars_type),
+                    (
+                        self.xdir_rebars_hook_orientation,
+                        self.ydir_rebars_hook_orientation,
+                    ),
+                    (self.xdir_rebars_rounding, self.ydir_rebars_rounding),
+                    (
+                        self.xdir_rebars_hook_extension,
+                        self.ydir_rebars_hook_extension,
+                    ),
                     self.SelectedObj,
                     self.FaceName,
                 )
@@ -698,9 +697,6 @@ class _ColumnReinforcementDialog:
         self.xdir_rebars_hook_orientation = (
             self.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.currentText()
         )
-        self.xdir_rebars_hook_extend_along = (
-            self.sec_xdir_rebars_widget.xdir_rebars_hookExtendAlong.currentText()
-        )
         self.xdir_rebars_hook_extension = (
             self.sec_xdir_rebars_widget.xdir_rebars_hookExtension.text()
         )
@@ -733,9 +729,6 @@ class _ColumnReinforcementDialog:
         )
         self.ydir_rebars_hook_orientation = (
             self.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.currentText()
-        )
-        self.ydir_rebars_hook_extend_along = (
-            self.sec_ydir_rebars_widget.ydir_rebars_hookExtendAlong.currentText()
         )
         self.ydir_rebars_hook_extension = (
             self.sec_ydir_rebars_widget.ydir_rebars_hookExtension.text()

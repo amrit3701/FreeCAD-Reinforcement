@@ -3,7 +3,7 @@
  <class>Form</class>
  <widget class="QWidget" name="Form">
   <property name="enabled">
-   <bool>false</bool>
+   <bool>true</bool>
   </property>
   <property name="geometry">
    <rect>
@@ -19,6 +19,9 @@
   <layout class="QGridLayout" name="gridLayout" columnstretch="1,0">
    <item row="0" column="0">
     <widget class="QWidget" name="xdir_rebars_dataWidget" native="true">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0" colspan="2">
        <widget class="QLabel" name="xdir_rebars_heading">
@@ -70,26 +73,57 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="Gui::PrefComboBox" name="xdir_rebars_hookOrientation"/>
+       <widget class="Gui::PrefComboBox" name="xdir_rebars_hookOrientation">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="xdir_rebars_hookExtendAlongLabel">
+       <widget class="QLabel" name="xdir_rebars_hookExtensionLabel">
         <property name="text">
-         <string>Hook Extend Along</string>
+         <string>Hook Extension</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="Gui::PrefComboBox" name="xdir_rebars_hookExtendAlong"/>
+       <widget class="Gui::InputField" name="xdir_rebars_hookExtension">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>0 </string>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
-      <item row="6" column="0">
+      <item row="4" column="0">
+       <widget class="QLabel" name="xdir_rebars_LRebarRoundingLabel">
+        <property name="text">
+         <string>Rounding</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="Gui::PrefSpinBox" name="xdir_rebars_rounding">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="value">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
        <widget class="QLabel" name="xdir_rebars_topOffsetLabel">
         <property name="text">
          <string>Top Offset</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
+      <item row="5" column="1">
        <widget class="Gui::InputField" name="xdir_rebars_topOffset">
         <property name="text">
          <string>0 </string>
@@ -99,14 +133,14 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
+      <item row="6" column="0">
        <widget class="QLabel" name="xdir_rebars_bottomOffsetLabel">
         <property name="text">
          <string>Bottom Offset</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
+      <item row="6" column="1">
        <widget class="Gui::InputField" name="xdir_rebars_bottomOffset">
         <property name="text">
          <string>0 </string>
@@ -116,17 +150,17 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="0">
+      <item row="7" column="0">
        <widget class="QLabel" name="xdir_rebars_numberDiameterLabel">
         <property name="text">
          <string>Number#Diameter</string>
         </property>
        </widget>
       </item>
-      <item row="8" column="1">
+      <item row="7" column="1">
        <widget class="Gui::PrefLineEdit" name="xdir_rebars_numberDiameter">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="focusPolicy">
          <enum>Qt::StrongFocus</enum>
@@ -136,41 +170,10 @@
         </property>
        </widget>
       </item>
-      <item row="9" column="0" colspan="2">
+      <item row="8" column="0" colspan="2">
        <widget class="QPushButton" name="xdir_rebars_editNumberDiameter">
         <property name="text">
          <string>Edit Number and Diameter</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="xdir_rebars_hookExtensionLabel">
-        <property name="text">
-         <string>Hook Extension</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="Gui::InputField" name="xdir_rebars_hookExtension">
-        <property name="text">
-         <string>0 </string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="xdir_rebars_LRebarRoundingLabel">
-        <property name="text">
-         <string>Rounding</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="Gui::PrefSpinBox" name="xdir_rebars_rounding">
-        <property name="value">
-         <number>2</number>
         </property>
        </widget>
       </item>
