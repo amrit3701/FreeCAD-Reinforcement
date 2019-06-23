@@ -30,6 +30,7 @@ import FreeCAD
 
 from ColumnReinforcement.SingleTie import (
     makeSingleTieFourRebars,
+    editSingleTieFourRebars,
     getFacenameforRebar,
     getLRebarOrientationLeftRightCover,
 )
@@ -509,6 +510,137 @@ def makeSingleTieMultipleRebars(
 
     FreeCAD.ActiveDocument.recompute()
     return SingleTieMultipleRebars.Object
+
+
+def editSingleTieMultipleRebars(
+    rebar_group,
+    l_cover_of_tie,
+    r_cover_of_tie,
+    t_cover_of_tie,
+    b_cover_of_tie,
+    offset_of_tie,
+    bent_angle,
+    extension_factor,
+    dia_of_tie,
+    number_spacing_check,
+    number_spacing_value,
+    dia_of_main_rebars,
+    main_rebars_t_offset,
+    main_rebars_b_offset,
+    main_rebars_type="StraightRebar",
+    main_hook_orientation="Top Inside",
+    main_hook_extend_along="x-axis",
+    l_main_rebar_rounding=None,
+    main_hook_extension=None,
+    sec_rebars_t_offset=None,
+    sec_rebars_b_offset=None,
+    sec_rebars_number_diameter=None,
+    sec_rebars_type=("StraightRebar", "StraightRebar"),
+    sec_hook_orientation=("Top Inside", "Top Inside"),
+    l_sec_rebar_rounding=None,
+    sec_hook_extension=None,
+    structure=None,
+    facename=None,
+):
+    """editSingleTieMultipleRebars(RebarGroup, LeftCoverOfTie, RightCoverOfTie,
+    TopCoverOfTie, BottomCoverOfTie, OffsetofTie, BentAngle, ExtensionFactor,
+    DiameterOfTie, NumberSpacingCheck, NumberSpacingValue, DiameterOfMainRebars,
+    TopOffsetofMainRebars, BottomOffsetofMainRebars, MainRebarType,
+    MainLShapeHookOrientation, MainLShapeHookExtendAlong,
+    LShapeMainRebarRounding, LShapeMainHookLength, TopOffsetofSecondaryRebars,
+    BottomOffsetofSecondaryRebars, SecondaryRebarNumberDiameterString,
+    SecondaryRebarType, SecondaryLShapeHookOrientation,
+    LShapeSecondaryRebarRounding, LShapeSecondaryHookLength, Structure,
+    Facename):
+    Edit the Single Tie Multiple Rebars reinforcement for the selected
+    structural column object.
+
+    It takes two different inputs for main_rebars_type i.e. 'StraightRebar',
+    'LShapeRebar'.
+
+    It takes eight different orientations input for Main L-shaped hooks i.e.
+    'Top Inside', 'Top Outside', 'Bottom Inside', 'Bottom Outside', 'Top Left',
+    'Top Right', 'Bottom Left', 'Bottom Right'.
+
+    It takes two different inputs for main_hook_extend_along i.e. 'x-axis',
+    'y-axis'.
+
+    Note: Type of sec_rebars_t_offset, sec_rebars_b_offset,
+    sec_rebars_number_diameter, sec_rebars_type, sec_hook_orientation,
+    l_sec_rebar_rounding and sec_hook_extension argumants is a tuple.
+    Syntax: (<value_for_xdir_rebars>, <value_for_ydir_rebars>).
+
+    In sec_hook_orientation(<xdir_rebars_orientation>,
+    <ydir_rebars_orientation>),
+    Value of xdir_rebars_orientation can be: 'Top Inside', 'Top Outside',
+    'Bottom Inside', 'Bottom Outside', 'Top Upward', 'Top Downward', 'Bottom
+    Upward', 'Bottom Downward'.
+    Value of ydir_rebars_orientation can be: 'Top Inside', 'Top Outside',
+    'Bottom Inside', 'Bottom Outside', 'Top Left', 'Top Right', 'Bottom
+    Left', 'Bottom Right'.
+    """
+    xdir_rebars_group = rebar_group.RebarGroups[2].SecondaryRebars[0]
+    ydir_rebars_group = rebar_group.RebarGroups[2].SecondaryRebars[1]
+    Tie = rebar_group.RebarGroups[0].Ties[0]
+    if not structure and not facename:
+        structure = Tie.Base.Support[0][0]
+        facename = Tie.Base.Support[0][1][0]
+
+    # Set parameters for xdir and ydir rebars
+    if not sec_rebars_t_offset:
+        xdir_rebars_t_offset = xdir_rebars_group.TopOffset
+        ydir_rebars_t_offset = ydir_rebars_group.TopOffset
+    else:
+        xdir_rebars_t_offset = sec_rebars_t_offset[0]
+        ydir_rebars_t_offset = sec_rebars_t_offset[1]
+    if not sec_rebars_b_offset:
+        xdir_rebars_b_offset = xdir_rebars_group.BottomOffset
+        ydir_rebars_b_offset = ydir_rebars_group.BottomOffset
+    else:
+        xdir_rebars_b_offset = sec_rebars_b_offset[0]
+        ydir_rebars_b_offset = sec_rebars_b_offset[1]
+    if not sec_rebars_number_diameter:
+        xdir_rebars_number_diameter = xdir_rebars_group.NumberDiameter
+        ydir_rebars_number_diameter = ydir_rebars_group.NumberDiameter
+    else:
+        xdir_rebars_number_diameter = sec_rebars_number_diameter[0]
+        ydir_rebars_number_diameter = sec_rebars_number_diameter[1]
+    xdir_rebars_type = sec_rebars_type[0]
+    ydir_rebars_type = sec_rebars_type[1]
+    xdir_hook_orientation = sec_hook_orientation[0]
+    ydir_hook_orientation = sec_hook_orientation[1]
+    if l_sec_rebar_rounding:
+        l_xdir_rebar_rounding = l_sec_rebar_rounding[0]
+        l_ydir_rebar_rounding = l_sec_rebar_rounding[1]
+    if sec_hook_extension:
+        xdir_hook_extension = sec_hook_extension[0]
+        ydir_hook_extension = sec_hook_extension[1]
+
+    rebar_group = editSingleTieFourRebars(
+        rebar_group,
+        l_cover_of_tie,
+        r_cover_of_tie,
+        t_cover_of_tie,
+        b_cover_of_tie,
+        offset_of_tie,
+        bent_angle,
+        extension_factor,
+        dia_of_tie,
+        number_spacing_check,
+        number_spacing_value,
+        dia_of_main_rebars,
+        main_rebars_t_offset,
+        main_rebars_b_offset,
+        main_rebars_type,
+        main_hook_orientation,
+        main_hook_extend_along,
+        l_main_rebar_rounding,
+        main_hook_extension,
+        structure,
+        facename,
+    )
+
+    return rebar_group
 
 
 class _SingleTieMultipleRebars:

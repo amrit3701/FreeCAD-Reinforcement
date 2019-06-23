@@ -32,9 +32,9 @@ import FreeCAD
 import FreeCADGui
 
 from Rebarfunc import check_selected_face
-from ColumnReinforcement.SingleTie import editSingleTieFourRebars
 from ColumnReinforcement.SingleTieMultipleRebars import (
     makeSingleTieMultipleRebars,
+    editSingleTieMultipleRebars,
 )
 
 
@@ -560,7 +560,9 @@ class _ColumnReinforcementDialog:
             if self.ties_configuration == "SingleTie":
                 self.getTiesData()
                 self.getMainRebarsData()
-                RebarGroup = editSingleTieFourRebars(
+                self.getXDirRebarsData()
+                self.getYDirRebarsData()
+                RebarGroup = editSingleTieMultipleRebars(
                     self.RebarGroup,
                     self.ties_l_cover,
                     self.ties_r_cover,
@@ -580,6 +582,22 @@ class _ColumnReinforcementDialog:
                     self.main_rebars_hook_extend_along,
                     self.main_rebars_rounding,
                     self.main_rebars_hook_extension,
+                    (self.xdir_rebars_t_offset, self.ydir_rebars_t_offset),
+                    (self.xdir_rebars_b_offset, self.ydir_rebars_b_offset),
+                    (
+                        self.xdir_rebars_number_diameter,
+                        self.ydir_rebars_number_diameter,
+                    ),
+                    (self.xdir_rebars_type, self.ydir_rebars_type),
+                    (
+                        self.xdir_rebars_hook_orientation,
+                        self.ydir_rebars_hook_orientation,
+                    ),
+                    (self.xdir_rebars_rounding, self.ydir_rebars_rounding),
+                    (
+                        self.xdir_rebars_hook_extension,
+                        self.ydir_rebars_hook_extension,
+                    ),
                     self.SelectedObj,
                     self.FaceName,
                 )
