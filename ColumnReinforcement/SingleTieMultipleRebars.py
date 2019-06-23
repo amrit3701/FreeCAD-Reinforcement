@@ -70,7 +70,7 @@ def makeSingleTieMultipleRebars(
     structure=None,
     facename=None,
 ):
-    """makeCustomColumnReinforcement(LeftCoverOfTie, RightCoverOfTie,
+    """makeSingleTieMultipleRebars(LeftCoverOfTie, RightCoverOfTie,
     TopCoverOfTie, BottomCoverOfTie, OffsetofTie, BentAngle, ExtensionFactor,
     DiameterOfTie, NumberSpacingCheck, NumberSpacingValue, DiameterOfMainRebars,
     TopOffsetofMainRebars, BottomOffsetofMainRebars, MainRebarType,
@@ -247,7 +247,7 @@ def makeSingleTieMultipleRebars(
                             dia,
                             True,
                             number,
-                            orientation,
+                            straight_rebars_orientation,
                             structure,
                             facename_for_xdir_rebars,
                         )
@@ -364,7 +364,6 @@ def makeSingleTieMultipleRebars(
             r_cover = r_cover_of_tie + dia_of_tie
             l_cover = l_cover_of_tie + dia_of_tie
             rl_cover = [r_cover, l_cover]
-            orientation = "Vertical"
 
             # Create Straight rebars along y-direction
             for i, coverAlong in enumerate(list_coverAlong):
@@ -394,7 +393,7 @@ def makeSingleTieMultipleRebars(
                             dia,
                             True,
                             number,
-                            orientation,
+                            straight_rebars_orientation,
                             structure,
                             facename_for_ydir_rebars,
                         )
@@ -490,6 +489,24 @@ def makeSingleTieMultipleRebars(
     SingleTieMultipleRebars.addXDirRebars(xdir_rebars)
     SingleTieMultipleRebars.addYDirRebars(ydir_rebars)
 
+    # Set properties values for xdir_rebars in  xdir_rebars_group object
+    xdir_rebars_group = SingleTieMultipleRebars.xdir_rebars_group
+    xdir_rebars_group.RebarType = xdir_rebars_type
+    xdir_rebars_group.HookOrientation = xdir_hook_orientation
+    xdir_rebars_group.HookExtension = xdir_hook_extension
+    xdir_rebars_group.TopOffset = xdir_rebars_t_offset
+    xdir_rebars_group.BottomOffset = xdir_rebars_b_offset
+    xdir_rebars_group.NumberDiameter = xdir_rebars_number_diameter
+
+    # Set properties values for ydir_rebars in  ydir_rebars_group object
+    ydir_rebars_group = SingleTieMultipleRebars.ydir_rebars_group
+    ydir_rebars_group.RebarType = ydir_rebars_type
+    ydir_rebars_group.HookOrientation = ydir_hook_orientation
+    ydir_rebars_group.HookExtension = ydir_hook_extension
+    ydir_rebars_group.TopOffset = ydir_rebars_t_offset
+    ydir_rebars_group.BottomOffset = ydir_rebars_b_offset
+    ydir_rebars_group.NumberDiameter = ydir_rebars_number_diameter
+
     FreeCAD.ActiveDocument.recompute()
     return SingleTieMultipleRebars.Object
 
@@ -531,11 +548,87 @@ class _SingleTieMultipleRebars:
         properties.append(
             ("App::PropertyLinkList", "XDirRebars", "List of xdir rebars", 1)
         )
+        properties.append(
+            ("App::PropertyString", "RebarType", "Type of xdir rebars", 1)
+        )
+        properties.append(
+            (
+                "App::PropertyString",
+                "HookOrientation",
+                "Orientation of LShaped Rebar Hook",
+                1,
+            )
+        )
+        properties.append(
+            ("App::PropertyDistance", "HookExtension", "Length of hook", 1)
+        )
+        properties.append(
+            (
+                "App::PropertyDistance",
+                "TopOffset",
+                "Top offset of xdir rebars",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyDistance",
+                "BottomOffset",
+                "Bottom offset of xdir rebars",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyString",
+                "NumberDiameter",
+                "Number Diameter list of rebars",
+                1,
+            )
+        )
         obj.setProperties(properties, self.xdir_rebars_group)
         # Add properties to ydir rebars group object
         properties = []
         properties.append(
             ("App::PropertyLinkList", "YDirRebars", "List of ydir rebars", 1)
+        )
+        properties.append(
+            ("App::PropertyString", "RebarType", "Type of ydir rebars", 1)
+        )
+        properties.append(
+            (
+                "App::PropertyString",
+                "HookOrientation",
+                "Orientation of LShaped Rebar Hook",
+                1,
+            )
+        )
+        properties.append(
+            ("App::PropertyDistance", "HookExtension", "Length of hook", 1)
+        )
+        properties.append(
+            (
+                "App::PropertyDistance",
+                "TopOffset",
+                "Top offset of ydir rebars",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyDistance",
+                "BottomOffset",
+                "Bottom offset of ydir rebars",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyString",
+                "NumberDiameter",
+                "Number Diameter list of rebars",
+                1,
+            )
         )
         obj.setProperties(properties, self.ydir_rebars_group)
 

@@ -781,6 +781,8 @@ def editDialog(vobj):
     )
     setTiesData(obj, vobj)
     setMainRebarsData(obj, vobj)
+    setXDirRebarsData(obj, vobj)
+    setYDirRebarsData(obj, vobj)
     obj.form.exec_()
 
 
@@ -849,6 +851,64 @@ def setMainRebarsData(obj, vobj):
     )
     obj.main_rebars_widget.main_rebars_diameter.setText(
         str(MainRebars.MainRebars[0].Diameter)
+    )
+
+
+def setXDirRebarsData(obj, vobj):
+    XDirRebars = vobj.Object.RebarGroups[2].SecondaryRebars[0]
+    obj.sec_xdir_rebars_widget.xdir_rebars_type.setCurrentIndex(
+        obj.sec_xdir_rebars_widget.xdir_rebars_type.findText(
+            str(XDirRebars.RebarType)
+        )
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.setCurrentIndex(
+        obj.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.findText(
+            str(XDirRebars.HookOrientation)
+        )
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_hookExtension.setText(
+        str(XDirRebars.HookExtension)
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_rounding.setValue(
+        XDirRebars.XDirRebars[0].Rounding
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_topOffset.setText(
+        str(XDirRebars.TopOffset)
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_bottomOffset.setText(
+        str(XDirRebars.BottomOffset)
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_numberDiameter.setText(
+        str(XDirRebars.NumberDiameter)
+    )
+
+
+def setYDirRebarsData(obj, vobj):
+    YDirRebars = vobj.Object.RebarGroups[2].SecondaryRebars[1]
+    obj.sec_ydir_rebars_widget.ydir_rebars_type.setCurrentIndex(
+        obj.sec_ydir_rebars_widget.ydir_rebars_type.findText(
+            str(YDirRebars.RebarType)
+        )
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.setCurrentIndex(
+        obj.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.findText(
+            str(YDirRebars.HookOrientation)
+        )
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_hookExtension.setText(
+        str(YDirRebars.HookExtension)
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_rounding.setValue(
+        YDirRebars.YDirRebars[0].Rounding
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_topOffset.setText(
+        str(YDirRebars.TopOffset)
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_bottomOffset.setText(
+        str(YDirRebars.BottomOffset)
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_numberDiameter.setText(
+        str(YDirRebars.NumberDiameter)
     )
 
 
