@@ -100,25 +100,25 @@ class _ColumnReinforcementDialog:
         self.ties_widget.ties_configurationImage.setPixmap(
             QtGui.QPixmap(
                 os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/Column_SingleTieFourRebars.png"
+                + "/icons/Column_SingleTieMultipleRebars.png"
             )
         )
         self.main_rebars_widget.ties_configurationImage.setPixmap(
             QtGui.QPixmap(
                 os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/Column_SingleTieFourRebars.png"
+                + "/icons/Column_SingleTieMultipleRebars.png"
             )
         )
         self.sec_xdir_rebars_widget.ties_configurationImage.setPixmap(
             QtGui.QPixmap(
                 os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/Column_SingleTieFourRebars.png"
+                + "/icons/Column_SingleTieMultipleRebars.png"
             )
         )
         self.sec_ydir_rebars_widget.ties_configurationImage.setPixmap(
             QtGui.QPixmap(
                 os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/Column_SingleTieFourRebars.png"
+                + "/icons/Column_SingleTieMultipleRebars.png"
             )
         )
         # Set default values in UI
@@ -330,7 +330,7 @@ class _ColumnReinforcementDialog:
                     os.path.split(os.path.split(os.path.abspath(__file__))[0])[
                         0
                     ]
-                    + "/icons/Column_SingleTieFourRebars.png"
+                    + "/icons/Column_SingleTieMultipleRebars.png"
                 )
             )
             self.main_rebars_widget.ties_configurationImage.setPixmap(
@@ -338,7 +338,7 @@ class _ColumnReinforcementDialog:
                     os.path.split(os.path.split(os.path.abspath(__file__))[0])[
                         0
                     ]
-                    + "/icons/Column_SingleTieFourRebars.png"
+                    + "/icons/Column_SingleTieMultipleRebars.png"
                 )
             )
             self.sec_xdir_rebars_widget.ties_configurationImage.setPixmap(
@@ -346,7 +346,7 @@ class _ColumnReinforcementDialog:
                     os.path.split(os.path.split(os.path.abspath(__file__))[0])[
                         0
                     ]
-                    + "/icons/Column_SingleTieFourRebars.png"
+                    + "/icons/Column_SingleTieMultipleRebars.png"
                 )
             )
             self.sec_ydir_rebars_widget.ties_configurationImage.setPixmap(
@@ -354,7 +354,7 @@ class _ColumnReinforcementDialog:
                     os.path.split(os.path.split(os.path.abspath(__file__))[0])[
                         0
                     ]
-                    + "/icons/Column_SingleTieFourRebars.png"
+                    + "/icons/Column_SingleTieMultipleRebars.png"
                 )
             )
 
