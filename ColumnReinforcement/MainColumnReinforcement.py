@@ -31,7 +31,7 @@ from PySide2 import QtGui, QtWidgets
 import FreeCAD
 import FreeCADGui
 
-from Rebarfunc import check_selected_face
+from Rebarfunc import check_selected_face, showWarning
 from ColumnReinforcement.SingleTieMultipleRebars import (
     makeSingleTieMultipleRebars,
     editSingleTieMultipleRebars,
@@ -51,9 +51,12 @@ class _ColumnReinforcementDialog:
         else:
             # If column reinforcement is already created, then get selectedObj
             # from data stored in created Tie
-            Tie = RebarGroup.RebarGroups[0].Ties[0]
-            self.FaceName = Tie.Base.Support[0][1][0]
-            self.SelectedObj = Tie.Base.Support[0][0]
+            for rebar_group in RebarGroup.RebarGroups:
+                if hasattr(rebar_group, "Ties"):
+                    Tie = rebar_group.Ties[0]
+                    self.FaceName = Tie.Base.Support[0][1][0]
+                    self.SelectedObj = Tie.Base.Support[0][0]
+                    break
         # Load ui from file MainColumnReinforcement.ui
         self.form = FreeCADGui.PySideUic.loadUi(
             os.path.splitext(__file__)[0] + ".ui"
@@ -775,37 +778,78 @@ class _ColumnReinforcementDialog:
 
 
 def editDialog(vobj):
+    # Check if all rebar groups deleted or not
+    if len(vobj.Object.RebarGroups) == 0:
+        showWarning("Nothing to edit. You have deleted all rebar groups.")
+        return
+    for i, rebar_group in enumerate(vobj.Object.RebarGroups):
+        # Check if ties group exists
+        if hasattr(rebar_group, "Ties"):
+            # Check if ties exists
+            if len(rebar_group.Ties) > 0:
+                ties_group = rebar_group
+                break
+            else:
+                showWarning(
+                    "You have deleted ties. Please recreate the ColumnReinforcement."
+                )
+                return
+        elif i == len(vobj.Object.RebarGroups) - 1:
+            showWarning(
+                "You have deleted ties group. Please recreate the ColumnReinforcement."
+            )
+            return
     obj = _ColumnReinforcementDialog(vobj.Object)
     obj.setupUi()
     obj.ties_widget.ties_configuration.setCurrentIndex(
         obj.ties_widget.ties_configuration.findText(
-            str(vobj.Object.RebarGroups[0].TiesConfiguration)
+            str(ties_group.TiesConfiguration)
         )
     )
     obj.main_rebars_widget.ties_configuration.setCurrentIndex(
         obj.ties_widget.ties_configuration.findText(
-            str(vobj.Object.RebarGroups[0].TiesConfiguration)
+            str(ties_group.TiesConfiguration)
         )
     )
     obj.sec_xdir_rebars_widget.ties_configuration.setCurrentIndex(
         obj.ties_widget.ties_configuration.findText(
-            str(vobj.Object.RebarGroups[0].TiesConfiguration)
+            str(ties_group.TiesConfiguration)
         )
     )
     obj.sec_ydir_rebars_widget.ties_configuration.setCurrentIndex(
         obj.ties_widget.ties_configuration.findText(
-            str(vobj.Object.RebarGroups[0].TiesConfiguration)
+            str(ties_group.TiesConfiguration)
         )
     )
     setTiesData(obj, vobj)
-    setMainRebarsData(obj, vobj)
-    setXDirRebarsData(obj, vobj)
-    setYDirRebarsData(obj, vobj)
+    obj.main_rebars_widget.setEnabled(False)
+    obj.sec_xdir_rebars_widget.setEnabled(False)
+    obj.sec_ydir_rebars_widget.setEnabled(False)
+    for i, rebar_group in enumerate(vobj.Object.RebarGroups):
+        if hasattr(rebar_group, "MainRebars"):
+            if len(rebar_group.MainRebars) > 0:
+                setMainRebarsData(obj, vobj)
+                obj.main_rebars_widget.setEnabled(True)
+        elif hasattr(rebar_group, "SecondaryRebars"):
+            if len(rebar_group.SecondaryRebars) > 0:
+                for sec_rebar in rebar_group.SecondaryRebars:
+                    if hasattr(sec_rebar, "XDirRebars"):
+                        if len(sec_rebar.XDirRebars) > 0:
+                            setXDirRebarsData(obj, vobj)
+                            obj.sec_xdir_rebars_widget.setEnabled(True)
+                    elif hasattr(sec_rebar, "YDirRebars"):
+                        if len(sec_rebar.YDirRebars) > 0:
+                            setYDirRebarsData(obj, vobj)
+                            obj.sec_ydir_rebars_widget.setEnabled(True)
+
     obj.form.exec_()
 
 
 def setTiesData(obj, vobj):
-    Ties = vobj.Object.RebarGroups[0]
+    for rebar_group in vobj.Object.RebarGroups:
+        if hasattr(rebar_group, "Ties"):
+            Ties = rebar_group
+            break
     if not (
         str(Ties.LeftCover)
         == str(Ties.RightCover)
@@ -839,7 +883,10 @@ def setTiesData(obj, vobj):
 
 
 def setMainRebarsData(obj, vobj):
-    MainRebars = vobj.Object.RebarGroups[1]
+    for rebar_group in vobj.Object.RebarGroups:
+        if hasattr(rebar_group, "MainRebars"):
+            MainRebars = rebar_group
+            break
     obj.main_rebars_widget.main_rebars_type.setCurrentIndex(
         obj.main_rebars_widget.main_rebars_type.findText(
             str(MainRebars.RebarType)
@@ -873,63 +920,71 @@ def setMainRebarsData(obj, vobj):
 
 
 def setXDirRebarsData(obj, vobj):
-    XDirRebarsGroup = vobj.Object.RebarGroups[2].SecondaryRebars[0]
-    if XDirRebarsGroup.XDirRebars:
-        obj.sec_xdir_rebars_widget.xdir_rebars_type.setCurrentIndex(
-            obj.sec_xdir_rebars_widget.xdir_rebars_type.findText(
-                str(XDirRebarsGroup.RebarType)
-            )
+    for rebar_group in vobj.Object.RebarGroups:
+        if hasattr(rebar_group, "SecondaryRebars"):
+            for sec_rebar in rebar_group.SecondaryRebars:
+                if hasattr(sec_rebar, "XDirRebars"):
+                    XDirRebarsGroup = sec_rebar
+                    break
+    obj.sec_xdir_rebars_widget.xdir_rebars_type.setCurrentIndex(
+        obj.sec_xdir_rebars_widget.xdir_rebars_type.findText(
+            str(XDirRebarsGroup.RebarType)
         )
-        obj.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.setCurrentIndex(
-            obj.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.findText(
-                str(XDirRebarsGroup.HookOrientation)
-            )
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.setCurrentIndex(
+        obj.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.findText(
+            str(XDirRebarsGroup.HookOrientation)
         )
-        obj.sec_xdir_rebars_widget.xdir_rebars_hookExtension.setText(
-            str(XDirRebarsGroup.HookExtension)
-        )
-        obj.sec_xdir_rebars_widget.xdir_rebars_rounding.setValue(
-            XDirRebarsGroup.XDirRebars[0].Rounding
-        )
-        obj.sec_xdir_rebars_widget.xdir_rebars_topOffset.setText(
-            str(XDirRebarsGroup.TopOffset)
-        )
-        obj.sec_xdir_rebars_widget.xdir_rebars_bottomOffset.setText(
-            str(XDirRebarsGroup.BottomOffset)
-        )
-        obj.sec_xdir_rebars_widget.xdir_rebars_numberDiameter.setText(
-            str(XDirRebarsGroup.NumberDiameter)
-        )
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_hookExtension.setText(
+        str(XDirRebarsGroup.HookExtension)
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_rounding.setValue(
+        XDirRebarsGroup.XDirRebars[0].Rounding
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_topOffset.setText(
+        str(XDirRebarsGroup.TopOffset)
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_bottomOffset.setText(
+        str(XDirRebarsGroup.BottomOffset)
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_numberDiameter.setText(
+        str(XDirRebarsGroup.NumberDiameter)
+    )
 
 
 def setYDirRebarsData(obj, vobj):
-    YDirRebarsGroup = vobj.Object.RebarGroups[2].SecondaryRebars[1]
-    if YDirRebarsGroup.YDirRebars:
-        obj.sec_ydir_rebars_widget.ydir_rebars_type.setCurrentIndex(
-            obj.sec_ydir_rebars_widget.ydir_rebars_type.findText(
-                str(YDirRebarsGroup.RebarType)
-            )
+    for rebar_group in vobj.Object.RebarGroups:
+        if hasattr(rebar_group, "SecondaryRebars"):
+            for sec_rebar in rebar_group.SecondaryRebars:
+                if hasattr(sec_rebar, "YDirRebars"):
+                    YDirRebarsGroup = sec_rebar
+                    break
+    obj.sec_ydir_rebars_widget.ydir_rebars_type.setCurrentIndex(
+        obj.sec_ydir_rebars_widget.ydir_rebars_type.findText(
+            str(YDirRebarsGroup.RebarType)
         )
-        obj.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.setCurrentIndex(
-            obj.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.findText(
-                str(YDirRebarsGroup.HookOrientation)
-            )
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.setCurrentIndex(
+        obj.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.findText(
+            str(YDirRebarsGroup.HookOrientation)
         )
-        obj.sec_ydir_rebars_widget.ydir_rebars_hookExtension.setText(
-            str(YDirRebarsGroup.HookExtension)
-        )
-        obj.sec_ydir_rebars_widget.ydir_rebars_rounding.setValue(
-            YDirRebarsGroup.YDirRebars[0].Rounding
-        )
-        obj.sec_ydir_rebars_widget.ydir_rebars_topOffset.setText(
-            str(YDirRebarsGroup.TopOffset)
-        )
-        obj.sec_ydir_rebars_widget.ydir_rebars_bottomOffset.setText(
-            str(YDirRebarsGroup.BottomOffset)
-        )
-        obj.sec_ydir_rebars_widget.ydir_rebars_numberDiameter.setText(
-            str(YDirRebarsGroup.NumberDiameter)
-        )
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_hookExtension.setText(
+        str(YDirRebarsGroup.HookExtension)
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_rounding.setValue(
+        YDirRebarsGroup.YDirRebars[0].Rounding
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_topOffset.setText(
+        str(YDirRebarsGroup.TopOffset)
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_bottomOffset.setText(
+        str(YDirRebarsGroup.BottomOffset)
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_numberDiameter.setText(
+        str(YDirRebarsGroup.NumberDiameter)
+    )
 
 
 def CommandColumnReinforcement():
