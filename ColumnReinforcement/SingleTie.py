@@ -226,8 +226,8 @@ def makeSingleTieFourRebars(
     NumberSpacingCheck, NumberSpacingValue, DiameterOfRebars, TopOffsetofRebars,
     BottomOffsetofRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
     LShapeRebarRounding, LShapeHookLength, Structure, Facename):
-    Adds the Single Tie Four Rebars reinforcement to the selected structural column
-    object.
+    Adds the Single Tie Four Rebars reinforcement to the selected structural
+    column object.
     It takes two different inputs for rebar_type i.e. 'StraightRebar',
     'LShapeRebar'.
     It takes eight different orientations input for L-shaped hooks i.e. 'Top

@@ -604,8 +604,24 @@ def editSingleTieMultipleRebars(
     """
     if len(rebar_group.RebarGroups) == 0:
         return rebar_group
-    if hasattr(rebar_group.RebarGroups[0], "Ties"):
-        Tie = rebar_group.RebarGroups[0].Ties[0]
+    for i, tmp_rebar_group in enumerate(rebar_group.RebarGroups):
+        if hasattr(tmp_rebar_group, "Ties"):
+            if len(tmp_rebar_group.Ties) > 0:
+                Tie = tmp_rebar_group.Ties[0]
+                break
+            else:
+                print(
+                    "You have deleted ties. Please recreate the"
+                    "ColumnReinforcement."
+                )
+                return rebar_group
+        elif i == len(rebar_group.RebarGroups) - 1:
+            print(
+                "You have deleted ties group. Please recreate the"
+                "ColumnReinforcement."
+            )
+            return rebar_group
+
     if not structure and not facename:
         structure = Tie.Base.Support[0][0]
         facename = Tie.Base.Support[0][1][0]
@@ -1025,8 +1041,9 @@ def editSingleTieMultipleRebars(
     # Set properties values for xdir_rebars in  xdir_rebars_group object
     xdir_rebars_group.XDirRebars = xdir_rebars
     xdir_rebars_group.RebarType = xdir_rebars_type
-    xdir_rebars_group.HookOrientation = xdir_hook_orientation
-    xdir_rebars_group.HookExtension = xdir_hook_extension
+    if xdir_rebars_type == "LShapeRebar":
+        xdir_rebars_group.HookOrientation = xdir_hook_orientation
+        xdir_rebars_group.HookExtension = xdir_hook_extension
     xdir_rebars_group.TopOffset = xdir_rebars_t_offset
     xdir_rebars_group.BottomOffset = xdir_rebars_b_offset
     xdir_rebars_group.NumberDiameter = xdir_rebars_number_diameter
@@ -1034,8 +1051,9 @@ def editSingleTieMultipleRebars(
     # Set properties values for ydir_rebars in  ydir_rebars_group object
     ydir_rebars_group.YDirRebars = ydir_rebars
     ydir_rebars_group.RebarType = ydir_rebars_type
-    ydir_rebars_group.HookOrientation = ydir_hook_orientation
-    ydir_rebars_group.HookExtension = ydir_hook_extension
+    if ydir_rebars_type == "LShapeRebar":
+        ydir_rebars_group.HookOrientation = ydir_hook_orientation
+        ydir_rebars_group.HookExtension = ydir_hook_extension
     ydir_rebars_group.TopOffset = ydir_rebars_t_offset
     ydir_rebars_group.BottomOffset = ydir_rebars_b_offset
     ydir_rebars_group.NumberDiameter = ydir_rebars_number_diameter

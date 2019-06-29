@@ -791,12 +791,14 @@ def editDialog(vobj):
                 break
             else:
                 showWarning(
-                    "You have deleted ties. Please recreate the ColumnReinforcement."
+                    "You have deleted ties. Please recreate the "
+                    "ColumnReinforcement."
                 )
                 return
         elif i == len(vobj.Object.RebarGroups) - 1:
             showWarning(
-                "You have deleted ties group. Please recreate the ColumnReinforcement."
+                "You have deleted ties group. Please recreate the "
+                "ColumnReinforcement."
             )
             return
     obj = _ColumnReinforcementDialog(vobj.Object)
