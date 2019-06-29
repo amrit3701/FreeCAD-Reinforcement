@@ -118,42 +118,6 @@ def makeSingleTieMultipleRebars(
             print("Error: Pass structure and facename arguments")
             return None
 
-    # Set parameters for xdir and ydir rebars
-    if not sec_rebars_t_offset:
-        xdir_rebars_t_offset = ydir_rebars_t_offset = main_rebars_t_offset
-    else:
-        xdir_rebars_t_offset = sec_rebars_t_offset[0]
-        ydir_rebars_t_offset = sec_rebars_t_offset[1]
-    if not sec_rebars_b_offset:
-        xdir_rebars_b_offset = ydir_rebars_b_offset = main_rebars_b_offset
-    else:
-        xdir_rebars_b_offset = sec_rebars_b_offset[0]
-        ydir_rebars_b_offset = sec_rebars_b_offset[1]
-    if not sec_rebars_number_diameter:
-        xdir_rebars_number_diameter = None
-        ydir_rebars_number_diameter = None
-    else:
-        xdir_rebars_number_diameter = sec_rebars_number_diameter[0]
-        ydir_rebars_number_diameter = sec_rebars_number_diameter[1]
-    xdir_rebars_type = sec_rebars_type[0]
-    ydir_rebars_type = sec_rebars_type[1]
-    xdir_hook_orientation = sec_hook_orientation[0]
-    ydir_hook_orientation = sec_hook_orientation[1]
-    if l_sec_rebar_rounding:
-        l_xdir_rebar_rounding = l_sec_rebar_rounding[0]
-        l_ydir_rebar_rounding = l_sec_rebar_rounding[1]
-    if sec_hook_extension:
-        xdir_hook_extension = sec_hook_extension[0]
-        ydir_hook_extension = sec_hook_extension[1]
-
-    # Find facename for xdir and ydir rebars
-    facename_for_xdir_rebars = getFacenameforRebar(
-        "y-axis", facename, structure
-    )
-    facename_for_ydir_rebars = getFacenameforRebar(
-        "x-axis", facename, structure
-    )
-
     # Create SingleTieFourRebars
     SingleTieFourRebarsObject = makeSingleTieFourRebars(
         l_cover_of_tie,
@@ -177,6 +141,61 @@ def makeSingleTieMultipleRebars(
         structure,
         facename,
     )
+
+    if not sec_rebars_number_diameter:
+        return SingleTieFourRebarsObject
+    else:
+        xdir_rebars_number_diameter = sec_rebars_number_diameter[0]
+        ydir_rebars_number_diameter = sec_rebars_number_diameter[1]
+        if (
+            not xdir_rebars_number_diameter
+            or xdir_rebars_number_diameter == "0"
+        ) and (
+            not ydir_rebars_number_diameter
+            or ydir_rebars_number_diameter == "0"
+        ):
+            return SingleTieFourRebarsObject
+
+    # Set parameters for xdir and ydir rebars
+    if not sec_rebars_t_offset:
+        xdir_rebars_t_offset = ydir_rebars_t_offset = main_rebars_t_offset
+    else:
+        xdir_rebars_t_offset = sec_rebars_t_offset[0]
+        ydir_rebars_t_offset = sec_rebars_t_offset[1]
+    if not sec_rebars_b_offset:
+        xdir_rebars_b_offset = ydir_rebars_b_offset = main_rebars_b_offset
+    else:
+        xdir_rebars_b_offset = sec_rebars_b_offset[0]
+        ydir_rebars_b_offset = sec_rebars_b_offset[1]
+    xdir_rebars_type = sec_rebars_type[0]
+    ydir_rebars_type = sec_rebars_type[1]
+    if not sec_hook_orientation:
+        if xdir_rebars_type == "StraightRebar":
+            xdir_hook_orientation = None
+        elif xdir_rebars_type == "LShapeRebar":
+            xdir_hook_orientation = "Top Inside"
+        if ydir_rebars_type == "StraightRebar":
+            ydir_hook_orientation = None
+        elif ydir_rebars_type == "LShapeRebar":
+            ydir_hook_orientation = "Top Inside"
+    else:
+        xdir_hook_orientation = sec_hook_orientation[0]
+        ydir_hook_orientation = sec_hook_orientation[1]
+    if l_sec_rebar_rounding:
+        l_xdir_rebar_rounding = l_sec_rebar_rounding[0]
+        l_ydir_rebar_rounding = l_sec_rebar_rounding[1]
+    if sec_hook_extension:
+        xdir_hook_extension = sec_hook_extension[0]
+        ydir_hook_extension = sec_hook_extension[1]
+
+    # Find facename for xdir and ydir rebars
+    facename_for_xdir_rebars = getFacenameforRebar(
+        "y-axis", facename, structure
+    )
+    facename_for_ydir_rebars = getFacenameforRebar(
+        "x-axis", facename, structure
+    )
+
     # Set common parameters of xdir and ydir rebars
     straight_rebars_orientation = "Vertical"
     xdir_rebars = []
@@ -491,22 +510,26 @@ def makeSingleTieMultipleRebars(
     SingleTieMultipleRebars.addYDirRebars(ydir_rebars)
 
     # Set properties values for xdir_rebars in  xdir_rebars_group object
-    xdir_rebars_group = SingleTieMultipleRebars.xdir_rebars_group
-    xdir_rebars_group.RebarType = xdir_rebars_type
-    xdir_rebars_group.HookOrientation = xdir_hook_orientation
-    xdir_rebars_group.HookExtension = xdir_hook_extension
-    xdir_rebars_group.TopOffset = xdir_rebars_t_offset
-    xdir_rebars_group.BottomOffset = xdir_rebars_b_offset
-    xdir_rebars_group.NumberDiameter = xdir_rebars_number_diameter
+    if len(xdir_rebars) > 0:
+        xdir_rebars_group = SingleTieMultipleRebars.xdir_rebars_group
+        xdir_rebars_group.RebarType = xdir_rebars_type
+        if xdir_rebars_type == "LShapeRebar":
+            xdir_rebars_group.HookOrientation = xdir_hook_orientation
+            xdir_rebars_group.HookExtension = xdir_hook_extension
+        xdir_rebars_group.TopOffset = xdir_rebars_t_offset
+        xdir_rebars_group.BottomOffset = xdir_rebars_b_offset
+        xdir_rebars_group.NumberDiameter = xdir_rebars_number_diameter
 
     # Set properties values for ydir_rebars in  ydir_rebars_group object
-    ydir_rebars_group = SingleTieMultipleRebars.ydir_rebars_group
-    ydir_rebars_group.RebarType = ydir_rebars_type
-    ydir_rebars_group.HookOrientation = ydir_hook_orientation
-    ydir_rebars_group.HookExtension = ydir_hook_extension
-    ydir_rebars_group.TopOffset = ydir_rebars_t_offset
-    ydir_rebars_group.BottomOffset = ydir_rebars_b_offset
-    ydir_rebars_group.NumberDiameter = ydir_rebars_number_diameter
+    if len(ydir_rebars) > 0:
+        ydir_rebars_group = SingleTieMultipleRebars.ydir_rebars_group
+        ydir_rebars_group.RebarType = ydir_rebars_type
+        if ydir_rebars_type == "LShapeRebar":
+            ydir_rebars_group.HookOrientation = ydir_hook_orientation
+            ydir_rebars_group.HookExtension = ydir_hook_extension
+        ydir_rebars_group.TopOffset = ydir_rebars_t_offset
+        ydir_rebars_group.BottomOffset = ydir_rebars_b_offset
+        ydir_rebars_group.NumberDiameter = ydir_rebars_number_diameter
 
     FreeCAD.ActiveDocument.recompute()
     return SingleTieMultipleRebars.Object
@@ -579,42 +602,13 @@ def editSingleTieMultipleRebars(
     'Bottom Inside', 'Bottom Outside', 'Top Left', 'Top Right', 'Bottom
     Left', 'Bottom Right'.
     """
-    Tie = rebar_group.RebarGroups[0].Ties[0]
+    if len(rebar_group.RebarGroups) == 0:
+        return rebar_group
+    if hasattr(rebar_group.RebarGroups[0], "Ties"):
+        Tie = rebar_group.RebarGroups[0].Ties[0]
     if not structure and not facename:
         structure = Tie.Base.Support[0][0]
         facename = Tie.Base.Support[0][1][0]
-
-    # Set parameters for xdir and ydir rebars
-    xdir_rebars_group = rebar_group.RebarGroups[2].SecondaryRebars[0]
-    ydir_rebars_group = rebar_group.RebarGroups[2].SecondaryRebars[1]
-    if not sec_rebars_t_offset:
-        xdir_rebars_t_offset = xdir_rebars_group.TopOffset
-        ydir_rebars_t_offset = ydir_rebars_group.TopOffset
-    else:
-        xdir_rebars_t_offset = sec_rebars_t_offset[0]
-        ydir_rebars_t_offset = sec_rebars_t_offset[1]
-    if not sec_rebars_b_offset:
-        xdir_rebars_b_offset = xdir_rebars_group.BottomOffset
-        ydir_rebars_b_offset = ydir_rebars_group.BottomOffset
-    else:
-        xdir_rebars_b_offset = sec_rebars_b_offset[0]
-        ydir_rebars_b_offset = sec_rebars_b_offset[1]
-    if not sec_rebars_number_diameter:
-        xdir_rebars_number_diameter = xdir_rebars_group.NumberDiameter
-        ydir_rebars_number_diameter = ydir_rebars_group.NumberDiameter
-    else:
-        xdir_rebars_number_diameter = sec_rebars_number_diameter[0]
-        ydir_rebars_number_diameter = sec_rebars_number_diameter[1]
-    xdir_rebars_type = sec_rebars_type[0]
-    ydir_rebars_type = sec_rebars_type[1]
-    xdir_hook_orientation = sec_hook_orientation[0]
-    ydir_hook_orientation = sec_hook_orientation[1]
-    if l_sec_rebar_rounding:
-        l_xdir_rebar_rounding = l_sec_rebar_rounding[0]
-        l_ydir_rebar_rounding = l_sec_rebar_rounding[1]
-    if sec_hook_extension:
-        xdir_hook_extension = sec_hook_extension[0]
-        ydir_hook_extension = sec_hook_extension[1]
 
     # Edit ties and main rebars
     editSingleTieFourRebars(
@@ -640,6 +634,59 @@ def editSingleTieMultipleRebars(
         structure,
         facename,
     )
+
+    if len(rebar_group.RebarGroups) == 3:
+        # Set parameters for xdir and ydir rebars
+        xdir_rebars_group = rebar_group.RebarGroups[2].SecondaryRebars[0]
+        ydir_rebars_group = rebar_group.RebarGroups[2].SecondaryRebars[1]
+        if not sec_rebars_t_offset:
+            xdir_rebars_t_offset = xdir_rebars_group.TopOffset
+            ydir_rebars_t_offset = ydir_rebars_group.TopOffset
+        else:
+            xdir_rebars_t_offset = sec_rebars_t_offset[0]
+            ydir_rebars_t_offset = sec_rebars_t_offset[1]
+        if not sec_rebars_b_offset:
+            xdir_rebars_b_offset = xdir_rebars_group.BottomOffset
+            ydir_rebars_b_offset = ydir_rebars_group.BottomOffset
+        else:
+            xdir_rebars_b_offset = sec_rebars_b_offset[0]
+            ydir_rebars_b_offset = sec_rebars_b_offset[1]
+        if not sec_rebars_number_diameter:
+            xdir_rebars_number_diameter = xdir_rebars_group.NumberDiameter
+            ydir_rebars_number_diameter = ydir_rebars_group.NumberDiameter
+        else:
+            xdir_rebars_number_diameter = sec_rebars_number_diameter[0]
+            ydir_rebars_number_diameter = sec_rebars_number_diameter[1]
+    else:
+        # Set parameters for xdir and ydir rebars
+        if not sec_rebars_t_offset:
+            xdir_rebars_t_offset = "0.00 mm"
+            ydir_rebars_t_offset = "0.00 mm"
+        else:
+            xdir_rebars_t_offset = sec_rebars_t_offset[0]
+            ydir_rebars_t_offset = sec_rebars_t_offset[1]
+        if not sec_rebars_b_offset:
+            xdir_rebars_b_offset = "0.00 mm"
+            ydir_rebars_b_offset = "0.00 mm"
+        else:
+            xdir_rebars_b_offset = sec_rebars_b_offset[0]
+            ydir_rebars_b_offset = sec_rebars_b_offset[1]
+        if not sec_rebars_number_diameter:
+            xdir_rebars_number_diameter = "2#20mm+1#16mm+2#20mm"
+            ydir_rebars_number_diameter = "1#20mm+1#16mm+1#20mm"
+        else:
+            xdir_rebars_number_diameter = sec_rebars_number_diameter[0]
+            ydir_rebars_number_diameter = sec_rebars_number_diameter[1]
+    xdir_rebars_type = sec_rebars_type[0]
+    ydir_rebars_type = sec_rebars_type[1]
+    xdir_hook_orientation = sec_hook_orientation[0]
+    ydir_hook_orientation = sec_hook_orientation[1]
+    if l_sec_rebar_rounding:
+        l_xdir_rebar_rounding = l_sec_rebar_rounding[0]
+        l_ydir_rebar_rounding = l_sec_rebar_rounding[1]
+    if sec_hook_extension:
+        xdir_hook_extension = sec_hook_extension[0]
+        ydir_hook_extension = sec_hook_extension[1]
 
     # Set common parameters of xdir and ydir rebars
     straight_rebars_orientation = "Vertical"
