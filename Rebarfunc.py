@@ -89,7 +89,7 @@ def facenormalDirection(structure = None, facename = None):
     normal = face.Placement.Rotation.inverted().multVec(normal)
     return normal
 
-def gettupleOfNumberDiameter(self, diameter_string):
+def gettupleOfNumberDiameter(diameter_string):
     """gettupleOfNumberDiameter(diameter_string): This function take input in
     specific syntax and return output in the form of list. For eg.
     Input: "3#100+2#200+3#100"
@@ -267,32 +267,60 @@ def extendedTangentLength(rounding, diameter, angle):
 class _RebarGroup:
     "A Rebar Group object."
 
-    def __init__(self, obj):
+    def __init__(self, obj_name):
         self.Type = "RebarGroup"
-        self.Object = obj
+        self.rebar_group = FreeCAD.ActiveDocument.addObject(
+            "App::DocumentObjectGroupPython", obj_name
+        )
+        self.ties_group = self.rebar_group.newObject(
+            "App::DocumentObjectGroupPython", "Ties"
+        )
+        self.main_rebars_group = self.rebar_group.newObject(
+            "App::DocumentObjectGroupPython", "MainRebars"
+        )
+        # Add properties to rebar_group object
+        properties = []
+        properties.append(
+            ("App::PropertyLinkList", "RebarGroups", "List of rebar groups", 1)
+        )
+        self.setProperties(properties, self.rebar_group)
+        self.rebar_group.RebarGroups = [self.ties_group, self.main_rebars_group]
+        self.Object = self.rebar_group
 
     def execute(self, obj):
         pass
 
-    def addObject(self, rebar):
-        self.Object.addObject(rebar)
+    def addTies(self, ties_list):
+        """Add Ties to ties_group object."""
+        if type(ties_list) == list:
+            self.ties_group.addObjects(ties_list)
+        else:
+            self.ties_group.addObject(ties_list)
+            ties_list = [ties_list]
+        prev_ties_list = self.ties_group.Ties
+        ties_list.extend(prev_ties_list)
+        self.ties_group.Ties = ties_list
 
-    def addObjects(self, rebars):
-        self.Object.addObjects(rebars)
+    def addMainRebars(self, main_rebars_list):
+        """Add Main Rebars to main_rebars group object."""
+        self.main_rebars_group.addObjects(main_rebars_list)
+        prev_main_rebars_list = self.main_rebars_group.MainRebars
+        main_rebars_list.extend(prev_main_rebars_list)
+        self.main_rebars_group.MainRebars = main_rebars_list
 
-    def setProperties(self, properties):
+    def setProperties(self, properties, group_obj):
         for prop in properties:
-            self.Object.addProperty(
+            group_obj.addProperty(
                 prop[0],
                 prop[1],
                 "RebarDialog",
                 QT_TRANSLATE_NOOP("App::Property", prop[2]),
             )
-            self.Object.setEditorMode(prop[1], prop[3])
+            group_obj.setEditorMode(prop[1], prop[3])
 
-    def setPropertiesValues(self, properties_values):
+    def setPropertiesValues(self, properties_values, group_obj):
         for prop in properties_values:
-            setattr(self.Object, prop[0], prop[1])
+            setattr(group_obj, prop[0], prop[1])
 
 
 class _ViewProviderRebarGroup:
@@ -309,9 +337,9 @@ class _ViewProviderRebarGroup:
         return None
 
     def doubleClicked(self, vobj):
-        from ColumnReinforcement import ColumnReinforcement
+        from ColumnReinforcement import MainColumnReinforcement
 
-        ColumnReinforcement.editDialog(vobj)
+        MainColumnReinforcement.editDialog(vobj)
 
 
 # -------------------------------------------------------------------------

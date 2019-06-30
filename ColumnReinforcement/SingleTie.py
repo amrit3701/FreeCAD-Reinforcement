@@ -226,7 +226,7 @@ def makeSingleTieFourRebars(
     NumberSpacingCheck, NumberSpacingValue, DiameterOfRebars, TopOffsetofRebars,
     BottomOffsetofRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
     LShapeRebarRounding, LShapeHookLength, Structure, Facename):
-    Adds the Single Tie reinforcement to the selected structural column
+    Adds the Single Tie Four Rebars reinforcement to the selected structural column
     object.
     It takes two different inputs for rebar_type i.e. 'StraightRebar',
     'LShapeRebar'.
@@ -361,7 +361,7 @@ def makeSingleTieFourRebars(
     f_cover = offset_of_tie
 
     # Create Stirrups
-    tie = makeStirrup(
+    ties = makeStirrup(
         l_cover_of_tie,
         r_cover_of_tie,
         t_cover_of_tie,
@@ -383,21 +383,35 @@ def makeSingleTieFourRebars(
         _ViewProviderRebarGroup(SingleTieFourRebars.Object.ViewObject)
 
     # Add created tie and rebars to SingleTieFourRebars group
-    SingleTieFourRebars.addObject(tie)
-    SingleTieFourRebars.addObjects(main_rebars)
+    SingleTieFourRebars.addTies(ties)
+    SingleTieFourRebars.addMainRebars(main_rebars)
 
-    # Set properties values for tie and rebars in SingleTieFourRebars group
+    # Set properties values for ties in Ties group object
     properties_values = []
-    properties_values.append(("ColumnConfiguration", "SingleTieFourRebars"))
-    properties_values.append(("MainRebarType", rebar_type))
-    properties_values.append(("RebarTopOffset", t_offset_of_rebars))
-    properties_values.append(("RebarBottomOffset", b_offset_of_rebars))
+    properties_values.append(("TiesConfiguration", "SingleTie"))
+    properties_values.append(("LeftCover", l_cover_of_tie))
+    properties_values.append(("RightCover", r_cover_of_tie))
+    properties_values.append(("TopCover", t_cover_of_tie))
+    properties_values.append(("BottomCover", b_cover_of_tie))
+    SingleTieFourRebars.setPropertiesValues(
+        properties_values, SingleTieFourRebars.ties_group
+    )
+
+    # Set properties values for rebars in MainRebars group object
+    properties_values = []
+    properties_values.append(("RebarType", rebar_type))
+    properties_values.append(("TopOffset", t_offset_of_rebars))
+    properties_values.append(("BottomOffset", b_offset_of_rebars))
     properties_values.append(("HookOrientation", hook_orientation))
     properties_values.append(("HookExtendAlong", hook_extend_along))
+    if not hook_extension:
+        hook_extension = "0.00 mm"
     properties_values.append(("HookExtension", hook_extension))
-    SingleTieFourRebars.setPropertiesValues(properties_values)
+    SingleTieFourRebars.setPropertiesValues(
+        properties_values, SingleTieFourRebars.main_rebars_group
+    )
     FreeCAD.ActiveDocument.recompute()
-    return SingleTieFourRebars.Object
+    return SingleTieFourRebars
 
 
 def editSingleTieFourRebars(
@@ -438,14 +452,14 @@ def editSingleTieFourRebars(
     'Top Right', 'Bottom Left', 'Bottom Right'.
     It takes two different inputs for hook_extend_along i.e. 'x-axis', 'y-axis'.
     """
-    for Rebar in rebar_group.Group:
-        if Rebar.ViewObject.RebarShape == "Stirrup":
-            Tie = Rebar
-        else:
-            prev_rebar_type = Rebar.ViewObject.RebarShape
+    Tie = rebar_group.RebarGroups[0].Ties[0]
+    prev_rebar_type = (
+        rebar_group.RebarGroups[1].MainRebars[0].ViewObject.RebarShape
+    )
     if not structure and not facename:
         structure = Tie.Base.Support[0][0]
-        faceName = Tie.Base.Support[0][1][0]
+        facename = Tie.Base.Support[0][1][0]
+
     # Check if main rebar_type changed or not
     if prev_rebar_type == rebar_type:
         change_rebar_type = False
@@ -455,7 +469,7 @@ def editSingleTieFourRebars(
     # Edit Tie
     rounding = (float(dia_of_tie) / 2 + dia_of_rebars / 2) / dia_of_tie
     f_cover = offset_of_tie
-    tie = editStirrup(
+    ties = editStirrup(
         Tie,
         l_cover_of_tie,
         r_cover_of_tie,
@@ -503,11 +517,10 @@ def editSingleTieFourRebars(
 
         if change_rebar_type:
             # Delete previously created LShaped rebars
-            for Rebar in rebar_group.Group:
-                if Rebar.ViewObject.RebarShape == prev_rebar_type:
-                    base_name = Rebar.Base.Name
-                    FreeCAD.ActiveDocument.removeObject(Rebar.Name)
-                    FreeCAD.ActiveDocument.removeObject(base_name)
+            for Rebar in rebar_group.RebarGroups[1].MainRebars:
+                base_name = Rebar.Base.Name
+                FreeCAD.ActiveDocument.removeObject(Rebar.Name)
+                FreeCAD.ActiveDocument.removeObject(base_name)
             main_rebars = []
             for i, coverAlong in enumerate(list_coverAlong):
                 main_rebars.append(
@@ -532,12 +545,11 @@ def editSingleTieFourRebars(
                     main_rebars[i].OffsetEnd = (
                         l_cover_of_tie + dia_of_tie + dia_of_rebars / 2
                     )
-            rebar_group.addObjects(main_rebars)
+            rebar_group.RebarGroups[1].addObjects(main_rebars)
         else:
             main_rebars = []
-            for Rebar in rebar_group.Group:
-                if Rebar.ViewObject.RebarShape == rebar_type:
-                    main_rebars.append(Rebar)
+            for Rebar in rebar_group.RebarGroups[1].MainRebars:
+                main_rebars.append(Rebar)
             for i, coverAlong in enumerate(list_coverAlong):
                 editStraightRebar(
                     main_rebars[i],
@@ -594,11 +606,10 @@ def editSingleTieFourRebars(
 
         if change_rebar_type:
             # Delete previously created Straight rebars
-            for Rebar in rebar_group.Group:
-                if Rebar.ViewObject.RebarShape == prev_rebar_type:
-                    base_name = Rebar.Base.Name
-                    FreeCAD.ActiveDocument.removeObject(Rebar.Name)
-                    FreeCAD.ActiveDocument.removeObject(base_name)
+            for Rebar in rebar_group.RebarGroups[1].MainRebars:
+                base_name = Rebar.Base.Name
+                FreeCAD.ActiveDocument.removeObject(Rebar.Name)
+                FreeCAD.ActiveDocument.removeObject(base_name)
             main_rebars = []
             for i, orientation in enumerate(list_orientation):
                 main_rebars.append(
@@ -625,12 +636,11 @@ def editSingleTieFourRebars(
                     main_rebars[i].OffsetEnd = (
                         l_cover_of_tie + dia_of_tie + dia_of_rebars / 2
                     )
-            rebar_group.addObjects(main_rebars)
+            rebar_group.RebarGroups[1].addObjects(main_rebars)
         else:
             main_rebars = []
-            for Rebar in rebar_group.Group:
-                if Rebar.ViewObject.RebarShape == rebar_type:
-                    main_rebars.append(Rebar)
+            for Rebar in rebar_group.RebarGroups[1].MainRebars:
+                main_rebars.append(Rebar)
             for i, orientation in enumerate(list_orientation):
                 editLShapeRebar(
                     main_rebars[i],
@@ -656,14 +666,24 @@ def editSingleTieFourRebars(
                         l_cover_of_tie + dia_of_tie + dia_of_rebars / 2
                     )
 
-    # Set properties values for tie and rebars in SingleTieFourRebars group
-    rebar_group.ColumnConfiguration = "SingleTieFourRebars"
-    rebar_group.MainRebarType = rebar_type
-    rebar_group.RebarTopOffset = t_offset_of_rebars
-    rebar_group.RebarBottomOffset = b_offset_of_rebars
-    rebar_group.HookOrientation = hook_orientation
-    rebar_group.HookExtendAlong = hook_extend_along
-    rebar_group.HookExtension = hook_extension
+    # Set properties values for ties in ties_group object
+    ties_group = rebar_group.RebarGroups[0]
+    ties_group.LeftCover = l_cover_of_tie
+    ties_group.RightCover = r_cover_of_tie
+    ties_group.TopCover = t_cover_of_tie
+    ties_group.BottomCover = b_cover_of_tie
+
+    # Set properties values for main_rebars in main_rebars_group object
+    main_rebars_group = rebar_group.RebarGroups[1]
+    main_rebars_group.MainRebars = main_rebars
+    main_rebars_group.RebarType = rebar_type
+    main_rebars_group.TopOffset = t_offset_of_rebars
+    main_rebars_group.BottomOffset = b_offset_of_rebars
+    main_rebars_group.HookOrientation = hook_orientation
+    main_rebars_group.HookExtendAlong = hook_extend_along
+    if not hook_extension:
+        hook_extension = "0.00 mm"
+    main_rebars_group.HookExtension = hook_extension
 
     FreeCAD.ActiveDocument.recompute()
     return rebar_group
@@ -674,10 +694,7 @@ class _SingleTieFourRebars(_RebarGroup):
 
     def __init__(self):
         """Create Group object and add properties to it."""
-        rebar_group = FreeCAD.ActiveDocument.addObject(
-            "App::DocumentObjectGroupPython", "SingleTieFourRebars"
-        )
-        _RebarGroup.__init__(self, rebar_group)
+        _RebarGroup.__init__(self, "ColumnReinforcement")
         # Add properties to group of rebars
         # Syntax to add new property:
         # properties.append(
@@ -693,31 +710,48 @@ class _SingleTieFourRebars(_RebarGroup):
         # 0 -- read and write mode
         # 1 -- read-only mode
         # 2 -- hidden mode
+
+        # Add properties to ties group object
         properties = []
         properties.append(
             (
                 "App::PropertyString",
-                "ColumnConfiguration",
-                "Configuration of Column Reinforcement",
+                "TiesConfiguration",
+                "Configuration of Ties in Column Reinforcement",
                 1,
             )
         )
+        properties.append(("App::PropertyLinkList", "Ties", "List of ties", 1))
         properties.append(
-            ("App::PropertyString", "MainRebarType", "Type of main rebars", 1)
+            ("App::PropertyDistance", "LeftCover", "Left cover of ties", 1)
+        )
+        properties.append(
+            ("App::PropertyDistance", "RightCover", "Right cover of ties", 1)
+        )
+        properties.append(
+            ("App::PropertyDistance", "TopCover", "Top cover of ties", 1)
+        )
+        properties.append(
+            ("App::PropertyDistance", "BottomCover", "Bottom cover of ties", 1)
+        )
+        self.setProperties(properties, self.ties_group)
+
+        # Add properties to main rebars group object
+        properties = []
+        properties.append(
+            ("App::PropertyString", "RebarType", "Type of main rebars", 1)
+        )
+        properties.append(
+            ("App::PropertyLinkList", "MainRebars", "List of main rebars", 1)
+        )
+        properties.append(
+            ("App::PropertyDistance", "TopOffset", "Top offset of rebars", 1)
         )
         properties.append(
             (
                 "App::PropertyDistance",
-                "RebarTopOffset",
-                "Top offset of main rebars",
-                1,
-            )
-        )
-        properties.append(
-            (
-                "App::PropertyDistance",
-                "RebarBottomOffset",
-                "Bottom offset of main rebars",
+                "BottomOffset",
+                "Bottom offset of rebars",
                 1,
             )
         )
@@ -740,4 +774,4 @@ class _SingleTieFourRebars(_RebarGroup):
         properties.append(
             ("App::PropertyDistance", "HookExtension", "Length of hook", 1)
         )
-        self.setProperties(properties)
+        self.setProperties(properties, self.main_rebars_group)

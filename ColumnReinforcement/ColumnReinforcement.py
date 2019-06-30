@@ -499,18 +499,18 @@ def setMainRebarData(obj, vobj):
     if MainRebar.ViewObject.RebarShape == "LShapeRebar":
         obj.form.mainRebarHookOrientation.setCurrentIndex(
             obj.form.mainRebarHookOrientation.findText(
-                str(vobj.Object.HookOrientation)
+                str(vobj.Object.MainHookOrientation)
             )
         )
         obj.form.mainRebarHookExtendAlong.setCurrentIndex(
             obj.form.mainRebarHookExtendAlong.findText(
-                str(vobj.Object.HookExtendAlong)
+                str(vobj.Object.MainHookExtendAlong)
             )
         )
-        obj.form.mainRebarHookExtension.setText(str(vobj.Object.HookExtension))
+        obj.form.mainRebarHookExtension.setText(str(vobj.Object.MainHookExtension))
         obj.form.mainRebarLRebarRounding.setValue(MainRebar.Rounding)
-    obj.form.mainRebarTopOffset.setText(str(vobj.Object.RebarTopOffset))
-    obj.form.mainRebarBottomOffset.setText(str(vobj.Object.RebarBottomOffset))
+    obj.form.mainRebarTopOffset.setText(str(vobj.Object.MainRebarTopOffset))
+    obj.form.mainRebarBottomOffset.setText(str(vobj.Object.MainRebarBottomOffset))
     obj.form.mainRebarDiameter.setText(str(MainRebar.Diameter))
 
 

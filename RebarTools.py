@@ -157,10 +157,10 @@ class ColumnReinforcementTool:
             return False
 
     def Activated(self):
-        from ColumnReinforcement import ColumnReinforcement
+        from ColumnReinforcement import MainColumnReinforcement
 
         # Call to CommandColumnReinforcement() function
-        ColumnReinforcement.CommandColumnReinforcement()
+        MainColumnReinforcement.CommandColumnReinforcement()
 
 FreeCADGui.addCommand('Arch_Rebar_Straight', StraightRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_UShape', UShapeRebarTool())
