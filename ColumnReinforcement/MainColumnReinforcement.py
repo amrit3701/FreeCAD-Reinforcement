@@ -36,6 +36,7 @@ from ColumnReinforcement.SingleTieMultipleRebars import (
     makeSingleTieMultipleRebars,
     editSingleTieMultipleRebars,
 )
+from ColumnReinforcement.RebarNumberDiameter import runNumberDiameterDialog
 
 
 class _ColumnReinforcementDialog:
@@ -202,7 +203,7 @@ class _ColumnReinforcementDialog:
         self.sec_xdir_rebars_widget.xdir_rebars_rounding.setValue(1)
         self.sec_xdir_rebars_widget.xdir_rebars_topOffset.setText("0.00 mm")
         self.sec_xdir_rebars_widget.xdir_rebars_bottomOffset.setText("0.00 mm")
-        self.sec_xdir_rebars_widget.xdir_rebars_numberDiameter.setText(
+        self.sec_xdir_rebars_widget.numberDiameter.setText(
             "2#20mm+1#16mm+2#20mm"
         )
         # Set Secondary Ydir Rebars Data
@@ -222,7 +223,7 @@ class _ColumnReinforcementDialog:
         self.sec_ydir_rebars_widget.ydir_rebars_rounding.setValue(1)
         self.sec_ydir_rebars_widget.ydir_rebars_topOffset.setText("0.00 mm")
         self.sec_ydir_rebars_widget.ydir_rebars_bottomOffset.setText("0.00 mm")
-        self.sec_ydir_rebars_widget.ydir_rebars_numberDiameter.setText(
+        self.sec_ydir_rebars_widget.numberDiameter.setText(
             "1#20mm+1#16mm+1#20mm"
         )
 
@@ -308,6 +309,12 @@ class _ColumnReinforcementDialog:
         )
         self.sec_ydir_rebars_widget.ydir_rebars_type.currentIndexChanged.connect(
             self.changeYDirRebarsType
+        )
+        self.sec_xdir_rebars_widget.xdir_rebars_editNumberDiameter.clicked.connect(
+            lambda: runNumberDiameterDialog(self.sec_xdir_rebars_widget)
+        )
+        self.sec_ydir_rebars_widget.ydir_rebars_editNumberDiameter.clicked.connect(
+            lambda: runNumberDiameterDialog(self.sec_ydir_rebars_widget)
         )
         self.form.next_button.clicked.connect(self.nextButtonCilcked)
         self.form.back_button.clicked.connect(self.backButtonCilcked)
@@ -740,7 +747,7 @@ class _ColumnReinforcementDialog:
             self.xdir_rebars_b_offset
         ).Value
         self.xdir_rebars_number_diameter = (
-            self.sec_xdir_rebars_widget.xdir_rebars_numberDiameter.text()
+            self.sec_xdir_rebars_widget.numberDiameter.text()
         )
 
     def getYDirRebarsData(self):
@@ -773,7 +780,7 @@ class _ColumnReinforcementDialog:
             self.ydir_rebars_b_offset
         ).Value
         self.ydir_rebars_number_diameter = (
-            self.sec_ydir_rebars_widget.ydir_rebars_numberDiameter.text()
+            self.sec_ydir_rebars_widget.numberDiameter.text()
         )
 
 
@@ -950,7 +957,7 @@ def setXDirRebarsData(obj, vobj):
     obj.sec_xdir_rebars_widget.xdir_rebars_bottomOffset.setText(
         str(XDirRebarsGroup.BottomOffset)
     )
-    obj.sec_xdir_rebars_widget.xdir_rebars_numberDiameter.setText(
+    obj.sec_xdir_rebars_widget.numberDiameter.setText(
         str(XDirRebarsGroup.NumberDiameter)
     )
 
@@ -984,7 +991,7 @@ def setYDirRebarsData(obj, vobj):
     obj.sec_ydir_rebars_widget.ydir_rebars_bottomOffset.setText(
         str(YDirRebarsGroup.BottomOffset)
     )
-    obj.sec_ydir_rebars_widget.ydir_rebars_numberDiameter.setText(
+    obj.sec_ydir_rebars_widget.numberDiameter.setText(
         str(YDirRebarsGroup.NumberDiameter)
     )
 

@@ -516,6 +516,8 @@ def makeSingleTieMultipleRebars(
         if xdir_rebars_type == "LShapeRebar":
             xdir_rebars_group.HookOrientation = xdir_hook_orientation
             xdir_rebars_group.HookExtension = xdir_hook_extension
+        else:
+            xdir_rebars_group.HookOrientation = "Top Inside"
         xdir_rebars_group.TopOffset = xdir_rebars_t_offset
         xdir_rebars_group.BottomOffset = xdir_rebars_b_offset
         xdir_rebars_group.NumberDiameter = xdir_rebars_number_diameter
@@ -527,6 +529,8 @@ def makeSingleTieMultipleRebars(
         if ydir_rebars_type == "LShapeRebar":
             ydir_rebars_group.HookOrientation = ydir_hook_orientation
             ydir_rebars_group.HookExtension = ydir_hook_extension
+        else:
+            ydir_rebars_group.HookOrientation = "Top Inside"
         ydir_rebars_group.TopOffset = ydir_rebars_t_offset
         ydir_rebars_group.BottomOffset = ydir_rebars_b_offset
         ydir_rebars_group.NumberDiameter = ydir_rebars_number_diameter
