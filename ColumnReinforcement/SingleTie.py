@@ -223,8 +223,8 @@ def makeSingleTieFourRebars(
 ):
     """makeSingleTieFourRebars(LeftCoverOfTie, RightCoverOfTie, TopCoverOfTie,
     BottomCoverOfTie, OffsetofTie, BentAngle, ExtensionFactor, DiameterOfTie,
-    NumberSpacingCheck, NumberSpacingValue, DiameterOfRebars, TopOffsetofRebars,
-    BottomOffsetofRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
+    NumberSpacingCheck, NumberSpacingValue, DiameterOfRebars, TopOffsetOfRebars,
+    BottomOffsetOfRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
     LShapeRebarRounding, LShapeHookLength, Structure, Facename):
     Adds the Single Tie Four Rebars reinforcement to the selected structural
     column object.
