@@ -268,7 +268,7 @@ def makeSingleTieFourRebars(
             l_cover = l_cover_of_tie + dia_of_tie
         else:
             r_cover = t_cover_of_tie + dia_of_tie
-            l_cover = l_cover_of_tie + dia_of_tie
+            l_cover = b_cover_of_tie + dia_of_tie
         orientation = "Vertical"
         list_coverAlong = ["Right Side", "Left Side"]
         rl_cover = [r_cover, l_cover]
@@ -510,7 +510,7 @@ def editSingleTieFourRebars(
             l_cover = l_cover_of_tie + dia_of_tie
         else:
             r_cover = t_cover_of_tie + dia_of_tie
-            l_cover = l_cover_of_tie + dia_of_tie
+            l_cover = b_cover_of_tie + dia_of_tie
         orientation = "Vertical"
         list_coverAlong = ["Right Side", "Left Side"]
         rl_cover = [r_cover, l_cover]
