@@ -31,12 +31,15 @@ import FreeCAD
 from ColumnReinforcement.SingleTie import (
     makeSingleTieFourRebars,
     editSingleTieFourRebars,
-    getFacenameforRebar,
-    getLRebarOrientationLeftRightCover,
 )
 from StraightRebar import makeStraightRebar, editStraightRebar
 from LShapeRebar import makeLShapeRebar, editLShapeRebar
-from Rebarfunc import getParametersOfFace, gettupleOfNumberDiameter
+from Rebarfunc import (
+    getParametersOfFace,
+    gettupleOfNumberDiameter,
+    getFacenameforRebar,
+    getLRebarOrientationLeftRightCover,
+)
 
 if FreeCAD.GuiUp:
     import FreeCADGui

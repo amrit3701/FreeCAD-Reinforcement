@@ -31,12 +31,12 @@ import FreeCAD
 from Stirrup import makeStirrup
 from StraightRebar import makeStraightRebar
 from LShapeRebar import makeLShapeRebar
-from ColumnReinforcement.SingleTie import (
-    makeSingleTieFourRebars,
+from ColumnReinforcement.SingleTie import makeSingleTieFourRebars
+from Rebarfunc import (
+    getParametersOfFace,
     getFacenameforRebar,
     getLRebarOrientationLeftRightCover,
 )
-from Rebarfunc import getParametersOfFace
 
 if FreeCAD.GuiUp:
     import FreeCADGui
@@ -152,7 +152,6 @@ def makeTwoTiesSixRebars(
         facename,
     )
     tie2.OffsetEnd = end_offset_of_tie2
-
 
     # Calculate common parameters for Straight/LShaped rebars
     if hook_extend_along == "x-axis":

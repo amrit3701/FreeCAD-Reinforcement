@@ -260,7 +260,8 @@ def extendedTangentLength(rounding, diameter, angle):
 
 
 # -------------------------------------------------------------------------
-# Classes which are mainly used while creating Column Reinforcement.
+# Classes and functions which are mainly used while creating Column
+# Reinforcement.
 # -------------------------------------------------------------------------
 
 
@@ -340,6 +341,163 @@ class _ViewProviderRebarGroup:
         from ColumnReinforcement import MainColumnReinforcement
 
         MainColumnReinforcement.editDialog(vobj)
+
+
+def getLRebarOrientationLeftRightCover(
+    hook_orientation,
+    hook_extension,
+    hook_extend_along,
+    l_cover_of_tie,
+    r_cover_of_tie,
+    t_cover_of_tie,
+    b_cover_of_tie,
+    dia_of_tie,
+    dia_of_rebars,
+    rounding_of_rebars,
+    face_length,
+):
+    """getLRebarOrientationLeftRightCover(HookOrientation, HookExtension,
+    HookExtendAlong, LeftCoverOfTie, RightCoverOfTie, TopCoverOfTie,
+    BottomCoverOfTie, DiameterOfTie, DiameterOfRebars, RoundingOfRebars,
+    FaceLength):
+    Return orientation and left and right cover of LShapeRebar in the form of
+    dictionary of list.
+    It takes eight different orientations input for LShapeHook i.e. 'Top
+    Inside', 'Top Outside', 'Bottom Inside', 'Bottom Outside', 'Top Right',
+    'Top Left', 'Bottom Right', 'Bottom Left'.
+    It takes two different inputs for hook_extend_along i.e. 'x-axis', 'y-axis'.
+    """
+    if hook_extend_along == "y-axis":
+        # Swap values of covers
+        l_cover_of_tie, b_cover_of_tie = b_cover_of_tie, l_cover_of_tie
+        r_cover_of_tie, t_cover_of_tie = t_cover_of_tie, r_cover_of_tie
+    l_cover = []
+    r_cover = []
+    l_cover.append(l_cover_of_tie + dia_of_tie)
+    if hook_orientation in ("Top Inside", "Bottom Inside"):
+        # Assign orientation value
+        if hook_orientation == "Top Inside":
+            list_orientation = ["Top Left", "Top Right"]
+        else:
+            list_orientation = ["Bottom Left", "Bottom Right"]
+        r_cover.append(
+            face_length
+            - l_cover_of_tie
+            - dia_of_tie
+            - dia_of_rebars / 2
+            - rounding_of_rebars * dia_of_rebars
+            - hook_extension
+        )
+        l_cover.append(
+            face_length
+            - r_cover_of_tie
+            - dia_of_tie
+            - dia_of_rebars / 2
+            - rounding_of_rebars * dia_of_rebars
+            - hook_extension
+        )
+
+    elif hook_orientation in ("Top Outside", "Bottom Outside"):
+        if hook_orientation == "Top Outside":
+            list_orientation = ["Top Left", "Top Right"]
+        else:
+            list_orientation = ["Bottom Left", "Bottom Right"]
+        r_cover.append(
+            face_length
+            - l_cover_of_tie
+            - dia_of_tie
+            - dia_of_rebars / 2
+            + rounding_of_rebars * dia_of_rebars
+            + hook_extension
+        )
+        l_cover.append(
+            face_length
+            - r_cover_of_tie
+            - dia_of_tie
+            - dia_of_rebars / 2
+            + rounding_of_rebars * dia_of_rebars
+            + hook_extension
+        )
+
+    elif hook_orientation in ("Top Left", "Bottom Left"):
+        if hook_orientation == "Top Left":
+            list_orientation = ["Top Left", "Top Right"]
+        else:
+            list_orientation = ["Bottom Left", "Bottom Right"]
+        r_cover.append(
+            face_length
+            - l_cover_of_tie
+            - dia_of_tie
+            - dia_of_rebars / 2
+            + rounding_of_rebars * dia_of_rebars
+            + hook_extension
+        )
+        l_cover.append(
+            face_length
+            - r_cover_of_tie
+            - dia_of_tie
+            - dia_of_rebars / 2
+            - rounding_of_rebars * dia_of_rebars
+            - hook_extension
+        )
+
+    elif hook_orientation in ("Top Right", "Bottom Right"):
+        if hook_orientation == "Top Right":
+            list_orientation = ["Top Left", "Top Right"]
+        else:
+            list_orientation = ["Bottom Left", "Bottom Right"]
+        r_cover.append(
+            face_length
+            - l_cover_of_tie
+            - dia_of_tie
+            - dia_of_rebars / 2
+            - rounding_of_rebars * dia_of_rebars
+            - hook_extension
+        )
+        l_cover.append(
+            face_length
+            - r_cover_of_tie
+            - dia_of_tie
+            - dia_of_rebars / 2
+            + rounding_of_rebars * dia_of_rebars
+            + hook_extension
+        )
+
+    r_cover.append(r_cover_of_tie + dia_of_tie)
+    l_rebar_orientation_cover = {}
+    l_rebar_orientation_cover["list_orientation"] = list_orientation
+    l_rebar_orientation_cover["l_cover"] = l_cover
+    l_rebar_orientation_cover["r_cover"] = r_cover
+    return l_rebar_orientation_cover
+
+
+def getFacenameforRebar(hook_extend_along, facename, structure):
+    """getFacenameforRebar(HookExtendAlong, Facename, Structure):
+    Return facename of face normal to selected/provided face
+    It takes two different inputs for hook_extend_along i.e. 'x-axis', 'y-axis'.
+    """
+    face = structure.Shape.Faces[getFaceNumber(facename) - 1]
+    normal1 = face.normalAt(0, 0)
+    faces = structure.Shape.Faces
+    index = 1
+    for face in faces:
+        normal2 = face.normalAt(0, 0)
+        if hook_extend_along == "x-axis":
+            if (
+                int(normal1.dot(normal2)) == 0
+                and int(normal1.cross(normal2).x) == 1
+            ):
+                facename_for_rebars = "Face" + str(index)
+                break
+        else:
+            if (
+                int(normal1.dot(normal2)) == 0
+                and int(normal1.cross(normal2).y) == 1
+            ):
+                facename_for_rebars = "Face" + str(index)
+                break
+        index += 1
+    return facename_for_rebars
 
 
 # -------------------------------------------------------------------------
