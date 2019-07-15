@@ -154,16 +154,26 @@ def makeReinforcement(
             number_angle_check,
             number_angle_value,
         )
-        import Draft, Arch
+        import Arch, Part
 
-        for i, _ in enumerate(u_points):
-            line = Draft.makeWire(
-                [u_points[i], b_points[i]],
-                closed=False,
-                face=False,
-                support=None,
+        for i, u_point in enumerate(u_points):
+            sketch = FreeCAD.ActiveDocument.addObject(
+                "Sketcher::SketchObject", "Sketch"
             )
-            line.Support = [(structure, facename)]
-            rebar = Arch.makeRebar(None, line, dia_of_straight_rebars, 1)
+            sketch.Support = [(structure, facename)]
+            sketch.Placement = FreeCAD.Placement(
+                FreeCAD.Vector(0, u_point[1], 0),
+                FreeCAD.Rotation(FreeCAD.Vector(1, 0, 0), 90),
+            )
+            sketch.addGeometry(
+                Part.LineSegment(
+                    FreeCAD.Vector(u_point[0], u_point[2], 0),
+                    FreeCAD.Vector(b_points[i][0], b_points[i][2], 0),
+                ),
+                False,
+            )
+            rebar = Arch.makeRebar(
+                structure, sketch, dia_of_straight_rebars, 1
+            )
 
         FreeCAD.ActiveDocument.recompute()
