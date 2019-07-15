@@ -27,6 +27,7 @@ __url__ = "https://www.freecadweb.org"
 
 
 import math
+from PySide.QtCore import QT_TRANSLATE_NOOP
 
 import FreeCAD
 import ArchCommands
@@ -118,10 +119,11 @@ def makeReinforcement(
         FacePRM = getParametersOfFace(structure, facename, False)
         if not FacePRM:
             FreeCAD.Console.PrintError(
-                "Cannot identified shape or from which base object sturcturalelement is derived\n"
+                "Cannot identified shape or from which base object"
+                "sturcturalelement is derived\n"
             )
             return
-        makeHelicalRebar(
+        helical_rebar = makeHelicalRebar(
             s_cover,
             b_offset,
             dia_of_helical_rebar,
@@ -148,10 +150,118 @@ def makeReinforcement(
 
         pl = FreeCAD.Placement()
         pl.Rotation.Q = (0.5, 0.5, 0.5, 0.5)
+        main_rebars_list = []
         for points in points_list:
             line = Draft.makeWire(
                 points, placement=pl, closed=False, face=True, support=None
             )
-            rebar = Arch.makeRebar(structure, line, dia_of_straight_rebars, 1)
+            main_rebars_list.append(
+                Arch.makeRebar(structure, line, dia_of_straight_rebars, 1)
+            )
+            main_rebars_list[-1].Label = "StraightRebar"
 
+        CircularColumnReinforcementRebarGroup = (
+            _CircularColumnReinforcementRebarGroup()
+        )
+        if FreeCAD.GuiUp:
+            _ViewProviderCircularColumnReinforcementRebarGroup(
+                CircularColumnReinforcementRebarGroup.Object.ViewObject
+            )
+        CircularColumnReinforcementRebarGroup.addHelicalRebars(helical_rebar)
+        CircularColumnReinforcementRebarGroup.addMainRebars(main_rebars_list)
         FreeCAD.ActiveDocument.recompute()
+
+
+class _CircularColumnReinforcementRebarGroup:
+    def __init__(self):
+        self.Type = "RebarGroup"
+        self.rebar_group = FreeCAD.ActiveDocument.addObject(
+            "App::DocumentObjectGroupPython", "ColumnReinforcement"
+        )
+        self.helical_rebar_group = self.rebar_group.newObject(
+            "App::DocumentObjectGroupPython", "HelicalRebars"
+        )
+        self.main_rebars_group = self.rebar_group.newObject(
+            "App::DocumentObjectGroupPython", "MainRebars"
+        )
+
+        # Add properties to rebar_group object
+        properties = []
+        properties.append(
+            ("App::PropertyLinkList", "RebarGroups", "List of rebar groups", 1)
+        )
+        self.setProperties(properties, self.rebar_group)
+        self.rebar_group.RebarGroups = [
+            self.helical_rebar_group,
+            self.main_rebars_group,
+        ]
+
+        # Add properties to helical_rebar_group object
+        properties = []
+        properties.append(
+            (
+                "App::PropertyLinkList",
+                "HelicalRebars",
+                "List of helical rebars",
+                1,
+            )
+        )
+        self.setProperties(properties, self.helical_rebar_group)
+
+        # Add properties to main_rebars_group object
+        properties = []
+        properties.append(
+            ("App::PropertyLinkList", "MainRebars", "List of main rebars", 1)
+        )
+        self.setProperties(properties, self.main_rebars_group)
+
+        self.Object = self.rebar_group
+
+    def setProperties(self, properties, group_obj):
+        for prop in properties:
+            group_obj.addProperty(
+                prop[0],
+                prop[1],
+                "RebarDialog",
+                QT_TRANSLATE_NOOP("App::Property", prop[2]),
+            )
+            group_obj.setEditorMode(prop[1], prop[3])
+
+    def setPropertiesValues(self, properties_values, group_obj):
+        for prop in properties_values:
+            setattr(group_obj, prop[0], prop[1])
+
+    def addHelicalRebars(self, helical_rebars_list):
+        """Add helical rebars to helical_rebar_group object."""
+        if type(helical_rebars_list) == list:
+            self.helical_rebar_group.addObjects(helical_rebars_list)
+        else:
+            self.helical_rebar_group.addObject(helical_rebars_list)
+            helical_rebars_list = [helical_rebars_list]
+        prev_helical_rebars_list = self.helical_rebar_group.HelicalRebars
+        helical_rebars_list.extend(prev_helical_rebars_list)
+        self.helical_rebar_group.HelicalRebars = helical_rebars_list
+
+    def addMainRebars(self, main_rebars_list):
+        """Add Main Rebars to main_rebars group object."""
+        self.main_rebars_group.addObjects(main_rebars_list)
+        prev_main_rebars_list = self.main_rebars_group.MainRebars
+        main_rebars_list.extend(prev_main_rebars_list)
+        self.main_rebars_group.MainRebars = main_rebars_list
+
+
+class _ViewProviderCircularColumnReinforcementRebarGroup:
+    def __init__(self, vobj):
+        vobj.Proxy = self
+        self.Object = vobj.Object
+
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self, state):
+        return None
+
+    def doubleClicked(self, vobj):
+        from ColumnReinforcement import MainColumnReinforcement
+
+        MainColumnReinforcement.editDialog(vobj)
