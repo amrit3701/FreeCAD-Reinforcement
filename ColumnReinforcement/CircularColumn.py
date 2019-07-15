@@ -172,6 +172,24 @@ def makeReinforcement(
             )
         CircularColumnReinforcementRebarGroup.addHelicalRebars(helical_rebar)
         CircularColumnReinforcementRebarGroup.addMainRebars(main_rebars_list)
+
+        properties_values = []
+        properties_values.append(("TopOffset", main_rebars_t_offset))
+        properties_values.append(("BottomOffset", main_rebars_b_offset))
+        properties_values.append(("Diameter", dia_of_main_rebars))
+        properties_values.append(("NumberAngleCheck", number_angle_check))
+        if number_angle_check:
+            properties_values.append(("Number", number_angle_value))
+            properties_values.append(("Angle", 360.00 / number_angle_value))
+        else:
+            properties_values.append(
+                ("Number", math.ceil(360 / number_angle_value))
+            )
+            properties_values.append(("Angle", number_angle_value))
+        CircularColumnReinforcementRebarGroup.setPropertiesValues(
+            properties_values,
+            CircularColumnReinforcementRebarGroup.main_rebars_group,
+        )
         FreeCAD.ActiveDocument.recompute()
 
 
@@ -215,6 +233,44 @@ class _CircularColumnReinforcementRebarGroup:
         properties = []
         properties.append(
             ("App::PropertyLinkList", "MainRebars", "List of main rebars", 1)
+        )
+        properties.append(
+            (
+                "App::PropertyDistance",
+                "TopOffset",
+                "Top offset of main rebars",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyDistance",
+                "BottomOffset",
+                "Bottom offset of main rebars",
+                1,
+            )
+        )
+        properties.append(
+            ("App::PropertyDistance", "Diameter", "Diameter of main rebars", 1)
+        )
+        properties.append(
+            (
+                "App::PropertyBool",
+                "NumberAngleCheck",
+                "Number radio button is checked",
+                1,
+            )
+        )
+        properties.append(
+            ("App::PropertyQuantity", "Number", "Number of main rebars", 1)
+        )
+        properties.append(
+            (
+                "App::PropertyAngle",
+                "Angle",
+                "Angle between consecutive main rebars",
+                1,
+            )
         )
         self.setProperties(properties, self.main_rebars_group)
 
