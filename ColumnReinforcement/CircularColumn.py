@@ -46,7 +46,7 @@ def getPointsOfStraightRebars(
     b_offset,
     column_size,
     dia_of_helical_rebar,
-    dia_of_straight_rebars,
+    dia_of_main_rebars,
     number_angle_check,
     number_angle_value,
 ):
@@ -58,7 +58,7 @@ def getPointsOfStraightRebars(
         FacePRM[0][0] / 2
         - s_cover
         - dia_of_helical_rebar
-        - dia_of_straight_rebars / 2
+        - dia_of_main_rebars / 2
     )
     points_of_centre = FacePRM[1]
     u_point = (
@@ -91,19 +91,22 @@ def getPointsOfStraightRebars(
 
 def makeReinforcement(
     s_cover,
-    t_offset,
-    b_offset,
+    helical_rebar_t_offset,
+    helical_rebar_b_offset,
     pitch,
     dia_of_helical_rebar,
-    dia_of_straight_rebars,
+    main_rebars_t_offset,
+    main_rebars_b_offset,
+    dia_of_main_rebars,
     number_angle_check,
     number_angle_value,
     structure=None,
     facename=None,
 ):
-    """makeReinforcement(SideCover, TopOffset, BottomOffset, Pitch,
-    DiameterOfHelicalRebar, DiameterOfStraightRebars, NumberAngleCheck,
-    NumberAngleValue, Structure, Facename):
+    """makeReinforcement(SideCover, TopOffsetOfHelicalRebars,
+    BottomOffsetOfHelicalRebars, Pitch, DiameterOfHelicalRebar,
+    TopOffsetOfMainRebars, BottomOffsetOfMainRebars, DiameterOfMainRebars,
+    NumberAngleCheck, NumberAngleValue, Structure, Facename):
     Adds the helical and straight rebars to the selected structural column
     object.
     """
@@ -125,9 +128,9 @@ def makeReinforcement(
             return
         helical_rebar = makeHelicalRebar(
             s_cover,
-            b_offset,
+            helical_rebar_b_offset,
             dia_of_helical_rebar,
-            t_offset,
+            helical_rebar_t_offset,
             pitch,
             structure,
             facename,
@@ -138,11 +141,11 @@ def makeReinforcement(
         points_list = getPointsOfStraightRebars(
             FacePRM,
             s_cover,
-            t_offset,
-            b_offset,
+            main_rebars_t_offset,
+            main_rebars_b_offset,
             column_size,
             dia_of_helical_rebar,
-            dia_of_straight_rebars,
+            dia_of_main_rebars,
             number_angle_check,
             number_angle_value,
         )
@@ -156,7 +159,7 @@ def makeReinforcement(
                 points, placement=pl, closed=False, face=True, support=None
             )
             main_rebars_list.append(
-                Arch.makeRebar(structure, line, dia_of_straight_rebars, 1)
+                Arch.makeRebar(structure, line, dia_of_main_rebars, 1)
             )
             main_rebars_list[-1].Label = "StraightRebar"
 
