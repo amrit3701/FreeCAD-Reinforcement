@@ -60,42 +60,32 @@ def getPointsOfStraightRebars(
         - dia_of_straight_rebars / 2
     )
     points_of_centre = FacePRM[1]
-    u_points = [
-        (
-            points_of_centre[0] + radius,
-            points_of_centre[1],
-            points_of_centre[2] - t_offset,
-        )
-    ]
-    b_points = [
-        (
-            points_of_centre[0] + radius,
-            points_of_centre[1],
-            points_of_centre[2] - column_size + b_offset,
-        )
-    ]
+    u_point = (
+        points_of_centre[0] + radius,
+        points_of_centre[1],
+        points_of_centre[2] - t_offset,
+    )
+    b_point = (
+        points_of_centre[0] + radius,
+        points_of_centre[1],
+        points_of_centre[2] - column_size + b_offset,
+    )
+    points_list = [[FreeCAD.Vector(u_point), FreeCAD.Vector(b_point)]]
     tmp_angle = angle
     while tmp_angle < 360:
-        u_points.append(
-            (
-                points_of_centre[0]
-                + radius * math.cos(math.radians(tmp_angle)),
-                points_of_centre[1]
-                + radius * math.sin(math.radians(tmp_angle)),
-                points_of_centre[2] - t_offset,
-            )
+        u_point = (
+            points_of_centre[0] + radius * math.cos(math.radians(tmp_angle)),
+            points_of_centre[1] + radius * math.sin(math.radians(tmp_angle)),
+            points_of_centre[2] - t_offset,
         )
-        b_points.append(
-            (
-                points_of_centre[0]
-                + radius * math.cos(math.radians(tmp_angle)),
-                points_of_centre[1]
-                + radius * math.sin(math.radians(tmp_angle)),
-                points_of_centre[2] - column_size + b_offset,
-            )
+        b_point = (
+            points_of_centre[0] + radius * math.cos(math.radians(tmp_angle)),
+            points_of_centre[1] + radius * math.sin(math.radians(tmp_angle)),
+            points_of_centre[2] - column_size + b_offset,
         )
+        points_list.append([FreeCAD.Vector(u_point), FreeCAD.Vector(b_point)])
         tmp_angle += angle
-    return [u_points, b_points]
+    return points_list
 
 
 def makeReinforcement(
@@ -143,7 +133,7 @@ def makeReinforcement(
         column_size = ArchCommands.projectToVector(
             structure.Shape.copy(), face.normalAt(0, 0)
         ).Length
-        u_points, b_points = getPointsOfStraightRebars(
+        points_list = getPointsOfStraightRebars(
             FacePRM,
             s_cover,
             t_offset,
@@ -154,26 +144,14 @@ def makeReinforcement(
             number_angle_check,
             number_angle_value,
         )
-        import Arch, Part
+        import Arch, Draft
 
-        for i, u_point in enumerate(u_points):
-            sketch = FreeCAD.ActiveDocument.addObject(
-                "Sketcher::SketchObject", "Sketch"
+        pl = FreeCAD.Placement()
+        pl.Rotation.Q = (0.5, 0.5, 0.5, 0.5)
+        for points in points_list:
+            line = Draft.makeWire(
+                points, placement=pl, closed=False, face=True, support=None
             )
-            sketch.Support = [(structure, facename)]
-            sketch.Placement = FreeCAD.Placement(
-                FreeCAD.Vector(0, u_point[1], 0),
-                FreeCAD.Rotation(FreeCAD.Vector(1, 0, 0), 90),
-            )
-            sketch.addGeometry(
-                Part.LineSegment(
-                    FreeCAD.Vector(u_point[0], u_point[2], 0),
-                    FreeCAD.Vector(b_points[i][0], b_points[i][2], 0),
-                ),
-                False,
-            )
-            rebar = Arch.makeRebar(
-                structure, sketch, dia_of_straight_rebars, 1
-            )
+            rebar = Arch.makeRebar(structure, line, dia_of_straight_rebars, 1)
 
         FreeCAD.ActiveDocument.recompute()
