@@ -94,6 +94,10 @@ class _ColumnReinforcementDialog:
             os.path.split(os.path.abspath(__file__))[0] + "/SecYDirRebars.ui"
         )
         self.form.rebars_stackedWidget.addWidget(self.sec_ydir_rebars_widget)
+        self.circular_column_widget = FreeCADGui.PySideUic.loadUi(
+            os.path.split(os.path.abspath(__file__))[0] + "/CircularColumn.ui"
+        )
+        self.form.rebars_stackedWidget.addWidget(self.circular_column_widget)
         # Set Ties data Widget in Scroll Area
         self.ties_widget.ties_scrollArea.setWidget(
             self.ties_widget.ties_dataWidget
@@ -123,6 +127,14 @@ class _ColumnReinforcementDialog:
             QtGui.QPixmap(
                 os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
                 + "/icons/Column_SingleTieMultipleRebars.png"
+            )
+        )
+        self.circular_column_widget.columReinforcementImage.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                    0
+                ]
+                + "/icons/CircularColumnReinforcement.png"
             )
         )
         # Set default values in UI
@@ -277,6 +289,12 @@ class _ColumnReinforcementDialog:
     def connectSignalSlots(self):
         """This function is used to connect different slots in UI to appropriate
         functions."""
+        self.form.rectangular_column_radio.clicked.connect(
+            self.rectangularColumnRadioClicked
+        )
+        self.form.circular_column_radio.clicked.connect(
+            self.circularColumnRadioClicked
+        )
         self.form.rebars_listWidget.currentRowChanged.connect(
             self.changeRebarsListWidget
         )
@@ -319,6 +337,19 @@ class _ColumnReinforcementDialog:
         self.form.next_button.clicked.connect(self.nextButtonCilcked)
         self.form.back_button.clicked.connect(self.backButtonCilcked)
         self.form.standardButtonBox.clicked.connect(self.clicked)
+
+    def circularColumnRadioClicked(self):
+        self.form.rebars_listWidget.hide()
+        self.form.rebars_stackedWidget.setCurrentIndex(4)
+        self.form.back_button.hide()
+        self.form.next_button.setText("Finish")
+        print("WIP")
+
+    def rectangularColumnRadioClicked(self):
+        self.form.rebars_listWidget.show()
+        self.form.rebars_stackedWidget.setCurrentIndex(0)
+        self.form.back_button.show()
+        self.form.next_button.setText("Next")
 
     def changeRebarsListWidget(self, index):
         max_index = self.form.rebars_listWidget.count() - 1
