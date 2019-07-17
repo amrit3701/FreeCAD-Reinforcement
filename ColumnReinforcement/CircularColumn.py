@@ -32,7 +32,7 @@ from PySide.QtCore import QT_TRANSLATE_NOOP
 import FreeCAD
 import ArchCommands
 
-from HelicalRebar import makeHelicalRebar
+from HelicalRebar import makeHelicalRebar, editHelicalRebar
 from Rebarfunc import getFaceNumber, getParametersOfFace
 
 if FreeCAD.GuiUp:
@@ -118,12 +118,11 @@ def makeReinforcement(
         else:
             print("Error: Pass structure and facename arguments")
             return
-    face = structure.Shape.Faces[(getFaceNumber(facename) - 1)]
     FacePRM = getParametersOfFace(structure, facename, False)
     if not FacePRM:
         FreeCAD.Console.PrintError(
             "Cannot identified shape or from which base object"
-            "sturcturalelement is derived\n"
+            "sturctural element is derived\n"
         )
         return
     helical_rebar = makeHelicalRebar(
@@ -135,33 +134,17 @@ def makeReinforcement(
         structure,
         facename,
     )
-    column_size = ArchCommands.projectToVector(
-        structure.Shape.copy(), face.normalAt(0, 0)
-    ).Length
-    points_list = getPointsOfStraightRebars(
-        FacePRM,
+    main_rebars_list = makeStraightRebars(
         s_cover,
         main_rebars_t_offset,
         main_rebars_b_offset,
-        column_size,
         dia_of_helical_rebar,
         dia_of_main_rebars,
         number_angle_check,
         number_angle_value,
+        structure,
+        facename,
     )
-    import Arch, Draft
-
-    pl = FreeCAD.Placement()
-    pl.Rotation.Q = (0.5, 0.5, 0.5, 0.5)
-    main_rebars_list = []
-    for points in points_list:
-        line = Draft.makeWire(
-            points, placement=pl, closed=False, face=True, support=None
-        )
-        main_rebars_list.append(
-            Arch.makeRebar(structure, line, dia_of_main_rebars, 1)
-        )
-        main_rebars_list[-1].Label = "StraightRebar"
 
     CircularColumnReinforcementRebarGroup = (
         _CircularColumnReinforcementRebarGroup()
@@ -192,6 +175,132 @@ def makeReinforcement(
     )
     FreeCAD.ActiveDocument.recompute()
     return CircularColumnReinforcementRebarGroup
+
+
+def makeStraightRebars(
+    s_cover,
+    main_rebars_t_offset,
+    main_rebars_b_offset,
+    dia_of_helical_rebar,
+    dia_of_main_rebars,
+    number_angle_check,
+    number_angle_value,
+    structure,
+    facename,
+    base_line_list=None,
+):
+    face = structure.Shape.Faces[(getFaceNumber(facename) - 1)]
+    FacePRM = getParametersOfFace(structure, facename, False)
+    column_size = ArchCommands.projectToVector(
+        structure.Shape.copy(), face.normalAt(0, 0)
+    ).Length
+    points_list = getPointsOfStraightRebars(
+        FacePRM,
+        s_cover,
+        main_rebars_t_offset,
+        main_rebars_b_offset,
+        column_size,
+        dia_of_helical_rebar,
+        dia_of_main_rebars,
+        number_angle_check,
+        number_angle_value,
+    )
+    import Arch, Draft
+
+    pl = FreeCAD.Placement()
+    pl.Rotation.Q = (0.5, 0.5, 0.5, 0.5)
+    main_rebars_list = []
+    for i, points in enumerate(points_list):
+        if not base_line_list or i >= len(base_line_list):
+            line = Draft.makeWire(
+                points,
+                placement=pl,
+                closed=False,
+                face=True,
+                support=[(structure, facename)],
+            )
+        else:
+            line = base_line_list[i]
+            line.Start = points[0]
+            line.End = points[1]
+        main_rebars_list.append(
+            Arch.makeRebar(structure, line, dia_of_main_rebars, 1)
+        )
+        main_rebars_list[-1].Label = "StraightRebar"
+
+    return main_rebars_list
+
+
+def editReinforcement(
+    rebar_group,
+    s_cover,
+    helical_rebar_t_offset,
+    helical_rebar_b_offset,
+    pitch,
+    dia_of_helical_rebar,
+    main_rebars_t_offset,
+    main_rebars_b_offset,
+    dia_of_main_rebars,
+    number_angle_check,
+    number_angle_value,
+    structure=None,
+    facename=None,
+):
+    """editReinforcement(RebarGroup, SideCover, TopOffsetOfHelicalRebars,
+    BottomOffsetOfHelicalRebars, Pitch, DiameterOfHelicalRebar,
+    TopOffsetOfMainRebars, BottomOffsetOfMainRebars, DiameterOfMainRebars,
+    NumberAngleCheck, NumberAngleValue, Structure, Facename):
+    Edit the helical and straight rebars for the selected structural column
+    object.
+    """
+    helical_rebar = rebar_group.RebarGroups[0].HelicalRebars[0]
+    line = helical_rebar.Base
+    if structure and facename:
+        line.Support = [(structure, facename)]
+    # Check if line support is empty.
+    if not line.Support:
+        showWarning(
+            "You have checked remove external geometry of base lines when"
+            " needed.\nTo unchecked Edit->Preferences->Arch."
+        )
+        return
+    # Assigned values
+    structure = line.Support[0][0]
+    facename = line.Support[0][1][0]
+
+    helical_rebar = editHelicalRebar(
+        helical_rebar,
+        s_cover,
+        helical_rebar_b_offset,
+        dia_of_helical_rebar,
+        helical_rebar_t_offset,
+        pitch,
+        structure,
+        facename,
+    )
+
+    base_line_list = []
+    for i, rebar in enumerate(rebar_group.RebarGroups[1].MainRebars):
+        base_line_list.append(rebar.Base)
+        FreeCAD.ActiveDocument.removeObject(rebar.Name)
+
+    main_rebars_list = makeStraightRebars(
+        s_cover,
+        main_rebars_t_offset,
+        main_rebars_b_offset,
+        dia_of_helical_rebar,
+        dia_of_main_rebars,
+        number_angle_check,
+        number_angle_value,
+        structure,
+        facename,
+        base_line_list,
+    )
+
+    rebar_group.RebarGroups[1].addObjects(main_rebars_list)
+    rebar_group.RebarGroups[1].MainRebars = main_rebars_list
+    FreeCAD.ActiveDocument.recompute()
+    return rebar_group
 
 
 class _CircularColumnReinforcementRebarGroup:
