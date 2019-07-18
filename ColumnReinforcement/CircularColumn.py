@@ -45,7 +45,6 @@ def getPointsOfStraightRebars(
     t_offset,
     b_offset,
     column_size,
-    dia_of_helical_rebar,
     dia_of_main_rebars,
     number_angle_check,
     number_angle_value,
@@ -54,12 +53,7 @@ def getPointsOfStraightRebars(
         angle = 360.0 / number_angle_value
     else:
         angle = number_angle_value
-    radius = (
-        FacePRM[0][0] / 2
-        - s_cover
-        - dia_of_helical_rebar
-        - dia_of_main_rebars / 2
-    )
+    radius = FacePRM[0][0]/ 2 - s_cover - dia_of_main_rebars / 2
     points_of_centre = FacePRM[1]
     u_point = (
         points_of_centre[0] + radius,
@@ -134,11 +128,12 @@ def makeReinforcement(
         structure,
         facename,
     )
+
+    main_rebars_s_cover = s_cover + dia_of_helical_rebar
     main_rebars_list = makeStraightRebars(
-        s_cover,
+        main_rebars_s_cover,
         main_rebars_t_offset,
         main_rebars_b_offset,
-        dia_of_helical_rebar,
         dia_of_main_rebars,
         number_angle_check,
         number_angle_value,
@@ -179,9 +174,8 @@ def makeReinforcement(
 
 def makeStraightRebars(
     s_cover,
-    main_rebars_t_offset,
-    main_rebars_b_offset,
-    dia_of_helical_rebar,
+    t_offset,
+    b_offset,
     dia_of_main_rebars,
     number_angle_check,
     number_angle_value,
@@ -189,18 +183,22 @@ def makeStraightRebars(
     facename,
     base_line_list=None,
 ):
+    """makeStraightRebars(SideCover, TopOffset, BottomOffset, Diameter,
+    NumberAngleCheck, NumberAngleValue, Structure, Facename, BaseLineObjList):
+    Adds the straight rebars in circular column structural object.
+    """
     face = structure.Shape.Faces[(getFaceNumber(facename) - 1)]
     FacePRM = getParametersOfFace(structure, facename, False)
     column_size = ArchCommands.projectToVector(
         structure.Shape.copy(), face.normalAt(0, 0)
     ).Length
+    radius = FacePRM[0][0] / 2 - s_cover
     points_list = getPointsOfStraightRebars(
         FacePRM,
         s_cover,
-        main_rebars_t_offset,
-        main_rebars_b_offset,
+        t_offset,
+        b_offset,
         column_size,
-        dia_of_helical_rebar,
         dia_of_main_rebars,
         number_angle_check,
         number_angle_value,
@@ -279,16 +277,23 @@ def editReinforcement(
         facename,
     )
 
+    if number_angle_check:
+        number = number_angle_value
+    else:
+        number = math.ceil(360 / number_angle_value)
     base_line_list = []
     for i, rebar in enumerate(rebar_group.RebarGroups[1].MainRebars):
-        base_line_list.append(rebar.Base)
+        if i < number:
+            base_line_list.append(rebar.Base)
+        else:
+            FreeCAD.ActiveDocument.removeObject(rebar.Base.Name)
         FreeCAD.ActiveDocument.removeObject(rebar.Name)
 
+    main_rebars_s_cover = s_cover + dia_of_helical_rebar
     main_rebars_list = makeStraightRebars(
-        s_cover,
+        main_rebars_s_cover,
         main_rebars_t_offset,
         main_rebars_b_offset,
-        dia_of_helical_rebar,
         dia_of_main_rebars,
         number_angle_check,
         number_angle_value,
