@@ -55,11 +55,18 @@ class _ColumnReinforcementDialog:
             # If column reinforcement is already created, then get selectedObj
             # from data stored in created Tie
             for rebar_group in RebarGroup.RebarGroups:
-                if hasattr(rebar_group, "Ties"):
-                    Tie = rebar_group.Ties[0]
-                    self.FaceName = Tie.Base.Support[0][1][0]
-                    self.SelectedObj = Tie.Base.Support[0][0]
-                    break
+                if RebarGroup.ColumnType == "RectangularColumn":
+                    if hasattr(rebar_group, "Ties"):
+                        Tie = rebar_group.Ties[0]
+                        self.FaceName = Tie.Base.Support[0][1][0]
+                        self.SelectedObj = Tie.Base.Support[0][0]
+                        break
+                else:
+                    if hasattr(rebar_group, "HelicalRebars"):
+                        helical_rebar = rebar_group.HelicalRebars[0]
+                        self.FaceName = helical_rebar.Base.Support[0][1][0]
+                        self.SelectedObj = helical_rebar.Base.Support[0][0]
+                        break
         # Load ui from file MainColumnReinforcement.ui
         self.form = FreeCADGui.PySideUic.loadUi(
             os.path.splitext(__file__)[0] + ".ui"
@@ -675,6 +682,23 @@ class _ColumnReinforcementDialog:
                         self.SelectedObj,
                         self.FaceName,
                     )
+            else:
+                self.getCircularColumnReinforcementData()
+                RebarGroup = CircularColumn.editReinforcement(
+                    self.RebarGroup,
+                    self.cir_h_rebar_s_cover,
+                    self.cir_h_rebar_t_offset,
+                    self.cir_h_rebar_b_offset,
+                    self.cir_h_rebar_pitch,
+                    self.cir_h_rebar_diameter,
+                    self.cir_m_rebar_t_offset,
+                    self.cir_m_rebar_b_offset,
+                    self.cir_m_rebar_diameter,
+                    self.cir_number_angle_check,
+                    self.cir_number_angle_value,
+                    self.SelectedObj,
+                    self.FaceName,
+                )
         if self.CustomSpacing:
             if RebarGroup:
                 for Tie in RebarGroup.RebarGroups[0].Ties:
@@ -912,67 +936,95 @@ def editDialog(vobj):
     if len(vobj.Object.RebarGroups) == 0:
         showWarning("Nothing to edit. You have deleted all rebar groups.")
         return
+    ties_group = None
+    helical_rebar_group = None
     for i, rebar_group in enumerate(vobj.Object.RebarGroups):
-        # Check if ties group exists
-        if hasattr(rebar_group, "Ties"):
-            # Check if ties exists
-            if len(rebar_group.Ties) > 0:
-                ties_group = rebar_group
-                break
-            else:
+        if vobj.Object.ColumnType == "RectangularColumn":
+            # Check if ties group exists
+            if hasattr(rebar_group, "Ties"):
+                # Check if ties exists
+                if len(rebar_group.Ties) > 0:
+                    ties_group = rebar_group
+                    break
+                else:
+                    showWarning(
+                        "You have deleted ties. Please recreate the "
+                        "ColumnReinforcement."
+                    )
+                    return
+            elif i == len(vobj.Object.RebarGroups) - 1:
                 showWarning(
-                    "You have deleted ties. Please recreate the "
+                    "You have deleted ties group. Please recreate the "
                     "ColumnReinforcement."
                 )
                 return
-        elif i == len(vobj.Object.RebarGroups) - 1:
-            showWarning(
-                "You have deleted ties group. Please recreate the "
-                "ColumnReinforcement."
-            )
-            return
+        else:
+            # Check if HelicalRebars group exists
+            if hasattr(rebar_group, "HelicalRebars"):
+                # Check if helical_rebar exists
+                if len(rebar_group.HelicalRebars) > 0:
+                    helical_rebar_group = rebar_group
+                    break
+                else:
+                    showWarning(
+                        "You have deleted helical rebars. Please recreate the "
+                        "ColumnReinforcement."
+                    )
+                    return
+            elif i == len(vobj.Object.RebarGroups) - 1:
+                showWarning(
+                    "You have deleted HelicalRebars group. Please recreate the "
+                    "ColumnReinforcement."
+                )
+                return
     obj = _ColumnReinforcementDialog(vobj.Object)
     obj.setupUi()
-    obj.ties_widget.ties_configuration.setCurrentIndex(
-        obj.ties_widget.ties_configuration.findText(
-            str(ties_group.TiesConfiguration)
+    if ties_group:
+        obj.form.rectangular_column_radio.setChecked(True)
+        obj.rectangularColumnRadioClicked()
+        obj.ties_widget.ties_configuration.setCurrentIndex(
+            obj.ties_widget.ties_configuration.findText(
+                str(ties_group.TiesConfiguration)
+            )
         )
-    )
-    obj.main_rebars_widget.ties_configuration.setCurrentIndex(
-        obj.ties_widget.ties_configuration.findText(
-            str(ties_group.TiesConfiguration)
+        obj.main_rebars_widget.ties_configuration.setCurrentIndex(
+            obj.ties_widget.ties_configuration.findText(
+                str(ties_group.TiesConfiguration)
+            )
         )
-    )
-    obj.sec_xdir_rebars_widget.ties_configuration.setCurrentIndex(
-        obj.ties_widget.ties_configuration.findText(
-            str(ties_group.TiesConfiguration)
+        obj.sec_xdir_rebars_widget.ties_configuration.setCurrentIndex(
+            obj.ties_widget.ties_configuration.findText(
+                str(ties_group.TiesConfiguration)
+            )
         )
-    )
-    obj.sec_ydir_rebars_widget.ties_configuration.setCurrentIndex(
-        obj.ties_widget.ties_configuration.findText(
-            str(ties_group.TiesConfiguration)
+        obj.sec_ydir_rebars_widget.ties_configuration.setCurrentIndex(
+            obj.ties_widget.ties_configuration.findText(
+                str(ties_group.TiesConfiguration)
+            )
         )
-    )
-    setTiesData(obj, vobj)
-    obj.main_rebars_widget.setEnabled(False)
-    obj.sec_xdir_rebars_widget.setEnabled(False)
-    obj.sec_ydir_rebars_widget.setEnabled(False)
-    for i, rebar_group in enumerate(vobj.Object.RebarGroups):
-        if hasattr(rebar_group, "MainRebars"):
-            if len(rebar_group.MainRebars) > 0:
-                setMainRebarsData(obj, vobj)
-                obj.main_rebars_widget.setEnabled(True)
-        elif hasattr(rebar_group, "SecondaryRebars"):
-            if len(rebar_group.SecondaryRebars) > 0:
-                for sec_rebar in rebar_group.SecondaryRebars:
-                    if hasattr(sec_rebar, "XDirRebars"):
-                        if len(sec_rebar.XDirRebars) > 0:
-                            setXDirRebarsData(obj, vobj)
-                            obj.sec_xdir_rebars_widget.setEnabled(True)
-                    elif hasattr(sec_rebar, "YDirRebars"):
-                        if len(sec_rebar.YDirRebars) > 0:
-                            setYDirRebarsData(obj, vobj)
-                            obj.sec_ydir_rebars_widget.setEnabled(True)
+        setTiesData(obj, vobj)
+        obj.main_rebars_widget.setEnabled(False)
+        obj.sec_xdir_rebars_widget.setEnabled(False)
+        obj.sec_ydir_rebars_widget.setEnabled(False)
+        for i, rebar_group in enumerate(vobj.Object.RebarGroups):
+            if hasattr(rebar_group, "MainRebars"):
+                if len(rebar_group.MainRebars) > 0:
+                    setMainRebarsData(obj, vobj)
+                    obj.main_rebars_widget.setEnabled(True)
+            elif hasattr(rebar_group, "SecondaryRebars"):
+                if len(rebar_group.SecondaryRebars) > 0:
+                    for sec_rebar in rebar_group.SecondaryRebars:
+                        if hasattr(sec_rebar, "XDirRebars"):
+                            if len(sec_rebar.XDirRebars) > 0:
+                                setXDirRebarsData(obj, vobj)
+                                obj.sec_xdir_rebars_widget.setEnabled(True)
+                        elif hasattr(sec_rebar, "YDirRebars"):
+                            if len(sec_rebar.YDirRebars) > 0:
+                                setYDirRebarsData(obj, vobj)
+                                obj.sec_ydir_rebars_widget.setEnabled(True)
+    else:
+        obj.form.circular_column_radio.setChecked(True)
+        obj.circularColumnRadioClicked()
 
     obj.form.exec_()
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>405</height>
+    <height>437</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -131,25 +131,6 @@
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="columReinforcementImage">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>image</string>
-     </property>
-     <property name="scaledContents">
-      <bool>false</bool>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignHCenter|Qt::AlignTop</set>
-     </property>
     </widget>
    </item>
    <item row="2" column="0">
@@ -301,18 +282,24 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="1" rowspan="3">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+   <item row="0" column="1" rowspan="3">
+    <widget class="QLabel" name="columReinforcementImage">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>132</width>
-       <height>210</height>
-      </size>
+     <property name="text">
+      <string>image</string>
      </property>
-    </spacer>
+     <property name="scaledContents">
+      <bool>false</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignHCenter|Qt::AlignTop</set>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

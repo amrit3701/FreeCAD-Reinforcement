@@ -53,7 +53,7 @@ def getPointsOfStraightRebars(
         angle = 360.0 / number_angle_value
     else:
         angle = number_angle_value
-    radius = FacePRM[0][0]/ 2 - s_cover - dia_of_main_rebars / 2
+    radius = FacePRM[0][0] / 2 - s_cover - dia_of_main_rebars / 2
     points_of_centre = FacePRM[1]
     u_point = (
         points_of_centre[0] + radius,
@@ -324,9 +324,18 @@ class _CircularColumnReinforcementRebarGroup:
         # Add properties to rebar_group object
         properties = []
         properties.append(
+            (
+                "App::PropertyString",
+                "ColumnType",
+                "Type of column reinforcement",
+                1,
+            )
+        )
+        properties.append(
             ("App::PropertyLinkList", "RebarGroups", "List of rebar groups", 1)
         )
         self.setProperties(properties, self.rebar_group)
+        self.rebar_group.ColumnType = "CircularColumn"
         self.rebar_group.RebarGroups = [
             self.helical_rebar_group,
             self.main_rebars_group,

@@ -556,6 +556,18 @@ class _SingleTieFourRebars(_RebarGroup):
         # 1 -- read-only mode
         # 2 -- hidden mode
 
+        properties = []
+        properties.append(
+            (
+                "App::PropertyString",
+                "ColumnType",
+                "Type of column reinforcement",
+                1,
+            )
+        )
+        self.setProperties(properties, self.rebar_group)
+        self.rebar_group.ColumnType = "RectangularColumn"
+
         # Add properties to ties group object
         properties = []
         properties.append(
