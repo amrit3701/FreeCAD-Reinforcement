@@ -147,77 +147,51 @@ def makeTwoTiesSixRebars(
     tie2.OffsetEnd = end_offset_of_tie2 + dia_of_ties / 2
 
     # Calculate common parameters for Straight/LShaped rebars
-    if hook_extend_along == "x-axis":
-        f_cover = b_cover_of_ties + dia_of_ties
-    else:
-        f_cover = r_cover_of_ties + dia_of_ties
     t_cover = t_offset_of_rebars
     b_cover = b_offset_of_rebars
     rebar_number_spacing_check = True
 
-    # Find facename of face normal to selected/provided face
-    facename_for_rebars = getFacenameforRebar(
-        hook_extend_along, facename, structure
-    )
-
     # Create Straight Rebars
     if main_rebars_type == "StraightRebar":
-        # Right and left cover changes with hook_extend_along because facename,
-        # using which rebars created, changes with value of hook_extend_along
-        if hook_extend_along == "x-axis":
-            r_cover = r_cover_of_ties + dia_of_ties
-        else:
-            r_cover = t_cover_of_ties + dia_of_ties
-            l_cover = b_cover_of_ties + dia_of_ties
-            rl_cover = [r_cover, l_cover]
+        hook_extend_along = "x-axis"
+        facename_for_rebars = getFacenameforRebar(
+            hook_extend_along, facename, structure
+        )
+        f_cover = b_cover_of_ties + dia_of_ties
+        r_cover = r_cover_of_ties + dia_of_ties
         orientation = "Vertical"
-        list_coverAlong = ["Right Side", "Left Side"]
+        rebar_number_spacing_value = 2
 
         main_rebars = []
-        if hook_extend_along == "x-axis":
-            rebar_number_spacing_value = 2
-            main_rebars.append(
-                makeStraightRebar(
-                    f_cover,
-                    ("Right Side", r_cover),
-                    t_cover,
-                    b_cover,
-                    dia_of_main_rebars,
-                    rebar_number_spacing_check,
-                    rebar_number_spacing_value,
-                    orientation,
-                    structure,
-                    facename_for_rebars,
-                )
+        main_rebars.append(
+            makeStraightRebar(
+                f_cover,
+                ("Right Side", r_cover),
+                t_cover,
+                b_cover,
+                dia_of_main_rebars,
+                rebar_number_spacing_check,
+                rebar_number_spacing_value,
+                orientation,
+                structure,
+                facename_for_rebars,
             )
-            main_rebars[-1].OffsetEnd = (
-                t_cover_of_ties + dia_of_ties + dia_of_main_rebars / 2
-            )
-        elif hook_extend_along == "y-axis":
-            rebar_number_spacing_value = 1
-            for i, coverAlong in enumerate(list_coverAlong):
-                main_rebars.append(
-                    makeStraightRebar(
-                        f_cover,
-                        (coverAlong, rl_cover[i]),
-                        t_cover,
-                        b_cover,
-                        dia_of_main_rebars,
-                        rebar_number_spacing_check,
-                        rebar_number_spacing_value,
-                        orientation,
-                        structure,
-                        facename_for_rebars,
-                    )
-                )
-                main_rebars[i].OffsetEnd = (
-                    b_cover_of_ties + dia_of_ties + dia_of_main_rebars / 2
-                )
+        )
+        main_rebars[-1].OffsetEnd = (
+            t_cover_of_ties + dia_of_ties + dia_of_main_rebars / 2
+        )
 
     # Create L-Shaped Rebars
     elif main_rebars_type == "LShapeRebar":
+        facename_for_rebars = getFacenameforRebar(
+            hook_extend_along, facename, structure
+        )
         FacePRM = getParametersOfFace(structure, facename_for_rebars)
         face_length = FacePRM[0][0]
+        if hook_extend_along == "x-axis":
+            f_cover = b_cover_of_ties + dia_of_ties
+        else:
+            f_cover = r_cover_of_ties + dia_of_ties
         # Implement hook extension values from here:
         # https://archive.org/details/gov.in.is.sp.16.1980/page/n207
         if not hook_extension:
