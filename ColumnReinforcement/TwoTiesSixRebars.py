@@ -146,6 +146,44 @@ def makeTwoTiesSixRebars(
     )
     tie2.OffsetEnd = end_offset_of_tie2 + dia_of_ties / 2
 
+    main_rebars = makeMainRebars(
+        l_cover_of_ties,
+        r_cover_of_ties,
+        t_cover_of_ties,
+        b_cover_of_ties,
+        dia_of_ties,
+        dia_of_main_rebars,
+        t_offset_of_rebars,
+        b_offset_of_rebars,
+        main_rebars_type,
+        hook_orientation,
+        hook_extend_along,
+        hook_extension,
+        l_rebar_rounding,
+        structure,
+        facename,
+    )
+
+    FreeCAD.ActiveDocument.recompute()
+
+
+def makeMainRebars(
+    l_cover_of_ties,
+    r_cover_of_ties,
+    t_cover_of_ties,
+    b_cover_of_ties,
+    dia_of_ties,
+    dia_of_main_rebars,
+    t_offset_of_rebars,
+    b_offset_of_rebars,
+    main_rebars_type,
+    hook_orientation,
+    hook_extend_along,
+    hook_extension,
+    l_rebar_rounding,
+    structure,
+    facename,
+):
     # Calculate common parameters for Straight/LShaped rebars
     t_cover = t_offset_of_rebars
     b_cover = b_offset_of_rebars
@@ -265,6 +303,5 @@ def makeTwoTiesSixRebars(
                 main_rebars[i].OffsetEnd = (
                     l_cover_of_ties + dia_of_ties + dia_of_main_rebars / 2
                 )
-
-    FreeCAD.ActiveDocument.recompute()
-    print("WIP")
+        FreeCAD.ActiveDocument.recompute()
+        return main_rebars
