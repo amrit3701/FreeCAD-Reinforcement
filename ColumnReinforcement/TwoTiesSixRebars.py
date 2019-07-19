@@ -48,11 +48,11 @@ def makeTwoTiesSixRebars(
     t_cover_of_ties,
     b_cover_of_ties,
     offset_of_ties,
-    number_spacing_check,
-    number_spacing_value,
     dia_of_ties,
     bent_angle_of_ties,
     extension_factor_of_ties,
+    number_spacing_check,
+    number_spacing_value,
     dia_of_main_rebars,
     t_offset_of_rebars,
     b_offset_of_rebars,
@@ -70,7 +70,8 @@ def makeTwoTiesSixRebars(
     DiameterOfTies, BentAngleOfTies, ExtensionFactorOfTies,
     DiameterOfMainRebars, TopOffsetOfMainRebars, BottomOffsetOfRebars,
     MainRebarsType, LShapeHookOrientation, HookExtendAlong, LShapeRebarRounding,
-    LShapeHookLength, TieSequence, Structure, Facename):"""
+    LShapeHookLength, TieSequence, Structure, Facename):
+    """
     if not structure and not facename:
         if FreeCAD.GuiUp:
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
@@ -83,27 +84,21 @@ def makeTwoTiesSixRebars(
     FacePRM = getParametersOfFace(structure, facename)
     face_length = FacePRM[0][0]
 
-    dia_of_tie1 = dia_of_ties[0]
-    dia_of_tie2 = dia_of_ties[1]
-    bent_angle_of_tie1 = bent_angle_of_ties[0]
-    bent_angle_of_tie2 = bent_angle_of_ties[1]
-    extension_factor_of_tie1 = extension_factor_of_ties[0]
-    extension_factor_of_tie2 = extension_factor_of_ties[1]
-
+    # Calculate parameters for tie1 and tie2
     if ties_sequence[0] == "Tie2" and ties_sequence[1] == "Tie1":
-        start_offset_of_tie1 = offset_of_ties + 2 * dia_of_tie2
+        start_offset_of_tie1 = offset_of_ties + dia_of_ties + dia_of_ties / 2
         start_offset_of_tie2 = offset_of_ties
         end_offset_of_tie1 = start_offset_of_tie2
         end_offset_of_tie2 = start_offset_of_tie1
     else:
         start_offset_of_tie1 = offset_of_ties
-        start_offset_of_tie2 = offset_of_ties + 2 * dia_of_tie1
-        end_offset_of_tie1 = start_offset_of_tie2 + dia_of_tie1 / 2
-        end_offset_of_tie2 = start_offset_of_tie1 + dia_of_tie2 / 2
-
-    # Calculate parameters for tie1
+        start_offset_of_tie2 = offset_of_ties + 2 * dia_of_ties
+        end_offset_of_tie1 = start_offset_of_tie2
+        end_offset_of_tie2 = start_offset_of_tie1
     l_cover_of_tie1 = l_cover_of_ties
-    r_cover_of_tie1 = face_length / 2 - dia_of_main_rebars / 2 - dia_of_tie1
+    r_cover_of_tie1 = face_length / 2 - dia_of_main_rebars / 2 - dia_of_ties
+    l_cover_of_tie2 = r_cover_of_tie1
+    r_cover_of_tie2 = r_cover_of_ties
 
     # Create SingleTieFourRebars
     SingleTieFourRebarsObject = makeSingleTieFourRebars(
@@ -112,9 +107,9 @@ def makeTwoTiesSixRebars(
         t_cover_of_ties,
         b_cover_of_ties,
         start_offset_of_tie1,
-        bent_angle_of_tie1,
-        extension_factor_of_tie1,
-        dia_of_tie1,
+        bent_angle_of_ties,
+        extension_factor_of_ties,
+        dia_of_ties,
         number_spacing_check,
         number_spacing_value,
         dia_of_main_rebars,
@@ -128,36 +123,34 @@ def makeTwoTiesSixRebars(
         structure,
         facename,
     )
-    SingleTieFourRebarsObject.rebar_group.RebarGroups[0].Ties[
-        0
-    ].OffsetEnd = end_offset_of_tie1
+    SingleTieFourRebarsObject.rebar_group.RebarGroups[0].Ties[0].OffsetEnd = (
+        end_offset_of_tie1 + dia_of_ties / 2
+    )
 
-    # Calculate parameters for tie1
-    l_cover_of_tie2 = face_length / 2 - dia_of_main_rebars / 2 - dia_of_tie2
-    r_cover_of_tie2 = r_cover_of_ties
-    rounding = (float(dia_of_tie2) / 2 + dia_of_main_rebars / 2) / dia_of_tie2
+    # Create tie2
+    rounding = (float(dia_of_ties) / 2 + dia_of_main_rebars / 2) / dia_of_ties
     tie2 = makeStirrup(
         l_cover_of_tie2,
         r_cover_of_tie2,
         t_cover_of_ties,
         b_cover_of_ties,
         start_offset_of_tie2,
-        bent_angle_of_tie2,
-        extension_factor_of_tie2,
-        dia_of_tie2,
+        bent_angle_of_ties,
+        extension_factor_of_ties,
+        dia_of_ties,
         rounding,
         number_spacing_check,
         number_spacing_value,
         structure,
         facename,
     )
-    tie2.OffsetEnd = end_offset_of_tie2
+    tie2.OffsetEnd = end_offset_of_tie2 + dia_of_ties / 2
 
     # Calculate common parameters for Straight/LShaped rebars
     if hook_extend_along == "x-axis":
-        f_cover = b_cover_of_ties + dia_of_tie2
+        f_cover = b_cover_of_ties + dia_of_ties
     else:
-        f_cover = r_cover_of_ties + dia_of_tie2
+        f_cover = r_cover_of_ties + dia_of_ties
     t_cover = t_offset_of_rebars
     b_cover = b_offset_of_rebars
     rebar_number_spacing_check = True
@@ -172,10 +165,10 @@ def makeTwoTiesSixRebars(
         # Right and left cover changes with hook_extend_along because facename,
         # using which rebars created, changes with value of hook_extend_along
         if hook_extend_along == "x-axis":
-            r_cover = r_cover_of_ties + dia_of_tie2
+            r_cover = r_cover_of_ties + dia_of_ties
         else:
-            r_cover = t_cover_of_ties + dia_of_tie2
-            l_cover = b_cover_of_ties + dia_of_tie2
+            r_cover = t_cover_of_ties + dia_of_ties
+            l_cover = b_cover_of_ties + dia_of_ties
             rl_cover = [r_cover, l_cover]
         orientation = "Vertical"
         list_coverAlong = ["Right Side", "Left Side"]
@@ -198,7 +191,7 @@ def makeTwoTiesSixRebars(
                 )
             )
             main_rebars[-1].OffsetEnd = (
-                t_cover_of_ties + dia_of_tie2 + dia_of_main_rebars / 2
+                t_cover_of_ties + dia_of_ties + dia_of_main_rebars / 2
             )
         elif hook_extend_along == "y-axis":
             rebar_number_spacing_value = 1
@@ -218,7 +211,7 @@ def makeTwoTiesSixRebars(
                     )
                 )
                 main_rebars[i].OffsetEnd = (
-                    b_cover_of_ties + dia_of_tie2 + dia_of_main_rebars / 2
+                    b_cover_of_ties + dia_of_ties + dia_of_main_rebars / 2
                 )
 
     # Create L-Shaped Rebars
@@ -231,8 +224,8 @@ def makeTwoTiesSixRebars(
             hook_extension = 4 * dia_of_main_rebars
         if not l_rebar_rounding:
             l_rebar_rounding = (
-                float(dia_of_tie2) / 2 + dia_of_main_rebars / 2
-            ) / dia_of_tie2
+                float(dia_of_ties) / 2 + dia_of_main_rebars / 2
+            ) / dia_of_ties
         l_rebar_orientation_cover = getLRebarOrientationLeftRightCover(
             hook_orientation,
             hook_extension,
@@ -241,7 +234,7 @@ def makeTwoTiesSixRebars(
             r_cover_of_ties,
             t_cover_of_ties,
             b_cover_of_ties,
-            dia_of_tie2,
+            dia_of_ties,
             dia_of_main_rebars,
             l_rebar_rounding,
             face_length,
@@ -273,7 +266,7 @@ def makeTwoTiesSixRebars(
                 )
             )
             main_rebars[-1].OffsetEnd = (
-                t_cover_of_ties + dia_of_tie2 + dia_of_main_rebars / 2
+                t_cover_of_ties + dia_of_ties + dia_of_main_rebars / 2
             )
         elif hook_extend_along == "y-axis":
             rebar_number_spacing_value = 1
@@ -296,7 +289,7 @@ def makeTwoTiesSixRebars(
                     )
                 )
                 main_rebars[i].OffsetEnd = (
-                    l_cover_of_ties + dia_of_tie2 + dia_of_main_rebars / 2
+                    l_cover_of_ties + dia_of_ties + dia_of_main_rebars / 2
                 )
 
     FreeCAD.ActiveDocument.recompute()
