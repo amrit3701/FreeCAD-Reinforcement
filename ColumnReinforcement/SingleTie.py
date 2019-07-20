@@ -344,7 +344,7 @@ def editSingleTieFourRebars(
 
         if change_rebar_type:
             # Delete previously created LShaped rebars
-            for Rebar in rebar_group.RebarGroups[1].MainRebars:
+            for Rebar in rebar_group.RebarGroups[1].MainRebars[:2]:
                 base_name = Rebar.Base.Name
                 FreeCAD.ActiveDocument.removeObject(Rebar.Name)
                 FreeCAD.ActiveDocument.removeObject(base_name)
@@ -370,7 +370,7 @@ def editSingleTieFourRebars(
             rebar_group.RebarGroups[1].addObjects(main_rebars)
         else:
             main_rebars = []
-            for Rebar in rebar_group.RebarGroups[1].MainRebars:
+            for Rebar in rebar_group.RebarGroups[1].MainRebars[:2]:
                 main_rebars.append(Rebar)
             for i, coverAlong in enumerate(list_coverAlong):
                 editStraightRebar(
@@ -430,7 +430,7 @@ def editSingleTieFourRebars(
 
         if change_rebar_type:
             # Delete previously created Straight rebars
-            for Rebar in rebar_group.RebarGroups[1].MainRebars:
+            for Rebar in rebar_group.RebarGroups[1].MainRebars[:2]:
                 base_name = Rebar.Base.Name
                 FreeCAD.ActiveDocument.removeObject(Rebar.Name)
                 FreeCAD.ActiveDocument.removeObject(base_name)
@@ -463,7 +463,7 @@ def editSingleTieFourRebars(
             rebar_group.RebarGroups[1].addObjects(main_rebars)
         else:
             main_rebars = []
-            for Rebar in rebar_group.RebarGroups[1].MainRebars:
+            for Rebar in rebar_group.RebarGroups[1].MainRebars[:2]:
                 main_rebars.append(Rebar)
             for i, orientation in enumerate(list_orientation):
                 editLShapeRebar(
