@@ -110,7 +110,7 @@
         <enum>QAbstractItemView::InternalMove</enum>
        </property>
        <property name="currentRow">
-        <number>0</number>
+        <number>-1</number>
        </property>
        <item>
         <property name="text">
@@ -120,11 +120,6 @@
        <item>
         <property name="text">
          <string>Tie2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Tie3</string>
         </property>
        </item>
       </widget>

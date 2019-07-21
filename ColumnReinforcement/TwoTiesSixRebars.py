@@ -172,7 +172,7 @@ def makeTwoTiesSixRebars(
     SingleTieFourRebarsObject.addMainRebars(main_rebars)
 
     FreeCAD.ActiveDocument.recompute()
-    return SingleTieFourRebarsObject
+    return SingleTieFourRebarsObject.Object
 
 
 def makeMainRebars(

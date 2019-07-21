@@ -38,6 +38,10 @@ from ColumnReinforcement.SingleTieMultipleRebars import (
 )
 from ColumnReinforcement.RebarNumberDiameter import runNumberDiameterDialog
 from ColumnReinforcement import CircularColumn
+from ColumnReinforcement.TwoTiesSixRebars import (
+    makeTwoTiesSixRebars,
+    editTwoTiesSixRebars,
+)
 
 
 class _ColumnReinforcementDialog:
@@ -239,10 +243,18 @@ class _ColumnReinforcementDialog:
     def addDropdownMenuItems(self):
         """This function add dropdown items to each Gui::PrefComboBox."""
         # Add ties configurations
-        self.ties_widget.ties_configuration.addItems(["SingleTie"])
-        self.main_rebars_widget.ties_configuration.addItems(["SingleTie"])
-        self.sec_xdir_rebars_widget.ties_configuration.addItems(["SingleTie"])
-        self.sec_ydir_rebars_widget.ties_configuration.addItems(["SingleTie"])
+        self.ties_widget.ties_configuration.addItems(
+            ["SingleTie", "TwoTiesSixRebars"]
+        )
+        self.main_rebars_widget.ties_configuration.addItems(
+            ["SingleTie", "TwoTiesSixRebars"]
+        )
+        self.sec_xdir_rebars_widget.ties_configuration.addItems(
+            ["SingleTie", "TwoTiesSixRebars"]
+        )
+        self.sec_ydir_rebars_widget.ties_configuration.addItems(
+            ["SingleTie", "TwoTiesSixRebars"]
+        )
         # Add bent angle of ties
         self.ties_widget.ties_bentAngle.addItems(["90", "135"])
         # Add rebar_type to all rebars widgets
@@ -400,6 +412,47 @@ class _ColumnReinforcementDialog:
                     + "/icons/Column_SingleTieMultipleRebars.png"
                 )
             )
+            self.sec_xdir_rebars_widget.setEnabled(True)
+            self.sec_ydir_rebars_widget.setEnabled(True)
+            self.ties_widget.ties_sequenceLabel.setEnabled(False)
+            self.ties_widget.ties_sequenceListWidget.setEnabled(False)
+        elif self.ties_configuration == "TwoTiesSixRebars":
+            self.ties_widget.ties_configurationImage.setPixmap(
+                QtGui.QPixmap(
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
+                    + "/icons/Column_TwoTiesSixRebars.png"
+                )
+            )
+            self.main_rebars_widget.ties_configurationImage.setPixmap(
+                QtGui.QPixmap(
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
+                    + "/icons/Column_TwoTiesSixRebars.png"
+                )
+            )
+            self.sec_xdir_rebars_widget.ties_configurationImage.setPixmap(
+                QtGui.QPixmap(
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
+                    + "/icons/Column_TwoTiesSixRebars.png"
+                )
+            )
+            self.sec_ydir_rebars_widget.ties_configurationImage.setPixmap(
+                QtGui.QPixmap(
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
+                    + "/icons/Column_TwoTiesSixRebars.png"
+                )
+            )
+            self.sec_xdir_rebars_widget.setEnabled(False)
+            self.sec_ydir_rebars_widget.setEnabled(False)
+            self.ties_widget.ties_sequenceLabel.setEnabled(True)
+            self.ties_widget.ties_sequenceListWidget.setEnabled(True)
 
     def tiesLeftCoverChanged(self):
         # Set right/top/bottom cover equal to left cover
@@ -608,6 +661,32 @@ class _ColumnReinforcementDialog:
                         self.SelectedObj,
                         self.FaceName,
                     )
+                elif self.ties_configuration == "TwoTiesSixRebars":
+                    self.getTiesData()
+                    self.getMainRebarsData()
+                    RebarGroup = makeTwoTiesSixRebars(
+                        self.ties_l_cover,
+                        self.ties_r_cover,
+                        self.ties_t_cover,
+                        self.ties_b_cover,
+                        self.ties_offset,
+                        self.ties_diameter,
+                        self.ties_bent_angle,
+                        self.ties_extension_factor,
+                        self.ties_number_spacing_check,
+                        self.ties_number_spacing_value,
+                        self.main_rebars_diameter,
+                        self.main_rebars_t_offset,
+                        self.main_rebars_b_offset,
+                        self.main_rebars_type,
+                        self.main_rebars_hook_orientation,
+                        self.main_rebars_hook_extend_along,
+                        self.main_rebars_rounding,
+                        self.main_rebars_hook_extension,
+                        self.ties_sequence,
+                        self.SelectedObj,
+                        self.FaceName,
+                    )
             else:
                 self.getCircularColumnReinforcementData()
                 RebarGroup = CircularColumn.makeReinforcement(
@@ -734,6 +813,10 @@ class _ColumnReinforcementDialog:
             self.ties_number_spacing_value = FreeCAD.Units.Quantity(
                 self.ties_number_spacing_value
             ).Value
+        if self.ties_configuration == "TwoTiesSixRebars":
+            item1 = self.ties_widget.ties_sequenceListWidget.item(0).text()
+            item2 = self.ties_widget.ties_sequenceListWidget.item(1).text()
+            self.ties_sequence = (item1, item2)
 
     def getMainRebarsData(self):
         """This function is used to get data related to main rebars from UI."""
