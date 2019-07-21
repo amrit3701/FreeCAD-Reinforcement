@@ -148,6 +148,8 @@ class _ColumnReinforcementDialog:
                 + "/icons/CircularColumnReinforcement.png"
             )
         )
+        if self.RebarGroup:
+            self.ties_widget.ties_configuration.setEnabled(False)
         # Set default values in UI
         self.setDefaultValues()
         # Connect signals and slots
@@ -749,6 +751,33 @@ class _ColumnReinforcementDialog:
                         self.SelectedObj,
                         self.FaceName,
                     )
+                elif self.ties_configuration == "TwoTiesSixRebars":
+                    self.getTiesData()
+                    self.getMainRebarsData()
+                    RebarGroup = editTwoTiesSixRebars(
+                        self.RebarGroup,
+                        self.ties_l_cover,
+                        self.ties_r_cover,
+                        self.ties_t_cover,
+                        self.ties_b_cover,
+                        self.ties_offset,
+                        self.ties_diameter,
+                        self.ties_bent_angle,
+                        self.ties_extension_factor,
+                        self.ties_number_spacing_check,
+                        self.ties_number_spacing_value,
+                        self.main_rebars_diameter,
+                        self.main_rebars_t_offset,
+                        self.main_rebars_b_offset,
+                        self.main_rebars_type,
+                        self.main_rebars_hook_orientation,
+                        self.main_rebars_hook_extend_along,
+                        self.main_rebars_rounding,
+                        self.main_rebars_hook_extension,
+                        self.ties_sequence,
+                        self.SelectedObj,
+                        self.FaceName,
+                    )
             else:
                 self.getCircularColumnReinforcementData()
                 RebarGroup = CircularColumn.editReinforcement(
@@ -1116,6 +1145,11 @@ def setTiesData(obj, vobj):
         obj.ties_widget.ties_number.setEnabled(False)
         obj.ties_widget.ties_spacing.setEnabled(True)
         obj.ties_widget.ties_spacing.setText(str(Tie.TrueSpacing))
+    if Ties.TiesConfiguration == "TwoTiesSixRebars":
+        item1 = Ties.TiesSequence[0]
+        item2 = Ties.TiesSequence[1]
+        obj.ties_widget.ties_sequenceListWidget.item(0).setText(item1)
+        obj.ties_widget.ties_sequenceListWidget.item(1).setText(item2)
 
 
 def setMainRebarsData(obj, vobj):

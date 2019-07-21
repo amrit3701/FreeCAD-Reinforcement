@@ -170,9 +170,16 @@ def makeTwoTiesSixRebars(
     SingleTieFourRebarsObject.ties_group.TiesConfiguration = "TwoTiesSixRebars"
     SingleTieFourRebarsObject.addTies(tie2)
     SingleTieFourRebarsObject.addMainRebars(main_rebars)
+    SingleTieFourRebarsObject.ties_group.LeftCover = l_cover_of_ties
+    SingleTieFourRebarsObject.ties_group.RightCover = r_cover_of_ties
+    SingleTieFourRebarsObject.ties_group.TopCover = t_cover_of_ties
+    SingleTieFourRebarsObject.ties_group.BottomCover = b_cover_of_ties
+
+    TwoTiesSixRebars = _TwoTiesSixRebars(SingleTieFourRebarsObject)
+    TwoTiesSixRebars.ties_group.TiesSequence = ties_sequence
 
     FreeCAD.ActiveDocument.recompute()
-    return SingleTieFourRebarsObject.Object
+    return TwoTiesSixRebars.Object
 
 
 def makeMainRebars(
@@ -463,6 +470,12 @@ def editTwoTiesSixRebars(
         prev_main_rebars.extend(main_rebars)
         main_rebar_group.MainRebars = prev_main_rebars
 
+    rebar_group.RebarGroups[0].LeftCover = l_cover_of_ties
+    rebar_group.RebarGroups[0].RightCover = r_cover_of_ties
+    rebar_group.RebarGroups[0].TopCover = t_cover_of_ties
+    rebar_group.RebarGroups[0].BottomCover = b_cover_of_ties
+    rebar_group.RebarGroups[0].TiesSequence = ties_sequence
+
     FreeCAD.ActiveDocument.recompute()
     return rebar_group
 
@@ -657,3 +670,19 @@ def editMainRebars(
                     )
     FreeCAD.ActiveDocument.recompute()
     return main_rebars
+
+class _TwoTiesSixRebars:
+    def __init__(self, obj):
+        """Add properties to object obj."""
+        self.Object = obj.rebar_group
+        self.ties_group = obj.ties_group
+        properties = []
+        properties.append(
+            (
+                "App::PropertyStringList",
+                "TiesSequence",
+                "Sequence of ties",
+                1,
+            )
+        )
+        obj.setProperties(properties, obj.ties_group)
