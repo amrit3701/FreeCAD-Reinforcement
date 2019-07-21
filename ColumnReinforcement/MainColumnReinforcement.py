@@ -1106,6 +1106,7 @@ def editDialog(vobj):
     else:
         obj.form.circular_column_radio.setChecked(True)
         obj.circularColumnRadioClicked()
+        setCircularColumnReinforcementData(obj, vobj)
 
     obj.form.exec_()
 
@@ -1255,6 +1256,47 @@ def setYDirRebarsData(obj, vobj):
     obj.sec_ydir_rebars_widget.numberDiameter.setText(
         str(YDirRebarsGroup.NumberDiameter)
     )
+
+
+def setCircularColumnReinforcementData(obj, vobj):
+    for rebar_group in vobj.Object.RebarGroups:
+        if hasattr(rebar_group, "HelicalRebars"):
+            helical_rebar_group = rebar_group
+            break
+    helical_rebar = helical_rebar_group.HelicalRebars[0]
+    obj.circular_column_widget.sideCover.setText(str(helical_rebar.SideCover))
+    obj.circular_column_widget.helical_rebars_topOffset.setText(
+        str(helical_rebar.TopCover)
+    )
+    obj.circular_column_widget.helical_rebars_bottomOffset.setText(
+        str(helical_rebar.BottomCover)
+    )
+    obj.circular_column_widget.pitch.setText(str(helical_rebar.Pitch))
+    obj.circular_column_widget.helical_rebars_diameter.setText(
+        str(helical_rebar.Diameter)
+    )
+    for rebar_group in vobj.Object.RebarGroups:
+        if hasattr(rebar_group, "MainRebars"):
+            main_rebars_group = rebar_group
+            break
+    obj.circular_column_widget.main_rebars_topOffset.setText(
+        str(main_rebars_group.TopOffset)
+    )
+    obj.circular_column_widget.main_rebars_bottomOffset.setText(
+        str(main_rebars_group.BottomOffset)
+    )
+    obj.circular_column_widget.main_rebars_diameter.setText(
+        str(main_rebars_group.Diameter)
+    )
+    obj.circular_column_widget.main_rebars_number.setValue(
+        main_rebars_group.Number
+    )
+    obj.circular_column_widget.main_rebars_angle.setValue(
+        main_rebars_group.Angle
+    )
+    if not main_rebars_group.NumberAngleCheck:
+        obj.circular_column_widget.main_rebars_angle_radio.setChecked(True)
+        obj.mainRebarsAngleRadioClicked()
 
 
 def CommandColumnReinforcement():

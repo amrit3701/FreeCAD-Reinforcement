@@ -304,6 +304,17 @@ def editReinforcement(
 
     rebar_group.RebarGroups[1].addObjects(main_rebars_list)
     rebar_group.RebarGroups[1].MainRebars = main_rebars_list
+    rebar_group.RebarGroups[1].TopOffset = main_rebars_t_offset
+    rebar_group.RebarGroups[1].BottomOffset = main_rebars_b_offset
+    rebar_group.RebarGroups[1].Diameter = dia_of_main_rebars
+    rebar_group.RebarGroups[1].NumberAngleCheck = number_angle_check
+    rebar_group.RebarGroups[1].Number = number
+    if number_angle_check:
+        rebar_group.RebarGroups[1].Number = number_angle_value
+        rebar_group.RebarGroups[1].Angle = 360.00 / number_angle_value
+    else:
+        rebar_group.RebarGroups[1].Number = math.ceil(360 / number_angle_value)
+        rebar_group.RebarGroups[1].Angle = number_angle_value
     FreeCAD.ActiveDocument.recompute()
     return rebar_group
 
