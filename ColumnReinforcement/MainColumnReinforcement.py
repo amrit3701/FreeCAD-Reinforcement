@@ -169,23 +169,13 @@ class _ColumnReinforcementDialog:
         self.ties_widget.ties_topCover.setText("40.00 mm")
         self.ties_widget.ties_bottomCover.setText("40.00 mm")
         self.ties_widget.ties_offset.setText("100.00 mm")
+        self.ties_widget.ties_diameter.setText("8.00 mm")
+        self.ties_widget.ties_bentAngle.setCurrentIndex(
+            self.ties_widget.ties_bentAngle.findText("135")
+        )
+        self.ties_widget.ties_extensionFactor.setValue(2)
         self.ties_widget.ties_number.setValue(5)
         self.ties_widget.ties_spacing.setText("100.00 mm")
-        self.ties_widget.tie1_diameter.setText("8.00 mm")
-        self.ties_widget.tie1_bentAngle.setCurrentIndex(
-            self.ties_widget.tie1_bentAngle.findText("135")
-        )
-        self.ties_widget.tie1_extensionFactor.setValue(2)
-        self.ties_widget.tie2_diameter.setText("8.00 mm")
-        self.ties_widget.tie2_bentAngle.setCurrentIndex(
-            self.ties_widget.tie2_bentAngle.findText("135")
-        )
-        self.ties_widget.tie2_extensionFactor.setValue(2)
-        self.ties_widget.tie3_diameter.setText("8.00 mm")
-        self.ties_widget.tie3_bentAngle.setCurrentIndex(
-            self.ties_widget.tie3_bentAngle.findText("135")
-        )
-        self.ties_widget.tie3_extensionFactor.setValue(2)
         # Set Main Rebars data
         self.main_rebars_widget.main_rebars_type.setCurrentIndex(
             self.main_rebars_widget.main_rebars_type.findText("StraightRebar")
@@ -254,9 +244,7 @@ class _ColumnReinforcementDialog:
         self.sec_xdir_rebars_widget.ties_configuration.addItems(["SingleTie"])
         self.sec_ydir_rebars_widget.ties_configuration.addItems(["SingleTie"])
         # Add bent angle of ties
-        self.ties_widget.tie1_bentAngle.addItems(["90", "135"])
-        self.ties_widget.tie2_bentAngle.addItems(["90", "135"])
-        self.ties_widget.tie3_bentAngle.addItems(["90", "135"])
+        self.ties_widget.ties_bentAngle.addItems(["90", "135"])
         # Add rebar_type to all rebars widgets
         self.main_rebars_widget.main_rebars_type.addItems(
             ["StraightRebar", "LShapeRebar"]
@@ -588,9 +576,9 @@ class _ColumnReinforcementDialog:
                         self.ties_t_cover,
                         self.ties_b_cover,
                         self.ties_offset,
-                        self.tie1_bent_angle,
-                        self.tie1_extension_factor,
-                        self.tie1_diameter,
+                        self.ties_bent_angle,
+                        self.ties_extension_factor,
+                        self.ties_diameter,
                         self.ties_number_spacing_check,
                         self.ties_number_spacing_value,
                         self.main_rebars_diameter,
@@ -650,9 +638,9 @@ class _ColumnReinforcementDialog:
                         self.ties_t_cover,
                         self.ties_b_cover,
                         self.ties_offset,
-                        self.tie1_bent_angle,
-                        self.tie1_extension_factor,
-                        self.tie1_diameter,
+                        self.ties_bent_angle,
+                        self.ties_extension_factor,
+                        self.ties_diameter,
                         self.ties_number_spacing_check,
                         self.ties_number_spacing_value,
                         self.main_rebars_diameter,
@@ -713,7 +701,7 @@ class _ColumnReinforcementDialog:
 
     def getTiesData(self):
         """This function is used to get data related to ties from UI."""
-        # Get ties common data
+        # Get Ties data from UI
         self.ties_l_cover = self.ties_widget.ties_leftCover.text()
         self.ties_l_cover = FreeCAD.Units.Quantity(self.ties_l_cover).Value
         self.ties_r_cover = self.ties_widget.ties_rightCover.text()
@@ -724,6 +712,14 @@ class _ColumnReinforcementDialog:
         self.ties_b_cover = FreeCAD.Units.Quantity(self.ties_b_cover).Value
         self.ties_offset = self.ties_widget.ties_offset.text()
         self.ties_offset = FreeCAD.Units.Quantity(self.ties_offset).Value
+        self.ties_diameter = self.ties_widget.ties_diameter.text()
+        self.ties_diameter = FreeCAD.Units.Quantity(self.ties_diameter).Value
+        self.ties_bent_angle = int(
+            self.ties_widget.ties_bentAngle.currentText()
+        )
+        self.ties_extension_factor = (
+            self.ties_widget.ties_extensionFactor.value()
+        )
         self.ties_number_check = self.ties_widget.ties_number_radio.isChecked()
         if self.ties_number_check:
             self.ties_number_spacing_check = True
@@ -738,33 +734,6 @@ class _ColumnReinforcementDialog:
             self.ties_number_spacing_value = FreeCAD.Units.Quantity(
                 self.ties_number_spacing_value
             ).Value
-        # Get Tie1 data from UI
-        self.tie1_diameter = self.ties_widget.tie1_diameter.text()
-        self.tie1_diameter = FreeCAD.Units.Quantity(self.tie1_diameter).Value
-        self.tie1_bent_angle = int(
-            self.ties_widget.tie1_bentAngle.currentText()
-        )
-        self.tie1_extension_factor = (
-            self.ties_widget.tie1_extensionFactor.value()
-        )
-        # Get Tie2 data from UI
-        self.tie2_diameter = self.ties_widget.tie2_diameter.text()
-        self.tie2_diameter = FreeCAD.Units.Quantity(self.tie2_diameter).Value
-        self.tie2_bent_angle = int(
-            self.ties_widget.tie2_bentAngle.currentText()
-        )
-        self.tie2_extension_factor = (
-            self.ties_widget.tie2_extensionFactor.value()
-        )
-        # Get Tie3 data from UI
-        self.tie3_diameter = self.ties_widget.tie3_diameter.text()
-        self.tie3_diameter = FreeCAD.Units.Quantity(self.tie3_diameter).Value
-        self.tie3_bent_angle = int(
-            self.ties_widget.tie3_bentAngle.currentText()
-        )
-        self.tie3_extension_factor = (
-            self.ties_widget.tie3_extensionFactor.value()
-        )
 
     def getMainRebarsData(self):
         """This function is used to get data related to main rebars from UI."""
@@ -1049,21 +1018,21 @@ def setTiesData(obj, vobj):
     obj.ties_widget.ties_rightCover.setText(str(Ties.RightCover))
     obj.ties_widget.ties_topCover.setText(str(Ties.TopCover))
     obj.ties_widget.ties_bottomCover.setText(str(Ties.BottomCover))
-    Tie1 = Ties.Ties[0]
-    obj.ties_widget.ties_offset.setText(str(Tie1.FrontCover))
-    if Tie1.AmountCheck:
-        obj.ties_widget.ties_number.setValue(Tie1.Amount)
+    Tie = Ties.Ties[0]
+    obj.ties_widget.ties_offset.setText(str(Tie.FrontCover))
+    obj.ties_widget.ties_diameter.setText(str(Tie.Diameter))
+    obj.ties_widget.ties_bentAngle.setCurrentIndex(
+        obj.ties_widget.ties_bentAngle.findText(str(Tie.BentAngle))
+    )
+    obj.ties_widget.ties_extensionFactor.setValue(Tie.BentFactor)
+    if Tie.AmountCheck:
+        obj.ties_widget.ties_number.setValue(Tie.Amount)
     else:
         obj.ties_widget.ties_number_radio.setChecked(False)
         obj.ties_widget.ties_spacing_radio.setChecked(True)
         obj.ties_widget.ties_number.setEnabled(False)
         obj.ties_widget.ties_spacing.setEnabled(True)
-        obj.ties_widget.ties_spacing.setText(str(Tie1.TrueSpacing))
-    obj.ties_widget.tie1_diameter.setText(str(Tie1.Diameter))
-    obj.ties_widget.tie1_bentAngle.setCurrentIndex(
-        obj.ties_widget.tie1_bentAngle.findText(str(Tie1.BentAngle))
-    )
-    obj.ties_widget.tie1_extensionFactor.setValue(Tie1.BentFactor)
+        obj.ties_widget.ties_spacing.setText(str(Tie.TrueSpacing))
 
 
 def setMainRebarsData(obj, vobj):
