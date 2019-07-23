@@ -35,6 +35,7 @@ from ColumnReinforcement.SingleTie import (
 from StraightRebar import makeStraightRebar, editStraightRebar
 from LShapeRebar import makeLShapeRebar, editLShapeRebar
 from Rebarfunc import (
+    showWarning,
     getParametersOfFace,
     gettupleOfNumberDiameter,
     getFacenameforRebar,
@@ -117,7 +118,7 @@ def makeSingleTieMultipleRebars(
             structure = selected_obj.Object
             facename = selected_obj.SubElementNames[0]
         else:
-            print("Error: Pass structure and facename arguments")
+            showWarning("Error: Pass structure and facename arguments")
             return None
 
     SingleTieFourRebarsObject = makeSingleTieFourRebars(
@@ -672,13 +673,13 @@ def editSingleTieMultipleRebars(
                 Tie = tmp_rebar_group.Ties[0]
                 break
             else:
-                print(
+                showWarning(
                     "You have deleted ties. Please recreate the"
                     "ColumnReinforcement."
                 )
                 return rebar_group
         elif i == len(rebar_group.RebarGroups) - 1:
-            print(
+            showWarning(
                 "You have deleted ties group. Please recreate the"
                 "ColumnReinforcement."
             )

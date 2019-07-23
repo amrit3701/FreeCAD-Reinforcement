@@ -32,6 +32,7 @@ from Stirrup import makeStirrup, editStirrup
 from StraightRebar import makeStraightRebar, editStraightRebar
 from LShapeRebar import makeLShapeRebar, editLShapeRebar
 from Rebarfunc import (
+    showWarning,
     getParametersOfFace,
     getFaceNumber,
     getFacenameforRebar,
@@ -86,7 +87,7 @@ def makeSingleTieFourRebars(
             structure = selected_obj.Object
             facename = selected_obj.SubElementNames[0]
         else:
-            print("Error: Pass structure and facename arguments")
+            showWarning("Error: Pass structure and facename arguments")
             return None
 
     # Calculate common parameters for Straight/LShaped rebars
