@@ -52,9 +52,9 @@ def makeTwoTiesSixRebars(
     t_cover_of_ties,
     b_cover_of_ties,
     offset_of_ties,
-    dia_of_ties,
     bent_angle_of_ties,
     extension_factor_of_ties,
+    dia_of_ties,
     number_spacing_check,
     number_spacing_value,
     dia_of_main_rebars,
@@ -70,11 +70,11 @@ def makeTwoTiesSixRebars(
     facename=None,
 ):
     """makeTwoTiesSixRebars(LeftCoverOfTies, RightCoverOfTies, TopCoverOfTies,
-    BottomCoverOfTies, OffsetofTies, NumberSpacingCheck, NumberSpacingValue,
-    DiameterOfTies, BentAngleOfTies, ExtensionFactorOfTies,
+    BottomCoverOfTies, OffsetofTies, BentAngleOfTies, ExtensionFactorOfTies,
+    DiameterOfTies, NumberSpacingCheck, NumberSpacingValue,
     DiameterOfMainRebars, TopOffsetOfMainRebars, BottomOffsetOfRebars,
     MainRebarsType, LShapeHookOrientation, HookExtendAlong, LShapeRebarRounding,
-    LShapeHookLength, TieSequence, Structure, Facename):
+    LShapeHookLength, TiesSequence, Structure, Facename):
     """
     if not structure and not facename:
         if FreeCAD.GuiUp:
@@ -329,9 +329,9 @@ def editTwoTiesSixRebars(
     t_cover_of_ties,
     b_cover_of_ties,
     offset_of_ties,
-    dia_of_ties,
     bent_angle_of_ties,
     extension_factor_of_ties,
+    dia_of_ties,
     number_spacing_check,
     number_spacing_value,
     dia_of_main_rebars,
@@ -346,12 +346,13 @@ def editTwoTiesSixRebars(
     structure=None,
     facename=None,
 ):
-    """editTwoTiesSixRebars(LeftCoverOfTies, RightCoverOfTies, TopCoverOfTies,
-    BottomCoverOfTies, OffsetofTies, NumberSpacingCheck, NumberSpacingValue,
-    DiameterOfTies, BentAngleOfTies, ExtensionFactorOfTies,
-    DiameterOfMainRebars, TopOffsetOfMainRebars, BottomOffsetOfRebars,
-    MainRebarsType, LShapeHookOrientation, HookExtendAlong, LShapeRebarRounding,
-    LShapeHookLength, TieSequence, Structure, Facename):
+    """editTwoTiesSixRebars(RebarGroup, LeftCoverOfTies, RightCoverOfTies,
+    TopCoverOfTies, BottomCoverOfTies, OffsetofTies, BentAngleOfTies,
+    ExtensionFactorOfTies, DiameterOfTies, NumberSpacingCheck,
+    NumberSpacingValue, DiameterOfMainRebars, TopOffsetOfMainRebars,
+    BottomOffsetOfRebars, MainRebarsType, LShapeHookOrientation,
+    HookExtendAlong, LShapeRebarRounding, LShapeHookLength, TiesSequence,
+    Structure, Facename):
     """
     if len(rebar_group.RebarGroups) == 0:
         return rebar_group
@@ -672,6 +673,7 @@ def editMainRebars(
     FreeCAD.ActiveDocument.recompute()
     return main_rebars
 
+
 class _TwoTiesSixRebars:
     def __init__(self, obj):
         """Add properties to object obj."""
@@ -679,11 +681,6 @@ class _TwoTiesSixRebars:
         self.ties_group = obj.ties_group
         properties = []
         properties.append(
-            (
-                "App::PropertyStringList",
-                "TiesSequence",
-                "Sequence of ties",
-                1,
-            )
+            ("App::PropertyStringList", "TiesSequence", "Sequence of ties", 1)
         )
         obj.setProperties(properties, obj.ties_group)

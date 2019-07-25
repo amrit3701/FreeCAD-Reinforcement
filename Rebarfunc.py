@@ -299,8 +299,8 @@ class _RebarGroup:
             self.ties_group.addObject(ties_list)
             ties_list = [ties_list]
         prev_ties_list = self.ties_group.Ties
-        ties_list.extend(prev_ties_list)
-        self.ties_group.Ties = ties_list
+        prev_ties_list.extend(ties_list)
+        self.ties_group.Ties = prev_ties_list
 
     def addMainRebars(self, main_rebars_list):
         """Add Main Rebars to main_rebars group object."""

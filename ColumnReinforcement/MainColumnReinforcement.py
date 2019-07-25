@@ -381,6 +381,21 @@ class _ColumnReinforcementDialog:
         self.ties_configuration = (
             self.ties_widget.ties_configuration.currentText()
         )
+        self.main_rebars_widget.ties_configuration.setCurrentIndex(
+            self.main_rebars_widget.ties_configuration.findText(
+                str(self.ties_configuration)
+            )
+        )
+        self.sec_xdir_rebars_widget.ties_configuration.setCurrentIndex(
+            self.sec_xdir_rebars_widget.ties_configuration.findText(
+                str(self.ties_configuration)
+            )
+        )
+        self.sec_ydir_rebars_widget.ties_configuration.setCurrentIndex(
+            self.sec_ydir_rebars_widget.ties_configuration.findText(
+                str(self.ties_configuration)
+            )
+        )
         if self.ties_configuration == "SingleTie":
             self.ties_widget.ties_configurationImage.setPixmap(
                 QtGui.QPixmap(
@@ -672,9 +687,9 @@ class _ColumnReinforcementDialog:
                         self.ties_t_cover,
                         self.ties_b_cover,
                         self.ties_offset,
-                        self.ties_diameter,
                         self.ties_bent_angle,
                         self.ties_extension_factor,
+                        self.ties_diameter,
                         self.ties_number_spacing_check,
                         self.ties_number_spacing_value,
                         self.main_rebars_diameter,
@@ -761,9 +776,9 @@ class _ColumnReinforcementDialog:
                         self.ties_t_cover,
                         self.ties_b_cover,
                         self.ties_offset,
-                        self.ties_diameter,
                         self.ties_bent_angle,
                         self.ties_extension_factor,
+                        self.ties_diameter,
                         self.ties_number_spacing_check,
                         self.ties_number_spacing_value,
                         self.main_rebars_diameter,
@@ -1132,7 +1147,10 @@ def setTiesData(obj, vobj):
     obj.ties_widget.ties_topCover.setText(str(Ties.TopCover))
     obj.ties_widget.ties_bottomCover.setText(str(Ties.BottomCover))
     Tie = Ties.Ties[0]
-    obj.ties_widget.ties_offset.setText(str(Tie.FrontCover))
+    if Ties.TiesSequence[0] == "Tie1" and Ties.TiesSequence[1] == "Tie2":
+        obj.ties_widget.ties_offset.setText(str(Ties.Ties[0].FrontCover))
+    else:
+        obj.ties_widget.ties_offset.setText(str(Ties.Ties[1].FrontCover))
     obj.ties_widget.ties_diameter.setText(str(Tie.Diameter))
     obj.ties_widget.ties_bentAngle.setCurrentIndex(
         obj.ties_widget.ties_bentAngle.findText(str(Tie.BentAngle))
