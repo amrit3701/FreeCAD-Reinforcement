@@ -72,13 +72,16 @@
      <item>
       <widget class="Gui::PrefLineEdit" name="numberDiameter">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
        <property name="text">
         <string>2#20mm+1#16mm+2#20mm</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
