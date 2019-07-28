@@ -1147,10 +1147,10 @@ def setTiesData(obj, vobj):
     obj.ties_widget.ties_topCover.setText(str(Ties.TopCover))
     obj.ties_widget.ties_bottomCover.setText(str(Ties.BottomCover))
     Tie = Ties.Ties[0]
-    if Ties.TiesSequence[0] == "Tie1" and Ties.TiesSequence[1] == "Tie2":
-        obj.ties_widget.ties_offset.setText(str(Ties.Ties[0].FrontCover))
-    else:
-        obj.ties_widget.ties_offset.setText(str(Ties.Ties[1].FrontCover))
+    obj.ties_widget.ties_offset.setText(str(Ties.Ties[0].FrontCover))
+    if Ties.TiesConfiguration == "TwoTiesSixRebars":
+        if Ties.TiesSequence[0] == "Tie2" and Ties.TiesSequence[1] == "Tie1":
+            obj.ties_widget.ties_offset.setText(str(Ties.Ties[1].FrontCover))
     obj.ties_widget.ties_diameter.setText(str(Tie.Diameter))
     obj.ties_widget.ties_bentAngle.setCurrentIndex(
         obj.ties_widget.ties_bentAngle.findText(str(Tie.BentAngle))
