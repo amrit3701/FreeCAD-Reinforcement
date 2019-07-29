@@ -156,6 +156,7 @@ class _ColumnReinforcementDialog:
         self.connectSignalSlots()
 
     def setDefaultValues(self):
+        self.CustomSpacing = None
         # Set default values in UI
         # Set Ties data
         self.ties_widget.ties_configuration.setCurrentIndex(
@@ -174,12 +175,17 @@ class _ColumnReinforcementDialog:
         self.ties_widget.ties_rightCover.setText("40.00 mm")
         self.ties_widget.ties_topCover.setText("40.00 mm")
         self.ties_widget.ties_bottomCover.setText("40.00 mm")
+        self.ties_widget.ties_allCoversEqual.setChecked(True)
         self.ties_widget.ties_offset.setText("100.00 mm")
         self.ties_widget.ties_diameter.setText("8.00 mm")
         self.ties_widget.ties_bentAngle.setCurrentIndex(
             self.ties_widget.ties_bentAngle.findText("135")
         )
         self.ties_widget.ties_extensionFactor.setValue(2)
+        self.ties_widget.ties_number_radio.setChecked(True)
+        self.ties_widget.ties_spacing_radio.setChecked(False)
+        self.ties_widget.ties_number.setEnabled(True)
+        self.ties_widget.ties_spacing.setEnabled(False)
         self.ties_widget.ties_number.setValue(5)
         self.ties_widget.ties_spacing.setText("100.00 mm")
         # Set Main Rebars data
@@ -241,6 +247,23 @@ class _ColumnReinforcementDialog:
         self.sec_ydir_rebars_widget.numberDiameter.setText(
             "1#20mm+1#16mm+1#20mm"
         )
+        # Set circular column data
+        self.circular_column_widget.sideCover.setText("20.00 mm")
+        self.circular_column_widget.helical_rebars_topOffset.setText("40.00 mm")
+        self.circular_column_widget.helical_rebars_bottomOffset.setText(
+            "40.00 mm"
+        )
+        self.circular_column_widget.pitch.setText("50.00 mm")
+        self.circular_column_widget.helical_rebars_diameter.setText("8.00 mm")
+        self.circular_column_widget.main_rebars_topOffset.setText("20.00 mm")
+        self.circular_column_widget.main_rebars_bottomOffset.setText("20.00 mm")
+        self.circular_column_widget.main_rebars_diameter.setText("16.00 mm")
+        self.circular_column_widget.main_rebars_number_radio.setChecked(True)
+        self.circular_column_widget.main_rebars_angle_radio.setChecked(False)
+        self.circular_column_widget.main_rebars_number.setEnabled(True)
+        self.circular_column_widget.main_rebars_angle.setEnabled(False)
+        self.circular_column_widget.main_rebars_number.setValue(6)
+        self.circular_column_widget.main_rebars_angle.setValue(60)
 
     def addDropdownMenuItems(self):
         """This function add dropdown items to each Gui::PrefComboBox."""
@@ -352,6 +375,19 @@ class _ColumnReinforcementDialog:
         self.form.next_button.clicked.connect(self.nextButtonCilcked)
         self.form.back_button.clicked.connect(self.backButtonCilcked)
         self.form.standardButtonBox.clicked.connect(self.clicked)
+
+    def reset(self):
+        if not self.RebarGroup:
+            self.setDefaultValues()
+        else:
+            if self.column_type == "RectangularColumn":
+                setTiesData(self, None)
+                setMainRebarsData(self, None)
+                if self.ties_configuration == "SingleTie":
+                    setXDirRebarsData(self, None)
+                    setYDirRebarsData(self, None)
+            else:
+                setCircularColumnReinforcementData(self, None)
 
     def circularColumnRadioClicked(self):
         self.column_type = "CircularColumn"
@@ -621,6 +657,11 @@ class _ColumnReinforcementDialog:
         ):
             self.accept(button)
 
+        elif (
+            self.form.standardButtonBox.buttonRole(button)
+            == QtWidgets.QDialogButtonBox.ResetRole
+        ):
+            self.reset()
         elif (
             self.form.standardButtonBox.buttonRole(button)
             == QtWidgets.QDialogButtonBox.RejectRole
@@ -1127,10 +1168,17 @@ def editDialog(vobj):
 
 
 def setTiesData(obj, vobj):
-    for rebar_group in vobj.Object.RebarGroups:
-        if hasattr(rebar_group, "Ties"):
-            Ties = rebar_group
-            break
+    if vobj:
+        for rebar_group in vobj.Object.RebarGroups:
+            if hasattr(rebar_group, "Ties"):
+                Ties = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.RebarGroups:
+            if hasattr(rebar_group, "Ties"):
+                Ties = rebar_group
+                break
+
     if not (
         str(Ties.LeftCover)
         == str(Ties.RightCover)
@@ -1172,10 +1220,16 @@ def setTiesData(obj, vobj):
 
 
 def setMainRebarsData(obj, vobj):
-    for rebar_group in vobj.Object.RebarGroups:
-        if hasattr(rebar_group, "MainRebars"):
-            MainRebars = rebar_group
-            break
+    if vobj:
+        for rebar_group in vobj.Object.RebarGroups:
+            if hasattr(rebar_group, "MainRebars"):
+                MainRebars = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.RebarGroups:
+            if hasattr(rebar_group, "MainRebars"):
+                MainRebars = rebar_group
+                break
     obj.main_rebars_widget.main_rebars_type.setCurrentIndex(
         obj.main_rebars_widget.main_rebars_type.findText(
             str(MainRebars.RebarType)
@@ -1209,12 +1263,20 @@ def setMainRebarsData(obj, vobj):
 
 
 def setXDirRebarsData(obj, vobj):
-    for rebar_group in vobj.Object.RebarGroups:
-        if hasattr(rebar_group, "SecondaryRebars"):
-            for sec_rebar in rebar_group.SecondaryRebars:
-                if hasattr(sec_rebar, "XDirRebars"):
-                    XDirRebarsGroup = sec_rebar
-                    break
+    if vobj:
+        for rebar_group in vobj.Object.RebarGroups:
+            if hasattr(rebar_group, "SecondaryRebars"):
+                for sec_rebar in rebar_group.SecondaryRebars:
+                    if hasattr(sec_rebar, "XDirRebars"):
+                        XDirRebarsGroup = sec_rebar
+                        break
+    else:
+        for rebar_group in obj.RebarGroup.RebarGroups:
+            if hasattr(rebar_group, "SecondaryRebars"):
+                for sec_rebar in rebar_group.SecondaryRebars:
+                    if hasattr(sec_rebar, "XDirRebars"):
+                        XDirRebarsGroup = sec_rebar
+                        break
     obj.sec_xdir_rebars_widget.xdir_rebars_type.setCurrentIndex(
         obj.sec_xdir_rebars_widget.xdir_rebars_type.findText(
             str(XDirRebarsGroup.RebarType)
@@ -1243,12 +1305,20 @@ def setXDirRebarsData(obj, vobj):
 
 
 def setYDirRebarsData(obj, vobj):
-    for rebar_group in vobj.Object.RebarGroups:
-        if hasattr(rebar_group, "SecondaryRebars"):
-            for sec_rebar in rebar_group.SecondaryRebars:
-                if hasattr(sec_rebar, "YDirRebars"):
-                    YDirRebarsGroup = sec_rebar
-                    break
+    if vobj:
+        for rebar_group in vobj.Object.RebarGroups:
+            if hasattr(rebar_group, "SecondaryRebars"):
+                for sec_rebar in rebar_group.SecondaryRebars:
+                    if hasattr(sec_rebar, "YDirRebars"):
+                        YDirRebarsGroup = sec_rebar
+                        break
+    else:
+        for rebar_group in obj.RebarGroup.RebarGroups:
+            if hasattr(rebar_group, "SecondaryRebars"):
+                for sec_rebar in rebar_group.SecondaryRebars:
+                    if hasattr(sec_rebar, "YDirRebars"):
+                        YDirRebarsGroup = sec_rebar
+                        break
     obj.sec_ydir_rebars_widget.ydir_rebars_type.setCurrentIndex(
         obj.sec_ydir_rebars_widget.ydir_rebars_type.findText(
             str(YDirRebarsGroup.RebarType)
@@ -1277,10 +1347,16 @@ def setYDirRebarsData(obj, vobj):
 
 
 def setCircularColumnReinforcementData(obj, vobj):
-    for rebar_group in vobj.Object.RebarGroups:
-        if hasattr(rebar_group, "HelicalRebars"):
-            helical_rebar_group = rebar_group
-            break
+    if vobj:
+        for rebar_group in vobj.Object.RebarGroups:
+            if hasattr(rebar_group, "HelicalRebars"):
+                helical_rebar_group = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.RebarGroups:
+            if hasattr(rebar_group, "HelicalRebars"):
+                helical_rebar_group = rebar_group
+                break
     helical_rebar = helical_rebar_group.HelicalRebars[0]
     obj.circular_column_widget.sideCover.setText(str(helical_rebar.SideCover))
     obj.circular_column_widget.helical_rebars_topOffset.setText(
@@ -1293,10 +1369,16 @@ def setCircularColumnReinforcementData(obj, vobj):
     obj.circular_column_widget.helical_rebars_diameter.setText(
         str(helical_rebar.Diameter)
     )
-    for rebar_group in vobj.Object.RebarGroups:
-        if hasattr(rebar_group, "MainRebars"):
-            main_rebars_group = rebar_group
-            break
+    if vobj:
+        for rebar_group in vobj.Object.RebarGroups:
+            if hasattr(rebar_group, "MainRebars"):
+                main_rebars_group = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.RebarGroups:
+            if hasattr(rebar_group, "MainRebars"):
+                main_rebars_group = rebar_group
+                break
     obj.circular_column_widget.main_rebars_topOffset.setText(
         str(main_rebars_group.TopOffset)
     )

@@ -194,11 +194,11 @@ def makeSingleTieFourRebars(
                     l_cover_of_tie + dia_of_tie + dia_of_rebars / 2
                 )
 
-    # Calculate parameters for Stirrup
+    # Calculate parameters for Tie
     rounding = (float(dia_of_tie) / 2 + dia_of_rebars / 2) / dia_of_tie
     f_cover = offset_of_tie
 
-    # Create Stirrups
+    # Create Tie
     ties = makeStirrup(
         l_cover_of_tie,
         r_cover_of_tie,
