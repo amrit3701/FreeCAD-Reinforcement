@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="1,0">
    <item row="0" column="0" rowspan="2">
     <widget class="QWidget" name="helical_rebars_dataWidget" native="true">
      <layout class="QFormLayout" name="formLayout">

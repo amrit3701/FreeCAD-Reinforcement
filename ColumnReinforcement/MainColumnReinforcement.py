@@ -399,7 +399,9 @@ class _ColumnReinforcementDialog:
     def rectangularColumnRadioClicked(self):
         self.column_type = "RectangularColumn"
         self.form.rebars_listWidget.show()
-        self.form.rebars_stackedWidget.setCurrentIndex(0)
+        self.form.rebars_stackedWidget.setCurrentIndex(
+            self.form.rebars_listWidget.currentRow()
+        )
         self.form.back_button.show()
         self.form.next_button.setText("Next")
 
