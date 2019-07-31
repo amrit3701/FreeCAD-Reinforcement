@@ -29,6 +29,10 @@ __url__ = "https://www.freecadweb.org"
 import FreeCAD
 
 from Stirrup import makeStirrup
+from Rebarfunc import (
+    getFacenamesforBeamReinforcement,
+    getdictofNumberDiameterOffset,
+)
 
 if FreeCAD.GuiUp:
     import FreeCADGui
@@ -138,9 +142,31 @@ def makeReinforcement(
             showWarning("Error: Pass structure and facename arguments")
             return None
 
+    facename_for_tb_rebars, facename_for_s_rebars = getFacenamesforBeamReinforcement(
+        facename, structure
+    )
+
+    top_reinforcement_layers = len(top_reinforcement_number_diameter_offset)
+    bottom_reinforcement_layers = len(
+        bottom_reinforcement_number_diameter_offset
+    )
+
+    top_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
+        top_reinforcement_number_diameter_offset
+    )
+    bottom_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
+        bottom_reinforcement_number_diameter_offset
+    )
+
     # Calculate parameters for Stirrup
+    max_dia_of_main_rebars = max(
+        top_reinforcement_number_diameter_offset_dict["layer1"][0][1],
+        top_reinforcement_number_diameter_offset_dict["layer1"][-1][1],
+        bottom_reinforcement_number_diameter_offset_dict["layer1"][0][1],
+        bottom_reinforcement_number_diameter_offset_dict["layer1"][-1][1],
+    )
     rounding = (
-        float(dia_of_stirrup) / 2 + dia_of_main_rebars / 2
+        float(dia_of_stirrup) / 2 + max_dia_of_main_rebars / 2
     ) / dia_of_stirrup
     f_cover = offset_of_stirrup
 
@@ -160,4 +186,5 @@ def makeReinforcement(
         structure,
         facename,
     )
+
     print("WIP")

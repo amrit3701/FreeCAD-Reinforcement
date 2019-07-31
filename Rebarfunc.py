@@ -89,6 +89,7 @@ def facenormalDirection(structure = None, facename = None):
     normal = face.Placement.Rotation.inverted().multVec(normal)
     return normal
 
+
 def gettupleOfNumberDiameter(diameter_string):
     """gettupleOfNumberDiameter(diameter_string): This function take input in
     specific syntax and return output in the form of list. For eg.
@@ -106,6 +107,7 @@ def gettupleOfNumberDiameter(diameter_string):
         )
         index += 1
     return number_diameter_list
+
 
 # --------------------------------------------------------------------------
 # Main functions which is use while creating any rebar.
@@ -498,6 +500,72 @@ def getFacenameforRebar(hook_extend_along, facename, structure):
                 break
         index += 1
     return facename_for_rebars
+
+
+# -------------------------------------------------------------------------
+# Functions which are mainly used while creating Beam Reinforcement.
+# -------------------------------------------------------------------------
+
+
+def getFacenamesforBeamReinforcement(facename, structure):
+    """getFacenamesforBeamReinforcement(Facename, Structure):
+    Return tuple of facenames of faces normal to selected/provided face to
+    create straight/lshaped rebars.
+    """
+    face = structure.Shape.Faces[getFaceNumber(facename) - 1]
+    normal1 = face.normalAt(0, 0)
+    faces = structure.Shape.Faces
+    index = 1
+    for face in faces:
+        normal2 = face.normalAt(0, 0)
+        if (
+            int(normal1.dot(normal2)) == 0
+            and int(normal1.cross(normal2).z) == -1
+        ):
+            facename_for_tb_rebars = "Face" + str(index)
+        if (
+            int(normal1.dot(normal2)) == 0
+            and int(normal1.cross(normal2).y) == 1
+        ):
+            facename_for_s_rebars = "Face" + str(index)
+        index += 1
+    return (facename_for_tb_rebars, facename_for_s_rebars)
+
+
+def getdictofNumberDiameterOffset(number_diameter_offset_tuple):
+    """getdictofNumberDiameterOffset(NumberDiameterOffsetTuple):
+    This function take input in specific syntax and return output in the form of
+    dictionary. For eg.
+    Input: ("2#20@50+3#16@100+2#20@50", "1#18@30+2#14@30+1#18@30")
+    Output: {
+                'layer1': [(2, 20, 50), (3, 16, 100), (2, 20, 50)],
+                'layer2': [(1, 18, 30), (2, 14, 30), (1, 18, 30)],
+            }
+    """
+    import re
+    number_diameter_offset_dict = {}
+    for i, number_diameter_offset_string in enumerate(
+        number_diameter_offset_tuple
+    ):
+        number_diameter_offset_st = number_diameter_offset_string.strip()
+        number_diameter_offset_sp = number_diameter_offset_st.split("+")
+        index = 0
+        number_diameter_offset_list = []
+        while index < len(number_diameter_offset_sp):
+            # Find "#" recursively in number_diameter_offset_sp array.
+            in_sp = re.split("#|@", number_diameter_offset_sp[index])
+            number_diameter_offset_list.append(
+                (
+                    int(in_sp[0]),
+                    float(in_sp[1].replace("mm", "")),
+                    float(in_sp[2].replace("mm", "")),
+                )
+            )
+            index += 1
+        number_diameter_offset_dict[
+            "layer" + str(i + 1)
+        ] = number_diameter_offset_list
+    return number_diameter_offset_dict
 
 
 # -------------------------------------------------------------------------
