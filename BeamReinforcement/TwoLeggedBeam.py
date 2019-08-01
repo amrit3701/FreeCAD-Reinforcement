@@ -197,6 +197,23 @@ def makeReinforcement(
         structure,
     )
 
+    # Create bottom reinforcement
+    bottom_reinforcement_rebars = makeBottomReinforcement(
+        l_cover_of_stirrup,
+        r_cover_of_stirrup,
+        t_cover_of_stirrup,
+        b_cover_of_stirrup,
+        offset_of_stirrup,
+        dia_of_stirrup,
+        bottom_reinforcement_number_diameter_offset,
+        bottom_reinforcement_rebar_type,
+        bottom_reinforcement_layer_spacing,
+        bottom_reinforcement_hook_extension,
+        bottom_reinforcement_hook_orientation,
+        facename,
+        structure,
+    )
+
     FreeCAD.ActiveDocument.recompute()
     print("WIP")
 
@@ -493,3 +510,317 @@ def makeTopReinforcement(
     print("WIP")
     FreeCAD.ActiveDocument.recompute()
     return top_reinforcement_rebars
+
+
+def makeBottomReinforcement(
+    l_cover_of_stirrup,
+    r_cover_of_stirrup,
+    t_cover_of_stirrup,
+    b_cover_of_stirrup,
+    offset_of_stirrup,
+    dia_of_stirrup,
+    bottom_reinforcement_number_diameter_offset,
+    bottom_reinforcement_rebar_type,
+    bottom_reinforcement_layer_spacing,
+    bottom_reinforcement_hook_extension,
+    bottom_reinforcement_hook_orientation,
+    facename,
+    structure,
+):
+    facename_for_b_rebars = getFacenamesforBeamReinforcement(
+        facename, structure
+    )[0]
+
+    bottom_reinforcement_layers = len(
+        bottom_reinforcement_number_diameter_offset
+    )
+
+    bottom_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
+        bottom_reinforcement_number_diameter_offset
+    )
+
+    bottom_reinforcement_rebar_type_dict = {}
+    if type(bottom_reinforcement_rebar_type) in (list, tuple):
+        layer = 1
+        while layer <= bottom_reinforcement_layers:
+            bottom_reinforcement_rebar_type_dict["layer" + str(layer)] = []
+            if type(bottom_reinforcement_rebar_type[layer - 1]) in (
+                list,
+                tuple,
+            ):
+                bottom_reinforcement_rebar_type_dict[
+                    "layer" + str(layer)
+                ] = bottom_reinforcement_rebar_type[layer - 1]
+            elif type(bottom_reinforcement_rebar_type[layer - 1]) == str:
+                i = 0
+                while i < len(
+                    bottom_reinforcement_number_diameter_offset_dict[
+                        "layer" + str(layer)
+                    ]
+                ):
+                    bottom_reinforcement_rebar_type_dict[
+                        "layer" + str(layer)
+                    ].append(bottom_reinforcement_rebar_type[layer - 1])
+                    i += 1
+            layer += 1
+    elif type(bottom_reinforcement_rebar_type) == str:
+        layer = 1
+        while layer <= bottom_reinforcement_layers:
+            bottom_reinforcement_rebar_type_dict["layer" + str(layer)] = []
+            i = 0
+            while i < len(
+                bottom_reinforcement_number_diameter_offset_dict[
+                    "layer" + str(layer)
+                ]
+            ):
+                bottom_reinforcement_rebar_type_dict[
+                    "layer" + str(layer)
+                ].append(bottom_reinforcement_rebar_type)
+                i += 1
+            layer += 1
+
+    if type(bottom_reinforcement_layer_spacing) in (float, int):
+        bottom_reinforcement_layer_spacing = [
+            bottom_reinforcement_layer_spacing
+        ]
+        while i < bottom_reinforcement_layers - 1:
+            bottom_reinforcement_layer_spacing.append(
+                bottom_reinforcement_layer_spacing[0]
+            )
+
+    bottom_reinforcement_hook_extension_dict = {}
+    if type(bottom_reinforcement_hook_extension) in (list, tuple):
+        layer = 1
+        while layer <= bottom_reinforcement_layers:
+            bottom_reinforcement_hook_extension_dict["layer" + str(layer)] = []
+            if type(bottom_reinforcement_hook_extension[layer - 1]) in (
+                list,
+                tuple,
+            ):
+                bottom_reinforcement_hook_extension_dict[
+                    "layer" + str(layer)
+                ] = bottom_reinforcement_hook_extension[layer - 1]
+            elif type(bottom_reinforcement_hook_extension[layer - 1]) in (
+                float,
+                int,
+            ):
+                i = 0
+                while i < len(
+                    bottom_reinforcement_number_diameter_offset_dict[
+                        "layer" + str(layer)
+                    ]
+                ):
+                    if (
+                        bottom_reinforcement_rebar_type_dict[
+                            "layer" + str(layer)
+                        ][i]
+                        == "StraightRebar"
+                    ):
+                        bottom_reinforcement_hook_extension_dict[
+                            "layer" + str(layer)
+                        ].append(None)
+                    else:
+                        bottom_reinforcement_hook_extension_dict[
+                            "layer" + str(layer)
+                        ].append(bottom_reinforcement_hook_extension[layer - 1])
+                    i += 1
+            layer += 1
+    elif (type(bottom_reinforcement_hook_extension) == (float, int)) or (
+        bottom_reinforcement_hook_extension == None
+    ):
+        layer = 1
+        while layer <= bottom_reinforcement_layers:
+            bottom_reinforcement_hook_extension_dict["layer" + str(layer)] = []
+            i = 0
+            while i < len(
+                bottom_reinforcement_number_diameter_offset_dict[
+                    "layer" + str(layer)
+                ]
+            ):
+                if (
+                    bottom_reinforcement_rebar_type_dict["layer" + str(layer)][
+                        i
+                    ]
+                    == "StraightRebar"
+                ):
+                    bottom_reinforcement_hook_extension_dict[
+                        "layer" + str(layer)
+                    ].append(None)
+                else:
+                    if bottom_reinforcement_hook_extension == None:
+                        bottom_reinforcement_hook_extension = (
+                            10
+                            * bottom_reinforcement_number_diameter_offset_dict[
+                                "layer" + str(layer)
+                            ][i][1]
+                        )
+                    bottom_reinforcement_hook_extension_dict[
+                        "layer" + str(layer)
+                    ].append(bottom_reinforcement_hook_extension)
+                i += 1
+            layer += 1
+
+    bottom_reinforcement_hook_orientation_dict = {}
+    if type(bottom_reinforcement_hook_orientation) in (list, tuple):
+        layer = 1
+        while layer <= bottom_reinforcement_layers:
+            bottom_reinforcement_hook_orientation_dict[
+                "layer" + str(layer)
+            ] = []
+            if type(bottom_reinforcement_hook_orientation[layer - 1]) in (
+                list,
+                tuple,
+            ):
+                bottom_reinforcement_hook_orientation_dict[
+                    "layer" + str(layer)
+                ] = bottom_reinforcement_hook_orientation[layer - 1]
+            elif type(bottom_reinforcement_hook_orientation[layer - 1]) == str:
+                i = 0
+                while i < len(
+                    bottom_reinforcement_number_diameter_offset_dict[
+                        "layer" + str(layer)
+                    ]
+                ):
+                    if (
+                        bottom_reinforcement_rebar_type_dict[
+                            "layer" + str(layer)
+                        ][i]
+                        == "StraightRebar"
+                    ):
+                        bottom_reinforcement_hook_orientation_dict[
+                            "layer" + str(layer)
+                        ].append(None)
+                    else:
+                        bottom_reinforcement_hook_orientation_dict[
+                            "layer" + str(layer)
+                        ].append(
+                            bottom_reinforcement_hook_orientation[layer - 1]
+                        )
+                    i += 1
+            layer += 1
+    elif type(bottom_reinforcement_hook_orientation) == str:
+        layer = 1
+        while layer <= bottom_reinforcement_layers:
+            bottom_reinforcement_hook_orientation_dict[
+                "layer" + str(layer)
+            ] = []
+            i = 0
+            while i < len(
+                bottom_reinforcement_number_diameter_offset_dict[
+                    "layer" + str(layer)
+                ]
+            ):
+                if (
+                    bottom_reinforcement_rebar_type_dict["layer" + str(layer)][
+                        i
+                    ]
+                    == "StraightRebar"
+                ):
+                    bottom_reinforcement_hook_orientation_dict[
+                        "layer" + str(layer)
+                    ].append(None)
+                else:
+                    bottom_reinforcement_hook_orientation_dict[
+                        "layer" + str(layer)
+                    ].append(bottom_reinforcement_hook_orientation)
+                i += 1
+            layer += 1
+
+    FacePRM = getParametersOfFace(structure, facename)
+    face_width = FacePRM[0][0]
+    bottom_reinforcement_span_length = (
+        face_width
+        - l_cover_of_stirrup
+        - r_cover_of_stirrup
+        - 2 * dia_of_stirrup
+    )
+
+    req_space_for_bottom_reinforcement = []
+    bottom_reinforcement_rebars_number = []
+    spacing_in_bottom_reinforcement = []
+    layer = 1
+    while layer <= bottom_reinforcement_layers:
+        req_space_for_bottom_reinforcement.append(
+            sum(
+                x[0] * x[1]
+                for x in bottom_reinforcement_number_diameter_offset_dict[
+                    "layer" + str(layer)
+                ]
+            )
+        )
+        bottom_reinforcement_rebars_number.append(
+            sum(
+                x[0]
+                for x in bottom_reinforcement_number_diameter_offset_dict[
+                    "layer" + str(layer)
+                ]
+            )
+        )
+        spacing_in_bottom_reinforcement.append(
+            (
+                bottom_reinforcement_span_length
+                - req_space_for_bottom_reinforcement[-1]
+            )
+            / (bottom_reinforcement_rebars_number[-1] - 1)
+        )
+        layer += 1
+
+    coverAlong = "Bottom Side"
+    bottom_reinforcement_rebars = []
+    layer = 1
+    while layer <= bottom_reinforcement_layers:
+        bottom_reinforcement_number_diameter_offset_list = bottom_reinforcement_number_diameter_offset_dict[
+            "layer" + str(layer)
+        ]
+        if layer == 1:
+            b_cover = b_cover_of_stirrup + dia_of_stirrup
+        else:
+            b_cover += (
+                max(
+                    x[1]
+                    for x in bottom_reinforcement_number_diameter_offset_list
+                )
+                + bottom_reinforcement_layer_spacing[layer - 2]
+            )
+
+        f_cover = l_cover_of_stirrup + dia_of_stirrup
+        for i, (number, diameter, offset) in enumerate(
+            bottom_reinforcement_number_diameter_offset_list
+        ):
+            if i == 0:
+                r_cover = l_cover = offset
+            rear_cover = (
+                face_width
+                - f_cover
+                - number * diameter
+                - (number - 1) * spacing_in_bottom_reinforcement[layer - 1]
+            )
+            if (
+                bottom_reinforcement_rebar_type_dict["layer" + str(layer)][i]
+                == "StraightRebar"
+            ):
+                bottom_reinforcement_rebars.append(
+                    makeStraightRebar(
+                        f_cover,
+                        (coverAlong, b_cover),
+                        r_cover,
+                        l_cover,
+                        diameter,
+                        True,
+                        number,
+                        "Horizontal",
+                        structure,
+                        facename_for_b_rebars,
+                    )
+                )
+                bottom_reinforcement_rebars[-1].OffsetEnd = (
+                    rear_cover + diameter / 2
+                )
+            f_cover += (
+                number * diameter
+                + number * spacing_in_bottom_reinforcement[layer - 1]
+            )
+        layer += 1
+    print("WIP")
+    FreeCAD.ActiveDocument.recompute()
+    return bottom_reinforcement_rebars
