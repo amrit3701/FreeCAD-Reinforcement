@@ -542,30 +542,40 @@ def getdictofNumberDiameterOffset(number_diameter_offset_tuple):
                 'layer2': [(1, 18, 30), (2, 14, 30), (1, 18, 30)],
             }
     """
-    import re
     number_diameter_offset_dict = {}
     for i, number_diameter_offset_string in enumerate(
         number_diameter_offset_tuple
     ):
-        number_diameter_offset_st = number_diameter_offset_string.strip()
-        number_diameter_offset_sp = number_diameter_offset_st.split("+")
-        index = 0
-        number_diameter_offset_list = []
-        while index < len(number_diameter_offset_sp):
-            # Find "#" recursively in number_diameter_offset_sp array.
-            in_sp = re.split("#|@", number_diameter_offset_sp[index])
-            number_diameter_offset_list.append(
-                (
-                    int(in_sp[0]),
-                    float(in_sp[1].replace("mm", "")),
-                    float(in_sp[2].replace("mm", "")),
-                )
-            )
-            index += 1
         number_diameter_offset_dict[
             "layer" + str(i + 1)
-        ] = number_diameter_offset_list
+        ] = gettupleOfNumberDiameterOffset(number_diameter_offset_string)
     return number_diameter_offset_dict
+
+
+def gettupleOfNumberDiameterOffset(number_diameter_offset_string):
+    """gettupleOfNumberDiameterOffset(NumberDiameterOffsetString):
+    This function take input in specific syntax and return output in the form of
+    tuple. For eg.
+    Input: "2#20@50+3#16@100+2#20@50"
+    Output: [(2, 20, 50), (3, 16, 100), (2, 20, 50)]
+    """
+    import re
+    number_diameter_offset_st = number_diameter_offset_string.strip()
+    number_diameter_offset_sp = number_diameter_offset_st.split("+")
+    index = 0
+    number_diameter_offset_list = []
+    while index < len(number_diameter_offset_sp):
+        # Find "#" and "@" recursively in number_diameter_offset_sp array.
+        in_sp = re.split("#|@", number_diameter_offset_sp[index])
+        number_diameter_offset_list.append(
+            (
+                int(in_sp[0]),
+                float(in_sp[1].replace("mm", "")),
+                float(in_sp[2].replace("mm", "")),
+            )
+        )
+        index += 1
+    return number_diameter_offset_list
 
 
 # -------------------------------------------------------------------------

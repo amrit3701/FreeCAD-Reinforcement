@@ -34,6 +34,7 @@ from LShapeRebar import makeLShapeRebar
 from Rebarfunc import (
     getParametersOfFace,
     getFacenamesforBeamReinforcement,
+    gettupleOfNumberDiameterOffset,
     getdictofNumberDiameterOffset,
 )
 
@@ -139,9 +140,25 @@ def makeReinforcement(
     'Front Outside', 'Rear Inside', 'Rear Outside'.
 
     Possible values for top_reinforcement_hook_orientation,
-    bottom_reinforcement_hook_orientation, top_reinforcement_hook_extension and
-    bottom_reinforcement_hook_extension can be similar to as discussed above for
-    top_reinforcement_rebar_type.
+    bottom_reinforcement_hook_orientation, top_reinforcement_hook_extension,
+    bottom_reinforcement_hook_extension, top_reinforcement_l_rebar_rounding and
+    bottom_reinforcement_l_rebar_rounding can be similar to as discussed above
+    for top_reinforcement_rebar_type.
+
+    left_rebars_number_diameter_offset and right_rebars_number_diameter_offset
+    are string of number_diameter_offset.
+    Syntax: "number1#diameter1@offset1+number2#diameter2@offset2+..."
+
+    Possible values for left_rebars_type and right_rebars_type:
+    1. 'StraightRebar' or 'LShapeRebar'
+    2. ('<rebar_type>', '<rebar_type>', ...) and each element of tuple
+    represents rabar_type for each set of rebars.
+
+    Possible values for left_l_rebar_rounding and right_l_rebar_rounding can be
+    similar to as discussed above for left_rebars_type.
+
+    left_rebars_spacing/right_rebars_spacing is clear spacing between left/right
+    rebars.
     """
     if not structure and not facename:
         if FreeCAD.GuiUp:
@@ -230,6 +247,26 @@ def makeReinforcement(
         bottom_reinforcement_hook_orientation,
         facename,
         structure,
+    )
+
+    makeShearReinforcement(
+        l_cover_of_stirrup,
+        r_cover_of_stirrup,
+        dia_of_stirrup,
+        left_rebars_number_diameter_offset,
+        left_rebars_type,
+        left_rebars_spacing,
+        right_rebars_number_diameter_offset,
+        right_rebars_type,
+        right_rebars_spacing,
+        left_l_rebar_rounding,
+        left_rebars_hook_extension,
+        left_rebars_hook_orientation,
+        right_l_rebar_rounding,
+        right_rebars_hook_extension,
+        right_rebars_hook_orientation,
+        structure,
+        facename,
     )
 
     FreeCAD.ActiveDocument.recompute()
@@ -1124,3 +1161,54 @@ def makeBottomReinforcement(
         layer += 1
     FreeCAD.ActiveDocument.recompute()
     return bottom_reinforcement_rebars
+
+
+def makeShearReinforcement(
+    l_cover_of_stirrup,
+    r_cover_of_stirrup,
+    dia_of_stirrup,
+    left_rebars_number_diameter_offset,
+    left_rebars_type,
+    left_rebars_spacing,
+    right_rebars_number_diameter_offset,
+    right_rebars_type,
+    right_rebars_spacing,
+    left_l_rebar_rounding,
+    left_rebars_hook_extension,
+    left_rebars_hook_orientation,
+    right_l_rebar_rounding,
+    right_rebars_hook_extension,
+    right_rebars_hook_orientation,
+    structure,
+    facename,
+):
+    facename_for_s_rebars = getFacenamesforBeamReinforcement(
+        facename, structure
+    )[1]
+
+    left_rebars_number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
+        left_rebars_number_diameter_offset
+    )
+    right_rebars_number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
+        right_rebars_number_diameter_offset
+    )
+
+    left_rebars_type_list = []
+    if type(left_rebars_type) == str:
+        i = 0
+        while i < len(left_rebars_number_diameter_offset_tuple):
+            left_rebars_type_list.append(left_rebars_type)
+            i += 1
+    elif type(left_rebars_type) in (list, tuple):
+        left_rebars_type_list = left_rebars_type
+
+    right_rebars_type_list = []
+    if type(right_rebars_type) == str:
+        i = 0
+        while i < len(right_rebars_number_diameter_offset_tuple):
+            right_rebars_type_list.append(right_rebars_type)
+            i += 1
+    elif type(right_rebars_type) in (list, tuple):
+        right_rebars_type_list = right_rebars_type
+
+    print("WIP")
