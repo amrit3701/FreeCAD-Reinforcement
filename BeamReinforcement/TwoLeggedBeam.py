@@ -352,6 +352,7 @@ def makeTopReinforcement(
             top_reinforcement_layer_spacing.append(
                 top_reinforcement_layer_spacing[0]
             )
+            i += 1
 
     top_reinforcement_l_rebar_rounding_dict = {}
     if isinstance(top_reinforcement_l_rebar_rounding, list) or isinstance(
@@ -797,10 +798,12 @@ def makeBottomReinforcement(
         bottom_reinforcement_layer_spacing = [
             bottom_reinforcement_layer_spacing
         ]
+        i = 0
         while i < bottom_reinforcement_layers - 1:
             bottom_reinforcement_layer_spacing.append(
                 bottom_reinforcement_layer_spacing[0]
             )
+            i += 1
 
     bottom_reinforcement_l_rebar_rounding_dict = {}
     if isinstance(bottom_reinforcement_l_rebar_rounding, list) or isinstance(
