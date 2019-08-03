@@ -154,7 +154,9 @@ def makeReinforcement(
     2. ('<rebar_type>', '<rebar_type>', ...) and each element of tuple
     represents rabar_type for each set of rebars.
 
-    Possible values for left_l_rebar_rounding and right_l_rebar_rounding can be
+    Possible values for left_l_rebar_rounding, right_l_rebar_rounding
+    left_rebars_hook_extension, right_rebars_hook_extension,
+    left_rebars_hook_orientation and right_rebars_hook_orientation can be
     similar to as discussed above for left_rebars_type.
 
     left_rebars_spacing/right_rebars_spacing is clear spacing between left/right
@@ -1211,4 +1213,172 @@ def makeShearReinforcement(
     elif type(right_rebars_type) in (list, tuple):
         right_rebars_type_list = right_rebars_type
 
+    left_l_rebar_rounding_list = []
+    if type(left_l_rebar_rounding) in (float, int):
+        i = 0
+        while i < len(left_rebars_number_diameter_offset_tuple):
+            if left_rebars_type_list[i] == "StraightRebar":
+                left_l_rebar_rounding_list.append(None)
+            else:
+                left_l_rebar_rounding_list.append(left_l_rebar_rounding)
+            i += 1
+    elif type(left_l_rebar_rounding) in (list, tuple):
+        left_l_rebar_rounding_list = left_l_rebar_rounding
+
+    right_l_rebar_rounding_list = []
+    if type(right_l_rebar_rounding) in (float, int):
+        i = 0
+        while i < len(right_rebars_number_diameter_offset_tuple):
+            if right_rebars_type_list[i] == "StraightRebar":
+                right_l_rebar_rounding_list.append(None)
+            else:
+                right_l_rebar_rounding_list.append(right_l_rebar_rounding)
+            i += 1
+    elif type(right_l_rebar_rounding) in (list, tuple):
+        right_l_rebar_rounding_list = right_l_rebar_rounding
+
+    left_rebars_hook_extension_list = []
+    if type(left_rebars_hook_extension) in (float, int):
+        i = 0
+        while i < len(left_rebars_number_diameter_offset_tuple):
+            if left_rebars_type_list[i] == "StraightRebar":
+                left_rebars_hook_extension_list.append(None)
+            else:
+                left_rebars_hook_extension_list.append(
+                    left_rebars_hook_extension
+                )
+            i += 1
+    elif type(left_rebars_hook_extension) in (list, tuple):
+        left_rebars_hook_extension_list = left_rebars_hook_extension
+
+    right_rebars_hook_extension_list = []
+    if type(right_rebars_hook_extension) in (float, int):
+        i = 0
+        while i < len(right_rebars_number_diameter_offset_tuple):
+            if right_rebars_type_list[i] == "StraightRebar":
+                right_rebars_hook_extension_list.append(None)
+            else:
+                right_rebars_hook_extension_list.append(
+                    right_rebars_hook_extension
+                )
+            i += 1
+    elif type(right_rebars_hook_extension) in (list, tuple):
+        right_rebars_hook_extension_list = right_rebars_hook_extension
+
+    left_rebars_hook_orientation_list = []
+    if type(left_rebars_hook_orientation) == str:
+        i = 0
+        while i < len(left_rebars_number_diameter_offset_tuple):
+            if left_rebars_type_list[i] == "StraightRebar":
+                left_rebars_hook_orientation_list.append(None)
+            else:
+                left_rebars_hook_orientation_list.append(
+                    left_rebars_hook_orientation
+                )
+            i += 1
+    elif type(left_rebars_hook_orientation) in (list, tuple):
+        left_rebars_hook_orientation_list = left_rebars_hook_orientation
+
+    right_rebars_hook_orientation_list = []
+    if type(right_rebars_hook_orientation) == str:
+        i = 0
+        while i < len(right_rebars_number_diameter_offset_tuple):
+            if right_rebars_type_list[i] == "StraightRebar":
+                right_rebars_hook_orientation_list.append(None)
+            else:
+                right_rebars_hook_orientation_list.append(
+                    right_rebars_hook_orientation
+                )
+            i += 1
+    elif type(right_rebars_hook_orientation) in (list, tuple):
+        right_rebars_hook_orientation_list = right_rebars_hook_orientation
+
+    FacePRM = getParametersOfFace(structure, facename)
+    face_length = FacePRM[0][0]
+    face_width = FacePRM[0][1]
+
+    left_rebars_number = sum(
+        x[0] for x in left_rebars_number_diameter_offset_tuple
+    )
+    right_rebars_number = sum(
+        x[0] for x in right_rebars_number_diameter_offset_tuple
+    )
+
+    left_reinforcement_span_length = (
+        left_rebars_number - 1
+    ) * left_rebars_spacing + sum(
+        x[0] * x[1] for x in left_rebars_number_diameter_offset_tuple
+    )
+    right_reinforcement_span_length = (
+        right_rebars_number - 1
+    ) * right_rebars_spacing + sum(
+        x[0] * x[1] for x in right_rebars_number_diameter_offset_tuple
+    )
+
+    left_rebars_f_cover = (face_width - left_reinforcement_span_length) / 2
+    right_rebars_f_cover = (face_width - right_reinforcement_span_length) / 2
+
+    t_cover = l_cover_of_stirrup + dia_of_stirrup
+    left_reinforcement_rebars = []
+    for i, (number, diameter, offset) in enumerate(
+        left_rebars_number_diameter_offset_tuple
+    ):
+        r_cover = l_cover = offset
+        rear_cover = (
+            face_width
+            - left_rebars_f_cover
+            - number * diameter
+            - (number - 1) * left_rebars_spacing
+        )
+        if left_rebars_type_list[i] == "StraightRebar":
+            coverAlong = "Top Side"
+            left_reinforcement_rebars.append(
+                makeStraightRebar(
+                    left_rebars_f_cover,
+                    (coverAlong, t_cover),
+                    r_cover,
+                    l_cover,
+                    diameter,
+                    True,
+                    number,
+                    "Horizontal",
+                    structure,
+                    facename_for_s_rebars,
+                )
+            )
+            left_reinforcement_rebars[-1].OffsetEnd = rear_cover + diameter / 2
+        left_rebars_f_cover += number * diameter + number * left_rebars_spacing
+
+    b_cover = r_cover_of_stirrup + dia_of_stirrup
+    right_reinforcement_rebars = []
+    for i, (number, diameter, offset) in enumerate(
+        right_rebars_number_diameter_offset_tuple
+    ):
+        r_cover = l_cover = offset
+        rear_cover = (
+            face_width
+            - right_rebars_f_cover
+            - number * diameter
+            - (number - 1) * right_rebars_spacing
+        )
+        if right_rebars_type_list[i] == "StraightRebar":
+            coverAlong = "Bottom Side"
+            right_reinforcement_rebars.append(
+                makeStraightRebar(
+                    right_rebars_f_cover,
+                    (coverAlong, b_cover),
+                    r_cover,
+                    l_cover,
+                    diameter,
+                    True,
+                    number,
+                    "Horizontal",
+                    structure,
+                    facename_for_s_rebars,
+                )
+            )
+            right_reinforcement_rebars[-1].OffsetEnd = rear_cover + diameter / 2
+        right_rebars_f_cover += (
+            number * diameter + number * right_rebars_spacing
+        )
     print("WIP")

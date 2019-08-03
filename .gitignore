@@ -4,3 +4,6 @@ __pycache__/
 
 # Backup files
 *.bak*
+
+# Swap files
+*.swp
