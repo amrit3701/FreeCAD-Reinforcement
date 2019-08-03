@@ -251,7 +251,8 @@ def makeReinforcement(
         structure,
     )
 
-    makeShearReinforcement(
+    # Create shear reinforcement
+    left_reinforcement_rebars, right_reinforcement_rebars = makeShearReinforcement(
         l_cover_of_stirrup,
         r_cover_of_stirrup,
         dia_of_stirrup,
@@ -1346,7 +1347,47 @@ def makeShearReinforcement(
                     facename_for_s_rebars,
                 )
             )
-            left_reinforcement_rebars[-1].OffsetEnd = rear_cover + diameter / 2
+        else:
+            b_cover = face_length - t_cover - diameter / 2
+            if left_rebars_hook_orientation_list[i] in (
+                "Front Inside",
+                "Rear Inside",
+            ):
+                b_cover -= (
+                    left_l_rebar_rounding_list[i] * diameter
+                    + left_rebars_hook_extension_list[i]
+                )
+                if left_rebars_hook_orientation_list[i] == "Front Inside":
+                    orientation = "Top Right"
+                else:
+                    orientation = "Top Left"
+            else:
+                b_cover += (
+                    left_l_rebar_rounding_list[i] * diameter
+                    + left_rebars_hook_extension_list[i]
+                )
+                if left_rebars_hook_orientation_list[i] == "Front Outside":
+                    orientation = "Top Right"
+                else:
+                    orientation = "Top Left"
+
+            left_reinforcement_rebars.append(
+                makeLShapeRebar(
+                    left_rebars_f_cover,
+                    b_cover,
+                    l_cover,
+                    r_cover,
+                    diameter,
+                    t_cover,
+                    left_l_rebar_rounding_list[i],
+                    True,
+                    number,
+                    orientation,
+                    structure,
+                    facename_for_s_rebars,
+                )
+            )
+        left_reinforcement_rebars[-1].OffsetEnd = rear_cover + diameter / 2
         left_rebars_f_cover += number * diameter + number * left_rebars_spacing
 
     b_cover = r_cover_of_stirrup + dia_of_stirrup
@@ -1377,8 +1418,49 @@ def makeShearReinforcement(
                     facename_for_s_rebars,
                 )
             )
-            right_reinforcement_rebars[-1].OffsetEnd = rear_cover + diameter / 2
+        else:
+            t_cover = face_length - b_cover - diameter / 2
+            if right_rebars_hook_orientation_list[i] in (
+                "Front Inside",
+                "Rear Inside",
+            ):
+                t_cover -= (
+                    right_l_rebar_rounding_list[i] * diameter
+                    + right_rebars_hook_extension_list[i]
+                )
+                if right_rebars_hook_orientation_list[i] == "Front Inside":
+                    orientation = "Bottom Right"
+                else:
+                    orientation = "Bottom Left"
+            else:
+                t_cover += (
+                    right_l_rebar_rounding_list[i] * diameter
+                    + right_rebars_hook_extension_list[i]
+                )
+                if right_rebars_hook_orientation_list[i] == "Front Outside":
+                    orientation = "Bottom Right"
+                else:
+                    orientation = "Bottom Left"
+
+            right_reinforcement_rebars.append(
+                makeLShapeRebar(
+                    right_rebars_f_cover,
+                    b_cover,
+                    l_cover,
+                    r_cover,
+                    diameter,
+                    t_cover,
+                    right_l_rebar_rounding_list[i],
+                    True,
+                    number,
+                    orientation,
+                    structure,
+                    facename_for_s_rebars,
+                )
+            )
+        right_reinforcement_rebars[-1].OffsetEnd = rear_cover + diameter / 2
         right_rebars_f_cover += (
             number * diameter + number * right_rebars_spacing
         )
-    print("WIP")
+    FreeCAD.ActiveDocument.recompute()
+    return [left_reinforcement_rebars, right_reinforcement_rebars]
