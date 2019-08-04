@@ -510,7 +510,7 @@ def getFacenameforRebar(hook_extend_along, facename, structure):
 class _BeamReinforcementGroup:
     "A Beam Reinforcement Group object."
 
-    def __init__(self, obj_name):
+    def __init__(self):
         self.Type = "BeamReinforcementGroup"
         self.rebar_group = FreeCAD.ActiveDocument.addObject(
             "App::DocumentObjectGroupPython", "BeamReinforcement"

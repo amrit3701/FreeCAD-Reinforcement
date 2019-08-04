@@ -36,6 +36,7 @@ from Rebarfunc import (
     getFacenamesforBeamReinforcement,
     gettupleOfNumberDiameterOffset,
     getdictofNumberDiameterOffset,
+    _BeamReinforcementGroup,
 )
 
 if FreeCAD.GuiUp:
@@ -170,6 +171,10 @@ def makeReinforcement(
         else:
             showWarning("Error: Pass structure and facename arguments")
             return None
+
+    # Create TwoLeggedBeam group object
+    TwoLeggedBeam = _TwoLeggedBeam()
+
     if isinstance(top_reinforcement_number_diameter_offset, str):
         top_reinforcement_number_diameter_offset = (
             top_reinforcement_number_diameter_offset,
@@ -1527,3 +1532,99 @@ def makeShearReinforcement(
         )
     FreeCAD.ActiveDocument.recompute()
     return [left_reinforcement_rebars, right_reinforcement_rebars]
+
+
+class _TwoLeggedBeam(_BeamReinforcementGroup):
+    "A TwoLeggedBeam group object."
+
+    def __init__(self):
+        """Create Group object and add properties to it."""
+        _BeamReinforcementGroup.__init__(self)
+        # Add properties to top/bottom reinforcement rebar groups
+        properties = []
+        properties.append(
+            (
+                "App::PropertyStringList",
+                "NumberDiameterOffset",
+                "List of Number Diameter Offset string",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyString",
+                "RebarType",
+                "String representation of dictionary of type of rebars",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyFloatList",
+                "LayerSpacing",
+                "List of spacing between adjacent reinforcement layers",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyString",
+                "HookExtension",
+                "String representation of dictionary of hook extension",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyString",
+                "HookOrientation",
+                "String representation of dictionary of hook orientation",
+                1,
+            )
+        )
+        self.setProperties(properties, self.top_reinforcement_group)
+        self.setProperties(properties, self.bottom_reinforcement_group)
+        # Add properties to left/right rebar groups
+        properties = []
+        properties.append(
+            (
+                "App::PropertyString",
+                "NumberDiameterOffset",
+                "Number Diameter Offset string",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyStringList",
+                "RebarType",
+                "List of type of rebars",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyDistance",
+                "RebarSpacing",
+                "Clear spacing between rebars",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyFloatList",
+                "HookExtension",
+                "List of hook extension of lshape rebars",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyStringList",
+                "HookOrientation",
+                "List of hook orientation of lshape rebars",
+                1,
+            )
+        )
+        self.setProperties(properties, self.left_rebars_group)
+        self.setProperties(properties, self.right_rebars_group)
