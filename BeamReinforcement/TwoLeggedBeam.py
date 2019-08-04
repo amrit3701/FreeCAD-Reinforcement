@@ -307,42 +307,42 @@ def makeTopReinforcement(
         top_reinforcement_number_diameter_offset
     )
 
-    top_reinforcement_rebar_type_dict = {}
+    top_reinforcement_rebar_type_list = []
     if isinstance(top_reinforcement_rebar_type, list) or isinstance(
         top_reinforcement_rebar_type, tuple
     ):
         layer = 1
         while layer <= top_reinforcement_layers:
-            top_reinforcement_rebar_type_dict["layer" + str(layer)] = []
             if isinstance(
                 top_reinforcement_rebar_type[layer - 1], list
             ) or isinstance(top_reinforcement_rebar_type[layer - 1], tuple):
-                top_reinforcement_rebar_type_dict[
-                    "layer" + str(layer)
-                ] = top_reinforcement_rebar_type[layer - 1]
+                top_reinforcement_rebar_type_list.append(
+                    top_reinforcement_rebar_type[layer - 1]
+                )
             elif isinstance(top_reinforcement_rebar_type[layer - 1], str):
+                top_reinforcement_rebar_type_list.append([])
                 i = 0
                 while i < len(
                     top_reinforcement_number_diameter_offset_dict[
                         "layer" + str(layer)
                     ]
                 ):
-                    top_reinforcement_rebar_type_dict[
-                        "layer" + str(layer)
-                    ].append(top_reinforcement_rebar_type[layer - 1])
+                    top_reinforcement_rebar_type_list[-1].append(
+                        top_reinforcement_rebar_type[layer - 1]
+                    )
                     i += 1
             layer += 1
     elif isinstance(top_reinforcement_rebar_type, str):
         layer = 1
         while layer <= top_reinforcement_layers:
-            top_reinforcement_rebar_type_dict["layer" + str(layer)] = []
+            top_reinforcement_rebar_type_list.append([])
             i = 0
             while i < len(
                 top_reinforcement_number_diameter_offset_dict[
                     "layer" + str(layer)
                 ]
             ):
-                top_reinforcement_rebar_type_dict["layer" + str(layer)].append(
+                top_reinforcement_rebar_type_list[-1].append(
                     top_reinforcement_rebar_type
                 )
                 i += 1
@@ -359,24 +359,24 @@ def makeTopReinforcement(
             )
             i += 1
 
-    top_reinforcement_l_rebar_rounding_dict = {}
+    top_reinforcement_l_rebar_rounding_list = []
     if isinstance(top_reinforcement_l_rebar_rounding, list) or isinstance(
         top_reinforcement_l_rebar_rounding, tuple
     ):
         layer = 1
         while layer <= top_reinforcement_layers:
-            top_reinforcement_l_rebar_rounding_dict["layer" + str(layer)] = []
             if isinstance(
                 top_reinforcement_l_rebar_rounding[layer - 1], list
             ) or isinstance(
                 top_reinforcement_l_rebar_rounding[layer - 1], tuple
             ):
-                top_reinforcement_l_rebar_rounding_dict[
-                    "layer" + str(layer)
-                ] = top_reinforcement_l_rebar_rounding[layer - 1]
+                top_reinforcement_l_rebar_rounding_list.append(
+                    top_reinforcement_l_rebar_rounding[layer - 1]
+                )
             elif isinstance(
                 top_reinforcement_l_rebar_rounding[layer - 1], float
             ) or isinstance(top_reinforcement_l_rebar_rounding[layer - 1], int):
+                top_reinforcement_l_rebar_rounding_list.append([])
                 i = 0
                 while i < len(
                     top_reinforcement_number_diameter_offset_dict[
@@ -384,18 +384,14 @@ def makeTopReinforcement(
                     ]
                 ):
                     if (
-                        top_reinforcement_rebar_type_dict["layer" + str(layer)][
-                            i
-                        ]
+                        top_reinforcement_rebar_type_list[layer - 1][i]
                         == "StraightRebar"
                     ):
-                        top_reinforcement_l_rebar_rounding_dict[
-                            "layer" + str(layer)
-                        ].append(None)
+                        top_reinforcement_l_rebar_rounding_list(-1).append(None)
                     else:
-                        top_reinforcement_l_rebar_rounding_dict[
-                            "layer" + str(layer)
-                        ].append(top_reinforcement_l_rebar_rounding[layer - 1])
+                        top_reinforcement_l_rebar_rounding_list(-1).append(
+                            top_reinforcement_l_rebar_rounding[layer - 1]
+                        )
                     i += 1
             layer += 1
     elif isinstance(top_reinforcement_l_rebar_rounding, float) or isinstance(
@@ -403,7 +399,7 @@ def makeTopReinforcement(
     ):
         layer = 1
         while layer <= top_reinforcement_layers:
-            top_reinforcement_l_rebar_rounding_dict["layer" + str(layer)] = []
+            top_reinforcement_l_rebar_rounding_list.append([])
             i = 0
             while i < len(
                 top_reinforcement_number_diameter_offset_dict[
@@ -411,35 +407,35 @@ def makeTopReinforcement(
                 ]
             ):
                 if (
-                    top_reinforcement_rebar_type_dict["layer" + str(layer)][i]
+                    top_reinforcement_rebar_type_list[layer - 1][i]
                     == "StraightRebar"
                 ):
-                    top_reinforcement_l_rebar_rounding_dict[
-                        "layer" + str(layer)
-                    ].append(None)
+                    top_reinforcement_l_rebar_rounding_list[layer - 1].append(
+                        None
+                    )
                 else:
-                    top_reinforcement_l_rebar_rounding_dict[
-                        "layer" + str(layer)
-                    ].append(top_reinforcement_l_rebar_rounding)
+                    top_reinforcement_l_rebar_rounding_list[layer - 1].append(
+                        top_reinforcement_l_rebar_rounding
+                    )
                 i += 1
             layer += 1
 
-    top_reinforcement_hook_extension_dict = {}
+    top_reinforcement_hook_extension_list = []
     if isinstance(top_reinforcement_hook_extension, list) or isinstance(
         top_reinforcement_hook_extension, tuple
     ):
         layer = 1
         while layer <= top_reinforcement_layers:
-            top_reinforcement_hook_extension_dict["layer" + str(layer)] = []
             if isinstance(
                 top_reinforcement_hook_extension[layer - 1], list
             ) or isinstance(top_reinforcement_hook_extension[layer - 1], tuple):
-                top_reinforcement_hook_extension_dict[
-                    "layer" + str(layer)
-                ] = top_reinforcement_hook_extension[layer - 1]
+                top_reinforcement_hook_extension_list.append(
+                    top_reinforcement_hook_extension[layer - 1]
+                )
             elif isinstance(
                 top_reinforcement_hook_extension[layer - 1], float
             ) or isinstance(top_reinforcement_hook_extension[layer - 1], int):
+                top_reinforcement_hook_extension_list.append([])
                 i = 0
                 while i < len(
                     top_reinforcement_number_diameter_offset_dict[
@@ -447,18 +443,14 @@ def makeTopReinforcement(
                     ]
                 ):
                     if (
-                        top_reinforcement_rebar_type_dict["layer" + str(layer)][
-                            i
-                        ]
+                        top_reinforcement_rebar_type_list[layer - 1][i]
                         == "StraightRebar"
                     ):
-                        top_reinforcement_hook_extension_dict[
-                            "layer" + str(layer)
-                        ].append(None)
+                        top_reinforcement_hook_extension_list[-1].append(None)
                     else:
-                        top_reinforcement_hook_extension_dict[
-                            "layer" + str(layer)
-                        ].append(top_reinforcement_hook_extension[layer - 1])
+                        top_reinforcement_hook_extension_list[-1].append(
+                            top_reinforcement_hook_extension[layer - 1]
+                        )
                     i += 1
             layer += 1
     elif isinstance(top_reinforcement_hook_extension, float) or isinstance(
@@ -466,7 +458,7 @@ def makeTopReinforcement(
     ):
         layer = 1
         while layer <= top_reinforcement_layers:
-            top_reinforcement_hook_extension_dict["layer" + str(layer)] = []
+            top_reinforcement_hook_extension_list.append([])
             i = 0
             while i < len(
                 top_reinforcement_number_diameter_offset_dict[
@@ -474,35 +466,33 @@ def makeTopReinforcement(
                 ]
             ):
                 if (
-                    top_reinforcement_rebar_type_dict["layer" + str(layer)][i]
+                    top_reinforcement_rebar_type_list[layer - 1][i]
                     == "StraightRebar"
                 ):
-                    top_reinforcement_hook_extension_dict[
-                        "layer" + str(layer)
-                    ].append(None)
+                    top_reinforcement_hook_extension_list[-1].append(None)
                 else:
-                    top_reinforcement_hook_extension_dict[
-                        "layer" + str(layer)
-                    ].append(top_reinforcement_hook_extension)
+                    top_reinforcement_hook_extension_list[-1].append(
+                        top_reinforcement_hook_extension
+                    )
                 i += 1
             layer += 1
 
-    top_reinforcement_hook_orientation_dict = {}
+    top_reinforcement_hook_orientation_list = []
     if isinstance(top_reinforcement_hook_orientation, list) or isinstance(
         top_reinforcement_hook_orientation, tuple
     ):
         layer = 1
         while layer <= top_reinforcement_layers:
-            top_reinforcement_hook_orientation_dict["layer" + str(layer)] = []
             if isinstance(
                 top_reinforcement_hook_orientation[layer - 1], list
             ) or isinstance(
                 top_reinforcement_hook_orientation[layer - 1], tuple
             ):
-                top_reinforcement_hook_orientation_dict[
-                    "layer" + str(layer)
-                ] = top_reinforcement_hook_orientation[layer - 1]
+                top_reinforcement_hook_orientation_list.append(
+                    top_reinforcement_hook_orientation[layer - 1]
+                )
             elif isinstance(top_reinforcement_hook_orientation[layer - 1], str):
+                top_reinforcement_hook_orientation_list.append([])
                 i = 0
                 while i < len(
                     top_reinforcement_number_diameter_offset_dict[
@@ -510,24 +500,20 @@ def makeTopReinforcement(
                     ]
                 ):
                     if (
-                        top_reinforcement_rebar_type_dict["layer" + str(layer)][
-                            i
-                        ]
+                        top_reinforcement_rebar_type_list[layer - 1][i]
                         == "StraightRebar"
                     ):
-                        top_reinforcement_hook_orientation_dict[
-                            "layer" + str(layer)
-                        ].append(None)
+                        top_reinforcement_hook_orientation_list[-1].append(None)
                     else:
-                        top_reinforcement_hook_orientation_dict[
-                            "layer" + str(layer)
-                        ].append(top_reinforcement_hook_orientation[layer - 1])
+                        top_reinforcement_hook_orientation_list[-1].append(
+                            top_reinforcement_hook_orientation[layer - 1]
+                        )
                     i += 1
             layer += 1
     elif isinstance(top_reinforcement_hook_orientation, str):
         layer = 1
         while layer <= top_reinforcement_layers:
-            top_reinforcement_hook_orientation_dict["layer" + str(layer)] = []
+            top_reinforcement_hook_orientation_list.append([])
             i = 0
             while i < len(
                 top_reinforcement_number_diameter_offset_dict[
@@ -535,16 +521,14 @@ def makeTopReinforcement(
                 ]
             ):
                 if (
-                    top_reinforcement_rebar_type_dict["layer" + str(layer)][i]
+                    top_reinforcement_rebar_type_list[layer - 1][i]
                     == "StraightRebar"
                 ):
-                    top_reinforcement_hook_orientation_dict[
-                        "layer" + str(layer)
-                    ].append(None)
+                    top_reinforcement_hook_orientation_list[-1].append(None)
                 else:
-                    top_reinforcement_hook_orientation_dict[
-                        "layer" + str(layer)
-                    ].append(top_reinforcement_hook_orientation)
+                    top_reinforcement_hook_orientation_list[-1].append(
+                        top_reinforcement_hook_orientation
+                    )
                 i += 1
             layer += 1
 
@@ -627,7 +611,7 @@ def makeTopReinforcement(
                 - (number - 1) * spacing_in_top_reinforcement[layer - 1]
             )
             if (
-                top_reinforcement_rebar_type_dict["layer" + str(layer)][i]
+                top_reinforcement_rebar_type_list[layer - 1][i]
                 == "StraightRebar"
             ):
                 top_reinforcement_rebars.append(
@@ -659,22 +643,17 @@ def makeTopReinforcement(
                         )
                         - diameter / 2
                     )
-                if top_reinforcement_hook_orientation_dict[
-                    "layer" + str(layer)
-                ][i] in ("Front Inside", "Rear Inside"):
+                if top_reinforcement_hook_orientation_list[layer - 1][i] in (
+                    "Front Inside",
+                    "Rear Inside",
+                ):
                     b_cover -= (
-                        top_reinforcement_l_rebar_rounding_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        top_reinforcement_l_rebar_rounding_list[layer - 1][i]
                         * diameter
-                        + top_reinforcement_hook_extension_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        + top_reinforcement_hook_extension_list[layer - 1][i]
                     )
                     if (
-                        top_reinforcement_hook_orientation_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        top_reinforcement_hook_orientation_list[layer - 1][i]
                         == "Front Inside"
                     ):
                         orientation = "Top Right"
@@ -682,18 +661,12 @@ def makeTopReinforcement(
                         orientation = "Top Left"
                 else:
                     b_cover += (
-                        top_reinforcement_l_rebar_rounding_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        top_reinforcement_l_rebar_rounding_list[layer - 1][i]
                         * diameter
-                        + top_reinforcement_hook_extension_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        + top_reinforcement_hook_extension_list[layer - 1][i]
                     )
                     if (
-                        top_reinforcement_hook_orientation_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        top_reinforcement_hook_orientation_list[layer - 1][i]
                         == "Front Outside"
                     ):
                         orientation = "Top Right"
@@ -708,9 +681,7 @@ def makeTopReinforcement(
                         r_cover,
                         diameter,
                         t_cover,
-                        top_reinforcement_l_rebar_rounding_dict[
-                            "layer" + str(layer)
-                        ][i],
+                        top_reinforcement_l_rebar_rounding_list[layer - 1][i],
                         True,
                         number,
                         orientation,
@@ -756,44 +727,44 @@ def makeBottomReinforcement(
         bottom_reinforcement_number_diameter_offset
     )
 
-    bottom_reinforcement_rebar_type_dict = {}
+    bottom_reinforcement_rebar_type_list = []
     if isinstance(bottom_reinforcement_rebar_type, list) or isinstance(
         bottom_reinforcement_rebar_type, tuple
     ):
         layer = 1
         while layer <= bottom_reinforcement_layers:
-            bottom_reinforcement_rebar_type_dict["layer" + str(layer)] = []
             if isinstance(
                 bottom_reinforcement_rebar_type[layer - 1], list
             ) or isinstance(bottom_reinforcement_rebar_type[layer - 1], tuple):
-                bottom_reinforcement_rebar_type_dict[
-                    "layer" + str(layer)
-                ] = bottom_reinforcement_rebar_type[layer - 1]
+                bottom_reinforcement_rebar_type_list.append(
+                    bottom_reinforcement_rebar_type[layer - 1]
+                )
             elif isinstance(bottom_reinforcement_rebar_type[layer - 1], str):
+                bottom_reinforcement_rebar_type_list.append([])
                 i = 0
                 while i < len(
                     bottom_reinforcement_number_diameter_offset_dict[
                         "layer" + str(layer)
                     ]
                 ):
-                    bottom_reinforcement_rebar_type_dict[
-                        "layer" + str(layer)
-                    ].append(bottom_reinforcement_rebar_type[layer - 1])
+                    bottom_reinforcement_rebar_type_list[-1].append(
+                        bottom_reinforcement_rebar_type[layer - 1]
+                    )
                     i += 1
             layer += 1
     elif isinstance(bottom_reinforcement_rebar_type, str):
         layer = 1
         while layer <= bottom_reinforcement_layers:
-            bottom_reinforcement_rebar_type_dict["layer" + str(layer)] = []
+            bottom_reinforcement_rebar_type_list.append([])
             i = 0
             while i < len(
                 bottom_reinforcement_number_diameter_offset_dict[
                     "layer" + str(layer)
                 ]
             ):
-                bottom_reinforcement_rebar_type_dict[
-                    "layer" + str(layer)
-                ].append(bottom_reinforcement_rebar_type)
+                bottom_reinforcement_rebar_type_list[-1].append(
+                    bottom_reinforcement_rebar_type
+                )
                 i += 1
             layer += 1
 
@@ -810,28 +781,26 @@ def makeBottomReinforcement(
             )
             i += 1
 
-    bottom_reinforcement_l_rebar_rounding_dict = {}
+    bottom_reinforcement_l_rebar_rounding_list = []
     if isinstance(bottom_reinforcement_l_rebar_rounding, list) or isinstance(
         bottom_reinforcement_l_rebar_rounding, tuple
     ):
         layer = 1
         while layer <= bottom_reinforcement_layers:
-            bottom_reinforcement_l_rebar_rounding_dict[
-                "layer" + str(layer)
-            ] = []
             if isinstance(
                 bottom_reinforcement_l_rebar_rounding[layer - 1], list
             ) or isinstance(
                 bottom_reinforcement_l_rebar_rounding[layer - 1], tuple
             ):
-                bottom_reinforcement_l_rebar_rounding_dict[
-                    "layer" + str(layer)
-                ] = bottom_reinforcement_l_rebar_rounding[layer - 1]
+                bottom_reinforcement_l_rebar_rounding_list.append(
+                    bottom_reinforcement_l_rebar_rounding[layer - 1]
+                )
             elif isinstance(
                 bottom_reinforcement_l_rebar_rounding[layer - 1], float
             ) or isinstance(
                 bottom_reinforcement_l_rebar_rounding[layer - 1], int
             ):
+                bottom_reinforcement_l_rebar_rounding_list.append([])
                 i = 0
                 while i < len(
                     bottom_reinforcement_number_diameter_offset_dict[
@@ -839,18 +808,14 @@ def makeBottomReinforcement(
                     ]
                 ):
                     if (
-                        bottom_reinforcement_rebar_type_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        bottom_reinforcement_rebar_type_list[layer - 1][i]
                         == "StraightRebar"
                     ):
-                        bottom_reinforcement_l_rebar_rounding_dict[
-                            "layer" + str(layer)
-                        ].append(None)
+                        bottom_reinforcement_l_rebar_rounding_list(-1).append(
+                            None
+                        )
                     else:
-                        bottom_reinforcement_l_rebar_rounding_dict[
-                            "layer" + str(layer)
-                        ].append(
+                        bottom_reinforcement_l_rebar_rounding_list(-1).append(
                             bottom_reinforcement_l_rebar_rounding[layer - 1]
                         )
                     i += 1
@@ -860,9 +825,7 @@ def makeBottomReinforcement(
     ):
         layer = 1
         while layer <= bottom_reinforcement_layers:
-            bottom_reinforcement_l_rebar_rounding_dict[
-                "layer" + str(layer)
-            ] = []
+            bottom_reinforcement_l_rebar_rounding_list.append([])
             i = 0
             while i < len(
                 bottom_reinforcement_number_diameter_offset_dict[
@@ -870,41 +833,39 @@ def makeBottomReinforcement(
                 ]
             ):
                 if (
-                    bottom_reinforcement_rebar_type_dict["layer" + str(layer)][
-                        i
-                    ]
+                    bottom_reinforcement_rebar_type_list[layer - 1][i]
                     == "StraightRebar"
                 ):
-                    bottom_reinforcement_l_rebar_rounding_dict[
-                        "layer" + str(layer)
+                    bottom_reinforcement_l_rebar_rounding_list[
+                        layer - 1
                     ].append(None)
                 else:
-                    bottom_reinforcement_l_rebar_rounding_dict[
-                        "layer" + str(layer)
+                    bottom_reinforcement_l_rebar_rounding_list[
+                        layer - 1
                     ].append(bottom_reinforcement_l_rebar_rounding)
                 i += 1
             layer += 1
 
-    bottom_reinforcement_hook_extension_dict = {}
+    bottom_reinforcement_hook_extension_list = []
     if isinstance(bottom_reinforcement_hook_extension, list) or isinstance(
         bottom_reinforcement_hook_extension, tuple
     ):
         layer = 1
         while layer <= bottom_reinforcement_layers:
-            bottom_reinforcement_hook_extension_dict["layer" + str(layer)] = []
             if isinstance(
                 bottom_reinforcement_hook_extension[layer - 1], list
             ) or isinstance(
                 bottom_reinforcement_hook_extension[layer - 1], tuple
             ):
-                bottom_reinforcement_hook_extension_dict[
-                    "layer" + str(layer)
-                ] = bottom_reinforcement_hook_extension[layer - 1]
+                bottom_reinforcement_hook_extension_list.append(
+                    bottom_reinforcement_hook_extension[layer - 1]
+                )
             elif isinstance(
                 bottom_reinforcement_hook_extension[layer - 1], float
             ) or isinstance(
                 bottom_reinforcement_hook_extension[layer - 1], int
             ):
+                bottom_reinforcement_hook_extension_list.append([])
                 i = 0
                 while i < len(
                     bottom_reinforcement_number_diameter_offset_dict[
@@ -912,18 +873,16 @@ def makeBottomReinforcement(
                     ]
                 ):
                     if (
-                        bottom_reinforcement_rebar_type_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        bottom_reinforcement_rebar_type_list[layer - 1][i]
                         == "StraightRebar"
                     ):
-                        bottom_reinforcement_hook_extension_dict[
-                            "layer" + str(layer)
-                        ].append(None)
+                        bottom_reinforcement_hook_extension_list[-1].append(
+                            None
+                        )
                     else:
-                        bottom_reinforcement_hook_extension_dict[
-                            "layer" + str(layer)
-                        ].append(bottom_reinforcement_hook_extension[layer - 1])
+                        bottom_reinforcement_hook_extension_list[-1].append(
+                            bottom_reinforcement_hook_extension[layer - 1]
+                        )
                     i += 1
             layer += 1
     elif isinstance(bottom_reinforcement_hook_extension, float) or isinstance(
@@ -931,7 +890,7 @@ def makeBottomReinforcement(
     ):
         layer = 1
         while layer <= bottom_reinforcement_layers:
-            bottom_reinforcement_hook_extension_dict["layer" + str(layer)] = []
+            bottom_reinforcement_hook_extension_list.append([])
             i = 0
             while i < len(
                 bottom_reinforcement_number_diameter_offset_dict[
@@ -939,41 +898,35 @@ def makeBottomReinforcement(
                 ]
             ):
                 if (
-                    bottom_reinforcement_rebar_type_dict["layer" + str(layer)][
-                        i
-                    ]
+                    bottom_reinforcement_rebar_type_list[layer - 1][i]
                     == "StraightRebar"
                 ):
-                    bottom_reinforcement_hook_extension_dict[
-                        "layer" + str(layer)
-                    ].append(None)
+                    bottom_reinforcement_hook_extension_list[-1].append(None)
                 else:
-                    bottom_reinforcement_hook_extension_dict[
-                        "layer" + str(layer)
-                    ].append(bottom_reinforcement_hook_extension)
+                    bottom_reinforcement_hook_extension_list[-1].append(
+                        bottom_reinforcement_hook_extension
+                    )
                 i += 1
             layer += 1
 
-    bottom_reinforcement_hook_orientation_dict = {}
+    bottom_reinforcement_hook_orientation_list = []
     if isinstance(bottom_reinforcement_hook_orientation, list) or isinstance(
         bottom_reinforcement_hook_orientation, tuple
     ):
         layer = 1
         while layer <= bottom_reinforcement_layers:
-            bottom_reinforcement_hook_orientation_dict[
-                "layer" + str(layer)
-            ] = []
             if isinstance(
                 bottom_reinforcement_hook_orientation[layer - 1], list
             ) or isinstance(
                 bottom_reinforcement_hook_orientation[layer - 1], tuple
             ):
-                bottom_reinforcement_hook_orientation_dict[
-                    "layer" + str(layer)
-                ] = bottom_reinforcement_hook_orientation[layer - 1]
+                bottom_reinforcement_hook_orientation_list.append(
+                    bottom_reinforcement_hook_orientation[layer - 1]
+                )
             elif isinstance(
                 bottom_reinforcement_hook_orientation[layer - 1], str
             ):
+                bottom_reinforcement_hook_orientation_list.append([])
                 i = 0
                 while i < len(
                     bottom_reinforcement_number_diameter_offset_dict[
@@ -981,18 +934,14 @@ def makeBottomReinforcement(
                     ]
                 ):
                     if (
-                        bottom_reinforcement_rebar_type_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        bottom_reinforcement_rebar_type_list[layer - 1][i]
                         == "StraightRebar"
                     ):
-                        bottom_reinforcement_hook_orientation_dict[
-                            "layer" + str(layer)
-                        ].append(None)
+                        bottom_reinforcement_hook_orientation_list[-1].append(
+                            None
+                        )
                     else:
-                        bottom_reinforcement_hook_orientation_dict[
-                            "layer" + str(layer)
-                        ].append(
+                        bottom_reinforcement_hook_orientation_list[-1].append(
                             bottom_reinforcement_hook_orientation[layer - 1]
                         )
                     i += 1
@@ -1000,9 +949,7 @@ def makeBottomReinforcement(
     elif isinstance(bottom_reinforcement_hook_orientation, str):
         layer = 1
         while layer <= bottom_reinforcement_layers:
-            bottom_reinforcement_hook_orientation_dict[
-                "layer" + str(layer)
-            ] = []
+            bottom_reinforcement_hook_orientation_list.append([])
             i = 0
             while i < len(
                 bottom_reinforcement_number_diameter_offset_dict[
@@ -1010,18 +957,14 @@ def makeBottomReinforcement(
                 ]
             ):
                 if (
-                    bottom_reinforcement_rebar_type_dict["layer" + str(layer)][
-                        i
-                    ]
+                    bottom_reinforcement_rebar_type_list[layer - 1][i]
                     == "StraightRebar"
                 ):
-                    bottom_reinforcement_hook_orientation_dict[
-                        "layer" + str(layer)
-                    ].append(None)
+                    bottom_reinforcement_hook_orientation_list[-1].append(None)
                 else:
-                    bottom_reinforcement_hook_orientation_dict[
-                        "layer" + str(layer)
-                    ].append(bottom_reinforcement_hook_orientation)
+                    bottom_reinforcement_hook_orientation_list[-1].append(
+                        bottom_reinforcement_hook_orientation
+                    )
                 i += 1
             layer += 1
 
@@ -1107,7 +1050,7 @@ def makeBottomReinforcement(
                 - (number - 1) * spacing_in_bottom_reinforcement[layer - 1]
             )
             if (
-                bottom_reinforcement_rebar_type_dict["layer" + str(layer)][i]
+                bottom_reinforcement_rebar_type_list[layer - 1][i]
                 == "StraightRebar"
             ):
                 bottom_reinforcement_rebars.append(
@@ -1139,22 +1082,17 @@ def makeBottomReinforcement(
                         )
                         - diameter / 2
                     )
-                if bottom_reinforcement_hook_orientation_dict[
-                    "layer" + str(layer)
-                ][i] in ("Front Inside", "Rear Inside"):
+                if bottom_reinforcement_hook_orientation_list[layer - 1][i] in (
+                    "Front Inside",
+                    "Rear Inside",
+                ):
                     t_cover -= (
-                        bottom_reinforcement_l_rebar_rounding_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        bottom_reinforcement_l_rebar_rounding_list[layer - 1][i]
                         * diameter
-                        + bottom_reinforcement_hook_extension_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        + bottom_reinforcement_hook_extension_list[layer - 1][i]
                     )
                     if (
-                        bottom_reinforcement_hook_orientation_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        bottom_reinforcement_hook_orientation_list[layer - 1][i]
                         == "Front Inside"
                     ):
                         orientation = "Bottom Right"
@@ -1162,18 +1100,12 @@ def makeBottomReinforcement(
                         orientation = "Bottom Left"
                 else:
                     t_cover += (
-                        bottom_reinforcement_l_rebar_rounding_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        bottom_reinforcement_l_rebar_rounding_list[layer - 1][i]
                         * diameter
-                        + bottom_reinforcement_hook_extension_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        + bottom_reinforcement_hook_extension_list[layer - 1][i]
                     )
                     if (
-                        bottom_reinforcement_hook_orientation_dict[
-                            "layer" + str(layer)
-                        ][i]
+                        bottom_reinforcement_hook_orientation_list[layer - 1][i]
                         == "Front Outside"
                     ):
                         orientation = "Bottom Right"
@@ -1188,9 +1120,9 @@ def makeBottomReinforcement(
                         r_cover,
                         diameter,
                         t_cover,
-                        bottom_reinforcement_l_rebar_rounding_dict[
-                            "layer" + str(layer)
-                        ][i],
+                        bottom_reinforcement_l_rebar_rounding_list[layer - 1][
+                            i
+                        ],
                         True,
                         number,
                         orientation,
@@ -1554,7 +1486,7 @@ class _TwoLeggedBeam(_BeamReinforcementGroup):
             (
                 "App::PropertyString",
                 "RebarType",
-                "String representation of dictionary of type of rebars",
+                "String representation of list of tuples of type of rebars",
                 1,
             )
         )
