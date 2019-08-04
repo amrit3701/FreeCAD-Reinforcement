@@ -295,7 +295,7 @@ class _RebarGroup:
 
     def addTies(self, ties_list):
         """Add Ties to ties_group object."""
-        if type(ties_list) == list:
+        if isinstance(ties_list, list):
             self.ties_group.addObjects(ties_list)
         else:
             self.ties_group.addObject(ties_list)
@@ -503,8 +503,177 @@ def getFacenameforRebar(hook_extend_along, facename, structure):
 
 
 # -------------------------------------------------------------------------
-# Functions which are mainly used while creating Beam Reinforcement.
+# Classes and functions which are mainly used while creating Beam Reinforcement.
 # -------------------------------------------------------------------------
+
+
+class _BeamReinforcementGroup:
+    "A Beam Reinforcement Group object."
+
+    def __init__(self, obj_name):
+        self.Type = "BeamReinforcementGroup"
+        self.rebar_group = FreeCAD.ActiveDocument.addObject(
+            "App::DocumentObjectGroupPython", "BeamReinforcement"
+        )
+        self.stirrups_group = self.rebar_group.newObject(
+            "App::DocumentObjectGroupPython", "Stirrups"
+        )
+        self.top_reinforcement_group = self.rebar_group.newObject(
+            "App::DocumentObjectGroupPython", "TopReinforcement"
+        )
+        self.bottom_reinforcement_group = self.rebar_group.newObject(
+            "App::DocumentObjectGroupPython", "BottomReinforcement"
+        )
+        self.shear_reinforcement_group = self.rebar_group.newObject(
+            "App::DocumentObjectGroupPython", "ShearReinforcement"
+        )
+        self.left_rebars_group = self.shear_reinforcement_group.newObject(
+            "App::DocumentObjectGroupPython", "LeftRebars"
+        )
+        self.right_rebars_group = self.shear_reinforcement_group.newObject(
+            "App::DocumentObjectGroupPython", "RightRebars"
+        )
+        # Add properties to rebar_group object
+        properties = []
+        properties.append(
+            (
+                "App::PropertyLinkList",
+                "ReinforcementGroups",
+                "List of reinforcement groups",
+                1,
+            )
+        )
+        self.setProperties(properties, self.rebar_group)
+        self.rebar_group.ReinforcementGroups = [
+            self.stirrups_group,
+            self.top_reinforcement_group,
+            self.bottom_reinforcement_group,
+            self.shear_reinforcement_group,
+        ]
+        # Add properties to stirrups_group object
+        properties = []
+        properties.append(
+            ("App::PropertyLinkList", "Stirrups", "List of Stirrups", 1)
+        )
+        self.setProperties(properties, self.stirrups_group)
+        # Add properties to top_reinforcement_group object
+        properties = []
+        properties.append(
+            (
+                "App::PropertyLinkList",
+                "TopRebars",
+                "List of top reinforcement rebars",
+                1,
+            )
+        )
+        self.setProperties(properties, self.top_reinforcement_group)
+        # Add properties to bottom_reinforcement_group object
+        properties = []
+        properties.append(
+            (
+                "App::PropertyLinkList",
+                "BottomRebars",
+                "List of bottom reinforcement rebars",
+                1,
+            )
+        )
+        self.setProperties(properties, self.bottom_reinforcement_group)
+        # Add properties to shear_reinforcement_group object
+        properties = []
+        properties.append(
+            (
+                "App::PropertyLinkList",
+                "ShearReinforcementGroups",
+                "List of shear reinforcement groups",
+                1,
+            )
+        )
+        self.setProperties(properties, self.shear_reinforcement_group)
+        self.shear_reinforcement_group.ShearReinforcementGroups = [
+            self.left_rebars_group,
+            self.right_rebars_group,
+        ]
+        # Add properties to left_rebars_group object
+        properties = []
+        properties.append(
+            (
+                "App::PropertyLinkList",
+                "LeftRebars",
+                "List of shear reinforcement left rebars",
+                1,
+            )
+        )
+        self.setProperties(properties, self.left_rebars_group)
+        # Add properties to right_rebars_group object
+        properties = []
+        properties.append(
+            (
+                "App::PropertyLinkList",
+                "RightRebars",
+                "List of shear reinforcement right rebars",
+                1,
+            )
+        )
+        self.setProperties(properties, self.right_rebars_group)
+        self.Object = self.rebar_group
+
+    def execute(self, obj):
+        pass
+
+    def addStirrups(self, stirrups_list):
+        """Add Stirrups to stirrups_group object."""
+        if isinstance(stirrups_list, list):
+            self.stirrups_group.addObjects(stirrups_list)
+        else:
+            self.stirrups_group.addObject(stirrups_list)
+            stirrups_list = [stirrups_list]
+        prev_stirrups_list = self.stirrups_group.Stirrups
+        prev_stirrups_list.extend(stirrups_list)
+        self.stirrups_group.Stirrups = prev_stirrups_list
+
+    def addTopRebars(self, top_rebars_list):
+        """Add top reinforcement rebars to top_reinforcement_group object."""
+        self.top_reinforcement_group.addObjects(top_rebars_list)
+        prev_top_rebars_list = self.top_reinforcement_group.TopRebars
+        prev_top_rebars_list.extend(top_rebars_list)
+        self.top_reinforcement_group.TopRebars = prev_top_rebars_list
+
+    def addBottomRebars(self, bottom_rebars_list):
+        """Add bottom reinforcement rebars to bottom_reinforcement_group
+        object."""
+        self.bottom_reinforcement_group.addObjects(bottom_rebars_list)
+        prev_bottom_rebars_list = self.bottom_reinforcement_group.BottomRebars
+        prev_bottom_rebars_list.extend(bottom_rebars_list)
+        self.bottom_reinforcement_group.BottomRebars = prev_bottom_rebars_list
+
+    def addLeftRebars(self, left_rebars_list):
+        """Add left reinforcement rebars to left_reinforcement_group object."""
+        self.left_reinforcement_group.addObjects(left_rebars_list)
+        prev_left_rebars_list = self.left_reinforcement_group.LeftRebars
+        prev_left_rebars_list.extend(left_rebars_list)
+        self.left_reinforcement_group.LeftRebars = prev_left_rebars_list
+
+    def addRightRebars(self, right_rebars_list):
+        """Add right reinforcement rebars to right_reinforcement_group
+        object."""
+        self.right_reinforcement_group.addObjects(right_rebars_list)
+        prev_right_rebars_list = self.right_reinforcement_group.RightRebars
+        prev_right_rebars_list.extend(right_rebars_list)
+        self.right_reinforcement_group.RightRebars = prev_right_rebars_list
+
+    def setProperties(self, properties, group_obj):
+        for prop in properties:
+            group_obj.addProperty(
+                prop[0],
+                prop[1],
+                "RebarDialog",
+                QT_TRANSLATE_NOOP("App::Property", prop[2]),
+            )
+            group_obj.setEditorMode(prop[1], prop[3])
+
+    def setPropertiesValues(self, properties_values, group_obj):
+        for prop in properties_values:
+            setattr(group_obj, prop[0], prop[1])
 
 
 def getFacenamesforBeamReinforcement(facename, structure):
@@ -560,6 +729,7 @@ def gettupleOfNumberDiameterOffset(number_diameter_offset_string):
     Output: [(2, 20, 50), (3, 16, 100), (2, 20, 50)]
     """
     import re
+
     number_diameter_offset_st = number_diameter_offset_string.strip()
     number_diameter_offset_sp = number_diameter_offset_st.split("+")
     index = 0
