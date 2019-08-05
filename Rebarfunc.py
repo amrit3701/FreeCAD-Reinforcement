@@ -648,18 +648,18 @@ class _BeamReinforcementGroup:
 
     def addLeftRebars(self, left_rebars_list):
         """Add left reinforcement rebars to left_reinforcement_group object."""
-        self.left_reinforcement_group.addObjects(left_rebars_list)
-        prev_left_rebars_list = self.left_reinforcement_group.LeftRebars
+        self.left_rebars_group.addObjects(left_rebars_list)
+        prev_left_rebars_list = self.left_rebars_group.LeftRebars
         prev_left_rebars_list.extend(left_rebars_list)
-        self.left_reinforcement_group.LeftRebars = prev_left_rebars_list
+        self.left_rebars_group.LeftRebars = prev_left_rebars_list
 
     def addRightRebars(self, right_rebars_list):
         """Add right reinforcement rebars to right_reinforcement_group
         object."""
-        self.right_reinforcement_group.addObjects(right_rebars_list)
-        prev_right_rebars_list = self.right_reinforcement_group.RightRebars
+        self.right_rebars_group.addObjects(right_rebars_list)
+        prev_right_rebars_list = self.right_rebars_group.RightRebars
         prev_right_rebars_list.extend(right_rebars_list)
-        self.right_reinforcement_group.RightRebars = prev_right_rebars_list
+        self.right_rebars_group.RightRebars = prev_right_rebars_list
 
     def setProperties(self, properties, group_obj):
         for prop in properties:

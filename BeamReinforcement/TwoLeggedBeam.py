@@ -204,7 +204,7 @@ def makeReinforcement(
     f_cover = offset_of_stirrup
 
     # Create Stirrup
-    tie = makeStirrup(
+    stirrup = makeStirrup(
         l_cover_of_stirrup,
         r_cover_of_stirrup,
         t_cover_of_stirrup,
@@ -219,9 +219,11 @@ def makeReinforcement(
         structure,
         facename,
     )
+    TwoLeggedBeam.addStirrups(stirrup)
 
     # Create top reinforcement
     top_reinforcement_rebars = makeTopReinforcement(
+        TwoLeggedBeam,
         l_cover_of_stirrup,
         r_cover_of_stirrup,
         t_cover_of_stirrup,
@@ -240,6 +242,7 @@ def makeReinforcement(
 
     # Create bottom reinforcement
     bottom_reinforcement_rebars = makeBottomReinforcement(
+        TwoLeggedBeam,
         l_cover_of_stirrup,
         r_cover_of_stirrup,
         t_cover_of_stirrup,
@@ -258,6 +261,7 @@ def makeReinforcement(
 
     # Create shear reinforcement
     left_reinforcement_rebars, right_reinforcement_rebars = makeShearReinforcement(
+        TwoLeggedBeam,
         l_cover_of_stirrup,
         r_cover_of_stirrup,
         dia_of_stirrup,
@@ -282,6 +286,7 @@ def makeReinforcement(
 
 
 def makeTopReinforcement(
+    obj,
     l_cover_of_stirrup,
     r_cover_of_stirrup,
     t_cover_of_stirrup,
@@ -696,10 +701,28 @@ def makeTopReinforcement(
             )
         layer += 1
     FreeCAD.ActiveDocument.recompute()
+
+    obj.addTopRebars(top_reinforcement_rebars)
+    properties_values = []
+    properties_values.append(
+        ("NumberDiameterOffset", top_reinforcement_number_diameter_offset)
+    )
+    properties_values.append(
+        ("RebarType", str(top_reinforcement_rebar_type_list))
+    )
+    properties_values.append(("LayerSpacing", top_reinforcement_layer_spacing))
+    properties_values.append(
+        ("HookExtension", str(top_reinforcement_hook_extension_list))
+    )
+    properties_values.append(
+        ("HookOrientation", str(top_reinforcement_hook_orientation_list))
+    )
+    obj.setPropertiesValues(properties_values, obj.top_reinforcement_group)
     return top_reinforcement_rebars
 
 
 def makeBottomReinforcement(
+    obj,
     l_cover_of_stirrup,
     r_cover_of_stirrup,
     t_cover_of_stirrup,
@@ -1139,10 +1162,31 @@ def makeBottomReinforcement(
             )
         layer += 1
     FreeCAD.ActiveDocument.recompute()
+
+    obj.addBottomRebars(bottom_reinforcement_rebars)
+    properties_values = []
+    properties_values.append(
+        ("NumberDiameterOffset", bottom_reinforcement_number_diameter_offset)
+    )
+    properties_values.append(
+        ("RebarType", str(bottom_reinforcement_rebar_type_list))
+    )
+    properties_values.append(
+        ("LayerSpacing", bottom_reinforcement_layer_spacing)
+    )
+    properties_values.append(
+        ("HookExtension", str(bottom_reinforcement_hook_extension_list))
+    )
+    properties_values.append(
+        ("HookOrientation", str(bottom_reinforcement_hook_orientation_list))
+    )
+    obj.setPropertiesValues(properties_values, obj.bottom_reinforcement_group)
+
     return bottom_reinforcement_rebars
 
 
 def makeShearReinforcement(
+    obj,
     l_cover_of_stirrup,
     r_cover_of_stirrup,
     dia_of_stirrup,
@@ -1181,7 +1225,7 @@ def makeShearReinforcement(
     elif isinstance(left_rebars_type, list) or isinstance(
         left_rebars_type, tuple
     ):
-        left_rebars_type_list = left_rebars_type
+        left_rebars_type_list = list(left_rebars_type)
 
     right_rebars_type_list = []
     if isinstance(right_rebars_type, str):
@@ -1192,7 +1236,7 @@ def makeShearReinforcement(
     elif isinstance(right_rebars_type, list) or isinstance(
         right_rebars_type, tuple
     ):
-        right_rebars_type_list = right_rebars_type
+        right_rebars_type_list = list(right_rebars_type)
 
     left_l_rebar_rounding_list = []
     if isinstance(left_l_rebar_rounding, float) or isinstance(
@@ -1201,14 +1245,14 @@ def makeShearReinforcement(
         i = 0
         while i < len(left_rebars_number_diameter_offset_tuple):
             if left_rebars_type_list[i] == "StraightRebar":
-                left_l_rebar_rounding_list.append(None)
+                left_l_rebar_rounding_list.append(0)
             else:
                 left_l_rebar_rounding_list.append(left_l_rebar_rounding)
             i += 1
     elif isinstance(left_l_rebar_rounding, list) or isinstance(
         left_l_rebar_rounding, tuple
     ):
-        left_l_rebar_rounding_list = left_l_rebar_rounding
+        left_l_rebar_rounding_list = list(left_l_rebar_rounding)
 
     right_l_rebar_rounding_list = []
     if isinstance(right_l_rebar_rounding, float) or isinstance(
@@ -1217,14 +1261,14 @@ def makeShearReinforcement(
         i = 0
         while i < len(right_rebars_number_diameter_offset_tuple):
             if right_rebars_type_list[i] == "StraightRebar":
-                right_l_rebar_rounding_list.append(None)
+                right_l_rebar_rounding_list.append(0)
             else:
                 right_l_rebar_rounding_list.append(right_l_rebar_rounding)
             i += 1
     elif isinstance(right_l_rebar_rounding, list) or isinstance(
         right_l_rebar_rounding, tuple
     ):
-        right_l_rebar_rounding_list = right_l_rebar_rounding
+        right_l_rebar_rounding_list = list(right_l_rebar_rounding)
 
     left_rebars_hook_extension_list = []
     if isinstance(left_rebars_hook_extension, float) or isinstance(
@@ -1233,7 +1277,7 @@ def makeShearReinforcement(
         i = 0
         while i < len(left_rebars_number_diameter_offset_tuple):
             if left_rebars_type_list[i] == "StraightRebar":
-                left_rebars_hook_extension_list.append(None)
+                left_rebars_hook_extension_list.append(0)
             else:
                 left_rebars_hook_extension_list.append(
                     left_rebars_hook_extension
@@ -1242,7 +1286,7 @@ def makeShearReinforcement(
     elif isinstance(left_rebars_hook_extension, list) or isinstance(
         left_rebars_hook_extension, tuple
     ):
-        left_rebars_hook_extension_list = left_rebars_hook_extension
+        left_rebars_hook_extension_list = list(left_rebars_hook_extension)
 
     right_rebars_hook_extension_list = []
     if isinstance(right_rebars_hook_extension, float) or isinstance(
@@ -1251,7 +1295,7 @@ def makeShearReinforcement(
         i = 0
         while i < len(right_rebars_number_diameter_offset_tuple):
             if right_rebars_type_list[i] == "StraightRebar":
-                right_rebars_hook_extension_list.append(None)
+                right_rebars_hook_extension_list.append(0)
             else:
                 right_rebars_hook_extension_list.append(
                     right_rebars_hook_extension
@@ -1260,14 +1304,14 @@ def makeShearReinforcement(
     elif isinstance(right_rebars_hook_extension, list) or isinstance(
         right_rebars_hook_extension, tuple
     ):
-        right_rebars_hook_extension_list = right_rebars_hook_extension
+        right_rebars_hook_extension_list = list(right_rebars_hook_extension)
 
     left_rebars_hook_orientation_list = []
     if isinstance(left_rebars_hook_orientation, str):
         i = 0
         while i < len(left_rebars_number_diameter_offset_tuple):
             if left_rebars_type_list[i] == "StraightRebar":
-                left_rebars_hook_orientation_list.append(None)
+                left_rebars_hook_orientation_list.append("")
             else:
                 left_rebars_hook_orientation_list.append(
                     left_rebars_hook_orientation
@@ -1276,14 +1320,14 @@ def makeShearReinforcement(
     elif isinstance(left_rebars_hook_orientation, list) or isinstance(
         left_rebars_hook_orientation, tuple
     ):
-        left_rebars_hook_orientation_list = left_rebars_hook_orientation
+        left_rebars_hook_orientation_list = list(left_rebars_hook_orientation)
 
     right_rebars_hook_orientation_list = []
     if isinstance(right_rebars_hook_orientation, str):
         i = 0
         while i < len(right_rebars_number_diameter_offset_tuple):
             if right_rebars_type_list[i] == "StraightRebar":
-                right_rebars_hook_orientation_list.append(None)
+                right_rebars_hook_orientation_list.append("")
             else:
                 right_rebars_hook_orientation_list.append(
                     right_rebars_hook_orientation
@@ -1292,7 +1336,7 @@ def makeShearReinforcement(
     elif isinstance(right_rebars_hook_orientation, list) or isinstance(
         right_rebars_hook_orientation, tuple
     ):
-        right_rebars_hook_orientation_list = right_rebars_hook_orientation
+        right_rebars_hook_orientation_list = list(right_rebars_hook_orientation)
 
     FacePRM = getParametersOfFace(structure, facename)
     face_length = FacePRM[0][0]
@@ -1463,6 +1507,35 @@ def makeShearReinforcement(
             number * diameter + number * right_rebars_spacing
         )
     FreeCAD.ActiveDocument.recompute()
+
+    obj.addLeftRebars(left_reinforcement_rebars)
+    properties_values = []
+    properties_values.append(
+        ("NumberDiameterOffset", left_rebars_number_diameter_offset)
+    )
+    properties_values.append(("RebarType", left_rebars_type_list))
+    properties_values.append(("RebarSpacing", left_rebars_spacing))
+    properties_values.append(("HookExtension", left_rebars_hook_extension_list))
+    properties_values.append(
+        ("HookOrientation", left_rebars_hook_orientation_list)
+    )
+    obj.setPropertiesValues(properties_values, obj.left_rebars_group)
+
+    obj.addRightRebars(right_reinforcement_rebars)
+    properties_values = []
+    properties_values.append(
+        ("NumberDiameterOffset", right_rebars_number_diameter_offset)
+    )
+    properties_values.append(("RebarType", right_rebars_type_list))
+    properties_values.append(("RebarSpacing", right_rebars_spacing))
+    properties_values.append(
+        ("HookExtension", right_rebars_hook_extension_list)
+    )
+    properties_values.append(
+        ("HookOrientation", right_rebars_hook_orientation_list)
+    )
+    obj.setPropertiesValues(properties_values, obj.right_rebars_group)
+
     return [left_reinforcement_rebars, right_reinforcement_rebars]
 
 
@@ -1502,7 +1575,7 @@ class _TwoLeggedBeam(_BeamReinforcementGroup):
             (
                 "App::PropertyString",
                 "HookExtension",
-                "String representation of dictionary of hook extension",
+                "String representation of list of tuples of hook extension",
                 1,
             )
         )
@@ -1510,7 +1583,7 @@ class _TwoLeggedBeam(_BeamReinforcementGroup):
             (
                 "App::PropertyString",
                 "HookOrientation",
-                "String representation of dictionary of hook orientation",
+                "String representation of list of tuples of hook orientation",
                 1,
             )
         )
