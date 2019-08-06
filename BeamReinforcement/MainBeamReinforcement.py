@@ -64,6 +64,15 @@ class _BeamReinforcementDialog:
         self.form.rebars_listWidget.addItem("Left Reinforcement")
         self.form.rebars_listWidget.addItem("Right Reinforcement")
         self.form.rebars_listWidget.setCurrentRow(0)
+        # Load and add widgets into stacked widget
+        self.stirrups_widget = FreeCADGui.PySideUic.loadUi(
+            os.path.split(os.path.abspath(__file__))[0] + "/Stirrups.ui"
+        )
+        self.form.rebars_stackedWidget.addWidget(self.stirrups_widget)
+        # Set Stirrups data Widget in Scroll Area
+        self.stirrups_widget.stirrups_scrollArea.setWidget(
+            self.stirrups_widget.stirrups_dataWidget
+        )
 
 def CommandBeamReinforcement():
     """This function is used to invoke dialog box for beam reinforcement."""
