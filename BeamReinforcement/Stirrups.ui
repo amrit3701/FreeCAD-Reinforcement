@@ -58,73 +58,6 @@
       </widget>
      </item>
      <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Preferred</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="stirrups_sequenceLabel">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string>Adjust by dragging items</string>
-       </property>
-       <property name="text">
-        <string>Stirrups Sequence</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QListWidget" name="stirrups_sequenceListWidget">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="sizeAdjustPolicy">
-        <enum>QAbstractScrollArea::AdjustToContents</enum>
-       </property>
-       <property name="dragDropMode">
-        <enum>QAbstractItemView::InternalMove</enum>
-       </property>
-       <property name="currentRow">
-        <number>-1</number>
-       </property>
-       <item>
-        <property name="text">
-         <string>Stirrup1</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Stirrup2</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
       <spacer name="verticalSpacer_2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -428,6 +361,12 @@
          </item>
          <item row="7" column="1">
           <widget class="Gui::InputField" name="stirrups_diameter">
+           <property name="text">
+            <string>8 mm</string>
+           </property>
+           <property name="minimum">
+            <double>1.000000000000000</double>
+           </property>
            <property name="unit" stdset="0">
             <string notr="true">mm</string>
            </property>
@@ -476,7 +415,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>231</width>
+        <width>280</width>
         <height>444</height>
        </rect>
       </property>
