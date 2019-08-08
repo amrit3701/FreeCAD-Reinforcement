@@ -32,6 +32,7 @@ import FreeCAD
 import FreeCADGui
 
 from Rebarfunc import check_selected_face
+from BeamReinforcement.NumberDiameterOffset import runNumberDiameterOffsetDialog
 
 
 class _BeamReinforcementDialog:
@@ -113,6 +114,16 @@ class _BeamReinforcementDialog:
         self.stirrups_widget.stirrups_removeCustomSpacing.clicked.connect(
             self.removeRebarDistribution
         )
+        self.top_reinforcement_widget.numberDiameterOffsetEditButton.clicked.connect(
+            lambda: self.numberDiameterOffsetEditButtonClicked(
+                self.top_reinforcement_widget.numberDiameterOffsetEditButton
+            )
+        )
+        self.bottom_reinforcement_widget.numberDiameterOffsetEditButton.clicked.connect(
+            lambda: self.numberDiameterOffsetEditButtonClicked(
+                self.bottom_reinforcement_widget.numberDiameterOffsetEditButton
+            )
+        )
         self.form.next_button.clicked.connect(self.nextButtonCilcked)
         self.form.back_button.clicked.connect(self.backButtonCilcked)
         self.form.standardButtonBox.clicked.connect(self.clicked)
@@ -178,6 +189,20 @@ class _BeamReinforcementDialog:
             for Stirrup in self.RebarGroup.RebarGroups[0].Stirrups:
                 Stirrup.CustomSpacing = ""
         FreeCAD.ActiveDocument.recompute()
+
+    def numberDiameterOffsetEditButtonClicked(self, button):
+        if (
+            button
+            == self.top_reinforcement_widget.numberDiameterOffsetEditButton
+        ):
+            number_diameter_offset = (
+                self.top_reinforcement_widget.numberDiameterOffset.toPlainText()
+            )
+        else:
+            number_diameter_offset = (
+                self.bottom_reinforcement_widget.numberDiameterOffset.toPlainText()
+            )
+        runNumberDiameterOffsetDialog(self, number_diameter_offset)
 
     def nextButtonCilcked(self):
         if self.form.next_button.text() == "Finish":
