@@ -33,7 +33,7 @@
       <item row="2" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QLabel" name="set1">
+         <widget class="QLabel" name="layer1set1">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -46,7 +46,7 @@
          </widget>
         </item>
         <item>
-         <widget class="Gui::PrefSpinBox" name="number1">
+         <widget class="Gui::PrefSpinBox" name="layer1number1">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -59,7 +59,7 @@
          </widget>
         </item>
         <item>
-         <widget class="Gui::InputField" name="diameter1">
+         <widget class="Gui::InputField" name="layer1diameter1">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -78,7 +78,7 @@
          </widget>
         </item>
         <item>
-         <widget class="Gui::InputField" name="offset1">
+         <widget class="Gui::InputField" name="layer1offset1">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -99,7 +99,7 @@
        </layout>
       </item>
       <item row="3" column="0">
-       <widget class="QPushButton" name="addSetButton">
+       <widget class="QPushButton" name="addSetButton1">
         <property name="text">
          <string>Add Set</string>
         </property>

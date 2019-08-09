@@ -27,7 +27,7 @@ __url__ = "https://www.freecadweb.org"
 
 
 import os
-from PySide2 import QtWidgets
+from PySide2 import QtWidgets, QtCore, QtGui
 
 import FreeCADGui
 
@@ -43,6 +43,9 @@ class _NumberDiameterOffsetDialog:
                 "Arch", "Rebar Number Diameter Offset", None
             )
         )
+        self.Layers = len(self.NumberDiameterOffsetTuple)
+        for layer in range(1, self.Layers):
+            self.addLayerButtonClicked(layer)
 
     def setupUi(self):
         """This function is used to set values in ui."""
@@ -53,8 +56,38 @@ class _NumberDiameterOffsetDialog:
     def connectSignalSlots(self):
         """This function is used to connect different slots in UI to appropriate
         functions."""
+        self.form.addSetButton1.clicked.connect(
+            lambda: self.addSetButtonClicked(self.form.addSetButton1)
+        )
+        self.form.addLayerButton.clicked.connect(self.addLayerButtonClicked)
         self.form.buttonBox.accepted.connect(self.accept)
         self.form.buttonBox.rejected.connect(lambda: self.form.close())
+
+    def addSetButtonClicked(self, button):
+        print("WIP")
+
+    def addLayerButtonClicked(self, layer=None):
+        if not layer:
+            layer = self.Layers
+        layer += 1
+        lyout = QtWidgets.QGridLayout
+        layout = self.form.gridLayout
+        layer_label = QtWidgets.QLabel("layer" + str(layer))
+        layer_label.setText("Layer" + str(layer) + ":")
+        font = QtGui.QFont()
+        font.setBold(True)
+        layer_label.setFont(font)
+        layout.addWidget(
+            layer_label,
+            layer + 4,
+            0,
+            1,
+            layout.columnCount(),
+            QtCore.Qt.Alignment(0),
+        )
+        if self.Layers == layer - 1:
+            self.Layers += 1
+        print("WIP")
 
     def accept(self):
         """This function is executed when 'OK' button is clicked from ui."""

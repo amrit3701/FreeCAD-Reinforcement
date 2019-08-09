@@ -202,7 +202,9 @@ class _BeamReinforcementDialog:
             number_diameter_offset = (
                 self.bottom_reinforcement_widget.numberDiameterOffset.toPlainText()
             )
-        runNumberDiameterOffsetDialog(self, number_diameter_offset)
+        import ast
+        number_diameter_offset_tuple = ast.literal_eval(number_diameter_offset)
+        runNumberDiameterOffsetDialog(self, number_diameter_offset_tuple)
 
     def nextButtonCilcked(self):
         if self.form.next_button.text() == "Finish":
