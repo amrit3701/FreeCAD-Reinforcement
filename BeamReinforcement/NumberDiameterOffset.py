@@ -35,6 +35,10 @@ import FreeCADGui
 class _NumberDiameterOffsetDialog:
     def __init__(self, number_diameter_offset_tuple):
         self.NumberDiameterOffsetTuple = number_diameter_offset_tuple
+        self.Layers = []
+        self.SetsDict = {}
+        self.AddSetButtonList = []
+        self.RemoveSetButtonList = []
         self.form = FreeCADGui.PySideUic.loadUi(
             os.path.splitext(__file__)[0] + ".ui"
         )
@@ -43,9 +47,14 @@ class _NumberDiameterOffsetDialog:
                 "Arch", "Rebar Number Diameter Offset", None
             )
         )
-        self.Layers = len(self.NumberDiameterOffsetTuple)
-        for layer in range(1, self.Layers):
+        layers_count = len(self.NumberDiameterOffsetTuple)
+        sets_count_list = [
+            len(x.split("+")) for x in self.NumberDiameterOffsetTuple
+        ]
+        for layer in range(0, layers_count):
             self.addLayerButtonClicked(layer)
+            for sets in range(0, sets_count_list[layer]):
+                self.addSetButtonClicked(self.AddSetButtonList[layer])
 
     def setupUi(self):
         """This function is used to set values in ui."""
@@ -56,19 +65,22 @@ class _NumberDiameterOffsetDialog:
     def connectSignalSlots(self):
         """This function is used to connect different slots in UI to appropriate
         functions."""
-        self.form.addSetButton1.clicked.connect(
-            lambda: self.addSetButtonClicked(self.form.addSetButton1)
-        )
         self.form.addLayerButton.clicked.connect(self.addLayerButtonClicked)
         self.form.buttonBox.accepted.connect(self.accept)
         self.form.buttonBox.rejected.connect(lambda: self.form.close())
 
     def addSetButtonClicked(self, button):
+        layer = self.AddSetButtonList.index(button) + 1
+        sets = len(self.SetsDict["layer" + str(layer)])
+        self.SetsDict["layer" + str(layer)].append([])
+        print("WIP")
+
+    def removeSetButtonClicked(self, button):
         print("WIP")
 
     def addLayerButtonClicked(self, layer=None):
         if not layer:
-            layer = self.Layers
+            layer = len(self.Layers)
         layer += 1
         layout = self.form.verticalLayout
         index = layout.indexOf(self.form.addLayerButton)
@@ -77,12 +89,29 @@ class _NumberDiameterOffsetDialog:
         layer_label.setText("Layer" + str(layer) + ":")
         layer_label.setFont(QtGui.QFont("Sans", weight=QtGui.QFont.Bold))
         layout.insertWidget(index, layer_label)
+        self.Layers.append(layer_label)
+        index += 1
         # Create Add Set button
         add_set_button = QtWidgets.QPushButton("Add Set")
-        layout.insertWidget(index + 1, add_set_button)
+        add_set_button.clicked.connect(
+            lambda: self.addSetButtonClicked(add_set_button)
+        )
+        layout.insertWidget(index, add_set_button)
+        self.AddSetButtonList.append(add_set_button)
+        index += 1
+        if layer == 1:
+            self.RemoveSetButtonList.append(None)
+        else:
+            # Create Remove Set Button
+            remove_set_button = QtWidgets.QPushButton("Remove Set")
+            remove_set_button.clicked.connect(
+                lambda: self.removeSetButtonClicked(remove_set_button)
+            )
+            layout.insertWidget(index, remove_set_button)
+            self.RemoveSetButtonList.append(remove_set_button)
 
-        if self.Layers == layer - 1:
-            self.Layers += 1
+        self.SetsDict["layer" + str(layer)] = []
+        self.addSetButtonClicked(add_set_button)
         print("WIP")
 
     def accept(self):
