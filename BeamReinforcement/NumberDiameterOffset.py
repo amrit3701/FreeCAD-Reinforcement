@@ -70,21 +70,17 @@ class _NumberDiameterOffsetDialog:
         if not layer:
             layer = self.Layers
         layer += 1
-        lyout = QtWidgets.QGridLayout
-        layout = self.form.gridLayout
+        layout = self.form.verticalLayout
+        index = layout.indexOf(self.form.addLayerButton)
+        # Create Layer label
         layer_label = QtWidgets.QLabel("layer" + str(layer))
         layer_label.setText("Layer" + str(layer) + ":")
-        font = QtGui.QFont()
-        font.setBold(True)
-        layer_label.setFont(font)
-        layout.addWidget(
-            layer_label,
-            layer + 4,
-            0,
-            1,
-            layout.columnCount(),
-            QtCore.Qt.Alignment(0),
-        )
+        layer_label.setFont(QtGui.QFont("Sans", weight=QtGui.QFont.Bold))
+        layout.insertWidget(index, layer_label)
+        # Create Add Set button
+        add_set_button = QtWidgets.QPushButton("Add Set")
+        layout.insertWidget(index + 1, add_set_button)
+
         if self.Layers == layer - 1:
             self.Layers += 1
         print("WIP")
