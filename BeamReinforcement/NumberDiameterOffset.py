@@ -29,6 +29,8 @@ __url__ = "https://www.freecadweb.org"
 import os
 from PySide2 import QtWidgets, QtCore, QtGui
 
+from Rebarfunc import getdictofNumberDiameterOffset
+
 import FreeCADGui
 
 
@@ -51,10 +53,38 @@ class _NumberDiameterOffsetDialog:
         sets_count_list = [
             len(x.split("+")) for x in self.NumberDiameterOffsetTuple
         ]
+        number_diameter_offset_dict = getdictofNumberDiameterOffset(
+            self.NumberDiameterOffsetTuple
+        )
         for layer in range(0, layers_count):
             self.addLayerButtonClicked(layer)
-            for sets in range(0, sets_count_list[layer]):
-                self.addSetButtonClicked(self.AddSetButtonList[layer])
+            for sets in range(1, sets_count_list[layer] + 1):
+                if sets < sets_count_list[layer]:
+                    self.addSetButtonClicked(self.AddSetButtonList[layer])
+                _, number, diameter, offset, _ = self.SetsDict[
+                    "layer" + str(layer + 1)
+                ][sets - 1]
+                number.setValue(
+                    number_diameter_offset_dict["layer" + str(layer + 1)][
+                        sets - 1
+                    ][0]
+                )
+                diameter.setText(
+                    str(
+                        number_diameter_offset_dict["layer" + str(layer + 1)][
+                            sets - 1
+                        ][1]
+                    )
+                    + "mm"
+                )
+                offset.setText(
+                    str(
+                        number_diameter_offset_dict["layer" + str(layer + 1)][
+                            sets - 1
+                        ][2]
+                    )
+                    + "mm"
+                )
 
     def setupUi(self):
         """This function is used to set values in ui."""
@@ -73,7 +103,44 @@ class _NumberDiameterOffsetDialog:
         layer = self.AddSetButtonList.index(button) + 1
         sets = len(self.SetsDict["layer" + str(layer)])
         self.SetsDict["layer" + str(layer)].append([])
-        print("WIP")
+        # Create horizontal layout and its components
+        h_layout = QtWidgets.QHBoxLayout()
+        set_label = QtWidgets.QLabel("Set " + str(sets + 1))
+        set_label.setSizePolicy(
+            QtWidgets.QSizePolicy(
+                QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+            )
+        )
+        number = QtWidgets.QSpinBox()
+        number.setSizePolicy(
+            QtWidgets.QSizePolicy(
+                QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+            )
+        )
+        diameter = QtWidgets.QLineEdit()
+        diameter.setSizePolicy(
+            QtWidgets.QSizePolicy(
+                QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+            )
+        )
+        offset = QtWidgets.QLineEdit()
+        offset.setSizePolicy(
+            QtWidgets.QSizePolicy(
+                QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+            )
+        )
+        h_layout.addWidget(set_label)
+        h_layout.addWidget(number)
+        h_layout.addWidget(diameter)
+        h_layout.addWidget(offset)
+        v_layout = self.form.verticalLayout
+        index = v_layout.indexOf(button)
+        v_layout.insertLayout(index, h_layout)
+        self.SetsDict["layer" + str(layer)][-1].append(set_label)
+        self.SetsDict["layer" + str(layer)][-1].append(number)
+        self.SetsDict["layer" + str(layer)][-1].append(diameter)
+        self.SetsDict["layer" + str(layer)][-1].append(offset)
+        self.SetsDict["layer" + str(layer)][-1].append(h_layout)
 
     def removeSetButtonClicked(self, button):
         print("WIP")
@@ -85,8 +152,7 @@ class _NumberDiameterOffsetDialog:
         layout = self.form.verticalLayout
         index = layout.indexOf(self.form.addLayerButton)
         # Create Layer label
-        layer_label = QtWidgets.QLabel("layer" + str(layer))
-        layer_label.setText("Layer" + str(layer) + ":")
+        layer_label = QtWidgets.QLabel("Layer" + str(layer) + ":")
         layer_label.setFont(QtGui.QFont("Sans", weight=QtGui.QFont.Bold))
         layout.insertWidget(index, layer_label)
         self.Layers.append(layer_label)
