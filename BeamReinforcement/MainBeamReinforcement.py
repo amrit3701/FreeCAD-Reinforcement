@@ -33,6 +33,7 @@ import FreeCADGui
 
 from Rebarfunc import check_selected_face
 from BeamReinforcement.NumberDiameterOffset import runNumberDiameterOffsetDialog
+from BeamReinforcement.RebarTypeEditDialog import runRebarTypeEditDialog
 
 
 class _BeamReinforcementDialog:
@@ -124,6 +125,16 @@ class _BeamReinforcementDialog:
                 self.bottom_reinforcement_widget.numberDiameterOffsetEditButton
             )
         )
+        self.top_reinforcement_widget.rebarTypeEditButton.clicked.connect(
+            lambda: self.rebarTypeEditButtonClicked(
+                self.top_reinforcement_widget.rebarTypeEditButton
+            )
+        )
+        self.bottom_reinforcement_widget.rebarTypeEditButton.clicked.connect(
+            lambda: self.rebarTypeEditButtonClicked(
+                self.bottom_reinforcement_widget.rebarTypeEditButton
+            )
+        )
         self.form.next_button.clicked.connect(self.nextButtonCilcked)
         self.form.back_button.clicked.connect(self.backButtonCilcked)
         self.form.standardButtonBox.clicked.connect(self.clicked)
@@ -213,10 +224,37 @@ class _BeamReinforcementDialog:
             self.top_reinforcement_widget.numberDiameterOffset.setPlainText(
                 str(self.NumberDiameterOffsetTuple)
             )
+            self.top_reinforcement_widget.layers.setValue(
+                len(self.NumberDiameterOffsetTuple)
+            )
         else:
             self.bottom_reinforcement_widget.numberDiameterOffset.setPlainText(
                 str(self.NumberDiameterOffsetTuple)
             )
+            self.bottom_reinforcement_widget.layers.setValue(
+                len(self.NumberDiameterOffsetTuple)
+            )
+
+    def rebarTypeEditButtonClicked(self, button):
+        if button == self.top_reinforcement_widget.rebarTypeEditButton:
+            number_diameter_offset = (
+                self.top_reinforcement_widget.numberDiameterOffset.toPlainText()
+            )
+            rebar_type = self.top_reinforcement_widget.rebarType.toPlainText()
+        else:
+            number_diameter_offset = (
+                self.bottom_reinforcement_widget.numberDiameterOffset.toPlainText()
+            )
+            rebar_type = (
+                self.bottom_reinforcement_widget.rebarType.toPlainText()
+            )
+        import ast
+
+        number_diameter_offset_tuple = ast.literal_eval(number_diameter_offset)
+        rebar_type_tuple = ast.literal_eval(rebar_type)
+        runRebarTypeEditDialog(
+            self, number_diameter_offset_tuple, rebar_type_tuple
+        )
 
     def nextButtonCilcked(self):
         if self.form.next_button.text() == "Finish":
