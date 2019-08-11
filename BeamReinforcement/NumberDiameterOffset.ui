@@ -24,6 +24,16 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="removeLayerButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Remove Layer</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -71,7 +81,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>566</width>
+        <width>543</width>
         <height>139</height>
        </rect>
       </property>

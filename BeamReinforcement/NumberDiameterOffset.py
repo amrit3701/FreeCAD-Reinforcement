@@ -49,6 +49,11 @@ class _NumberDiameterOffsetDialog:
                 "Arch", "Rebar Number Diameter Offset", None
             )
         )
+
+    def setupUi(self):
+        """This function is used to set values in ui."""
+        self.form.scrollArea.setWidget(self.form.dataWidget)
+        self.connectSignalSlots()
         layers_count = len(self.NumberDiameterOffsetTuple)
         sets_count_list = [
             len(x.split("+")) for x in self.NumberDiameterOffsetTuple
@@ -86,16 +91,13 @@ class _NumberDiameterOffsetDialog:
                     + "mm"
                 )
 
-    def setupUi(self):
-        """This function is used to set values in ui."""
-        self.form.scrollArea.setWidget(self.form.dataWidget)
-        self.connectSignalSlots()
-        print("WIP")
-
     def connectSignalSlots(self):
         """This function is used to connect different slots in UI to appropriate
         functions."""
         self.form.addLayerButton.clicked.connect(self.addLayerButtonClicked)
+        self.form.removeLayerButton.clicked.connect(
+            self.removeLayerButtonClicked
+        )
         self.form.buttonBox.accepted.connect(self.accept)
         self.form.buttonBox.rejected.connect(lambda: self.form.close())
 
@@ -117,18 +119,24 @@ class _NumberDiameterOffsetDialog:
                 QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
             )
         )
-        diameter = QtWidgets.QLineEdit()
+        number.setMinimum(1)
+        ui = FreeCADGui.UiLoader()
+        diameter = ui.createWidget("Gui::InputField")
         diameter.setSizePolicy(
             QtWidgets.QSizePolicy(
                 QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
             )
         )
-        offset = QtWidgets.QLineEdit()
+        diameter.setProperty("unit", "mm")
+        diameter.setText("16 mm")
+        offset = ui.createWidget("Gui::InputField")
         offset.setSizePolicy(
             QtWidgets.QSizePolicy(
                 QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
             )
         )
+        offset.setProperty("unit", "mm")
+        offset.setText("20 mm")
         h_layout.addWidget(set_label)
         h_layout.addWidget(number)
         h_layout.addWidget(diameter)
@@ -141,9 +149,26 @@ class _NumberDiameterOffsetDialog:
         self.SetsDict["layer" + str(layer)][-1].append(diameter)
         self.SetsDict["layer" + str(layer)][-1].append(offset)
         self.SetsDict["layer" + str(layer)][-1].append(h_layout)
+        sets += 1
+        if sets == 2:
+            self.RemoveSetButtonList[layer - 1].setEnabled(True)
 
     def removeSetButtonClicked(self, button):
-        print("WIP")
+        layer = self.RemoveSetButtonList.index(button) + 1
+        sets = len(self.SetsDict["layer" + str(layer)])
+        h_layout = self.SetsDict["layer" + str(layer)][-1][4]
+        for i in reversed(
+            range(0, len(self.SetsDict["layer" + str(layer)][-1]) - 1)
+        ):
+            h_layout.removeWidget(self.SetsDict["layer" + str(layer)][-1][i])
+            self.SetsDict["layer" + str(layer)][-1][i].deleteLater()
+            del self.SetsDict["layer" + str(layer)][-1][i]
+        self.form.verticalLayout.removeItem(h_layout)
+        h_layout.deleteLater()
+        del self.SetsDict["layer" + str(layer)][-1]
+        sets -= 1
+        if sets == 1:
+            button.setEnabled(False)
 
     def addLayerButtonClicked(self, layer=None):
         if not layer:
@@ -165,20 +190,39 @@ class _NumberDiameterOffsetDialog:
         layout.insertWidget(index, add_set_button)
         self.AddSetButtonList.append(add_set_button)
         index += 1
-        if layer == 1:
-            self.RemoveSetButtonList.append(None)
-        else:
-            # Create Remove Set Button
-            remove_set_button = QtWidgets.QPushButton("Remove Set")
-            remove_set_button.clicked.connect(
-                lambda: self.removeSetButtonClicked(remove_set_button)
-            )
-            layout.insertWidget(index, remove_set_button)
-            self.RemoveSetButtonList.append(remove_set_button)
+        # Create Remove Set Button
+        remove_set_button = QtWidgets.QPushButton("Remove Set")
+        remove_set_button.clicked.connect(
+            lambda: self.removeSetButtonClicked(remove_set_button)
+        )
+        remove_set_button.setEnabled(False)
+        layout.insertWidget(index, remove_set_button)
+        self.RemoveSetButtonList.append(remove_set_button)
 
         self.SetsDict["layer" + str(layer)] = []
         self.addSetButtonClicked(add_set_button)
-        print("WIP")
+        if layer == 2:
+            self.form.removeLayerButton.setEnabled(True)
+
+    def removeLayerButtonClicked(self):
+        layer = len(self.Layers)
+        sets = len(self.SetsDict["layer" + str(layer)])
+        remove_set_button = self.RemoveSetButtonList[layer - 1]
+        for i in range(0, sets):
+            self.removeSetButtonClicked(remove_set_button)
+        self.form.verticalLayout.removeWidget(self.AddSetButtonList[layer - 1])
+        self.AddSetButtonList[layer - 1].deleteLater()
+        del self.AddSetButtonList[layer - 1]
+        self.form.verticalLayout.removeWidget(
+            self.RemoveSetButtonList[layer - 1]
+        )
+        self.RemoveSetButtonList[layer - 1].deleteLater()
+        del self.RemoveSetButtonList[layer - 1]
+        self.form.verticalLayout.removeWidget(self.Layers[layer - 1])
+        self.Layers[layer - 1].deleteLater()
+        del self.Layers[layer - 1]
+        if layer == 2:
+            self.form.removeLayerButton.setEnabled(False)
 
     def accept(self):
         """This function is executed when 'OK' button is clicked from ui."""
@@ -193,4 +237,3 @@ def runNumberDiameterOffsetDialog(self, number_diameter_offset):
     dialog.setupUi()
     dialog.form.exec_()
     self.NumberDiameterOffsetTuple = dialog.NumberDiameterOffsetTuple
-    print("WIP")
