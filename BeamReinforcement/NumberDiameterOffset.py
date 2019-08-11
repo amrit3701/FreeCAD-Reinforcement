@@ -29,9 +29,10 @@ __url__ = "https://www.freecadweb.org"
 import os
 from PySide2 import QtWidgets, QtCore, QtGui
 
-from Rebarfunc import getdictofNumberDiameterOffset
-
+import FreeCAD
 import FreeCADGui
+
+from Rebarfunc import getdictofNumberDiameterOffset
 
 
 class _NumberDiameterOffsetDialog:
@@ -226,8 +227,30 @@ class _NumberDiameterOffsetDialog:
 
     def accept(self):
         """This function is executed when 'OK' button is clicked from ui."""
-        print("WIP")
+        layers = len(self.Layers)
+        number_diameter_offset_list = []
+        for layer in range(1, layers + 1):
+            number_diameter_offset_list.append(
+                self.getNumberDiameterOffsetString(layer)
+            )
+        self.NumberDiameterOffsetTuple = tuple(number_diameter_offset_list)
         self.form.close()
+
+    def getNumberDiameterOffsetString(self, layer):
+        sets = len(self.SetsDict["layer" + str(layer)])
+        number_diameter_offset_string = ""
+        for i in range(0, sets):
+            number = self.SetsDict["layer" + str(layer)][i][1].value()
+            diameter = self.SetsDict["layer" + str(layer)][i][2].text()
+            diameter = FreeCAD.Units.Quantity(diameter).Value
+            offset = self.SetsDict["layer" + str(layer)][i][3].text()
+            offset = FreeCAD.Units.Quantity(offset).Value
+            number_diameter_offset_string += (
+                str(number) + "#" + str(diameter) + "@" + str(offset)
+            )
+            if i != sets - 1:
+                number_diameter_offset_string += "+"
+        return number_diameter_offset_string
 
 
 def runNumberDiameterOffsetDialog(self, number_diameter_offset):
