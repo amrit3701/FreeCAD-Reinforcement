@@ -35,7 +35,7 @@ class _RebarTypeEditDialog:
     def __init__(self, rebar_type_tuple):
         self.RebarTypeTuple = rebar_type_tuple
         self.Layers = []
-        self.SetsDict = {}
+        self.RebarTypeComboBoxList = []
         self.form = FreeCADGui.PySideUic.loadUi(
             os.path.splitext(__file__)[0] + ".ui"
         )
@@ -47,7 +47,6 @@ class _RebarTypeEditDialog:
 
     def setupUi(self):
         """This function is used to set values in ui."""
-        print("WIP")
         self.connectSignalSlots()
         layers_count = len(self.RebarTypeTuple)
         sets_count_list = [len(x) for x in self.RebarTypeTuple]
@@ -55,8 +54,8 @@ class _RebarTypeEditDialog:
             self.addLayer()
             for i in range(0, sets_count_list[layer - 1]):
                 self.addSet()
-                self.SetsDict["layer" + str(layer)][-1][1].setCurrentIndex(
-                    self.SetsDict["layer" + str(layer)][-1][1].findText(
+                self.RebarTypeComboBoxList[layer - 1][i].setCurrentIndex(
+                    self.RebarTypeComboBoxList[layer - 1][i].findText(
                         self.RebarTypeTuple[layer - 1][i]
                     )
                 )
@@ -76,13 +75,11 @@ class _RebarTypeEditDialog:
         layer_label.setFont(QtGui.QFont("Sans", weight=QtGui.QFont.Bold))
         layout.insertWidget(index, layer_label)
         self.Layers.append(layer_label)
-        self.SetsDict["layer" + str(layer)] = []
-        print("WIP")
+        self.RebarTypeComboBoxList.append([])
 
     def addSet(self):
         layer = len(self.Layers)
-        sets = len(self.SetsDict["layer" + str(layer)])
-        self.SetsDict["layer" + str(layer)].append([])
+        sets = len(self.RebarTypeComboBoxList[layer - 1])
         # Create horizontal layout and its components
         h_layout = QtWidgets.QHBoxLayout()
         set_label = QtWidgets.QLabel("Set " + str(sets + 1))
@@ -99,14 +96,25 @@ class _RebarTypeEditDialog:
         v_layout = self.form.verticalLayout
         index = v_layout.indexOf(self.form.buttonBox)
         v_layout.insertLayout(index, h_layout)
-        self.SetsDict["layer" + str(layer)][-1].append(set_label)
-        self.SetsDict["layer" + str(layer)][-1].append(rebar_type)
-        print("WIP")
+        self.RebarTypeComboBoxList[layer - 1].append(rebar_type)
 
     def accept(self):
         """This function is executed when 'OK' button is clicked from ui."""
-        print("WIP")
+        layers = len(self.Layers)
+        rebar_type_list = []
+        for layer in range(1, layers + 1):
+            rebar_type_list.append(self.getRebarTypeTuple(layer))
+        self.RebarTypeTuple = tuple(rebar_type_list)
         self.form.close()
+
+    def getRebarTypeTuple(self, layer):
+        sets = len(self.RebarTypeComboBoxList[layer - 1])
+        rebar_type_list = []
+        for i in range(0, sets):
+            rebar_type_list.append(
+                self.RebarTypeComboBoxList[layer - 1][i].currentText()
+            )
+        return tuple(rebar_type_list)
 
 
 def runRebarTypeEditDialog(self, rebar_type_tuple):

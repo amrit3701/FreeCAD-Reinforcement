@@ -286,6 +286,14 @@ class _BeamReinforcementDialog:
 
         rebar_type_tuple = ast.literal_eval(rebar_type)
         runRebarTypeEditDialog(self, rebar_type_tuple)
+        if button == self.top_reinforcement_widget.rebarTypeEditButton:
+            self.top_reinforcement_widget.rebarType.setPlainText(
+                str(self.RebarTypeTuple)
+            )
+        else:
+            self.bottom_reinforcement_widget.rebarType.setPlainText(
+                str(self.RebarTypeTuple)
+            )
 
     def nextButtonCilcked(self):
         if self.form.next_button.text() == "Finish":
