@@ -38,6 +38,7 @@ from BeamReinforcement.HookOrientationEditDialog import (
     runHookOrientationEditDialog,
 )
 from BeamReinforcement.HookExtensionEditDialog import runHookExtensionEditDialog
+from BeamReinforcement.RoundingEditDialog import runRoundingEditDialog
 
 
 class _BeamReinforcementDialog:
@@ -157,6 +158,16 @@ class _BeamReinforcementDialog:
         self.bottom_reinforcement_widget.hookExtensionEditButton.clicked.connect(
             lambda: self.hookExtensionEditButtonClicked(
                 self.bottom_reinforcement_widget.hookExtensionEditButton
+            )
+        )
+        self.top_reinforcement_widget.LRebarRoundingEditButton.clicked.connect(
+            lambda: self.LRebarRoundingEditButtonClicked(
+                self.top_reinforcement_widget.LRebarRoundingEditButton
+            )
+        )
+        self.bottom_reinforcement_widget.LRebarRoundingEditButton.clicked.connect(
+            lambda: self.LRebarRoundingEditButtonClicked(
+                self.bottom_reinforcement_widget.LRebarRoundingEditButton
             )
         )
         self.form.next_button.clicked.connect(self.nextButtonCilcked)
@@ -282,6 +293,17 @@ class _BeamReinforcementDialog:
                     )
                 )
             )
+            self.top_reinforcement_widget.LRebarRounding.setPlainText(
+                str(
+                    self.getLRebarRounding(
+                        self.NumberDiameterOffsetTuple,
+                        rebar_type,
+                        ast.literal_eval(
+                            self.top_reinforcement_widget.LRebarRounding.toPlainText()
+                        ),
+                    )
+                )
+            )
         else:
             self.bottom_reinforcement_widget.numberDiameterOffset.setPlainText(
                 str(self.NumberDiameterOffsetTuple)
@@ -316,6 +338,17 @@ class _BeamReinforcementDialog:
                         rebar_type,
                         ast.literal_eval(
                             self.bottom_reinforcement_widget.hookExtension.toPlainText()
+                        ),
+                    )
+                )
+            )
+            self.bottom_reinforcement_widget.LRebarRounding.setPlainText(
+                str(
+                    self.getLRebarRounding(
+                        self.NumberDiameterOffsetTuple,
+                        rebar_type,
+                        ast.literal_eval(
+                            self.bottom_reinforcement_widget.LRebarRounding.toPlainText()
                         ),
                     )
                 )
@@ -415,6 +448,40 @@ class _BeamReinforcementDialog:
             hook_extension_list[-1] = tuple(hook_extension_list[-1])
         return tuple(hook_extension_list)
 
+    def getLRebarRounding(
+        self, number_diameter_offset_tuple, rebar_type_tuple, rounding_tuple
+    ):
+        layers = len(number_diameter_offset_tuple)
+        rounding_list = []
+        for layer in range(1, layers + 1):
+            rounding_list.append([])
+            for i in range(
+                0, len(number_diameter_offset_tuple[layer - 1].split("+"))
+            ):
+                if len(rounding_tuple) >= layer:
+                    if len(rounding_tuple[layer - 1]) > i:
+                        if rebar_type_tuple[layer - 1][i] == "StraightRebar":
+                            rounding_list[-1].append(None)
+                        else:
+                            if rounding_tuple[layer - 1][i] == None:
+                                rounding_list[-1].append(2)
+                            else:
+                                rounding_list[-1].append(
+                                    rounding_tuple[layer - 1][i]
+                                )
+                    else:
+                        if rebar_type_tuple[layer - 1][i] == "StraightRebar":
+                            rounding_list[-1].append(None)
+                        else:
+                            rounding_list[-1].append(2)
+                else:
+                    if rebar_type_tuple[layer - 1][i] == "StraightRebar":
+                        rounding_list[-1].append(None)
+                    else:
+                        rounding_list[-1].append(2)
+            rounding_list[-1] = tuple(rounding_list[-1])
+        return tuple(rounding_list)
+
     def rebarTypeEditButtonClicked(self, button):
         if button == self.top_reinforcement_widget.rebarTypeEditButton:
             rebar_type = self.top_reinforcement_widget.rebarType.toPlainText()
@@ -456,6 +523,19 @@ class _BeamReinforcementDialog:
                     )
                 )
             )
+            self.top_reinforcement_widget.LRebarRounding.setPlainText(
+                str(
+                    self.getLRebarRounding(
+                        ast.literal_eval(
+                            self.top_reinforcement_widget.numberDiameterOffset.toPlainText()
+                        ),
+                        self.RebarTypeTuple,
+                        ast.literal_eval(
+                            self.top_reinforcement_widget.LRebarRounding.toPlainText()
+                        ),
+                    )
+                )
+            )
         else:
             self.bottom_reinforcement_widget.rebarType.setPlainText(
                 str(self.RebarTypeTuple)
@@ -482,6 +562,19 @@ class _BeamReinforcementDialog:
                         self.RebarTypeTuple,
                         ast.literal_eval(
                             self.bottom_reinforcement_widget.hookExtension.toPlainText()
+                        ),
+                    )
+                )
+            )
+            self.bottom_reinforcement_widget.LRebarRounding.setPlainText(
+                str(
+                    self.getLRebarRounding(
+                        ast.literal_eval(
+                            self.bottom_reinforcement_widget.numberDiameterOffset.toPlainText()
+                        ),
+                        self.RebarTypeTuple,
+                        ast.literal_eval(
+                            self.bottom_reinforcement_widget.LRebarRounding.toPlainText()
                         ),
                     )
                 )
@@ -529,6 +622,28 @@ class _BeamReinforcementDialog:
         else:
             self.bottom_reinforcement_widget.hookExtension.setPlainText(
                 str(self.HookExtensionTuple)
+            )
+
+    def LRebarRoundingEditButtonClicked(self, button):
+        if button == self.top_reinforcement_widget.LRebarRoundingEditButton:
+            rounding = (
+                self.top_reinforcement_widget.LRebarRounding.toPlainText()
+            )
+        else:
+            rounding = (
+                self.bottom_reinforcement_widget.LRebarRounding.toPlainText()
+            )
+        import ast
+
+        rounding_tuple = ast.literal_eval(rounding)
+        runRoundingEditDialog(self, rounding_tuple)
+        if button == self.top_reinforcement_widget.LRebarRoundingEditButton:
+            self.top_reinforcement_widget.LRebarRounding.setPlainText(
+                str(self.RoundingTuple)
+            )
+        else:
+            self.bottom_reinforcement_widget.LRebarRounding.setPlainText(
+                str(self.RoundingTuple)
             )
 
     def nextButtonCilcked(self):
