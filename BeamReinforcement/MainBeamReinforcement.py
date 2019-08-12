@@ -37,6 +37,7 @@ from BeamReinforcement.RebarTypeEditDialog import runRebarTypeEditDialog
 from BeamReinforcement.HookOrientationEditDialog import (
     runHookOrientationEditDialog,
 )
+from BeamReinforcement.HookExtensionEditDialog import runHookExtensionEditDialog
 
 
 class _BeamReinforcementDialog:
@@ -146,6 +147,16 @@ class _BeamReinforcementDialog:
         self.bottom_reinforcement_widget.hookOrientationEditButton.clicked.connect(
             lambda: self.hookOrientationEditButtonClicked(
                 self.bottom_reinforcement_widget.hookOrientationEditButton
+            )
+        )
+        self.top_reinforcement_widget.hookExtensionEditButton.clicked.connect(
+            lambda: self.hookExtensionEditButtonClicked(
+                self.top_reinforcement_widget.hookExtensionEditButton
+            )
+        )
+        self.bottom_reinforcement_widget.hookExtensionEditButton.clicked.connect(
+            lambda: self.hookExtensionEditButtonClicked(
+                self.bottom_reinforcement_widget.hookExtensionEditButton
             )
         )
         self.form.next_button.clicked.connect(self.nextButtonCilcked)
@@ -260,6 +271,17 @@ class _BeamReinforcementDialog:
                     )
                 )
             )
+            self.top_reinforcement_widget.hookExtension.setPlainText(
+                str(
+                    self.getHookExtension(
+                        self.NumberDiameterOffsetTuple,
+                        rebar_type,
+                        ast.literal_eval(
+                            self.top_reinforcement_widget.hookExtension.toPlainText()
+                        ),
+                    )
+                )
+            )
         else:
             self.bottom_reinforcement_widget.numberDiameterOffset.setPlainText(
                 str(self.NumberDiameterOffsetTuple)
@@ -283,6 +305,17 @@ class _BeamReinforcementDialog:
                         rebar_type,
                         ast.literal_eval(
                             self.bottom_reinforcement_widget.hookOrientation.toPlainText()
+                        ),
+                    )
+                )
+            )
+            self.bottom_reinforcement_widget.hookExtension.setPlainText(
+                str(
+                    self.getHookExtension(
+                        self.NumberDiameterOffsetTuple,
+                        rebar_type,
+                        ast.literal_eval(
+                            self.bottom_reinforcement_widget.hookExtension.toPlainText()
                         ),
                     )
                 )
@@ -345,6 +378,43 @@ class _BeamReinforcementDialog:
             hook_orientation_list[-1] = tuple(hook_orientation_list[-1])
         return tuple(hook_orientation_list)
 
+    def getHookExtension(
+        self,
+        number_diameter_offset_tuple,
+        rebar_type_tuple,
+        hook_extension_tuple,
+    ):
+        layers = len(number_diameter_offset_tuple)
+        hook_extension_list = []
+        for layer in range(1, layers + 1):
+            hook_extension_list.append([])
+            for i in range(
+                0, len(number_diameter_offset_tuple[layer - 1].split("+"))
+            ):
+                if len(hook_extension_tuple) >= layer:
+                    if len(hook_extension_tuple[layer - 1]) > i:
+                        if rebar_type_tuple[layer - 1][i] == "StraightRebar":
+                            hook_extension_list[-1].append(None)
+                        else:
+                            if hook_extension_tuple[layer - 1][i] == None:
+                                hook_extension_list[-1].append(40.0)
+                            else:
+                                hook_extension_list[-1].append(
+                                    hook_extension_tuple[layer - 1][i]
+                                )
+                    else:
+                        if rebar_type_tuple[layer - 1][i] == "StraightRebar":
+                            hook_extension_list[-1].append(None)
+                        else:
+                            hook_extension_list[-1].append(40.0)
+                else:
+                    if rebar_type_tuple[layer - 1][i] == "StraightRebar":
+                        hook_extension_list[-1].append(None)
+                    else:
+                        hook_extension_list[-1].append(40.0)
+            hook_extension_list[-1] = tuple(hook_extension_list[-1])
+        return tuple(hook_extension_list)
+
     def rebarTypeEditButtonClicked(self, button):
         if button == self.top_reinforcement_widget.rebarTypeEditButton:
             rebar_type = self.top_reinforcement_widget.rebarType.toPlainText()
@@ -373,6 +443,19 @@ class _BeamReinforcementDialog:
                     )
                 )
             )
+            self.top_reinforcement_widget.hookExtension.setPlainText(
+                str(
+                    self.getHookExtension(
+                        ast.literal_eval(
+                            self.top_reinforcement_widget.numberDiameterOffset.toPlainText()
+                        ),
+                        self.RebarTypeTuple,
+                        ast.literal_eval(
+                            self.top_reinforcement_widget.hookExtension.toPlainText()
+                        ),
+                    )
+                )
+            )
         else:
             self.bottom_reinforcement_widget.rebarType.setPlainText(
                 str(self.RebarTypeTuple)
@@ -386,6 +469,19 @@ class _BeamReinforcementDialog:
                         self.RebarTypeTuple,
                         ast.literal_eval(
                             self.bottom_reinforcement_widget.hookOrientation.toPlainText()
+                        ),
+                    )
+                )
+            )
+            self.bottom_reinforcement_widget.hookExtension.setPlainText(
+                str(
+                    self.getHookExtension(
+                        ast.literal_eval(
+                            self.bottom_reinforcement_widget.numberDiameterOffset.toPlainText()
+                        ),
+                        self.RebarTypeTuple,
+                        ast.literal_eval(
+                            self.bottom_reinforcement_widget.hookExtension.toPlainText()
                         ),
                     )
                 )
@@ -411,6 +507,28 @@ class _BeamReinforcementDialog:
         else:
             self.bottom_reinforcement_widget.hookOrientation.setPlainText(
                 str(self.HookOrientationTuple)
+            )
+
+    def hookExtensionEditButtonClicked(self, button):
+        if button == self.top_reinforcement_widget.hookExtensionEditButton:
+            hook_extension = (
+                self.top_reinforcement_widget.hookExtension.toPlainText()
+            )
+        else:
+            hook_extension = (
+                self.bottom_reinforcement_widget.hookExtension.toPlainText()
+            )
+        import ast
+
+        hook_extension_tuple = ast.literal_eval(hook_extension)
+        runHookExtensionEditDialog(self, hook_extension_tuple)
+        if button == self.top_reinforcement_widget.hookExtensionEditButton:
+            self.top_reinforcement_widget.hookExtension.setPlainText(
+                str(self.HookExtensionTuple)
+            )
+        else:
+            self.bottom_reinforcement_widget.hookExtension.setPlainText(
+                str(self.HookExtensionTuple)
             )
 
     def nextButtonCilcked(self):

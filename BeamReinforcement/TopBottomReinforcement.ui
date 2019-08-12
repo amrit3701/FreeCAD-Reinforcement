@@ -85,7 +85,7 @@
       <bool>true</bool>
      </property>
      <property name="plainText">
-      <string>('2#20mm@40mm+2#16mm@-100mm+2#20mm@40mm', '4#16mm@50mm')</string>
+      <string>('2#20mm@-80mm+2#16mm@-80mm+2#20mm@-80mm', '4#16mm@40mm')</string>
      </property>
     </widget>
    </item>
@@ -148,7 +148,7 @@
       <bool>true</bool>
      </property>
      <property name="plainText">
-      <string>(('Front Inside', 'Front Inside', 'Front Inside'), ('Front Inside',))</string>
+      <string>(('Front Outside', 'Front Outside', 'Front Outside'), ('Front Inside',))</string>
      </property>
     </widget>
    </item>
@@ -172,7 +172,7 @@
       <bool>true</bool>
      </property>
      <property name="plainText">
-      <string>40 mm</string>
+      <string>((100.0, 100.0, 100.0), (50.0,))</string>
      </property>
     </widget>
    </item>
