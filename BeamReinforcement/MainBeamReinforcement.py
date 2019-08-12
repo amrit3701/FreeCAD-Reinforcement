@@ -227,6 +227,16 @@ class _BeamReinforcementDialog:
             self.top_reinforcement_widget.layers.setValue(
                 len(self.NumberDiameterOffsetTuple)
             )
+            self.top_reinforcement_widget.rebarType.setPlainText(
+                str(
+                    self.getRebarType(
+                        self.NumberDiameterOffsetTuple,
+                        ast.literal_eval(
+                            self.top_reinforcement_widget.rebarType.toPlainText()
+                        ),
+                    )
+                )
+            )
         else:
             self.bottom_reinforcement_widget.numberDiameterOffset.setPlainText(
                 str(self.NumberDiameterOffsetTuple)
@@ -234,27 +244,48 @@ class _BeamReinforcementDialog:
             self.bottom_reinforcement_widget.layers.setValue(
                 len(self.NumberDiameterOffsetTuple)
             )
+            self.bottom_reinforcement_widget.rebarType.setPlainText(
+                str(
+                    self.getRebarType(
+                        self.NumberDiameterOffsetTuple,
+                        ast.literal_eval(
+                            self.bottom_reinforcement_widget.rebarType.toPlainText()
+                        ),
+                    )
+                )
+            )
+
+    def getRebarType(self, number_diameter_offset_tuple, rebar_type_tuple):
+        layers = len(number_diameter_offset_tuple)
+        rebar_type_list = []
+        for layer in range(1, layers + 1):
+            rebar_type_list.append([])
+            for i in range(
+                0, len(number_diameter_offset_tuple[layer - 1].split("+"))
+            ):
+                if len(rebar_type_tuple) >= layer:
+                    if len(rebar_type_tuple[layer - 1]) > i:
+                        rebar_type_list[-1].append(
+                            rebar_type_tuple[layer - 1][i]
+                        )
+                    else:
+                        rebar_type_list[-1].append("StraightRebar")
+                else:
+                    rebar_type_list[-1].append("StraightRebar")
+            rebar_type_list[-1] = tuple(rebar_type_list[-1])
+        return tuple(rebar_type_list)
 
     def rebarTypeEditButtonClicked(self, button):
         if button == self.top_reinforcement_widget.rebarTypeEditButton:
-            number_diameter_offset = (
-                self.top_reinforcement_widget.numberDiameterOffset.toPlainText()
-            )
             rebar_type = self.top_reinforcement_widget.rebarType.toPlainText()
         else:
-            number_diameter_offset = (
-                self.bottom_reinforcement_widget.numberDiameterOffset.toPlainText()
-            )
             rebar_type = (
                 self.bottom_reinforcement_widget.rebarType.toPlainText()
             )
         import ast
 
-        number_diameter_offset_tuple = ast.literal_eval(number_diameter_offset)
         rebar_type_tuple = ast.literal_eval(rebar_type)
-        runRebarTypeEditDialog(
-            self, number_diameter_offset_tuple, rebar_type_tuple
-        )
+        runRebarTypeEditDialog(self, rebar_type_tuple)
 
     def nextButtonCilcked(self):
         if self.form.next_button.text() == "Finish":

@@ -55,6 +55,11 @@ class _RebarTypeEditDialog:
             self.addLayer()
             for i in range(0, sets_count_list[layer - 1]):
                 self.addSet()
+                self.SetsDict["layer" + str(layer)][-1][1].setCurrentIndex(
+                    self.SetsDict["layer" + str(layer)][-1][1].findText(
+                        self.RebarTypeTuple[layer - 1][i]
+                    )
+                )
 
     def connectSignalSlots(self):
         """This function is used to connect different slots in UI to appropriate
@@ -88,6 +93,7 @@ class _RebarTypeEditDialog:
         )
         ui = FreeCADGui.UiLoader()
         rebar_type = ui.createWidget("Gui::PrefComboBox")
+        rebar_type.addItems(["StraightRebar", "LShapeRebar"])
         h_layout.addWidget(set_label)
         h_layout.addWidget(rebar_type)
         v_layout = self.form.verticalLayout
@@ -103,25 +109,8 @@ class _RebarTypeEditDialog:
         self.form.close()
 
 
-def runRebarTypeEditDialog(self, number_diameter_offset, rebar_type_tuple):
-    if isinstance(number_diameter_offset, str):
-        number_diameter_offset = (number_diameter_offset,)
-
-    layers = len(number_diameter_offset)
-    rebar_type_list = []
-    for layer in range(1, layers + 1):
-        rebar_type_list.append([])
-        for i in range(0, len(number_diameter_offset[layer - 1].split("+"))):
-            if len(rebar_type_tuple) >= layer:
-                if len(rebar_type_tuple[layer - 1]) > i:
-                    rebar_type_list[-1].append(rebar_type_tuple[layer - 1][i])
-                else:
-                    rebar_type_list[-1].append("StraightRebar")
-            else:
-                rebar_type_list[-1].append("StraightRebar")
-        rebar_type_list[-1] = tuple(rebar_type_list[-1])
-
-    dialog = _RebarTypeEditDialog(tuple(rebar_type_list))
+def runRebarTypeEditDialog(self, rebar_type_tuple):
+    dialog = _RebarTypeEditDialog(rebar_type_tuple)
     dialog.setupUi()
     dialog.form.exec_()
     self.RebarTypeTuple = dialog.RebarTypeTuple
