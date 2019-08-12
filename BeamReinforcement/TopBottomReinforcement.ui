@@ -112,7 +112,7 @@
       <bool>true</bool>
      </property>
      <property name="plainText">
-      <string>(('StraightRebar', 'StraightRebar', 'StraightRebar'), ('StraightRebar',))</string>
+      <string>(('LShapeRebar', 'LShapeRebar', 'LShapeRebar'), ('LShapeRebar',))</string>
      </property>
     </widget>
    </item>
