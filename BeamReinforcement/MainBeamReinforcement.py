@@ -21,7 +21,7 @@
 # *                                                                         *
 # ***************************************************************************
 
-__title__ = "Beam Reinforcement"
+__title__ = "Beam Reinforcement Dialog Box"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
@@ -59,7 +59,7 @@ class _BeamReinforcementDialog:
         )
         self.form.setWindowTitle(
             QtWidgets.QApplication.translate(
-                "RebarAddon", "Beam Reinforcement", None
+                "RebarAddon", "Beam Reinforcement Dialog Box", None
             )
         )
         self.RebarGroup = RebarGroup
@@ -90,6 +90,16 @@ class _BeamReinforcementDialog:
         self.form.rebars_stackedWidget.addWidget(
             self.bottom_reinforcement_widget
         )
+        self.left_reinforcement_widget = FreeCADGui.PySideUic.loadUi(
+            os.path.split(os.path.abspath(__file__))[0]
+            + "/LeftRightReinforcement.ui"
+        )
+        self.form.rebars_stackedWidget.addWidget(self.left_reinforcement_widget)
+        self.right_reinforcement_widget = FreeCADGui.PySideUic.loadUi(
+            os.path.split(os.path.abspath(__file__))[0]
+            + "/LeftRightReinforcement.ui"
+        )
+        self.form.rebars_stackedWidget.addWidget(self.right_reinforcement_widget)
         # Set Stirrups data Widget in Scroll Area
         self.stirrups_widget.stirrups_scrollArea.setWidget(
             self.stirrups_widget.stirrups_dataWidget
