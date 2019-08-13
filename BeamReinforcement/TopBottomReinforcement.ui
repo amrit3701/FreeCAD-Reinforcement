@@ -85,7 +85,7 @@
       <bool>true</bool>
      </property>
      <property name="plainText">
-      <string>('2#20mm@-80mm+2#16mm@-80mm+2#20mm@-80mm', '4#16mm@40mm')</string>
+      <string>('2#20.0@-80.0+2#16.0@-80.0+2#20.0@-80.0', '4#16.0@40.0')</string>
      </property>
     </widget>
    </item>
@@ -236,7 +236,7 @@
       <enum>Qt::StrongFocus</enum>
      </property>
      <property name="text">
-      <string>30 mm</string>
+      <string>(30.0, 30.0)</string>
      </property>
      <property name="readOnly">
       <bool>true</bool>

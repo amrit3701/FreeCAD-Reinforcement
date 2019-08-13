@@ -39,6 +39,7 @@ from BeamReinforcement.HookOrientationEditDialog import (
 )
 from BeamReinforcement.HookExtensionEditDialog import runHookExtensionEditDialog
 from BeamReinforcement.RoundingEditDialog import runRoundingEditDialog
+from BeamReinforcement.LayerSpacingEditDialog import runLayerSpacingEditDialog
 
 
 class _BeamReinforcementDialog:
@@ -168,6 +169,16 @@ class _BeamReinforcementDialog:
         self.bottom_reinforcement_widget.LRebarRoundingEditButton.clicked.connect(
             lambda: self.LRebarRoundingEditButtonClicked(
                 self.bottom_reinforcement_widget.LRebarRoundingEditButton
+            )
+        )
+        self.top_reinforcement_widget.layerSpacingEditButton.clicked.connect(
+            lambda: self.layerSpacingEditButtonClicked(
+                self.top_reinforcement_widget.layerSpacingEditButton
+            )
+        )
+        self.bottom_reinforcement_widget.layerSpacingEditButton.clicked.connect(
+            lambda: self.layerSpacingEditButtonClicked(
+                self.bottom_reinforcement_widget.layerSpacingEditButton
             )
         )
         self.form.next_button.clicked.connect(self.nextButtonCilcked)
@@ -304,6 +315,16 @@ class _BeamReinforcementDialog:
                     )
                 )
             )
+            self.top_reinforcement_widget.layerSpacing.setText(
+                str(
+                    self.getLayerSpacing(
+                        self.NumberDiameterOffsetTuple,
+                        ast.literal_eval(
+                            self.top_reinforcement_widget.layerSpacing.text()
+                        ),
+                    )
+                )
+            )
         else:
             self.bottom_reinforcement_widget.numberDiameterOffset.setPlainText(
                 str(self.NumberDiameterOffsetTuple)
@@ -349,6 +370,16 @@ class _BeamReinforcementDialog:
                         rebar_type,
                         ast.literal_eval(
                             self.bottom_reinforcement_widget.LRebarRounding.toPlainText()
+                        ),
+                    )
+                )
+            )
+            self.bottom_reinforcement_widget.layerSpacing.setText(
+                str(
+                    self.getLayerSpacing(
+                        self.NumberDiameterOffsetTuple,
+                        ast.literal_eval(
+                            self.bottom_reinforcement_widget.layerSpacing.text()
                         ),
                     )
                 )
@@ -481,6 +512,18 @@ class _BeamReinforcementDialog:
                         rounding_list[-1].append(2)
             rounding_list[-1] = tuple(rounding_list[-1])
         return tuple(rounding_list)
+
+    def getLayerSpacing(
+        self, number_diameter_offset_tuple, layer_spacing_tuple
+    ):
+        layers = len(number_diameter_offset_tuple)
+        layer_spacing_list = []
+        for layer in range(1, layers + 1):
+            if len(layer_spacing_tuple) >= layer:
+                layer_spacing_list.append(layer_spacing_tuple[layer - 1])
+            else:
+                layer_spacing_list.append(30.0)
+        return tuple(layer_spacing_list)
 
     def rebarTypeEditButtonClicked(self, button):
         if button == self.top_reinforcement_widget.rebarTypeEditButton:
@@ -644,6 +687,24 @@ class _BeamReinforcementDialog:
         else:
             self.bottom_reinforcement_widget.LRebarRounding.setPlainText(
                 str(self.RoundingTuple)
+            )
+
+    def layerSpacingEditButtonClicked(self, button):
+        if button == self.top_reinforcement_widget.layerSpacingEditButton:
+            layer_spacing = self.top_reinforcement_widget.layerSpacing.text()
+        else:
+            layer_spacing = self.bottom_reinforcement_widget.layerSpacing.text()
+        import ast
+
+        layer_spacing_tuple = ast.literal_eval(layer_spacing)
+        runLayerSpacingEditDialog(self, layer_spacing_tuple)
+        if button == self.top_reinforcement_widget.layerSpacingEditButton:
+            self.top_reinforcement_widget.layerSpacing.setText(
+                str(self.LayerSpacingTuple)
+            )
+        else:
+            self.bottom_reinforcement_widget.layerSpacing.setText(
+                str(self.LayerSpacingTuple)
             )
 
     def nextButtonCilcked(self):
