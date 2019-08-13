@@ -40,6 +40,7 @@ from BeamReinforcement.HookOrientationEditDialog import (
 from BeamReinforcement.HookExtensionEditDialog import runHookExtensionEditDialog
 from BeamReinforcement.RoundingEditDialog import runRoundingEditDialog
 from BeamReinforcement.LayerSpacingEditDialog import runLayerSpacingEditDialog
+from BeamReinforcement import ShearRebars_NumberDiameterOffset
 
 
 class _BeamReinforcementDialog:
@@ -99,7 +100,9 @@ class _BeamReinforcementDialog:
             os.path.split(os.path.abspath(__file__))[0]
             + "/LeftRightReinforcement.ui"
         )
-        self.form.rebars_stackedWidget.addWidget(self.right_reinforcement_widget)
+        self.form.rebars_stackedWidget.addWidget(
+            self.right_reinforcement_widget
+        )
         # Set Stirrups data Widget in Scroll Area
         self.stirrups_widget.stirrups_scrollArea.setWidget(
             self.stirrups_widget.stirrups_dataWidget
@@ -189,6 +192,16 @@ class _BeamReinforcementDialog:
         self.bottom_reinforcement_widget.layerSpacingEditButton.clicked.connect(
             lambda: self.layerSpacingEditButtonClicked(
                 self.bottom_reinforcement_widget.layerSpacingEditButton
+            )
+        )
+        self.left_reinforcement_widget.numberDiameterOffsetEditButton.clicked.connect(
+            lambda: self.shearNumberDiameterOffsetEditButtonClicked(
+                self.left_reinforcement_widget.numberDiameterOffsetEditButton
+            )
+        )
+        self.right_reinforcement_widget.numberDiameterOffsetEditButton.clicked.connect(
+            lambda: self.shearNumberDiameterOffsetEditButtonClicked(
+                self.right_reinforcement_widget.numberDiameterOffsetEditButton
             )
         )
         self.form.next_button.clicked.connect(self.nextButtonCilcked)
@@ -715,6 +728,35 @@ class _BeamReinforcementDialog:
         else:
             self.bottom_reinforcement_widget.layerSpacing.setText(
                 str(self.LayerSpacingTuple)
+            )
+
+    def shearNumberDiameterOffsetEditButtonClicked(self, button):
+        if (
+            button
+            == self.left_reinforcement_widget.numberDiameterOffsetEditButton
+        ):
+            number_diameter_offset_string = (
+                self.left_reinforcement_widget.numberDiameterOffset.text()
+            )
+        else:
+            number_diameter_offset_string = (
+                self.right_reinforcement_widget.numberDiameterOffset.text()
+            )
+
+        ShearRebars_NumberDiameterOffset.runNumberDiameterOffsetDialog(
+            self, number_diameter_offset_string
+        )
+
+        if (
+            button
+            == self.left_reinforcement_widget.numberDiameterOffsetEditButton
+        ):
+            self.left_reinforcement_widget.numberDiameterOffset.setText(
+                self.NumberDiameterOffsetString
+            )
+        else:
+            self.right_reinforcement_widget.numberDiameterOffset.setText(
+                self.NumberDiameterOffsetString
             )
 
     def nextButtonCilcked(self):

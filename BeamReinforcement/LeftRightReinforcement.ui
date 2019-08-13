@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>665</width>
     <height>353</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>600</width>
+    <width>665</width>
     <height>0</height>
    </size>
   </property>
@@ -91,7 +91,7 @@
    <item row="1" column="0" colspan="3">
     <widget class="Gui::PrefLineEdit" name="numberDiameterOffset">
      <property name="text">
-      <string>1#20mm@50mm+1#16mm@-100mm+1#20mm@50mm</string>
+      <string>1#20.0mm@50.0mm+1#16.0mm@-100.0mm+1#20.0mm@50.0mm</string>
      </property>
      <property name="readOnly">
       <bool>true</bool>
