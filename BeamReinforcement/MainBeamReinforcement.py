@@ -40,7 +40,10 @@ from BeamReinforcement.HookOrientationEditDialog import (
 from BeamReinforcement.HookExtensionEditDialog import runHookExtensionEditDialog
 from BeamReinforcement.RoundingEditDialog import runRoundingEditDialog
 from BeamReinforcement.LayerSpacingEditDialog import runLayerSpacingEditDialog
-from BeamReinforcement import ShearRebars_NumberDiameterOffset
+from BeamReinforcement import (
+    ShearRebars_NumberDiameterOffset,
+    ShearRebarTypeEditDialog,
+)
 
 
 class _BeamReinforcementDialog:
@@ -202,6 +205,16 @@ class _BeamReinforcementDialog:
         self.right_reinforcement_widget.numberDiameterOffsetEditButton.clicked.connect(
             lambda: self.shearNumberDiameterOffsetEditButtonClicked(
                 self.right_reinforcement_widget.numberDiameterOffsetEditButton
+            )
+        )
+        self.left_reinforcement_widget.rebarTypeEditButton.clicked.connect(
+            lambda: self.ShearRebarTypeEditButtonClicked(
+                self.left_reinforcement_widget.rebarTypeEditButton
+            )
+        )
+        self.right_reinforcement_widget.rebarTypeEditButton.clicked.connect(
+            lambda: self.ShearRebarTypeEditButtonClicked(
+                self.right_reinforcement_widget.rebarTypeEditButton
             )
         )
         self.form.next_button.clicked.connect(self.nextButtonCilcked)
@@ -746,6 +759,7 @@ class _BeamReinforcementDialog:
         ShearRebars_NumberDiameterOffset.runNumberDiameterOffsetDialog(
             self, number_diameter_offset_string
         )
+        import ast
 
         if (
             button
@@ -754,10 +768,60 @@ class _BeamReinforcementDialog:
             self.left_reinforcement_widget.numberDiameterOffset.setText(
                 self.NumberDiameterOffsetString
             )
+            rebar_type = ast.literal_eval(
+                self.left_reinforcement_widget.rebarType.text()
+            )
+            self.left_reinforcement_widget.rebarType.setText(
+                str(
+                    self.getShearRebarType(
+                        self.NumberDiameterOffsetString, rebar_type
+                    )
+                )
+            )
         else:
             self.right_reinforcement_widget.numberDiameterOffset.setText(
                 self.NumberDiameterOffsetString
             )
+            rebar_type = ast.literal_eval(
+                self.right_reinforcement_widget.rebarType.text()
+            )
+            self.right_reinforcement_widget.rebarType.setText(
+                str(
+                    self.getShearRebarType(
+                        self.NumberDiameterOffsetString, rebar_type
+                    )
+                )
+            )
+
+    def ShearRebarTypeEditButtonClicked(self, button):
+        if button == self.left_reinforcement_widget.rebarTypeEditButton:
+            rebar_type = self.left_reinforcement_widget.rebarType.text()
+        else:
+            rebar_type = self.right_reinforcement_widget.rebarType.text()
+        import ast
+
+        rebar_type_tuple = ast.literal_eval(rebar_type)
+        ShearRebarTypeEditDialog.runRebarTypeEditDialog(self, rebar_type_tuple)
+        if button == self.left_reinforcement_widget.rebarTypeEditButton:
+            self.left_reinforcement_widget.rebarType.setText(
+                str(self.RebarTypeTuple)
+            )
+        else:
+            self.right_reinforcement_widget.rebarType.setText(
+                str(self.RebarTypeTuple)
+            )
+
+    def getShearRebarType(
+        self, number_diameter_offset_string, rebar_type_tuple
+    ):
+        sets = len(number_diameter_offset_string.split("+"))
+        rebar_type_list = []
+        for i in range(0, sets):
+            if len(rebar_type_tuple) > i:
+                rebar_type_list.append(rebar_type_tuple[i])
+            else:
+                rebar_type_list.append("StraightRebar")
+        return tuple(rebar_type_list)
 
     def nextButtonCilcked(self):
         if self.form.next_button.text() == "Finish":

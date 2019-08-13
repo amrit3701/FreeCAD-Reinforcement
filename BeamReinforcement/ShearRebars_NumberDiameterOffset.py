@@ -27,7 +27,7 @@ __url__ = "https://www.freecadweb.org"
 
 
 import os
-from PySide2 import QtWidgets, QtCore, QtGui
+from PySide2 import QtWidgets
 
 import FreeCAD
 import FreeCADGui
