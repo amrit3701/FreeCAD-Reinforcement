@@ -48,6 +48,7 @@ from BeamReinforcement import (
     ShearRebars_HookExtensionEditDialog,
     ShearRebars_RoundingEditDialog,
 )
+from BeamReinforcement import TwoLeggedBeam
 
 
 class _BeamReinforcementDialog:
@@ -110,12 +111,33 @@ class _BeamReinforcementDialog:
         self.form.rebars_stackedWidget.addWidget(
             self.right_reinforcement_widget
         )
+        # Add dropdown menu items
+        self.addDropdownMenuItems()
         # Set Stirrups data Widget in Scroll Area
         self.stirrups_widget.stirrups_scrollArea.setWidget(
             self.stirrups_widget.stirrups_dataWidget
         )
         # Connect signals and slots
         self.connectSignalSlots()
+
+    def addDropdownMenuItems(self):
+        """This function add dropdown items to each Gui::PrefComboBox."""
+        self.stirrups_widget.stirrups_configuration.addItems(
+            ["Two Legged Stirrups"]
+        )
+        self.top_reinforcement_widget.stirrups_configuration.addItems(
+            ["Two Legged Stirrups"]
+        )
+        self.bottom_reinforcement_widget.stirrups_configuration.addItems(
+            ["Two Legged Stirrups"]
+        )
+        self.left_reinforcement_widget.stirrups_configuration.addItems(
+            ["Two Legged Stirrups"]
+        )
+        self.right_reinforcement_widget.stirrups_configuration.addItems(
+            ["Two Legged Stirrups"]
+        )
+        self.stirrups_widget.stirrups_bentAngle.addItems(["90", "135"])
 
     def connectSignalSlots(self):
         """This function is used to connect different slots in UI to appropriate
@@ -1131,12 +1153,208 @@ class _BeamReinforcementDialog:
     def accept(self, button=None):
         """This function is executed when 'OK' button is clicked from UI. It
         execute a function to create column reinforcement."""
-        print("WIP")
+        self.stirrups_configuration = (
+            self.stirrups_widget.stirrups_configuration.currentText()
+        )
+        if not self.RebarGroup:
+            if self.stirrups_configuration == "Two Legged Stirrups":
+                self.getStirrupsData()
+                self.getTopReinforcementData()
+                self.getBottomReinforcementData()
+                self.getLeftReinforcementData()
+                self.getRightReinforcementData()
+                RebarGroup = TwoLeggedBeam.makeReinforcement(
+                    self.stirrups_l_cover,
+                    self.stirrups_r_cover,
+                    self.stirrups_t_cover,
+                    self.stirrups_b_cover,
+                    self.stirrups_offset,
+                    self.stirrups_bent_angle,
+                    self.stirrups_extension_factor,
+                    self.stirrups_diameter,
+                    self.stirrups_number_spacing_check,
+                    self.stirrups_number_spacing_value,
+                    self.top_number_diameter_offset,
+                    self.top_rebar_type,
+                    self.top_layer_spacing,
+                    self.bottom_number_diameter_offset,
+                    self.bottom_rebar_type,
+                    self.bottom_layer_spacing,
+                    self.left_number_diameter_offset,
+                    self.left_rebar_type,
+                    self.left_rebar_spacing,
+                    self.right_number_diameter_offset,
+                    self.right_rebar_type,
+                    self.right_rebar_spacing,
+                    self.top_lrebar_rounding,
+                    self.top_hook_extension,
+                    self.top_hook_orientation,
+                    self.bottom_lrebar_rounding,
+                    self.bottom_hook_extension,
+                    self.bottom_hook_orientation,
+                    self.left_lrebar_rounding,
+                    self.left_hook_extension,
+                    self.left_hook_orientation,
+                    self.right_lrebar_rounding,
+                    self.right_hook_extension,
+                    self.right_hook_orientation,
+                    self.SelectedObj,
+                    self.FaceName,
+                )
+        if self.CustomSpacing:
+            if RebarGroup:
+                for Stirrup in RebarGroup.RebarGroups[0].Stirrups:
+                    Stirrup.CustomSpacing = self.CustomSpacing
+                FreeCAD.ActiveDocument.recompute()
+        self.RebarGroup = RebarGroup
         if (
             self.form.standardButtonBox.buttonRole(button)
             != QtWidgets.QDialogButtonBox.ApplyRole
         ):
             self.form.close()
+
+    def getStirrupsData(self):
+        """This function is used to get data related to stirrups from UI."""
+        self.stirrups_l_cover = self.stirrups_widget.stirrups_leftCover.text()
+        self.stirrups_l_cover = FreeCAD.Units.Quantity(
+            self.stirrups_l_cover
+        ).Value
+        self.stirrups_r_cover = self.stirrups_widget.stirrups_rightCover.text()
+        self.stirrups_r_cover = FreeCAD.Units.Quantity(
+            self.stirrups_r_cover
+        ).Value
+        self.stirrups_t_cover = self.stirrups_widget.stirrups_topCover.text()
+        self.stirrups_t_cover = FreeCAD.Units.Quantity(
+            self.stirrups_t_cover
+        ).Value
+        self.stirrups_b_cover = self.stirrups_widget.stirrups_bottomCover.text()
+        self.stirrups_b_cover = FreeCAD.Units.Quantity(
+            self.stirrups_b_cover
+        ).Value
+        self.stirrups_offset = self.stirrups_widget.stirrups_offset.text()
+        self.stirrups_offset = FreeCAD.Units.Quantity(
+            self.stirrups_offset
+        ).Value
+        self.stirrups_diameter = self.stirrups_widget.stirrups_diameter.text()
+        self.stirrups_diameter = FreeCAD.Units.Quantity(
+            self.stirrups_diameter
+        ).Value
+        self.stirrups_bent_angle = int(
+            self.stirrups_widget.stirrups_bentAngle.currentText()
+        )
+        self.stirrups_extension_factor = (
+            self.stirrups_widget.stirrups_extensionFactor.value()
+        )
+        self.stirrups_number_check = (
+            self.stirrups_widget.stirrups_number_radio.isChecked()
+        )
+        if self.stirrups_number_check:
+            self.stirrups_number_spacing_check = True
+            self.stirrups_number_spacing_value = (
+                self.stirrups_widget.stirrups_number.value()
+            )
+        else:
+            self.stirrups_number_spacing_check = False
+            self.stirrups_number_spacing_value = (
+                self.stirrups_widget.stirrups_spacing.text()
+            )
+            self.stirrups_number_spacing_value = FreeCAD.Units.Quantity(
+                self.stirrups_number_spacing_value
+            ).Value
+
+    def getTopReinforcementData(self):
+        """This function is used to get data related to top reinforcement rebars
+        from UI."""
+        self.top_number_diameter_offset = ast.literal_eval(
+            self.top_reinforcement_widget.numberDiameterOffset.toPlainText()
+        )
+        self.top_rebar_type = ast.literal_eval(
+            self.top_reinforcement_widget.rebarType.toPlainText()
+        )
+        self.top_hook_orientation = ast.literal_eval(
+            self.top_reinforcement_widget.hookOrientation.toPlainText()
+        )
+        self.top_hook_extension = ast.literal_eval(
+            self.top_reinforcement_widget.hookExtension.toPlainText()
+        )
+        self.top_lrebar_rounding = ast.literal_eval(
+            self.top_reinforcement_widget.LRebarRounding.toPlainText()
+        )
+        self.top_layer_spacing = ast.literal_eval(
+            self.top_reinforcement_widget.layerSpacing.text()
+        )
+
+    def getBottomReinforcementData(self):
+        """This function is used to get data related to bottom reinforcement
+        rebars from UI."""
+        self.bottom_number_diameter_offset = ast.literal_eval(
+            self.bottom_reinforcement_widget.numberDiameterOffset.toPlainText()
+        )
+        self.bottom_rebar_type = ast.literal_eval(
+            self.bottom_reinforcement_widget.rebarType.toPlainText()
+        )
+        self.bottom_hook_orientation = ast.literal_eval(
+            self.bottom_reinforcement_widget.hookOrientation.toPlainText()
+        )
+        self.bottom_hook_extension = ast.literal_eval(
+            self.bottom_reinforcement_widget.hookExtension.toPlainText()
+        )
+        self.bottom_lrebar_rounding = ast.literal_eval(
+            self.bottom_reinforcement_widget.LRebarRounding.toPlainText()
+        )
+        self.bottom_layer_spacing = ast.literal_eval(
+            self.bottom_reinforcement_widget.layerSpacing.text()
+        )
+
+    def getLeftReinforcementData(self):
+        """This function is used to get data related to left reinforcement
+        rebars from UI."""
+        self.left_number_diameter_offset = (
+            self.left_reinforcement_widget.numberDiameterOffset.text()
+        )
+        self.left_rebar_type = ast.literal_eval(
+            self.left_reinforcement_widget.rebarType.text()
+        )
+        self.left_hook_orientation = ast.literal_eval(
+            self.left_reinforcement_widget.hookOrientation.text()
+        )
+        self.left_hook_extension = ast.literal_eval(
+            self.left_reinforcement_widget.hookExtension.text()
+        )
+        self.left_lrebar_rounding = ast.literal_eval(
+            self.left_reinforcement_widget.LRebarRounding.text()
+        )
+        self.left_rebar_spacing = (
+            self.left_reinforcement_widget.rebarSpacing.text()
+        )
+        self.left_rebar_spacing = FreeCAD.Units.Quantity(
+            self.left_rebar_spacing
+        ).Value
+
+    def getRightReinforcementData(self):
+        """This function is used to get data related to right reinforcement
+        rebars from UI."""
+        self.right_number_diameter_offset = (
+            self.right_reinforcement_widget.numberDiameterOffset.text()
+        )
+        self.right_rebar_type = ast.literal_eval(
+            self.right_reinforcement_widget.rebarType.text()
+        )
+        self.right_hook_orientation = ast.literal_eval(
+            self.right_reinforcement_widget.hookOrientation.text()
+        )
+        self.right_hook_extension = ast.literal_eval(
+            self.right_reinforcement_widget.hookExtension.text()
+        )
+        self.right_lrebar_rounding = ast.literal_eval(
+            self.right_reinforcement_widget.LRebarRounding.text()
+        )
+        self.right_rebar_spacing = (
+            self.right_reinforcement_widget.rebarSpacing.text()
+        )
+        self.right_rebar_spacing = FreeCAD.Units.Quantity(
+            self.right_rebar_spacing
+        ).Value
 
     def reset(self):
         print("WIP")

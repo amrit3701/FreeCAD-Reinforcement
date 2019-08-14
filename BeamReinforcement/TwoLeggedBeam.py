@@ -282,7 +282,7 @@ def makeReinforcement(
     )
 
     FreeCAD.ActiveDocument.recompute()
-    print("WIP")
+    return TwoLeggedBeam.Object
 
 
 def makeTopReinforcement(
@@ -710,7 +710,9 @@ def makeTopReinforcement(
     properties_values.append(
         ("RebarType", str(top_reinforcement_rebar_type_list))
     )
-    properties_values.append(("LayerSpacing", top_reinforcement_layer_spacing))
+    properties_values.append(
+        ("LayerSpacing", list(top_reinforcement_layer_spacing))
+    )
     properties_values.append(
         ("HookExtension", str(top_reinforcement_hook_extension_list))
     )
@@ -1172,7 +1174,7 @@ def makeBottomReinforcement(
         ("RebarType", str(bottom_reinforcement_rebar_type_list))
     )
     properties_values.append(
-        ("LayerSpacing", bottom_reinforcement_layer_spacing)
+        ("LayerSpacing", list(bottom_reinforcement_layer_spacing))
     )
     properties_values.append(
         ("HookExtension", str(bottom_reinforcement_hook_extension_list))
