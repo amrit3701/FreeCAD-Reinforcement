@@ -45,6 +45,7 @@ from BeamReinforcement import (
     ShearRebars_NumberDiameterOffset,
     ShearRebarTypeEditDialog,
     ShearRebars_HookOrientationEditDialog,
+    ShearRebars_HookExtensionEditDialog,
 )
 
 
@@ -227,6 +228,16 @@ class _BeamReinforcementDialog:
         self.right_reinforcement_widget.hookOrientationEditButton.clicked.connect(
             lambda: self.shearHookOrientationEditButtonClicked(
                 self.right_reinforcement_widget.hookOrientationEditButton
+            )
+        )
+        self.left_reinforcement_widget.hookExtensionEditButton.clicked.connect(
+            lambda: self.shearHookExtensionEditButtonClicked(
+                self.left_reinforcement_widget.hookExtensionEditButton
+            )
+        )
+        self.right_reinforcement_widget.hookExtensionEditButton.clicked.connect(
+            lambda: self.shearHookExtensionEditButtonClicked(
+                self.right_reinforcement_widget.hookExtensionEditButton
             )
         )
         self.form.next_button.clicked.connect(self.nextButtonCilcked)
@@ -788,6 +799,17 @@ class _BeamReinforcementDialog:
                     )
                 )
             )
+            self.left_reinforcement_widget.hookExtension.setText(
+                str(
+                    self.getShearHookExtension(
+                        self.NumberDiameterOffsetString,
+                        rebar_type,
+                        ast.literal_eval(
+                            self.left_reinforcement_widget.hookExtension.text()
+                        ),
+                    )
+                )
+            )
         else:
             self.right_reinforcement_widget.numberDiameterOffset.setText(
                 self.NumberDiameterOffsetString
@@ -809,6 +831,17 @@ class _BeamReinforcementDialog:
                         rebar_type,
                         ast.literal_eval(
                             self.right_reinforcement_widget.hookOrientation.text()
+                        ),
+                    )
+                )
+            )
+            self.right_reinforcement_widget.hookExtension.setText(
+                str(
+                    self.getShearHookExtension(
+                        self.NumberDiameterOffsetString,
+                        rebar_type,
+                        ast.literal_eval(
+                            self.right_reinforcement_widget.hookExtension.text()
                         ),
                     )
                 )
@@ -836,6 +869,17 @@ class _BeamReinforcementDialog:
                     )
                 )
             )
+            self.left_reinforcement_widget.hookExtension.setText(
+                str(
+                    self.getShearHookExtension(
+                        self.left_reinforcement_widget.numberDiameterOffset.text(),
+                        self.RebarTypeTuple,
+                        ast.literal_eval(
+                            self.left_reinforcement_widget.hookExtension.text()
+                        ),
+                    )
+                )
+            )
         else:
             self.right_reinforcement_widget.rebarType.setText(
                 str(self.RebarTypeTuple)
@@ -847,6 +891,17 @@ class _BeamReinforcementDialog:
                         self.RebarTypeTuple,
                         ast.literal_eval(
                             self.right_reinforcement_widget.hookOrientation.text()
+                        ),
+                    )
+                )
+            )
+            self.right_reinforcement_widget.hookExtension.setText(
+                str(
+                    self.getShearHookExtension(
+                        self.right_reinforcement_widget.numberDiameterOffset.text(),
+                        self.RebarTypeTuple,
+                        ast.literal_eval(
+                            self.right_reinforcement_widget.hookExtension.text()
                         ),
                     )
                 )
@@ -872,6 +927,26 @@ class _BeamReinforcementDialog:
         else:
             self.right_reinforcement_widget.hookOrientation.setText(
                 str(self.HookOrientationTuple)
+            )
+
+    def shearHookExtensionEditButtonClicked(self, button):
+        if button == self.left_reinforcement_widget.hookExtensionEditButton:
+            hook_extension = self.left_reinforcement_widget.hookExtension.text()
+        else:
+            hook_extension = (
+                self.right_reinforcement_widget.hookExtension.text()
+            )
+        hook_extension_tuple = ast.literal_eval(hook_extension)
+        ShearRebars_HookExtensionEditDialog.runHookExtensionEditDialog(
+            self, hook_extension_tuple
+        )
+        if button == self.left_reinforcement_widget.hookExtensionEditButton:
+            self.left_reinforcement_widget.hookExtension.setText(
+                str(self.HookExtensionTuple)
+            )
+        else:
+            self.right_reinforcement_widget.hookExtension.setText(
+                str(self.HookExtensionTuple)
             )
 
     def getShearRebarType(
@@ -906,6 +981,27 @@ class _BeamReinforcementDialog:
             else:
                 hook_orientation_list.append(None)
         return tuple(hook_orientation_list)
+
+    def getShearHookExtension(
+        self,
+        number_diameter_offset_string,
+        rebar_type_tuple,
+        hook_extension_tuple,
+    ):
+        sets = len(number_diameter_offset_string.split("+"))
+        hook_extension_list = []
+        for i in range(0, sets):
+            if len(hook_extension_tuple) > i:
+                if rebar_type_tuple[i] == "StraightRebar":
+                    hook_extension_list.append(None)
+                else:
+                    if hook_extension_tuple[i] == None:
+                        hook_extension_list.append(40.0)
+                    else:
+                        hook_extension_list.append(hook_extension_tuple[i])
+            else:
+                hook_extension_list.append(None)
+        return tuple(hook_extension_list)
 
     def nextButtonCilcked(self):
         if self.form.next_button.text() == "Finish":
