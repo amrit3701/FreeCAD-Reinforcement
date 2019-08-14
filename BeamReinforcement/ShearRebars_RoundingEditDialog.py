@@ -26,16 +26,14 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 import os
-from PySide2 import QtWidgets, QtGui
+from PySide2 import QtWidgets
 
-import FreeCAD
 import FreeCADGui
 
 
 class _RoundingEditDialog:
     def __init__(self, rounding_tuple):
         self.RoundingTuple = rounding_tuple
-        self.Layers = []
         self.RoundingSpinBoxList = []
         self.form = FreeCADGui.PySideUic.loadUi(
             os.path.splitext(__file__)[0] + ".ui"
@@ -49,20 +47,15 @@ class _RoundingEditDialog:
     def setupUi(self):
         """This function is used to set values in ui."""
         self.connectSignalSlots()
-        layers_count = len(self.RoundingTuple)
-        sets_count_list = [len(x) for x in self.RoundingTuple]
-        for layer in range(1, layers_count + 1):
-            self.addLayer()
-            for i in range(0, sets_count_list[layer - 1]):
-                self.addSet()
-                if self.RoundingTuple[layer - 1][i] == None:
-                    self.RoundingSpinBoxList[layer - 1][i].setValue(2)
-                    self.RoundingSpinBoxList[layer - 1][i].setEnabled(False)
-                else:
-                    self.RoundingSpinBoxList[layer - 1][i].setValue(
-                        self.RoundingTuple[layer - 1][i]
-                    )
-                    self.RoundingSpinBoxList[layer - 1][i].setEnabled(True)
+        sets = len(self.RoundingTuple)
+        for i in range(0, sets):
+            self.addSet()
+            if self.RoundingTuple[i] == None:
+                self.RoundingSpinBoxList[i].setValue(2)
+                self.RoundingSpinBoxList[i].setEnabled(False)
+            else:
+                self.RoundingSpinBoxList[i].setValue(self.RoundingTuple[i])
+                self.RoundingSpinBoxList[i].setEnabled(True)
 
     def connectSignalSlots(self):
         """This function is used to connect different slots in UI to appropriate
@@ -70,57 +63,28 @@ class _RoundingEditDialog:
         self.form.buttonBox.accepted.connect(self.accept)
         self.form.buttonBox.rejected.connect(lambda: self.form.close())
 
-    def addLayer(self):
-        layer = len(self.Layers) + 1
-        layout = self.form.verticalLayout
-        index = layout.indexOf(self.form.buttonBox)
-        # Create Layer label
-        layer_label = QtWidgets.QLabel("Layer" + str(layer) + ":")
-        layer_label.setFont(QtGui.QFont("Sans", weight=QtGui.QFont.Bold))
-        layout.insertWidget(index, layer_label)
-        self.Layers.append(layer_label)
-        self.RoundingSpinBoxList.append([])
-
     def addSet(self):
-        layer = len(self.Layers)
-        sets = len(self.RoundingSpinBoxList[layer - 1])
-        # Create horizontal layout and its components
-        h_layout = QtWidgets.QHBoxLayout()
-        set_label = QtWidgets.QLabel("Set " + str(sets + 1))
-        set_label.setSizePolicy(
-            QtWidgets.QSizePolicy(
-                QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-            )
-        )
+        sets = len(self.RoundingSpinBoxList)
+        # Create Rounding Combo Box
         ui = FreeCADGui.UiLoader()
         rounding = ui.createWidget("Gui::PrefSpinBox")
         rounding.setValue(2)
-        h_layout.addWidget(set_label)
-        h_layout.addWidget(rounding)
-        v_layout = self.form.verticalLayout
-        index = v_layout.indexOf(self.form.buttonBox)
-        v_layout.insertLayout(index, h_layout)
-        self.RoundingSpinBoxList[layer - 1].append(rounding)
+        form_layout = self.form.formLayout
+        index = sets
+        form_layout.insertRow(index, "Set " + str(sets + 1), rounding)
+        self.RoundingSpinBoxList.append(rounding)
 
     def accept(self):
         """This function is executed when 'OK' button is clicked from ui."""
-        layers = len(self.Layers)
-        rounding_list = []
-        for layer in range(1, layers + 1):
-            rounding_list.append(self.getRoundingTuple(layer))
-        self.RoundingTuple = tuple(rounding_list)
-        self.form.close()
-
-    def getRoundingTuple(self, layer):
-        sets = len(self.RoundingSpinBoxList[layer - 1])
+        sets = len(self.RoundingSpinBoxList)
         rounding_list = []
         for i in range(0, sets):
-            if self.RoundingSpinBoxList[layer - 1][i].isEnabled():
-                rounding = self.RoundingSpinBoxList[layer - 1][i].value()
-                rounding_list.append(rounding)
+            if self.RoundingSpinBoxList[i].isEnabled():
+                rounding_list.append(self.RoundingSpinBoxList[i].value())
             else:
                 rounding_list.append(None)
-        return tuple(rounding_list)
+        self.RoundingTuple = tuple(rounding_list)
+        self.form.close()
 
 
 def runRoundingEditDialog(self, rounding_tuple):
