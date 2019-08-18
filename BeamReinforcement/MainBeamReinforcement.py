@@ -27,7 +27,7 @@ __url__ = "https://www.freecadweb.org"
 
 import os
 import ast
-from PySide2 import QtWidgets
+from PySide2 import QtWidgets, QtGui
 
 import FreeCAD
 import FreeCADGui
@@ -113,6 +113,37 @@ class _BeamReinforcementDialog:
         )
         # Add dropdown menu items
         self.addDropdownMenuItems()
+        # Add image of Two Legged Stirrup
+        self.stirrups_widget.stirrups_configurationImage.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+                + "/icons/Beam_TwoLeggedStirrups.png"
+            )
+        )
+        self.top_reinforcement_widget.stirrups_configurationImage.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+                + "/icons/Beam_TwoLeggedStirrups.png"
+            )
+        )
+        self.bottom_reinforcement_widget.stirrups_configurationImage.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+                + "/icons/Beam_TwoLeggedStirrups.png"
+            )
+        )
+        self.left_reinforcement_widget.stirrups_configurationImage.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+                + "/icons/Beam_TwoLeggedStirrups.png"
+            )
+        )
+        self.right_reinforcement_widget.stirrups_configurationImage.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+                + "/icons/Beam_TwoLeggedStirrups.png"
+            )
+        )
         # Set Stirrups data Widget in Scroll Area
         self.stirrups_widget.stirrups_scrollArea.setWidget(
             self.stirrups_widget.stirrups_dataWidget
