@@ -168,7 +168,7 @@ class BeamReinforcementTool:
     def GetResources(self):
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/Column.svg",
+            + "/icons/dropdown_list/Beam.svg",
             "MenuText": QT_TRANSLATE_NOOP("RebarAddon", "Beam Reinforcement"),
             "ToolTip": QT_TRANSLATE_NOOP(
                 "RebarAddon",
