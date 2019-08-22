@@ -72,6 +72,7 @@ class _HookExtensionEditDialog:
         ui = FreeCADGui.UiLoader()
         hook_extension = ui.createWidget("Gui::InputField")
         hook_extension.setProperty("unit", "mm")
+        hook_extension.setProperty("minimum", 10)
         hook_extension.setText("40 mm")
         form_layout = self.form.formLayout
         index = sets
