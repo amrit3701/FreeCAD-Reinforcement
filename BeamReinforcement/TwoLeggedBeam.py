@@ -1351,7 +1351,7 @@ def makeShearReinforcement(
     elif isinstance(left_rebars_hook_orientation, list) or isinstance(
         left_rebars_hook_orientation, tuple
     ):
-        for i, _ in enumerate(right_rebars_number_diameter_offset_tuple):
+        for i, _ in enumerate(left_rebars_number_diameter_offset_tuple):
             if left_rebars_type_list[i] == "StraightRebar":
                 left_rebars_hook_orientation_list.append("")
             elif left_rebars_hook_orientation[i] == None:
@@ -1361,7 +1361,7 @@ def makeShearReinforcement(
                     left_rebars_hook_orientation[i]
                 )
     elif left_rebars_hook_orientation == None:
-        for i, _ in enumerate(right_rebars_number_diameter_offset_tuple):
+        for i, _ in enumerate(left_rebars_number_diameter_offset_tuple):
             if left_rebars_type_list[i] == "StraightRebar":
                 left_rebars_hook_orientation_list.append("")
             else:

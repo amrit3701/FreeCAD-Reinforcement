@@ -53,7 +53,6 @@ class _NumberDiameterOffsetDialog:
 
     def setupUi(self):
         """This function is used to set values in ui."""
-        self.form.scrollArea.setWidget(self.form.dataWidget)
         self.connectSignalSlots()
         layers_count = len(self.NumberDiameterOffsetTuple)
         sets_count_list = [
