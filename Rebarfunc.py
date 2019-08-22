@@ -692,10 +692,7 @@ def getFacenamesforBeamReinforcement(facename, structure):
             and int(normal1.cross(normal2).z) == -1
         ):
             facename_for_tb_rebars = "Face" + str(index)
-        if (
-            int(normal1.dot(normal2)) == 0
-            and int(normal1.cross(normal2).y) == 1
-        ):
+        if normal2.z == -1:
             facename_for_s_rebars = "Face" + str(index)
         index += 1
     return (facename_for_tb_rebars, facename_for_s_rebars)

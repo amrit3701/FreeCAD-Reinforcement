@@ -33,6 +33,7 @@ from StraightRebar import makeStraightRebar
 from LShapeRebar import makeLShapeRebar
 from Rebarfunc import (
     getParametersOfFace,
+    getFaceNumber,
     getFacenamesforBeamReinforcement,
     gettupleOfNumberDiameterOffset,
     getdictofNumberDiameterOffset,
@@ -1340,6 +1341,7 @@ def makeShearReinforcement(
     ):
         right_rebars_hook_orientation_list = list(right_rebars_hook_orientation)
 
+    face = structure.Shape.Faces[getFaceNumber(facename) - 1]
     FacePRM = getParametersOfFace(structure, facename)
     face_length = FacePRM[0][0]
     face_width = FacePRM[0][1]
@@ -1365,11 +1367,11 @@ def makeShearReinforcement(
     left_rebars_f_cover = (face_width - left_reinforcement_span_length) / 2
     right_rebars_f_cover = (face_width - right_reinforcement_span_length) / 2
 
-    t_cover = l_cover_of_stirrup + dia_of_stirrup
     left_reinforcement_rebars = []
     for i, (number, diameter, offset) in enumerate(
         left_rebars_number_diameter_offset_tuple
     ):
+        t_cover = l_cover_of_stirrup + dia_of_stirrup
         r_cover = l_cover = offset
         rear_cover = (
             face_width
@@ -1378,7 +1380,12 @@ def makeShearReinforcement(
             - (number - 1) * left_rebars_spacing
         )
         if left_rebars_type_list[i] == "StraightRebar":
-            coverAlong = "Top Side"
+            if face.normalAt(0, 0).x in (1, -1):
+                orientation = "Horizontal"
+                coverAlong = "Top Side"
+            else:
+                orientation = "Vertical"
+                coverAlong = "Left Side"
             left_reinforcement_rebars.append(
                 makeStraightRebar(
                     left_rebars_f_cover,
@@ -1388,7 +1395,7 @@ def makeShearReinforcement(
                     diameter,
                     True,
                     number,
-                    "Horizontal",
+                    orientation,
                     structure,
                     facename_for_s_rebars,
                 )
@@ -1404,18 +1411,35 @@ def makeShearReinforcement(
                     + left_rebars_hook_extension_list[i]
                 )
                 if left_rebars_hook_orientation_list[i] == "Front Inside":
-                    orientation = "Top Right"
+                    if face.normalAt(0, 0).x in (1, -1):
+                        orientation = "Top Right"
+                    else:
+                        orientation = "Top Left"
                 else:
-                    orientation = "Top Left"
+                    if face.normalAt(0, 0).x in (1, -1):
+                        orientation = "Top Left"
+                    else:
+                        orientation = "Bottom Left"
             else:
                 b_cover += (
                     left_l_rebar_rounding_list[i] * diameter
                     + left_rebars_hook_extension_list[i]
                 )
                 if left_rebars_hook_orientation_list[i] == "Front Outside":
-                    orientation = "Top Right"
+                    if face.normalAt(0, 0).x in (1, -1):
+                        orientation = "Top Right"
+                    else:
+                        orientation = "Top Left"
                 else:
-                    orientation = "Top Left"
+                    if face.normalAt(0, 0).x in (1, -1):
+                        orientation = "Top Left"
+                    else:
+                        orientation = "Bottom Left"
+
+            if face.normalAt(0, 0).y in (1, -1):
+                l_cover = t_cover
+                r_cover = b_cover
+                t_cover = b_cover = offset
 
             left_reinforcement_rebars.append(
                 makeLShapeRebar(
@@ -1436,11 +1460,11 @@ def makeShearReinforcement(
         left_reinforcement_rebars[-1].OffsetEnd = rear_cover + diameter / 2
         left_rebars_f_cover += number * diameter + number * left_rebars_spacing
 
-    b_cover = r_cover_of_stirrup + dia_of_stirrup
     right_reinforcement_rebars = []
     for i, (number, diameter, offset) in enumerate(
         right_rebars_number_diameter_offset_tuple
     ):
+        b_cover = r_cover_of_stirrup + dia_of_stirrup
         r_cover = l_cover = offset
         rear_cover = (
             face_width
@@ -1449,7 +1473,12 @@ def makeShearReinforcement(
             - (number - 1) * right_rebars_spacing
         )
         if right_rebars_type_list[i] == "StraightRebar":
-            coverAlong = "Bottom Side"
+            if face.normalAt(0, 0).x in (1, -1):
+                orientation = "Horizontal"
+                coverAlong = "Bottom Side"
+            else:
+                orientation = "Vertical"
+                coverAlong = "Right Side"
             right_reinforcement_rebars.append(
                 makeStraightRebar(
                     right_rebars_f_cover,
@@ -1459,7 +1488,7 @@ def makeShearReinforcement(
                     diameter,
                     True,
                     number,
-                    "Horizontal",
+                    orientation,
                     structure,
                     facename_for_s_rebars,
                 )
@@ -1475,18 +1504,35 @@ def makeShearReinforcement(
                     + right_rebars_hook_extension_list[i]
                 )
                 if right_rebars_hook_orientation_list[i] == "Front Inside":
-                    orientation = "Bottom Right"
+                    if face.normalAt(0, 0).x in (1, -1):
+                        orientation = "Bottom Right"
+                    else:
+                        orientation = "Top Right"
                 else:
-                    orientation = "Bottom Left"
+                    if face.normalAt(0, 0).x in (1, -1):
+                        orientation = "Bottom Left"
+                    else:
+                        orientation = "Bottom Right"
             else:
                 t_cover += (
                     right_l_rebar_rounding_list[i] * diameter
                     + right_rebars_hook_extension_list[i]
                 )
                 if right_rebars_hook_orientation_list[i] == "Front Outside":
-                    orientation = "Bottom Right"
+                    if face.normalAt(0, 0).x in (1, -1):
+                        orientation = "Bottom Right"
+                    else:
+                        orientation = "Top Right"
                 else:
-                    orientation = "Bottom Left"
+                    if face.normalAt(0, 0).x in (1, -1):
+                        orientation = "Bottom Left"
+                    else:
+                        orientation = "Bottom Right"
+
+            if face.normalAt(0, 0).y in (1, -1):
+                l_cover = t_cover
+                r_cover = b_cover
+                t_cover = b_cover = offset
 
             right_reinforcement_rebars.append(
                 makeLShapeRebar(
