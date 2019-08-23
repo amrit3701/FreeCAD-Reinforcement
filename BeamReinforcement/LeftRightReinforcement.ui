@@ -55,7 +55,7 @@
       </size>
      </property>
      <property name="text">
-      <string>1#20.0mm@-50.0mm+1#16.0mm@-100.0mm+1#20.0mm@-50.0mm</string>
+      <string>1#16@-100+1#16@-100+1#16@-100</string>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -127,7 +127,7 @@
    <item row="5" column="0" colspan="3">
     <widget class="Gui::PrefLineEdit" name="hookOrientation">
      <property name="text">
-      <string>('Front Outside', 'Front Outside', 'Front Outside')</string>
+      <string>('Rear Inside', 'Front Inside', 'Rear Inside')</string>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -157,7 +157,7 @@
    <item row="7" column="0" colspan="3">
     <widget class="Gui::PrefLineEdit" name="hookExtension">
      <property name="text">
-      <string>(100.0, 100.0, 100.0)</string>
+      <string>(80.0, 80.0, 80.0)</string>
      </property>
      <property name="readOnly">
       <bool>true</bool>

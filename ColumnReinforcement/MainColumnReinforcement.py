@@ -176,6 +176,7 @@ class _ColumnReinforcementDialog:
         self.ties_widget.ties_topCover.setText("40.00 mm")
         self.ties_widget.ties_bottomCover.setText("40.00 mm")
         self.ties_widget.ties_allCoversEqual.setChecked(True)
+        self.tiesAllCoversEqualClicked()
         self.ties_widget.ties_offset.setText("100.00 mm")
         self.ties_widget.ties_diameter.setText("8.00 mm")
         self.ties_widget.ties_bentAngle.setCurrentIndex(

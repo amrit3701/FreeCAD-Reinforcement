@@ -148,8 +148,137 @@ class _BeamReinforcementDialog:
         self.stirrups_widget.stirrups_scrollArea.setWidget(
             self.stirrups_widget.stirrups_dataWidget
         )
+        # Set default values in UI
+        self.setDefaultValues()
         # Connect signals and slots
         self.connectSignalSlots()
+
+    def setDefaultValues(self):
+        self.CustomSpacing = None
+        # Set stirrups data
+        self.stirrups_widget.stirrups_configuration.setCurrentIndex(
+            self.stirrups_widget.stirrups_configuration.findText(
+                "Two Legged Stirrups"
+            )
+        )
+        self.top_reinforcement_widget.stirrups_configuration.setCurrentIndex(
+            self.top_reinforcement_widget.stirrups_configuration.findText(
+                "Two Legged Stirrups"
+            )
+        )
+        self.bottom_reinforcement_widget.stirrups_configuration.setCurrentIndex(
+            self.bottom_reinforcement_widget.stirrups_configuration.findText(
+                "Two Legged Stirrups"
+            )
+        )
+        self.left_reinforcement_widget.stirrups_configuration.setCurrentIndex(
+            self.left_reinforcement_widget.stirrups_configuration.findText(
+                "Two Legged Stirrups"
+            )
+        )
+        self.right_reinforcement_widget.stirrups_configuration.setCurrentIndex(
+            self.right_reinforcement_widget.stirrups_configuration.findText(
+                "Two Legged Stirrups"
+            )
+        )
+        self.stirrups_widget.stirrups_leftCover.setText("20 mm")
+        self.stirrups_widget.stirrups_rightCover.setText("20 mm")
+        self.stirrups_widget.stirrups_topCover.setText("20 mm")
+        self.stirrups_widget.stirrups_bottomCover.setText("20 mm")
+        self.stirrups_widget.stirrups_allCoversEqual.setChecked(True)
+        self.stirrupsAllCoversEqualClicked()
+        self.stirrups_widget.stirrups_offset.setText("100 mm")
+        self.stirrups_widget.stirrups_diameter.setText("8 mm")
+        self.stirrups_widget.stirrups_bentAngle.setCurrentIndex(
+            self.stirrups_widget.stirrups_bentAngle.findText("135")
+        )
+        self.stirrups_widget.stirrups_extensionFactor.setValue(4)
+        self.stirrups_widget.stirrups_number_radio.setChecked(False)
+        self.stirrups_widget.stirrups_spacing_radio.setChecked(True)
+        self.stirrups_widget.stirrups_number.setEnabled(False)
+        self.stirrups_widget.stirrups_spacing.setEnabled(True)
+        self.stirrups_widget.stirrups_number.setValue(10)
+        self.stirrups_widget.stirrups_spacing.setText("100 mm")
+        # Set top reinforcement data
+        self.top_reinforcement_widget.numberDiameterOffset.setPlainText(
+            "('1#20@-60+2#16@-60+1#20@-60', '3#16@-100')"
+        )
+        self.top_reinforcement_widget.rebarType.setPlainText(
+            "(('LShapeRebar', 'LShapeRebar', 'LShapeRebar'), ('LShapeRebar',))"
+        )
+        self.top_reinforcement_widget.hookOrientation.setPlainText(
+            "(('Rear Outside', 'Rear Outside', 'Rear Outside'), ('Rear Outside',))"
+        )
+        self.top_reinforcement_widget.hookExtension.setPlainText(
+            "((100.0, 100.0, 100.0), (100.0,))"
+        )
+        self.top_reinforcement_widget.LRebarRounding.setPlainText(
+            "((2, 2, 2), (2,))"
+        )
+        self.top_reinforcement_widget.layers.setValue(2)
+        self.top_reinforcement_widget.layerSpacing.setText("(30.0, 30.0)")
+        # Set bottom reinforcement data
+        self.bottom_reinforcement_widget.numberDiameterOffset.setPlainText(
+            "('1#20@-60+2#16@-60+1#20@-60', '3#16@-100')"
+        )
+        self.bottom_reinforcement_widget.rebarType.setPlainText(
+            "(('LShapeRebar', 'LShapeRebar', 'LShapeRebar'), ('LShapeRebar',))"
+        )
+        self.bottom_reinforcement_widget.hookOrientation.setPlainText(
+            "(('Rear Outside', 'Rear Outside', 'Rear Outside'), ('Rear Outside',))"
+        )
+        self.bottom_reinforcement_widget.hookExtension.setPlainText(
+            "((100.0, 100.0, 100.0), (100.0,))"
+        )
+        self.bottom_reinforcement_widget.LRebarRounding.setPlainText(
+            "((2, 2, 2), (2,))"
+        )
+        self.bottom_reinforcement_widget.layers.setValue(2)
+        self.bottom_reinforcement_widget.layerSpacing.setText("(30.0, 30.0)")
+        # Set left reinforcement data
+        self.left_reinforcement_widget.numberDiameterOffset.setText(
+            "1#16@-100+1#16@-100+1#16@-100"
+        )
+        self.left_reinforcement_widget.rebarType.setText(
+            "('LShapeRebar', 'LShapeRebar', 'LShapeRebar')"
+        )
+        self.left_reinforcement_widget.hookOrientation.setText(
+            "('Rear Inside', 'Front Inside', 'Rear Inside')"
+        )
+        self.left_reinforcement_widget.hookExtension.setText(
+            "(80.0, 80.0, 80.0)"
+        )
+        self.left_reinforcement_widget.LRebarRounding.setText("(2, 2, 2)")
+        self.left_reinforcement_widget.rebarSpacing.setText("30 mm")
+        self.left_reinforcement_widget.rebarTypeEditButton.setEnabled(True)
+        self.left_reinforcement_widget.hookOrientationEditButton.setEnabled(
+            True
+        )
+        self.left_reinforcement_widget.hookExtensionEditButton.setEnabled(True)
+        self.left_reinforcement_widget.LRebarRoundingEditButton.setEnabled(True)
+        # Set right reinforcement data
+        self.right_reinforcement_widget.numberDiameterOffset.setText(
+            "1#16@-100+1#16@-100+1#16@-100"
+        )
+        self.right_reinforcement_widget.rebarType.setText(
+            "('LShapeRebar', 'LShapeRebar', 'LShapeRebar')"
+        )
+        self.right_reinforcement_widget.hookOrientation.setText(
+            "('Front Inside', 'Rear Inside', 'Front Inside')"
+        )
+        self.right_reinforcement_widget.hookExtension.setText(
+            "(80.0, 80.0, 80.0)"
+        )
+        self.right_reinforcement_widget.LRebarRounding.setText("(2, 2, 2)")
+        self.right_reinforcement_widget.rebarSpacing.setText("30 mm")
+        self.right_reinforcement_widget.rebarTypeEditButton.setEnabled(True)
+        self.right_reinforcement_widget.hookOrientationEditButton.setEnabled(
+            True
+        )
+        self.right_reinforcement_widget.hookExtensionEditButton.setEnabled(True)
+        self.right_reinforcement_widget.LRebarRoundingEditButton.setEnabled(
+            True
+        )
 
     def addDropdownMenuItems(self):
         """This function add dropdown items to each Gui::PrefComboBox."""
@@ -1532,7 +1661,10 @@ class _BeamReinforcementDialog:
         ).Value
 
     def reset(self):
-        print("WIP")
+        if not self.RebarGroup:
+            self.setDefaultValues()
+        else:
+            print("WIP")
 
 
 def CommandBeamReinforcement():
