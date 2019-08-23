@@ -51,16 +51,19 @@ class _NumberDiameterOffsetDialog:
     def setupUi(self):
         """This function is used to set values in ui."""
         self.connectSignalSlots()
-        number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
-            self.NumberDiameterOffsetString
-        )
-        sets = len(number_diameter_offset_tuple)
-        for i in range(0, sets):
-            self.addSetButtonClicked()
-            _, number, diameter, offset, _ = self.SetsDict["set" + str(i + 1)]
-            number.setValue(number_diameter_offset_tuple[i][0])
-            diameter.setText(str(number_diameter_offset_tuple[i][1]) + "mm")
-            offset.setText(str(number_diameter_offset_tuple[i][2]) + "mm")
+        if self.NumberDiameterOffsetString:
+            number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
+                self.NumberDiameterOffsetString
+            )
+            sets = len(number_diameter_offset_tuple)
+            for i in range(0, sets):
+                self.addSetButtonClicked()
+                _, number, diameter, offset, _ = self.SetsDict[
+                    "set" + str(i + 1)
+                ]
+                number.setValue(number_diameter_offset_tuple[i][0])
+                diameter.setText(str(number_diameter_offset_tuple[i][1]) + "mm")
+                offset.setText(str(number_diameter_offset_tuple[i][2]) + "mm")
 
     def connectSignalSlots(self):
         """This function is used to connect different slots in UI to appropriate
@@ -118,7 +121,7 @@ class _NumberDiameterOffsetDialog:
         self.SetsDict["set" + str(sets)].append(diameter)
         self.SetsDict["set" + str(sets)].append(offset)
         self.SetsDict["set" + str(sets)].append(h_layout)
-        if sets == 2:
+        if sets == 1:
             self.form.removeSetButton.setEnabled(True)
 
     def removeSetButtonClicked(self):
@@ -132,7 +135,7 @@ class _NumberDiameterOffsetDialog:
         h_layout.deleteLater()
         del self.SetsDict["set" + str(sets)]
         sets -= 1
-        if sets == 1:
+        if sets == 0:
             self.form.removeSetButton.setEnabled(False)
 
     def accept(self):

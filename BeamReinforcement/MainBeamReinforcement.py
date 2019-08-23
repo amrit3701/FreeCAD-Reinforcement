@@ -842,96 +842,216 @@ class _BeamReinforcementDialog:
             self.left_reinforcement_widget.numberDiameterOffset.setText(
                 self.NumberDiameterOffsetString
             )
-            rebar_type = ast.literal_eval(
-                self.left_reinforcement_widget.rebarType.text()
-            )
-            self.left_reinforcement_widget.rebarType.setText(
-                str(
-                    self.getShearRebarType(
-                        self.NumberDiameterOffsetString, rebar_type
+            if not self.NumberDiameterOffsetString:
+                self.left_reinforcement_widget.rebarType.setText("")
+                self.left_reinforcement_widget.rebarTypeEditButton.setEnabled(
+                    False
+                )
+                self.left_reinforcement_widget.hookOrientation.setText("")
+                self.left_reinforcement_widget.hookOrientationEditButton.setEnabled(
+                    False
+                )
+                self.left_reinforcement_widget.hookExtension.setText("")
+                self.left_reinforcement_widget.hookExtensionEditButton.setEnabled(
+                    False
+                )
+                self.left_reinforcement_widget.LRebarRounding.setText("")
+                self.left_reinforcement_widget.LRebarRoundingEditButton.setEnabled(
+                    False
+                )
+            else:
+                if self.left_reinforcement_widget.rebarType.text():
+                    rebar_type = ast.literal_eval(
+                        self.left_reinforcement_widget.rebarType.text()
+                    )
+                else:
+                    rebar_type = ()
+                self.left_reinforcement_widget.rebarType.setText(
+                    str(
+                        self.getShearRebarType(
+                            self.NumberDiameterOffsetString, rebar_type
+                        )
                     )
                 )
-            )
-            self.left_reinforcement_widget.hookOrientation.setText(
-                str(
-                    self.getShearHookOrientation(
-                        self.NumberDiameterOffsetString,
-                        rebar_type,
-                        ast.literal_eval(
-                            self.left_reinforcement_widget.hookOrientation.text()
-                        ),
-                    )
+                self.left_reinforcement_widget.rebarTypeEditButton.setEnabled(
+                    True
                 )
-            )
-            self.left_reinforcement_widget.hookExtension.setText(
-                str(
-                    self.getShearHookExtension(
-                        self.NumberDiameterOffsetString,
-                        rebar_type,
-                        ast.literal_eval(
-                            self.left_reinforcement_widget.hookExtension.text()
-                        ),
+                if self.left_reinforcement_widget.hookOrientation.text():
+                    self.left_reinforcement_widget.hookOrientation.setText(
+                        str(
+                            self.getShearHookOrientation(
+                                self.NumberDiameterOffsetString,
+                                rebar_type,
+                                ast.literal_eval(
+                                    self.left_reinforcement_widget.hookOrientation.text()
+                                ),
+                            )
+                        )
                     )
-                )
-            )
-            self.left_reinforcement_widget.LRebarRounding.setText(
-                str(
-                    self.getShearLRebarRounding(
-                        self.NumberDiameterOffsetString,
-                        rebar_type,
-                        ast.literal_eval(
-                            self.left_reinforcement_widget.LRebarRounding.text()
-                        ),
+                else:
+                    self.left_reinforcement_widget.hookOrientation.setText(
+                        str(
+                            self.getShearHookOrientation(
+                                self.NumberDiameterOffsetString, rebar_type, ()
+                            )
+                        )
                     )
+                self.left_reinforcement_widget.hookOrientationEditButton.setEnabled(
+                    True
                 )
-            )
+                if self.left_reinforcement_widget.hookExtension.text():
+                    self.left_reinforcement_widget.hookExtension.setText(
+                        str(
+                            self.getShearHookExtension(
+                                self.NumberDiameterOffsetString,
+                                rebar_type,
+                                ast.literal_eval(
+                                    self.left_reinforcement_widget.hookExtension.text()
+                                ),
+                            )
+                        )
+                    )
+                else:
+                    self.left_reinforcement_widget.hookExtension.setText(
+                        str(
+                            self.getShearHookExtension(
+                                self.NumberDiameterOffsetString, rebar_type, ()
+                            )
+                        )
+                    )
+                self.left_reinforcement_widget.hookExtensionEditButton.setEnabled(
+                    True
+                )
+                if self.left_reinforcement_widget.LRebarRounding.text():
+                    self.left_reinforcement_widget.LRebarRounding.setText(
+                        str(
+                            self.getShearLRebarRounding(
+                                self.NumberDiameterOffsetString,
+                                rebar_type,
+                                ast.literal_eval(
+                                    self.left_reinforcement_widget.LRebarRounding.text()
+                                ),
+                            )
+                        )
+                    )
+                else:
+                    self.left_reinforcement_widget.LRebarRounding.setText(
+                        str(
+                            self.getShearLRebarRounding(
+                                self.NumberDiameterOffsetString, rebar_type, ()
+                            )
+                        )
+                    )
+                self.left_reinforcement_widget.LRebarRoundingEditButton.setEnabled(
+                    True
+                )
         else:
             self.right_reinforcement_widget.numberDiameterOffset.setText(
                 self.NumberDiameterOffsetString
             )
-            rebar_type = ast.literal_eval(
-                self.right_reinforcement_widget.rebarType.text()
-            )
-            self.right_reinforcement_widget.rebarType.setText(
-                str(
-                    self.getShearRebarType(
-                        self.NumberDiameterOffsetString, rebar_type
+            if not self.NumberDiameterOffsetString:
+                self.right_reinforcement_widget.rebarType.setText("")
+                self.right_reinforcement_widget.rebarTypeEditButton.setEnabled(
+                    False
+                )
+                self.right_reinforcement_widget.hookOrientation.setText("")
+                self.right_reinforcement_widget.hookOrientationEditButton.setEnabled(
+                    False
+                )
+                self.right_reinforcement_widget.hookExtension.setText("")
+                self.right_reinforcement_widget.hookExtensionEditButton.setEnabled(
+                    False
+                )
+                self.right_reinforcement_widget.LRebarRounding.setText("")
+                self.right_reinforcement_widget.LRebarRoundingEditButton.setEnabled(
+                    False
+                )
+            else:
+                if self.right_reinforcement_widget.rebarType.text():
+                    rebar_type = ast.literal_eval(
+                        self.right_reinforcement_widget.rebarType.text()
+                    )
+                else:
+                    rebar_type = ()
+                self.right_reinforcement_widget.rebarType.setText(
+                    str(
+                        self.getShearRebarType(
+                            self.NumberDiameterOffsetString, rebar_type
+                        )
                     )
                 )
-            )
-            self.right_reinforcement_widget.hookOrientation.setText(
-                str(
-                    self.getShearHookOrientation(
-                        self.NumberDiameterOffsetString,
-                        rebar_type,
-                        ast.literal_eval(
-                            self.right_reinforcement_widget.hookOrientation.text()
-                        ),
-                    )
+                self.right_reinforcement_widget.rebarTypeEditButton.setEnabled(
+                    True
                 )
-            )
-            self.right_reinforcement_widget.hookExtension.setText(
-                str(
-                    self.getShearHookExtension(
-                        self.NumberDiameterOffsetString,
-                        rebar_type,
-                        ast.literal_eval(
-                            self.right_reinforcement_widget.hookExtension.text()
-                        ),
+                if self.right_reinforcement_widget.hookOrientation.text():
+                    self.right_reinforcement_widget.hookOrientation.setText(
+                        str(
+                            self.getShearHookOrientation(
+                                self.NumberDiameterOffsetString,
+                                rebar_type,
+                                ast.literal_eval(
+                                    self.right_reinforcement_widget.hookOrientation.text()
+                                ),
+                            )
+                        )
                     )
-                )
-            )
-            self.right_reinforcement_widget.LRebarRounding.setText(
-                str(
-                    self.getShearLRebarRounding(
-                        self.NumberDiameterOffsetString,
-                        rebar_type,
-                        ast.literal_eval(
-                            self.right_reinforcement_widget.LRebarRounding.text()
-                        ),
+                else:
+                    self.right_reinforcement_widget.hookOrientation.setText(
+                        str(
+                            self.getShearHookOrientation(
+                                self.NumberDiameterOffsetString, rebar_type, ()
+                            )
+                        )
                     )
+                self.right_reinforcement_widget.hookOrientationEditButton.setEnabled(
+                    True
                 )
-            )
+                if self.right_reinforcement_widget.hookExtension.text():
+                    self.right_reinforcement_widget.hookExtension.setText(
+                        str(
+                            self.getShearHookExtension(
+                                self.NumberDiameterOffsetString,
+                                rebar_type,
+                                ast.literal_eval(
+                                    self.right_reinforcement_widget.hookExtension.text()
+                                ),
+                            )
+                        )
+                    )
+                else:
+                    self.right_reinforcement_widget.hookExtension.setText(
+                        str(
+                            self.getShearHookExtension(
+                                self.NumberDiameterOffsetString, rebar_type, ()
+                            )
+                        )
+                    )
+                self.right_reinforcement_widget.hookExtensionEditButton.setEnabled(
+                    True
+                )
+                if self.right_reinforcement_widget.LRebarRounding.text():
+                    self.right_reinforcement_widget.LRebarRounding.setText(
+                        str(
+                            self.getShearLRebarRounding(
+                                self.NumberDiameterOffsetString,
+                                rebar_type,
+                                ast.literal_eval(
+                                    self.right_reinforcement_widget.LRebarRounding.text()
+                                ),
+                            )
+                        )
+                    )
+                else:
+                    self.right_reinforcement_widget.LRebarRounding.setText(
+                        str(
+                            self.getShearLRebarRounding(
+                                self.NumberDiameterOffsetString, rebar_type, ()
+                            )
+                        )
+                    )
+                self.right_reinforcement_widget.LRebarRoundingEditButton.setEnabled(
+                    True
+                )
 
     def shearRebarTypeEditButtonClicked(self, button):
         if button == self.left_reinforcement_widget.rebarTypeEditButton:
@@ -1343,18 +1463,30 @@ class _BeamReinforcementDialog:
         self.left_number_diameter_offset = (
             self.left_reinforcement_widget.numberDiameterOffset.text()
         )
-        self.left_rebar_type = ast.literal_eval(
-            self.left_reinforcement_widget.rebarType.text()
-        )
-        self.left_hook_orientation = ast.literal_eval(
-            self.left_reinforcement_widget.hookOrientation.text()
-        )
-        self.left_hook_extension = ast.literal_eval(
-            self.left_reinforcement_widget.hookExtension.text()
-        )
-        self.left_lrebar_rounding = ast.literal_eval(
-            self.left_reinforcement_widget.LRebarRounding.text()
-        )
+        if self.left_reinforcement_widget.rebarType.text():
+            self.left_rebar_type = ast.literal_eval(
+                self.left_reinforcement_widget.rebarType.text()
+            )
+        else:
+            self.left_rebar_type = ()
+        if self.left_reinforcement_widget.hookOrientation.text():
+            self.left_hook_orientation = ast.literal_eval(
+                self.left_reinforcement_widget.hookOrientation.text()
+            )
+        else:
+            self.left_hook_orientation = ()
+        if self.left_reinforcement_widget.hookExtension.text():
+            self.left_hook_extension = ast.literal_eval(
+                self.left_reinforcement_widget.hookExtension.text()
+            )
+        else:
+            self.left_hook_extension = ()
+        if self.left_reinforcement_widget.LRebarRounding.text():
+            self.left_lrebar_rounding = ast.literal_eval(
+                self.left_reinforcement_widget.LRebarRounding.text()
+            )
+        else:
+            self.left_lrebar_rounding = ()
         self.left_rebar_spacing = (
             self.left_reinforcement_widget.rebarSpacing.text()
         )
@@ -1368,18 +1500,30 @@ class _BeamReinforcementDialog:
         self.right_number_diameter_offset = (
             self.right_reinforcement_widget.numberDiameterOffset.text()
         )
-        self.right_rebar_type = ast.literal_eval(
-            self.right_reinforcement_widget.rebarType.text()
-        )
-        self.right_hook_orientation = ast.literal_eval(
-            self.right_reinforcement_widget.hookOrientation.text()
-        )
-        self.right_hook_extension = ast.literal_eval(
-            self.right_reinforcement_widget.hookExtension.text()
-        )
-        self.right_lrebar_rounding = ast.literal_eval(
-            self.right_reinforcement_widget.LRebarRounding.text()
-        )
+        if self.right_reinforcement_widget.rebarType.text():
+            self.right_rebar_type = ast.literal_eval(
+                self.right_reinforcement_widget.rebarType.text()
+            )
+        else:
+            self.right_rebar_type = ()
+        if self.right_reinforcement_widget.hookOrientation.text():
+            self.right_hook_orientation = ast.literal_eval(
+                self.right_reinforcement_widget.hookOrientation.text()
+            )
+        else:
+            self.right_hook_orientation = ()
+        if self.right_reinforcement_widget.hookExtension.text():
+            self.right_hook_extension = ast.literal_eval(
+                self.right_reinforcement_widget.hookExtension.text()
+            )
+        else:
+            self.right_hook_extension = ()
+        if self.right_reinforcement_widget.LRebarRounding.text():
+            self.right_lrebar_rounding = ast.literal_eval(
+                self.right_reinforcement_widget.LRebarRounding.text()
+            )
+        else:
+            self.right_lrebar_rounding = ()
         self.right_rebar_spacing = (
             self.right_reinforcement_widget.rebarSpacing.text()
         )

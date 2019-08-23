@@ -261,7 +261,7 @@ def makeReinforcement(
     )
 
     # Create left reinforcement
-    makeLeftReinforcement(
+    left_reinforcement_rebars = makeLeftReinforcement(
         TwoLeggedBeam,
         l_cover_of_stirrup,
         dia_of_stirrup,
@@ -276,7 +276,7 @@ def makeReinforcement(
     )
 
     # Create right reinforcement
-    makeRightReinforcement(
+    right_reinforcement_rebars = makeRightReinforcement(
         TwoLeggedBeam,
         r_cover_of_stirrup,
         dia_of_stirrup,
@@ -289,6 +289,11 @@ def makeReinforcement(
         structure,
         facename,
     )
+
+    if not left_reinforcement_rebars and not right_reinforcement_rebars:
+        FreeCAD.ActiveDocument.removeObject(
+            TwoLeggedBeam.shear_reinforcement_group.Name
+        )
 
     FreeCAD.ActiveDocument.recompute()
     return TwoLeggedBeam.Object
@@ -1209,7 +1214,10 @@ def makeLeftReinforcement(
     structure,
     facename,
 ):
-    left_reinforcement_rebars = None
+    if not left_rebars_number_diameter_offset:
+        FreeCAD.ActiveDocument.removeObject(obj.left_rebars_group.Name)
+        return None
+
     facename_for_s_rebars = getFacenamesforBeamReinforcement(
         facename, structure
     )[1]
@@ -1443,7 +1451,10 @@ def makeRightReinforcement(
     structure,
     facename,
 ):
-    right_reinforcement_rebars = None
+    if not right_rebars_number_diameter_offset:
+        FreeCAD.ActiveDocument.removeObject(obj.right_rebars_group.Name)
+        return None
+
     facename_for_s_rebars = getFacenamesforBeamReinforcement(
         facename, structure
     )[1]
