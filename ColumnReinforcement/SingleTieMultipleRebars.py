@@ -674,13 +674,13 @@ def editSingleTieMultipleRebars(
                 break
             else:
                 showWarning(
-                    "You have deleted ties. Please recreate the"
+                    "You have deleted ties. Please recreate the "
                     "ColumnReinforcement."
                 )
                 return rebar_group
         elif i == len(rebar_group.RebarGroups) - 1:
             showWarning(
-                "You have deleted ties group. Please recreate the"
+                "You have deleted ties group. Please recreate the "
                 "ColumnReinforcement."
             )
             return rebar_group
