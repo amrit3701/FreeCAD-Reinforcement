@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>678</width>
-    <height>458</height>
+    <height>464</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,9 +21,9 @@
   </property>
   <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0">
    <item row="0" column="2">
-    <layout class="QVBoxLayout" name="ties_configurationLayout">
+    <layout class="QVBoxLayout" name="stirrups_configurationLayout">
      <item>
-      <widget class="Gui::PrefComboBox" name="ties_configuration">
+      <widget class="Gui::PrefComboBox" name="stirrups_configuration">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -39,7 +39,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="ties_configurationImage">
+      <widget class="QLabel" name="stirrups_configurationImage">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -62,73 +62,6 @@
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Preferred</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="ties_sequenceLabel">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string>Adjust by dragging items</string>
-       </property>
-       <property name="text">
-        <string>Ties Sequence</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QListWidget" name="ties_sequenceListWidget">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="sizeAdjustPolicy">
-        <enum>QAbstractScrollArea::AdjustToContents</enum>
-       </property>
-       <property name="dragDropMode">
-        <enum>QAbstractItemView::InternalMove</enum>
-       </property>
-       <property name="currentRow">
-        <number>-1</number>
-       </property>
-       <item>
-        <property name="text">
-         <string>Tie1</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Tie2</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
@@ -140,7 +73,7 @@
     </layout>
    </item>
    <item row="0" column="0">
-    <widget class="QWidget" name="ties_dataWidget" native="true">
+    <widget class="QWidget" name="stirrups_dataWidget" native="true">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -158,10 +91,10 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QWidget" name="ties_commomDataWidget" native="true">
+       <widget class="QWidget" name="stirrups_commomDataWidget" native="true">
         <layout class="QFormLayout" name="formLayout">
          <item row="0" column="0" colspan="2">
-          <widget class="QLabel" name="ties_heading">
+          <widget class="QLabel" name="stirrups_heading">
            <property name="font">
             <font>
              <weight>75</weight>
@@ -174,24 +107,27 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="ties_leftCoverLabel">
+          <widget class="QLabel" name="stirrups_leftCoverLabel">
            <property name="text">
             <string>Left Cover</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="Gui::InputField" name="ties_leftCover">
+          <widget class="Gui::InputField" name="stirrups_leftCover">
            <property name="text">
-            <string>0 </string>
+            <string>20 mm</string>
            </property>
            <property name="unit" stdset="0">
-            <string notr="true"/>
+            <string notr="true">mm</string>
+           </property>
+           <property name="quantity" stdset="0">
+            <double>40.000000000000000</double>
            </property>
           </widget>
          </item>
          <item row="2" column="0" colspan="2">
-          <widget class="QCheckBox" name="ties_allCoversEqual">
+          <widget class="QCheckBox" name="stirrups_allCoversEqual">
            <property name="text">
             <string>Set all covers equal</string>
            </property>
@@ -201,86 +137,98 @@
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QLabel" name="ties_rightCoverLabel">
+          <widget class="QLabel" name="stirrups_rightCoverLabel">
            <property name="text">
             <string>Right Cover</string>
            </property>
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="Gui::InputField" name="ties_rightCover">
+          <widget class="Gui::InputField" name="stirrups_rightCover">
            <property name="enabled">
             <bool>false</bool>
            </property>
            <property name="text">
-            <string>0 </string>
+            <string>20 mm</string>
            </property>
            <property name="unit" stdset="0">
-            <string notr="true"/>
+            <string notr="true">mm</string>
+           </property>
+           <property name="quantity" stdset="0">
+            <double>40.000000000000000</double>
            </property>
           </widget>
          </item>
          <item row="4" column="0">
-          <widget class="QLabel" name="ties_topCoverLabel">
+          <widget class="QLabel" name="stirrups_topCoverLabel">
            <property name="text">
             <string>Top Cover</string>
            </property>
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="Gui::InputField" name="ties_topCover">
+          <widget class="Gui::InputField" name="stirrups_topCover">
            <property name="enabled">
             <bool>false</bool>
            </property>
            <property name="text">
-            <string>0 </string>
+            <string>20 mm</string>
            </property>
            <property name="unit" stdset="0">
-            <string notr="true"/>
+            <string notr="true">mm</string>
+           </property>
+           <property name="quantity" stdset="0">
+            <double>40.000000000000000</double>
            </property>
           </widget>
          </item>
          <item row="5" column="0">
-          <widget class="QLabel" name="ties_bottomCoverLabel">
+          <widget class="QLabel" name="stirrups_bottomCoverLabel">
            <property name="text">
             <string>Bottom Cover</string>
            </property>
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="Gui::InputField" name="ties_bottomCover">
+          <widget class="Gui::InputField" name="stirrups_bottomCover">
            <property name="enabled">
             <bool>false</bool>
            </property>
            <property name="text">
-            <string>0 </string>
+            <string>20 mm</string>
            </property>
            <property name="unit" stdset="0">
-            <string notr="true"/>
+            <string notr="true">mm</string>
+           </property>
+           <property name="quantity" stdset="0">
+            <double>40.000000000000000</double>
            </property>
           </widget>
          </item>
          <item row="6" column="0">
-          <widget class="QLabel" name="ties_offsetLabel">
+          <widget class="QLabel" name="stirrups_offsetLabel">
            <property name="text">
             <string>Offset</string>
            </property>
           </widget>
          </item>
          <item row="6" column="1">
-          <widget class="Gui::InputField" name="ties_offset">
+          <widget class="Gui::InputField" name="stirrups_offset">
            <property name="text">
-            <string>0 </string>
+            <string>100 mm</string>
            </property>
            <property name="unit" stdset="0">
-            <string notr="true"/>
+            <string notr="true">mm</string>
+           </property>
+           <property name="quantity" stdset="0">
+            <double>100.000000000000000</double>
            </property>
           </widget>
          </item>
          <item row="11" column="0" colspan="2">
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
-            <widget class="Gui::PrefRadioButton" name="ties_number_radio">
+            <widget class="Gui::PrefRadioButton" name="stirrups_number_radio">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -296,7 +244,7 @@
             </widget>
            </item>
            <item>
-            <widget class="Gui::PrefRadioButton" name="ties_spacing_radio">
+            <widget class="Gui::PrefRadioButton" name="stirrups_spacing_radio">
              <property name="text">
               <string>Spacing</string>
              </property>
@@ -305,46 +253,49 @@
           </layout>
          </item>
          <item row="12" column="0">
-          <widget class="QLabel" name="ties_numberLabel">
+          <widget class="QLabel" name="stirrups_numberLabel">
            <property name="text">
             <string>Number</string>
            </property>
           </widget>
          </item>
          <item row="12" column="1">
-          <widget class="Gui::PrefSpinBox" name="ties_number">
+          <widget class="Gui::PrefSpinBox" name="stirrups_number">
            <property name="enabled">
             <bool>true</bool>
            </property>
            <property name="value">
-            <number>3</number>
+            <number>10</number>
            </property>
           </widget>
          </item>
          <item row="13" column="0">
-          <widget class="QLabel" name="ties_spacingLabel">
+          <widget class="QLabel" name="stirrups_spacingLabel">
            <property name="text">
             <string>Spacing</string>
            </property>
           </widget>
          </item>
          <item row="13" column="1">
-          <widget class="Gui::InputField" name="ties_spacing">
+          <widget class="Gui::InputField" name="stirrups_spacing">
            <property name="enabled">
             <bool>false</bool>
            </property>
            <property name="text">
-            <string>0 </string>
+            <string>100 mm</string>
            </property>
            <property name="unit" stdset="0">
-            <string notr="true"/>
+            <string notr="true">mm</string>
+           </property>
+           <property name="quantity" stdset="0">
+            <double>100.000000000000000</double>
            </property>
           </widget>
          </item>
          <item row="14" column="0" colspan="2">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="QPushButton" name="ties_customSpacing">
+            <widget class="QPushButton" name="stirrups_customSpacing">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -360,7 +311,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="ties_removeCustomSpacing">
+            <widget class="QPushButton" name="stirrups_removeCustomSpacing">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -378,40 +329,49 @@
           </layout>
          </item>
          <item row="8" column="0">
-          <widget class="QLabel" name="ties_bentAngleLabel">
+          <widget class="QLabel" name="stirrups_bentAngleLabel">
            <property name="text">
             <string>Bent Angle</string>
            </property>
           </widget>
          </item>
          <item row="8" column="1">
-          <widget class="Gui::PrefComboBox" name="ties_bentAngle"/>
+          <widget class="Gui::PrefComboBox" name="stirrups_bentAngle"/>
          </item>
          <item row="9" column="0">
-          <widget class="QLabel" name="ties_extensionFactorLabel">
+          <widget class="QLabel" name="stirrups_extensionFactorLabel">
            <property name="text">
             <string>Extension Factor</string>
            </property>
           </widget>
          </item>
          <item row="9" column="1">
-          <widget class="Gui::PrefSpinBox" name="ties_extensionFactor">
+          <widget class="Gui::PrefSpinBox" name="stirrups_extensionFactor">
            <property name="value">
             <number>4</number>
            </property>
           </widget>
          </item>
          <item row="7" column="0">
-          <widget class="QLabel" name="ties_diameterLabel">
+          <widget class="QLabel" name="stirrups_diameterLabel">
            <property name="text">
             <string>Diameter</string>
            </property>
           </widget>
          </item>
          <item row="7" column="1">
-          <widget class="Gui::InputField" name="ties_diameter">
+          <widget class="Gui::InputField" name="stirrups_diameter">
+           <property name="text">
+            <string>8 mm</string>
+           </property>
+           <property name="minimum">
+            <double>1.000000000000000</double>
+           </property>
            <property name="unit" stdset="0">
-            <string notr="true"/>
+            <string notr="true">mm</string>
+           </property>
+           <property name="quantity" stdset="0">
+            <double>8.000000000000000</double>
            </property>
           </widget>
          </item>
@@ -422,7 +382,7 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QScrollArea" name="ties_scrollArea">
+    <widget class="QScrollArea" name="stirrups_scrollArea">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -450,13 +410,13 @@
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents_3">
+     <widget class="QWidget" name="scrollAreaWidgetContents">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>260</width>
-        <height>438</height>
+        <width>280</width>
+        <height>444</height>
        </rect>
       </property>
      </widget>

@@ -32,171 +32,17 @@ from Stirrup import makeStirrup, editStirrup
 from StraightRebar import makeStraightRebar, editStraightRebar
 from LShapeRebar import makeLShapeRebar, editLShapeRebar
 from Rebarfunc import (
+    showWarning,
     getParametersOfFace,
     getFaceNumber,
+    getFacenameforRebar,
+    getLRebarOrientationLeftRightCover,
     _RebarGroup,
     _ViewProviderRebarGroup,
 )
 
 if FreeCAD.GuiUp:
     import FreeCADGui
-
-
-def getLRebarOrientationLeftRightCover(
-    hook_orientation,
-    hook_extension,
-    hook_extend_along,
-    l_cover_of_tie,
-    r_cover_of_tie,
-    t_cover_of_tie,
-    b_cover_of_tie,
-    dia_of_tie,
-    dia_of_rebars,
-    rounding_of_rebars,
-    face_length,
-):
-    """getLRebarOrientationLeftRightCover(HookOrientation, HookExtension,
-    HookExtendAlong, LeftCoverOfTie, RightCoverOfTie, TopCoverOfTie,
-    BottomCoverOfTie, DiameterOfTie, DiameterOfRebars, RoundingOfRebars,
-    FaceLength):
-    Return orientation and left and right cover of LShapeRebar in the form of
-    dictionary of list.
-    It takes eight different orientations input for LShapeHook i.e. 'Top
-    Inside', 'Top Outside', 'Bottom Inside', 'Bottom Outside', 'Top Right',
-    'Top Left', 'Bottom Right', 'Bottom Left'.
-    It takes two different inputs for hook_extend_along i.e. 'x-axis', 'y-axis'.
-    """
-    if hook_extend_along == "y-axis":
-        # Swap values of covers
-        l_cover_of_tie, b_cover_of_tie = b_cover_of_tie, l_cover_of_tie
-        r_cover_of_tie, t_cover_of_tie = t_cover_of_tie, r_cover_of_tie
-    l_cover = []
-    r_cover = []
-    l_cover.append(l_cover_of_tie + dia_of_tie)
-    if hook_orientation in ("Top Inside", "Bottom Inside"):
-        # Assign orientation value
-        if hook_orientation == "Top Inside":
-            list_orientation = ["Top Left", "Top Right"]
-        else:
-            list_orientation = ["Bottom Left", "Bottom Right"]
-        r_cover.append(
-            face_length
-            - l_cover_of_tie
-            - dia_of_tie
-            - dia_of_rebars / 2
-            - rounding_of_rebars * dia_of_rebars
-            - hook_extension
-        )
-        l_cover.append(
-            face_length
-            - r_cover_of_tie
-            - dia_of_tie
-            - dia_of_rebars / 2
-            - rounding_of_rebars * dia_of_rebars
-            - hook_extension
-        )
-
-    elif hook_orientation in ("Top Outside", "Bottom Outside"):
-        if hook_orientation == "Top Outside":
-            list_orientation = ["Top Left", "Top Right"]
-        else:
-            list_orientation = ["Bottom Left", "Bottom Right"]
-        r_cover.append(
-            face_length
-            - l_cover_of_tie
-            - dia_of_tie
-            - dia_of_rebars / 2
-            + rounding_of_rebars * dia_of_rebars
-            + hook_extension
-        )
-        l_cover.append(
-            face_length
-            - r_cover_of_tie
-            - dia_of_tie
-            - dia_of_rebars / 2
-            + rounding_of_rebars * dia_of_rebars
-            + hook_extension
-        )
-
-    elif hook_orientation in ("Top Left", "Bottom Left"):
-        if hook_orientation == "Top Left":
-            list_orientation = ["Top Left", "Top Right"]
-        else:
-            list_orientation = ["Bottom Left", "Bottom Right"]
-        r_cover.append(
-            face_length
-            - l_cover_of_tie
-            - dia_of_tie
-            - dia_of_rebars / 2
-            + rounding_of_rebars * dia_of_rebars
-            + hook_extension
-        )
-        l_cover.append(
-            face_length
-            - r_cover_of_tie
-            - dia_of_tie
-            - dia_of_rebars / 2
-            - rounding_of_rebars * dia_of_rebars
-            - hook_extension
-        )
-
-    elif hook_orientation in ("Top Right", "Bottom Right"):
-        if hook_orientation == "Top Right":
-            list_orientation = ["Top Left", "Top Right"]
-        else:
-            list_orientation = ["Bottom Left", "Bottom Right"]
-        r_cover.append(
-            face_length
-            - l_cover_of_tie
-            - dia_of_tie
-            - dia_of_rebars / 2
-            - rounding_of_rebars * dia_of_rebars
-            - hook_extension
-        )
-        l_cover.append(
-            face_length
-            - r_cover_of_tie
-            - dia_of_tie
-            - dia_of_rebars / 2
-            + rounding_of_rebars * dia_of_rebars
-            + hook_extension
-        )
-
-    r_cover.append(r_cover_of_tie + dia_of_tie)
-    l_rebar_orientation_cover = {}
-    l_rebar_orientation_cover["list_orientation"] = list_orientation
-    l_rebar_orientation_cover["l_cover"] = l_cover
-    l_rebar_orientation_cover["r_cover"] = r_cover
-    return l_rebar_orientation_cover
-
-
-def getFacenameforRebar(hook_extend_along, facename, structure):
-    """getFacenameforRebar(HookExtendAlong, Facename, Structure):
-    Return facename of face normal to selected/provided face
-    It takes two different inputs for hook_extend_along i.e. 'x-axis', 'y-axis'.
-    """
-    face = structure.Shape.Faces[getFaceNumber(facename) - 1]
-    normal1 = face.normalAt(0, 0)
-    faces = structure.Shape.Faces
-    index = 1
-    for face in faces:
-        normal2 = face.normalAt(0, 0)
-        if hook_extend_along == "x-axis":
-            if (
-                int(normal1.dot(normal2)) == 0
-                and int(normal1.cross(normal2).x) == 1
-            ):
-                facename_for_rebars = "Face" + str(index)
-                break
-        else:
-            if (
-                int(normal1.dot(normal2)) == 0
-                and int(normal1.cross(normal2).y) == 1
-            ):
-                facename_for_rebars = "Face" + str(index)
-                break
-        index += 1
-    return facename_for_rebars
 
 
 def makeSingleTieFourRebars(
@@ -223,11 +69,11 @@ def makeSingleTieFourRebars(
 ):
     """makeSingleTieFourRebars(LeftCoverOfTie, RightCoverOfTie, TopCoverOfTie,
     BottomCoverOfTie, OffsetofTie, BentAngle, ExtensionFactor, DiameterOfTie,
-    NumberSpacingCheck, NumberSpacingValue, DiameterOfRebars, TopOffsetofRebars,
-    BottomOffsetofRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
+    NumberSpacingCheck, NumberSpacingValue, DiameterOfRebars, TopOffsetOfRebars,
+    BottomOffsetOfRebars, RebarType, LShapeHookOrientation, HookExtendAlong,
     LShapeRebarRounding, LShapeHookLength, Structure, Facename):
-    Adds the Single Tie Four Rebars reinforcement to the selected structural column
-    object.
+    Adds the Single Tie Four Rebars reinforcement to the selected structural
+    column object.
     It takes two different inputs for rebar_type i.e. 'StraightRebar',
     'LShapeRebar'.
     It takes eight different orientations input for L-shaped hooks i.e. 'Top
@@ -241,34 +87,24 @@ def makeSingleTieFourRebars(
             structure = selected_obj.Object
             facename = selected_obj.SubElementNames[0]
         else:
-            print("Error: Pass structure and facename arguments")
+            showWarning("Error: Pass structure and facename arguments")
             return None
 
     # Calculate common parameters for Straight/LShaped rebars
-    if hook_extend_along == "x-axis":
-        f_cover = b_cover_of_tie + dia_of_tie
-    else:
-        f_cover = r_cover_of_tie + dia_of_tie
     t_cover = t_offset_of_rebars
     b_cover = b_offset_of_rebars
     rebar_number_spacing_check = True
     rebar_number_spacing_value = 2
 
-    # Find facename of face normal to selected/provided face
-    facename_for_rebars = getFacenameforRebar(
-        hook_extend_along, facename, structure
-    )
-
     # Create Straight Rebars
     if rebar_type == "StraightRebar":
-        # Right and left cover changes with hook_extend_along because facename,
-        # using which rebars created, changes with value of hook_extend_along
-        if hook_extend_along == "x-axis":
-            r_cover = r_cover_of_tie + dia_of_tie
-            l_cover = l_cover_of_tie + dia_of_tie
-        else:
-            r_cover = t_cover_of_tie + dia_of_tie
-            l_cover = l_cover_of_tie + dia_of_tie
+        hook_extend_along == "x-axis"
+        facename_for_rebars = getFacenameforRebar(
+            hook_extend_along, facename, structure
+        )
+        f_cover = b_cover_of_tie + dia_of_tie
+        r_cover = r_cover_of_tie + dia_of_tie
+        l_cover = l_cover_of_tie + dia_of_tie
         orientation = "Vertical"
         list_coverAlong = ["Right Side", "Left Side"]
         rl_cover = [r_cover, l_cover]
@@ -289,19 +125,21 @@ def makeSingleTieFourRebars(
                     facename_for_rebars,
                 )
             )
-            if hook_extend_along == "x-axis":
-                main_rebars[i].OffsetEnd = (
-                    t_cover_of_tie + dia_of_tie + dia_of_rebars / 2
-                )
-            else:
-                main_rebars[i].OffsetEnd = (
-                    l_cover_of_tie + dia_of_tie + dia_of_rebars / 2
-                )
+            main_rebars[i].OffsetEnd = (
+                t_cover_of_tie + dia_of_tie + dia_of_rebars / 2
+            )
 
     # Create L-Shaped Rebars
     elif rebar_type == "LShapeRebar":
+        facename_for_rebars = getFacenameforRebar(
+            hook_extend_along, facename, structure
+        )
         FacePRM = getParametersOfFace(structure, facename_for_rebars)
         face_length = FacePRM[0][0]
+        if hook_extend_along == "x-axis":
+            f_cover = b_cover_of_tie + dia_of_tie
+        else:
+            f_cover = r_cover_of_tie + dia_of_tie
         # Implement hook extension values from here:
         # https://archive.org/details/gov.in.is.sp.16.1980/page/n207
         if not hook_extension:
@@ -356,11 +194,11 @@ def makeSingleTieFourRebars(
                     l_cover_of_tie + dia_of_tie + dia_of_rebars / 2
                 )
 
-    # Calculate parameters for Stirrup
+    # Calculate parameters for Tie
     rounding = (float(dia_of_tie) / 2 + dia_of_rebars / 2) / dia_of_tie
     f_cover = offset_of_tie
 
-    # Create Stirrups
+    # Create Tie
     ties = makeStirrup(
         l_cover_of_tie,
         r_cover_of_tie,
@@ -487,37 +325,27 @@ def editSingleTieFourRebars(
     )
 
     # Calculate common parameters for Straight/LShaped rebars
-    if hook_extend_along == "x-axis":
-        f_cover = b_cover_of_tie + dia_of_tie
-    else:
-        f_cover = r_cover_of_tie + dia_of_tie
     t_cover = t_offset_of_rebars
     b_cover = b_offset_of_rebars
     rebar_number_spacing_check = True
     rebar_number_spacing_value = 2
 
-    # Find facename of face normal to selected/provided face
-    facename_for_rebars = getFacenameforRebar(
-        hook_extend_along, facename, structure
-    )
-
     # Create/Edit Straight Rebars
     if rebar_type == "StraightRebar":
-        # Right and left cover changes with hook_extend_along because facename,
-        # using which rebars created, changes with value of hook_extend_along
-        if hook_extend_along == "x-axis":
-            r_cover = r_cover_of_tie + dia_of_tie
-            l_cover = l_cover_of_tie + dia_of_tie
-        else:
-            r_cover = t_cover_of_tie + dia_of_tie
-            l_cover = l_cover_of_tie + dia_of_tie
+        hook_extend_along == "x-axis"
+        facename_for_rebars = getFacenameforRebar(
+            hook_extend_along, facename, structure
+        )
+        f_cover = b_cover_of_tie + dia_of_tie
+        r_cover = r_cover_of_tie + dia_of_tie
+        l_cover = l_cover_of_tie + dia_of_tie
         orientation = "Vertical"
         list_coverAlong = ["Right Side", "Left Side"]
         rl_cover = [r_cover, l_cover]
 
         if change_rebar_type:
             # Delete previously created LShaped rebars
-            for Rebar in rebar_group.RebarGroups[1].MainRebars:
+            for Rebar in rebar_group.RebarGroups[1].MainRebars[:2]:
                 base_name = Rebar.Base.Name
                 FreeCAD.ActiveDocument.removeObject(Rebar.Name)
                 FreeCAD.ActiveDocument.removeObject(base_name)
@@ -537,18 +365,13 @@ def editSingleTieFourRebars(
                         facename_for_rebars,
                     )
                 )
-                if hook_extend_along == "x-axis":
-                    main_rebars[i].OffsetEnd = (
-                        t_cover_of_tie + dia_of_tie + dia_of_rebars / 2
-                    )
-                else:
-                    main_rebars[i].OffsetEnd = (
-                        l_cover_of_tie + dia_of_tie + dia_of_rebars / 2
-                    )
+                main_rebars[i].OffsetEnd = (
+                    t_cover_of_tie + dia_of_tie + dia_of_rebars / 2
+                )
             rebar_group.RebarGroups[1].addObjects(main_rebars)
         else:
             main_rebars = []
-            for Rebar in rebar_group.RebarGroups[1].MainRebars:
+            for Rebar in rebar_group.RebarGroups[1].MainRebars[:2]:
                 main_rebars.append(Rebar)
             for i, coverAlong in enumerate(list_coverAlong):
                 editStraightRebar(
@@ -564,19 +387,21 @@ def editSingleTieFourRebars(
                     structure,
                     facename_for_rebars,
                 )
-                if hook_extend_along == "x-axis":
-                    main_rebars[i].OffsetEnd = (
-                        t_cover_of_tie + dia_of_tie + dia_of_rebars / 2
-                    )
-                else:
-                    main_rebars[i].OffsetEnd = (
-                        l_cover_of_tie + dia_of_tie + dia_of_rebars / 2
-                    )
+                main_rebars[i].OffsetEnd = (
+                    t_cover_of_tie + dia_of_tie + dia_of_rebars / 2
+                )
 
     # Create L-Shaped Rebars
     elif rebar_type == "LShapeRebar":
+        facename_for_rebars = getFacenameforRebar(
+            hook_extend_along, facename, structure
+        )
         FacePRM = getParametersOfFace(structure, facename_for_rebars)
         face_length = FacePRM[0][0]
+        if hook_extend_along == "x-axis":
+            f_cover = b_cover_of_tie + dia_of_tie
+        else:
+            f_cover = r_cover_of_tie + dia_of_tie
         # Implement hook extension values from here:
         # https://archive.org/details/gov.in.is.sp.16.1980/page/n207
         if not hook_extension:
@@ -606,7 +431,7 @@ def editSingleTieFourRebars(
 
         if change_rebar_type:
             # Delete previously created Straight rebars
-            for Rebar in rebar_group.RebarGroups[1].MainRebars:
+            for Rebar in rebar_group.RebarGroups[1].MainRebars[:2]:
                 base_name = Rebar.Base.Name
                 FreeCAD.ActiveDocument.removeObject(Rebar.Name)
                 FreeCAD.ActiveDocument.removeObject(base_name)
@@ -639,7 +464,7 @@ def editSingleTieFourRebars(
             rebar_group.RebarGroups[1].addObjects(main_rebars)
         else:
             main_rebars = []
-            for Rebar in rebar_group.RebarGroups[1].MainRebars:
+            for Rebar in rebar_group.RebarGroups[1].MainRebars[:2]:
                 main_rebars.append(Rebar)
             for i, orientation in enumerate(list_orientation):
                 editLShapeRebar(
@@ -710,6 +535,18 @@ class _SingleTieFourRebars(_RebarGroup):
         # 0 -- read and write mode
         # 1 -- read-only mode
         # 2 -- hidden mode
+
+        properties = []
+        properties.append(
+            (
+                "App::PropertyString",
+                "ColumnType",
+                "Type of column reinforcement",
+                1,
+            )
+        )
+        self.setProperties(properties, self.rebar_group)
+        self.rebar_group.ColumnType = "RectangularColumn"
 
         # Add properties to ties group object
         properties = []

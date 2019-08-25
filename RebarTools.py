@@ -146,7 +146,8 @@ class ColumnReinforcementTool:
             "MenuText": QT_TRANSLATE_NOOP("RebarAddon", "Column Reinforcement"),
             "ToolTip": QT_TRANSLATE_NOOP(
                 "RebarAddon",
-                "Creates a Column Reinforcement from the selected face of the Structural element.",
+                "Creates a Column Reinforcement from the selected face of the "
+                "Structural element.",
             ),
         }
 
@@ -162,6 +163,33 @@ class ColumnReinforcementTool:
         # Call to CommandColumnReinforcement() function
         MainColumnReinforcement.CommandColumnReinforcement()
 
+
+class BeamReinforcementTool:
+    def GetResources(self):
+        return {
+            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
+            + "/icons/dropdown_list/Beam.svg",
+            "MenuText": QT_TRANSLATE_NOOP("RebarAddon", "Beam Reinforcement"),
+            "ToolTip": QT_TRANSLATE_NOOP(
+                "RebarAddon",
+                "Creates a Beam Reinforcement from the selected face of the "
+                "Structural element.",
+            ),
+        }
+
+    def IsActive(self):
+        if FreeCADGui.ActiveDocument:
+            return True
+        else:
+            return False
+
+    def Activated(self):
+        from BeamReinforcement import MainBeamReinforcement
+
+        # Call to CommandBeamReinforcement() function
+        MainBeamReinforcement.CommandBeamReinforcement()
+
+
 FreeCADGui.addCommand('Arch_Rebar_Straight', StraightRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_UShape', UShapeRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_LShape', LShapeRebarTool())
@@ -169,6 +197,7 @@ FreeCADGui.addCommand('Arch_Rebar_Stirrup', StirrupTool())
 FreeCADGui.addCommand('Arch_Rebar_BentShape', BentShapeRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_Helical', HelicalRebarTool())
 FreeCADGui.addCommand("Arch_Column_Reinforcement", ColumnReinforcementTool())
+FreeCADGui.addCommand("Arch_Beam_Reinforcement", BeamReinforcementTool())
 
 # List of all rebar commands
 RebarCommands = [
@@ -179,4 +208,5 @@ RebarCommands = [
     "Arch_Rebar_BentShape",
     "Arch_Rebar_Helical",
     "Arch_Column_Reinforcement",
+    "Arch_Beam_Reinforcement",
 ]

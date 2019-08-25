@@ -36,12 +36,19 @@ from ColumnReinforcement.SingleTieMultipleRebars import (
     makeSingleTieMultipleRebars,
     editSingleTieMultipleRebars,
 )
+from ColumnReinforcement.RebarNumberDiameter import runNumberDiameterDialog
+from ColumnReinforcement import CircularColumn
+from ColumnReinforcement.TwoTiesSixRebars import (
+    makeTwoTiesSixRebars,
+    editTwoTiesSixRebars,
+)
 
 
 class _ColumnReinforcementDialog:
     def __init__(self, RebarGroup=None):
         """This function set initial data in Column Reinforcement dialog box."""
         self.CustomSpacing = None
+        self.column_type = "RectangularColumn"
         if not RebarGroup:
             # If column reinforcement is not created yet, then get SelectedObj
             # from FreeCAD Gui selection
@@ -52,11 +59,18 @@ class _ColumnReinforcementDialog:
             # If column reinforcement is already created, then get selectedObj
             # from data stored in created Tie
             for rebar_group in RebarGroup.RebarGroups:
-                if hasattr(rebar_group, "Ties"):
-                    Tie = rebar_group.Ties[0]
-                    self.FaceName = Tie.Base.Support[0][1][0]
-                    self.SelectedObj = Tie.Base.Support[0][0]
-                    break
+                if RebarGroup.ColumnType == "RectangularColumn":
+                    if hasattr(rebar_group, "Ties"):
+                        Tie = rebar_group.Ties[0]
+                        self.FaceName = Tie.Base.Support[0][1][0]
+                        self.SelectedObj = Tie.Base.Support[0][0]
+                        break
+                else:
+                    if hasattr(rebar_group, "HelicalRebars"):
+                        helical_rebar = rebar_group.HelicalRebars[0]
+                        self.FaceName = helical_rebar.Base.Support[0][1][0]
+                        self.SelectedObj = helical_rebar.Base.Support[0][0]
+                        break
         # Load ui from file MainColumnReinforcement.ui
         self.form = FreeCADGui.PySideUic.loadUi(
             os.path.splitext(__file__)[0] + ".ui"
@@ -93,6 +107,10 @@ class _ColumnReinforcementDialog:
             os.path.split(os.path.abspath(__file__))[0] + "/SecYDirRebars.ui"
         )
         self.form.rebars_stackedWidget.addWidget(self.sec_ydir_rebars_widget)
+        self.circular_column_widget = FreeCADGui.PySideUic.loadUi(
+            os.path.split(os.path.abspath(__file__))[0] + "/CircularColumn.ui"
+        )
+        self.form.rebars_stackedWidget.addWidget(self.circular_column_widget)
         # Set Ties data Widget in Scroll Area
         self.ties_widget.ties_scrollArea.setWidget(
             self.ties_widget.ties_dataWidget
@@ -124,12 +142,21 @@ class _ColumnReinforcementDialog:
                 + "/icons/Column_SingleTieMultipleRebars.png"
             )
         )
+        self.circular_column_widget.columReinforcementImage.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+                + "/icons/CircularColumnReinforcement.png"
+            )
+        )
+        if self.RebarGroup:
+            self.ties_widget.ties_configuration.setEnabled(False)
         # Set default values in UI
         self.setDefaultValues()
         # Connect signals and slots
         self.connectSignalSlots()
 
     def setDefaultValues(self):
+        self.CustomSpacing = None
         # Set default values in UI
         # Set Ties data
         self.ties_widget.ties_configuration.setCurrentIndex(
@@ -148,24 +175,20 @@ class _ColumnReinforcementDialog:
         self.ties_widget.ties_rightCover.setText("40.00 mm")
         self.ties_widget.ties_topCover.setText("40.00 mm")
         self.ties_widget.ties_bottomCover.setText("40.00 mm")
+        self.ties_widget.ties_allCoversEqual.setChecked(True)
+        self.tiesAllCoversEqualClicked()
         self.ties_widget.ties_offset.setText("100.00 mm")
+        self.ties_widget.ties_diameter.setText("8.00 mm")
+        self.ties_widget.ties_bentAngle.setCurrentIndex(
+            self.ties_widget.ties_bentAngle.findText("135")
+        )
+        self.ties_widget.ties_extensionFactor.setValue(2)
+        self.ties_widget.ties_number_radio.setChecked(True)
+        self.ties_widget.ties_spacing_radio.setChecked(False)
+        self.ties_widget.ties_number.setEnabled(True)
+        self.ties_widget.ties_spacing.setEnabled(False)
         self.ties_widget.ties_number.setValue(5)
         self.ties_widget.ties_spacing.setText("100.00 mm")
-        self.ties_widget.tie1_diameter.setText("8.00 mm")
-        self.ties_widget.tie1_bentAngle.setCurrentIndex(
-            self.ties_widget.tie1_bentAngle.findText("135")
-        )
-        self.ties_widget.tie1_extensionFactor.setValue(2)
-        self.ties_widget.tie2_diameter.setText("8.00 mm")
-        self.ties_widget.tie2_bentAngle.setCurrentIndex(
-            self.ties_widget.tie2_bentAngle.findText("135")
-        )
-        self.ties_widget.tie2_extensionFactor.setValue(2)
-        self.ties_widget.tie3_diameter.setText("8.00 mm")
-        self.ties_widget.tie3_bentAngle.setCurrentIndex(
-            self.ties_widget.tie3_bentAngle.findText("135")
-        )
-        self.ties_widget.tie3_extensionFactor.setValue(2)
         # Set Main Rebars data
         self.main_rebars_widget.main_rebars_type.setCurrentIndex(
             self.main_rebars_widget.main_rebars_type.findText("StraightRebar")
@@ -202,7 +225,7 @@ class _ColumnReinforcementDialog:
         self.sec_xdir_rebars_widget.xdir_rebars_rounding.setValue(1)
         self.sec_xdir_rebars_widget.xdir_rebars_topOffset.setText("0.00 mm")
         self.sec_xdir_rebars_widget.xdir_rebars_bottomOffset.setText("0.00 mm")
-        self.sec_xdir_rebars_widget.xdir_rebars_numberDiameter.setText(
+        self.sec_xdir_rebars_widget.numberDiameter.setText(
             "2#20mm+1#16mm+2#20mm"
         )
         # Set Secondary Ydir Rebars Data
@@ -222,21 +245,44 @@ class _ColumnReinforcementDialog:
         self.sec_ydir_rebars_widget.ydir_rebars_rounding.setValue(1)
         self.sec_ydir_rebars_widget.ydir_rebars_topOffset.setText("0.00 mm")
         self.sec_ydir_rebars_widget.ydir_rebars_bottomOffset.setText("0.00 mm")
-        self.sec_ydir_rebars_widget.ydir_rebars_numberDiameter.setText(
+        self.sec_ydir_rebars_widget.numberDiameter.setText(
             "1#20mm+1#16mm+1#20mm"
         )
+        # Set circular column data
+        self.circular_column_widget.sideCover.setText("20.00 mm")
+        self.circular_column_widget.helical_rebars_topOffset.setText("40.00 mm")
+        self.circular_column_widget.helical_rebars_bottomOffset.setText(
+            "40.00 mm"
+        )
+        self.circular_column_widget.pitch.setText("50.00 mm")
+        self.circular_column_widget.helical_rebars_diameter.setText("8.00 mm")
+        self.circular_column_widget.main_rebars_topOffset.setText("20.00 mm")
+        self.circular_column_widget.main_rebars_bottomOffset.setText("20.00 mm")
+        self.circular_column_widget.main_rebars_diameter.setText("16.00 mm")
+        self.circular_column_widget.main_rebars_number_radio.setChecked(True)
+        self.circular_column_widget.main_rebars_angle_radio.setChecked(False)
+        self.circular_column_widget.main_rebars_number.setEnabled(True)
+        self.circular_column_widget.main_rebars_angle.setEnabled(False)
+        self.circular_column_widget.main_rebars_number.setValue(6)
+        self.circular_column_widget.main_rebars_angle.setValue(60)
 
     def addDropdownMenuItems(self):
         """This function add dropdown items to each Gui::PrefComboBox."""
         # Add ties configurations
-        self.ties_widget.ties_configuration.addItems(["SingleTie"])
-        self.main_rebars_widget.ties_configuration.addItems(["SingleTie"])
-        self.sec_xdir_rebars_widget.ties_configuration.addItems(["SingleTie"])
-        self.sec_ydir_rebars_widget.ties_configuration.addItems(["SingleTie"])
+        self.ties_widget.ties_configuration.addItems(
+            ["SingleTie", "TwoTiesSixRebars"]
+        )
+        self.main_rebars_widget.ties_configuration.addItems(
+            ["SingleTie", "TwoTiesSixRebars"]
+        )
+        self.sec_xdir_rebars_widget.ties_configuration.addItems(
+            ["SingleTie", "TwoTiesSixRebars"]
+        )
+        self.sec_ydir_rebars_widget.ties_configuration.addItems(
+            ["SingleTie", "TwoTiesSixRebars"]
+        )
         # Add bent angle of ties
-        self.ties_widget.tie1_bentAngle.addItems(["90", "135"])
-        self.ties_widget.tie2_bentAngle.addItems(["90", "135"])
-        self.ties_widget.tie3_bentAngle.addItems(["90", "135"])
+        self.ties_widget.ties_bentAngle.addItems(["90", "135"])
         # Add rebar_type to all rebars widgets
         self.main_rebars_widget.main_rebars_type.addItems(
             ["StraightRebar", "LShapeRebar"]
@@ -276,6 +322,12 @@ class _ColumnReinforcementDialog:
     def connectSignalSlots(self):
         """This function is used to connect different slots in UI to appropriate
         functions."""
+        self.form.rectangular_column_radio.clicked.connect(
+            self.rectangularColumnRadioClicked
+        )
+        self.form.circular_column_radio.clicked.connect(
+            self.circularColumnRadioClicked
+        )
         self.form.rebars_listWidget.currentRowChanged.connect(
             self.changeRebarsListWidget
         )
@@ -309,9 +361,50 @@ class _ColumnReinforcementDialog:
         self.sec_ydir_rebars_widget.ydir_rebars_type.currentIndexChanged.connect(
             self.changeYDirRebarsType
         )
+        self.sec_xdir_rebars_widget.xdir_rebars_editNumberDiameter.clicked.connect(
+            lambda: runNumberDiameterDialog(self.sec_xdir_rebars_widget)
+        )
+        self.sec_ydir_rebars_widget.ydir_rebars_editNumberDiameter.clicked.connect(
+            lambda: runNumberDiameterDialog(self.sec_ydir_rebars_widget)
+        )
+        self.circular_column_widget.main_rebars_number_radio.clicked.connect(
+            self.mainRebarsNumberRadioClicked
+        )
+        self.circular_column_widget.main_rebars_angle_radio.clicked.connect(
+            self.mainRebarsAngleRadioClicked
+        )
         self.form.next_button.clicked.connect(self.nextButtonCilcked)
         self.form.back_button.clicked.connect(self.backButtonCilcked)
         self.form.standardButtonBox.clicked.connect(self.clicked)
+
+    def reset(self):
+        if not self.RebarGroup:
+            self.setDefaultValues()
+        else:
+            if self.column_type == "RectangularColumn":
+                setTiesData(self, None)
+                setMainRebarsData(self, None)
+                if self.ties_configuration == "SingleTie":
+                    setXDirRebarsData(self, None)
+                    setYDirRebarsData(self, None)
+            else:
+                setCircularColumnReinforcementData(self, None)
+
+    def circularColumnRadioClicked(self):
+        self.column_type = "CircularColumn"
+        self.form.rebars_listWidget.hide()
+        self.form.rebars_stackedWidget.setCurrentIndex(4)
+        self.form.back_button.hide()
+        self.form.next_button.setText("Finish")
+
+    def rectangularColumnRadioClicked(self):
+        self.column_type = "RectangularColumn"
+        self.form.rebars_listWidget.show()
+        self.form.rebars_stackedWidget.setCurrentIndex(
+            self.form.rebars_listWidget.currentRow()
+        )
+        self.form.back_button.show()
+        self.form.next_button.setText("Next")
 
     def changeRebarsListWidget(self, index):
         max_index = self.form.rebars_listWidget.count() - 1
@@ -326,6 +419,21 @@ class _ColumnReinforcementDialog:
         and update UI accordingly."""
         self.ties_configuration = (
             self.ties_widget.ties_configuration.currentText()
+        )
+        self.main_rebars_widget.ties_configuration.setCurrentIndex(
+            self.main_rebars_widget.ties_configuration.findText(
+                str(self.ties_configuration)
+            )
+        )
+        self.sec_xdir_rebars_widget.ties_configuration.setCurrentIndex(
+            self.sec_xdir_rebars_widget.ties_configuration.findText(
+                str(self.ties_configuration)
+            )
+        )
+        self.sec_ydir_rebars_widget.ties_configuration.setCurrentIndex(
+            self.sec_ydir_rebars_widget.ties_configuration.findText(
+                str(self.ties_configuration)
+            )
         )
         if self.ties_configuration == "SingleTie":
             self.ties_widget.ties_configurationImage.setPixmap(
@@ -360,6 +468,47 @@ class _ColumnReinforcementDialog:
                     + "/icons/Column_SingleTieMultipleRebars.png"
                 )
             )
+            self.sec_xdir_rebars_widget.setEnabled(True)
+            self.sec_ydir_rebars_widget.setEnabled(True)
+            self.ties_widget.ties_sequenceLabel.setEnabled(False)
+            self.ties_widget.ties_sequenceListWidget.setEnabled(False)
+        elif self.ties_configuration == "TwoTiesSixRebars":
+            self.ties_widget.ties_configurationImage.setPixmap(
+                QtGui.QPixmap(
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
+                    + "/icons/Column_TwoTiesSixRebars.png"
+                )
+            )
+            self.main_rebars_widget.ties_configurationImage.setPixmap(
+                QtGui.QPixmap(
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
+                    + "/icons/Column_TwoTiesSixRebars.png"
+                )
+            )
+            self.sec_xdir_rebars_widget.ties_configurationImage.setPixmap(
+                QtGui.QPixmap(
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
+                    + "/icons/Column_TwoTiesSixRebars.png"
+                )
+            )
+            self.sec_ydir_rebars_widget.ties_configurationImage.setPixmap(
+                QtGui.QPixmap(
+                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
+                        0
+                    ]
+                    + "/icons/Column_TwoTiesSixRebars.png"
+                )
+            )
+            self.sec_xdir_rebars_widget.setEnabled(False)
+            self.sec_ydir_rebars_widget.setEnabled(False)
+            self.ties_widget.ties_sequenceLabel.setEnabled(True)
+            self.ties_widget.ties_sequenceListWidget.setEnabled(True)
 
     def tiesLeftCoverChanged(self):
         # Set right/top/bottom cover equal to left cover
@@ -480,6 +629,14 @@ class _ColumnReinforcementDialog:
             )
             self.sec_ydir_rebars_widget.ydir_rebars_rounding.setEnabled(False)
 
+    def mainRebarsNumberRadioClicked(self):
+        self.circular_column_widget.main_rebars_number.setEnabled(True)
+        self.circular_column_widget.main_rebars_angle.setEnabled(False)
+
+    def mainRebarsAngleRadioClicked(self):
+        self.circular_column_widget.main_rebars_number.setEnabled(False)
+        self.circular_column_widget.main_rebars_angle.setEnabled(True)
+
     def nextButtonCilcked(self):
         if self.form.next_button.text() == "Finish":
             self.accept()
@@ -505,6 +662,11 @@ class _ColumnReinforcementDialog:
 
         elif (
             self.form.standardButtonBox.buttonRole(button)
+            == QtWidgets.QDialogButtonBox.ResetRole
+        ):
+            self.reset()
+        elif (
+            self.form.standardButtonBox.buttonRole(button)
             == QtWidgets.QDialogButtonBox.RejectRole
         ):
             self.form.close()
@@ -516,91 +678,179 @@ class _ColumnReinforcementDialog:
             self.ties_widget.ties_configuration.currentText()
         )
         if not self.RebarGroup:
-            if self.ties_configuration == "SingleTie":
-                self.getTiesData()
-                self.getMainRebarsData()
-                self.getXDirRebarsData()
-                self.getYDirRebarsData()
-                RebarGroup = makeSingleTieMultipleRebars(
-                    self.ties_l_cover,
-                    self.ties_r_cover,
-                    self.ties_t_cover,
-                    self.ties_b_cover,
-                    self.ties_offset,
-                    self.tie1_bent_angle,
-                    self.tie1_extension_factor,
-                    self.tie1_diameter,
-                    self.ties_number_spacing_check,
-                    self.ties_number_spacing_value,
-                    self.main_rebars_diameter,
-                    self.main_rebars_t_offset,
-                    self.main_rebars_b_offset,
-                    self.main_rebars_type,
-                    self.main_rebars_hook_orientation,
-                    self.main_rebars_hook_extend_along,
-                    self.main_rebars_rounding,
-                    self.main_rebars_hook_extension,
-                    (self.xdir_rebars_t_offset, self.ydir_rebars_t_offset),
-                    (self.xdir_rebars_b_offset, self.ydir_rebars_b_offset),
-                    (
-                        self.xdir_rebars_number_diameter,
-                        self.ydir_rebars_number_diameter,
-                    ),
-                    (self.xdir_rebars_type, self.ydir_rebars_type),
-                    (
-                        self.xdir_rebars_hook_orientation,
-                        self.ydir_rebars_hook_orientation,
-                    ),
-                    (self.xdir_rebars_rounding, self.ydir_rebars_rounding),
-                    (
-                        self.xdir_rebars_hook_extension,
-                        self.ydir_rebars_hook_extension,
-                    ),
+            if self.column_type == "RectangularColumn":
+                if self.ties_configuration == "SingleTie":
+                    self.getTiesData()
+                    self.getMainRebarsData()
+                    self.getXDirRebarsData()
+                    self.getYDirRebarsData()
+                    RebarGroup = makeSingleTieMultipleRebars(
+                        self.ties_l_cover,
+                        self.ties_r_cover,
+                        self.ties_t_cover,
+                        self.ties_b_cover,
+                        self.ties_offset,
+                        self.ties_bent_angle,
+                        self.ties_extension_factor,
+                        self.ties_diameter,
+                        self.ties_number_spacing_check,
+                        self.ties_number_spacing_value,
+                        self.main_rebars_diameter,
+                        self.main_rebars_t_offset,
+                        self.main_rebars_b_offset,
+                        self.main_rebars_type,
+                        self.main_rebars_hook_orientation,
+                        self.main_rebars_hook_extend_along,
+                        self.main_rebars_rounding,
+                        self.main_rebars_hook_extension,
+                        (self.xdir_rebars_t_offset, self.ydir_rebars_t_offset),
+                        (self.xdir_rebars_b_offset, self.ydir_rebars_b_offset),
+                        (
+                            self.xdir_rebars_number_diameter,
+                            self.ydir_rebars_number_diameter,
+                        ),
+                        (self.xdir_rebars_type, self.ydir_rebars_type),
+                        (
+                            self.xdir_rebars_hook_orientation,
+                            self.ydir_rebars_hook_orientation,
+                        ),
+                        (self.xdir_rebars_rounding, self.ydir_rebars_rounding),
+                        (
+                            self.xdir_rebars_hook_extension,
+                            self.ydir_rebars_hook_extension,
+                        ),
+                        self.SelectedObj,
+                        self.FaceName,
+                    )
+                elif self.ties_configuration == "TwoTiesSixRebars":
+                    self.getTiesData()
+                    self.getMainRebarsData()
+                    RebarGroup = makeTwoTiesSixRebars(
+                        self.ties_l_cover,
+                        self.ties_r_cover,
+                        self.ties_t_cover,
+                        self.ties_b_cover,
+                        self.ties_offset,
+                        self.ties_bent_angle,
+                        self.ties_extension_factor,
+                        self.ties_diameter,
+                        self.ties_number_spacing_check,
+                        self.ties_number_spacing_value,
+                        self.main_rebars_diameter,
+                        self.main_rebars_t_offset,
+                        self.main_rebars_b_offset,
+                        self.main_rebars_type,
+                        self.main_rebars_hook_orientation,
+                        self.main_rebars_hook_extend_along,
+                        self.main_rebars_rounding,
+                        self.main_rebars_hook_extension,
+                        self.ties_sequence,
+                        self.SelectedObj,
+                        self.FaceName,
+                    )
+            else:
+                self.getCircularColumnReinforcementData()
+                RebarGroup = CircularColumn.makeReinforcement(
+                    self.cir_h_rebar_s_cover,
+                    self.cir_h_rebar_t_offset,
+                    self.cir_h_rebar_b_offset,
+                    self.cir_h_rebar_pitch,
+                    self.cir_h_rebar_diameter,
+                    self.cir_m_rebar_t_offset,
+                    self.cir_m_rebar_b_offset,
+                    self.cir_m_rebar_diameter,
+                    self.cir_number_angle_check,
+                    self.cir_number_angle_value,
                     self.SelectedObj,
                     self.FaceName,
                 )
         else:
-            if self.ties_configuration == "SingleTie":
-                self.getTiesData()
-                self.getMainRebarsData()
-                self.getXDirRebarsData()
-                self.getYDirRebarsData()
-                RebarGroup = editSingleTieMultipleRebars(
+            if self.column_type == "RectangularColumn":
+                if self.ties_configuration == "SingleTie":
+                    self.getTiesData()
+                    self.getMainRebarsData()
+                    self.getXDirRebarsData()
+                    self.getYDirRebarsData()
+                    RebarGroup = editSingleTieMultipleRebars(
+                        self.RebarGroup,
+                        self.ties_l_cover,
+                        self.ties_r_cover,
+                        self.ties_t_cover,
+                        self.ties_b_cover,
+                        self.ties_offset,
+                        self.ties_bent_angle,
+                        self.ties_extension_factor,
+                        self.ties_diameter,
+                        self.ties_number_spacing_check,
+                        self.ties_number_spacing_value,
+                        self.main_rebars_diameter,
+                        self.main_rebars_t_offset,
+                        self.main_rebars_b_offset,
+                        self.main_rebars_type,
+                        self.main_rebars_hook_orientation,
+                        self.main_rebars_hook_extend_along,
+                        self.main_rebars_rounding,
+                        self.main_rebars_hook_extension,
+                        (self.xdir_rebars_t_offset, self.ydir_rebars_t_offset),
+                        (self.xdir_rebars_b_offset, self.ydir_rebars_b_offset),
+                        (
+                            self.xdir_rebars_number_diameter,
+                            self.ydir_rebars_number_diameter,
+                        ),
+                        (self.xdir_rebars_type, self.ydir_rebars_type),
+                        (
+                            self.xdir_rebars_hook_orientation,
+                            self.ydir_rebars_hook_orientation,
+                        ),
+                        (self.xdir_rebars_rounding, self.ydir_rebars_rounding),
+                        (
+                            self.xdir_rebars_hook_extension,
+                            self.ydir_rebars_hook_extension,
+                        ),
+                        self.SelectedObj,
+                        self.FaceName,
+                    )
+                elif self.ties_configuration == "TwoTiesSixRebars":
+                    self.getTiesData()
+                    self.getMainRebarsData()
+                    RebarGroup = editTwoTiesSixRebars(
+                        self.RebarGroup,
+                        self.ties_l_cover,
+                        self.ties_r_cover,
+                        self.ties_t_cover,
+                        self.ties_b_cover,
+                        self.ties_offset,
+                        self.ties_bent_angle,
+                        self.ties_extension_factor,
+                        self.ties_diameter,
+                        self.ties_number_spacing_check,
+                        self.ties_number_spacing_value,
+                        self.main_rebars_diameter,
+                        self.main_rebars_t_offset,
+                        self.main_rebars_b_offset,
+                        self.main_rebars_type,
+                        self.main_rebars_hook_orientation,
+                        self.main_rebars_hook_extend_along,
+                        self.main_rebars_rounding,
+                        self.main_rebars_hook_extension,
+                        self.ties_sequence,
+                        self.SelectedObj,
+                        self.FaceName,
+                    )
+            else:
+                self.getCircularColumnReinforcementData()
+                RebarGroup = CircularColumn.editReinforcement(
                     self.RebarGroup,
-                    self.ties_l_cover,
-                    self.ties_r_cover,
-                    self.ties_t_cover,
-                    self.ties_b_cover,
-                    self.ties_offset,
-                    self.tie1_bent_angle,
-                    self.tie1_extension_factor,
-                    self.tie1_diameter,
-                    self.ties_number_spacing_check,
-                    self.ties_number_spacing_value,
-                    self.main_rebars_diameter,
-                    self.main_rebars_t_offset,
-                    self.main_rebars_b_offset,
-                    self.main_rebars_type,
-                    self.main_rebars_hook_orientation,
-                    self.main_rebars_hook_extend_along,
-                    self.main_rebars_rounding,
-                    self.main_rebars_hook_extension,
-                    (self.xdir_rebars_t_offset, self.ydir_rebars_t_offset),
-                    (self.xdir_rebars_b_offset, self.ydir_rebars_b_offset),
-                    (
-                        self.xdir_rebars_number_diameter,
-                        self.ydir_rebars_number_diameter,
-                    ),
-                    (self.xdir_rebars_type, self.ydir_rebars_type),
-                    (
-                        self.xdir_rebars_hook_orientation,
-                        self.ydir_rebars_hook_orientation,
-                    ),
-                    (self.xdir_rebars_rounding, self.ydir_rebars_rounding),
-                    (
-                        self.xdir_rebars_hook_extension,
-                        self.ydir_rebars_hook_extension,
-                    ),
+                    self.cir_h_rebar_s_cover,
+                    self.cir_h_rebar_t_offset,
+                    self.cir_h_rebar_b_offset,
+                    self.cir_h_rebar_pitch,
+                    self.cir_h_rebar_diameter,
+                    self.cir_m_rebar_t_offset,
+                    self.cir_m_rebar_b_offset,
+                    self.cir_m_rebar_diameter,
+                    self.cir_number_angle_check,
+                    self.cir_number_angle_value,
                     self.SelectedObj,
                     self.FaceName,
                 )
@@ -618,7 +868,7 @@ class _ColumnReinforcementDialog:
 
     def getTiesData(self):
         """This function is used to get data related to ties from UI."""
-        # Get ties common data
+        # Get Ties data from UI
         self.ties_l_cover = self.ties_widget.ties_leftCover.text()
         self.ties_l_cover = FreeCAD.Units.Quantity(self.ties_l_cover).Value
         self.ties_r_cover = self.ties_widget.ties_rightCover.text()
@@ -629,6 +879,14 @@ class _ColumnReinforcementDialog:
         self.ties_b_cover = FreeCAD.Units.Quantity(self.ties_b_cover).Value
         self.ties_offset = self.ties_widget.ties_offset.text()
         self.ties_offset = FreeCAD.Units.Quantity(self.ties_offset).Value
+        self.ties_diameter = self.ties_widget.ties_diameter.text()
+        self.ties_diameter = FreeCAD.Units.Quantity(self.ties_diameter).Value
+        self.ties_bent_angle = int(
+            self.ties_widget.ties_bentAngle.currentText()
+        )
+        self.ties_extension_factor = (
+            self.ties_widget.ties_extensionFactor.value()
+        )
         self.ties_number_check = self.ties_widget.ties_number_radio.isChecked()
         if self.ties_number_check:
             self.ties_number_spacing_check = True
@@ -643,33 +901,10 @@ class _ColumnReinforcementDialog:
             self.ties_number_spacing_value = FreeCAD.Units.Quantity(
                 self.ties_number_spacing_value
             ).Value
-        # Get Tie1 data from UI
-        self.tie1_diameter = self.ties_widget.tie1_diameter.text()
-        self.tie1_diameter = FreeCAD.Units.Quantity(self.tie1_diameter).Value
-        self.tie1_bent_angle = int(
-            self.ties_widget.tie1_bentAngle.currentText()
-        )
-        self.tie1_extension_factor = (
-            self.ties_widget.tie1_extensionFactor.value()
-        )
-        # Get Tie2 data from UI
-        self.tie2_diameter = self.ties_widget.tie2_diameter.text()
-        self.tie2_diameter = FreeCAD.Units.Quantity(self.tie2_diameter).Value
-        self.tie2_bent_angle = int(
-            self.ties_widget.tie2_bentAngle.currentText()
-        )
-        self.tie2_extension_factor = (
-            self.ties_widget.tie2_extensionFactor.value()
-        )
-        # Get Tie3 data from UI
-        self.tie3_diameter = self.ties_widget.tie3_diameter.text()
-        self.tie3_diameter = FreeCAD.Units.Quantity(self.tie3_diameter).Value
-        self.tie3_bent_angle = int(
-            self.ties_widget.tie3_bentAngle.currentText()
-        )
-        self.tie3_extension_factor = (
-            self.ties_widget.tie3_extensionFactor.value()
-        )
+        if self.ties_configuration == "TwoTiesSixRebars":
+            item1 = self.ties_widget.ties_sequenceListWidget.item(0).text()
+            item2 = self.ties_widget.ties_sequenceListWidget.item(1).text()
+            self.ties_sequence = (item1, item2)
 
     def getMainRebarsData(self):
         """This function is used to get data related to main rebars from UI."""
@@ -740,7 +975,7 @@ class _ColumnReinforcementDialog:
             self.xdir_rebars_b_offset
         ).Value
         self.xdir_rebars_number_diameter = (
-            self.sec_xdir_rebars_widget.xdir_rebars_numberDiameter.text()
+            self.sec_xdir_rebars_widget.numberDiameter.text()
         )
 
     def getYDirRebarsData(self):
@@ -773,8 +1008,67 @@ class _ColumnReinforcementDialog:
             self.ydir_rebars_b_offset
         ).Value
         self.ydir_rebars_number_diameter = (
-            self.sec_ydir_rebars_widget.ydir_rebars_numberDiameter.text()
+            self.sec_ydir_rebars_widget.numberDiameter.text()
         )
+
+    def getCircularColumnReinforcementData(self):
+        self.cir_h_rebar_s_cover = self.circular_column_widget.sideCover.text()
+        self.cir_h_rebar_s_cover = FreeCAD.Units.Quantity(
+            self.cir_h_rebar_s_cover
+        ).Value
+        self.cir_h_rebar_t_offset = (
+            self.circular_column_widget.helical_rebars_topOffset.text()
+        )
+        self.cir_h_rebar_t_offset = FreeCAD.Units.Quantity(
+            self.cir_h_rebar_t_offset
+        ).Value
+        self.cir_h_rebar_b_offset = (
+            self.circular_column_widget.helical_rebars_bottomOffset.text()
+        )
+        self.cir_h_rebar_b_offset = FreeCAD.Units.Quantity(
+            self.cir_h_rebar_b_offset
+        ).Value
+        self.cir_h_rebar_pitch = self.circular_column_widget.pitch.text()
+        self.cir_h_rebar_pitch = FreeCAD.Units.Quantity(
+            self.cir_h_rebar_pitch
+        ).Value
+        self.cir_h_rebar_diameter = (
+            self.circular_column_widget.helical_rebars_diameter.text()
+        )
+        self.cir_h_rebar_diameter = FreeCAD.Units.Quantity(
+            self.cir_h_rebar_diameter
+        ).Value
+        self.cir_m_rebar_t_offset = (
+            self.circular_column_widget.main_rebars_topOffset.text()
+        )
+        self.cir_m_rebar_t_offset = FreeCAD.Units.Quantity(
+            self.cir_m_rebar_t_offset
+        ).Value
+        self.cir_m_rebar_b_offset = (
+            self.circular_column_widget.main_rebars_bottomOffset.text()
+        )
+        self.cir_m_rebar_b_offset = FreeCAD.Units.Quantity(
+            self.cir_m_rebar_b_offset
+        ).Value
+        self.cir_m_rebar_diameter = (
+            self.circular_column_widget.main_rebars_diameter.text()
+        )
+        self.cir_m_rebar_diameter = FreeCAD.Units.Quantity(
+            self.cir_m_rebar_diameter
+        ).Value
+        self.cir_number_check = (
+            self.circular_column_widget.main_rebars_number_radio.isChecked()
+        )
+        if self.cir_number_check:
+            self.cir_number_angle_check = True
+            self.cir_number_angle_value = (
+                self.circular_column_widget.main_rebars_number.value()
+            )
+        else:
+            self.cir_number_angle_check = False
+            self.cir_number_angle_value = (
+                self.circular_column_widget.main_rebars_angle.value()
+            )
 
 
 def editDialog(vobj):
@@ -782,74 +1076,112 @@ def editDialog(vobj):
     if len(vobj.Object.RebarGroups) == 0:
         showWarning("Nothing to edit. You have deleted all rebar groups.")
         return
+    ties_group = None
+    helical_rebar_group = None
     for i, rebar_group in enumerate(vobj.Object.RebarGroups):
-        # Check if ties group exists
-        if hasattr(rebar_group, "Ties"):
-            # Check if ties exists
-            if len(rebar_group.Ties) > 0:
-                ties_group = rebar_group
-                break
-            else:
+        if vobj.Object.ColumnType == "RectangularColumn":
+            # Check if ties group exists
+            if hasattr(rebar_group, "Ties"):
+                # Check if ties exists
+                if len(rebar_group.Ties) > 0:
+                    ties_group = rebar_group
+                    break
+                else:
+                    showWarning(
+                        "You have deleted ties. Please recreate the "
+                        "ColumnReinforcement."
+                    )
+                    return
+            elif i == len(vobj.Object.RebarGroups) - 1:
                 showWarning(
-                    "You have deleted ties. Please recreate the ColumnReinforcement."
+                    "You have deleted ties group. Please recreate the "
+                    "ColumnReinforcement."
                 )
                 return
-        elif i == len(vobj.Object.RebarGroups) - 1:
-            showWarning(
-                "You have deleted ties group. Please recreate the ColumnReinforcement."
-            )
-            return
+        else:
+            # Check if HelicalRebars group exists
+            if hasattr(rebar_group, "HelicalRebars"):
+                # Check if helical_rebar exists
+                if len(rebar_group.HelicalRebars) > 0:
+                    helical_rebar_group = rebar_group
+                    break
+                else:
+                    showWarning(
+                        "You have deleted helical rebars. Please recreate the "
+                        "ColumnReinforcement."
+                    )
+                    return
+            elif i == len(vobj.Object.RebarGroups) - 1:
+                showWarning(
+                    "You have deleted HelicalRebars group. Please recreate the "
+                    "ColumnReinforcement."
+                )
+                return
     obj = _ColumnReinforcementDialog(vobj.Object)
     obj.setupUi()
-    obj.ties_widget.ties_configuration.setCurrentIndex(
-        obj.ties_widget.ties_configuration.findText(
-            str(ties_group.TiesConfiguration)
+    if ties_group:
+        obj.form.rectangular_column_radio.setChecked(True)
+        obj.rectangularColumnRadioClicked()
+        obj.ties_widget.ties_configuration.setCurrentIndex(
+            obj.ties_widget.ties_configuration.findText(
+                str(ties_group.TiesConfiguration)
+            )
         )
-    )
-    obj.main_rebars_widget.ties_configuration.setCurrentIndex(
-        obj.ties_widget.ties_configuration.findText(
-            str(ties_group.TiesConfiguration)
+        obj.main_rebars_widget.ties_configuration.setCurrentIndex(
+            obj.ties_widget.ties_configuration.findText(
+                str(ties_group.TiesConfiguration)
+            )
         )
-    )
-    obj.sec_xdir_rebars_widget.ties_configuration.setCurrentIndex(
-        obj.ties_widget.ties_configuration.findText(
-            str(ties_group.TiesConfiguration)
+        obj.sec_xdir_rebars_widget.ties_configuration.setCurrentIndex(
+            obj.ties_widget.ties_configuration.findText(
+                str(ties_group.TiesConfiguration)
+            )
         )
-    )
-    obj.sec_ydir_rebars_widget.ties_configuration.setCurrentIndex(
-        obj.ties_widget.ties_configuration.findText(
-            str(ties_group.TiesConfiguration)
+        obj.sec_ydir_rebars_widget.ties_configuration.setCurrentIndex(
+            obj.ties_widget.ties_configuration.findText(
+                str(ties_group.TiesConfiguration)
+            )
         )
-    )
-    setTiesData(obj, vobj)
-    obj.main_rebars_widget.setEnabled(False)
-    obj.sec_xdir_rebars_widget.setEnabled(False)
-    obj.sec_ydir_rebars_widget.setEnabled(False)
-    for i, rebar_group in enumerate(vobj.Object.RebarGroups):
-        if hasattr(rebar_group, "MainRebars"):
-            if len(rebar_group.MainRebars) > 0:
-                setMainRebarsData(obj, vobj)
-                obj.main_rebars_widget.setEnabled(True)
-        elif hasattr(rebar_group, "SecondaryRebars"):
-            if len(rebar_group.SecondaryRebars) > 0:
-                for sec_rebar in rebar_group.SecondaryRebars:
-                    if hasattr(sec_rebar, "XDirRebars"):
-                        if len(sec_rebar.XDirRebars) > 0:
-                            setXDirRebarsData(obj, vobj)
-                            obj.sec_xdir_rebars_widget.setEnabled(True)
-                    elif hasattr(sec_rebar, "YDirRebars"):
-                        if len(sec_rebar.YDirRebars) > 0:
-                            setYDirRebarsData(obj, vobj)
-                            obj.sec_ydir_rebars_widget.setEnabled(True)
+        setTiesData(obj, vobj)
+        obj.main_rebars_widget.setEnabled(False)
+        obj.sec_xdir_rebars_widget.setEnabled(False)
+        obj.sec_ydir_rebars_widget.setEnabled(False)
+        for i, rebar_group in enumerate(vobj.Object.RebarGroups):
+            if hasattr(rebar_group, "MainRebars"):
+                if len(rebar_group.MainRebars) > 0:
+                    setMainRebarsData(obj, vobj)
+                    obj.main_rebars_widget.setEnabled(True)
+            elif hasattr(rebar_group, "SecondaryRebars"):
+                if len(rebar_group.SecondaryRebars) > 0:
+                    for sec_rebar in rebar_group.SecondaryRebars:
+                        if hasattr(sec_rebar, "XDirRebars"):
+                            if len(sec_rebar.XDirRebars) > 0:
+                                setXDirRebarsData(obj, vobj)
+                                obj.sec_xdir_rebars_widget.setEnabled(True)
+                        elif hasattr(sec_rebar, "YDirRebars"):
+                            if len(sec_rebar.YDirRebars) > 0:
+                                setYDirRebarsData(obj, vobj)
+                                obj.sec_ydir_rebars_widget.setEnabled(True)
+    else:
+        obj.form.circular_column_radio.setChecked(True)
+        obj.circularColumnRadioClicked()
+        setCircularColumnReinforcementData(obj, vobj)
 
     obj.form.exec_()
 
 
 def setTiesData(obj, vobj):
-    for rebar_group in vobj.Object.RebarGroups:
-        if hasattr(rebar_group, "Ties"):
-            Ties = rebar_group
-            break
+    if vobj:
+        for rebar_group in vobj.Object.RebarGroups:
+            if hasattr(rebar_group, "Ties"):
+                Ties = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.RebarGroups:
+            if hasattr(rebar_group, "Ties"):
+                Ties = rebar_group
+                break
+
     if not (
         str(Ties.LeftCover)
         == str(Ties.RightCover)
@@ -865,28 +1197,42 @@ def setTiesData(obj, vobj):
     obj.ties_widget.ties_rightCover.setText(str(Ties.RightCover))
     obj.ties_widget.ties_topCover.setText(str(Ties.TopCover))
     obj.ties_widget.ties_bottomCover.setText(str(Ties.BottomCover))
-    Tie1 = Ties.Ties[0]
-    obj.ties_widget.ties_offset.setText(str(Tie1.FrontCover))
-    if Tie1.AmountCheck:
-        obj.ties_widget.ties_number.setValue(Tie1.Amount)
+    Tie = Ties.Ties[0]
+    obj.ties_widget.ties_offset.setText(str(Ties.Ties[0].FrontCover))
+    if Ties.TiesConfiguration == "TwoTiesSixRebars":
+        if Ties.TiesSequence[0] == "Tie2" and Ties.TiesSequence[1] == "Tie1":
+            obj.ties_widget.ties_offset.setText(str(Ties.Ties[1].FrontCover))
+    obj.ties_widget.ties_diameter.setText(str(Tie.Diameter))
+    obj.ties_widget.ties_bentAngle.setCurrentIndex(
+        obj.ties_widget.ties_bentAngle.findText(str(Tie.BentAngle))
+    )
+    obj.ties_widget.ties_extensionFactor.setValue(Tie.BentFactor)
+    if Tie.AmountCheck:
+        obj.ties_widget.ties_number.setValue(Tie.Amount)
     else:
         obj.ties_widget.ties_number_radio.setChecked(False)
         obj.ties_widget.ties_spacing_radio.setChecked(True)
         obj.ties_widget.ties_number.setEnabled(False)
         obj.ties_widget.ties_spacing.setEnabled(True)
-        obj.ties_widget.ties_spacing.setText(str(Tie1.TrueSpacing))
-    obj.ties_widget.tie1_diameter.setText(str(Tie1.Diameter))
-    obj.ties_widget.tie1_bentAngle.setCurrentIndex(
-        obj.ties_widget.tie1_bentAngle.findText(str(Tie1.BentAngle))
-    )
-    obj.ties_widget.tie1_extensionFactor.setValue(Tie1.BentFactor)
+        obj.ties_widget.ties_spacing.setText(str(Tie.TrueSpacing))
+    if Ties.TiesConfiguration == "TwoTiesSixRebars":
+        item1 = Ties.TiesSequence[0]
+        item2 = Ties.TiesSequence[1]
+        obj.ties_widget.ties_sequenceListWidget.item(0).setText(item1)
+        obj.ties_widget.ties_sequenceListWidget.item(1).setText(item2)
 
 
 def setMainRebarsData(obj, vobj):
-    for rebar_group in vobj.Object.RebarGroups:
-        if hasattr(rebar_group, "MainRebars"):
-            MainRebars = rebar_group
-            break
+    if vobj:
+        for rebar_group in vobj.Object.RebarGroups:
+            if hasattr(rebar_group, "MainRebars"):
+                MainRebars = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.RebarGroups:
+            if hasattr(rebar_group, "MainRebars"):
+                MainRebars = rebar_group
+                break
     obj.main_rebars_widget.main_rebars_type.setCurrentIndex(
         obj.main_rebars_widget.main_rebars_type.findText(
             str(MainRebars.RebarType)
@@ -920,12 +1266,20 @@ def setMainRebarsData(obj, vobj):
 
 
 def setXDirRebarsData(obj, vobj):
-    for rebar_group in vobj.Object.RebarGroups:
-        if hasattr(rebar_group, "SecondaryRebars"):
-            for sec_rebar in rebar_group.SecondaryRebars:
-                if hasattr(sec_rebar, "XDirRebars"):
-                    XDirRebarsGroup = sec_rebar
-                    break
+    if vobj:
+        for rebar_group in vobj.Object.RebarGroups:
+            if hasattr(rebar_group, "SecondaryRebars"):
+                for sec_rebar in rebar_group.SecondaryRebars:
+                    if hasattr(sec_rebar, "XDirRebars"):
+                        XDirRebarsGroup = sec_rebar
+                        break
+    else:
+        for rebar_group in obj.RebarGroup.RebarGroups:
+            if hasattr(rebar_group, "SecondaryRebars"):
+                for sec_rebar in rebar_group.SecondaryRebars:
+                    if hasattr(sec_rebar, "XDirRebars"):
+                        XDirRebarsGroup = sec_rebar
+                        break
     obj.sec_xdir_rebars_widget.xdir_rebars_type.setCurrentIndex(
         obj.sec_xdir_rebars_widget.xdir_rebars_type.findText(
             str(XDirRebarsGroup.RebarType)
@@ -948,18 +1302,26 @@ def setXDirRebarsData(obj, vobj):
     obj.sec_xdir_rebars_widget.xdir_rebars_bottomOffset.setText(
         str(XDirRebarsGroup.BottomOffset)
     )
-    obj.sec_xdir_rebars_widget.xdir_rebars_numberDiameter.setText(
+    obj.sec_xdir_rebars_widget.numberDiameter.setText(
         str(XDirRebarsGroup.NumberDiameter)
     )
 
 
 def setYDirRebarsData(obj, vobj):
-    for rebar_group in vobj.Object.RebarGroups:
-        if hasattr(rebar_group, "SecondaryRebars"):
-            for sec_rebar in rebar_group.SecondaryRebars:
-                if hasattr(sec_rebar, "YDirRebars"):
-                    YDirRebarsGroup = sec_rebar
-                    break
+    if vobj:
+        for rebar_group in vobj.Object.RebarGroups:
+            if hasattr(rebar_group, "SecondaryRebars"):
+                for sec_rebar in rebar_group.SecondaryRebars:
+                    if hasattr(sec_rebar, "YDirRebars"):
+                        YDirRebarsGroup = sec_rebar
+                        break
+    else:
+        for rebar_group in obj.RebarGroup.RebarGroups:
+            if hasattr(rebar_group, "SecondaryRebars"):
+                for sec_rebar in rebar_group.SecondaryRebars:
+                    if hasattr(sec_rebar, "YDirRebars"):
+                        YDirRebarsGroup = sec_rebar
+                        break
     obj.sec_ydir_rebars_widget.ydir_rebars_type.setCurrentIndex(
         obj.sec_ydir_rebars_widget.ydir_rebars_type.findText(
             str(YDirRebarsGroup.RebarType)
@@ -982,9 +1344,62 @@ def setYDirRebarsData(obj, vobj):
     obj.sec_ydir_rebars_widget.ydir_rebars_bottomOffset.setText(
         str(YDirRebarsGroup.BottomOffset)
     )
-    obj.sec_ydir_rebars_widget.ydir_rebars_numberDiameter.setText(
+    obj.sec_ydir_rebars_widget.numberDiameter.setText(
         str(YDirRebarsGroup.NumberDiameter)
     )
+
+
+def setCircularColumnReinforcementData(obj, vobj):
+    if vobj:
+        for rebar_group in vobj.Object.RebarGroups:
+            if hasattr(rebar_group, "HelicalRebars"):
+                helical_rebar_group = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.RebarGroups:
+            if hasattr(rebar_group, "HelicalRebars"):
+                helical_rebar_group = rebar_group
+                break
+    helical_rebar = helical_rebar_group.HelicalRebars[0]
+    obj.circular_column_widget.sideCover.setText(str(helical_rebar.SideCover))
+    obj.circular_column_widget.helical_rebars_topOffset.setText(
+        str(helical_rebar.TopCover)
+    )
+    obj.circular_column_widget.helical_rebars_bottomOffset.setText(
+        str(helical_rebar.BottomCover)
+    )
+    obj.circular_column_widget.pitch.setText(str(helical_rebar.Pitch))
+    obj.circular_column_widget.helical_rebars_diameter.setText(
+        str(helical_rebar.Diameter)
+    )
+    if vobj:
+        for rebar_group in vobj.Object.RebarGroups:
+            if hasattr(rebar_group, "MainRebars"):
+                main_rebars_group = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.RebarGroups:
+            if hasattr(rebar_group, "MainRebars"):
+                main_rebars_group = rebar_group
+                break
+    obj.circular_column_widget.main_rebars_topOffset.setText(
+        str(main_rebars_group.TopOffset)
+    )
+    obj.circular_column_widget.main_rebars_bottomOffset.setText(
+        str(main_rebars_group.BottomOffset)
+    )
+    obj.circular_column_widget.main_rebars_diameter.setText(
+        str(main_rebars_group.Diameter)
+    )
+    obj.circular_column_widget.main_rebars_number.setValue(
+        main_rebars_group.Number
+    )
+    obj.circular_column_widget.main_rebars_angle.setValue(
+        main_rebars_group.Angle
+    )
+    if not main_rebars_group.NumberAngleCheck:
+        obj.circular_column_widget.main_rebars_angle_radio.setChecked(True)
+        obj.mainRebarsAngleRadioClicked()
 
 
 def CommandColumnReinforcement():
