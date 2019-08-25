@@ -495,7 +495,7 @@ class _BeamReinforcementDialog:
     def removeRebarDistribution(self):
         self.CustomSpacing = None
         if self.RebarGroup:
-            for Stirrup in self.RebarGroup.RebarGroups[0].Stirrups:
+            for Stirrup in self.RebarGroup.ReinforcementGroups[0].Stirrups:
                 Stirrup.CustomSpacing = ""
         FreeCAD.ActiveDocument.recompute()
 
@@ -1483,7 +1483,7 @@ class _BeamReinforcementDialog:
                 )
         if self.CustomSpacing:
             if RebarGroup:
-                for Stirrup in RebarGroup.RebarGroups[0].Stirrups:
+                for Stirrup in RebarGroup.ReinforcementGroups[0].Stirrups:
                     Stirrup.CustomSpacing = self.CustomSpacing
                 FreeCAD.ActiveDocument.recompute()
         self.RebarGroup = RebarGroup
