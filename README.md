@@ -31,17 +31,17 @@ This project is aimed at easing up the process of rebaring in [FreeCAD](https://
 - ![icon](https://www.freecadweb.org/wiki/images/thumb/c/c9/Arch_Rebar_Helical.png/32px-Arch_Rebar_Helical.png) **Helical Rebar**: [wiki](https://www.freecadweb.org/wiki/Arch_Rebar_Helical)
 ![screenshot](https://www.freecadweb.org/wiki/images/2/2f/HelicalRebar.png)
 
-- <img src="https://www.freecadweb.org/wiki/images/3/3e/Arch_Rebar_ColumnReinforcement.svg" alt="icon" width="25"> **Column Reinforcement**: [wiki](https://www.freecadweb.org/wiki/Arch_Rebar_ColumnReinforcement)
+- ![icon](https://www.freecadweb.org/wiki/images/thumb/3/3b/Arch_Rebar_ColumnReinforcement.png/20px-Arch_Rebar_ColumnReinforcement.png) **Column Reinforcement**: [wiki](https://www.freecadweb.org/wiki/Arch_Rebar_ColumnReinforcement)
 
-![screenshot](https://www.freecadweb.org/wiki/images/3/3f/Arch_Rebar_ColumnReinforcement_example.png)
+<kbd>![screenshot](https://www.freecadweb.org/wiki/images/3/3f/Arch_Rebar_ColumnReinforcement_example.png)</kbd>
 
-- <img src="https://www.freecadweb.org/wiki/images/3/3e/Arch_Rebar_ColumnReinforcement.svg" alt="icon" width="25"> **TwoTiesSixRebars Column Reinforcement**: [wiki](https://www.freecadweb.org/wiki/Arch_Rebar_ColumnReinforcement_TwoTiesSixRebars)
+- ![icon](https://www.freecadweb.org/wiki/images/thumb/3/3b/Arch_Rebar_ColumnReinforcement.png/20px-Arch_Rebar_ColumnReinforcement.png) **TwoTiesSixRebars Column Reinforcement**: [wiki](https://www.freecadweb.org/wiki/Arch_Rebar_ColumnReinforcement_TwoTiesSixRebars)
 
-![screenshot](https://www.freecadweb.org/wiki/images/c/ce/Arch_Rebar_ColumnReinforcement_TwoTies_example.png)
+<kbd>![screenshot](https://www.freecadweb.org/wiki/images/c/ce/Arch_Rebar_ColumnReinforcement_TwoTies_example.png)</kbd>
 
-- <img src="https://www.freecadweb.org/wiki/images/e/e9/Arch_Rebar_BeamReinforcement.svg" alt="icon" width="25"> **Beam Reinforcement**: [wiki](https://www.freecadweb.org/wiki/Arch_Rebar_BeamReinforcement)
+- ![icon](https://www.freecadweb.org/wiki/images/thumb/0/02/Arch_Rebar_BeamReinforcement.png/30px-Arch_Rebar_BeamReinforcement.png) **Beam Reinforcement**: [wiki](https://www.freecadweb.org/wiki/Arch_Rebar_BeamReinforcement)
 
-![screenshot](https://www.freecadweb.org/wiki/images/4/42/Arch_Rebar_BeamReinforcement_example.png)
+<kbd>![screenshot](https://www.freecadweb.org/wiki/images/4/42/Arch_Rebar_BeamReinforcement_example.png)</kbd>
 
 ## Video Tutorial
 [![IMAGE ALT TEXT HERE](http://i.imgur.com/ZQGCQoe.png)](https://www.youtube.com/watch?v=BYQQjEKmx5E&t=1435s)
