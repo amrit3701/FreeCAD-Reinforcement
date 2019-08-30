@@ -454,7 +454,7 @@ class _BeamReinforcementDialog:
 
     def stirrupsAllCoversEqualClicked(self):
         if self.stirrups_widget.stirrups_allCoversEqual.isChecked():
-            # Diable fields for right/top/bottom cover
+            # Disable fields for right/top/bottom cover
             self.stirrups_widget.stirrups_rightCover.setEnabled(False)
             self.stirrups_widget.stirrups_topCover.setEnabled(False)
             self.stirrups_widget.stirrups_bottomCover.setEnabled(False)

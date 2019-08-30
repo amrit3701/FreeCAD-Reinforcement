@@ -100,7 +100,7 @@ def makeSingleTieMultipleRebars(
 
     Note: Type of sec_rebars_t_offset, sec_rebars_b_offset,
     sec_rebars_number_diameter, sec_rebars_type, sec_hook_orientation,
-    l_sec_rebar_rounding and sec_hook_extension argumants is a tuple.
+    l_sec_rebar_rounding and sec_hook_extension arguments is a tuple.
     Syntax: (<value_for_xdir_rebars>, <value_for_ydir_rebars>).
 
     In sec_hook_orientation(<xdir_rebars_orientation>,
@@ -653,7 +653,7 @@ def editSingleTieMultipleRebars(
 
     Note: Type of sec_rebars_t_offset, sec_rebars_b_offset,
     sec_rebars_number_diameter, sec_rebars_type, sec_hook_orientation,
-    l_sec_rebar_rounding and sec_hook_extension argumants is a tuple.
+    l_sec_rebar_rounding and sec_hook_extension arguments is a tuple.
     Syntax: (<value_for_xdir_rebars>, <value_for_ydir_rebars>).
 
     In sec_hook_orientation(<xdir_rebars_orientation>,
