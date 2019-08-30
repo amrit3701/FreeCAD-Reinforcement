@@ -1,6 +1,5 @@
 # Rebar Addon for FreeCAD
-
-Started as a Google Summer of Code ([GSoC](https://en.wikipedia.org/wiki/Google_Summer_of_Code) 2017) [project](https://summerofcode.withgoogle.com/archive/2017/projects/6536382147198976).
+This project aims to facilitate flexible implementation and usage of Rebaring in FreeCAD. In this project, a list of rebars will be provided in the user interface under the Rebar tools in the form of a dropdown list. This endeavor started as a [Google Summer of Code](https://en.wikipedia.org/wiki/Google_Summer_of_Code) (GSOC 2017) [project](https://summerofcode.withgoogle.com/archive/2017/projects/6536382147198976).
 
 ![screenshot](http://i.imgur.com/r9b5l7K.jpg)
 
@@ -9,7 +8,7 @@ Started as a Google Summer of Code ([GSoC](https://en.wikipedia.org/wiki/Google_
 * [Web](https://amrit3701.github.io/FreeCAD-Reinforcement/html/index.html)
 * [PDF](https://amrit3701.github.io/FreeCAD-Reinforcement/latex/refman.pdf)                                                      
 ### User
-This project is aimed at easing up the process of rebaring in [FreeCAD](https://www.freecadweb.org). In this project, list of rebars will be provided to user under Rebar tools in the form of dropdown. This project covers six different rebar shapes as given below:
+This project currently covers six different rebar shapes as given below:
 
 - ![icon](https://www.freecadweb.org/wiki/images/thumb/6/69/Arch_Rebar_Straight.png/32px-Arch_Rebar_Straight.png) **Straight Rebar**: [wiki](https://www.freecadweb.org/wiki/Arch_Rebar_Straight)
 ![screenshot](https://www.freecadweb.org/wiki/images/f/fd/StraightRebar.png)
