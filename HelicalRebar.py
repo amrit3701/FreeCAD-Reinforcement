@@ -209,7 +209,7 @@ def editHelicalRebar(Rebar, s_cover, b_cover, diameter, t_cover, pitch, structur
         sketch.Support = [(structure, facename)]
     # Check if sketch support is empty.
     if not sketch.Support:
-        showWarning("You have checked remove external geometry of base sketches when needed.\nTo unchecked Edit->Preferences->Arch.")
+        showWarning("You have enabled 'Remove external geometry of base sketches when needed'.\nTo disable: Edit->Preferences->Arch.")
         return
     # Assigned values
     facename = sketch.Support[0][1][0]
