@@ -231,7 +231,7 @@ def makeUShapeRebar(f_cover, b_cover, r_cover, l_cover, diameter, t_cover, round
     rebar.setEditorMode("LeftCover", 2)
     rebar.addProperty("App::PropertyDistance", "BottomCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Bottom cover of rebar")).BottomCover = b_cover
     rebar.setEditorMode("BottomCover", 2)
-    rebar.addProperty("App::PropertyBool", "AmountCheck", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Amount radio button is checked")).AmountCheck
+    rebar.addProperty("App::PropertyBool", "AmountCheck", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Amount radio button is enabled")).AmountCheck
     rebar.setEditorMode("AmountCheck", 2)
     rebar.addProperty("App::PropertyDistance", "TopCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Top cover of rebar")).TopCover = t_cover
     rebar.setEditorMode("TopCover", 2)

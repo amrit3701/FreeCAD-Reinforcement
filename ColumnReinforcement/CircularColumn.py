@@ -392,7 +392,7 @@ class _CircularColumnReinforcementRebarGroup:
             (
                 "App::PropertyBool",
                 "NumberAngleCheck",
-                "Number radio button is checked",
+                "Number radio button is enabled",
                 1,
             )
         )

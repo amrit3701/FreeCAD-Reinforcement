@@ -267,7 +267,7 @@ def makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFact
         QT_TRANSLATE_NOOP("App::Property", "Bent Length is the equal to BentFactor * Diameter")).BentFactor = bentFactor
     rebar.setEditorMode("BentFactor", 2)
     rebar.addProperty("App::PropertyBool", "AmountCheck", "RebarDialog",\
-        QT_TRANSLATE_NOOP("App::Property", "Amount radio button is checked")).AmountCheck
+        QT_TRANSLATE_NOOP("App::Property", "Amount radio button is enabled")).AmountCheck
     rebar.setEditorMode("AmountCheck", 2)
     rebar.addProperty("App::PropertyDistance", "TrueSpacing", "RebarDialog",\
         QT_TRANSLATE_NOOP("App::Property", "Spacing between of rebars")).TrueSpacing = amount_spacing_value
