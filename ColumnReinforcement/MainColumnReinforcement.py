@@ -519,7 +519,7 @@ class _ColumnReinforcementDialog:
 
     def tiesAllCoversEqualClicked(self):
         if self.ties_widget.ties_allCoversEqual.isChecked():
-            # Diable fields for right/top/bottom cover
+            # Disable fields for right/top/bottom cover
             self.ties_widget.ties_rightCover.setEnabled(False)
             self.ties_widget.ties_topCover.setEnabled(False)
             self.ties_widget.ties_bottomCover.setEnabled(False)

@@ -242,7 +242,7 @@ def makeStraightRebar(f_cover, coverAlong, rt_cover, lb_cover, diameter, amount_
     rebar.setEditorMode("CoverAlong", 2)
     rebar.addProperty("App::PropertyDistance", "Cover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Cover of rebar along user selected side")).Cover = coverAlong[1]
     rebar.setEditorMode("Cover", 2)
-    rebar.addProperty("App::PropertyBool", "AmountCheck", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Amount radio button is checked")).AmountCheck
+    rebar.addProperty("App::PropertyBool", "AmountCheck", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Amount radio button is enabled")).AmountCheck
     rebar.setEditorMode("AmountCheck", 2)
     rebar.addProperty("App::PropertyDistance", "TrueSpacing", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Spacing between of rebars")).TrueSpacing = amount_spacing_value
     rebar.setEditorMode("TrueSpacing", 2)
@@ -264,7 +264,7 @@ def editStraightRebar(Rebar, f_cover, coverAlong, rt_cover, lb_cover, diameter, 
         FreeCAD.ActiveDocument.recompute()
     # Check if sketch support is empty.
     if not sketch.Support:
-        showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
+        showWarning("You have enabled 'Remove external geometry of base sketches when needed'.\nTo disable: Edit->Preferences->Arch.")
         return
     # Assigned values
     facename = sketch.Support[0][1][0]

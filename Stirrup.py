@@ -267,7 +267,7 @@ def makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFact
         QT_TRANSLATE_NOOP("App::Property", "Bent Length is the equal to BentFactor * Diameter")).BentFactor = bentFactor
     rebar.setEditorMode("BentFactor", 2)
     rebar.addProperty("App::PropertyBool", "AmountCheck", "RebarDialog",\
-        QT_TRANSLATE_NOOP("App::Property", "Amount radio button is checked")).AmountCheck
+        QT_TRANSLATE_NOOP("App::Property", "Amount radio button is enabled")).AmountCheck
     rebar.setEditorMode("AmountCheck", 2)
     rebar.addProperty("App::PropertyDistance", "TrueSpacing", "RebarDialog",\
         QT_TRANSLATE_NOOP("App::Property", "Spacing between of rebars")).TrueSpacing = amount_spacing_value
@@ -288,7 +288,7 @@ def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, b
         sketch.Support = [(structure, facename)]
     # Check if sketch support is empty.
     if not sketch.Support:
-        showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
+        showWarning("You have enabled 'Remove external geometry of base sketches when needed'.\nTo disable: Edit->Preferences->Arch.")
         return
     # Assigned values
     facename = sketch.Support[0][1][0]

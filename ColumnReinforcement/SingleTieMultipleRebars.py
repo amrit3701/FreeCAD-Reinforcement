@@ -98,9 +98,14 @@ def makeSingleTieMultipleRebars(
     It takes two different inputs for main_hook_extend_along i.e. 'x-axis',
     'y-axis'.
 
-    Note: Type of sec_rebars_t_offset, sec_rebars_b_offset,
-    sec_rebars_number_diameter, sec_rebars_type, sec_hook_orientation,
-    l_sec_rebar_rounding and sec_hook_extension argumants is a tuple.
+    Note: The following 'Type' arguments are a tuple:
+        sec_rebars_t_offset,
+        sec_rebars_b_offset,
+        sec_rebars_number_diameter
+        sec_rebars_type,
+        sec_hook_orientation,
+        l_sec_rebar_rounding,
+        sec_hook_extension .
     Syntax: (<value_for_xdir_rebars>, <value_for_ydir_rebars>).
 
     In sec_hook_orientation(<xdir_rebars_orientation>,
@@ -628,7 +633,8 @@ def editSingleTieMultipleRebars(
     structure=None,
     facename=None,
 ):
-    """editSingleTieMultipleRebars(RebarGroup, LeftCoverOfTie, RightCoverOfTie,
+    """
+    editSingleTieMultipleRebars(RebarGroup, LeftCoverOfTie, RightCoverOfTie,
     TopCoverOfTie, BottomCoverOfTie, OffsetofTie, BentAngle, ExtensionFactor,
     DiameterOfTie, NumberSpacingCheck, NumberSpacingValue, DiameterOfMainRebars,
     TopOffsetofMainRebars, BottomOffsetofMainRebars, MainRebarType,
@@ -645,25 +651,48 @@ def editSingleTieMultipleRebars(
     'LShapeRebar'.
 
     It takes eight different orientations input for Main L-shaped hooks i.e.
-    'Top Inside', 'Top Outside', 'Bottom Inside', 'Bottom Outside', 'Top Left',
-    'Top Right', 'Bottom Left', 'Bottom Right'.
+        'Top Inside',
+        'Top Outside',
+        'Bottom Inside',
+        'Bottom Outside',
+        'Top Left',
+        'Top Right',
+        'Bottom Left',
+        'Bottom Right'.
 
     It takes two different inputs for main_hook_extend_along i.e. 'x-axis',
     'y-axis'.
 
-    Note: Type of sec_rebars_t_offset, sec_rebars_b_offset,
-    sec_rebars_number_diameter, sec_rebars_type, sec_hook_orientation,
-    l_sec_rebar_rounding and sec_hook_extension argumants is a tuple.
-    Syntax: (<value_for_xdir_rebars>, <value_for_ydir_rebars>).
+    Note: The following 'Type' arguments are a tuple:
+        sec_rebars_t_offset, 
+        sec_rebars_b_offset,
+        sec_rebars_number_diameter, 
+        sec_rebars_type, 
+        sec_hook_orientation,
+        l_sec_rebar_rounding 
+        sec_hook_extension arguments
+    Syntax: (<value_for_xdir_rebars>, <value_for_ydir_rebars>)
 
     In sec_hook_orientation(<xdir_rebars_orientation>,
     <ydir_rebars_orientation>),
-    Value of xdir_rebars_orientation can be: 'Top Inside', 'Top Outside',
-    'Bottom Inside', 'Bottom Outside', 'Top Upward', 'Top Downward', 'Bottom
-    Upward', 'Bottom Downward'.
-    Value of ydir_rebars_orientation can be: 'Top Inside', 'Top Outside',
-    'Bottom Inside', 'Bottom Outside', 'Top Left', 'Top Right', 'Bottom
-    Left', 'Bottom Right'.
+    Value of xdir_rebars_orientation can be:
+        'Top Inside',
+        'Top Outside',
+        'Bottom Inside',
+        'Bottom Outside',
+        'Top Upward',
+        'Top Downward',
+        'Bottom Upward',
+        'Bottom Downward'.
+    Value of ydir_rebars_orientation can be:
+        'Top Inside',
+        'Top Outside',
+        'Bottom Inside',
+        'Bottom Outside',
+        'Top Left',
+        'Top Right',
+        'Bottom Left',
+        'Bottom Right'.
     """
     if len(rebar_group.RebarGroups) == 0:
         return rebar_group

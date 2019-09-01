@@ -258,8 +258,8 @@ def editReinforcement(
     # Check if line support is empty.
     if not line.Support:
         showWarning(
-            "You have checked remove external geometry of base lines when"
-            " needed.\nTo unchecked Edit->Preferences->Arch."
+            "You have enabled 'Remove external geometry of base lines when"
+            " needed.'\nTo disable go to Edit->Preferences->Arch."
         )
         return
     # Assigned values
@@ -392,7 +392,7 @@ class _CircularColumnReinforcementRebarGroup:
             (
                 "App::PropertyBool",
                 "NumberAngleCheck",
-                "Number radio button is checked",
+                "Number radio button is enabled",
                 1,
             )
         )
