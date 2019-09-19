@@ -32,7 +32,7 @@ from PySide2 import QtWidgets, QtGui
 import FreeCAD
 import FreeCADGui
 
-from Rebarfunc import check_selected_face
+from Rebarfunc import check_selected_face, print_in_freecad_console
 from BeamReinforcement.NumberDiameterOffset import runNumberDiameterOffsetDialog
 from BeamReinforcement.RebarTypeEditDialog import runRebarTypeEditDialog
 from BeamReinforcement.HookOrientationEditDialog import (
@@ -61,6 +61,15 @@ class _BeamReinforcementDialog:
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
             self.SelectedObj = selected_obj.Object
             self.FaceName = selected_obj.SubElementNames[0]
+        else:
+            # If beam reinforcement is already created, then get selectedObj
+            # from data stored in created Stirrup
+            for rebar_group in RebarGroup.ReinforcementGroups:
+                if hasattr(rebar_group, "Stirrups"):
+                    Stirrup = rebar_group.Stirrups[0]
+                    self.FaceName = Stirrup.Base.Support[0][1][0]
+                    self.SelectedObj = Stirrup.Base.Support[0][0]
+                    break
 
         # Load ui from file MainBeamReinforcement.ui
         self.form = FreeCADGui.PySideUic.loadUi(
@@ -1436,14 +1445,55 @@ class _BeamReinforcementDialog:
         self.stirrups_configuration = (
             self.stirrups_widget.stirrups_configuration.currentText()
         )
+        self.getStirrupsData()
+        self.getTopReinforcementData()
+        self.getBottomReinforcementData()
+        self.getLeftReinforcementData()
+        self.getRightReinforcementData()
         if not self.RebarGroup:
             if self.stirrups_configuration == "Two Legged Stirrups":
-                self.getStirrupsData()
-                self.getTopReinforcementData()
-                self.getBottomReinforcementData()
-                self.getLeftReinforcementData()
-                self.getRightReinforcementData()
                 RebarGroup = TwoLeggedBeam.makeReinforcement(
+                    self.stirrups_l_cover,
+                    self.stirrups_r_cover,
+                    self.stirrups_t_cover,
+                    self.stirrups_b_cover,
+                    self.stirrups_offset,
+                    self.stirrups_bent_angle,
+                    self.stirrups_extension_factor,
+                    self.stirrups_diameter,
+                    self.stirrups_number_spacing_check,
+                    self.stirrups_number_spacing_value,
+                    self.top_number_diameter_offset,
+                    self.top_rebar_type,
+                    self.top_layer_spacing,
+                    self.bottom_number_diameter_offset,
+                    self.bottom_rebar_type,
+                    self.bottom_layer_spacing,
+                    self.left_number_diameter_offset,
+                    self.left_rebar_type,
+                    self.left_rebar_spacing,
+                    self.right_number_diameter_offset,
+                    self.right_rebar_type,
+                    self.right_rebar_spacing,
+                    self.top_lrebar_rounding,
+                    self.top_hook_extension,
+                    self.top_hook_orientation,
+                    self.bottom_lrebar_rounding,
+                    self.bottom_hook_extension,
+                    self.bottom_hook_orientation,
+                    self.left_lrebar_rounding,
+                    self.left_hook_extension,
+                    self.left_hook_orientation,
+                    self.right_lrebar_rounding,
+                    self.right_hook_extension,
+                    self.right_hook_orientation,
+                    self.SelectedObj,
+                    self.FaceName,
+                )
+        else:
+            if self.stirrups_configuration == "Two Legged Stirrups":
+                RebarGroup = TwoLeggedBeam.editReinforcement(
+                    self.RebarGroup,
                     self.stirrups_l_cover,
                     self.stirrups_r_cover,
                     self.stirrups_t_cover,
@@ -1664,7 +1714,18 @@ class _BeamReinforcementDialog:
         if not self.RebarGroup:
             self.setDefaultValues()
         else:
-            print("WIP")
+            print_in_freecad_console("WIP")
+
+
+def editDialog(vobj):
+    # Check if all rebar groups deleted or not
+    if len(vobj.Object.ReinforcementGroups) == 0:
+        showWarning("Nothing to edit. You have deleted all rebar groups.")
+        return
+    obj = _BeamReinforcementDialog(vobj.Object)
+    obj.setupUi()
+    print_in_freecad_console("WIP")
+    obj.form.exec_()
 
 
 def CommandBeamReinforcement():

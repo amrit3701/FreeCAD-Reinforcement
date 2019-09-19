@@ -745,6 +745,25 @@ def gettupleOfNumberDiameterOffset(number_diameter_offset_string):
     return number_diameter_offset_list
 
 
+class _ViewProviderBeamReinforcementGroup:
+    "A View Provider for the Beam Reinforcement Group object."
+
+    def __init__(self, vobj):
+        vobj.Proxy = self
+        self.Object = vobj.Object
+
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self, state):
+        return None
+
+    def doubleClicked(self, vobj):
+        from BeamReinforcement import MainBeamReinforcement
+
+        MainBeamReinforcement.editDialog(vobj)
+
+
 # -------------------------------------------------------------------------
 # Warning / Alert functions when user do something wrong.
 #--------------------------------------------------------------------------

@@ -28,7 +28,7 @@ __url__ = "https://www.freecadweb.org"
 
 import FreeCAD
 
-from Stirrup import makeStirrup
+from Stirrup import makeStirrup, editStirrup
 from StraightRebar import makeStraightRebar
 from LShapeRebar import makeLShapeRebar
 from Rebarfunc import (
@@ -38,6 +38,8 @@ from Rebarfunc import (
     gettupleOfNumberDiameterOffset,
     getdictofNumberDiameterOffset,
     _BeamReinforcementGroup,
+    _ViewProviderBeamReinforcementGroup,
+    print_in_freecad_console,
 )
 
 if FreeCAD.GuiUp:
@@ -175,6 +177,8 @@ def makeReinforcement(
 
     # Create TwoLeggedBeam group object
     TwoLeggedBeam = _TwoLeggedBeam()
+    if FreeCAD.GuiUp:
+        _ViewProviderBeamReinforcementGroup(TwoLeggedBeam.Object.ViewObject)
 
     if isinstance(top_reinforcement_number_diameter_offset, str):
         top_reinforcement_number_diameter_offset = (
@@ -1678,6 +1682,191 @@ def makeRightReinforcement(
     obj.setPropertiesValues(properties_values, obj.right_rebars_group)
 
     return right_reinforcement_rebars
+
+
+def editReinforcement(
+    rebar_group,
+    l_cover_of_stirrup,
+    r_cover_of_stirrup,
+    t_cover_of_stirrup,
+    b_cover_of_stirrup,
+    offset_of_stirrup,
+    bent_angle,
+    extension_factor,
+    dia_of_stirrup,
+    number_spacing_check,
+    number_spacing_value,
+    top_reinforcement_number_diameter_offset,
+    top_reinforcement_rebar_type,
+    top_reinforcement_layer_spacing,
+    bottom_reinforcement_number_diameter_offset,
+    bottom_reinforcement_rebar_type,
+    bottom_reinforcement_layer_spacing,
+    left_rebars_number_diameter_offset,
+    left_rebars_type,
+    left_rebars_spacing,
+    right_rebars_number_diameter_offset,
+    right_rebars_type,
+    right_rebars_spacing,
+    top_reinforcement_l_rebar_rounding=2,
+    top_reinforcement_hook_extension=40,
+    top_reinforcement_hook_orientation="Front Inside",
+    bottom_reinforcement_l_rebar_rounding=2,
+    bottom_reinforcement_hook_extension=40,
+    bottom_reinforcement_hook_orientation="Front Inside",
+    left_l_rebar_rounding=2,
+    left_rebars_hook_extension=40,
+    left_rebars_hook_orientation="Front Inside",
+    right_l_rebar_rounding=2,
+    right_rebars_hook_extension=40,
+    right_rebars_hook_orientation="Front Inside",
+    structure=None,
+    facename=None,
+):
+    """editReinforcement(RebarGroup, LeftCoverOfStirrup, RightCoverOfStirrup,
+    TopCoverOfStirrup, BottomCoverOfStirrup, OffsetofStirrup, BentAngle,
+    ExtensionFactor, DiameterOfStirrup, NumberSpacingCheck, NumberSpacingValue,
+    TopReinforcementNumberDiameterOffset, TopReinforcementRebarType,
+    TopReinforcementLayerSpacing, BottomReinforcementNumberDiameterOffset,
+    BottomReinforcementRebarType, BottomReinforcementLayerSpacing,
+    LeftRebarsNumberDiameterOffset, LeftRebarsType, LeftRebarsSpacing,
+    RightRebarsNumberDiameterOffset, RightRebarsType, RightRebarsSpacing,
+    TopReinforcementLRebarRounding, TopReinforcementHookLength,
+    TopReinforcementHookOrientation, BottomReinforcementLRebarRounding,
+    BottomReinforcementHookLength, BottomReinforcementHookOrientation,
+    LeftLRebarRounding, LeftRebarsHookLength, LeftRebarsHookOrientation,
+    RightLRebarRounding, RightRebarsHookLength, RightRebarsHookOrientation,
+    Structure, Facename):
+
+    Edit the Two Legged Stirrup reinforcement for the selected structural beam
+    object.
+
+    top_reinforcement_number_diameter_offset and
+    bottom_reinforcement_number_diameter_offset are tuple of
+    number_diameter_offset string. Each element of tuple represents
+    reinforcement for each new layer.
+    Syntax: (
+                "number1#diameter1@offset1+number2#diameter2@offset2+...",
+                "number3#diameter3@offset3+number4#diameter4@offset4+...",
+                ...,
+            )
+
+    rebar_type for top/bottom/left/right rebars can be 'StraightRebar',
+    'LShapeRebar'.
+
+    Possible values for top_reinforcement_rebar_type and
+    bottom_reinforcement_rebar_type:
+    1. 'StraightRebar' or 'LShapeRebar'
+    2. ('<rebar_type>', '<rebar_type>', ...) and number of elements of tuple
+    must be equal to number of layers.
+    3. [
+           ('<rebar_type>', '<rebar_type>', ...),
+           ('<rebar_type>', '<rebar_type>', ...),
+           ...,
+       ]
+       each element of list is a tuple, which specifies rebar type of each
+       layer. And each element of tuple represents rabar_type for each set of
+       rebars.
+    4. [
+           <rebar_type>,
+           ('<rebar_type>', '<rebar_type>', ...),
+           ...,
+       ]
+
+    Possible values for top_reinforcement_layer_spacing and
+    bottom_reinforcement_layer_spacing:
+    1. <layer_spacing>
+    2. (<spacing in layer1 and layer2>, <spacing in layer2 and layer3>, ...) and
+    number of elements of tuple must be equal to one less than number of layers.
+
+    hook_orientation for top/bottom/left/right rebars can be 'Front Inside',
+    'Front Outside', 'Rear Inside', 'Rear Outside'.
+
+    Possible values for top_reinforcement_hook_orientation,
+    bottom_reinforcement_hook_orientation, top_reinforcement_hook_extension,
+    bottom_reinforcement_hook_extension, top_reinforcement_l_rebar_rounding and
+    bottom_reinforcement_l_rebar_rounding can be similar to as discussed above
+    for top_reinforcement_rebar_type.
+
+    left_rebars_number_diameter_offset and right_rebars_number_diameter_offset
+    are string of number_diameter_offset.
+    Syntax: "number1#diameter1@offset1+number2#diameter2@offset2+..."
+
+    Possible values for left_rebars_type and right_rebars_type:
+    1. 'StraightRebar' or 'LShapeRebar'
+    2. ('<rebar_type>', '<rebar_type>', ...) and each element of tuple
+    represents rabar_type for each set of rebars.
+
+    Possible values for left_l_rebar_rounding, right_l_rebar_rounding
+    left_rebars_hook_extension, right_rebars_hook_extension,
+    left_rebars_hook_orientation and right_rebars_hook_orientation can be
+    similar to as discussed above for left_rebars_type.
+
+    left_rebars_spacing/right_rebars_spacing is clear spacing between left/right
+    rebars.
+    """
+    if len(rebar_group.ReinforcementGroups) == 0:
+        return rebar_group
+    for i, tmp_rebar_group in enumerate(rebar_group.ReinforcementGroups):
+        if hasattr(tmp_rebar_group, "Stirrups"):
+            if len(tmp_rebar_group.Stirrups) > 0:
+                Stirrup = tmp_rebar_group.Stirrups[0]
+                break
+            else:
+                showWarning(
+                    "You have deleted stirrups. Please recreate the "
+                    "BeamReinforcement."
+                )
+                return rebar_group
+        elif i == len(rebar_group.ReinforcementGroups) - 1:
+            showWarning(
+                "You have deleted stirrups group. Please recreate the "
+                "BeamReinforcement."
+            )
+            return rebar_group
+
+    if not structure and not facename:
+        structure = Stirrup.Base.Support[0][0]
+        facename = Stirrup.Base.Support[0][1][0]
+
+    # Calculate parameters for Stirrup
+    top_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
+        top_reinforcement_number_diameter_offset
+    )
+    bottom_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
+        bottom_reinforcement_number_diameter_offset
+    )
+
+    max_dia_of_main_rebars = max(
+        top_reinforcement_number_diameter_offset_dict["layer1"][0][1],
+        top_reinforcement_number_diameter_offset_dict["layer1"][-1][1],
+        bottom_reinforcement_number_diameter_offset_dict["layer1"][0][1],
+        bottom_reinforcement_number_diameter_offset_dict["layer1"][-1][1],
+    )
+    rounding = (
+        float(dia_of_stirrup) / 2 + max_dia_of_main_rebars / 2
+    ) / dia_of_stirrup
+    f_cover = offset_of_stirrup
+
+    # Create Stirrup
+    stirrup = editStirrup(
+        Stirrup,
+        l_cover_of_stirrup,
+        r_cover_of_stirrup,
+        t_cover_of_stirrup,
+        b_cover_of_stirrup,
+        f_cover,
+        bent_angle,
+        extension_factor,
+        dia_of_stirrup,
+        rounding,
+        number_spacing_check,
+        number_spacing_value,
+        structure,
+        facename,
+    )
+    print("WIP")
+    return rebar_group
 
 
 class _TwoLeggedBeam(_BeamReinforcementGroup):
