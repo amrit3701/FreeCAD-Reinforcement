@@ -26,6 +26,8 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
+import ast
+
 import FreeCAD
 
 from Stirrup import makeStirrup, editStirrup
@@ -228,7 +230,7 @@ def makeReinforcement(
 
     # Create top reinforcement
     makeTopReinforcement(
-        TwoLeggedBeam,
+        TwoLeggedBeam.top_reinforcement_group,
         l_cover_of_stirrup,
         r_cover_of_stirrup,
         t_cover_of_stirrup,
@@ -247,7 +249,7 @@ def makeReinforcement(
 
     # Create bottom reinforcement
     makeBottomReinforcement(
-        TwoLeggedBeam,
+        TwoLeggedBeam.bottom_reinforcement_group,
         l_cover_of_stirrup,
         r_cover_of_stirrup,
         t_cover_of_stirrup,
@@ -266,7 +268,7 @@ def makeReinforcement(
 
     # Create left reinforcement
     left_reinforcement_rebars = makeLeftReinforcement(
-        TwoLeggedBeam,
+        TwoLeggedBeam.left_rebars_group,
         l_cover_of_stirrup,
         dia_of_stirrup,
         left_rebars_number_diameter_offset,
@@ -281,7 +283,7 @@ def makeReinforcement(
 
     # Create right reinforcement
     right_reinforcement_rebars = makeRightReinforcement(
-        TwoLeggedBeam,
+        TwoLeggedBeam.right_rebars_group,
         r_cover_of_stirrup,
         dia_of_stirrup,
         right_rebars_number_diameter_offset,
@@ -720,24 +722,16 @@ def makeTopReinforcement(
         layer += 1
     FreeCAD.ActiveDocument.recompute()
 
-    obj.addTopRebars(top_reinforcement_rebars)
-    properties_values = []
-    properties_values.append(
-        ("NumberDiameterOffset", top_reinforcement_number_diameter_offset)
-    )
-    properties_values.append(
-        ("RebarType", str(top_reinforcement_rebar_type_list))
-    )
-    properties_values.append(
-        ("LayerSpacing", list(top_reinforcement_layer_spacing))
-    )
-    properties_values.append(
-        ("HookExtension", str(top_reinforcement_hook_extension_list))
-    )
-    properties_values.append(
-        ("HookOrientation", str(top_reinforcement_hook_orientation_list))
-    )
-    obj.setPropertiesValues(properties_values, obj.top_reinforcement_group)
+    obj.addObjects(top_reinforcement_rebars)
+    prev_top_reinforcement_rebars = obj.TopRebars
+    prev_top_reinforcement_rebars.extend(top_reinforcement_rebars)
+    obj.TopRebars = prev_top_reinforcement_rebars
+    obj.NumberDiameterOffset = top_reinforcement_number_diameter_offset
+    obj.RebarType = str(top_reinforcement_rebar_type_list)
+    obj.LayerSpacing = list(top_reinforcement_layer_spacing)
+    obj.HookExtension = str(top_reinforcement_hook_extension_list)
+    obj.HookOrientation = str(top_reinforcement_hook_orientation_list)
+
     return top_reinforcement_rebars
 
 
@@ -1183,24 +1177,15 @@ def makeBottomReinforcement(
         layer += 1
     FreeCAD.ActiveDocument.recompute()
 
-    obj.addBottomRebars(bottom_reinforcement_rebars)
-    properties_values = []
-    properties_values.append(
-        ("NumberDiameterOffset", bottom_reinforcement_number_diameter_offset)
-    )
-    properties_values.append(
-        ("RebarType", str(bottom_reinforcement_rebar_type_list))
-    )
-    properties_values.append(
-        ("LayerSpacing", list(bottom_reinforcement_layer_spacing))
-    )
-    properties_values.append(
-        ("HookExtension", str(bottom_reinforcement_hook_extension_list))
-    )
-    properties_values.append(
-        ("HookOrientation", str(bottom_reinforcement_hook_orientation_list))
-    )
-    obj.setPropertiesValues(properties_values, obj.bottom_reinforcement_group)
+    obj.addObjects(bottom_reinforcement_rebars)
+    prev_bottom_reinforcement_rebars = obj.BottomRebars
+    prev_bottom_reinforcement_rebars.extend(bottom_reinforcement_rebars)
+    obj.BottomRebars = prev_bottom_reinforcement_rebars
+    obj.NumberDiameterOffset = bottom_reinforcement_number_diameter_offset
+    obj.RebarType = str(bottom_reinforcement_rebar_type_list)
+    obj.LayerSpacing = list(bottom_reinforcement_layer_spacing)
+    obj.HookExtension = str(bottom_reinforcement_hook_extension_list)
+    obj.HookOrientation = str(bottom_reinforcement_hook_orientation_list)
 
     return bottom_reinforcement_rebars
 
@@ -1219,7 +1204,7 @@ def makeLeftReinforcement(
     facename,
 ):
     if not left_rebars_number_diameter_offset:
-        FreeCAD.ActiveDocument.removeObject(obj.left_rebars_group.Name)
+        FreeCAD.ActiveDocument.removeObject(obj.Name)
         return None
 
     facename_for_s_rebars = getFacenamesforBeamReinforcement(
@@ -1425,20 +1410,19 @@ def makeLeftReinforcement(
             )
         left_reinforcement_rebars[-1].OffsetEnd = rear_cover + diameter / 2
         left_rebars_f_cover += number * diameter + number * left_rebars_spacing
+    FreeCAD.ActiveDocument.recompute()
 
-    obj.addLeftRebars(left_reinforcement_rebars)
-    properties_values = []
-    properties_values.append(
-        ("NumberDiameterOffset", left_rebars_number_diameter_offset)
-    )
-    properties_values.append(("RebarType", left_rebars_type_list))
-    properties_values.append(("RebarSpacing", left_rebars_spacing))
-    properties_values.append(("HookExtension", left_rebars_hook_extension_list))
-    properties_values.append(
-        ("HookOrientation", left_rebars_hook_orientation_list)
-    )
-    obj.setPropertiesValues(properties_values, obj.left_rebars_group)
+    obj.addObjects(left_reinforcement_rebars)
+    prev_left_reinforcement_rebars = obj.LeftRebars
+    prev_left_reinforcement_rebars.extend(left_reinforcement_rebars)
+    obj.LeftRebars = prev_left_reinforcement_rebars
+    obj.NumberDiameterOffset = left_rebars_number_diameter_offset
+    obj.RebarType = left_rebars_type_list
+    obj.RebarSpacing = left_rebars_spacing
+    obj.HookExtension = left_rebars_hook_extension_list
+    obj.HookOrientation = left_rebars_hook_orientation_list
 
+    FreeCAD.ActiveDocument.recompute()
     return left_reinforcement_rebars
 
 
@@ -1456,7 +1440,7 @@ def makeRightReinforcement(
     facename,
 ):
     if not right_rebars_number_diameter_offset:
-        FreeCAD.ActiveDocument.removeObject(obj.right_rebars_group.Name)
+        FreeCAD.ActiveDocument.removeObject(obj.Name)
         return None
 
     facename_for_s_rebars = getFacenamesforBeamReinforcement(
@@ -1666,21 +1650,17 @@ def makeRightReinforcement(
         )
     FreeCAD.ActiveDocument.recompute()
 
-    obj.addRightRebars(right_reinforcement_rebars)
-    properties_values = []
-    properties_values.append(
-        ("NumberDiameterOffset", right_rebars_number_diameter_offset)
-    )
-    properties_values.append(("RebarType", right_rebars_type_list))
-    properties_values.append(("RebarSpacing", right_rebars_spacing))
-    properties_values.append(
-        ("HookExtension", right_rebars_hook_extension_list)
-    )
-    properties_values.append(
-        ("HookOrientation", right_rebars_hook_orientation_list)
-    )
-    obj.setPropertiesValues(properties_values, obj.right_rebars_group)
+    obj.addObjects(right_reinforcement_rebars)
+    prev_right_reinforcement_rebars = obj.RightRebars
+    prev_right_reinforcement_rebars.extend(right_reinforcement_rebars)
+    obj.RightRebars = prev_right_reinforcement_rebars
+    obj.NumberDiameterOffset = right_rebars_number_diameter_offset
+    obj.RebarType = right_rebars_type_list
+    obj.RebarSpacing = right_rebars_spacing
+    obj.HookExtension = right_rebars_hook_extension_list
+    obj.HookOrientation = right_rebars_hook_orientation_list
 
+    FreeCAD.ActiveDocument.recompute()
     return right_reinforcement_rebars
 
 
@@ -1865,7 +1845,157 @@ def editReinforcement(
         structure,
         facename,
     )
+
+    for tmp_rebar_group in rebar_group.ReinforcementGroups:
+        if hasattr(tmp_rebar_group, "TopRebars"):
+            top_reinforcement_group = tmp_rebar_group
+        elif hasattr(tmp_rebar_group, "BottomRebars"):
+            bottom_reinforcement_group = tmp_rebar_group
+        elif hasattr(tmp_rebar_group, "ShearReinforcementGroups"):
+            for shear_rebar_group in tmp_rebar_group.ShearReinforcementGroups:
+                if hasattr(shear_rebar_group, "LeftRebars"):
+                    left_rebars_group = shear_rebar_group
+                elif hasattr(shear_rebar_group, "RightRebars"):
+                    right_rebars_group = shear_rebar_group
+
+    recreate_top_reinforcement = False
+    prev_top_reinforcement_number_diameter_offset = (
+        top_reinforcement_group.NumberDiameterOffset
+    )
+    prev_top_reinforcement_rebar_type = ast.literal_eval(
+        top_reinforcement_group.RebarType
+    )
+    if prev_top_reinforcement_number_diameter_offset != list(
+        top_reinforcement_number_diameter_offset
+    ):
+        recreate_top_reinforcement = True
+    elif prev_top_reinforcement_rebar_type != list(
+        top_reinforcement_rebar_type
+    ):
+        recreate_top_reinforcement = True
+
+    recreate_bottom_reinforcement = False
+    prev_bottom_reinforcement_number_diameter_offset = (
+        bottom_reinforcement_group.NumberDiameterOffset
+    )
+    prev_bottom_reinforcement_rebar_type = ast.literal_eval(
+        bottom_reinforcement_group.RebarType
+    )
+    if prev_bottom_reinforcement_number_diameter_offset != list(
+        bottom_reinforcement_number_diameter_offset
+    ):
+        recreate_bottom_reinforcement = True
+    elif prev_bottom_reinforcement_rebar_type != list(
+        bottom_reinforcement_rebar_type
+    ):
+        recreate_bottom_reinforcement = True
+
+    if recreate_top_reinforcement:
+        for Rebar in top_reinforcement_group.TopRebars:
+            base_name = Rebar.Base.Name
+            FreeCAD.ActiveDocument.removeObject(Rebar.Name)
+            FreeCAD.ActiveDocument.removeObject(base_name)
+        FreeCAD.ActiveDocument.recompute()
+
+        makeTopReinforcement(
+            top_reinforcement_group,
+            l_cover_of_stirrup,
+            r_cover_of_stirrup,
+            t_cover_of_stirrup,
+            b_cover_of_stirrup,
+            offset_of_stirrup,
+            dia_of_stirrup,
+            top_reinforcement_number_diameter_offset,
+            top_reinforcement_rebar_type,
+            top_reinforcement_layer_spacing,
+            top_reinforcement_l_rebar_rounding,
+            top_reinforcement_hook_extension,
+            top_reinforcement_hook_orientation,
+            facename,
+            structure,
+        )
+
+    if recreate_bottom_reinforcement:
+        for Rebar in bottom_reinforcement_group.BottomRebars:
+            base_name = Rebar.Base.Name
+            FreeCAD.ActiveDocument.removeObject(Rebar.Name)
+            FreeCAD.ActiveDocument.removeObject(base_name)
+        FreeCAD.ActiveDocument.recompute()
+
+        makeBottomReinforcement(
+            bottom_reinforcement_group,
+            l_cover_of_stirrup,
+            r_cover_of_stirrup,
+            t_cover_of_stirrup,
+            b_cover_of_stirrup,
+            offset_of_stirrup,
+            dia_of_stirrup,
+            bottom_reinforcement_number_diameter_offset,
+            bottom_reinforcement_rebar_type,
+            bottom_reinforcement_layer_spacing,
+            bottom_reinforcement_l_rebar_rounding,
+            bottom_reinforcement_hook_extension,
+            bottom_reinforcement_hook_orientation,
+            facename,
+            structure,
+        )
+
+    prev_left_rebars_type = left_rebars_group.RebarType
+    if prev_left_rebars_type != list(left_rebars_type):
+        recreate_left_reinforcement = True
+    else:
+        recreate_left_reinforcement = False
+
+    prev_right_rebars_type = right_rebars_group.RebarType
+    if prev_right_rebars_type != list(right_rebars_type):
+        recreate_right_reinforcement = True
+    else:
+        recreate_right_reinforcement = False
+
+    if recreate_left_reinforcement:
+        for Rebar in left_rebars_group.LeftRebars:
+            base_name = Rebar.Base.Name
+            FreeCAD.ActiveDocument.removeObject(Rebar.Name)
+            FreeCAD.ActiveDocument.removeObject(base_name)
+        FreeCAD.ActiveDocument.recompute()
+
+        left_reinforcement_rebars = makeLeftReinforcement(
+            left_rebars_group,
+            l_cover_of_stirrup,
+            dia_of_stirrup,
+            left_rebars_number_diameter_offset,
+            left_rebars_type,
+            left_rebars_spacing,
+            left_l_rebar_rounding,
+            left_rebars_hook_extension,
+            left_rebars_hook_orientation,
+            structure,
+            facename,
+        )
+
+    if recreate_right_reinforcement:
+        for Rebar in right_rebars_group.RightRebars:
+            base_name = Rebar.Base.Name
+            FreeCAD.ActiveDocument.removeObject(Rebar.Name)
+            FreeCAD.ActiveDocument.removeObject(base_name)
+        FreeCAD.ActiveDocument.recompute()
+
+        right_reinforcement_rebars = makeRightReinforcement(
+            right_rebars_group,
+            l_cover_of_stirrup,
+            dia_of_stirrup,
+            right_rebars_number_diameter_offset,
+            right_rebars_type,
+            right_rebars_spacing,
+            right_l_rebar_rounding,
+            right_rebars_hook_extension,
+            right_rebars_hook_orientation,
+            structure,
+            facename,
+        )
+
     print("WIP")
+    FreeCAD.ActiveDocument.recompute()
     return rebar_group
 
 
