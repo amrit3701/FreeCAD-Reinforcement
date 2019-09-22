@@ -31,8 +31,8 @@ import ast
 import FreeCAD
 
 from Stirrup import makeStirrup, editStirrup
-from StraightRebar import makeStraightRebar
-from LShapeRebar import makeLShapeRebar
+from StraightRebar import makeStraightRebar, editStraightRebar
+from LShapeRebar import makeLShapeRebar, editLShapeRebar
 from Rebarfunc import (
     getParametersOfFace,
     getFaceNumber,
@@ -46,6 +46,16 @@ from Rebarfunc import (
 
 if FreeCAD.GuiUp:
     import FreeCADGui
+
+
+def getLayerSpacing(layers, layer_spacing):
+    if isinstance(layer_spacing, float) or isinstance(layer_spacing, int):
+        layer_spacing = [layer_spacing]
+        i = 0
+        while i < layers - 1:
+            layer_spacing.append(layer_spacing[0])
+            i += 1
+    return layer_spacing
 
 
 def getRebarTypeListofTopBottomRebars(number_diameter_offset_dict, rebar_type):
@@ -210,6 +220,47 @@ def getHookOrientationListofTopBottomRebars(
                 i += 1
             layer += 1
     return hook_orientation_list
+
+
+def getNumberSpacingofTopBottomRebars(
+    l_cover_of_stirrup,
+    r_cover_of_stirrup,
+    dia_of_stirrup,
+    number_diameter_offset_dict,
+    face_length,
+):
+    layers = len(number_diameter_offset_dict)
+    span_length = (
+        face_length
+        - l_cover_of_stirrup
+        - r_cover_of_stirrup
+        - 2 * dia_of_stirrup
+    )
+    req_space_for_rebars = []
+    rebars_number = []
+    spacing_in_rebars = []
+    layer = 1
+    while layer <= layers:
+        req_space_for_rebars.append(
+            sum(
+                x[0] * x[1]
+                for x in number_diameter_offset_dict["layer" + str(layer)]
+            )
+        )
+        rebars_number.append(
+            sum(x[0] for x in number_diameter_offset_dict["layer" + str(layer)])
+        )
+        if rebars_number[-1] == 1:
+            spacing_in_rebars.append(
+                (span_length - req_space_for_rebars[-1]) / 2
+            )
+        else:
+            spacing_in_rebars.append(
+                (span_length - req_space_for_rebars[-1])
+                / (rebars_number[-1] - 1)
+            )
+        layer += 1
+    return [rebars_number, spacing_in_rebars]
 
 
 def makeReinforcement(
@@ -496,21 +547,14 @@ def makeTopReinforcement(
         top_reinforcement_number_diameter_offset
     )
 
+    top_reinforcement_layer_spacing = getLayerSpacing(
+        top_reinforcement_layers, top_reinforcement_layer_spacing
+    )
+
     top_reinforcement_rebar_type_list = getRebarTypeListofTopBottomRebars(
         top_reinforcement_number_diameter_offset_dict,
         top_reinforcement_rebar_type,
     )
-
-    if isinstance(top_reinforcement_layer_spacing, float) or isinstance(
-        top_reinforcement_layer_spacing, int
-    ):
-        top_reinforcement_layer_spacing = [top_reinforcement_layer_spacing]
-        i = 0
-        while i < top_reinforcement_layers - 1:
-            top_reinforcement_layer_spacing.append(
-                top_reinforcement_layer_spacing[0]
-            )
-            i += 1
 
     top_reinforcement_l_rebar_rounding_list = getLRebarRoundingofTopBottomRebars(
         top_reinforcement_number_diameter_offset_dict,
@@ -533,51 +577,16 @@ def makeTopReinforcement(
     FacePRM = getParametersOfFace(structure, facename)
     face_length = FacePRM[0][0]
     face_width = FacePRM[0][1]
-    top_reinforcement_span_length = (
-        face_length
-        - l_cover_of_stirrup
-        - r_cover_of_stirrup
-        - 2 * dia_of_stirrup
-    )
 
-    req_space_for_top_reinforcement = []
-    top_reinforcement_rebars_number = []
-    spacing_in_top_reinforcement = []
-    layer = 1
-    while layer <= top_reinforcement_layers:
-        req_space_for_top_reinforcement.append(
-            sum(
-                x[0] * x[1]
-                for x in top_reinforcement_number_diameter_offset_dict[
-                    "layer" + str(layer)
-                ]
-            )
-        )
-        top_reinforcement_rebars_number.append(
-            sum(
-                x[0]
-                for x in top_reinforcement_number_diameter_offset_dict[
-                    "layer" + str(layer)
-                ]
-            )
-        )
-        if top_reinforcement_rebars_number[-1] == 1:
-            spacing_in_top_reinforcement.append(
-                (
-                    top_reinforcement_span_length
-                    - req_space_for_top_reinforcement[-1]
-                )
-                / 2
-            )
-        else:
-            spacing_in_top_reinforcement.append(
-                (
-                    top_reinforcement_span_length
-                    - req_space_for_top_reinforcement[-1]
-                )
-                / (top_reinforcement_rebars_number[-1] - 1)
-            )
-        layer += 1
+    top_reinforcement_rebars_number_spacing = getNumberSpacingofTopBottomRebars(
+        l_cover_of_stirrup,
+        r_cover_of_stirrup,
+        dia_of_stirrup,
+        top_reinforcement_number_diameter_offset_dict,
+        face_length,
+    )
+    top_reinforcement_rebars_number = top_reinforcement_rebars_number_spacing[0]
+    spacing_in_top_reinforcement = top_reinforcement_rebars_number_spacing[1]
 
     coverAlong = "Top Side"
     top_reinforcement_rebars = []
@@ -737,23 +746,14 @@ def makeBottomReinforcement(
         bottom_reinforcement_number_diameter_offset
     )
 
+    bottom_reinforcement_layer_spacing = getLayerSpacing(
+        bottom_reinforcement_layers, bottom_reinforcement_layer_spacing
+    )
+
     bottom_reinforcement_rebar_type_list = getRebarTypeListofTopBottomRebars(
         bottom_reinforcement_number_diameter_offset_dict,
         bottom_reinforcement_rebar_type,
     )
-
-    if isinstance(bottom_reinforcement_layer_spacing, float) or isinstance(
-        bottom_reinforcement_layer_spacing, int
-    ):
-        bottom_reinforcement_layer_spacing = [
-            bottom_reinforcement_layer_spacing
-        ]
-        i = 0
-        while i < bottom_reinforcement_layers - 1:
-            bottom_reinforcement_layer_spacing.append(
-                bottom_reinforcement_layer_spacing[0]
-            )
-            i += 1
 
     bottom_reinforcement_l_rebar_rounding_list = getLRebarRoundingofTopBottomRebars(
         bottom_reinforcement_number_diameter_offset_dict,
@@ -776,51 +776,20 @@ def makeBottomReinforcement(
     FacePRM = getParametersOfFace(structure, facename)
     face_length = FacePRM[0][0]
     face_width = FacePRM[0][1]
-    bottom_reinforcement_span_length = (
-        face_length
-        - l_cover_of_stirrup
-        - r_cover_of_stirrup
-        - 2 * dia_of_stirrup
-    )
 
-    req_space_for_bottom_reinforcement = []
-    bottom_reinforcement_rebars_number = []
-    spacing_in_bottom_reinforcement = []
-    layer = 1
-    while layer <= bottom_reinforcement_layers:
-        req_space_for_bottom_reinforcement.append(
-            sum(
-                x[0] * x[1]
-                for x in bottom_reinforcement_number_diameter_offset_dict[
-                    "layer" + str(layer)
-                ]
-            )
-        )
-        bottom_reinforcement_rebars_number.append(
-            sum(
-                x[0]
-                for x in bottom_reinforcement_number_diameter_offset_dict[
-                    "layer" + str(layer)
-                ]
-            )
-        )
-        if bottom_reinforcement_rebars_number[-1] == 1:
-            spacing_in_bottom_reinforcement.append(
-                (
-                    bottom_reinforcement_span_length
-                    - req_space_for_bottom_reinforcement[-1]
-                )
-                / 2
-            )
-        else:
-            spacing_in_bottom_reinforcement.append(
-                (
-                    bottom_reinforcement_span_length
-                    - req_space_for_bottom_reinforcement[-1]
-                )
-                / (bottom_reinforcement_rebars_number[-1] - 1)
-            )
-        layer += 1
+    bottom_reinforcement_rebars_number_spacing = getNumberSpacingofTopBottomRebars(
+        l_cover_of_stirrup,
+        r_cover_of_stirrup,
+        dia_of_stirrup,
+        bottom_reinforcement_number_diameter_offset_dict,
+        face_length,
+    )
+    bottom_reinforcement_rebars_number = bottom_reinforcement_rebars_number_spacing[
+        0
+    ]
+    spacing_in_bottom_reinforcement = bottom_reinforcement_rebars_number_spacing[
+        1
+    ]
 
     coverAlong = "Bottom Side"
     bottom_reinforcement_rebars = []
@@ -1682,6 +1651,24 @@ def editReinforcement(
             facename,
             structure,
         )
+    else:
+        editTopReinforcement(
+            top_reinforcement_group,
+            l_cover_of_stirrup,
+            r_cover_of_stirrup,
+            t_cover_of_stirrup,
+            b_cover_of_stirrup,
+            offset_of_stirrup,
+            dia_of_stirrup,
+            top_reinforcement_number_diameter_offset,
+            top_reinforcement_rebar_type,
+            top_reinforcement_layer_spacing,
+            top_reinforcement_l_rebar_rounding,
+            top_reinforcement_hook_extension,
+            top_reinforcement_hook_orientation,
+            facename,
+            structure,
+        )
 
     if recreate_bottom_reinforcement:
         for Rebar in bottom_reinforcement_group.BottomRebars:
@@ -1691,6 +1678,24 @@ def editReinforcement(
         FreeCAD.ActiveDocument.recompute()
 
         makeBottomReinforcement(
+            bottom_reinforcement_group,
+            l_cover_of_stirrup,
+            r_cover_of_stirrup,
+            t_cover_of_stirrup,
+            b_cover_of_stirrup,
+            offset_of_stirrup,
+            dia_of_stirrup,
+            bottom_reinforcement_number_diameter_offset,
+            bottom_reinforcement_rebar_type,
+            bottom_reinforcement_layer_spacing,
+            bottom_reinforcement_l_rebar_rounding,
+            bottom_reinforcement_hook_extension,
+            bottom_reinforcement_hook_orientation,
+            facename,
+            structure,
+        )
+    else:
+        editBottomReinforcement(
             bottom_reinforcement_group,
             l_cover_of_stirrup,
             r_cover_of_stirrup,
@@ -1765,6 +1770,433 @@ def editReinforcement(
     print("WIP")
     FreeCAD.ActiveDocument.recompute()
     return rebar_group
+
+
+def editTopReinforcement(
+    top_reinforcement_group,
+    l_cover_of_stirrup,
+    r_cover_of_stirrup,
+    t_cover_of_stirrup,
+    b_cover_of_stirrup,
+    offset_of_stirrup,
+    dia_of_stirrup,
+    top_reinforcement_number_diameter_offset,
+    top_reinforcement_rebar_type,
+    top_reinforcement_layer_spacing,
+    top_reinforcement_l_rebar_rounding,
+    top_reinforcement_hook_extension,
+    top_reinforcement_hook_orientation,
+    facename,
+    structure,
+):
+    facename_for_t_rebars = getFacenamesforBeamReinforcement(
+        facename, structure
+    )[0]
+
+    top_reinforcement_layers = len(top_reinforcement_number_diameter_offset)
+
+    top_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
+        top_reinforcement_number_diameter_offset
+    )
+
+    top_reinforcement_layer_spacing = getLayerSpacing(
+        top_reinforcement_layers, top_reinforcement_layer_spacing
+    )
+
+    top_reinforcement_rebar_type_list = getRebarTypeListofTopBottomRebars(
+        top_reinforcement_number_diameter_offset_dict,
+        top_reinforcement_rebar_type,
+    )
+
+    top_reinforcement_l_rebar_rounding_list = getLRebarRoundingofTopBottomRebars(
+        top_reinforcement_number_diameter_offset_dict,
+        top_reinforcement_rebar_type_list,
+        top_reinforcement_l_rebar_rounding,
+    )
+
+    top_reinforcement_hook_extension_list = getHookExtensionListofTopBottomRebars(
+        top_reinforcement_number_diameter_offset_dict,
+        top_reinforcement_rebar_type_list,
+        top_reinforcement_hook_extension,
+    )
+
+    top_reinforcement_hook_orientation_list = getHookOrientationListofTopBottomRebars(
+        top_reinforcement_number_diameter_offset_dict,
+        top_reinforcement_rebar_type_list,
+        top_reinforcement_hook_orientation,
+    )
+
+    FacePRM = getParametersOfFace(structure, facename)
+    face_length = FacePRM[0][0]
+    face_width = FacePRM[0][1]
+
+    top_reinforcement_rebars_number_spacing = getNumberSpacingofTopBottomRebars(
+        l_cover_of_stirrup,
+        r_cover_of_stirrup,
+        dia_of_stirrup,
+        top_reinforcement_number_diameter_offset_dict,
+        face_length,
+    )
+    top_reinforcement_rebars_number = top_reinforcement_rebars_number_spacing[0]
+    spacing_in_top_reinforcement = top_reinforcement_rebars_number_spacing[1]
+
+    coverAlong = "Top Side"
+    top_reinforcement_rebars = top_reinforcement_group.TopRebars
+    layer = 1
+    index = 0
+    while layer <= top_reinforcement_layers:
+        top_reinforcement_number_diameter_offset_list = top_reinforcement_number_diameter_offset_dict[
+            "layer" + str(layer)
+        ]
+        if layer == 1:
+            t_cover = t_cover_of_stirrup + dia_of_stirrup
+        else:
+            t_cover += (
+                max(x[1] for x in top_reinforcement_number_diameter_offset_list)
+                + top_reinforcement_layer_spacing[layer - 2]
+            )
+
+        f_cover = l_cover_of_stirrup + dia_of_stirrup
+        if top_reinforcement_rebars_number[layer - 1] == 1:
+            f_cover += spacing_in_top_reinforcement[layer - 1]
+
+        for i, (number, diameter, offset) in enumerate(
+            top_reinforcement_number_diameter_offset_list
+        ):
+            r_cover = l_cover = offset
+            rear_cover = (
+                face_length
+                - f_cover
+                - number * diameter
+                - (number - 1) * spacing_in_top_reinforcement[layer - 1]
+            )
+            if (
+                top_reinforcement_rebar_type_list[layer - 1][i]
+                == "StraightRebar"
+            ):
+                editStraightRebar(
+                    top_reinforcement_rebars[index],
+                    f_cover,
+                    (coverAlong, t_cover),
+                    r_cover,
+                    l_cover,
+                    diameter,
+                    True,
+                    number,
+                    "Horizontal",
+                    structure,
+                    facename_for_t_rebars,
+                )
+            else:
+                if layer == 1:
+                    b_cover = face_width - t_cover - diameter / 2
+                else:
+                    b_cover = (
+                        face_width
+                        - t_cover
+                        - sum(
+                            x
+                            for x in top_reinforcement_layer_spacing[
+                                : layer - 1
+                            ]
+                        )
+                        - diameter / 2
+                    )
+                if top_reinforcement_hook_orientation_list[layer - 1][i] in (
+                    "Front Inside",
+                    "Rear Inside",
+                ):
+                    b_cover -= (
+                        top_reinforcement_l_rebar_rounding_list[layer - 1][i]
+                        * diameter
+                        + top_reinforcement_hook_extension_list[layer - 1][i]
+                    )
+                    if (
+                        top_reinforcement_hook_orientation_list[layer - 1][i]
+                        == "Front Inside"
+                    ):
+                        orientation = "Top Right"
+                    else:
+                        orientation = "Top Left"
+                else:
+                    b_cover += (
+                        top_reinforcement_l_rebar_rounding_list[layer - 1][i]
+                        * diameter
+                        + top_reinforcement_hook_extension_list[layer - 1][i]
+                    )
+                    if (
+                        top_reinforcement_hook_orientation_list[layer - 1][i]
+                        == "Front Outside"
+                    ):
+                        orientation = "Top Right"
+                    else:
+                        orientation = "Top Left"
+
+                print_in_freecad_console(
+                    top_reinforcement_rebars[index].Label,
+                    f_cover,
+                    b_cover,
+                    l_cover,
+                    r_cover,
+                    diameter,
+                    t_cover,
+                    top_reinforcement_l_rebar_rounding_list[layer - 1][i],
+                    number,
+                    orientation,
+                    structure,
+                    facename_for_t_rebars,
+                )
+                editLShapeRebar(
+                    top_reinforcement_rebars[index],
+                    f_cover,
+                    b_cover,
+                    l_cover,
+                    r_cover,
+                    diameter,
+                    t_cover,
+                    top_reinforcement_l_rebar_rounding_list[layer - 1][i],
+                    True,
+                    number,
+                    orientation,
+                    structure,
+                    facename_for_t_rebars,
+                )
+            top_reinforcement_rebars[-1].OffsetEnd = rear_cover + diameter / 2
+            f_cover += (
+                number * diameter
+                + number * spacing_in_top_reinforcement[layer - 1]
+            )
+            index += 1
+        layer += 1
+    FreeCAD.ActiveDocument.recompute()
+
+    top_reinforcement_group.NumberDiameterOffset = (
+        top_reinforcement_number_diameter_offset
+    )
+    top_reinforcement_group.RebarType = str(top_reinforcement_rebar_type_list)
+    top_reinforcement_group.LayerSpacing = list(top_reinforcement_layer_spacing)
+    top_reinforcement_group.HookExtension = str(
+        top_reinforcement_hook_extension_list
+    )
+    top_reinforcement_group.HookOrientation = str(
+        top_reinforcement_hook_orientation_list
+    )
+
+    FreeCAD.ActiveDocument.recompute()
+
+
+def editBottomReinforcement(
+    bottom_reinforcement_group,
+    l_cover_of_stirrup,
+    r_cover_of_stirrup,
+    t_cover_of_stirrup,
+    b_cover_of_stirrup,
+    offset_of_stirrup,
+    dia_of_stirrup,
+    bottom_reinforcement_number_diameter_offset,
+    bottom_reinforcement_rebar_type,
+    bottom_reinforcement_layer_spacing,
+    bottom_reinforcement_l_rebar_rounding,
+    bottom_reinforcement_hook_extension,
+    bottom_reinforcement_hook_orientation,
+    facename,
+    structure,
+):
+    facename_for_b_rebars = getFacenamesforBeamReinforcement(
+        facename, structure
+    )[0]
+
+    bottom_reinforcement_layers = len(
+        bottom_reinforcement_number_diameter_offset
+    )
+
+    bottom_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
+        bottom_reinforcement_number_diameter_offset
+    )
+
+    bottom_reinforcement_layer_spacing = getLayerSpacing(
+        bottom_reinforcement_layers, bottom_reinforcement_layer_spacing
+    )
+
+    bottom_reinforcement_rebar_type_list = getRebarTypeListofTopBottomRebars(
+        bottom_reinforcement_number_diameter_offset_dict,
+        bottom_reinforcement_rebar_type,
+    )
+
+    bottom_reinforcement_l_rebar_rounding_list = getLRebarRoundingofTopBottomRebars(
+        bottom_reinforcement_number_diameter_offset_dict,
+        bottom_reinforcement_rebar_type_list,
+        bottom_reinforcement_l_rebar_rounding,
+    )
+
+    bottom_reinforcement_hook_extension_list = getHookExtensionListofTopBottomRebars(
+        bottom_reinforcement_number_diameter_offset_dict,
+        bottom_reinforcement_rebar_type_list,
+        bottom_reinforcement_hook_extension,
+    )
+
+    bottom_reinforcement_hook_orientation_list = getHookOrientationListofTopBottomRebars(
+        bottom_reinforcement_number_diameter_offset_dict,
+        bottom_reinforcement_rebar_type_list,
+        bottom_reinforcement_hook_orientation,
+    )
+
+    FacePRM = getParametersOfFace(structure, facename)
+    face_length = FacePRM[0][0]
+    face_width = FacePRM[0][1]
+
+    bottom_reinforcement_rebars_number_spacing = getNumberSpacingofTopBottomRebars(
+        l_cover_of_stirrup,
+        r_cover_of_stirrup,
+        dia_of_stirrup,
+        bottom_reinforcement_number_diameter_offset_dict,
+        face_length,
+    )
+    bottom_reinforcement_rebars_number = bottom_reinforcement_rebars_number_spacing[
+        0
+    ]
+    spacing_in_bottom_reinforcement = bottom_reinforcement_rebars_number_spacing[
+        1
+    ]
+
+    coverAlong = "Bottom Side"
+    bottom_reinforcement_rebars = bottom_reinforcement_group.BottomRebars
+    layer = 1
+    index = 0
+    while layer <= bottom_reinforcement_layers:
+        bottom_reinforcement_number_diameter_offset_list = bottom_reinforcement_number_diameter_offset_dict[
+            "layer" + str(layer)
+        ]
+        if layer == 1:
+            b_cover = b_cover_of_stirrup + dia_of_stirrup
+        else:
+            b_cover += (
+                max(
+                    x[1]
+                    for x in bottom_reinforcement_number_diameter_offset_list
+                )
+                + bottom_reinforcement_layer_spacing[layer - 2]
+            )
+
+        f_cover = l_cover_of_stirrup + dia_of_stirrup
+        if bottom_reinforcement_rebars_number[layer - 1] == 1:
+            f_cover += spacing_in_bottom_reinforcement[layer - 1]
+
+        for i, (number, diameter, offset) in enumerate(
+            bottom_reinforcement_number_diameter_offset_list
+        ):
+            r_cover = l_cover = offset
+            rear_cover = (
+                face_length
+                - f_cover
+                - number * diameter
+                - (number - 1) * spacing_in_bottom_reinforcement[layer - 1]
+            )
+            if (
+                bottom_reinforcement_rebar_type_list[layer - 1][i]
+                == "StraightRebar"
+            ):
+                editStraightRebar(
+                    bottom_reinforcement_rebars[index],
+                    f_cover,
+                    (coverAlong, b_cover),
+                    r_cover,
+                    l_cover,
+                    diameter,
+                    True,
+                    number,
+                    "Horizontal",
+                    structure,
+                    facename_for_b_rebars,
+                )
+            else:
+                if layer == 1:
+                    t_cover = face_width - b_cover - diameter / 2
+                else:
+                    t_cover = (
+                        face_width
+                        - b_cover
+                        - sum(
+                            x
+                            for x in bottom_reinforcement_layer_spacing[
+                                : layer - 1
+                            ]
+                        )
+                        - diameter / 2
+                    )
+                if bottom_reinforcement_hook_orientation_list[layer - 1][i] in (
+                    "Front Inside",
+                    "Rear Inside",
+                ):
+                    t_cover -= (
+                        bottom_reinforcement_l_rebar_rounding_list[layer - 1][i]
+                        * diameter
+                        + bottom_reinforcement_hook_extension_list[layer - 1][i]
+                    )
+                    if (
+                        bottom_reinforcement_hook_orientation_list[layer - 1][i]
+                        == "Front Inside"
+                    ):
+                        orientation = "Bottom Right"
+                    else:
+                        orientation = "Bottom Left"
+                else:
+                    t_cover += (
+                        bottom_reinforcement_l_rebar_rounding_list[layer - 1][i]
+                        * diameter
+                        + bottom_reinforcement_hook_extension_list[layer - 1][i]
+                    )
+                    if (
+                        bottom_reinforcement_hook_orientation_list[layer - 1][i]
+                        == "Front Outside"
+                    ):
+                        orientation = "Bottom Right"
+                    else:
+                        orientation = "Bottom Left"
+
+                editLShapeRebar(
+                    bottom_reinforcement_rebars[index],
+                    f_cover,
+                    b_cover,
+                    l_cover,
+                    r_cover,
+                    diameter,
+                    t_cover,
+                    bottom_reinforcement_l_rebar_rounding_list[layer - 1][i],
+                    True,
+                    number,
+                    orientation,
+                    structure,
+                    facename_for_b_rebars,
+                )
+            bottom_reinforcement_rebars[-1].OffsetEnd = (
+                rear_cover + diameter / 2
+            )
+            f_cover += (
+                number * diameter
+                + number * spacing_in_bottom_reinforcement[layer - 1]
+            )
+            index += 1
+        layer += 1
+    FreeCAD.ActiveDocument.recompute()
+
+    bottom_reinforcement_group.NumberDiameterOffset = (
+        bottom_reinforcement_number_diameter_offset
+    )
+    bottom_reinforcement_group.RebarType = str(
+        bottom_reinforcement_rebar_type_list
+    )
+    bottom_reinforcement_group.LayerSpacing = list(
+        bottom_reinforcement_layer_spacing
+    )
+    bottom_reinforcement_group.HookExtension = str(
+        bottom_reinforcement_hook_extension_list
+    )
+    bottom_reinforcement_group.HookOrientation = str(
+        bottom_reinforcement_hook_orientation_list
+    )
+
+    FreeCAD.ActiveDocument.recompute()
 
 
 class _TwoLeggedBeam(_BeamReinforcementGroup):
