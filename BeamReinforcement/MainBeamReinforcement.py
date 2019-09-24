@@ -32,7 +32,7 @@ from PySide2 import QtWidgets, QtGui
 import FreeCAD
 import FreeCADGui
 
-from Rebarfunc import check_selected_face, print_in_freecad_console
+from Rebarfunc import check_selected_face, showWarning, print_in_freecad_console
 from BeamReinforcement.NumberDiameterOffset import runNumberDiameterOffsetDialog
 from BeamReinforcement.RebarTypeEditDialog import runRebarTypeEditDialog
 from BeamReinforcement.HookOrientationEditDialog import (
@@ -1722,10 +1722,98 @@ def editDialog(vobj):
     if len(vobj.Object.ReinforcementGroups) == 0:
         showWarning("Nothing to edit. You have deleted all rebar groups.")
         return
+    stirrups_group = None
+    for i, rebar_group in enumerate(vobj.Object.ReinforcementGroups):
+        # Check if stirrups group exists
+        if hasattr(rebar_group, "Stirrups"):
+            # Check if Stirrups exists
+            if len(rebar_group.Stirrups) > 0:
+                stirrups_group = rebar_group
+                break
+            else:
+                showWarning(
+                    "You have deleted stirrups. Please recreate the "
+                    "BeamReinforcement."
+                )
+                return
+        else:
+            showWarning(
+                "You have deleted stirrups group. Please recreate the "
+                "BeamReinforcement."
+            )
+            return
     obj = _BeamReinforcementDialog(vobj.Object)
     obj.setupUi()
+    if stirrups_group:
+        obj.stirrups_widget.stirrups_configuration.setCurrentIndex(
+            obj.stirrups_widget.stirrups_configuration.findText(
+                str(stirrups_group.StirrupsConfiguration)
+            )
+        )
+        obj.top_reinforcement_widget.stirrups_configuration.setCurrentIndex(
+            obj.top_reinforcement_widget.stirrups_configuration.findText(
+                str(stirrups_group.StirrupsConfiguration)
+            )
+        )
+        obj.bottom_reinforcement_widget.stirrups_configuration.setCurrentIndex(
+            obj.bottom_reinforcement_widget.stirrups_configuration.findText(
+                str(stirrups_group.StirrupsConfiguration)
+            )
+        )
+        obj.left_reinforcement_widget.stirrups_configuration.setCurrentIndex(
+            obj.left_reinforcement_widget.stirrups_configuration.findText(
+                str(stirrups_group.StirrupsConfiguration)
+            )
+        )
+        obj.right_reinforcement_widget.stirrups_configuration.setCurrentIndex(
+            obj.right_reinforcement_widget.stirrups_configuration.findText(
+                str(stirrups_group.StirrupsConfiguration)
+            )
+        )
+        setStirrupsData(obj, vobj)
     print_in_freecad_console("WIP")
     obj.form.exec_()
+
+
+def setStirrupsData(obj, vobj):
+    for rebar_group in vobj.Object.ReinforcementGroups:
+        if hasattr(rebar_group, "Stirrups"):
+            Stirrups = rebar_group
+            break
+    Stirrup = Stirrups.Stirrups[0]
+    if not (
+        str(Stirrup.LeftCover)
+        == str(Stirrup.RightCover)
+        == str(Stirrup.TopCover)
+        == str(Stirrup.BottomCover)
+    ):
+        obj.stirrups_widget.stirrups_allCoversEqual.setChecked(False)
+        obj.stirrupsAllCoversEqualClicked()
+        obj.stirrups_widget.stirrups_rightCover.setEnabled(True)
+        obj.stirrups_widget.stirrups_topCover.setEnabled(True)
+        obj.stirrups_widget.stirrups_bottomCover.setEnabled(True)
+    obj.stirrups_widget.stirrups_leftCover.setText(str(Stirrup.LeftCover))
+    obj.stirrups_widget.stirrups_rightCover.setText(str(Stirrup.RightCover))
+    obj.stirrups_widget.stirrups_topCover.setText(str(Stirrup.TopCover))
+    obj.stirrups_widget.stirrups_bottomCover.setText(str(Stirrup.BottomCover))
+    obj.stirrups_widget.stirrups_offset.setText(str(Stirrup.FrontCover))
+    obj.stirrups_widget.stirrups_diameter.setText(str(Stirrup.Diameter))
+    obj.stirrups_widget.stirrups_bentAngle.setCurrentIndex(
+        obj.stirrups_widget.stirrups_bentAngle.findText(str(Stirrup.BentAngle))
+    )
+    obj.stirrups_widget.stirrups_extensionFactor.setValue(Stirrup.BentFactor)
+    if Stirrup.AmountCheck:
+        obj.stirrups_widget.stirrups_number_radio.setChecked(True)
+        obj.stirrups_widget.stirrups_spacing_radio.setChecked(False)
+        obj.stirrups_widget.stirrups_number.setEnabled(True)
+        obj.stirrups_widget.stirrups_spacing.setEnabled(False)
+        obj.stirrups_widget.stirrups_number.setValue(Stirrup.Amount)
+    else:
+        obj.stirrups_widget.stirrups_number_radio.setChecked(False)
+        obj.stirrups_widget.stirrups_spacing_radio.setChecked(True)
+        obj.stirrups_widget.stirrups_number.setEnabled(False)
+        obj.stirrups_widget.stirrups_spacing.setEnabled(True)
+        obj.stirrups_widget.stirrups_spacing.setText(str(Stirrup.TrueSpacing))
 
 
 def CommandBeamReinforcement():
