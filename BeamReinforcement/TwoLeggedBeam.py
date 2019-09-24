@@ -2504,6 +2504,8 @@ class _TwoLeggedBeam(_BeamReinforcementGroup):
     def __init__(self):
         """Create Group object and add properties to it."""
         _BeamReinforcementGroup.__init__(self)
+        # Set stirrups configuration
+        self.stirrups_group.StirrupsConfiguration = "Two Legged Stirrups"
         # Add properties to top/bottom reinforcement rebar groups
         properties = []
         properties.append(

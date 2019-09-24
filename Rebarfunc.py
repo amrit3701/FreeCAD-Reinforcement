@@ -555,6 +555,14 @@ class _BeamReinforcementGroup:
         properties.append(
             ("App::PropertyLinkList", "Stirrups", "List of Stirrups", 1)
         )
+        properties.append(
+            (
+                "App::PropertyString",
+                "StirrupsConfiguration",
+                "Configuration of Stirrups in Beam Reinforcement",
+                1,
+            )
+        )
         self.setProperties(properties, self.stirrups_group)
         # Add properties to top_reinforcement_group object
         properties = []
