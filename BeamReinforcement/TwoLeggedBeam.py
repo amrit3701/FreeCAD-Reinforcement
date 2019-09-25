@@ -809,6 +809,7 @@ def makeTopReinforcement(
     obj.TopRebars = prev_top_reinforcement_rebars
     obj.NumberDiameterOffset = top_reinforcement_number_diameter_offset
     obj.RebarType = str(top_reinforcement_rebar_type_list)
+    obj.LRebarRounding = str(top_reinforcement_l_rebar_rounding_list)
     obj.LayerSpacing = list(top_reinforcement_layer_spacing)
     obj.HookExtension = str(top_reinforcement_hook_extension_list)
     obj.HookOrientation = str(top_reinforcement_hook_orientation_list)
@@ -1019,6 +1020,7 @@ def makeBottomReinforcement(
     obj.BottomRebars = prev_bottom_reinforcement_rebars
     obj.NumberDiameterOffset = bottom_reinforcement_number_diameter_offset
     obj.RebarType = str(bottom_reinforcement_rebar_type_list)
+    obj.LRebarRounding = str(bottom_reinforcement_l_rebar_rounding_list)
     obj.LayerSpacing = list(bottom_reinforcement_layer_spacing)
     obj.HookExtension = str(bottom_reinforcement_hook_extension_list)
     obj.HookOrientation = str(bottom_reinforcement_hook_orientation_list)
@@ -1187,6 +1189,7 @@ def makeLeftReinforcement(
     obj.LeftRebars = prev_left_reinforcement_rebars
     obj.NumberDiameterOffset = left_rebars_number_diameter_offset
     obj.RebarType = left_rebars_type_list
+    obj.LRebarRounding = left_l_rebar_rounding_list
     obj.RebarSpacing = left_rebars_spacing
     obj.HookExtension = left_rebars_hook_extension_list
     obj.HookOrientation = left_rebars_hook_orientation_list
@@ -1358,6 +1361,7 @@ def makeRightReinforcement(
     obj.RightRebars = prev_right_reinforcement_rebars
     obj.NumberDiameterOffset = right_rebars_number_diameter_offset
     obj.RebarType = right_rebars_type_list
+    obj.LRebarRounding = right_l_rebar_rounding_list
     obj.RebarSpacing = right_rebars_spacing
     obj.HookExtension = right_rebars_hook_extension_list
     obj.HookOrientation = right_rebars_hook_orientation_list
@@ -2549,6 +2553,14 @@ class _TwoLeggedBeam(_BeamReinforcementGroup):
         )
         properties.append(
             (
+                "App::PropertyString",
+                "LRebarRounding",
+                "Rounding of L-Shaped rebars",
+                1,
+            )
+        )
+        properties.append(
+            (
                 "App::PropertyFloatList",
                 "LayerSpacing",
                 "List of spacing between adjacent reinforcement layers",
@@ -2588,6 +2600,14 @@ class _TwoLeggedBeam(_BeamReinforcementGroup):
                 "App::PropertyStringList",
                 "RebarType",
                 "List of type of rebars",
+                1,
+            )
+        )
+        properties.append(
+            (
+                "App::PropertyIntegerList",
+                "LRebarRounding",
+                "Rounding of L-Shaped rebars",
                 1,
             )
         )
