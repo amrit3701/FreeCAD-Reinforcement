@@ -67,7 +67,7 @@ def getRebarTypeListofTopBottomRebars(number_diameter_offset_dict, rebar_type):
             if isinstance(rebar_type[layer - 1], list) or isinstance(
                 rebar_type[layer - 1], tuple
             ):
-                rebar_type_list.append(rebar_type[layer - 1])
+                rebar_type_list.append(tuple(rebar_type[layer - 1]))
             elif isinstance(rebar_type[layer - 1], str):
                 rebar_type_list.append([])
                 i = 0
@@ -76,6 +76,7 @@ def getRebarTypeListofTopBottomRebars(number_diameter_offset_dict, rebar_type):
                 ):
                     rebar_type_list[-1].append(rebar_type[layer - 1])
                     i += 1
+                rebar_type_list[-1] = tuple(rebar_type_list[-1])
             layer += 1
     elif isinstance(rebar_type, str):
         layer = 1
@@ -85,6 +86,7 @@ def getRebarTypeListofTopBottomRebars(number_diameter_offset_dict, rebar_type):
             while i < len(number_diameter_offset_dict["layer" + str(layer)]):
                 rebar_type_list[-1].append(rebar_type)
                 i += 1
+            rebar_type_list[-1] = tuple(rebar_type_list[-1])
             layer += 1
     return rebar_type_list
 
@@ -102,7 +104,7 @@ def getLRebarRoundingofTopBottomRebars(
             if isinstance(l_rebar_rounding[layer - 1], list) or isinstance(
                 l_rebar_rounding[layer - 1], tuple
             ):
-                l_rebar_rounding_list.append(l_rebar_rounding[layer - 1])
+                l_rebar_rounding_list.append(tuple(l_rebar_rounding[layer - 1]))
             elif isinstance(l_rebar_rounding[layer - 1], float) or isinstance(
                 l_rebar_rounding[layer - 1], int
             ):
@@ -118,6 +120,7 @@ def getLRebarRoundingofTopBottomRebars(
                             l_rebar_rounding[layer - 1]
                         )
                     i += 1
+                l_rebar_rounding_list[-1] = tuple(l_rebar_rounding_list[-1])
             layer += 1
     elif isinstance(l_rebar_rounding, float) or isinstance(
         l_rebar_rounding, int
@@ -132,6 +135,7 @@ def getLRebarRoundingofTopBottomRebars(
                 else:
                     l_rebar_rounding_list[layer - 1].append(l_rebar_rounding)
                 i += 1
+            l_rebar_rounding_list[-1] = tuple(l_rebar_rounding_list[-1])
             layer += 1
     return l_rebar_rounding_list
 
@@ -147,7 +151,7 @@ def getHookExtensionListofTopBottomRebars(
             if isinstance(hook_extension[layer - 1], list) or isinstance(
                 hook_extension[layer - 1], tuple
             ):
-                hook_extension_list.append(hook_extension[layer - 1])
+                hook_extension_list.append(tuple(hook_extension[layer - 1]))
             elif isinstance(hook_extension[layer - 1], float) or isinstance(
                 hook_extension[layer - 1], int
             ):
@@ -163,6 +167,7 @@ def getHookExtensionListofTopBottomRebars(
                             hook_extension[layer - 1]
                         )
                     i += 1
+                hook_extension_list[-1] = tuple(hook_extension_list[-1])
             layer += 1
     elif isinstance(hook_extension, float) or isinstance(hook_extension, int):
         layer = 1
@@ -175,6 +180,7 @@ def getHookExtensionListofTopBottomRebars(
                 else:
                     hook_extension_list[-1].append(hook_extension)
                 i += 1
+            hook_extension_list[-1] = tuple(hook_extension_list[-1])
             layer += 1
     return hook_extension_list
 
@@ -192,7 +198,7 @@ def getHookOrientationListofTopBottomRebars(
             if isinstance(hook_orientation[layer - 1], list) or isinstance(
                 hook_orientation[layer - 1], tuple
             ):
-                hook_orientation_list.append(hook_orientation[layer - 1])
+                hook_orientation_list.append(tuple(hook_orientation[layer - 1]))
             elif isinstance(hook_orientation[layer - 1], str):
                 hook_orientation_list.append([])
                 i = 0
@@ -206,6 +212,7 @@ def getHookOrientationListofTopBottomRebars(
                             hook_orientation[layer - 1]
                         )
                     i += 1
+                hook_orientation_list[-1] = tuple(hook_orientation_list[-1])
             layer += 1
     elif isinstance(hook_orientation, str):
         layer = 1
@@ -218,6 +225,7 @@ def getHookOrientationListofTopBottomRebars(
                 else:
                     hook_orientation_list[-1].append(hook_orientation)
                 i += 1
+            hook_orientation_list[-1] = tuple(hook_orientation_list[-1])
             layer += 1
     return hook_orientation_list
 
@@ -1563,8 +1571,9 @@ def editReinforcement(
         top_reinforcement_number_diameter_offset
     ):
         recreate_top_reinforcement = True
-    elif prev_top_reinforcement_rebar_type != list(
-        top_reinforcement_rebar_type
+    elif prev_top_reinforcement_rebar_type != getRebarTypeListofTopBottomRebars(
+        top_reinforcement_number_diameter_offset_dict,
+        top_reinforcement_rebar_type,
     ):
         recreate_top_reinforcement = True
 
@@ -1579,8 +1588,12 @@ def editReinforcement(
         bottom_reinforcement_number_diameter_offset
     ):
         recreate_bottom_reinforcement = True
-    elif prev_bottom_reinforcement_rebar_type != list(
-        bottom_reinforcement_rebar_type
+    elif (
+        prev_bottom_reinforcement_rebar_type
+        != getRebarTypeListofTopBottomRebars(
+            bottom_reinforcement_number_diameter_offset_dict,
+            bottom_reinforcement_rebar_type,
+        )
     ):
         recreate_bottom_reinforcement = True
 
@@ -1670,14 +1683,24 @@ def editReinforcement(
             structure,
         )
 
+    left_rebars_number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
+        left_rebars_number_diameter_offset
+    )
     prev_left_rebars_type = left_rebars_group.RebarType
-    if prev_left_rebars_type != list(left_rebars_type):
+    if prev_left_rebars_type != getRebarTypeListofShearRebars(
+        left_rebars_number_diameter_offset_tuple, left_rebars_type
+    ):
         recreate_left_reinforcement = True
     else:
         recreate_left_reinforcement = False
 
+    right_rebars_number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
+        right_rebars_number_diameter_offset
+    )
     prev_right_rebars_type = right_rebars_group.RebarType
-    if prev_right_rebars_type != list(right_rebars_type):
+    if prev_right_rebars_type != getRebarTypeListofShearRebars(
+        right_rebars_number_diameter_offset_tuple, right_rebars_type
+    ):
         recreate_right_reinforcement = True
     else:
         recreate_right_reinforcement = False
