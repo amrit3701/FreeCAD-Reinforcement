@@ -41,7 +41,6 @@ from Rebarfunc import (
     getdictofNumberDiameterOffset,
     _BeamReinforcementGroup,
     _ViewProviderBeamReinforcementGroup,
-    print_in_freecad_console,
 )
 
 if FreeCAD.GuiUp:
@@ -298,7 +297,9 @@ def getLRebarRoundingofShearRebars(
     elif isinstance(l_rebar_rounding, list) or isinstance(
         l_rebar_rounding, tuple
     ):
-        l_rebar_rounding_list = list(l_rebar_rounding)
+        l_rebar_rounding_list = [
+            0 if not rounding else rounding for rounding in l_rebar_rounding
+        ]
     return l_rebar_rounding_list
 
 
@@ -1687,27 +1688,19 @@ def editReinforcement(
             structure,
         )
 
-    left_rebars_number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
-        left_rebars_number_diameter_offset
-    )
-    prev_left_rebars_type = left_rebars_group.RebarType
-    if prev_left_rebars_type != getRebarTypeListofShearRebars(
-        left_rebars_number_diameter_offset_tuple, left_rebars_type
-    ):
+    if left_rebars_number_diameter_offset:
+        left_rebars_number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
+            left_rebars_number_diameter_offset
+        )
+        prev_left_rebars_type = left_rebars_group.RebarType
+        if prev_left_rebars_type != getRebarTypeListofShearRebars(
+            left_rebars_number_diameter_offset_tuple, left_rebars_type
+        ):
+            recreate_left_reinforcement = True
+        else:
+            recreate_left_reinforcement = False
+    else:
         recreate_left_reinforcement = True
-    else:
-        recreate_left_reinforcement = False
-
-    right_rebars_number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
-        right_rebars_number_diameter_offset
-    )
-    prev_right_rebars_type = right_rebars_group.RebarType
-    if prev_right_rebars_type != getRebarTypeListofShearRebars(
-        right_rebars_number_diameter_offset_tuple, right_rebars_type
-    ):
-        recreate_right_reinforcement = True
-    else:
-        recreate_right_reinforcement = False
 
     if recreate_left_reinforcement:
         for Rebar in left_rebars_group.LeftRebars:
@@ -1743,6 +1736,20 @@ def editReinforcement(
             structure,
             facename,
         )
+
+    if right_rebars_number_diameter_offset:
+        right_rebars_number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
+            right_rebars_number_diameter_offset
+        )
+        prev_right_rebars_type = right_rebars_group.RebarType
+        if prev_right_rebars_type != getRebarTypeListofShearRebars(
+            right_rebars_number_diameter_offset_tuple, right_rebars_type
+        ):
+            recreate_right_reinforcement = True
+        else:
+            recreate_right_reinforcement = False
+    else:
+        recreate_right_reinforcement = True
 
     if recreate_right_reinforcement:
         for Rebar in right_rebars_group.RightRebars:

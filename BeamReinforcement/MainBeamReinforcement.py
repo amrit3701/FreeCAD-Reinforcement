@@ -1771,7 +1771,7 @@ def editDialog(vobj):
     setStirrupsData(obj, vobj)
     setTopReinforcementData(obj, vobj)
     setBottomReinforcementData(obj, vobj)
-    print_in_freecad_console("WIP")
+    setShearRebarsData(obj, vobj)
     obj.form.exec_()
 
 
@@ -1870,6 +1870,109 @@ def setBottomReinforcementData(obj, vobj):
     obj.bottom_reinforcement_widget.layerSpacing.setText(
         str(tuple(BottomReinforcementGroup.LayerSpacing))
     )
+
+
+def setShearRebarsData(obj, vobj):
+    LeftRebarsGroup = None
+    RightRebarsGroup = None
+    for rebar_group in vobj.Object.ReinforcementGroups:
+        if hasattr(rebar_group, "ShearReinforcementGroups"):
+            for shear_rebars_group in rebar_group.ShearReinforcementGroups:
+                if hasattr(shear_rebars_group, "LeftRebars"):
+                    LeftRebarsGroup = shear_rebars_group
+                elif hasattr(shear_rebars_group, "RightRebars"):
+                    RightRebarsGroup = shear_rebars_group
+            break
+    if LeftRebarsGroup:
+        obj.left_reinforcement_widget.numberDiameterOffset.setText(
+            str(LeftRebarsGroup.NumberDiameterOffset)
+        )
+        obj.left_reinforcement_widget.rebarType.setText(
+            str(LeftRebarsGroup.RebarType)
+        )
+        obj.left_reinforcement_widget.hookOrientation.setText(
+            str(
+                tuple(
+                    [
+                        None if not orientation else orientation
+                        for orientation in LeftRebarsGroup.HookOrientation
+                    ]
+                )
+            )
+        )
+        obj.left_reinforcement_widget.hookExtension.setText(
+            str(
+                tuple(
+                    [
+                        None if not extension else extension
+                        for extension in LeftRebarsGroup.HookExtension
+                    ]
+                )
+            )
+        )
+        obj.left_reinforcement_widget.LRebarRounding.setText(
+            str(
+                tuple(
+                    [
+                        None if not rounding else rounding
+                        for rounding in LeftRebarsGroup.LRebarRounding
+                    ]
+                )
+            )
+        )
+        obj.left_reinforcement_widget.rebarSpacing.setText(
+            str(LeftRebarsGroup.RebarSpacing)
+        )
+        obj.left_reinforcement_widget.rebarTypeEditButton.setEnabled(True)
+        obj.left_reinforcement_widget.hookOrientationEditButton.setEnabled(True)
+        obj.left_reinforcement_widget.hookExtensionEditButton.setEnabled(True)
+        obj.left_reinforcement_widget.LRebarRoundingEditButton.setEnabled(True)
+    if RightRebarsGroup:
+        obj.right_reinforcement_widget.numberDiameterOffset.setText(
+            str(RightRebarsGroup.NumberDiameterOffset)
+        )
+        obj.right_reinforcement_widget.rebarType.setText(
+            str(RightRebarsGroup.RebarType)
+        )
+        obj.right_reinforcement_widget.hookOrientation.setText(
+            str(
+                tuple(
+                    [
+                        None if not orientation else orientation
+                        for orientation in RightRebarsGroup.HookOrientation
+                    ]
+                )
+            )
+        )
+        obj.right_reinforcement_widget.hookExtension.setText(
+            str(
+                tuple(
+                    [
+                        None if not extension else extension
+                        for extension in RightRebarsGroup.HookExtension
+                    ]
+                )
+            )
+        )
+        obj.right_reinforcement_widget.LRebarRounding.setText(
+            str(
+                tuple(
+                    [
+                        None if not rounding else rounding
+                        for rounding in RightRebarsGroup.LRebarRounding
+                    ]
+                )
+            )
+        )
+        obj.right_reinforcement_widget.rebarSpacing.setText(
+            str(RightRebarsGroup.RebarSpacing)
+        )
+        obj.right_reinforcement_widget.rebarTypeEditButton.setEnabled(True)
+        obj.right_reinforcement_widget.hookOrientationEditButton.setEnabled(
+            True
+        )
+        obj.right_reinforcement_widget.hookExtensionEditButton.setEnabled(True)
+        obj.right_reinforcement_widget.LRebarRoundingEditButton.setEnabled(True)
 
 
 def CommandBeamReinforcement():
