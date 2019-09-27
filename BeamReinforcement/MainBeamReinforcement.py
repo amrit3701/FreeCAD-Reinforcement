@@ -32,7 +32,7 @@ from PySide2 import QtWidgets, QtGui
 import FreeCAD
 import FreeCADGui
 
-from Rebarfunc import check_selected_face, showWarning, print_in_freecad_console
+from Rebarfunc import check_selected_face, showWarning
 from BeamReinforcement.NumberDiameterOffset import runNumberDiameterOffsetDialog
 from BeamReinforcement.RebarTypeEditDialog import runRebarTypeEditDialog
 from BeamReinforcement.HookOrientationEditDialog import (
@@ -1714,7 +1714,10 @@ class _BeamReinforcementDialog:
         if not self.RebarGroup:
             self.setDefaultValues()
         else:
-            print_in_freecad_console("WIP")
+            setStirrupsData(self, None)
+            setTopReinforcementData(self, None)
+            setBottomReinforcementData(self, None)
+            setShearRebarsData(self, None)
 
 
 def editDialog(vobj):
@@ -1776,10 +1779,16 @@ def editDialog(vobj):
 
 
 def setStirrupsData(obj, vobj):
-    for rebar_group in vobj.Object.ReinforcementGroups:
-        if hasattr(rebar_group, "Stirrups"):
-            Stirrups = rebar_group
-            break
+    if vobj:
+        for rebar_group in vobj.Object.ReinforcementGroups:
+            if hasattr(rebar_group, "Stirrups"):
+                Stirrups = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.ReinforcementGroups:
+            if hasattr(rebar_group, "Stirrups"):
+                Stirrups = rebar_group
+                break
     Stirrup = Stirrups.Stirrups[0]
     if not (
         str(Stirrup.LeftCover)
@@ -1817,10 +1826,16 @@ def setStirrupsData(obj, vobj):
 
 
 def setTopReinforcementData(obj, vobj):
-    for rebar_group in vobj.Object.ReinforcementGroups:
-        if hasattr(rebar_group, "TopRebars"):
-            TopReinforcementGroup = rebar_group
-            break
+    if vobj:
+        for rebar_group in vobj.Object.ReinforcementGroups:
+            if hasattr(rebar_group, "TopRebars"):
+                TopReinforcementGroup = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.ReinforcementGroups:
+            if hasattr(rebar_group, "TopRebars"):
+                TopReinforcementGroup = rebar_group
+                break
     obj.top_reinforcement_widget.numberDiameterOffset.setPlainText(
         str(tuple(TopReinforcementGroup.NumberDiameterOffset))
     )
@@ -1845,10 +1860,16 @@ def setTopReinforcementData(obj, vobj):
 
 
 def setBottomReinforcementData(obj, vobj):
-    for rebar_group in vobj.Object.ReinforcementGroups:
-        if hasattr(rebar_group, "BottomRebars"):
-            BottomReinforcementGroup = rebar_group
-            break
+    if vobj:
+        for rebar_group in vobj.Object.ReinforcementGroups:
+            if hasattr(rebar_group, "BottomRebars"):
+                BottomReinforcementGroup = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.ReinforcementGroups:
+            if hasattr(rebar_group, "BottomRebars"):
+                BottomReinforcementGroup = rebar_group
+                break
     obj.bottom_reinforcement_widget.numberDiameterOffset.setPlainText(
         str(tuple(BottomReinforcementGroup.NumberDiameterOffset))
     )
@@ -1875,14 +1896,24 @@ def setBottomReinforcementData(obj, vobj):
 def setShearRebarsData(obj, vobj):
     LeftRebarsGroup = None
     RightRebarsGroup = None
-    for rebar_group in vobj.Object.ReinforcementGroups:
-        if hasattr(rebar_group, "ShearReinforcementGroups"):
-            for shear_rebars_group in rebar_group.ShearReinforcementGroups:
-                if hasattr(shear_rebars_group, "LeftRebars"):
-                    LeftRebarsGroup = shear_rebars_group
-                elif hasattr(shear_rebars_group, "RightRebars"):
-                    RightRebarsGroup = shear_rebars_group
-            break
+    if vobj:
+        for rebar_group in vobj.Object.ReinforcementGroups:
+            if hasattr(rebar_group, "ShearReinforcementGroups"):
+                for shear_rebars_group in rebar_group.ShearReinforcementGroups:
+                    if hasattr(shear_rebars_group, "LeftRebars"):
+                        LeftRebarsGroup = shear_rebars_group
+                    elif hasattr(shear_rebars_group, "RightRebars"):
+                        RightRebarsGroup = shear_rebars_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.ReinforcementGroups:
+            if hasattr(rebar_group, "ShearReinforcementGroups"):
+                for shear_rebars_group in rebar_group.ShearReinforcementGroups:
+                    if hasattr(shear_rebars_group, "LeftRebars"):
+                        LeftRebarsGroup = shear_rebars_group
+                    elif hasattr(shear_rebars_group, "RightRebars"):
+                        RightRebarsGroup = shear_rebars_group
+                break
     if LeftRebarsGroup:
         obj.left_reinforcement_widget.numberDiameterOffset.setText(
             str(LeftRebarsGroup.NumberDiameterOffset)
