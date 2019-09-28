@@ -1695,7 +1695,28 @@ def editReinforcement(
             structure,
         )
 
-    if left_rebars_number_diameter_offset:
+    if (
+        left_rebars_number_diameter_offset
+        or right_rebars_number_diameter_offset
+    ) and not shear_reinforcement_group:
+        shear_reinforcement_group = rebar_group.newObject(
+            "App::DocumentObjectGroupPython", "ShearReinforcement"
+        )
+        reinforcement_groups = rebar_group.ReinforcementGroups
+        reinforcement_groups.append(shear_reinforcement_group)
+        rebar_group.ReinforcementGroups = reinforcement_groups
+        properties = []
+        properties.append(
+            (
+                "App::PropertyLinkList",
+                "ShearReinforcementGroups",
+                "List of shear reinforcement groups",
+                1,
+            )
+        )
+        setGroupProperties(properties, shear_reinforcement_group)
+        FreeCAD.ActiveDocument.recompute()
+    if left_rebars_group and left_rebars_number_diameter_offset:
         left_rebars_number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
             left_rebars_number_diameter_offset
         )
@@ -1716,6 +1737,28 @@ def editReinforcement(
                 FreeCAD.ActiveDocument.removeObject(Rebar.Name)
                 FreeCAD.ActiveDocument.removeObject(base_name)
             FreeCAD.ActiveDocument.recompute()
+        elif left_rebars_number_diameter_offset:
+            left_rebars_group = shear_reinforcement_group.newObject(
+                "App::DocumentObjectGroupPython", "LeftRebars"
+            )
+            shear_rebar_groups = (
+                shear_reinforcement_group.ShearReinforcementGroups
+            )
+            shear_rebar_groups.append(left_rebars_group)
+            shear_reinforcement_group.ShearReinforcementGroups = (
+                shear_rebar_groups
+            )
+            properties = []
+            properties.append(
+                (
+                    "App::PropertyLinkList",
+                    "LeftRebars",
+                    "List of shear reinforcement left rebars",
+                    1,
+                )
+            )
+            setGroupProperties(properties, left_rebars_group)
+            addLeftRightRebarGroupsProperties(left_rebars_group)
 
         left_reinforcement_rebars = makeLeftReinforcement(
             left_rebars_group,
@@ -1745,7 +1788,7 @@ def editReinforcement(
             facename,
         )
 
-    if right_rebars_number_diameter_offset:
+    if right_rebars_group and right_rebars_number_diameter_offset:
         right_rebars_number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
             right_rebars_number_diameter_offset
         )
@@ -1766,6 +1809,28 @@ def editReinforcement(
                 FreeCAD.ActiveDocument.removeObject(Rebar.Name)
                 FreeCAD.ActiveDocument.removeObject(base_name)
             FreeCAD.ActiveDocument.recompute()
+        elif right_rebars_number_diameter_offset:
+            right_rebars_group = shear_reinforcement_group.newObject(
+                "App::DocumentObjectGroupPython", "RightRebars"
+            )
+            shear_rebar_groups = (
+                shear_reinforcement_group.ShearReinforcementGroups
+            )
+            shear_rebar_groups.append(right_rebars_group)
+            shear_reinforcement_group.ShearReinforcementGroups = (
+                shear_rebar_groups
+            )
+            properties = []
+            properties.append(
+                (
+                    "App::PropertyLinkList",
+                    "RightRebars",
+                    "List of shear reinforcement right rebars",
+                    1,
+                )
+            )
+            setGroupProperties(properties, right_rebars_group)
+            addLeftRightRebarGroupsProperties(right_rebars_group)
 
         right_reinforcement_rebars = makeRightReinforcement(
             right_rebars_group,

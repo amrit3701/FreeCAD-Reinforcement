@@ -1915,7 +1915,6 @@ def setShearRebarsData(obj, vobj):
                         RightRebarsGroup = shear_rebars_group
                 break
     if not LeftRebarsGroup:
-        obj.left_reinforcement_widget.setEnabled(False)
         obj.left_reinforcement_widget.numberDiameterOffset.setText("")
         obj.left_reinforcement_widget.rebarType.setText("")
         obj.left_reinforcement_widget.hookOrientation.setText("")
@@ -1967,7 +1966,6 @@ def setShearRebarsData(obj, vobj):
         obj.left_reinforcement_widget.hookExtensionEditButton.setEnabled(True)
         obj.left_reinforcement_widget.LRebarRoundingEditButton.setEnabled(True)
     if not RightRebarsGroup:
-        obj.right_reinforcement_widget.setEnabled(False)
         obj.right_reinforcement_widget.numberDiameterOffset.setText("")
         obj.right_reinforcement_widget.rebarType.setText("")
         obj.right_reinforcement_widget.hookOrientation.setText("")
