@@ -41,6 +41,7 @@ from Rebarfunc import (
     getdictofNumberDiameterOffset,
     _BeamReinforcementGroup,
     _ViewProviderBeamReinforcementGroup,
+    setGroupProperties,
 )
 
 if FreeCAD.GuiUp:
@@ -1043,7 +1044,8 @@ def makeLeftReinforcement(
     facename,
 ):
     if not left_rebars_number_diameter_offset:
-        FreeCAD.ActiveDocument.removeObject(obj.Name)
+        if obj:
+            FreeCAD.ActiveDocument.removeObject(obj.Name)
         return None
 
     facename_for_s_rebars = getFacenamesforBeamReinforcement(
@@ -1213,7 +1215,8 @@ def makeRightReinforcement(
     facename,
 ):
     if not right_rebars_number_diameter_offset:
-        FreeCAD.ActiveDocument.removeObject(obj.Name)
+        if obj:
+            FreeCAD.ActiveDocument.removeObject(obj.Name)
         return None
 
     facename_for_s_rebars = getFacenamesforBeamReinforcement(
@@ -1553,12 +1556,16 @@ def editReinforcement(
         facename,
     )
 
+    shear_reinforcement_group = None
+    left_rebars_group = None
+    right_rebars_group = None
     for tmp_rebar_group in rebar_group.ReinforcementGroups:
         if hasattr(tmp_rebar_group, "TopRebars"):
             top_reinforcement_group = tmp_rebar_group
         elif hasattr(tmp_rebar_group, "BottomRebars"):
             bottom_reinforcement_group = tmp_rebar_group
         elif hasattr(tmp_rebar_group, "ShearReinforcementGroups"):
+            shear_reinforcement_group = tmp_rebar_group
             for shear_rebar_group in tmp_rebar_group.ShearReinforcementGroups:
                 if hasattr(shear_rebar_group, "LeftRebars"):
                     left_rebars_group = shear_rebar_group
@@ -1703,11 +1710,12 @@ def editReinforcement(
         recreate_left_reinforcement = True
 
     if recreate_left_reinforcement:
-        for Rebar in left_rebars_group.LeftRebars:
-            base_name = Rebar.Base.Name
-            FreeCAD.ActiveDocument.removeObject(Rebar.Name)
-            FreeCAD.ActiveDocument.removeObject(base_name)
-        FreeCAD.ActiveDocument.recompute()
+        if left_rebars_group:
+            for Rebar in left_rebars_group.LeftRebars:
+                base_name = Rebar.Base.Name
+                FreeCAD.ActiveDocument.removeObject(Rebar.Name)
+                FreeCAD.ActiveDocument.removeObject(base_name)
+            FreeCAD.ActiveDocument.recompute()
 
         left_reinforcement_rebars = makeLeftReinforcement(
             left_rebars_group,
@@ -1752,11 +1760,12 @@ def editReinforcement(
         recreate_right_reinforcement = True
 
     if recreate_right_reinforcement:
-        for Rebar in right_rebars_group.RightRebars:
-            base_name = Rebar.Base.Name
-            FreeCAD.ActiveDocument.removeObject(Rebar.Name)
-            FreeCAD.ActiveDocument.removeObject(base_name)
-        FreeCAD.ActiveDocument.recompute()
+        if right_rebars_group:
+            for Rebar in right_rebars_group.RightRebars:
+                base_name = Rebar.Base.Name
+                FreeCAD.ActiveDocument.removeObject(Rebar.Name)
+                FreeCAD.ActiveDocument.removeObject(base_name)
+            FreeCAD.ActiveDocument.recompute()
 
         right_reinforcement_rebars = makeRightReinforcement(
             right_rebars_group,
@@ -1786,7 +1795,15 @@ def editReinforcement(
             facename,
         )
 
-    print("WIP")
+    if (
+        not left_rebars_number_diameter_offset
+        and not right_rebars_number_diameter_offset
+    ):
+        for tmp_rebar_group in rebar_group.ReinforcementGroups:
+            if hasattr(tmp_rebar_group, "ShearReinforcementGroups"):
+                FreeCAD.ActiveDocument.removeObject(tmp_rebar_group.Name)
+                break
+
     FreeCAD.ActiveDocument.recompute()
     return rebar_group
 
@@ -2590,57 +2607,61 @@ class _TwoLeggedBeam(_BeamReinforcementGroup):
                 1,
             )
         )
-        self.setProperties(properties, self.top_reinforcement_group)
-        self.setProperties(properties, self.bottom_reinforcement_group)
-        # Add properties to left/right rebar groups
-        properties = []
-        properties.append(
-            (
-                "App::PropertyString",
-                "NumberDiameterOffset",
-                "Number Diameter Offset string",
-                1,
-            )
+        setGroupProperties(properties, self.top_reinforcement_group)
+        setGroupProperties(properties, self.bottom_reinforcement_group)
+        addLeftRightRebarGroupsProperties(
+            (self.left_rebars_group, self.right_rebars_group)
         )
-        properties.append(
-            (
-                "App::PropertyStringList",
-                "RebarType",
-                "List of type of rebars",
-                1,
-            )
+
+
+def addLeftRightRebarGroupsProperties(rebar_groups):
+    """Add properties to left/right rebar groups."""
+    properties = []
+    properties.append(
+        (
+            "App::PropertyString",
+            "NumberDiameterOffset",
+            "Number Diameter Offset string",
+            1,
         )
-        properties.append(
-            (
-                "App::PropertyIntegerList",
-                "LRebarRounding",
-                "Rounding of L-Shaped rebars",
-                1,
-            )
+    )
+    properties.append(
+        ("App::PropertyStringList", "RebarType", "List of type of rebars", 1)
+    )
+    properties.append(
+        (
+            "App::PropertyIntegerList",
+            "LRebarRounding",
+            "Rounding of L-Shaped rebars",
+            1,
         )
-        properties.append(
-            (
-                "App::PropertyDistance",
-                "RebarSpacing",
-                "Clear spacing between rebars",
-                1,
-            )
+    )
+    properties.append(
+        (
+            "App::PropertyDistance",
+            "RebarSpacing",
+            "Clear spacing between rebars",
+            1,
         )
-        properties.append(
-            (
-                "App::PropertyFloatList",
-                "HookExtension",
-                "List of hook extension of lshape rebars",
-                1,
-            )
+    )
+    properties.append(
+        (
+            "App::PropertyFloatList",
+            "HookExtension",
+            "List of hook extension of lshape rebars",
+            1,
         )
-        properties.append(
-            (
-                "App::PropertyStringList",
-                "HookOrientation",
-                "List of hook orientation of lshape rebars",
-                1,
-            )
+    )
+    properties.append(
+        (
+            "App::PropertyStringList",
+            "HookOrientation",
+            "List of hook orientation of lshape rebars",
+            1,
         )
-        self.setProperties(properties, self.left_rebars_group)
-        self.setProperties(properties, self.right_rebars_group)
+    )
+    if isinstance(rebar_groups, list) or isinstance(rebar_groups, tuple):
+        for rebar_group in rebar_groups:
+            setGroupProperties(properties, rebar_group)
+    else:
+        setGroupProperties(properties, rebar_groups)

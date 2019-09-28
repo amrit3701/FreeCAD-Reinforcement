@@ -1725,7 +1725,7 @@ def editDialog(vobj):
     if len(vobj.Object.ReinforcementGroups) == 0:
         showWarning("Nothing to edit. You have deleted all rebar groups.")
         return
-    for i, rebar_group in enumerate(vobj.Object.ReinforcementGroups):
+    for rebar_group in vobj.Object.ReinforcementGroups:
         # Check if stirrups group exists
         if hasattr(rebar_group, "Stirrups"):
             # Check if Stirrups exists
@@ -1914,7 +1914,15 @@ def setShearRebarsData(obj, vobj):
                     elif hasattr(shear_rebars_group, "RightRebars"):
                         RightRebarsGroup = shear_rebars_group
                 break
-    if LeftRebarsGroup:
+    if not LeftRebarsGroup:
+        obj.left_reinforcement_widget.setEnabled(False)
+        obj.left_reinforcement_widget.numberDiameterOffset.setText("")
+        obj.left_reinforcement_widget.rebarType.setText("")
+        obj.left_reinforcement_widget.hookOrientation.setText("")
+        obj.left_reinforcement_widget.hookExtension.setText("")
+        obj.left_reinforcement_widget.LRebarRounding.setText("")
+        obj.left_reinforcement_widget.rebarSpacing.setText("")
+    else:
         obj.left_reinforcement_widget.numberDiameterOffset.setText(
             str(LeftRebarsGroup.NumberDiameterOffset)
         )
@@ -1958,7 +1966,15 @@ def setShearRebarsData(obj, vobj):
         obj.left_reinforcement_widget.hookOrientationEditButton.setEnabled(True)
         obj.left_reinforcement_widget.hookExtensionEditButton.setEnabled(True)
         obj.left_reinforcement_widget.LRebarRoundingEditButton.setEnabled(True)
-    if RightRebarsGroup:
+    if not RightRebarsGroup:
+        obj.right_reinforcement_widget.setEnabled(False)
+        obj.right_reinforcement_widget.numberDiameterOffset.setText("")
+        obj.right_reinforcement_widget.rebarType.setText("")
+        obj.right_reinforcement_widget.hookOrientation.setText("")
+        obj.right_reinforcement_widget.hookExtension.setText("")
+        obj.right_reinforcement_widget.LRebarRounding.setText("")
+        obj.right_reinforcement_widget.rebarSpacing.setText("")
+    else:
         obj.right_reinforcement_widget.numberDiameterOffset.setText(
             str(RightRebarsGroup.NumberDiameterOffset)
         )
