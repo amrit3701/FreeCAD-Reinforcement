@@ -555,6 +555,14 @@ class _BeamReinforcementGroup:
         properties.append(
             ("App::PropertyLinkList", "Stirrups", "List of Stirrups", 1)
         )
+        properties.append(
+            (
+                "App::PropertyString",
+                "StirrupsConfiguration",
+                "Configuration of Stirrups in Beam Reinforcement",
+                1,
+            )
+        )
         self.setProperties(properties, self.stirrups_group)
         # Add properties to top_reinforcement_group object
         properties = []
@@ -743,6 +751,25 @@ def gettupleOfNumberDiameterOffset(number_diameter_offset_string):
         )
         index += 1
     return number_diameter_offset_list
+
+
+class _ViewProviderBeamReinforcementGroup:
+    "A View Provider for the Beam Reinforcement Group object."
+
+    def __init__(self, vobj):
+        vobj.Proxy = self
+        self.Object = vobj.Object
+
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self, state):
+        return None
+
+    def doubleClicked(self, vobj):
+        from BeamReinforcement import MainBeamReinforcement
+
+        MainBeamReinforcement.editDialog(vobj)
 
 
 # -------------------------------------------------------------------------

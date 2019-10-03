@@ -32,7 +32,7 @@ from PySide2 import QtWidgets, QtGui
 import FreeCAD
 import FreeCADGui
 
-from Rebarfunc import check_selected_face
+from Rebarfunc import check_selected_face, showWarning
 from BeamReinforcement.NumberDiameterOffset import runNumberDiameterOffsetDialog
 from BeamReinforcement.RebarTypeEditDialog import runRebarTypeEditDialog
 from BeamReinforcement.HookOrientationEditDialog import (
@@ -61,6 +61,15 @@ class _BeamReinforcementDialog:
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
             self.SelectedObj = selected_obj.Object
             self.FaceName = selected_obj.SubElementNames[0]
+        else:
+            # If beam reinforcement is already created, then get selectedObj
+            # from data stored in created Stirrup
+            for rebar_group in RebarGroup.ReinforcementGroups:
+                if hasattr(rebar_group, "Stirrups"):
+                    Stirrup = rebar_group.Stirrups[0]
+                    self.FaceName = Stirrup.Base.Support[0][1][0]
+                    self.SelectedObj = Stirrup.Base.Support[0][0]
+                    break
 
         # Load ui from file MainBeamReinforcement.ui
         self.form = FreeCADGui.PySideUic.loadUi(
@@ -1436,14 +1445,55 @@ class _BeamReinforcementDialog:
         self.stirrups_configuration = (
             self.stirrups_widget.stirrups_configuration.currentText()
         )
+        self.getStirrupsData()
+        self.getTopReinforcementData()
+        self.getBottomReinforcementData()
+        self.getLeftReinforcementData()
+        self.getRightReinforcementData()
         if not self.RebarGroup:
             if self.stirrups_configuration == "Two Legged Stirrups":
-                self.getStirrupsData()
-                self.getTopReinforcementData()
-                self.getBottomReinforcementData()
-                self.getLeftReinforcementData()
-                self.getRightReinforcementData()
                 RebarGroup = TwoLeggedBeam.makeReinforcement(
+                    self.stirrups_l_cover,
+                    self.stirrups_r_cover,
+                    self.stirrups_t_cover,
+                    self.stirrups_b_cover,
+                    self.stirrups_offset,
+                    self.stirrups_bent_angle,
+                    self.stirrups_extension_factor,
+                    self.stirrups_diameter,
+                    self.stirrups_number_spacing_check,
+                    self.stirrups_number_spacing_value,
+                    self.top_number_diameter_offset,
+                    self.top_rebar_type,
+                    self.top_layer_spacing,
+                    self.bottom_number_diameter_offset,
+                    self.bottom_rebar_type,
+                    self.bottom_layer_spacing,
+                    self.left_number_diameter_offset,
+                    self.left_rebar_type,
+                    self.left_rebar_spacing,
+                    self.right_number_diameter_offset,
+                    self.right_rebar_type,
+                    self.right_rebar_spacing,
+                    self.top_lrebar_rounding,
+                    self.top_hook_extension,
+                    self.top_hook_orientation,
+                    self.bottom_lrebar_rounding,
+                    self.bottom_hook_extension,
+                    self.bottom_hook_orientation,
+                    self.left_lrebar_rounding,
+                    self.left_hook_extension,
+                    self.left_hook_orientation,
+                    self.right_lrebar_rounding,
+                    self.right_hook_extension,
+                    self.right_hook_orientation,
+                    self.SelectedObj,
+                    self.FaceName,
+                )
+        else:
+            if self.stirrups_configuration == "Two Legged Stirrups":
+                RebarGroup = TwoLeggedBeam.editReinforcement(
+                    self.RebarGroup,
                     self.stirrups_l_cover,
                     self.stirrups_r_cover,
                     self.stirrups_t_cover,
@@ -1664,7 +1714,296 @@ class _BeamReinforcementDialog:
         if not self.RebarGroup:
             self.setDefaultValues()
         else:
-            print("WIP")
+            setStirrupsData(self, None)
+            setTopReinforcementData(self, None)
+            setBottomReinforcementData(self, None)
+            setShearRebarsData(self, None)
+
+
+def editDialog(vobj):
+    # Check if all rebar groups deleted or not
+    if len(vobj.Object.ReinforcementGroups) == 0:
+        showWarning("Nothing to edit. You have deleted all rebar groups.")
+        return
+    for i, rebar_group in enumerate(vobj.Object.ReinforcementGroups):
+        # Check if stirrups group exists
+        if hasattr(rebar_group, "Stirrups"):
+            # Check if Stirrups exists
+            if len(rebar_group.Stirrups) > 0:
+                stirrups_group = rebar_group
+                break
+            else:
+                showWarning(
+                    "You have deleted stirrups. Please recreate the "
+                    "BeamReinforcement."
+                )
+                return
+        else:
+            showWarning(
+                "You have deleted stirrups group. Please recreate the "
+                "BeamReinforcement."
+            )
+            return
+    obj = _BeamReinforcementDialog(vobj.Object)
+    obj.setupUi()
+    obj.stirrups_widget.stirrups_configuration.setCurrentIndex(
+        obj.stirrups_widget.stirrups_configuration.findText(
+            str(stirrups_group.StirrupsConfiguration)
+        )
+    )
+    obj.top_reinforcement_widget.stirrups_configuration.setCurrentIndex(
+        obj.top_reinforcement_widget.stirrups_configuration.findText(
+            str(stirrups_group.StirrupsConfiguration)
+        )
+    )
+    obj.bottom_reinforcement_widget.stirrups_configuration.setCurrentIndex(
+        obj.bottom_reinforcement_widget.stirrups_configuration.findText(
+            str(stirrups_group.StirrupsConfiguration)
+        )
+    )
+    obj.left_reinforcement_widget.stirrups_configuration.setCurrentIndex(
+        obj.left_reinforcement_widget.stirrups_configuration.findText(
+            str(stirrups_group.StirrupsConfiguration)
+        )
+    )
+    obj.right_reinforcement_widget.stirrups_configuration.setCurrentIndex(
+        obj.right_reinforcement_widget.stirrups_configuration.findText(
+            str(stirrups_group.StirrupsConfiguration)
+        )
+    )
+    setStirrupsData(obj, vobj)
+    setTopReinforcementData(obj, vobj)
+    setBottomReinforcementData(obj, vobj)
+    setShearRebarsData(obj, vobj)
+    obj.form.exec_()
+
+
+def setStirrupsData(obj, vobj):
+    if vobj:
+        for rebar_group in vobj.Object.ReinforcementGroups:
+            if hasattr(rebar_group, "Stirrups"):
+                Stirrups = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.ReinforcementGroups:
+            if hasattr(rebar_group, "Stirrups"):
+                Stirrups = rebar_group
+                break
+    Stirrup = Stirrups.Stirrups[0]
+    if not (
+        str(Stirrup.LeftCover)
+        == str(Stirrup.RightCover)
+        == str(Stirrup.TopCover)
+        == str(Stirrup.BottomCover)
+    ):
+        obj.stirrups_widget.stirrups_allCoversEqual.setChecked(False)
+        obj.stirrupsAllCoversEqualClicked()
+        obj.stirrups_widget.stirrups_rightCover.setEnabled(True)
+        obj.stirrups_widget.stirrups_topCover.setEnabled(True)
+        obj.stirrups_widget.stirrups_bottomCover.setEnabled(True)
+    obj.stirrups_widget.stirrups_leftCover.setText(str(Stirrup.LeftCover))
+    obj.stirrups_widget.stirrups_rightCover.setText(str(Stirrup.RightCover))
+    obj.stirrups_widget.stirrups_topCover.setText(str(Stirrup.TopCover))
+    obj.stirrups_widget.stirrups_bottomCover.setText(str(Stirrup.BottomCover))
+    obj.stirrups_widget.stirrups_offset.setText(str(Stirrup.FrontCover))
+    obj.stirrups_widget.stirrups_diameter.setText(str(Stirrup.Diameter))
+    obj.stirrups_widget.stirrups_bentAngle.setCurrentIndex(
+        obj.stirrups_widget.stirrups_bentAngle.findText(str(Stirrup.BentAngle))
+    )
+    obj.stirrups_widget.stirrups_extensionFactor.setValue(Stirrup.BentFactor)
+    if Stirrup.AmountCheck:
+        obj.stirrups_widget.stirrups_number_radio.setChecked(True)
+        obj.stirrups_widget.stirrups_spacing_radio.setChecked(False)
+        obj.stirrups_widget.stirrups_number.setEnabled(True)
+        obj.stirrups_widget.stirrups_spacing.setEnabled(False)
+        obj.stirrups_widget.stirrups_number.setValue(Stirrup.Amount)
+    else:
+        obj.stirrups_widget.stirrups_number_radio.setChecked(False)
+        obj.stirrups_widget.stirrups_spacing_radio.setChecked(True)
+        obj.stirrups_widget.stirrups_number.setEnabled(False)
+        obj.stirrups_widget.stirrups_spacing.setEnabled(True)
+        obj.stirrups_widget.stirrups_spacing.setText(str(Stirrup.TrueSpacing))
+
+
+def setTopReinforcementData(obj, vobj):
+    if vobj:
+        for rebar_group in vobj.Object.ReinforcementGroups:
+            if hasattr(rebar_group, "TopRebars"):
+                TopReinforcementGroup = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.ReinforcementGroups:
+            if hasattr(rebar_group, "TopRebars"):
+                TopReinforcementGroup = rebar_group
+                break
+    obj.top_reinforcement_widget.numberDiameterOffset.setPlainText(
+        str(tuple(TopReinforcementGroup.NumberDiameterOffset))
+    )
+    obj.top_reinforcement_widget.rebarType.setPlainText(
+        str(TopReinforcementGroup.RebarType)
+    )
+    obj.top_reinforcement_widget.hookOrientation.setPlainText(
+        str(TopReinforcementGroup.HookOrientation)
+    )
+    obj.top_reinforcement_widget.hookExtension.setPlainText(
+        str(TopReinforcementGroup.HookExtension)
+    )
+    obj.top_reinforcement_widget.LRebarRounding.setPlainText(
+        str(TopReinforcementGroup.LRebarRounding)
+    )
+    obj.top_reinforcement_widget.layers.setValue(
+        len(ast.literal_eval(TopReinforcementGroup.RebarType))
+    )
+    obj.top_reinforcement_widget.layerSpacing.setText(
+        str(tuple(TopReinforcementGroup.LayerSpacing))
+    )
+
+
+def setBottomReinforcementData(obj, vobj):
+    if vobj:
+        for rebar_group in vobj.Object.ReinforcementGroups:
+            if hasattr(rebar_group, "BottomRebars"):
+                BottomReinforcementGroup = rebar_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.ReinforcementGroups:
+            if hasattr(rebar_group, "BottomRebars"):
+                BottomReinforcementGroup = rebar_group
+                break
+    obj.bottom_reinforcement_widget.numberDiameterOffset.setPlainText(
+        str(tuple(BottomReinforcementGroup.NumberDiameterOffset))
+    )
+    obj.bottom_reinforcement_widget.rebarType.setPlainText(
+        str(BottomReinforcementGroup.RebarType)
+    )
+    obj.bottom_reinforcement_widget.hookOrientation.setPlainText(
+        str(BottomReinforcementGroup.HookOrientation)
+    )
+    obj.bottom_reinforcement_widget.hookExtension.setPlainText(
+        str(BottomReinforcementGroup.HookExtension)
+    )
+    obj.bottom_reinforcement_widget.LRebarRounding.setPlainText(
+        str(BottomReinforcementGroup.LRebarRounding)
+    )
+    obj.bottom_reinforcement_widget.layers.setValue(
+        len(ast.literal_eval(BottomReinforcementGroup.RebarType))
+    )
+    obj.bottom_reinforcement_widget.layerSpacing.setText(
+        str(tuple(BottomReinforcementGroup.LayerSpacing))
+    )
+
+
+def setShearRebarsData(obj, vobj):
+    LeftRebarsGroup = None
+    RightRebarsGroup = None
+    if vobj:
+        for rebar_group in vobj.Object.ReinforcementGroups:
+            if hasattr(rebar_group, "ShearReinforcementGroups"):
+                for shear_rebars_group in rebar_group.ShearReinforcementGroups:
+                    if hasattr(shear_rebars_group, "LeftRebars"):
+                        LeftRebarsGroup = shear_rebars_group
+                    elif hasattr(shear_rebars_group, "RightRebars"):
+                        RightRebarsGroup = shear_rebars_group
+                break
+    else:
+        for rebar_group in obj.RebarGroup.ReinforcementGroups:
+            if hasattr(rebar_group, "ShearReinforcementGroups"):
+                for shear_rebars_group in rebar_group.ShearReinforcementGroups:
+                    if hasattr(shear_rebars_group, "LeftRebars"):
+                        LeftRebarsGroup = shear_rebars_group
+                    elif hasattr(shear_rebars_group, "RightRebars"):
+                        RightRebarsGroup = shear_rebars_group
+                break
+    if LeftRebarsGroup:
+        obj.left_reinforcement_widget.numberDiameterOffset.setText(
+            str(LeftRebarsGroup.NumberDiameterOffset)
+        )
+        obj.left_reinforcement_widget.rebarType.setText(
+            str(LeftRebarsGroup.RebarType)
+        )
+        obj.left_reinforcement_widget.hookOrientation.setText(
+            str(
+                tuple(
+                    [
+                        None if not orientation else orientation
+                        for orientation in LeftRebarsGroup.HookOrientation
+                    ]
+                )
+            )
+        )
+        obj.left_reinforcement_widget.hookExtension.setText(
+            str(
+                tuple(
+                    [
+                        None if not extension else extension
+                        for extension in LeftRebarsGroup.HookExtension
+                    ]
+                )
+            )
+        )
+        obj.left_reinforcement_widget.LRebarRounding.setText(
+            str(
+                tuple(
+                    [
+                        None if not rounding else rounding
+                        for rounding in LeftRebarsGroup.LRebarRounding
+                    ]
+                )
+            )
+        )
+        obj.left_reinforcement_widget.rebarSpacing.setText(
+            str(LeftRebarsGroup.RebarSpacing)
+        )
+        obj.left_reinforcement_widget.rebarTypeEditButton.setEnabled(True)
+        obj.left_reinforcement_widget.hookOrientationEditButton.setEnabled(True)
+        obj.left_reinforcement_widget.hookExtensionEditButton.setEnabled(True)
+        obj.left_reinforcement_widget.LRebarRoundingEditButton.setEnabled(True)
+    if RightRebarsGroup:
+        obj.right_reinforcement_widget.numberDiameterOffset.setText(
+            str(RightRebarsGroup.NumberDiameterOffset)
+        )
+        obj.right_reinforcement_widget.rebarType.setText(
+            str(RightRebarsGroup.RebarType)
+        )
+        obj.right_reinforcement_widget.hookOrientation.setText(
+            str(
+                tuple(
+                    [
+                        None if not orientation else orientation
+                        for orientation in RightRebarsGroup.HookOrientation
+                    ]
+                )
+            )
+        )
+        obj.right_reinforcement_widget.hookExtension.setText(
+            str(
+                tuple(
+                    [
+                        None if not extension else extension
+                        for extension in RightRebarsGroup.HookExtension
+                    ]
+                )
+            )
+        )
+        obj.right_reinforcement_widget.LRebarRounding.setText(
+            str(
+                tuple(
+                    [
+                        None if not rounding else rounding
+                        for rounding in RightRebarsGroup.LRebarRounding
+                    ]
+                )
+            )
+        )
+        obj.right_reinforcement_widget.rebarSpacing.setText(
+            str(RightRebarsGroup.RebarSpacing)
+        )
+        obj.right_reinforcement_widget.rebarTypeEditButton.setEnabled(True)
+        obj.right_reinforcement_widget.hookOrientationEditButton.setEnabled(
+            True
+        )
+        obj.right_reinforcement_widget.hookExtensionEditButton.setEnabled(True)
+        obj.right_reinforcement_widget.LRebarRoundingEditButton.setEnabled(True)
 
 
 def CommandBeamReinforcement():
