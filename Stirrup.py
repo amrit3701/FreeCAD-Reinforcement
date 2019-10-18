@@ -288,7 +288,7 @@ def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, b
         sketch.Support = [(structure, facename)]
     # Check if sketch support is empty.
     if not sketch.Support:
-        showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
+        showWarning("You have checked: 'Remove external geometry of base sketches when needed.'\nTo uncheck: Edit->Preferences->Arch.")
         return
     # Assigned values
     facename = sketch.Support[0][1][0]
