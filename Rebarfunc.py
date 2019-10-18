@@ -262,6 +262,27 @@ def extendedTangentLength(rounding, diameter, angle):
 
 
 # -------------------------------------------------------------------------
+# Classes and functions which are mainly used while creating Column and
+# Beam Reinforcement.
+# -------------------------------------------------------------------------
+
+
+def setGroupProperties(properties, group_obj):
+    for prop in properties:
+        group_obj.addProperty(
+            prop[0],
+            prop[1],
+            "RebarDialog",
+            QT_TRANSLATE_NOOP("App::Property", prop[2]),
+        )
+        group_obj.setEditorMode(prop[1], prop[3])
+
+def setGroupPropertiesValues(properties_values, group_obj):
+    for prop in properties_values:
+        setattr(group_obj, prop[0], prop[1])
+
+
+# -------------------------------------------------------------------------
 # Classes and functions which are mainly used while creating Column
 # Reinforcement.
 # -------------------------------------------------------------------------
@@ -286,7 +307,7 @@ class _RebarGroup:
         properties.append(
             ("App::PropertyLinkList", "RebarGroups", "List of rebar groups", 1)
         )
-        self.setProperties(properties, self.rebar_group)
+        setGroupProperties(properties, self.rebar_group)
         self.rebar_group.RebarGroups = [self.ties_group, self.main_rebars_group]
         self.Object = self.rebar_group
 
@@ -310,20 +331,6 @@ class _RebarGroup:
         prev_main_rebars_list = self.main_rebars_group.MainRebars
         main_rebars_list.extend(prev_main_rebars_list)
         self.main_rebars_group.MainRebars = main_rebars_list
-
-    def setProperties(self, properties, group_obj):
-        for prop in properties:
-            group_obj.addProperty(
-                prop[0],
-                prop[1],
-                "RebarDialog",
-                QT_TRANSLATE_NOOP("App::Property", prop[2]),
-            )
-            group_obj.setEditorMode(prop[1], prop[3])
-
-    def setPropertiesValues(self, properties_values, group_obj):
-        for prop in properties_values:
-            setattr(group_obj, prop[0], prop[1])
 
 
 class _ViewProviderRebarGroup:
@@ -543,7 +550,7 @@ class _BeamReinforcementGroup:
                 1,
             )
         )
-        self.setProperties(properties, self.rebar_group)
+        setGroupProperties(properties, self.rebar_group)
         self.rebar_group.ReinforcementGroups = [
             self.stirrups_group,
             self.top_reinforcement_group,
@@ -563,7 +570,7 @@ class _BeamReinforcementGroup:
                 1,
             )
         )
-        self.setProperties(properties, self.stirrups_group)
+        setGroupProperties(properties, self.stirrups_group)
         # Add properties to top_reinforcement_group object
         properties = []
         properties.append(
@@ -574,7 +581,7 @@ class _BeamReinforcementGroup:
                 1,
             )
         )
-        self.setProperties(properties, self.top_reinforcement_group)
+        setGroupProperties(properties, self.top_reinforcement_group)
         # Add properties to bottom_reinforcement_group object
         properties = []
         properties.append(
@@ -585,7 +592,7 @@ class _BeamReinforcementGroup:
                 1,
             )
         )
-        self.setProperties(properties, self.bottom_reinforcement_group)
+        setGroupProperties(properties, self.bottom_reinforcement_group)
         # Add properties to shear_reinforcement_group object
         properties = []
         properties.append(
@@ -596,7 +603,7 @@ class _BeamReinforcementGroup:
                 1,
             )
         )
-        self.setProperties(properties, self.shear_reinforcement_group)
+        setGroupProperties(properties, self.shear_reinforcement_group)
         self.shear_reinforcement_group.ShearReinforcementGroups = [
             self.left_rebars_group,
             self.right_rebars_group,
@@ -611,7 +618,7 @@ class _BeamReinforcementGroup:
                 1,
             )
         )
-        self.setProperties(properties, self.left_rebars_group)
+        setGroupProperties(properties, self.left_rebars_group)
         # Add properties to right_rebars_group object
         properties = []
         properties.append(
@@ -622,7 +629,7 @@ class _BeamReinforcementGroup:
                 1,
             )
         )
-        self.setProperties(properties, self.right_rebars_group)
+        setGroupProperties(properties, self.right_rebars_group)
         self.Object = self.rebar_group
 
     def execute(self, obj):
@@ -668,20 +675,6 @@ class _BeamReinforcementGroup:
         prev_right_rebars_list = self.right_rebars_group.RightRebars
         prev_right_rebars_list.extend(right_rebars_list)
         self.right_rebars_group.RightRebars = prev_right_rebars_list
-
-    def setProperties(self, properties, group_obj):
-        for prop in properties:
-            group_obj.addProperty(
-                prop[0],
-                prop[1],
-                "RebarDialog",
-                QT_TRANSLATE_NOOP("App::Property", prop[2]),
-            )
-            group_obj.setEditorMode(prop[1], prop[3])
-
-    def setPropertiesValues(self, properties_values, group_obj):
-        for prop in properties_values:
-            setattr(group_obj, prop[0], prop[1])
 
 
 def getFacenamesforBeamReinforcement(facename, structure):
