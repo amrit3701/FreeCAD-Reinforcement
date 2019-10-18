@@ -816,7 +816,7 @@ def showWarning(message):
     msg.setStandardButtons(QtGui.QMessageBox.Ok)
     msg.exec_()
 
-# Qt tanslation handling
+# Qt translation handling
 def translate(context, text, disambig=None):
     return QtCore.QCoreApplication.translate(context, text, disambig)
 

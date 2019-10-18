@@ -241,7 +241,7 @@ def editLShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover
         sketch.Support = [(structure, facename)]
     # Check if sketch support is empty.
     if not sketch.Support:
-        showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
+        showWarning("You have checked: 'Remove external geometry of base sketches when needed.'\nTo uncheck: Edit->Preferences->Arch.")
         return
     # Recompute sketch to resolve issue as discussed here:
     # https://forum.freecadweb.org/viewtopic.php?f=3&t=6989#p335986
