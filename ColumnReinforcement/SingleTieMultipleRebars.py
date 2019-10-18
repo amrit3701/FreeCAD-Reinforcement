@@ -40,6 +40,7 @@ from Rebarfunc import (
     gettupleOfNumberDiameter,
     getFacenameforRebar,
     getLRebarOrientationLeftRightCover,
+    setGroupProperties,
 )
 
 if FreeCAD.GuiUp:
@@ -1277,7 +1278,7 @@ class _SingleTieMultipleRebars:
                 1,
             )
         )
-        obj.setProperties(properties, self.sec_rebars_group)
+        setGroupProperties(properties, self.sec_rebars_group)
         self.sec_rebars_group.SecondaryRebars = [
             self.xdir_rebars_group,
             self.ydir_rebars_group,
@@ -1325,7 +1326,7 @@ class _SingleTieMultipleRebars:
                 1,
             )
         )
-        obj.setProperties(properties, self.xdir_rebars_group)
+        setGroupProperties(properties, self.xdir_rebars_group)
         # Add properties to ydir rebars group object
         properties = []
         properties.append(
@@ -1369,7 +1370,7 @@ class _SingleTieMultipleRebars:
                 1,
             )
         )
-        obj.setProperties(properties, self.ydir_rebars_group)
+        setGroupProperties(properties, self.ydir_rebars_group)
 
     def addXDirRebars(self, xdir_rebars_list):
         """Add XDir Rebars to xdir_rebars group object."""

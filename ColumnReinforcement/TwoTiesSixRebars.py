@@ -40,6 +40,7 @@ from Rebarfunc import (
     getParametersOfFace,
     getFacenameforRebar,
     getLRebarOrientationLeftRightCover,
+    setGroupProperties,
 )
 
 if FreeCAD.GuiUp:
@@ -683,4 +684,4 @@ class _TwoTiesSixRebars:
         properties.append(
             ("App::PropertyStringList", "TiesSequence", "Sequence of ties", 1)
         )
-        obj.setProperties(properties, obj.ties_group)
+        setGroupProperties(properties, obj.ties_group)

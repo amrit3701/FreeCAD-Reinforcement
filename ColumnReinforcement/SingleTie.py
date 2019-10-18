@@ -37,6 +37,8 @@ from Rebarfunc import (
     getFaceNumber,
     getFacenameforRebar,
     getLRebarOrientationLeftRightCover,
+    setGroupProperties,
+    setGroupPropertiesValues,
     _RebarGroup,
     _ViewProviderRebarGroup,
 )
@@ -231,9 +233,7 @@ def makeSingleTieFourRebars(
     properties_values.append(("RightCover", r_cover_of_tie))
     properties_values.append(("TopCover", t_cover_of_tie))
     properties_values.append(("BottomCover", b_cover_of_tie))
-    SingleTieFourRebars.setPropertiesValues(
-        properties_values, SingleTieFourRebars.ties_group
-    )
+    setGroupPropertiesValues(properties_values, SingleTieFourRebars.ties_group)
 
     # Set properties values for rebars in MainRebars group object
     properties_values = []
@@ -245,7 +245,7 @@ def makeSingleTieFourRebars(
     if not hook_extension:
         hook_extension = "0.00 mm"
     properties_values.append(("HookExtension", hook_extension))
-    SingleTieFourRebars.setPropertiesValues(
+    setGroupPropertiesValues(
         properties_values, SingleTieFourRebars.main_rebars_group
     )
     FreeCAD.ActiveDocument.recompute()
@@ -545,7 +545,7 @@ class _SingleTieFourRebars(_RebarGroup):
                 1,
             )
         )
-        self.setProperties(properties, self.rebar_group)
+        setGroupProperties(properties, self.rebar_group)
         self.rebar_group.ColumnType = "RectangularColumn"
 
         # Add properties to ties group object
@@ -571,7 +571,7 @@ class _SingleTieFourRebars(_RebarGroup):
         properties.append(
             ("App::PropertyDistance", "BottomCover", "Bottom cover of ties", 1)
         )
-        self.setProperties(properties, self.ties_group)
+        setGroupProperties(properties, self.ties_group)
 
         # Add properties to main rebars group object
         properties = []
@@ -611,4 +611,4 @@ class _SingleTieFourRebars(_RebarGroup):
         properties.append(
             ("App::PropertyDistance", "HookExtension", "Length of hook", 1)
         )
-        self.setProperties(properties, self.main_rebars_group)
+        setGroupProperties(properties, self.main_rebars_group)
