@@ -759,7 +759,7 @@ class _ColumnReinforcementDialog:
                     self.cir_number_angle_value,
                     self.SelectedObj,
                     self.FaceName,
-                )
+                ).rebar_group
         else:
             if self.column_type == "RectangularColumn":
                 if self.ties_configuration == "SingleTie":
