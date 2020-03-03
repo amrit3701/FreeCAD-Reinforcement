@@ -456,29 +456,25 @@ class _BeamReinforcementDialog:
 
     def stirrupsLeftCoverChanged(self):
         # Set right/top/bottom cover equal to left cover
-        left_cover = self.stirrups_widget.stirrups_leftCover.text()
-        self.stirrups_widget.stirrups_rightCover.setText(left_cover)
-        self.stirrups_widget.stirrups_topCover.setText(left_cover)
-        self.stirrups_widget.stirrups_bottomCover.setText(left_cover)
+        if self.stirrups_widget.stirrups_allCoversEqual.isChecked():
+            left_cover = self.stirrups_widget.stirrups_leftCover.text()
+            self.stirrups_widget.stirrups_rightCover.setText(left_cover)
+            self.stirrups_widget.stirrups_topCover.setText(left_cover)
+            self.stirrups_widget.stirrups_bottomCover.setText(left_cover)
 
     def stirrupsAllCoversEqualClicked(self):
         if self.stirrups_widget.stirrups_allCoversEqual.isChecked():
-            # Diable fields for right/top/bottom cover
+            # Disable fields for right/top/bottom cover
             self.stirrups_widget.stirrups_rightCover.setEnabled(False)
             self.stirrups_widget.stirrups_topCover.setEnabled(False)
             self.stirrups_widget.stirrups_bottomCover.setEnabled(False)
             # Set right/top/bottom cover equal to left cover
             self.stirrupsLeftCoverChanged()
-            self.stirrups_widget.stirrups_leftCover.textChanged.connect(
-                self.stirrupsLeftCoverChanged
-            )
         else:
+            # Enable fields for right/top/bottom cover
             self.stirrups_widget.stirrups_rightCover.setEnabled(True)
             self.stirrups_widget.stirrups_topCover.setEnabled(True)
             self.stirrups_widget.stirrups_bottomCover.setEnabled(True)
-            self.stirrups_widget.stirrups_leftCover.textChanged.disconnect(
-                self.stirrupsLeftCoverChanged
-            )
 
     def stirrupsNumberRadioClicked(self):
         """This function enable stirrups_number field and disable

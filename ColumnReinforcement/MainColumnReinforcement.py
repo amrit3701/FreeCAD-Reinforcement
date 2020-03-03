@@ -511,30 +511,26 @@ class _ColumnReinforcementDialog:
             self.ties_widget.ties_sequenceListWidget.setEnabled(True)
 
     def tiesLeftCoverChanged(self):
-        # Set right/top/bottom cover equal to left cover
-        left_cover = self.ties_widget.ties_leftCover.text()
-        self.ties_widget.ties_rightCover.setText(left_cover)
-        self.ties_widget.ties_topCover.setText(left_cover)
-        self.ties_widget.ties_bottomCover.setText(left_cover)
+        if self.ties_widget.ties_allCoversEqual.isChecked():
+            # Set right/top/bottom cover equal to left cover
+            left_cover = self.ties_widget.ties_leftCover.text()
+            self.ties_widget.ties_rightCover.setText(left_cover)
+            self.ties_widget.ties_topCover.setText(left_cover)
+            self.ties_widget.ties_bottomCover.setText(left_cover)
 
     def tiesAllCoversEqualClicked(self):
         if self.ties_widget.ties_allCoversEqual.isChecked():
-            # Diable fields for right/top/bottom cover
+            # Disable fields for right/top/bottom cover
             self.ties_widget.ties_rightCover.setEnabled(False)
             self.ties_widget.ties_topCover.setEnabled(False)
             self.ties_widget.ties_bottomCover.setEnabled(False)
             # Set right/top/bottom cover equal to left cover
             self.tiesLeftCoverChanged()
-            self.ties_widget.ties_leftCover.textChanged.connect(
-                self.tiesLeftCoverChanged
-            )
         else:
+            # Enable fields for right/top/bottom cover
             self.ties_widget.ties_rightCover.setEnabled(True)
             self.ties_widget.ties_topCover.setEnabled(True)
             self.ties_widget.ties_bottomCover.setEnabled(True)
-            self.ties_widget.ties_leftCover.textChanged.disconnect(
-                self.tiesLeftCoverChanged
-            )
 
     def tiesNumberRadioClicked(self):
         """This function enable ties_number field and disable ties_spacing field
