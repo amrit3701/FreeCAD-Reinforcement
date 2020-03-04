@@ -117,7 +117,7 @@ def makeReinforcement(
         else:
             print("Error: Pass structure and facename arguments")
             return
-    FacePRM = getParametersOfFace(structure, facename, False)
+    FacePRM = getParametersOfFace(structure, facename, sketch=False)
     if not FacePRM:
         FreeCAD.Console.PrintError(
             "Cannot identified shape or from which base object"
@@ -227,9 +227,11 @@ def makeStraightRebars(
             line.Start = points[0]
             line.End = points[1]
         main_rebars_list.append(
-            Arch.makeRebar(structure, line, dia_of_main_rebars, 1)
+            Arch.makeRebar(structure, line, dia_of_main_rebars, amount=1)
         )
         main_rebars_list[-1].Label = "StraightRebar"
+        main_rebars_list[-1].OffsetStart = 0
+        main_rebars_list[-1].OffsetEnd = 0
 
     return main_rebars_list
 
