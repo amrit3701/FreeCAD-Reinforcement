@@ -542,6 +542,22 @@ def makeReinforcement(
         structure,
         facename,
     )
+
+    # Recompute stirrups otherwise stirrups goes outside structure beam
+    editStirrup(
+        stirrup,
+        l_cover_of_stirrup,
+        r_cover_of_stirrup,
+        t_cover_of_stirrup,
+        b_cover_of_stirrup,
+        f_cover,
+        bent_angle,
+        extension_factor,
+        dia_of_stirrup,
+        rounding,
+        number_spacing_check,
+        number_spacing_value,
+    )
     TwoLeggedBeam.addStirrups(stirrup)
 
     # Create top reinforcement
