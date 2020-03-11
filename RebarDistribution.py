@@ -95,9 +95,10 @@ def getupleOfCustomSpacing(span_string):
         index += 1
     return spacinglist
 
-def runRebarDistribution(self):
-    frontCover = self.form.frontCover.text()
-    frontCover = FreeCAD.Units.Quantity(frontCover).Value
+def runRebarDistribution(self, frontCover=None):
+    if frontCover == None:
+        frontCover = self.form.frontCover.text()
+        frontCover = FreeCAD.Units.Quantity(frontCover).Value
     face = self.SelectedObj.Shape.Faces[getFaceNumber(self.FaceName) - 1]
     size = (ArchCommands.projectToVector(self.SelectedObj.Shape.copy(), face.normalAt(0, 0))).Length
     dialog = _RebarDistributionDialog(frontCover, size)

@@ -37,12 +37,14 @@ import os
 import sys
 import math
 
-def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentLength, bentAngle, orientation):
-    """ getpointsOfBentShapeRebar(FacePRM, LeftCover, RightCover, BottomCover, TopCover, BentLength, BentAngle, Orientation):
+def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentLength, bentAngle, orientation, diameter):
+    """ getpointsOfBentShapeRebar(FacePRM, LeftCover, RightCover, BottomCover, TopCover, BentLength, BentAngle, Orientation, Diameter):
     Return points of the LShape rebar in the form of array for sketch.
     It takes four different orientations input i.e. 'Bottom', 'Top', 'Left', 'Right'.
     """
     if orientation == "Bottom":
+        t_cover += diameter / 2
+        b_cover += diameter / 2
         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
         x2 = x1 + bentLength
@@ -57,6 +59,8 @@ def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentL
         x6 = x5 + bentLength
         y6 = y5
     elif orientation == "Top":
+        t_cover += diameter / 2
+        b_cover += diameter / 2
         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
         y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
         x2 = x1 + bentLength
@@ -71,6 +75,8 @@ def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentL
         x6 = x5 + bentLength
         y6 = y5
     elif orientation == "Left":
+        l_cover += diameter / 2
+        r_cover += diameter / 2
         x1 = FacePRM[1][0] + FacePRM[0][0] / 2 - r_cover
         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
         x2 = x1
@@ -85,6 +91,8 @@ def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentL
         x6 = x5
         y6 = y5 - bentLength
     elif orientation == "Right":
+        l_cover += diameter / 2
+        r_cover += diameter / 2
         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
         x2 = x1
@@ -215,7 +223,7 @@ def makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, be
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
     # Get points of L-Shape rebar
-    points = getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentLength, bentAngle, orientation)
+    points = getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentLength, bentAngle, orientation, diameter)
     import Part
     import Arch
     sketch = FreeCAD.activeDocument().addObject('Sketcher::SketchObject', 'Sketch')
@@ -229,11 +237,11 @@ def makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, be
     sketch.addGeometry(Part.LineSegment(points[4], points[5]), False)
     import Sketcher
     if amount_spacing_check:
-        rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover)
+        rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover + diameter / 2)
         FreeCAD.ActiveDocument.recompute()
     else:
         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
-        rebar = Arch.makeRebar(structure, sketch, diameter, int((size - diameter) / amount_spacing_value), f_cover)
+        rebar = Arch.makeRebar(structure, sketch, diameter, int((size - diameter) / amount_spacing_value), f_cover + diameter / 2)
     rebar.Rounding = rounding
     # Adds properties to the rebar object
     rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).RebarShape = "BentShapeRebar"
@@ -284,7 +292,7 @@ def editBentShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_co
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, facename)
     # Get points of L-Shape rebar
-    points = getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentLength, bentAngle, orientation)
+    points = getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentLength, bentAngle, orientation, diameter)
     sketch.movePoint(0, 1, points[0], 0)
     FreeCAD.ActiveDocument.recompute()
     sketch.movePoint(0, 2, points[1], 0)
@@ -308,8 +316,8 @@ def editBentShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_co
     sketch.movePoint(4, 2, points[5], 0)
     FreeCAD.ActiveDocument.recompute()
 
-    Rebar.OffsetStart = f_cover
-    Rebar.OffsetEnd = f_cover
+    Rebar.OffsetStart = f_cover + diameter / 2
+    Rebar.OffsetEnd = f_cover + diameter / 2
     if amount_spacing_check:
         Rebar.Amount = amount_spacing_value
         FreeCAD.ActiveDocument.recompute()
