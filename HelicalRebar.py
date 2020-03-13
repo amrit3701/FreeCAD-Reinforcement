@@ -116,7 +116,7 @@ class _HelicalRebarTaskPanel:
             self.form.topCoverLabel.setText(translate("RebarAddon", "Left Cover"))
             self.form.bottomCoverLabel.setText(translate("RebarAddon", "Right Cover"))
         self.form.PickSelectedFace.clicked.connect(self.getSelectedFace)
-        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/HelicalRebar.svg").scaledToWidth(250))
+        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/HelicalRebar.svg"))
         self.form.toolButton.clicked.connect(lambda: showPopUpImageDialog(os.path.split(os.path.abspath(__file__))[0] + "/icons/HelicalRebarDetailed.svg"))
         # self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(QtGui.QStyle.SP_DialogHelpButton))
         self.Rebar = Rebar
