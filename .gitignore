@@ -1,0 +1,9 @@
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+
+# Backup files
+*.bak*
+
+# Swap files
+*.swp

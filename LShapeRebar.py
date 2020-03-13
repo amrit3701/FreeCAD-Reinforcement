@@ -37,12 +37,14 @@ import os
 import sys
 import math
 
-def getpointsOfLShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, orientation):
-    """ getpointsOfLShapeRebar(FacePRM, LeftCover, RightCover, BottomCover, TopCover, Orientation):
+def getpointsOfLShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, orientation, diameter):
+    """ getpointsOfLShapeRebar(FacePRM, LeftCover, RightCover, BottomCover, TopCover, Orientation, Diameter):
     Return points of the LShape rebar in the form of array for sketch.
     It takes four different orientations input i.e. 'Bottom Left', 'Bottom Right ', 'Top Left', 'Top Right'.
     """
     if orientation == "Bottom Left":
+        b_cover += diameter / 2
+        l_cover += diameter / 2
         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
@@ -50,6 +52,8 @@ def getpointsOfLShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, orientat
         x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
         y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
     elif orientation == "Bottom Right":
+        b_cover += diameter / 2
+        r_cover += diameter / 2
         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
@@ -57,6 +61,8 @@ def getpointsOfLShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, orientat
         x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
         y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
     elif orientation == "Top Left":
+        t_cover += diameter / 2
+        l_cover += diameter / 2
         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
         y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
@@ -64,6 +70,8 @@ def getpointsOfLShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, orientat
         x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
         y3 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
     elif orientation == "Top Right":
+        t_cover += diameter / 2
+        r_cover += diameter / 2
         x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
         y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
         x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
@@ -182,7 +190,7 @@ def makeLShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, round
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
     # Get points of L-Shape rebar
-    points = getpointsOfLShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, orientation)
+    points = getpointsOfLShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, orientation, diameter)
     import Part
     import Arch
     sketch = FreeCAD.activeDocument().addObject('Sketcher::SketchObject', 'Sketch')
@@ -193,11 +201,11 @@ def makeLShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, round
     sketch.addGeometry(Part.LineSegment(points[1], points[2]), False)
     import Sketcher
     if amount_spacing_check:
-        rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover)
+        rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover + diameter / 2)
         FreeCAD.ActiveDocument.recompute()
     else:
         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
-        rebar = Arch.makeRebar(structure, sketch, diameter, int((size - diameter) / amount_spacing_value), f_cover)
+        rebar = Arch.makeRebar(structure, sketch, diameter, int((size - diameter) / amount_spacing_value), f_cover + diameter / 2)
     rebar.Rounding = rounding
     # Adds properties to the rebar object
     rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).RebarShape = "LShapeRebar"
@@ -233,8 +241,11 @@ def editLShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover
         sketch.Support = [(structure, facename)]
     # Check if sketch support is empty.
     if not sketch.Support:
-        showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
+        showWarning("You have checked: 'Remove external geometry of base sketches when needed.'\nTo uncheck: Edit->Preferences->Arch.")
         return
+    # Recompute sketch to resolve issue as discussed here:
+    # https://forum.freecadweb.org/viewtopic.php?f=3&t=6989#p335986
+    sketch.recompute()
     # Assigned values
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
@@ -243,7 +254,7 @@ def editLShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, facename)
     # Get points of L-Shape rebar
-    points = getpointsOfLShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, orientation)
+    points = getpointsOfLShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, orientation, diameter)
     sketch.movePoint(0, 1, points[0], 0)
     FreeCAD.ActiveDocument.recompute()
     sketch.movePoint(0, 2, points[1], 0)
@@ -252,8 +263,8 @@ def editLShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover
     FreeCAD.ActiveDocument.recompute()
     sketch.movePoint(1, 2, points[2], 0)
     FreeCAD.ActiveDocument.recompute()
-    Rebar.OffsetStart = f_cover
-    Rebar.OffsetEnd = f_cover
+    Rebar.OffsetStart = f_cover + diameter / 2
+    Rebar.OffsetEnd = f_cover + diameter / 2
     if amount_spacing_check:
         Rebar.Amount = amount_spacing_value
         FreeCAD.ActiveDocument.recompute()

@@ -40,6 +40,10 @@ import math
 def getpointsOfStirrup(FacePRM, l_cover, r_cover, t_cover, b_cover, bentAngle, bentFactor, diameter, rounding, facenormal):
     """ getpointsOfStirrup(FacePRM, LeftCover, RightCover, TopCover, BottomCover, BentAngle, BentFactor, Diameter, Rounding, FaceNormal):
     Return the coordinates points of the Stirrup in the form of array."""
+    l_cover += diameter / 2
+    r_cover += diameter / 2
+    t_cover += diameter / 2
+    b_cover += diameter / 2
     angle = 180 - bentAngle
     tangent_part_length = extendedTangentPartLength(rounding, diameter, angle)
     tangent_length = extendedTangentLength(rounding, diameter, angle)
@@ -230,11 +234,11 @@ def makeStirrup(l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, bentFact
     import Arch
     line.Support = [(structure, facename)]
     if amount_spacing_check:
-        rebar = Arch.makeRebar(structure, line, diameter, amount_spacing_value, f_cover)
+        rebar = Arch.makeRebar(structure, line, diameter, amount_spacing_value, f_cover + diameter / 2)
     else:
         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
         rebar = Arch.makeRebar(structure, line, diameter,\
-            int((size - diameter) / amount_spacing_value), f_cover)
+            int((size - diameter) / amount_spacing_value), f_cover + diameter / 2)
     rebar.Direction = FaceNormal.negative()
     rebar.Rounding = rounding
     # Adds properties to the rebar object
@@ -284,7 +288,7 @@ def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, b
         sketch.Support = [(structure, facename)]
     # Check if sketch support is empty.
     if not sketch.Support:
-        showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
+        showWarning("You have checked: 'Remove external geometry of base sketches when needed.'\nTo uncheck: Edit->Preferences->Arch.")
         return
     # Assigned values
     facename = sketch.Support[0][1][0]
@@ -300,8 +304,8 @@ def editStirrup(Rebar, l_cover, r_cover, t_cover, b_cover, f_cover, bentAngle, b
     Rebar.Base.Points = points
     FreeCAD.ActiveDocument.recompute()
     Rebar.Direction = FaceNormal.negative()
-    Rebar.OffsetStart = f_cover
-    Rebar.OffsetEnd = f_cover
+    Rebar.OffsetStart = f_cover + diameter / 2
+    Rebar.OffsetEnd = f_cover + diameter / 2
     Rebar.BentAngle = bentAngle
     Rebar.BentFactor = bentFactor
     Rebar.Rounding = rounding

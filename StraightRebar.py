@@ -37,8 +37,8 @@ import os
 import sys
 import math
 
-def getpointsOfStraightRebar(FacePRM, rt_cover, lb_cover, coverAlong, orientation):
-    """ getpointsOfStraightRebar(FacePRM, RightTopcover, LeftBottomcover, CoverAlong, Orientation):
+def getpointsOfStraightRebar(FacePRM, rt_cover, lb_cover, coverAlong, orientation, diameter):
+    """ getpointsOfStraightRebar(FacePRM, RightTopcover, LeftBottomcover, CoverAlong, Orientation, Diameter):
     Return points of the Straight rebar in the form of array for sketch.
 
     Case I: When Orientation is 'Horizontal':
@@ -48,24 +48,26 @@ def getpointsOfStraightRebar(FacePRM, rt_cover, lb_cover, coverAlong, orientatio
     """
     if orientation == "Horizontal":
         if coverAlong[0] == "Bottom Side":
+            cover = coverAlong[1] + diameter / 2
             x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + lb_cover
-            y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + coverAlong[1]
+            y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + cover
             x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - rt_cover
-            y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + coverAlong[1]
+            y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + cover
         elif coverAlong[0] == "Top Side":
-            cover = FacePRM[0][1] - coverAlong[1]
+            cover = FacePRM[0][1] - coverAlong[1] - diameter / 2
             x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + lb_cover
             y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + cover
             x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - rt_cover
             y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + cover
     elif orientation == "Vertical":
         if coverAlong[0] == "Left Side":
-            x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + coverAlong[1]
+            cover = coverAlong[1] + diameter / 2
+            x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + cover
             y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + lb_cover
-            x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + coverAlong[1]
+            x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + cover
             y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + FacePRM[0][1] - rt_cover
         elif coverAlong[0] == "Right Side":
-            cover = FacePRM[0][0] - coverAlong[1]
+            cover = FacePRM[0][0] - coverAlong[1] - diameter / 2
             x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + cover
             y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + lb_cover
             x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + cover
@@ -213,7 +215,7 @@ def makeStraightRebar(f_cover, coverAlong, rt_cover, lb_cover, diameter, amount_
         FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
         return
     # Get points of Striaght rebar
-    points = getpointsOfStraightRebar(FacePRM, rt_cover, lb_cover, coverAlong, orientation)
+    points = getpointsOfStraightRebar(FacePRM, rt_cover, lb_cover, coverAlong, orientation, diameter)
     import Part
     import Arch
     sketch = FreeCAD.activeDocument().addObject('Sketcher::SketchObject', 'Sketch')
@@ -222,11 +224,11 @@ def makeStraightRebar(f_cover, coverAlong, rt_cover, lb_cover, diameter, amount_
     FreeCAD.ActiveDocument.recompute()
     sketch.addGeometry(Part.LineSegment(points[0], points[1]), False)
     if amount_spacing_check:
-        rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover)
+        rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover + diameter / 2)
         FreeCAD.ActiveDocument.recompute()
     else:
         size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
-        rebar = Arch.makeRebar(structure, sketch, diameter, int((size - diameter) / amount_spacing_value), f_cover)
+        rebar = Arch.makeRebar(structure, sketch, diameter, int((size - diameter) / amount_spacing_value), f_cover + diameter / 2)
     # Adds properties to the rebar object
     rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).RebarShape = "StraightRebar"
     rebar.ViewObject.setEditorMode("RebarShape", 2)
@@ -262,7 +264,7 @@ def editStraightRebar(Rebar, f_cover, coverAlong, rt_cover, lb_cover, diameter, 
         FreeCAD.ActiveDocument.recompute()
     # Check if sketch support is empty.
     if not sketch.Support:
-        showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
+        showWarning("You have checked: 'Remove external geometry of base sketches when needed.'\nTo uncheck: Edit->Preferences->Arch.")
         return
     # Assigned values
     facename = sketch.Support[0][1][0]
@@ -272,13 +274,13 @@ def editStraightRebar(Rebar, f_cover, coverAlong, rt_cover, lb_cover, diameter, 
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, facename)
     # Get points of Striaght rebar
-    points = getpointsOfStraightRebar(FacePRM, rt_cover, lb_cover, coverAlong, orientation)
+    points = getpointsOfStraightRebar(FacePRM, rt_cover, lb_cover, coverAlong, orientation, diameter)
     sketch.movePoint(0, 1, points[0], 0)
     FreeCAD.ActiveDocument.recompute()
     sketch.movePoint(0, 2, points[1], 0)
     FreeCAD.ActiveDocument.recompute()
-    Rebar.OffsetStart = f_cover
-    Rebar.OffsetEnd = f_cover
+    Rebar.OffsetStart = f_cover + diameter / 2
+    Rebar.OffsetEnd = f_cover + diameter / 2
     if amount_spacing_check:
         Rebar.Amount = amount_spacing_value
         FreeCAD.ActiveDocument.recompute()

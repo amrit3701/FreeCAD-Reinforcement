@@ -72,9 +72,12 @@ def getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover, pitch, edges, di
                 z += dz
     return points
 
-def createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, direction, helix = None):
-    """ createHelicalWire(FacePRM, SideCover, BottomCover, TopCover, Pitch, Size, Direction, Helix = None):
+def createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, direction, diameter, helix = None):
+    """ createHelicalWire(FacePRM, SideCover, BottomCover, TopCover, Pitch, Size, Direction, Diameter, Helix = None):
     It creates a helical wire."""
+    b_cover += diameter / 2
+    t_cover += diameter / 2
+    s_cover += diameter / 2
     import Part
     if not helix:
         helix = FreeCAD.ActiveDocument.addObject("Part::Helix","Helix")
@@ -179,11 +182,11 @@ def makeHelicalRebar(s_cover, b_cover, diameter, t_cover, pitch, structure = Non
     normal = face.normalAt(0,0)
     #normal = face.Placement.Rotation.inverted().multVec(normal)
     import Arch
-    helix = createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, normal)
+    helix = createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, normal, diameter)
     helix.Support = [(structure, facename)]
-    rebar = Arch.makeRebar(structure, helix, diameter, 1, 0)
-    rebar.OffsetStart = 0
-    rebar.OffsetEnd = 0
+    rebar = Arch.makeRebar(structure, helix, diameter, 1, diameter / 2)
+    rebar.OffsetStart = diameter / 2
+    rebar.OffsetEnd = diameter / 2
     FreeCAD.ActiveDocument.recompute()
     # Adds properties to the rebar object
     rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).RebarShape = "HelicalRebar"
@@ -206,7 +209,7 @@ def editHelicalRebar(Rebar, s_cover, b_cover, diameter, t_cover, pitch, structur
         sketch.Support = [(structure, facename)]
     # Check if sketch support is empty.
     if not sketch.Support:
-        showWarning("You have checked remove external geometry of base sketchs when needed.\nTo unchecked Edit->Preferences->Arch.")
+        showWarning("You have checked: 'Remove external geometry of base sketches when needed.'\nTo uncheck: Edit->Preferences->Arch.")
         return
     # Assigned values
     facename = sketch.Support[0][1][0]
@@ -218,7 +221,7 @@ def editHelicalRebar(Rebar, s_cover, b_cover, diameter, t_cover, pitch, structur
     size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
     normal = face.normalAt(0,0)
     #normal = face.Placement.Rotation.inverted().multVec(normal)
-    helix = createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, normal, Rebar.Base)
+    helix = createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, normal, diameter, Rebar.Base)
     FreeCAD.ActiveDocument.recompute()
     Rebar.Diameter = diameter
     Rebar.SideCover = s_cover
