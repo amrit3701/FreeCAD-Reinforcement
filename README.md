@@ -8,7 +8,8 @@ Added new features of beam and column reinforcement as Google Summer of Code ([G
 ## Documentation
 ### Developer
 * [Web](https://amrit3701.github.io/FreeCAD-Reinforcement/html/index.html)
-* [PDF](https://amrit3701.github.io/FreeCAD-Reinforcement/latex/refman.pdf)                                                      
+* [PDF](https://amrit3701.github.io/FreeCAD-Reinforcement/latex/refman.pdf)
+
 ### User
 This project currently covers six different rebar shapes as given below:
 
@@ -59,13 +60,14 @@ This project currently covers six different rebar shapes as given below:
 5. Now you will see different rebars in a drop-down list of rebar tools (`Arch -> Rebar tools -> Different rebars`).
 
 ## How it works
-Each rebar tool has two files, one is the `Python` file and the second is there respective name `UI` file like `StraightRebar.py` and `StraightRebar.ui` file. 
-Let's take a straight rebar tool. In `StraightRebar.py` file, there are two functions. One is the `makeStraightRebar()` function. 
-This function creates straight rebar and adds new properties to the default `Rebar` object. The second function is `editStraightRebar`. 
-This function is used when we want to change a new properties (which is created by the `makeStraightRebar` function) of the rebar object and it will take the 
-`Rebar` object as input which is created by the `makeStraightRebar` function. In `StraightRebar.py`, `_StraightRebarTaskPanel` class is present. 
-This class loads the UI (present in `StraightRebar.ui` file) in the task panel of FreeCAD. The first time a user clicks on `Apply` or the `Ok` button the 
-`makeStraightRebar` function is executed. After that when the user wants to change the properties of Straight rebar then the `editStraightRebar` function is executed. 
+Each rebar tool has two files, one is a `python` (AKA `.py`) file and the second is its respective `UI` (AKA `.ui`) file. For example: ```StraightRebar.py``` and `StraightRebar.ui`. 
+
+Let's continue with the straight rebar tool as the example. In the `StraightRebar.py` file, there are two functions:   
+1. The `makeStraightRebar()` function, this function creates straight rebar and adds new properties to the default `Rebar` object. 
+2. The `editStraightRebar()` function, this function is used when we want to change new properties of the rebar object to take a `Rebar` object as input (which is created by `makeStraightRebar` function). 
+
+Within the `StraightRebar.py` file we find the `_StraightRebarTaskPanel` class present. This class loads the UI (within the `StriaghtRebar.ui` file) in to a FreeCAD task panel. When a user clicks on the `Apply` or the `Ok` button, the `makeStraightRebar` function is executed and after that when the user wants to change the properties of Straight rebar then the `editStraightRebar()` function is executed.
+
 
 ## Extras (GSoC 2017)
 - [FreeCAD forum thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=22760)
