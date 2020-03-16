@@ -1,4 +1,5 @@
 # Rebar Addon for FreeCAD
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/amrit3701/FreeCAD-Reinforcement.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/amrit3701/FreeCAD-Reinforcement/alerts/) [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/amrit3701/FreeCAD-Reinforcement.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/amrit3701/FreeCAD-Reinforcement/context:python)  
 This project aims to facilitate flexible implementation and usage of Rebaring in FreeCAD. In this project, a list of rebars will be provided in the user interface under the Rebar tools in the form of a dropdown list. This endeavor started as a [Google Summer of Code](https://en.wikipedia.org/wiki/Google_Summer_of_Code) (GSOC 2017) [project](https://summerofcode.withgoogle.com/archive/2017/projects/6536382147198976).
 
 Added new features of beam and column reinforcement as Google Summer of Code ([GSOC](https://en.wikipedia.org/wiki/Google_Summer_of_Code) 2019) [project](https://summerofcode.withgoogle.com/projects/#4615685316018176)
