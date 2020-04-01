@@ -116,7 +116,44 @@ def makeBillOfMaterial(obj_name="RebarBillOfMaterial"):
     bill_of_material.set("A" + str(row), "Total length in m/Diameter")
     for i, dia in enumerate(COLUMN_DIA_HEADERS):
         bill_of_material.set(
-            chr(ord("F") + i) + str(row), str(dia_total_length_dict[dia].Value)
+            chr(ord("F") + i) + str(row), str(dia_total_length_dict[dia])
         )
+
+    # Set display units
+    bill_of_material.setDisplayUnit(
+        "F"
+        + str(row)
+        + ":"
+        + chr(ord("F") + len(COLUMN_DIA_HEADERS) - 1)
+        + str(row),
+        "m",
+    )
+    row += 1
+
+    # Display weight (kg/m) and total weight of rebars
+    bill_of_material.mergeCells("A" + str(row) + ":E" + str(row))
+    bill_of_material.mergeCells("A" + str(row + 1) + ":E" + str(row + 1))
+    bill_of_material.set("A" + str(row), "Weight in Kg/m")
+    bill_of_material.set("A" + str(row + 1), "Total Weight in Kg/Diameter")
+    for i, dia in enumerate(COLUMN_DIA_HEADERS):
+        if dia in dia_weight_map:
+            bill_of_material.set(
+                chr(ord("F") + i) + str(row), str(dia_weight_map[dia])
+            )
+            bill_of_material.set(
+                chr(ord("F") + i) + str(row + 1),
+                str(dia_weight_map[dia] * dia_total_length_dict[dia]),
+            )
+
+    # Set display units
+    bill_of_material.setDisplayUnit(
+        "F"
+        + str(row)
+        + ":"
+        + chr(ord("F") + len(COLUMN_DIA_HEADERS) - 1)
+        + str(row),
+        "kg/m",
+    )
+
     FreeCAD.ActiveDocument.recompute()
     print("WIP")
