@@ -26,7 +26,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 import FreeCAD
-from config import *
+from .config import *
 
 
 def addSheetHeaders(spreadsheet):
