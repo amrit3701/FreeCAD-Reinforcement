@@ -190,6 +190,32 @@ class BeamReinforcementTool:
         MainBeamReinforcement.CommandBeamReinforcement()
 
 
+class BillOfMaterialTool:
+    def GetResources(self):
+        return {
+            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
+            + "/icons/dropdown_list/BOM.svg",
+            "MenuText": QT_TRANSLATE_NOOP(
+                "RebarAddon", "Rebar Bill Of Material"
+            ),
+            "ToolTip": QT_TRANSLATE_NOOP(
+                "RebarAddon", "Generate Rebars Bill Of Material",
+            ),
+        }
+
+    def IsActive(self):
+        if FreeCADGui.ActiveDocument:
+            return True
+        else:
+            return False
+
+    def Activated(self):
+        from BillOfMaterial import BillOfMaterial
+
+        # Call to makeBillOfMaterial() function
+        BillOfMaterial.makeBillOfMaterial()
+
+
 FreeCADGui.addCommand('Arch_Rebar_Straight', StraightRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_UShape', UShapeRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_LShape', LShapeRebarTool())
@@ -198,6 +224,7 @@ FreeCADGui.addCommand('Arch_Rebar_BentShape', BentShapeRebarTool())
 FreeCADGui.addCommand('Arch_Rebar_Helical', HelicalRebarTool())
 FreeCADGui.addCommand("Arch_Column_Reinforcement", ColumnReinforcementTool())
 FreeCADGui.addCommand("Arch_Beam_Reinforcement", BeamReinforcementTool())
+FreeCADGui.addCommand("Arch_Rebar_BOM", BillOfMaterialTool())
 
 # List of all rebar commands
 RebarCommands = [
@@ -209,4 +236,5 @@ RebarCommands = [
     "Arch_Rebar_Helical",
     "Arch_Column_Reinforcement",
     "Arch_Beam_Reinforcement",
+    "Arch_Rebar_BOM",
 ]
