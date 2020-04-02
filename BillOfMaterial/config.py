@@ -39,10 +39,6 @@ COLUMN_HEADERS = (
     "Total Length in m",
 )
 
-# These diameters will be displayed by adding "#" before that diameter
-# i.e. 8 will be displayed as #8
-COLUMN_DIA_HEADERS = [8, 10, 12, 16, 20]
-
 # Map diameter (in mm) with weight (kg/m)
 # Default list is taken as per book SP34 from here:
 # https://archive.org/details/gov.in.is.sp.34.1987/page/n236/mode/2up
