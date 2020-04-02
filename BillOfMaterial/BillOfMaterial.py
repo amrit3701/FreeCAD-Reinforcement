@@ -29,7 +29,7 @@ import FreeCAD
 from .config import *
 
 
-def addSheetHeaders(spreadsheet):
+def addSheetHeaders(column_headers, column_dia_headers, spreadsheet):
     # Format cells
     spreadsheet.mergeCells("A1:A2")
     spreadsheet.mergeCells("B1:B2")
@@ -37,29 +37,35 @@ def addSheetHeaders(spreadsheet):
     spreadsheet.mergeCells("D1:D2")
     spreadsheet.mergeCells("E1:E2")
     spreadsheet.mergeCells(
-        "F1:" + chr(ord("F") + len(COLUMN_DIA_HEADERS) - 1) + "1"
+        "F1:" + chr(ord("F") + len(column_dia_headers) - 1) + "1"
     )
     spreadsheet.setAlignment("F1:J2", "center|vcenter")
 
     # Add column headers
-    spreadsheet.set("A1", COLUMN_HEADERS[0])
-    spreadsheet.set("B1", COLUMN_HEADERS[1])
-    spreadsheet.set("C1", COLUMN_HEADERS[2])
-    spreadsheet.set("D1", COLUMN_HEADERS[3])
-    spreadsheet.set("E1", COLUMN_HEADERS[4])
-    spreadsheet.set("F1", COLUMN_HEADERS[5])
-    for i, dia in enumerate(COLUMN_DIA_HEADERS):
+    spreadsheet.set("A1", column_headers[0])
+    spreadsheet.set("B1", column_headers[1])
+    spreadsheet.set("C1", column_headers[2])
+    spreadsheet.set("D1", column_headers[3])
+    spreadsheet.set("E1", column_headers[4])
+    spreadsheet.set("F1", column_headers[5])
+    for i, dia in enumerate(column_dia_headers):
         spreadsheet.set(chr(ord("F") + i) + "2", "#" + str(dia))
 
 
-def makeBillOfMaterial(obj_name="RebarBillOfMaterial"):
+def makeBillOfMaterial(
+    column_headers=COLUMN_HEADERS,
+    column_dia_headers=COLUMN_DIA_HEADERS,
+    obj_name="RebarBillOfMaterial",
+):
     # Create new spreadsheet object
     bill_of_material = FreeCAD.ActiveDocument.addObject(
         "Spreadsheet::Sheet", obj_name
     )
 
     # Add column headers
-    addSheetHeaders(bill_of_material)
+    addSheetHeaders(
+        column_headers, column_dia_headers, bill_of_material,
+    )
 
     # Get Part::FeaturePython objects list
     objects_list = FreeCAD.ActiveDocument.findObjects("Part::FeaturePython")
@@ -84,8 +90,8 @@ def makeBillOfMaterial(obj_name="RebarBillOfMaterial"):
 
     # Dictionary to store total length of rebars corresponding to its dia
     dia_total_length_dict = {}
-    for dia in COLUMN_DIA_HEADERS:
-        dia_total_length_dict[dia] = FreeCAD.Units.Quantity("0mm")
+    for dia in column_dia_headers:
+        dia_total_length_dict[dia] = FreeCAD.Units.Quantity("0 mm")
 
     # Add data to spreadsheet
     row = 3
@@ -95,8 +101,24 @@ def makeBillOfMaterial(obj_name="RebarBillOfMaterial"):
             bill_of_material.set("C" + str(row), str(rebars.Amount))
             bill_of_material.set("D" + str(row), str(rebars.Diameter))
             bill_of_material.set("E" + str(row), str(rebars.Length))
+            # Check if rebar diameter is not present in column_dia_headers
+            # variable supplied from configuration.
+            # if not, then add diameter value to variable column_dia_headers and
+            # add new column corresponding to it in bill of material spreadsheet
+            if rebars.Diameter.Value not in column_dia_headers:
+                new_column = chr(ord("F") + len(column_dia_headers))
+                bill_of_material.insertColumns(new_column, 1)
+                bill_of_material.splitCell("F1")
+                bill_of_material.mergeCells("F1:" + new_column + "1")
+                bill_of_material.set(
+                    new_column + "2", "#" + str(rebars.Diameter.Value)
+                )
+                dia_total_length_dict[
+                    rebars.Diameter.Value
+                ] = FreeCAD.Units.Quantity("0 mm")
+                column_dia_headers.append(rebars.Diameter.Value)
             bill_of_material.set(
-                chr(ord("F") + COLUMN_DIA_HEADERS.index(rebars.Diameter.Value))
+                chr(ord("F") + column_dia_headers.index(rebars.Diameter.Value))
                 + str(row),
                 str(rebars.TotalLength),
             )
@@ -107,14 +129,14 @@ def makeBillOfMaterial(obj_name="RebarBillOfMaterial"):
     # Set display units
     bill_of_material.setDisplayUnit("E3:E" + str(row), "m")
     bill_of_material.setDisplayUnit(
-        "F3:" + chr(ord("F") + len(COLUMN_DIA_HEADERS) - 1) + str(row), "m"
+        "F3:" + chr(ord("F") + len(column_dia_headers) - 1) + str(row), "m"
     )
 
     # Display total length of rebars
     row += 4
     bill_of_material.mergeCells("A" + str(row) + ":E" + str(row))
     bill_of_material.set("A" + str(row), "Total length in m/Diameter")
-    for i, dia in enumerate(COLUMN_DIA_HEADERS):
+    for i, dia in enumerate(column_dia_headers):
         bill_of_material.set(
             chr(ord("F") + i) + str(row), str(dia_total_length_dict[dia])
         )
@@ -124,7 +146,7 @@ def makeBillOfMaterial(obj_name="RebarBillOfMaterial"):
         "F"
         + str(row)
         + ":"
-        + chr(ord("F") + len(COLUMN_DIA_HEADERS) - 1)
+        + chr(ord("F") + len(column_dia_headers) - 1)
         + str(row),
         "m",
     )
@@ -135,7 +157,7 @@ def makeBillOfMaterial(obj_name="RebarBillOfMaterial"):
     bill_of_material.mergeCells("A" + str(row + 1) + ":E" + str(row + 1))
     bill_of_material.set("A" + str(row), "Weight in Kg/m")
     bill_of_material.set("A" + str(row + 1), "Total Weight in Kg/Diameter")
-    for i, dia in enumerate(COLUMN_DIA_HEADERS):
+    for i, dia in enumerate(column_dia_headers):
         if dia in dia_weight_map:
             bill_of_material.set(
                 chr(ord("F") + i) + str(row), str(dia_weight_map[dia])
@@ -150,7 +172,7 @@ def makeBillOfMaterial(obj_name="RebarBillOfMaterial"):
         "F"
         + str(row)
         + ":"
-        + chr(ord("F") + len(COLUMN_DIA_HEADERS) - 1)
+        + chr(ord("F") + len(column_dia_headers) - 1)
         + str(row),
         "kg/m",
     )

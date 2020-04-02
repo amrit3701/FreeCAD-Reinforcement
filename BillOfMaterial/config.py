@@ -41,7 +41,7 @@ COLUMN_HEADERS = (
 
 # These diameters will be displayed by adding "#" before that diameter
 # i.e. 8 will be displayed as #8
-COLUMN_DIA_HEADERS = (8, 10, 12, 16, 20)
+COLUMN_DIA_HEADERS = [8, 10, 12, 16, 20]
 
 # Map diameter (in mm) with weight (kg/m)
 # Default list is taken as per book SP34 from here:
