@@ -27,22 +27,35 @@ __url__ = "https://www.freecadweb.org"
 
 import FreeCAD
 
-# Column headers can be changed without affecting their data
-# e.g. changing column header "No. of Rebars" to something else will still be
-# used to represent amount of rebars
-COLUMN_HEADERS = (
-    "Member",
-    "Mark",
-    "No. Of Rebars",
-    "Diameter in mm",
-    "Length in m/piece",
-    "Total Length in m",
-)
+# Column are configurable i.e. you can change Name of column header, change
+# their sequence and show/hide column.
+# 1. To change column headers, change first value in tuple in below dictionary.
+#    e.g. To change column header "Member" to "Member Name" replace
+#    ("Member", 1) with ("Member Name", 1)
+# 2. To modify sequence of column, change second value in tuple in below
+# dictionary.
+#    e.g. To place "Member" column at third column in BOM, change ("Member", 1)
+#    to ("Member", 3)
+# 3. To hide column, set second value in tuple in below dictionary to 0. And to
+#    show column, set it to other than 0 which will be used used as placement
+#    sequence number for that column.
+#    e.g. to hide column "Member", replace ("Member", 1) with ("Member", 0)
+#
+# Note: You must take care that no two columns get same placement number. And
+#       must not delete/modify values in LHS of ":" (colon).
+COLUMN_HEADERS = {
+    "Member": ("Member", 1),
+    "Mark": ("Mark", 2),
+    "RebarsCount": ("No. of Rebars", 3),
+    "Diameter": ("Diameter in mm", 4),
+    "RebarLength": ("Length in m/piece", 5),
+    "RebarsTotalLength": ("Total Length in m", 6),
+}
 
 # Map diameter (in mm) with weight (kg/m)
 # Default list is taken as per book SP34 from here:
 # https://archive.org/details/gov.in.is.sp.34.1987/page/n236/mode/2up
-dia_weight_map = {
+DIA_WEIGHT_MAP = {
     6: FreeCAD.Units.Quantity("0.222 kg/m"),
     8: FreeCAD.Units.Quantity("0.395 kg/m"),
     10: FreeCAD.Units.Quantity("0.617 kg/m"),
