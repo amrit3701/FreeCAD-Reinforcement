@@ -29,24 +29,37 @@ import FreeCAD
 from .config import *
 
 
-def getMembersRebarsDict():
+def getMembersRebarsDict(structures_list=None):
     # Get Part::FeaturePython objects list
     objects_list = FreeCAD.ActiveDocument.findObjects("Part::FeaturePython")
 
     # Create dictionary with members as key with corresponding rebars list as
     # value
     members_rebars_dict = {}
-    for item in objects_list:
-        if hasattr(item, "IfcType"):
-            if item.IfcType == "Reinforcing Bar":
-                base_obj = item.Base
-                if not base_obj:
-                    member = "Unknown"
-                else:
-                    member = base_obj.Support[0][0].Label
-                if member not in members_rebars_dict:
-                    members_rebars_dict[member] = []
-                members_rebars_dict[member].append(item)
+    if not structures_list:
+        for item in objects_list:
+            if hasattr(item, "IfcType"):
+                if item.IfcType == "Reinforcing Bar":
+                    base_obj = item.Base
+                    if not base_obj:
+                        member = "Unknown"
+                    else:
+                        member = base_obj.Support[0][0].Label
+                    if member not in members_rebars_dict:
+                        members_rebars_dict[member] = []
+                    members_rebars_dict[member].append(item)
+    else:
+        for item in objects_list:
+            if hasattr(item, "IfcType"):
+                if item.IfcType == "Reinforcing Bar":
+                    base_obj = item.Base
+                    if base_obj:
+                        if base_obj.Support[0][0] in structures_list:
+                            member = base_obj.Support[0][0].Label
+                            if member not in members_rebars_dict:
+                                members_rebars_dict[member] = []
+                            members_rebars_dict[member].append(item)
+
     return members_rebars_dict
 
 
@@ -115,6 +128,7 @@ def addDiameterHeader(dia, diameter_list, column_headers, spreadsheet):
 def makeBillOfMaterial(
     column_headers=COLUMN_HEADERS,
     dia_weight_map=DIA_WEIGHT_MAP,
+    structures_list=None,
     obj_name="RebarBillOfMaterial",
 ):
     # Create new spreadsheet object
@@ -126,7 +140,7 @@ def makeBillOfMaterial(
     column_headers = addSheetHeaders(column_headers, bill_of_material)
 
     # Get members rebars dictionary
-    members_rebars_dict = getMembersRebarsDict()
+    members_rebars_dict = getMembersRebarsDict(structures_list)
 
     # Dictionary to store total length of rebars corresponding to its dia
     dia_total_length_dict = {}
