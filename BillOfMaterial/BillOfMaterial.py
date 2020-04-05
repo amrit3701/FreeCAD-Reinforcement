@@ -25,6 +25,7 @@ __title__ = "Bill Of Material"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
+
 import FreeCAD
 from .config import *
 
@@ -125,9 +126,26 @@ def addDiameterHeader(dia, diameter_list, column_headers, spreadsheet):
     spreadsheet.set(new_column + "2", "#" + str(dia.Value))
 
 
+def getRebarRealLength(rebar):
+    base = rebar.Base
+    # When rebar is drived from DWire or from Sketch
+    if hasattr(base, "Length") or base.isDerivedFrom("Sketcher::SketchObject"):
+        wire = base.Shape.Wires[0]
+        radius = rebar.Rounding * rebar.Diameter.Value
+        import DraftGeomUtils
+
+        fillet_wire = DraftGeomUtils.filletWire(wire, radius)
+        real_rebar_length = fillet_wire.Length
+        return FreeCAD.Units.Quantity(str(real_rebar_length) + "mm")
+    else:
+        print("Cannot calculate rebar real length from its base object")
+        return FreeCAD.Units.Quantity("0 mm")
+
+
 def makeBillOfMaterial(
     column_headers=COLUMN_HEADERS,
     dia_weight_map=DIA_WEIGHT_MAP,
+    rebar_length_type=REBAR_LENGTH_TYPE,
     structures_list=None,
     obj_name="RebarBillOfMaterial",
 ):
@@ -190,23 +208,44 @@ def makeBillOfMaterial(
                         column + str(current_row), str(rebars.Diameter),
                     )
                 elif column_header == "RebarLength":
-                    bill_of_material.set(
-                        column + str(current_row), str(rebars.Length)
-                    )
-                elif column_header == "RebarsTotalLength":
-                    bill_of_material.set(
-                        chr(
-                            ord("A")
-                            + column_headers["RebarsTotalLength"][1]
-                            - 1
-                            + diameter_list.index(rebars.Diameter)
+                    if rebar_length_type == "RealLength":
+                        bill_of_material.set(
+                            column + str(current_row),
+                            str(getRebarRealLength(rebars)),
                         )
-                        + str(current_row),
-                        str(rebars.TotalLength),
-                    )
-                    dia_total_length_dict[
-                        rebars.Diameter.Value
-                    ] += rebars.TotalLength
+                    else:
+                        bill_of_material.set(
+                            column + str(current_row), str(rebars.Length)
+                        )
+                elif column_header == "RebarsTotalLength":
+                    if rebar_length_type == "RealLength":
+                        bill_of_material.set(
+                            chr(
+                                ord("A")
+                                + column_headers["RebarsTotalLength"][1]
+                                - 1
+                                + diameter_list.index(rebars.Diameter)
+                            )
+                            + str(current_row),
+                            str(rebars.Amount * getRebarRealLength(rebars)),
+                        )
+                        dia_total_length_dict[
+                            rebars.Diameter.Value
+                        ] += rebars.Amount * getRebarRealLength(rebars)
+                    else:
+                        bill_of_material.set(
+                            chr(
+                                ord("A")
+                                + column_headers["RebarsTotalLength"][1]
+                                - 1
+                                + diameter_list.index(rebars.Diameter)
+                            )
+                            + str(current_row),
+                            str(rebars.TotalLength),
+                        )
+                        dia_total_length_dict[
+                            rebars.Diameter.Value
+                        ] += rebars.TotalLength
             current_row += 1
         current_row += 1
 

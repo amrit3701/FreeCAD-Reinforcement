@@ -73,3 +73,7 @@ DIA_WEIGHT_MAP = {
     45: FreeCAD.Units.Quantity("12.490 kg/m"),
     50: FreeCAD.Units.Quantity("15.410 kg/m"),
 }
+
+# Type of length to be used in BOM
+# It can be "RealLength" or "LengthWithSharpEdges"
+REBAR_LENGTH_TYPE = "RealLength"
