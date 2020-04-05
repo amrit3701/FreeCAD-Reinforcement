@@ -210,10 +210,10 @@ class BillOfMaterialTool:
             return False
 
     def Activated(self):
-        from BillOfMaterial import BillOfMaterial
+        from BillOfMaterial import MainBillOfMaterial
 
-        # Call to makeBillOfMaterial() function
-        BillOfMaterial.makeBillOfMaterial()
+        # Call to CommandBillOfMaterial() function
+        MainBillOfMaterial.CommandBillOfMaterial()
 
 
 FreeCADGui.addCommand('Arch_Rebar_Straight', StraightRebarTool())
