@@ -37,6 +37,7 @@ from .config import *
 
 class _BillOfMaterialDialog:
     def __init__(self, column_headers, rebar_length_type):
+        """This function set initial data in Bill of Material dialog box."""
         self.column_headers_data = column_headers
         self.rebar_length_type = rebar_length_type
         self.allowed_rebar_length_types = ["RealLength", "LengthWithSharpEdges"]
@@ -50,6 +51,7 @@ class _BillOfMaterialDialog:
         )
 
     def setupUi(self):
+        """This function is used to add components to ui."""
         self.connectSignalSlots()
         self.addColumnHeaders()
         self.addDropdownMenuItems()
@@ -58,13 +60,18 @@ class _BillOfMaterialDialog:
         )
 
     def connectSignalSlots(self):
+        """This function is used to connect different slots in UI to appropriate
+        functions."""
         self.form.buttonBox.accepted.connect(self.accept)
         self.form.buttonBox.rejected.connect(lambda: self.form.close())
 
     def addDropdownMenuItems(self):
+        """This function add dropdown items to each Gui::PrefComboBox."""
         self.form.rebarLengthType.addItems(self.allowed_rebar_length_types)
 
     def addColumnHeaders(self):
+        """This function add column headers data as each row of items in list
+        view."""
         column_header_list_widget = self.form.columnHeaderListWidget
 
         ui = FreeCADGui.UiLoader()
@@ -99,6 +106,8 @@ class _BillOfMaterialDialog:
             column_header_list_widget.setItemWidget(row_widget_item, row_widget)
 
     def accept(self):
+        """This function is executed when 'OK' button is clicked from UI. It
+        execute a function to generate rebars bill of material."""
         column_headers = self.getColumnConfigData()
         rebar_length_type = self.form.rebarLengthType.currentText()
         makeBillOfMaterial(
@@ -107,6 +116,14 @@ class _BillOfMaterialDialog:
         self.form.close()
 
     def getColumnConfigData(self):
+        """This function get data from UI and return a dictionary with column
+        data as key and values are tuple of column_header and sequnce number.
+        e.g. {
+                "Member": ("Member", 1),
+                "Mark": ("Mark", 2),
+                ...,
+            }
+        """
         column_header_list_widget = self.form.columnHeaderListWidget
         column_headers_config = {}
         items = []
@@ -133,6 +150,8 @@ class _BillOfMaterialDialog:
 def CommandBillOfMaterial(
     column_headers=COLUMN_HEADERS, rebar_length_type=REBAR_LENGTH_TYPE
 ):
+    """This function is used to invoke dialog box for rebars bill of
+    material."""
     dialog = _BillOfMaterialDialog(column_headers, rebar_length_type)
     dialog.setupUi()
     dialog.form.exec_()

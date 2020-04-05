@@ -31,6 +31,11 @@ from .config import *
 
 
 def getMembersRebarsDict(structures_list=None):
+    """getMembersRebarsDict(StructuresList):
+    Returns dictionary with members as key and rebars list present in that
+    member as dictionary value. Members are selected from structures_list, if
+    provided, otherwise from active document.
+    """
     # Get Part::FeaturePython objects list
     objects_list = FreeCAD.ActiveDocument.findObjects("Part::FeaturePython")
 
@@ -65,6 +70,9 @@ def getMembersRebarsDict(structures_list=None):
 
 
 def addSheetHeaders(column_headers, spreadsheet):
+    """addSheetHeaders(ColumnHeaders, Spreadsheet):
+    Add headers to columns in spreadsheet object.
+    """
     # Delete hidden headers
     column_headers = {
         column_header: column_header_tuple
@@ -91,6 +99,9 @@ def addSheetHeaders(column_headers, spreadsheet):
 
 
 def addDiameterHeader(dia, diameter_list, column_headers, spreadsheet):
+    """addDiameterHeader(Diameter, DiameterList, ColumnHeaders, Spreadsheet):
+    Add diameter header under total rebar length column header.
+    """
     # Split previously merged main header cells
     first_dia_column = chr(
         ord("A") + column_headers["RebarsTotalLength"][1] - 1
@@ -127,6 +138,9 @@ def addDiameterHeader(dia, diameter_list, column_headers, spreadsheet):
 
 
 def getRebarRealLength(rebar):
+    """getRebarRealLength(Rebar):
+    Returns real length of rebar object.
+    """
     base = rebar.Base
     # When rebar is drived from DWire or from Sketch
     if hasattr(base, "Length") or base.isDerivedFrom("Sketcher::SketchObject"):
@@ -149,6 +163,35 @@ def makeBillOfMaterial(
     structures_list=None,
     obj_name="RebarBillOfMaterial",
 ):
+    """makeBillOfMaterial(ColumnHeadersConfig, DiaWeightMap, RebarLengthType,
+    StructuresList, ObjectName):
+    Generates the Rebars Material Bill.
+
+    column_headers is a dictionary with keys: "Member", "Mark",
+    "RebarsCount", "Diameter", "RebarLength", "RebarsTotalLength"
+    and values are tuple of column_header and its sequence sumber.
+    e.g. {
+            "Member": ("Member", 1),
+            "Mark": ("Mark", 2),
+            "RebarsCount": ("No. of Rebars", 3),
+            "Diameter": ("Diameter in mm", 4),
+            "RebarLength": ("Length in m/piece", 5),
+            "RebarsTotalLength": ("Total Length in m", 6),
+        }
+    set column sequence number to 0 to hide column.
+
+    dia_weight_map is a dictionary with diameter as key and corresponding weight
+    (kg/m) as value.
+    e.g. {
+            6: FreeCAD.Units.Quantity("0.222 kg/m"),
+            8: FreeCAD.Units.Quantity("0.395 kg/m"),
+            10: FreeCAD.Units.Quantity("0.617 kg/m"),
+            12: FreeCAD.Units.Quantity("0.888 kg/m"),
+            ...,
+         }
+
+    rebar_length_type can be "RealLength" or "LengthWithSharpEdges".
+    """
     # Create new spreadsheet object
     bill_of_material = FreeCAD.ActiveDocument.addObject(
         "Spreadsheet::Sheet", obj_name
@@ -265,7 +308,7 @@ def makeBillOfMaterial(
             "m",
         )
 
-    current_row += 4
+    current_row += 2
     # Display total length, weight/m and total weight of all rebars
     if "RebarsTotalLength" in column_headers:
         if column_headers["RebarsTotalLength"][1] != 1:
