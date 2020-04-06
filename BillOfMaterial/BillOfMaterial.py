@@ -30,43 +30,26 @@ import FreeCAD
 from .config import *
 
 
-def getMembersRebarsDict(structures_list=None):
-    """getMembersRebarsDict(StructuresList):
-    Returns dictionary with members as key and rebars list present in that
-    member as dictionary value. Members are selected from structures_list, if
-    provided, otherwise from active document.
-    """
+def getMarkReinforcementsDict():
     # Get Part::FeaturePython objects list
     objects_list = FreeCAD.ActiveDocument.findObjects("Part::FeaturePython")
 
-    # Create dictionary with members as key with corresponding rebars list as
-    # value
-    members_rebars_dict = {}
-    if not structures_list:
-        for item in objects_list:
-            if hasattr(item, "IfcType"):
-                if item.IfcType == "Reinforcing Bar":
-                    base_obj = item.Base
-                    if not base_obj:
-                        member = "Unknown"
+    # Create dictionary with mark number as key with corresponding reinforcement
+    # objects list as value
+    default_mark_number = 0
+    mark_reinforcements_dict = {}
+    for item in objects_list:
+        if hasattr(item, "BaseRebar"):
+            if hasattr(item.BaseRebar, "IfcType"):
+                if item.BaseRebar.IfcType == "Reinforcing Bar":
+                    if not hasattr(item.BaseRebar, "MarkNumber"):
+                        mark_number = default_mark_number
                     else:
-                        member = base_obj.Support[0][0].Label
-                    if member not in members_rebars_dict:
-                        members_rebars_dict[member] = []
-                    members_rebars_dict[member].append(item)
-    else:
-        for item in objects_list:
-            if hasattr(item, "IfcType"):
-                if item.IfcType == "Reinforcing Bar":
-                    base_obj = item.Base
-                    if base_obj:
-                        if base_obj.Support[0][0] in structures_list:
-                            member = base_obj.Support[0][0].Label
-                            if member not in members_rebars_dict:
-                                members_rebars_dict[member] = []
-                            members_rebars_dict[member].append(item)
-
-    return members_rebars_dict
+                        mark_number = item.BaseRebar.MarkNumber
+                    if mark_number not in mark_reinforcements_dict:
+                        mark_reinforcements_dict[mark_number] = []
+                    mark_reinforcements_dict[mark_number].append(item)
+    return mark_reinforcements_dict
 
 
 def addSheetHeaders(column_headers, spreadsheet):
@@ -137,22 +120,19 @@ def addDiameterHeader(dia, diameter_list, column_headers, spreadsheet):
     spreadsheet.set(new_column + "2", "#" + str(dia.Value))
 
 
-def getRebarRealLength(rebar):
-    """getRebarRealLength(Rebar):
-    Returns real length of rebar object.
-    """
-    base = rebar.Base
-    # When rebar is drived from DWire or from Sketch
-    if hasattr(base, "Length") or base.isDerivedFrom("Sketcher::SketchObject"):
-        wire = base.Shape.Wires[0]
-        radius = rebar.Rounding * rebar.Diameter.Value
-        import DraftGeomUtils
-
-        fillet_wire = DraftGeomUtils.filletWire(wire, radius)
-        real_rebar_length = fillet_wire.Length
-        return FreeCAD.Units.Quantity(str(real_rebar_length) + "mm")
+def getRebarLength(base_rebar):
+    base_obj = base_rebar.Base
+    # When base_rebar is derived from DWire
+    if hasattr(base_obj, "Length"):
+        return base_obj.Length
+    # When base_rebar is derived from Sketch
+    elif base_obj.isDerivedFrom("Sketcher::SketchObject"):
+        length = 0
+        for geo in base_obj.Geometry:
+            length += geo.length()
+        return length
     else:
-        print("Cannot calculate rebar real length from its base object")
+        print("Cannot calculate rebar length from its base object")
         return FreeCAD.Units.Quantity("0 mm")
 
 
@@ -167,16 +147,15 @@ def makeBillOfMaterial(
     StructuresList, ObjectName):
     Generates the Rebars Material Bill.
 
-    column_headers is a dictionary with keys: "Member", "Mark",
-    "RebarsCount", "Diameter", "RebarLength", "RebarsTotalLength"
-    and values are tuple of column_header and its sequence sumber.
+    column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
+    "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
+    its sequence number.
     e.g. {
-            "Member": ("Member", 1),
-            "Mark": ("Mark", 2),
-            "RebarsCount": ("No. of Rebars", 3),
-            "Diameter": ("Diameter in mm", 4),
-            "RebarLength": ("Length in m/piece", 5),
-            "RebarsTotalLength": ("Total Length in m", 6),
+            "Mark": ("Mark", 1),
+            "RebarsCount": ("No. of Rebars", 2),
+            "Diameter": ("Diameter in mm", 3),
+            "RebarLength": ("Length in m/piece", 4),
+            "RebarsTotalLength": ("Total Length in m", 5),
         }
     set column sequence number to 0 to hide column.
 
@@ -200,8 +179,8 @@ def makeBillOfMaterial(
     # Add column headers
     column_headers = addSheetHeaders(column_headers, bill_of_material)
 
-    # Get members rebars dictionary
-    members_rebars_dict = getMembersRebarsDict(structures_list)
+    # Get mark reinforcement dictionary
+    mark_reinforcements_dict = getMarkReinforcementsDict()
 
     # Dictionary to store total length of rebars corresponding to its dia
     dia_total_length_dict = {}
@@ -214,82 +193,75 @@ def makeBillOfMaterial(
         first_row = 2
         current_row = 2
     diameter_list = []
-    for member in members_rebars_dict:
-        if "Member" in column_headers:
-            bill_of_material.set(
-                chr(ord("A") + column_headers["Member"][1] - 1)
-                + str(current_row),
-                member,
-            )
-        for rebars in members_rebars_dict[member]:
-            if rebars.Diameter not in diameter_list:
-                diameter_list.append(rebars.Diameter)
-                diameter_list.sort()
-                if "RebarsTotalLength" in column_headers:
-                    addDiameterHeader(
-                        rebars.Diameter,
-                        diameter_list,
-                        column_headers,
-                        bill_of_material,
-                    )
-                    dia_total_length_dict[
-                        rebars.Diameter.Value
-                    ] = FreeCAD.Units.Quantity("0 mm")
+    for mark_number in sorted(mark_reinforcements_dict):
+        base_rebar = mark_reinforcements_dict[mark_number][0].BaseRebar
 
-            for column_header, column_header_tuple in column_headers.items():
-                column = chr(
-                    ord("A") + column_header_tuple[1] - 2 + len(diameter_list)
+        if "Mark" in column_headers:
+            bill_of_material.set(
+                chr(ord("A") + column_headers["Mark"][1] - 1)
+                + str(current_row),
+                str(mark_number),
+            )
+
+        rebars_count = 0
+        for reinforcement in mark_reinforcements_dict[mark_number]:
+            rebars_count += len(reinforcement.RebarPlacements)
+
+        if "RebarsCount" in column_headers:
+            bill_of_material.set(
+                chr(ord("A") + column_headers["RebarsCount"][1] - 1)
+                + str(current_row),
+                str(rebars_count),
+            )
+
+        if "Diameter" in column_headers:
+            bill_of_material.set(
+                chr(ord("A") + column_headers["Diameter"][1] - 1)
+                + str(current_row),
+                str(base_rebar.Diameter),
+            )
+
+        if base_rebar.Diameter not in diameter_list:
+            diameter_list.append(base_rebar.Diameter)
+            diameter_list.sort()
+            if "RebarsTotalLength" in column_headers:
+                addDiameterHeader(
+                    base_rebar.Diameter,
+                    diameter_list,
+                    column_headers,
+                    bill_of_material,
                 )
-                if column_header == "Mark":
-                    pass
-                elif column_header == "RebarsCount":
-                    bill_of_material.set(
-                        column + str(current_row), str(rebars.Amount),
-                    )
-                elif column_header == "Diameter":
-                    bill_of_material.set(
-                        column + str(current_row), str(rebars.Diameter),
-                    )
-                elif column_header == "RebarLength":
-                    if rebar_length_type == "RealLength":
-                        bill_of_material.set(
-                            column + str(current_row),
-                            str(getRebarRealLength(rebars)),
-                        )
-                    else:
-                        bill_of_material.set(
-                            column + str(current_row), str(rebars.Length)
-                        )
-                elif column_header == "RebarsTotalLength":
-                    if rebar_length_type == "RealLength":
-                        bill_of_material.set(
-                            chr(
-                                ord("A")
-                                + column_headers["RebarsTotalLength"][1]
-                                - 1
-                                + diameter_list.index(rebars.Diameter)
-                            )
-                            + str(current_row),
-                            str(rebars.Amount * getRebarRealLength(rebars)),
-                        )
-                        dia_total_length_dict[
-                            rebars.Diameter.Value
-                        ] += rebars.Amount * getRebarRealLength(rebars)
-                    else:
-                        bill_of_material.set(
-                            chr(
-                                ord("A")
-                                + column_headers["RebarsTotalLength"][1]
-                                - 1
-                                + diameter_list.index(rebars.Diameter)
-                            )
-                            + str(current_row),
-                            str(rebars.TotalLength),
-                        )
-                        dia_total_length_dict[
-                            rebars.Diameter.Value
-                        ] += rebars.TotalLength
-            current_row += 1
+                dia_total_length_dict[
+                    base_rebar.Diameter.Value
+                ] = FreeCAD.Units.Quantity("0 mm")
+
+        rebar_length = getRebarLength(base_rebar)
+        if "RebarLength" in column_headers:
+            bill_of_material.set(
+                chr(ord("A") + column_headers["RebarLength"][1] - 1)
+                + str(current_row),
+                str(rebar_length),
+            )
+
+        rebar_total_length = FreeCAD.Units.Quantity("0 mm")
+        for reinforcement in mark_reinforcements_dict[mark_number]:
+            rebar_total_length += (
+                len(reinforcement.RebarPlacements) * rebar_length
+            )
+        dia_total_length_dict[base_rebar.Diameter.Value] += rebar_total_length
+
+        if "RebarsTotalLength" in column_headers:
+            bill_of_material.set(
+                chr(
+                    ord("A")
+                    + column_headers["RebarsTotalLength"][1]
+                    - 1
+                    + diameter_list.index(base_rebar.Diameter)
+                )
+                + str(current_row),
+                str(rebar_total_length),
+            )
+
         current_row += 1
 
     # Set display units
@@ -308,7 +280,7 @@ def makeBillOfMaterial(
             "m",
         )
 
-    current_row += 2
+    current_row += 3
     # Display total length, weight/m and total weight of all rebars
     if "RebarsTotalLength" in column_headers:
         if column_headers["RebarsTotalLength"][1] != 1:

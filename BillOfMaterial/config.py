@@ -30,26 +30,25 @@ import FreeCAD
 # Column are configurable i.e. you can change Name of column header, change
 # their sequence and show/hide column.
 # 1. To change column headers, change first value in tuple in below dictionary.
-#    e.g. To change column header "Member" to "Member Name" replace
-#    ("Member", 1) with ("Member Name", 1)
+#    e.g. To change column header "Mark" to "Mark Number" replace ("Mark", 1)
+#    with ("Mark Number", 1))
 # 2. To modify sequence of column, change second value in tuple in below
 # dictionary.
-#    e.g. To place "Member" column at third column in BOM, change ("Member", 1)
-#    to ("Member", 3)
+#    e.g. To place "Mark" column at third column in BOM, change ("Mark", 1)
+#    to ("Mark", 3)
 # 3. To hide column, set second value in tuple in below dictionary to 0. And to
 #    show column, set it to other than 0 which will be used used as placement
 #    sequence number for that column.
-#    e.g. to hide column "Member", replace ("Member", 1) with ("Member", 0)
+#    e.g. to hide column "Mark", replace ("Mark", 1) with ("Mark", 0)
 #
 # Note: You must take care that no two columns get same placement number. And
 #       must not delete/modify values in LHS of ":" (colon).
 COLUMN_HEADERS = {
-    "Member": ("Member", 1),
-    "Mark": ("Mark", 2),
-    "RebarsCount": ("No. of Rebars", 3),
-    "Diameter": ("Diameter in mm", 4),
-    "RebarLength": ("Length in m/piece", 5),
-    "RebarsTotalLength": ("Total Length in m", 6),
+    "Mark": ("Mark", 1),
+    "RebarsCount": ("No. of Rebars", 2),
+    "Diameter": ("Diameter in mm", 3),
+    "RebarLength": ("Length in m/piece", 4),
+    "RebarsTotalLength": ("Total Length in m", 5),
 }
 
 # Map diameter (in mm) with weight (kg/m)
@@ -76,4 +75,4 @@ DIA_WEIGHT_MAP = {
 
 # Type of length to be used in BOM
 # It can be "RealLength" or "LengthWithSharpEdges"
-REBAR_LENGTH_TYPE = "RealLength"
+# REBAR_LENGTH_TYPE = "RealLength"
