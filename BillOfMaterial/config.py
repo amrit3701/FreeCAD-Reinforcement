@@ -75,4 +75,4 @@ DIA_WEIGHT_MAP = {
 
 # Type of length to be used in BOM
 # It can be "RealLength" or "LengthWithSharpEdges"
-# REBAR_LENGTH_TYPE = "RealLength"
+REBAR_LENGTH_TYPE = "RealLength"
