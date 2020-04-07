@@ -120,22 +120,6 @@ def addDiameterHeader(dia, diameter_list, column_headers, spreadsheet):
     spreadsheet.set(new_column + "2", "#" + str(dia.Value))
 
 
-def getRebarLength(base_rebar):
-    base_obj = base_rebar.Base
-    # When base_rebar is derived from DWire
-    if hasattr(base_obj, "Length"):
-        return base_obj.Length
-    # When base_rebar is derived from Sketch
-    elif base_obj.isDerivedFrom("Sketcher::SketchObject"):
-        length = 0
-        for geo in base_obj.Geometry:
-            length += geo.length()
-        return length
-    else:
-        print("Cannot calculate rebar length from its base object")
-        return FreeCAD.Units.Quantity("0 mm")
-
-
 def makeBillOfMaterial(
     column_headers=COLUMN_HEADERS,
     dia_weight_map=DIA_WEIGHT_MAP,
@@ -205,7 +189,7 @@ def makeBillOfMaterial(
 
         rebars_count = 0
         for reinforcement in mark_reinforcements_dict[mark_number]:
-            rebars_count += len(reinforcement.RebarPlacements)
+            rebars_count += reinforcement.Amount
 
         if "RebarsCount" in column_headers:
             bill_of_material.set(
@@ -235,19 +219,16 @@ def makeBillOfMaterial(
                     base_rebar.Diameter.Value
                 ] = FreeCAD.Units.Quantity("0 mm")
 
-        rebar_length = getRebarLength(base_rebar)
         if "RebarLength" in column_headers:
             bill_of_material.set(
                 chr(ord("A") + column_headers["RebarLength"][1] - 1)
                 + str(current_row),
-                str(rebar_length),
+                str(base_rebar.Length),
             )
 
         rebar_total_length = FreeCAD.Units.Quantity("0 mm")
         for reinforcement in mark_reinforcements_dict[mark_number]:
-            rebar_total_length += (
-                len(reinforcement.RebarPlacements) * rebar_length
-            )
+            rebar_total_length += reinforcement.TotalLength
         dia_total_length_dict[base_rebar.Diameter.Value] += rebar_total_length
 
         if "RebarsTotalLength" in column_headers:
