@@ -122,13 +122,14 @@ def addDiameterHeader(dia, diameter_list, column_headers, spreadsheet):
 
 def makeBillOfMaterial(
     column_headers=COLUMN_HEADERS,
+    column_units=COLUMN_UNITS,
     dia_weight_map=DIA_WEIGHT_MAP,
     rebar_length_type=REBAR_LENGTH_TYPE,
     structures_list=None,
     obj_name="RebarBillOfMaterial",
 ):
-    """makeBillOfMaterial(ColumnHeadersConfig, DiaWeightMap, RebarLengthType,
-    StructuresList, ObjectName):
+    """makeBillOfMaterial(ColumnHeadersConfig, ColumnUnitsDict, DiaWeightMap,
+    RebarLengthType, StructuresList, ObjectName):
     Generates the Rebars Material Bill.
 
     column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
@@ -142,6 +143,14 @@ def makeBillOfMaterial(
             "RebarsTotalLength": ("Total Length in m", 5),
         }
     set column sequence number to 0 to hide column.
+
+    column_units is a dictionary with keys: "Diameter", "RebarLength",
+    "RebarsTotalLength" and their corresponding units as value.
+    e.g. {
+            "Diameter": "mm",
+            "RebarLength": "m",
+            "RebarsTotalLength": "m",
+         }
 
     dia_weight_map is a dictionary with diameter as key and corresponding weight
     (kg/m) as value.
@@ -184,7 +193,7 @@ def makeBillOfMaterial(
             bill_of_material.set(
                 chr(ord("A") + column_headers["Mark"][1] - 1)
                 + str(current_row),
-                str(mark_number),
+                "'" + str(mark_number),
             )
 
         rebars_count = 0
@@ -195,7 +204,7 @@ def makeBillOfMaterial(
             bill_of_material.set(
                 chr(ord("A") + column_headers["RebarsCount"][1] - 1)
                 + str(current_row),
-                str(rebars_count),
+                "'" + str(rebars_count),
             )
 
         if "Diameter" in column_headers:
@@ -246,10 +255,17 @@ def makeBillOfMaterial(
         current_row += 1
 
     # Set display units
+    if "Diameter" in column_headers:
+        column = chr(ord("A") + column_headers["Diameter"][1] - 1)
+        bill_of_material.setDisplayUnit(
+            column + str(first_row) + ":" + column + str(current_row),
+            column_units["Diameter"],
+        )
     if "RebarLength" in column_headers:
         column = chr(ord("A") + column_headers["RebarLength"][1] - 1)
         bill_of_material.setDisplayUnit(
-            column + str(first_row) + ":" + column + str(current_row), "m"
+            column + str(first_row) + ":" + column + str(current_row),
+            column_units["RebarLength"],
         )
     if "RebarsTotalLength" in column_headers:
         start_column = chr(
@@ -258,7 +274,7 @@ def makeBillOfMaterial(
         end_column = chr(ord(start_column) + len(diameter_list) - 1)
         bill_of_material.setDisplayUnit(
             start_column + str(first_row) + ":" + end_column + str(current_row),
-            "m",
+            column_units["RebarsTotalLength"],
         )
 
     current_row += 3
@@ -290,9 +306,15 @@ def makeBillOfMaterial(
                 + str(current_row + 2)
             )
             bill_of_material.set(
-                "A" + str(current_row), "Total length in m/Diameter"
+                "A" + str(current_row),
+                "Total length in "
+                + column_units["RebarsTotalLength"]
+                + "/Diameter",
             )
-            bill_of_material.set("A" + str(current_row + 1), "Weight in Kg/m")
+            bill_of_material.set(
+                "A" + str(current_row + 1),
+                "Weight in Kg/" + column_units["RebarsTotalLength"],
+            )
             bill_of_material.set(
                 "A" + str(current_row + 2), "Total Weight in Kg/Diameter"
             )
@@ -302,7 +324,8 @@ def makeBillOfMaterial(
                     str(dia_total_length_dict[dia.Value]),
                 )
                 bill_of_material.setDisplayUnit(
-                    chr(ord(first_dia_column) + i) + str(current_row), "m"
+                    chr(ord(first_dia_column) + i) + str(current_row),
+                    column_units["RebarsTotalLength"],
                 )
                 if dia.Value in dia_weight_map:
                     bill_of_material.set(
@@ -318,7 +341,7 @@ def makeBillOfMaterial(
                     )
                     bill_of_material.setDisplayUnit(
                         chr(ord(first_dia_column) + i) + str(current_row + 1),
-                        "kg/m",
+                        "kg/" + column_units["RebarsTotalLength"],
                     )
                     bill_of_material.setDisplayUnit(
                         chr(ord(first_dia_column) + i) + str(current_row + 2),
@@ -331,7 +354,8 @@ def makeBillOfMaterial(
                     str(dia_total_length_dict[dia.Value]),
                 )
                 bill_of_material.setDisplayUnit(
-                    chr(ord("A") + i) + str(current_row), "m"
+                    chr(ord("A") + i) + str(current_row),
+                    column_units["RebarsTotalLength"],
                 )
                 if dia.Value in dia_weight_map:
                     bill_of_material.set(
@@ -346,7 +370,8 @@ def makeBillOfMaterial(
                         ),
                     )
                     bill_of_material.setDisplayUnit(
-                        chr(ord("A") + i) + str(current_row + 1), "kg/m"
+                        chr(ord("A") + i) + str(current_row + 1),
+                        "kg/" + column_units["RebarsTotalLength"],
                     )
                     bill_of_material.setDisplayUnit(
                         chr(ord("A") + i) + str(current_row + 2), "kg"
@@ -376,10 +401,13 @@ def makeBillOfMaterial(
             )
             bill_of_material.set(
                 first_txt_column + str(current_row),
-                "Total length in m/Diameter",
+                "Total length in "
+                + column_units["RebarsTotalLength"]
+                + "/Diameter",
             )
             bill_of_material.set(
-                first_txt_column + str(current_row + 1), "Weight in Kg/m",
+                first_txt_column + str(current_row + 1),
+                "Weight in Kg/" + column_units["RebarsTotalLength"],
             )
             bill_of_material.set(
                 first_txt_column + str(current_row + 2),

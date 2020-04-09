@@ -27,6 +27,14 @@ __url__ = "https://www.freecadweb.org"
 
 import FreeCAD
 
+
+# Units used to display data in Bill Of Material
+COLUMN_UNITS = {
+    "Diameter": "mm",
+    "RebarLength": "m",
+    "RebarsTotalLength": "m",
+}
+
 # Column are configurable i.e. you can change Name of column header, change
 # their sequence and show/hide column.
 # 1. To change column headers, change first value in tuple in below dictionary.
@@ -46,9 +54,12 @@ import FreeCAD
 COLUMN_HEADERS = {
     "Mark": ("Mark", 1),
     "RebarsCount": ("No. of Rebars", 2),
-    "Diameter": ("Diameter in mm", 3),
-    "RebarLength": ("Length in m/piece", 4),
-    "RebarsTotalLength": ("Total Length in m", 5),
+    "Diameter": ("Diameter in " + COLUMN_UNITS["Diameter"], 3),
+    "RebarLength": ("Length in " + COLUMN_UNITS["RebarLength"] + "/piece", 4),
+    "RebarsTotalLength": (
+        "Total Length in " + COLUMN_UNITS["RebarsTotalLength"],
+        5,
+    ),
 }
 
 # Map diameter (in mm) with weight (kg/m)

@@ -31,14 +31,16 @@ from PySide2 import QtWidgets
 
 import FreeCADGui
 
+from .UnitLineEdit import UnitLineEdit
 from .BillOfMaterial import makeBillOfMaterial
 from .config import *
 
 
 class _BillOfMaterialDialog:
-    def __init__(self, column_headers, rebar_length_type):
+    def __init__(self, column_headers, column_units, rebar_length_type):
         """This function set initial data in Bill of Material dialog box."""
         self.column_headers_data = column_headers
+        self.column_units = column_units
         self.rebar_length_type = rebar_length_type
         self.allowed_rebar_length_types = ["RealLength", "LengthWithSharpEdges"]
         self.form = FreeCADGui.PySideUic.loadUi(
@@ -52,12 +54,13 @@ class _BillOfMaterialDialog:
 
     def setupUi(self):
         """This function is used to add components to ui."""
-        self.connectSignalSlots()
+        self.addUnitsInputFields()
         self.addColumnHeaders()
         self.addDropdownMenuItems()
         self.form.rebarLengthType.setCurrentIndex(
             self.form.rebarLengthType.findText(self.rebar_length_type)
         )
+        self.connectSignalSlots()
 
     def connectSignalSlots(self):
         """This function is used to connect different slots in UI to appropriate
@@ -65,9 +68,21 @@ class _BillOfMaterialDialog:
         self.form.buttonBox.accepted.connect(self.accept)
         self.form.buttonBox.rejected.connect(lambda: self.form.close())
 
-    def addDropdownMenuItems(self):
-        """This function add dropdown items to each Gui::PrefComboBox."""
-        self.form.rebarLengthType.addItems(self.allowed_rebar_length_types)
+    def addUnitsInputFields(self):
+        """This function add input fields for units of data."""
+        main_layout = self.form.verticalLayout
+        column_units_layouts = []
+        for column, unit in reversed(self.column_units.items()):
+            column_name = QtWidgets.QLabel(column + " unit")
+            column_name.setMinimumWidth(160)
+            column_unit = UnitLineEdit(unit)
+            h_layout = QtWidgets.QHBoxLayout()
+            h_layout.setSpacing(60)
+            h_layout.addWidget(column_name)
+            h_layout.addWidget(column_unit)
+            main_layout.insertLayout(1, h_layout)
+            column_units_layouts.insert(0, h_layout)
+        self.column_units_layouts = column_units_layouts
 
     def addColumnHeaders(self):
         """This function add column headers data as each row of items in list
@@ -105,15 +120,45 @@ class _BillOfMaterialDialog:
             column_header_list_widget.addItem(row_widget_item)
             column_header_list_widget.setItemWidget(row_widget_item, row_widget)
 
+    def addDropdownMenuItems(self):
+        """This function add dropdown items to each Gui::PrefComboBox."""
+        self.form.rebarLengthType.addItems(self.allowed_rebar_length_types)
+
     def accept(self):
         """This function is executed when 'OK' button is clicked from UI. It
         execute a function to generate rebars bill of material."""
+        # Validate entered units
+        units_valid_flag = True
+        for unit_h_layout in self.column_units_layouts:
+            unit_field = unit_h_layout.itemAt(1).widget()
+            if not unit_field.isValidUnit():
+                unit_text = unit_field.text()
+                unit_field.setText(unit_text + " (Invalid Unit)")
+                units_valid_flag = False
+        if not units_valid_flag:
+            return
+
+        column_units = self.getColumnUnits()
         column_headers = self.getColumnConfigData()
         rebar_length_type = self.form.rebarLengthType.currentText()
         makeBillOfMaterial(
-            column_headers=column_headers, rebar_length_type=rebar_length_type
+            column_headers=column_headers,
+            column_units=column_units,
+            rebar_length_type=rebar_length_type,
         )
         self.form.close()
+
+    def getColumnUnits(self):
+        """This function get units data from UI and return a dictionary with
+        column name as key and its corresponding unit as value."""
+        column_units = {}
+        for unit_h_layout in self.column_units_layouts:
+            column_name = (
+                unit_h_layout.itemAt(0).widget().text().split(" unit")[0]
+            )
+            units = unit_h_layout.itemAt(1).widget().text()
+            column_units[column_name] = units
+        return column_units
 
     def getColumnConfigData(self):
         """This function get data from UI and return a dictionary with column
@@ -148,10 +193,14 @@ class _BillOfMaterialDialog:
 
 
 def CommandBillOfMaterial(
-    column_headers=COLUMN_HEADERS, rebar_length_type=REBAR_LENGTH_TYPE
+    column_headers=COLUMN_HEADERS,
+    column_units=COLUMN_UNITS,
+    rebar_length_type=REBAR_LENGTH_TYPE,
 ):
     """This function is used to invoke dialog box for rebars bill of
     material."""
-    dialog = _BillOfMaterialDialog(column_headers, rebar_length_type)
+    dialog = _BillOfMaterialDialog(
+        column_headers, column_units, rebar_length_type
+    )
     dialog.setupUi()
     dialog.form.exec_()

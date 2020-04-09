@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>440</height>
+    <height>485</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,6 +42,22 @@
       <widget class="Gui::PrefComboBox" name="rebarLengthType"/>
      </item>
     </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>10</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -150,6 +166,11 @@ p, li { white-space: pre-wrap; }
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>rebarLengthType</tabstop>
+  <tabstop>columnHeaderListWidget</tabstop>
+  <tabstop>noteText</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
