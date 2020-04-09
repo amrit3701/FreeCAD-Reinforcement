@@ -101,8 +101,7 @@ class _BillOfMaterialDialog:
             row_widget_item = QtWidgets.QListWidgetItem()
 
             show_hide_checkbox = ui.createWidget("Gui::PrefCheckBox")
-            show_hide_checkbox.setText("hide")
-            if column_header_tuple[1] == 0:
+            if column_header_tuple[1] != 0:
                 show_hide_checkbox.setChecked(True)
             column_name = QtWidgets.QLabel(column_header)
             column_name.setMinimumWidth(120)
@@ -178,7 +177,7 @@ class _BillOfMaterialDialog:
             row_widget = column_header_list_widget.itemWidget(row_widget_item)
             h_layout = row_widget.layout()
             show_hide_checkbox = h_layout.itemAt(0).widget()
-            if show_hide_checkbox.isChecked():
+            if not show_hide_checkbox.isChecked():
                 sequence = 0
             else:
                 sequence = current_column
