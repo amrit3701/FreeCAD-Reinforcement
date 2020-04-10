@@ -120,6 +120,45 @@ def addDiameterHeader(dia, diameter_list, column_headers, spreadsheet):
     spreadsheet.set(new_column + "2", "#" + str(dia.Value))
 
 
+def getRebarSharpEdgedLength(rebar):
+    """getRebarSharpEdgedLength(Rebar):
+    Returns sharp edged length of rebar object.
+    """
+    base = rebar.Base
+    # When rebar is drived from DWire
+    if hasattr(base, "Length"):
+        # When wire shape is created using DraftGeomUtils.filletWire()
+        if not hasattr(base, "FilletRadius"):
+            return base.Length
+        # If FilletRadius of DWire is zero
+        elif not base.FilletRadius:
+            return base.Length
+        else:
+            edges = base.Shape.Edges
+            if base.Closed:
+                corners = len(edges) / 2
+            else:
+                corners = (len(edges) - 1) / 2
+            extension_length = 2 * corners * base.FilletRadius
+            rebar_straight_length = 0
+            for edge in edges[::2]:
+                rebar_straight_length += edge.Length
+            rebar_sharp_edged_length = (
+                FreeCAD.Units.Quantity(str(rebar_straight_length) + "mm")
+                + extension_length
+            )
+            return rebar_sharp_edged_length
+    # When rebar is drived from Sketch
+    elif base.isDerivedFrom("Sketcher::SketchObject"):
+        rebar_length = 0
+        for geo in base.Geometry:
+            rebar_length += geo.length()
+        return FreeCAD.Units.Quantity(str(rebar_length) + "mm")
+    else:
+        print("Cannot calculate rebar length from its base object")
+        return FreeCAD.Units.Quantity("0 mm")
+
+
 def makeBillOfMaterial(
     column_headers=COLUMN_HEADERS,
     column_units=COLUMN_UNITS,
@@ -228,16 +267,26 @@ def makeBillOfMaterial(
                     base_rebar.Diameter.Value
                 ] = FreeCAD.Units.Quantity("0 mm")
 
+        base_rebar_length = FreeCAD.Units.Quantity("0 mm")
         if "RebarLength" in column_headers:
-            bill_of_material.set(
-                chr(ord("A") + column_headers["RebarLength"][1] - 1)
-                + str(current_row),
-                str(base_rebar.Length),
-            )
+            if rebar_length_type == "RealLength":
+                base_rebar_length = base_rebar.Length
+                bill_of_material.set(
+                    chr(ord("A") + column_headers["RebarLength"][1] - 1)
+                    + str(current_row),
+                    str(base_rebar_length),
+                )
+            else:
+                base_rebar_length = getRebarSharpEdgedLength(base_rebar)
+                bill_of_material.set(
+                    chr(ord("A") + column_headers["RebarLength"][1] - 1)
+                    + str(current_row),
+                    str(base_rebar_length),
+                )
 
         rebar_total_length = FreeCAD.Units.Quantity("0 mm")
         for reinforcement in mark_reinforcements_dict[mark_number]:
-            rebar_total_length += reinforcement.TotalLength
+            rebar_total_length += reinforcement.Amount * base_rebar_length
         dia_total_length_dict[base_rebar.Diameter.Value] += rebar_total_length
 
         if "RebarsTotalLength" in column_headers:
