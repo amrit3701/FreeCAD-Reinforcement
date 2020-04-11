@@ -120,6 +120,18 @@ def addDiameterHeader(dia, diameter_list, column_headers, spreadsheet):
     spreadsheet.set(new_column + "2", "#" + str(dia.Value))
 
 
+def getColumnHeader(column_headers, diameter_list, column_header):
+    seq = column_headers[column_header][1]
+    if "RebarsTotalLength" in column_headers:
+        if column_headers["RebarsTotalLength"][1] < seq:
+            if len(diameter_list) == 0:
+                seq += len(diameter_list)
+            else:
+                seq += len(diameter_list) - 1
+    header = chr(ord("A") + seq - 1)
+    return header
+
+
 def getRebarSharpEdgedLength(rebar):
     """getRebarSharpEdgedLength(Rebar):
     Returns sharp edged length of rebar object.
@@ -230,7 +242,7 @@ def makeBillOfMaterial(
 
         if "Mark" in column_headers:
             bill_of_material.set(
-                chr(ord("A") + column_headers["Mark"][1] - 1)
+                getColumnHeader(column_headers, diameter_list, "Mark")
                 + str(current_row),
                 "'" + str(mark_number),
             )
@@ -241,14 +253,14 @@ def makeBillOfMaterial(
 
         if "RebarsCount" in column_headers:
             bill_of_material.set(
-                chr(ord("A") + column_headers["RebarsCount"][1] - 1)
+                getColumnHeader(column_headers, diameter_list, "RebarsCount")
                 + str(current_row),
                 "'" + str(rebars_count),
             )
 
         if "Diameter" in column_headers:
             bill_of_material.set(
-                chr(ord("A") + column_headers["Diameter"][1] - 1)
+                getColumnHeader(column_headers, diameter_list, "Diameter")
                 + str(current_row),
                 str(base_rebar.Diameter),
             )
@@ -272,14 +284,18 @@ def makeBillOfMaterial(
             if rebar_length_type == "RealLength":
                 base_rebar_length = base_rebar.Length
                 bill_of_material.set(
-                    chr(ord("A") + column_headers["RebarLength"][1] - 1)
+                    getColumnHeader(
+                        column_headers, diameter_list, "RebarLength"
+                    )
                     + str(current_row),
                     str(base_rebar_length),
                 )
             else:
                 base_rebar_length = getRebarSharpEdgedLength(base_rebar)
                 bill_of_material.set(
-                    chr(ord("A") + column_headers["RebarLength"][1] - 1)
+                    getColumnHeader(
+                        column_headers, diameter_list, "RebarLength"
+                    )
                     + str(current_row),
                     str(base_rebar_length),
                 )
@@ -292,9 +308,11 @@ def makeBillOfMaterial(
         if "RebarsTotalLength" in column_headers:
             bill_of_material.set(
                 chr(
-                    ord("A")
-                    + column_headers["RebarsTotalLength"][1]
-                    - 1
+                    ord(
+                        getColumnHeader(
+                            column_headers, diameter_list, "RebarsTotalLength"
+                        )
+                    )
                     + diameter_list.index(base_rebar.Diameter)
                 )
                 + str(current_row),
@@ -305,20 +323,20 @@ def makeBillOfMaterial(
 
     # Set display units
     if "Diameter" in column_headers:
-        column = chr(ord("A") + column_headers["Diameter"][1] - 1)
+        column = getColumnHeader(column_headers, diameter_list, "Diameter")
         bill_of_material.setDisplayUnit(
             column + str(first_row) + ":" + column + str(current_row),
             column_units["Diameter"],
         )
     if "RebarLength" in column_headers:
-        column = chr(ord("A") + column_headers["RebarLength"][1] - 1)
+        column = getColumnHeader(column_headers, diameter_list, "RebarLength")
         bill_of_material.setDisplayUnit(
             column + str(first_row) + ":" + column + str(current_row),
             column_units["RebarLength"],
         )
     if "RebarsTotalLength" in column_headers:
-        start_column = chr(
-            ord("A") + column_headers["RebarsTotalLength"][1] - 1
+        start_column = getColumnHeader(
+            column_headers, diameter_list, "RebarsTotalLength"
         )
         end_column = chr(ord(start_column) + len(diameter_list) - 1)
         bill_of_material.setDisplayUnit(
@@ -330,8 +348,8 @@ def makeBillOfMaterial(
     # Display total length, weight/m and total weight of all rebars
     if "RebarsTotalLength" in column_headers:
         if column_headers["RebarsTotalLength"][1] != 1:
-            first_dia_column = chr(
-                ord("A") + column_headers["RebarsTotalLength"][1] - 1
+            first_dia_column = getColumnHeader(
+                column_headers, diameter_list, "RebarsTotalLength"
             )
             bill_of_material.mergeCells(
                 "A"
