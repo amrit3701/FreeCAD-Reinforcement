@@ -32,7 +32,7 @@ from PySide2 import QtWidgets
 import FreeCADGui
 
 from .UnitLineEdit import UnitLineEdit
-from .BillOfMaterial import makeBillOfMaterial
+from .BillOfMaterial_Spreadsheet import makeBillOfMaterial
 from .config import *
 
 
