@@ -33,6 +33,7 @@ import FreeCADGui
 
 from .UnitLineEdit import UnitLineEdit
 from .BillOfMaterial_Spreadsheet import makeBillOfMaterial
+from .BillOfMaterial_SVG import makeBillOfMaterialSVG
 from .config import *
 
 
@@ -140,12 +141,42 @@ class _BillOfMaterialDialog:
         column_units = self.getColumnUnits()
         column_headers = self.getColumnConfigData()
         rebar_length_type = self.form.rebarLengthType.currentText()
-        makeBillOfMaterial(
-            column_headers=column_headers,
-            column_units=column_units,
-            rebar_length_type=rebar_length_type,
-        )
+        create_spreadsheet = self.form.createSpreadsheet.isChecked()
+        if create_spreadsheet:
+            makeBillOfMaterial(
+                column_headers=column_headers,
+                column_units=column_units,
+                rebar_length_type=rebar_length_type,
+            )
+        export_svg = self.form.exportSVG.isChecked()
+        if export_svg:
+            svg_string = makeBillOfMaterialSVG(
+                column_headers=column_headers,
+                column_units=column_units,
+                rebar_length_type=rebar_length_type,
+            )
+            self.saveSVG(svg_string)
         self.form.close()
+
+    def saveSVG(self, svg_string):
+        import FreeCAD
+
+        path = FreeCAD.ConfigGet("UserAppData")
+        svg_filename, Filter = QtWidgets.QFileDialog.getSaveFileName(
+            None, "Export svg output", path, "*.svg"
+        )
+        if not svg_filename:
+            FreeCAD.Console.PrintError("SVG output not saved: Empty filename\n")
+            return
+
+        try:
+            with open(svg_filename, "w") as svg_file:
+                svg_file.write(svg_string)
+
+        except:
+            FreeCAD.Console.PrintError(
+                "Error writing svg to file " + svg_filename + "\n"
+            )
 
     def getColumnUnits(self):
         """This function get units data from UI and return a dictionary with

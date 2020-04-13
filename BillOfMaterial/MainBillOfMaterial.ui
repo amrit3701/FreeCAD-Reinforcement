@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>485</height>
+    <height>540</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -132,6 +132,26 @@ p, li { white-space: pre-wrap; }
     </widget>
    </item>
    <item>
+    <widget class="Gui::PrefCheckBox" name="createSpreadsheet">
+     <property name="text">
+      <string>Create Spreadsheet</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Gui::PrefCheckBox" name="exportSVG">
+     <property name="text">
+      <string>Export svg</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -144,6 +164,11 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>Gui::PrefCheckBox</class>
+   <extends>QCheckBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
   <customwidget>
    <class>Gui::PrefComboBox</class>
    <extends>QComboBox</extends>

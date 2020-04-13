@@ -124,8 +124,8 @@ def getColumnHeadersSVG(column_headers, diameter_list):
 def makeBillOfMaterialSVG(
     column_headers=COLUMN_HEADERS,
     column_units=COLUMN_UNITS,
-    dia_weight_map=DIA_WEIGHT_MAP,
     rebar_length_type=REBAR_LENGTH_TYPE,
+    output_file=None,
 ):
     head = getSVGHead()
     svg_output = head
@@ -372,8 +372,8 @@ def makeBillOfMaterialSVG(
                     disp_dia_total_length,
                 ).replace("\n", "\n" + indent_level).rstrip(indent_level)
 
-                if dia.Value in dia_weight_map:
-                    disp_dia_weight = dia_weight_map[dia.Value]
+                if dia.Value in DIA_WEIGHT_MAP:
+                    disp_dia_weight = DIA_WEIGHT_MAP[dia.Value]
                     if "RebarsTotalLength" in column_units:
                         disp_dia_weight = (
                             str(
@@ -402,7 +402,7 @@ def makeBillOfMaterialSVG(
                         COLUMN_WIDTH,
                         ROW_HEIGHT,
                         (
-                            dia_weight_map[dia.Value]
+                            DIA_WEIGHT_MAP[dia.Value]
                             * dia_total_length_dict[dia.Value]
                         ).toStr(),
                     ).replace("\n", "\n" + indent_level).rstrip(indent_level)
@@ -453,8 +453,8 @@ def makeBillOfMaterialSVG(
                     disp_dia_total_length,
                 ).replace("\n", "\n" + indent_level).rstrip(indent_level)
 
-                if dia.Value in dia_weight_map:
-                    disp_dia_weight = dia_weight_map[dia.Value]
+                if dia.Value in DIA_WEIGHT_MAP:
+                    disp_dia_weight = DIA_WEIGHT_MAP[dia.Value]
                     if "RebarsTotalLength" in column_units:
                         disp_dia_weight = (
                             str(
@@ -483,7 +483,7 @@ def makeBillOfMaterialSVG(
                         COLUMN_WIDTH,
                         ROW_HEIGHT,
                         (
-                            dia_weight_map[dia.Value]
+                            DIA_WEIGHT_MAP[dia.Value]
                             * dia_total_length_dict[dia.Value]
                         ).toStr(),
                     ).replace("\n", "\n" + indent_level).rstrip(indent_level)
@@ -518,4 +518,10 @@ def makeBillOfMaterialSVG(
     svg_output += "</g>\n"
     svg_output += "\n</svg>"
 
+    if output_file:
+        try:
+            with open(output_file, "w") as svg_output_file:
+                svg_output_file.write(svg_output)
+        except:
+            print("Error writing svg to file " + svg_output_file)
     return svg_output
