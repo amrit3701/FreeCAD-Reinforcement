@@ -87,3 +87,15 @@ DIA_WEIGHT_MAP = {
 # Type of length to be used in BOM
 # It can be "RealLength" or "LengthWithSharpEdges"
 REBAR_LENGTH_TYPE = "RealLength"
+
+
+# ---------------------------------SVG Config---------------------------------
+
+# Width of each column in svg table
+COLUMN_WIDTH = 130
+
+# Height of each row in svg table
+ROW_HEIGHT = 30
+
+# Font size of svg text
+FONT_SIZE = 12
