@@ -92,10 +92,23 @@ REBAR_LENGTH_TYPE = "RealLength"
 # ---------------------------------SVG Config---------------------------------
 
 # Width of each column in svg table
-COLUMN_WIDTH = 130
+COLUMN_WIDTH = 30
 
 # Height of each row in svg table
-ROW_HEIGHT = 30
+ROW_HEIGHT = 10
 
 # Font size of svg text
-FONT_SIZE = 12
+FONT_SIZE = 3
+
+# Available sizes as widthxheight in mm
+AVAILABLE_SIZES = {
+    "A0": "841x1189",
+    "A1": "594x841",
+    "A2": "420x594",
+    "A3": "297x420",
+    "A4": "210x297",
+}
+
+# Size of svg sheet, if blank (SVG_SIZE = "") then it will be calculated
+# automatically to fit Bill of Material
+SVG_SIZE = AVAILABLE_SIZES["A4"]

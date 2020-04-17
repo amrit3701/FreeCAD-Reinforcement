@@ -128,6 +128,7 @@ def makeBillOfMaterialSVG(
     rebar_length_type=REBAR_LENGTH_TYPE,
     column_width=COLUMN_WIDTH,
     row_height=ROW_HEIGHT,
+    svg_size=SVG_SIZE,
     font_size=FONT_SIZE,
     output_file=None,
 ):
@@ -552,6 +553,8 @@ def makeBillOfMaterialSVG(
         ),
     )
 
+    svg_output = getBOMonSheet(svg_output, svg_size, bom_width, bom_height)
+
     if output_file:
         try:
             with open(output_file, "w") as svg_output_file:
@@ -559,3 +562,41 @@ def makeBillOfMaterialSVG(
         except:
             print("Error writing svg to file " + svg_output_file)
     return svg_output
+
+
+def getBOMonSheet(bom_svg, svg_size, bom_width, bom_height):
+    if not svg_size:
+        return bom_svg
+    else:
+        svg_width = 0
+        svg_height = 0
+        try:
+            svg_width = float(svg_size.split("x")[0].strip())
+            svg_height = float(svg_size.split("x")[1].strip())
+        except:
+            print(
+                "Unable to parse svg size to get weight and height.\n"
+                "Expected format: widthxheight"
+            )
+            return bom_svg
+
+        if svg_width == bom_width and svg_height == bom_height:
+            return bom_svg
+
+        bom_svg = bom_svg.replace(
+            '<svg width="{width}mm" height="{height}mm" '
+            'viewBox="0 0 {width} {height}"'.format(
+                width=bom_width, height=bom_height
+            ),
+            '<svg width="{width}mm" height="{height}mm" '
+            'viewBox="0 0 {width} {height}"'.format(
+                width=svg_width, height=svg_height
+            ),
+        )
+
+        bom_svg = bom_svg.replace(
+            '<g id="BOM"',
+            '<g id="BOM" transform="scale({})"'.format(svg_width / bom_width),
+        )
+
+        return bom_svg
