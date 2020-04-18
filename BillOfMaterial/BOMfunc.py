@@ -30,6 +30,8 @@ import FreeCAD
 
 
 def getMarkReinforcementsDict():
+    """Returns dictionary with mark as key and corresponding reinforcement
+    objects list as value from active document."""
     # Get Part::FeaturePython objects list
     objects_list = FreeCAD.ActiveDocument.findObjects("Part::FeaturePython")
 
@@ -52,6 +54,12 @@ def getMarkReinforcementsDict():
 
 
 def getUniqueDiameterList(mark_reinforcements_dict):
+    """getUniqueDiameterList(MarkReinforcementDict):
+    MarkReinforcementsDict is a dictionary with mark as key and corresponding
+    reinforcement objects list as value.
+
+    Returns list of unique diameters of reinforcement objects.
+    """
     diameter_list = []
     for _, reinforcement_list in mark_reinforcements_dict.items():
         diameter = reinforcement_list[0].BaseRebar.Diameter
@@ -96,5 +104,7 @@ def getRebarSharpEdgedLength(rebar):
             rebar_length += geo.length()
         return FreeCAD.Units.Quantity(str(rebar_length) + "mm")
     else:
-        print("Cannot calculate rebar length from its base object")
+        FreeCAD.Console.PrintError(
+            "Cannot calculate rebar length from its base object\n"
+        )
         return FreeCAD.Units.Quantity("0 mm")

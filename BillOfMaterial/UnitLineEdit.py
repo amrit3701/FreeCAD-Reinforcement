@@ -45,5 +45,5 @@ class UnitLineEdit(QtWidgets.QLineEdit):
         try:
             FreeCAD.Units.Quantity(self.text())
             return True
-        except:
+        except ValueError:
             return False

@@ -103,6 +103,23 @@ def addDiameterHeader(dia, diameter_list, column_headers, spreadsheet):
 
 
 def getHeaderColumn(column_headers, diameter_list, column_header):
+    """getHeaderColumn(ColumnHeadersConfig, DiameterList, ColumnHeader):
+    column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
+    "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
+    its sequence number.
+    e.g. {
+            "Mark": ("Mark", 1),
+            "RebarsCount": ("No. of Rebars", 2),
+            "Diameter": ("Diameter in mm", 3),
+            "RebarLength": ("Length in m/piece", 4),
+            "RebarsTotalLength": ("Total Length in m", 5),
+        }
+
+    column_header is the key from dictionary column_headers for which we need to
+    find its column in spreadsheet.
+
+    Returns column corresponding to column_header.
+    """
     seq = column_headers[column_header][1]
     if "RebarsTotalLength" in column_headers:
         if column_headers["RebarsTotalLength"][1] < seq:
@@ -110,8 +127,8 @@ def getHeaderColumn(column_headers, diameter_list, column_header):
                 seq += len(diameter_list)
             else:
                 seq += len(diameter_list) - 1
-    header = chr(ord("A") + seq - 1)
-    return header
+    column = chr(ord("A") + seq - 1)
+    return column
 
 
 def makeBillOfMaterial(
@@ -157,6 +174,8 @@ def makeBillOfMaterial(
          }
 
     rebar_length_type can be "RealLength" or "LengthWithSharpEdges".
+
+    Returns Bill Of Material spreadsheet object.
     """
     # Create new spreadsheet object
     bill_of_material = FreeCAD.ActiveDocument.addObject(
@@ -426,3 +445,4 @@ def makeBillOfMaterial(
 
     FreeCAD.ActiveDocument.recompute()
     print("WIP")
+    return bill_of_material

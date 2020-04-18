@@ -37,10 +37,7 @@ class StraightRebarTool:
                 'ToolTip' : QT_TRANSLATE_NOOP("RebarAddon", "Creates a Striaght bar reinforcement from the selected face of the Structural element.")}
 
     def IsActive(self):
-        if FreeCADGui.ActiveDocument:
-            return True
-        else:
-            return False
+        return True if FreeCADGui.activeDocument() else False
 
     def Activated(self):
         import StraightRebar
@@ -55,10 +52,7 @@ class UShapeRebarTool:
                 'ToolTip' : QT_TRANSLATE_NOOP("RebarAddon", "Creates a U-Shape bar reinforcement from the selected face of the Structural element.")}
 
     def IsActive(self):
-        if FreeCADGui.ActiveDocument:
-            return True
-        else:
-            return False
+        return True if FreeCADGui.activeDocument() else False
 
     def Activated(self):
         import UShapeRebar
@@ -73,10 +67,7 @@ class LShapeRebarTool:
                 'ToolTip' : QT_TRANSLATE_NOOP("RebarAddon", "Creates a L-Shape bar reinforcement from the selected face of the Structural element.")}
 
     def IsActive(self):
-        if FreeCADGui.ActiveDocument:
-            return True
-        else:
-            return False
+        return True if FreeCADGui.activeDocument() else False
 
     def Activated(self):
         import LShapeRebar
@@ -91,10 +82,7 @@ class StirrupTool:
                 'ToolTip' : QT_TRANSLATE_NOOP("RebarAddon", "Creates a Stirrup bar reinforcement from the selected face of the Structural element.")}
 
     def IsActive(self):
-        if FreeCADGui.ActiveDocument:
-            return True
-        else:
-            return False
+        return True if FreeCADGui.activeDocument() else False
 
     def Activated(self):
         import Stirrup
@@ -109,10 +97,7 @@ class BentShapeRebarTool:
                 'ToolTip' : QT_TRANSLATE_NOOP("RebarAddon", "Creates a BentShape bar reinforcement from the selected face of the Structural element.")}
 
     def IsActive(self):
-        if FreeCADGui.ActiveDocument:
-            return True
-        else:
-            return False
+        return True if FreeCADGui.activeDocument() else False
 
     def Activated(self):
         import BentShapeRebar
@@ -127,10 +112,7 @@ class HelicalRebarTool:
                 'ToolTip' : QT_TRANSLATE_NOOP("RebarAddon", "Creates a Helical bar reinforcement from the selected face of the Structural element.")}
 
     def IsActive(self):
-        if FreeCADGui.ActiveDocument:
-            return True
-        else:
-            return False
+        return True if FreeCADGui.activeDocument() else False
 
     def Activated(self):
         import HelicalRebar
@@ -152,10 +134,7 @@ class ColumnReinforcementTool:
         }
 
     def IsActive(self):
-        if FreeCADGui.ActiveDocument:
-            return True
-        else:
-            return False
+        return True if FreeCADGui.activeDocument() else False
 
     def Activated(self):
         from ColumnReinforcement import MainColumnReinforcement
@@ -178,10 +157,7 @@ class BeamReinforcementTool:
         }
 
     def IsActive(self):
-        if FreeCADGui.ActiveDocument:
-            return True
-        else:
-            return False
+        return True if FreeCADGui.activeDocument() else False
 
     def Activated(self):
         from BeamReinforcement import MainBeamReinforcement
@@ -204,10 +180,7 @@ class BillOfMaterialTool:
         }
 
     def IsActive(self):
-        if FreeCADGui.ActiveDocument:
-            return True
-        else:
-            return False
+        return True if FreeCADGui.activeDocument() else False
 
     def Activated(self):
         from BillOfMaterial import MainBillOfMaterial

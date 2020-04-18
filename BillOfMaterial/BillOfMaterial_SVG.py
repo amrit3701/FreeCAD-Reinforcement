@@ -26,11 +26,32 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
+import FreeCAD
+
 from .BOMfunc import *
 from .config import *
 
 
 def getColumnOffset(column_headers, diameter_list, column_header, column_width):
+    """getColumnOffset(ColumnHeadersConfig, DiameterList, ColumnHeader,
+    ColumnWidth):
+    column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
+    "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
+    its sequence number.
+    e.g. {
+            "Mark": ("Mark", 1),
+            "RebarsCount": ("No. of Rebars", 2),
+            "Diameter": ("Diameter in mm", 3),
+            "RebarLength": ("Length in m/piece", 4),
+            "RebarsTotalLength": ("Total Length in m", 5),
+        }
+
+    column_header is the key from dictionary column_headers for which we need to
+    find its left offset in SVG.
+    column_width is the width of each column in svg.
+
+    Returns left offset of column in svg.
+    """
     seq = column_headers[column_header][1]
     if "RebarsTotalLength" in column_headers:
         if column_headers["RebarsTotalLength"][1] < seq:
@@ -41,6 +62,7 @@ def getColumnOffset(column_headers, diameter_list, column_header, column_width):
 
 
 def getSVGHead():
+    """Returns svg start tag with freecad namespace."""
     head = """<svg
     xmlns="http://www.w3.org/2000/svg" version="1.1"
     xmlns:freecad="http://www.freecadweb.org/wiki/index.php?title=Svg_Namespace">
@@ -51,6 +73,11 @@ def getSVGHead():
 
 
 def getSVGDataCell(column_offset, row_offset, width, height, data, font_size):
+    """getSVGDataCell(ColumnOffset, RowOffset, CellWidth, CellHeight, Data,
+    FontSize):
+    Returns svg code for rectangular cell with filled data and required
+    pleacement of cell.
+    """
     data_cell_svg = ""
     data_cell_svg += (
         '<rect x="{}" y="{}" width="{}" height="{}" '
@@ -69,6 +96,21 @@ def getSVGDataCell(column_offset, row_offset, width, height, data, font_size):
 def getColumnHeadersSVG(
     column_headers, diameter_list, column_width, row_height, font_size
 ):
+    """getColumnHeadersSVG(ColumnHeaders, DiameterList, ColumnWidth, RowHeight,
+    FontSize):
+    column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
+    "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
+    its sequence number.
+    e.g. {
+            "Mark": ("Mark", 1),
+            "RebarsCount": ("No. of Rebars", 2),
+            "Diameter": ("Diameter in mm", 3),
+            "RebarLength": ("Length in m/piece", 4),
+            "RebarsTotalLength": ("Total Length in m", 5),
+        }
+
+    Returns svg code for column headers.
+    """
     # Delete hidden headers
     column_headers = {
         column_header: column_header_tuple
@@ -122,6 +164,49 @@ def getColumnHeadersSVG(
     return header_svg
 
 
+def getBOMonSheet(bom_svg, svg_size, bom_width, bom_height):
+    """getBOMonSheet(BillOfMaterialSVG, SVGSize, BOMWidth, BOMHeight):
+    svg_size is the size of svg sheet as widthxheight in mm.
+
+    Returns svg setting BOM to fit svg size.
+    """
+    if not svg_size:
+        return bom_svg
+    else:
+        svg_width = 0
+        svg_height = 0
+        try:
+            svg_width = float(svg_size.split("x")[0].strip())
+            svg_height = float(svg_size.split("x")[1].strip())
+        except:
+            FreeCAD.Console.PrintError(
+                "Unable to parse svg size to get weight and height.\n"
+                "Expected format: widthxheight\n"
+            )
+            return bom_svg
+
+        if svg_width == bom_width and svg_height == bom_height:
+            return bom_svg
+
+        bom_svg = bom_svg.replace(
+            '<svg width="{width}mm" height="{height}mm" '
+            'viewBox="0 0 {width} {height}"'.format(
+                width=bom_width, height=bom_height
+            ),
+            '<svg width="{width}mm" height="{height}mm" '
+            'viewBox="0 0 {width} {height}"'.format(
+                width=svg_width, height=svg_height
+            ),
+        )
+
+        bom_svg = bom_svg.replace(
+            '<g id="BOM"',
+            '<g id="BOM" transform="scale({})"'.format(svg_width / bom_width),
+        )
+
+        return bom_svg
+
+
 def makeBillOfMaterialSVG(
     column_headers=COLUMN_HEADERS,
     column_units=COLUMN_UNITS,
@@ -132,6 +217,44 @@ def makeBillOfMaterialSVG(
     font_size=FONT_SIZE,
     output_file=None,
 ):
+    """makeBillOfMaterialSVG(ColumnHeaders, ColumnUnits, RebarLengthType,
+    ColumnWidth, RowHeight, SVGSize, FontSize, OutputFile):
+    Generates the Rebars Material Bill.
+
+    column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
+    "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
+    its sequence number.
+    e.g. {
+            "Mark": ("Mark", 1),
+            "RebarsCount": ("No. of Rebars", 2),
+            "Diameter": ("Diameter in mm", 3),
+            "RebarLength": ("Length in m/piece", 4),
+            "RebarsTotalLength": ("Total Length in m", 5),
+        }
+    set column sequence number to 0 to hide column.
+
+    column_units is a dictionary with keys: "Diameter", "RebarLength",
+    "RebarsTotalLength" and their corresponding units as value.
+    e.g. {
+            "Diameter": "mm",
+            "RebarLength": "m",
+            "RebarsTotalLength": "m",
+         }
+
+    dia_weight_map is a dictionary with diameter as key and corresponding weight
+    (kg/m) as value.
+    e.g. {
+            6: FreeCAD.Units.Quantity("0.222 kg/m"),
+            8: FreeCAD.Units.Quantity("0.395 kg/m"),
+            10: FreeCAD.Units.Quantity("0.617 kg/m"),
+            12: FreeCAD.Units.Quantity("0.888 kg/m"),
+            ...,
+         }
+
+    rebar_length_type can be "RealLength" or "LengthWithSharpEdges".
+
+    Returns Bill Of Material svg code.
+    """
     head = getSVGHead()
     svg_output = head
 
@@ -560,43 +683,7 @@ def makeBillOfMaterialSVG(
             with open(output_file, "w") as svg_output_file:
                 svg_output_file.write(svg_output)
         except:
-            print("Error writing svg to file " + svg_output_file)
-    return svg_output
-
-
-def getBOMonSheet(bom_svg, svg_size, bom_width, bom_height):
-    if not svg_size:
-        return bom_svg
-    else:
-        svg_width = 0
-        svg_height = 0
-        try:
-            svg_width = float(svg_size.split("x")[0].strip())
-            svg_height = float(svg_size.split("x")[1].strip())
-        except:
-            print(
-                "Unable to parse svg size to get weight and height.\n"
-                "Expected format: widthxheight"
+            FreeCAD.Console.PrintError(
+                "Error writing svg to file " + svg_output_file + "\n"
             )
-            return bom_svg
-
-        if svg_width == bom_width and svg_height == bom_height:
-            return bom_svg
-
-        bom_svg = bom_svg.replace(
-            '<svg width="{width}mm" height="{height}mm" '
-            'viewBox="0 0 {width} {height}"'.format(
-                width=bom_width, height=bom_height
-            ),
-            '<svg width="{width}mm" height="{height}mm" '
-            'viewBox="0 0 {width} {height}"'.format(
-                width=svg_width, height=svg_height
-            ),
-        )
-
-        bom_svg = bom_svg.replace(
-            '<g id="BOM"',
-            '<g id="BOM" transform="scale({})"'.format(svg_width / bom_width),
-        )
-
-        return bom_svg
+    return svg_output

@@ -38,6 +38,8 @@ from .config import *
 
 
 class _BillOfMaterialDialog:
+    """This is a class for Bill Of Material dialog box."""
+
     def __init__(self, column_headers, column_units, rebar_length_type):
         """This function set initial data in Bill of Material dialog box."""
         self.column_headers_data = column_headers
@@ -159,6 +161,8 @@ class _BillOfMaterialDialog:
         self.form.close()
 
     def saveSVG(self, svg_string):
+        """This function save svg output in file chosen from a file dialog box.
+        """
         import FreeCAD
 
         path = FreeCAD.ConfigGet("UserAppData")
