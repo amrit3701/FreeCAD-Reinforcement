@@ -25,8 +25,14 @@ __title__ = "UShapeRebar"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
-from PySide import QtCore, QtGui
-from Rebarfunc import *
+from PySide import QtGui
+from Rebarfunc import (
+    getSelectedFace,
+    getFaceNumber,
+    getParametersOfFace,
+    showWarning,
+    check_selected_face,
+)
 from PySide.QtCore import QT_TRANSLATE_NOOP
 from RebarDistribution import runRebarDistribution, removeRebarDistribution
 from PopUpImage import showPopUpImageDialog
@@ -34,8 +40,6 @@ import FreeCAD
 import FreeCADGui
 import ArchCommands
 import os
-import sys
-import math
 
 
 def getpointsOfUShapeRebar(
@@ -351,7 +355,6 @@ def makeUShapeRebar(
     FreeCAD.ActiveDocument.recompute()
     sketch.addGeometry(Part.LineSegment(points[0], points[1]), False)
     sketch.addGeometry(Part.LineSegment(points[1], points[2]), False)
-    import Sketcher
 
     sketch.addGeometry(Part.LineSegment(points[2], points[3]), False)
     if amount_spacing_check:

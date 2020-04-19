@@ -25,14 +25,12 @@ __title__ = "DialogDistribution"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
-from PySide import QtCore, QtGui
-from Rebarfunc import *
-from PySide.QtCore import QT_TRANSLATE_NOOP
+from PySide import QtGui
+from Rebarfunc import getFaceNumber
 import FreeCAD
 import FreeCADGui
 import ArchCommands
 import os
-import sys
 import math
 
 
@@ -136,7 +134,7 @@ def getupleOfCustomSpacing(span_string):
 
 
 def runRebarDistribution(self, frontCover=None):
-    if frontCover == None:
+    if frontCover is None:
         frontCover = self.form.frontCover.text()
         frontCover = FreeCAD.Units.Quantity(frontCover).Value
     face = self.SelectedObj.Shape.Faces[getFaceNumber(self.FaceName) - 1]

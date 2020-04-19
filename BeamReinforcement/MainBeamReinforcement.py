@@ -216,7 +216,8 @@ class _BeamReinforcementDialog:
             "(('LShapeRebar', 'LShapeRebar', 'LShapeRebar'), ('LShapeRebar',))"
         )
         self.top_reinforcement_widget.hookOrientation.setPlainText(
-            "(('Rear Outside', 'Rear Outside', 'Rear Outside'), ('Rear Outside',))"
+            "(('Rear Outside', 'Rear Outside', 'Rear Outside'), "
+            "('Rear Outside',))"
         )
         self.top_reinforcement_widget.hookExtension.setPlainText(
             "((100.0, 100.0, 100.0), (100.0,))"
@@ -234,7 +235,8 @@ class _BeamReinforcementDialog:
             "(('LShapeRebar', 'LShapeRebar', 'LShapeRebar'), ('LShapeRebar',))"
         )
         self.bottom_reinforcement_widget.hookOrientation.setPlainText(
-            "(('Rear Outside', 'Rear Outside', 'Rear Outside'), ('Rear Outside',))"
+            "(('Rear Outside', 'Rear Outside', 'Rear Outside'), "
+            "('Rear Outside',))"
         )
         self.bottom_reinforcement_widget.hookExtension.setPlainText(
             "((100.0, 100.0, 100.0), (100.0,))"
@@ -679,7 +681,7 @@ class _BeamReinforcementDialog:
                         if rebar_type_tuple[layer - 1][i] == "StraightRebar":
                             hook_orientation_list[-1].append(None)
                         else:
-                            if hook_orientation_tuple[layer - 1][i] == None:
+                            if hook_orientation_tuple[layer - 1][i] is None:
                                 hook_orientation_list[-1].append("Front Inside")
                             else:
                                 hook_orientation_list[-1].append(
@@ -716,7 +718,7 @@ class _BeamReinforcementDialog:
                         if rebar_type_tuple[layer - 1][i] == "StraightRebar":
                             hook_extension_list[-1].append(None)
                         else:
-                            if hook_extension_tuple[layer - 1][i] == None:
+                            if hook_extension_tuple[layer - 1][i] is None:
                                 hook_extension_list[-1].append(40.0)
                             else:
                                 hook_extension_list[-1].append(
@@ -750,7 +752,7 @@ class _BeamReinforcementDialog:
                         if rebar_type_tuple[layer - 1][i] == "StraightRebar":
                             rounding_list[-1].append(None)
                         else:
-                            if rounding_tuple[layer - 1][i] == None:
+                            if rounding_tuple[layer - 1][i] is None:
                                 rounding_list[-1].append(2)
                             else:
                                 rounding_list[-1].append(
@@ -1354,7 +1356,7 @@ class _BeamReinforcementDialog:
                 if rebar_type_tuple[i] == "StraightRebar":
                     hook_orientation_list.append(None)
                 else:
-                    if hook_orientation_tuple[i] == None:
+                    if hook_orientation_tuple[i] is None:
                         hook_orientation_list.append("Front Inside")
                     else:
                         hook_orientation_list.append(hook_orientation_tuple[i])
@@ -1375,7 +1377,7 @@ class _BeamReinforcementDialog:
                 if rebar_type_tuple[i] == "StraightRebar":
                     hook_extension_list.append(None)
                 else:
-                    if hook_extension_tuple[i] == None:
+                    if hook_extension_tuple[i] is None:
                         hook_extension_list.append(40.0)
                     else:
                         hook_extension_list.append(hook_extension_tuple[i])
@@ -1393,7 +1395,7 @@ class _BeamReinforcementDialog:
                 if rebar_type_tuple[i] == "StraightRebar":
                     rounding_list.append(None)
                 else:
-                    if rounding_tuple[i] == None:
+                    if rounding_tuple[i] is None:
                         rounding_list.append(2)
                     else:
                         rounding_list.append(rounding_tuple[i])

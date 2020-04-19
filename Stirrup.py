@@ -25,8 +25,16 @@ __title__ = "StirrupRebar"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
-from PySide import QtCore, QtGui
-from Rebarfunc import *
+from PySide import QtGui
+from Rebarfunc import (
+    getSelectedFace,
+    getFaceNumber,
+    getParametersOfFace,
+    showWarning,
+    check_selected_face,
+    extendedTangentLength,
+    extendedTangentPartLength,
+)
 from PySide.QtCore import QT_TRANSLATE_NOOP
 from RebarDistribution import runRebarDistribution, removeRebarDistribution
 from PopUpImage import showPopUpImageDialog
@@ -34,7 +42,6 @@ import FreeCAD
 import FreeCADGui
 import ArchCommands
 import os
-import sys
 import math
 
 

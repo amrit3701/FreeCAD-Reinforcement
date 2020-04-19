@@ -26,11 +26,8 @@ __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
 
-from PySide import QtCore
 from PySide import QtGui
 from PySide import QtSvg
-import FreeCADGui
-import os
 
 
 class PopUpImage(QtGui.QDialog):

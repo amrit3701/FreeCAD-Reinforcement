@@ -25,8 +25,14 @@ __title__ = "BentShapeRebar"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
-from PySide import QtCore, QtGui
-from Rebarfunc import *
+from PySide import QtGui
+from Rebarfunc import (
+    getSelectedFace,
+    getFaceNumber,
+    getParametersOfFace,
+    showWarning,
+    check_selected_face,
+)
 from PySide.QtCore import QT_TRANSLATE_NOOP
 from RebarDistribution import runRebarDistribution, removeRebarDistribution
 from PopUpImage import showPopUpImageDialog
@@ -34,7 +40,6 @@ import FreeCAD
 import FreeCADGui
 import ArchCommands
 import os
-import sys
 import math
 
 
@@ -165,9 +170,9 @@ class _BentShapeRebarTaskPanel:
         self.form.PickSelectedFace.clicked.connect(
             lambda: getSelectedFace(self)
         )
-        self.form.orientationValue.currentIndexChanged.connect(
-            self.getOrientation
-        )
+        # self.form.orientationValue.currentIndexChanged.connect(
+        #     self.getOrientation
+        # )
         self.form.image.setPixmap(
             QtGui.QPixmap(
                 os.path.split(os.path.abspath(__file__))[0]
@@ -187,36 +192,36 @@ class _BentShapeRebarTaskPanel:
         )
         self.Rebar = Rebar
 
-    def getOrientation(self):
-        orientation = self.form.orientationValue.currentText()
-        # if orientation == "Bottom":
-        #     self.form.image.setPixmap(
-        #         QtGui.QPixmap(
-        #             os.path.split(os.path.abspath(__file__))[0]
-        #             + "/icons/LShapeRebarBR.svg"
-        #         )
-        #     )
-        # elif orientation == "Top":
-        #     self.form.image.setPixmap(
-        #         QtGui.QPixmap(
-        #             os.path.split(os.path.abspath(__file__))[0]
-        #             + "/icons/LShapeRebarBL.svg"
-        #         )
-        #     )
-        # elif orientation == "Right":
-        #     self.form.image.setPixmap(
-        #         QtGui.QPixmap(
-        #             os.path.split(os.path.abspath(__file__))[0]
-        #             + "/icons/LShapeRebarTR.svg"
-        #         )
-        #     )
-        # else:
-        #     self.form.image.setPixmap(
-        #         QtGui.QPixmap(
-        #             os.path.split(os.path.abspath(__file__))[0]
-        #             + "/icons/LShapeRebarTL.svg"
-        #         )
-        #     )
+    # def getOrientation(self):
+    # orientation = self.form.orientationValue.currentText()
+    # if orientation == "Bottom":
+    #     self.form.image.setPixmap(
+    #         QtGui.QPixmap(
+    #             os.path.split(os.path.abspath(__file__))[0]
+    #             + "/icons/LShapeRebarBR.svg"
+    #         )
+    #     )
+    # elif orientation == "Top":
+    #     self.form.image.setPixmap(
+    #         QtGui.QPixmap(
+    #             os.path.split(os.path.abspath(__file__))[0]
+    #             + "/icons/LShapeRebarBL.svg"
+    #         )
+    #     )
+    # elif orientation == "Right":
+    #     self.form.image.setPixmap(
+    #         QtGui.QPixmap(
+    #             os.path.split(os.path.abspath(__file__))[0]
+    #             + "/icons/LShapeRebarTR.svg"
+    #         )
+    #     )
+    # else:
+    #     self.form.image.setPixmap(
+    #         QtGui.QPixmap(
+    #             os.path.split(os.path.abspath(__file__))[0]
+    #             + "/icons/LShapeRebarTL.svg"
+    #         )
+    #     )
 
     def getStandardButtons(self):
         return (
@@ -366,7 +371,8 @@ def makeBentShapeRebar(
     AmountSpacingValue, Orientation, Structure, Facename):
     Adds the Bent-Shape reinforcement bar to the selected structural object.
 
-    It takes four different orientations input i.e. 'Bottom', 'Top', 'Left', 'Right'.
+    It takes four different orientations input i.e. 'Bottom', 'Top', 'Left',
+    'Right'.
     """
     if not structure and not facename:
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
@@ -407,7 +413,6 @@ def makeBentShapeRebar(
     sketch.addGeometry(Part.LineSegment(points[2], points[3]), False)
     sketch.addGeometry(Part.LineSegment(points[3], points[4]), False)
     sketch.addGeometry(Part.LineSegment(points[4], points[5]), False)
-    import Sketcher
 
     if amount_spacing_check:
         rebar = Arch.makeRebar(

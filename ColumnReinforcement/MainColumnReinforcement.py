@@ -1073,7 +1073,6 @@ def editDialog(vobj):
         showWarning("Nothing to edit. You have deleted all rebar groups.")
         return
     ties_group = None
-    helical_rebar_group = None
     for i, rebar_group in enumerate(vobj.Object.RebarGroups):
         if vobj.Object.ColumnType == "RectangularColumn":
             # Check if ties group exists
@@ -1099,7 +1098,6 @@ def editDialog(vobj):
             if hasattr(rebar_group, "HelicalRebars"):
                 # Check if helical_rebar exists
                 if len(rebar_group.HelicalRebars) > 0:
-                    helical_rebar_group = rebar_group
                     break
                 else:
                     showWarning(

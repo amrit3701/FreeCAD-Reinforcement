@@ -25,15 +25,22 @@ __title__ = "HelicalRebar"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
-from PySide import QtCore, QtGui
-from Rebarfunc import *
+from PySide import QtGui
+from Rebarfunc import (
+    getSelectedFace,
+    getFaceNumber,
+    getParametersOfFace,
+    showWarning,
+    check_selected_face,
+    facenormalDirection,
+)
 from PySide.QtCore import QT_TRANSLATE_NOOP
 from PopUpImage import showPopUpImageDialog
 import FreeCAD
 import FreeCADGui
 import ArchCommands
+from DraftTools import translate
 import os
-import sys
 import math
 
 
@@ -49,7 +56,6 @@ def getpointsOfHelicalRebar(
     points = []
     if direction[2] in {-1, 1}:
         z = 0
-        l = 0
         if direction[2] == 1:
             zz = FacePRM[1][2] - t_cover
         elif direction[2] == -1:
@@ -93,7 +99,6 @@ def createHelicalWire(
     b_cover += diameter / 2
     t_cover += diameter / 2
     s_cover += diameter / 2
-    import Part
 
     if not helix:
         helix = FreeCAD.ActiveDocument.addObject("Part::Helix", "Helix")
@@ -364,7 +369,7 @@ def editHelicalRebar(
     ).Length
     normal = face.normalAt(0, 0)
     # normal = face.Placement.Rotation.inverted().multVec(normal)
-    helix = createHelicalWire(
+    createHelicalWire(
         FacePRM,
         s_cover,
         b_cover,

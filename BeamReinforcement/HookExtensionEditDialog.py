@@ -55,7 +55,7 @@ class _HookExtensionEditDialog:
             self.addLayer()
             for i in range(0, sets_count_list[layer - 1]):
                 self.addSet()
-                if self.HookExtensionTuple[layer - 1][i] == None:
+                if self.HookExtensionTuple[layer - 1][i] is None:
                     self.HookExtensionInputFieldList[layer - 1][i].setText(
                         "40 mm"
                     )

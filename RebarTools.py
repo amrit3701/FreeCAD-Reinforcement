@@ -28,7 +28,6 @@ __url__ = "https://www.freecadweb.org"
 from PySide.QtCore import QT_TRANSLATE_NOOP
 import FreeCADGui
 import os
-from DraftTools import translate
 
 
 class StraightRebarTool:
