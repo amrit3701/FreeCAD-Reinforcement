@@ -36,7 +36,10 @@ import os
 import sys
 import math
 
-def getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover, pitch, edges, diameter, size, direction):
+
+def getpointsOfHelicalRebar(
+    FacePRM, s_cover, b_cover, t_cover, pitch, edges, diameter, size, direction
+):
     """ getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover):
     Return points of the LShape rebar in the form of array for sketch."""
     dx = s_cover + diameter / 2
@@ -44,7 +47,7 @@ def getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover, pitch, edges, di
     R = diameter / 2 - dx
     R = FacePRM[0][0] / 2 - s_cover
     points = []
-    if direction[2] in {-1,1}:
+    if direction[2] in {-1, 1}:
         z = 0
         l = 0
         if direction[2] == 1:
@@ -53,7 +56,7 @@ def getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover, pitch, edges, di
             zz = FacePRM[1][2] + b_cover
         count = 0
         flag = False
-        while (round(z) < abs(size - b_cover - t_cover)):
+        while round(z) < abs(size - b_cover - t_cover):
             for i in range(0, int(edges) + 1):
                 if not i and flag:
                     continue
@@ -61,8 +64,8 @@ def getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover, pitch, edges, di
                     z -= dz
                     flag = True
                 iAngle = i * 360 / edges
-                x =  FacePRM[1][0] + R * math.cos(math.radians(iAngle))
-                y =  FacePRM[1][1] + R * math.sin(math.radians(iAngle))
+                x = FacePRM[1][0] + R * math.cos(math.radians(iAngle))
+                y = FacePRM[1][1] + R * math.sin(math.radians(iAngle))
                 points.append(FreeCAD.Vector(x, y, zz))
                 count += 1
                 if direction[2] == 1:
@@ -72,62 +75,122 @@ def getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover, pitch, edges, di
                 z += dz
     return points
 
-def createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, direction, diameter, helix = None):
-    """ createHelicalWire(FacePRM, SideCover, BottomCover, TopCover, Pitch, Size, Direction, Diameter, Helix = None):
+
+def createHelicalWire(
+    FacePRM,
+    s_cover,
+    b_cover,
+    t_cover,
+    pitch,
+    size,
+    direction,
+    diameter,
+    helix=None,
+):
+    """ createHelicalWire(FacePRM, SideCover, BottomCover, TopCover, Pitch,
+    Size, Direction, Diameter, Helix = None):
     It creates a helical wire."""
     b_cover += diameter / 2
     t_cover += diameter / 2
     s_cover += diameter / 2
     import Part
+
     if not helix:
-        helix = FreeCAD.ActiveDocument.addObject("Part::Helix","Helix")
+        helix = FreeCAD.ActiveDocument.addObject("Part::Helix", "Helix")
     helix.Pitch = pitch
     helix.Radius = FacePRM[0][0] / 2 - s_cover
     helix.Angle = 0
     helix.LocalCoord = 0
     helix.Height = size - b_cover - t_cover
     if round(direction.x) == 1:
-        helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0] - b_cover, FacePRM[1][1], FacePRM[1][2])
-        helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, -1, 0), 90)
+        helix.Placement.Base = FreeCAD.Vector(
+            FacePRM[1][0] - b_cover, FacePRM[1][1], FacePRM[1][2]
+        )
+        helix.Placement.Rotation = FreeCAD.Rotation(
+            FreeCAD.Vector(0, -1, 0), 90
+        )
     elif round(direction.x) == -1:
-        helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0] + t_cover, FacePRM[1][1], FacePRM[1][2])
-        helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, -1, 0), -90)
+        helix.Placement.Base = FreeCAD.Vector(
+            FacePRM[1][0] + t_cover, FacePRM[1][1], FacePRM[1][2]
+        )
+        helix.Placement.Rotation = FreeCAD.Rotation(
+            FreeCAD.Vector(0, -1, 0), -90
+        )
     elif round(direction.y) == 1:
-        helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1] - b_cover, FacePRM[1][2])
+        helix.Placement.Base = FreeCAD.Vector(
+            FacePRM[1][0], FacePRM[1][1] - b_cover, FacePRM[1][2]
+        )
         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(1, 0, 0), 90)
     elif round(direction.y) == -1:
-        helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1] + t_cover, FacePRM[1][2])
-        helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(-1, 0, 0), 90)
+        helix.Placement.Base = FreeCAD.Vector(
+            FacePRM[1][0], FacePRM[1][1] + t_cover, FacePRM[1][2]
+        )
+        helix.Placement.Rotation = FreeCAD.Rotation(
+            FreeCAD.Vector(-1, 0, 0), 90
+        )
     elif round(direction.z) == 1:
-        helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1], FacePRM[1][2] - size + b_cover)
+        helix.Placement.Base = FreeCAD.Vector(
+            FacePRM[1][0], FacePRM[1][1], FacePRM[1][2] - size + b_cover
+        )
         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, 0, 1), 0)
     elif round(direction.z) == -1:
-        helix.Placement.Base = FreeCAD.Vector(FacePRM[1][0], FacePRM[1][1], FacePRM[1][2] + b_cover)
+        helix.Placement.Base = FreeCAD.Vector(
+            FacePRM[1][0], FacePRM[1][1], FacePRM[1][2] + b_cover
+        )
         helix.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, 0, -1), 0)
     FreeCAD.ActiveDocument.recompute()
     return helix
 
+
 class _HelicalRebarTaskPanel:
-    def __init__(self, Rebar = None):
-        self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
-        self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Helical Rebar", None))
+    def __init__(self, Rebar=None):
+        self.form = FreeCADGui.PySideUic.loadUi(
+            os.path.splitext(__file__)[0] + ".ui"
+        )
+        self.form.setWindowTitle(
+            QtGui.QApplication.translate("Arch", "Helical Rebar", None)
+        )
         if not Rebar:
             normal = facenormalDirection()
         else:
-            normal = facenormalDirection(Rebar.Base.Support[0][0], Rebar.Base.Support[0][1][0])
+            normal = facenormalDirection(
+                Rebar.Base.Support[0][0], Rebar.Base.Support[0][1][0]
+            )
         if not round(normal.z) in {1, -1}:
-            self.form.topCoverLabel.setText(translate("RebarAddon", "Left Cover"))
-            self.form.bottomCoverLabel.setText(translate("RebarAddon", "Right Cover"))
+            self.form.topCoverLabel.setText(
+                translate("RebarAddon", "Left Cover")
+            )
+            self.form.bottomCoverLabel.setText(
+                translate("RebarAddon", "Right Cover")
+            )
         self.form.PickSelectedFace.clicked.connect(self.getSelectedFace)
-        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/HelicalRebar.svg"))
-        self.form.toolButton.clicked.connect(lambda: showPopUpImageDialog(os.path.split(os.path.abspath(__file__))[0] + "/icons/HelicalRebarDetailed.svg"))
-        # self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(QtGui.QStyle.SP_DialogHelpButton))
+        self.form.image.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.abspath(__file__))[0]
+                + "/icons/HelicalRebar.svg"
+            )
+        )
+        self.form.toolButton.clicked.connect(
+            lambda: showPopUpImageDialog(
+                os.path.split(os.path.abspath(__file__))[0]
+                + "/icons/HelicalRebarDetailed.svg"
+            )
+        )
+        # self.form.toolButton.setIcon(
+        #     self.form.toolButton.style().standardIcon(
+        #         QtGui.QStyle.SP_DialogHelpButton
+        #     )
+        # )
         self.Rebar = Rebar
         self.SelectedObj = None
         self.FaceName = None
 
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Apply) | int(QtGui.QDialogButtonBox.Cancel)
+        return (
+            int(QtGui.QDialogButtonBox.Ok)
+            | int(QtGui.QDialogButtonBox.Apply)
+            | int(QtGui.QDialogButtonBox.Cancel)
+        )
 
     def clicked(self, button):
         if button == int(QtGui.QDialogButtonBox.Apply):
@@ -137,14 +200,21 @@ class _HelicalRebarTaskPanel:
         getSelectedFace(self)
         normal = facenormalDirection()
         if not round(normal.z) in {1, -1}:
-            self.form.topCoverLabel.setText(translate("RebarAddon", "Left Cover"))
-            self.form.bottomCoverLabel.setText(translate("RebarAddon", "Right Cover"))
+            self.form.topCoverLabel.setText(
+                translate("RebarAddon", "Left Cover")
+            )
+            self.form.bottomCoverLabel.setText(
+                translate("RebarAddon", "Right Cover")
+            )
         else:
-            self.form.topCoverLabel.setText(translate("RebarAddon", "Top Cover"))
-            self.form.bottomCoverLabel.setText(translate("RebarAddon", "Bottom Cover"))
+            self.form.topCoverLabel.setText(
+                translate("RebarAddon", "Top Cover")
+            )
+            self.form.bottomCoverLabel.setText(
+                translate("RebarAddon", "Bottom Cover")
+            )
 
-
-    def accept(self, signal = None):
+    def accept(self, signal=None):
         b_cover = self.form.bottomCover.text()
         b_cover = FreeCAD.Units.Quantity(b_cover).Value
         s_cover = self.form.sideCover.text()
@@ -156,72 +226,155 @@ class _HelicalRebarTaskPanel:
         diameter = self.form.diameter.text()
         diameter = FreeCAD.Units.Quantity(diameter).Value
         if not self.Rebar:
-            rebar = makeHelicalRebar(s_cover, b_cover, diameter, t_cover, pitch, self.SelectedObj, self.FaceName)
+            rebar = makeHelicalRebar(
+                s_cover,
+                b_cover,
+                diameter,
+                t_cover,
+                pitch,
+                self.SelectedObj,
+                self.FaceName,
+            )
         else:
-            rebar = editHelicalRebar(self.Rebar, s_cover, b_cover, diameter, t_cover, pitch, self.SelectedObj, self.FaceName)
+            rebar = editHelicalRebar(
+                self.Rebar,
+                s_cover,
+                b_cover,
+                diameter,
+                t_cover,
+                pitch,
+                self.SelectedObj,
+                self.FaceName,
+            )
         self.Rebar = rebar
         if signal == int(QtGui.QDialogButtonBox.Apply):
             pass
         else:
             FreeCADGui.Control.closeDialog(self)
 
-def makeHelicalRebar(s_cover, b_cover, diameter, t_cover, pitch, structure = None, facename = None):
-    """ makeHelicalRebar(SideCover, BottomCover, Diameter, TopCover, Pitch, Structure, Facename):
+
+def makeHelicalRebar(
+    s_cover, b_cover, diameter, t_cover, pitch, structure=None, facename=None
+):
+    """ makeHelicalRebar(SideCover, BottomCover, Diameter, TopCover, Pitch,
+    Structure, Facename):
     Adds the Helical reinforcement bar to the selected structural object."""
     if not structure and not facename:
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
         structure = selected_obj.Object
         facename = selected_obj.SubElementNames[0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
-    #StructurePRM = getTrueParametersOfStructure(structure)
+    # StructurePRM = getTrueParametersOfStructure(structure)
     FacePRM = getParametersOfFace(structure, facename, False)
     if not FacePRM:
-        FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
+        FreeCAD.Console.PrintError(
+            "Cannot identified shape or from which base object sturctural "
+            "element is derived\n"
+        )
         return
-    size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
-    normal = face.normalAt(0,0)
-    #normal = face.Placement.Rotation.inverted().multVec(normal)
+    size = (
+        ArchCommands.projectToVector(
+            structure.Shape.copy(), face.normalAt(0, 0)
+        )
+    ).Length
+    normal = face.normalAt(0, 0)
+    # normal = face.Placement.Rotation.inverted().multVec(normal)
     import Arch
-    helix = createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, normal, diameter)
+
+    helix = createHelicalWire(
+        FacePRM, s_cover, b_cover, t_cover, pitch, size, normal, diameter
+    )
     helix.Support = [(structure, facename)]
     rebar = Arch.makeRebar(structure, helix, diameter, 1, diameter / 2)
     rebar.OffsetStart = diameter / 2
     rebar.OffsetEnd = diameter / 2
     FreeCAD.ActiveDocument.recompute()
     # Adds properties to the rebar object
-    rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).RebarShape = "HelicalRebar"
+    rebar.ViewObject.addProperty(
+        "App::PropertyString",
+        "RebarShape",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Shape of rebar"),
+    ).RebarShape = "HelicalRebar"
     rebar.ViewObject.setEditorMode("RebarShape", 2)
-    rebar.addProperty("App::PropertyDistance", "SideCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Front cover of rebar")).SideCover = s_cover
+    rebar.addProperty(
+        "App::PropertyDistance",
+        "SideCover",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Front cover of rebar"),
+    ).SideCover = s_cover
     rebar.setEditorMode("SideCover", 2)
-    rebar.addProperty("App::PropertyDistance", "Pitch", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Left Side cover of rebar")).Pitch = pitch
+    rebar.addProperty(
+        "App::PropertyDistance",
+        "Pitch",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Left Side cover of rebar"),
+    ).Pitch = pitch
     rebar.setEditorMode("Pitch", 2)
-    rebar.addProperty("App::PropertyDistance", "BottomCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Bottom cover of rebar")).BottomCover = b_cover
+    rebar.addProperty(
+        "App::PropertyDistance",
+        "BottomCover",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Bottom cover of rebar"),
+    ).BottomCover = b_cover
     rebar.setEditorMode("BottomCover", 2)
-    rebar.addProperty("App::PropertyDistance", "TopCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Top cover of rebar")).TopCover = t_cover
+    rebar.addProperty(
+        "App::PropertyDistance",
+        "TopCover",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Top cover of rebar"),
+    ).TopCover = t_cover
     rebar.setEditorMode("TopCover", 2)
     rebar.Label = "HelicalRebar"
     FreeCAD.ActiveDocument.recompute()
     return rebar
 
-def editHelicalRebar(Rebar, s_cover, b_cover, diameter, t_cover, pitch, structure = None, facename = None):
+
+def editHelicalRebar(
+    Rebar,
+    s_cover,
+    b_cover,
+    diameter,
+    t_cover,
+    pitch,
+    structure=None,
+    facename=None,
+):
     sketch = Rebar.Base
     if structure and facename:
         sketch.Support = [(structure, facename)]
     # Check if sketch support is empty.
     if not sketch.Support:
-        showWarning("You have checked: 'Remove external geometry of base sketches when needed.'\nTo uncheck: Edit->Preferences->Arch.")
+        showWarning(
+            "You have checked: 'Remove external geometry of base sketches when "
+            "needed.'\nTo uncheck: Edit->Preferences->Arch."
+        )
         return
     # Assigned values
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
-    #StructurePRM = getTrueParametersOfStructure(structure)
+    # StructurePRM = getTrueParametersOfStructure(structure)
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, facename, False)
-    size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
-    normal = face.normalAt(0,0)
-    #normal = face.Placement.Rotation.inverted().multVec(normal)
-    helix = createHelicalWire(FacePRM, s_cover, b_cover, t_cover, pitch, size, normal, diameter, Rebar.Base)
+    size = (
+        ArchCommands.projectToVector(
+            structure.Shape.copy(), face.normalAt(0, 0)
+        )
+    ).Length
+    normal = face.normalAt(0, 0)
+    # normal = face.Placement.Rotation.inverted().multVec(normal)
+    helix = createHelicalWire(
+        FacePRM,
+        s_cover,
+        b_cover,
+        t_cover,
+        pitch,
+        size,
+        normal,
+        diameter,
+        Rebar.Base,
+    )
     FreeCAD.ActiveDocument.recompute()
     Rebar.Diameter = diameter
     Rebar.SideCover = s_cover
@@ -230,6 +383,7 @@ def editHelicalRebar(Rebar, s_cover, b_cover, diameter, t_cover, pitch, structur
     Rebar.Pitch = pitch
     FreeCAD.ActiveDocument.recompute()
     return Rebar
+
 
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
@@ -240,6 +394,7 @@ def editDialog(vobj):
     obj.form.topCover.setText(str(vobj.Object.TopCover))
     obj.form.pitch.setText(str(vobj.Object.Pitch))
     FreeCADGui.Control.showDialog(obj)
+
 
 def CommandHelicalRebar():
     selected_obj = check_selected_face()

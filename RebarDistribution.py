@@ -35,13 +35,23 @@ import os
 import sys
 import math
 
-class _RebarDistributionDialog():
+
+class _RebarDistributionDialog:
     def __init__(self, frontCover, size):
         self.FrontCover = frontCover
         self.ExpandingLength = size
-        self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
-        self.form.setWindowTitle(QtGui.QApplication.translate("Arch", "Rebar Distribution", None))
-        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/RebarDistribution.svg"))
+        self.form = FreeCADGui.PySideUic.loadUi(
+            os.path.splitext(__file__)[0] + ".ui"
+        )
+        self.form.setWindowTitle(
+            QtGui.QApplication.translate("Arch", "Rebar Distribution", None)
+        )
+        self.form.image.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.abspath(__file__))[0]
+                + "/icons/RebarDistribution.svg"
+            )
+        )
 
     def accept(self):
         amount1 = self.form.amount1.value()
@@ -53,19 +63,34 @@ class _RebarDistributionDialog():
         amount3 = self.form.amount3.value()
         spacing3 = self.form.spacing3.text()
         spacing3 = FreeCAD.Units.Quantity(spacing3).Value
-        self.CustomSpacing = getCustomSpacingString(amount1, spacing1, amount2, spacing2, amount3, spacing3, self.FrontCover, self.ExpandingLength)
+        self.CustomSpacing = getCustomSpacingString(
+            amount1,
+            spacing1,
+            amount2,
+            spacing2,
+            amount3,
+            spacing3,
+            self.FrontCover,
+            self.ExpandingLength,
+        )
 
     def setupUi(self):
         # Connect Signals and Slots
         self.form.buttonBox.accepted.connect(self.accept)
         pass
 
-def getCustomSpacingString(amount1, spacing1, amount2, spacing2, amount3, spacing3, frontCover, size):
+
+def getCustomSpacingString(
+    amount1, spacing1, amount2, spacing2, amount3, spacing3, frontCover, size
+):
     seg1_area = amount1 * spacing1 - spacing1 / 2
     seg3_area = amount3 * spacing3 - spacing3 / 2
     seg2_area = size - seg1_area - seg3_area - 2 * frontCover
     if seg2_area < 0:
-        FreeCAD.Console.PrintError("Sum of length of segment 1 and segment 2 is greater than length of rebar expands.\n")
+        FreeCAD.Console.PrintError(
+            "Sum of length of segment 1 and segment 2 is greater than length of"
+            " rebar expands.\n"
+        )
         return
     if spacing1 and spacing2 and spacing3 and amount1 and amount2 and amount3:
         pass
@@ -75,8 +100,21 @@ def getCustomSpacingString(amount1, spacing1, amount2, spacing2, amount3, spacin
             spacing2 = seg2_area / amount2
         elif amount1 and amount2 and amount3:
             spacing2 = math.floor(seg2_area / amount2)
-    CustomSpacing = str(amount1) + "@" + str(spacing1) + "+" + str(int(amount2)) + "@" + str(spacing2) + "+" + str(amount3) + "@" + str(spacing3)
+    CustomSpacing = (
+        str(amount1)
+        + "@"
+        + str(spacing1)
+        + "+"
+        + str(int(amount2))
+        + "@"
+        + str(spacing2)
+        + "+"
+        + str(amount3)
+        + "@"
+        + str(spacing3)
+    )
     return CustomSpacing
+
 
 def getupleOfCustomSpacing(span_string):
     """ gettupleOfCustomSpacing(span_string): This function take input
@@ -84,31 +122,36 @@ def getupleOfCustomSpacing(span_string):
     Input: "3@100+2@200+3@100"
     Output: [(3, 100), (2, 200), (3, 100)]"""
     import string
+
     span_st = string.strip(span_string)
-    span_sp = string.split(span_st, '+')
+    span_sp = string.split(span_st, "+")
     index = 0
     spacinglist = []
     while index < len(span_sp):
         # Find "@" recursively in span_sp array.
-        in_sp = string.split(span_sp[index], '@')
-        spacinglist.append((int(in_sp[0]),float(in_sp[1])))
+        in_sp = string.split(span_sp[index], "@")
+        spacinglist.append((int(in_sp[0]), float(in_sp[1])))
         index += 1
     return spacinglist
+
 
 def runRebarDistribution(self, frontCover=None):
     if frontCover == None:
         frontCover = self.form.frontCover.text()
         frontCover = FreeCAD.Units.Quantity(frontCover).Value
     face = self.SelectedObj.Shape.Faces[getFaceNumber(self.FaceName) - 1]
-    size = (ArchCommands.projectToVector(self.SelectedObj.Shape.copy(), face.normalAt(0, 0))).Length
+    size = (
+        ArchCommands.projectToVector(
+            self.SelectedObj.Shape.copy(), face.normalAt(0, 0)
+        )
+    ).Length
     dialog = _RebarDistributionDialog(frontCover, size)
     dialog.setupUi()
     dialog.form.exec_()
     self.CustomSpacing = dialog.CustomSpacing
 
+
 def removeRebarDistribution(self):
     self.CustomSpacing = ""
     self.Rebar.CustomSpacing = ""
     FreeCAD.ActiveDocument.recompute()
-
-#runRebarDistribution(App.ActiveDocument.Rebar)

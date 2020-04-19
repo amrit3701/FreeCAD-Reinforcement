@@ -30,12 +30,21 @@ import FreeCADGui
 import os
 from DraftTools import translate
 
-class StraightRebarTool:
 
+class StraightRebarTool:
     def GetResources(self):
-        return {'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/StraightRebar.svg',
-                'MenuText': QT_TRANSLATE_NOOP("Arch_Rebar_Straight", "Straight Rebar"),
-                'ToolTip' : QT_TRANSLATE_NOOP("Arch_Rebar_Straight", "Creates a Striaght bar reinforcement from the selected face of the Structural element.")}
+        return {
+            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
+            + "/icons/dropdown_list/StraightRebar.svg",
+            "MenuText": QT_TRANSLATE_NOOP(
+                "Arch_Rebar_Straight", "Straight Rebar"
+            ),
+            "ToolTip": QT_TRANSLATE_NOOP(
+                "Arch_Rebar_Straight",
+                "Creates a Striaght bar reinforcement from the selected face of"
+                " the Structural element.",
+            ),
+        }
 
     def IsActive(self):
         if FreeCADGui.ActiveDocument:
@@ -45,15 +54,23 @@ class StraightRebarTool:
 
     def Activated(self):
         import StraightRebar
+
         # Call to CommandStraightRebar() function
         StraightRebar.CommandStraightRebar()
 
-class UShapeRebarTool:
 
+class UShapeRebarTool:
     def GetResources(self):
-        return {'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/UShapeRebar.svg',
-                'MenuText': QT_TRANSLATE_NOOP("Arch_Rebar_UShape", "U-Shape Rebar"),
-                'ToolTip' : QT_TRANSLATE_NOOP("Arch_Rebar_UShape", "Creates a U-Shape bar reinforcement from the selected face of the Structural element.")}
+        return {
+            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
+            + "/icons/dropdown_list/UShapeRebar.svg",
+            "MenuText": QT_TRANSLATE_NOOP("Arch_Rebar_UShape", "U-Shape Rebar"),
+            "ToolTip": QT_TRANSLATE_NOOP(
+                "Arch_Rebar_UShape",
+                "Creates a U-Shape bar reinforcement from the selected face of "
+                "the Structural element.",
+            ),
+        }
 
     def IsActive(self):
         if FreeCADGui.ActiveDocument:
@@ -63,15 +80,23 @@ class UShapeRebarTool:
 
     def Activated(self):
         import UShapeRebar
+
         # Call to CommandUShaepRebar() function
         UShapeRebar.CommandUShapeRebar()
 
-class LShapeRebarTool:
 
+class LShapeRebarTool:
     def GetResources(self):
-        return {'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/LShapeRebar.svg',
-                'MenuText': QT_TRANSLATE_NOOP("Arch_Rebar_LShape", "L-Shape Rebar"),
-                'ToolTip' : QT_TRANSLATE_NOOP("Arch_Rebar_LShape", "Creates a L-Shape bar reinforcement from the selected face of the Structural element.")}
+        return {
+            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
+            + "/icons/dropdown_list/LShapeRebar.svg",
+            "MenuText": QT_TRANSLATE_NOOP("Arch_Rebar_LShape", "L-Shape Rebar"),
+            "ToolTip": QT_TRANSLATE_NOOP(
+                "Arch_Rebar_LShape",
+                "Creates a L-Shape bar reinforcement from the selected face of "
+                "the Structural element.",
+            ),
+        }
 
     def IsActive(self):
         if FreeCADGui.ActiveDocument:
@@ -81,15 +106,23 @@ class LShapeRebarTool:
 
     def Activated(self):
         import LShapeRebar
+
         # Call to CommandUShaepRebar() function
         LShapeRebar.CommandLShapeRebar()
 
-class StirrupTool:
 
+class StirrupTool:
     def GetResources(self):
-        return {'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/StirrupRebar.svg',
-                'MenuText': QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Stirrup"),
-                'ToolTip' : QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Creates a Stirrup bar reinforcement from the selected face of the Structural element.")}
+        return {
+            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
+            + "/icons/dropdown_list/StirrupRebar.svg",
+            "MenuText": QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Stirrup"),
+            "ToolTip": QT_TRANSLATE_NOOP(
+                "Arch_Rebar_Stirrup",
+                "Creates a Stirrup bar reinforcement from the selected face of "
+                "the Structural element.",
+            ),
+        }
 
     def IsActive(self):
         if FreeCADGui.ActiveDocument:
@@ -99,15 +132,25 @@ class StirrupTool:
 
     def Activated(self):
         import Stirrup
+
         # Call to CommandStirrup() function
         Stirrup.CommandStirrup()
 
-class BentShapeRebarTool:
 
+class BentShapeRebarTool:
     def GetResources(self):
-        return {'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/BentShapeRebar.svg',
-                'MenuText': QT_TRANSLATE_NOOP("Arch_Rebar_BentShape", "Bent-Shape Rebar"),
-                'ToolTip' : QT_TRANSLATE_NOOP("Arch_Rebar_BentShape", "Creates a BentShape bar reinforcement from the selected face of the Structural element.")}
+        return {
+            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
+            + "/icons/dropdown_list/BentShapeRebar.svg",
+            "MenuText": QT_TRANSLATE_NOOP(
+                "Arch_Rebar_BentShape", "Bent-Shape Rebar"
+            ),
+            "ToolTip": QT_TRANSLATE_NOOP(
+                "Arch_Rebar_BentShape",
+                "Creates a BentShape bar reinforcement from the selected face "
+                "of the Structural element.",
+            ),
+        }
 
     def IsActive(self):
         if FreeCADGui.ActiveDocument:
@@ -117,15 +160,25 @@ class BentShapeRebarTool:
 
     def Activated(self):
         import BentShapeRebar
+
         # Call to CommandBentShaepRebar() function
         BentShapeRebar.CommandBentShapeRebar()
 
-class HelicalRebarTool:
 
+class HelicalRebarTool:
     def GetResources(self):
-        return {'Pixmap'  : os.path.split(os.path.abspath(__file__))[0]+'/icons/dropdown_list/HelixShapeRebar.svg',
-                'MenuText': QT_TRANSLATE_NOOP("Arch_Rebar_Helical", "Helical Rebar"),
-                'ToolTip' : QT_TRANSLATE_NOOP("Arch_Rebar_Helical", "Creates a Helical bar reinforcement from the selected face of the Structural element.")}
+        return {
+            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
+            + "/icons/dropdown_list/HelixShapeRebar.svg",
+            "MenuText": QT_TRANSLATE_NOOP(
+                "Arch_Rebar_Helical", "Helical Rebar"
+            ),
+            "ToolTip": QT_TRANSLATE_NOOP(
+                "Arch_Rebar_Helical",
+                "Creates a Helical bar reinforcement from the selected face of "
+                "the Structural element.",
+            ),
+        }
 
     def IsActive(self):
         if FreeCADGui.ActiveDocument:
@@ -135,6 +188,7 @@ class HelicalRebarTool:
 
     def Activated(self):
         import HelicalRebar
+
         # Call to CommandHelicalRebar() function
         HelicalRebar.CommandHelicalRebar()
 
@@ -144,10 +198,15 @@ class ColumnReinforcementTool:
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/Column.svg",
-            "MenuText": QT_TRANSLATE_NOOP("Arch_Column_Reinforcement", "Column Reinforcement"),
+            "MenuText": QT_TRANSLATE_NOOP(
+                "Arch_Column_Reinforcement", "Column Reinforcement"
+            ),
             "ToolTip": QT_TRANSLATE_NOOP(
                 "Arch_Column_Reinforcement",
-                "Creates a Column Reinforcement from the selected face of the Structural element.")}
+                "Creates a Column Reinforcement from the selected face of the "
+                "Structural element.",
+            ),
+        }
 
     def IsActive(self):
         if FreeCADGui.ActiveDocument:
@@ -167,10 +226,15 @@ class BeamReinforcementTool:
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/Beam.svg",
-            "MenuText": QT_TRANSLATE_NOOP("Arch_Beam_Reinforcement", "Beam Reinforcement"),
+            "MenuText": QT_TRANSLATE_NOOP(
+                "Arch_Beam_Reinforcement", "Beam Reinforcement"
+            ),
             "ToolTip": QT_TRANSLATE_NOOP(
                 "Arch_Beam_Reinforcement",
-                "Creates a Beam Reinforcement from the selected face of the Structural element.")}
+                "Creates a Beam Reinforcement from the selected face of the "
+                "Structural element.",
+            ),
+        }
 
     def IsActive(self):
         if FreeCADGui.ActiveDocument:
@@ -184,17 +248,20 @@ class BeamReinforcementTool:
         # Call to CommandBeamReinforcement() function
         MainBeamReinforcement.CommandBeamReinforcement()
 
+
 def updateLocale():
-    FreeCADGui.addLanguagePath(os.path.join(os.path.dirname(__file__),"translations"))
+    FreeCADGui.addLanguagePath(
+        os.path.join(os.path.dirname(__file__), "translations")
+    )
     FreeCADGui.updateLocale()
 
 
-FreeCADGui.addCommand('Arch_Rebar_Straight', StraightRebarTool())
-FreeCADGui.addCommand('Arch_Rebar_UShape', UShapeRebarTool())
-FreeCADGui.addCommand('Arch_Rebar_LShape', LShapeRebarTool())
-FreeCADGui.addCommand('Arch_Rebar_Stirrup', StirrupTool())
-FreeCADGui.addCommand('Arch_Rebar_BentShape', BentShapeRebarTool())
-FreeCADGui.addCommand('Arch_Rebar_Helical', HelicalRebarTool())
+FreeCADGui.addCommand("Arch_Rebar_Straight", StraightRebarTool())
+FreeCADGui.addCommand("Arch_Rebar_UShape", UShapeRebarTool())
+FreeCADGui.addCommand("Arch_Rebar_LShape", LShapeRebarTool())
+FreeCADGui.addCommand("Arch_Rebar_Stirrup", StirrupTool())
+FreeCADGui.addCommand("Arch_Rebar_BentShape", BentShapeRebarTool())
+FreeCADGui.addCommand("Arch_Rebar_Helical", HelicalRebarTool())
 FreeCADGui.addCommand("Arch_Column_Reinforcement", ColumnReinforcementTool())
 FreeCADGui.addCommand("Arch_Beam_Reinforcement", BeamReinforcementTool())
 

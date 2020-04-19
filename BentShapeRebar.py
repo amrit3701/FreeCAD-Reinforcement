@@ -37,10 +37,23 @@ import os
 import sys
 import math
 
-def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentLength, bentAngle, orientation, diameter):
-    """ getpointsOfBentShapeRebar(FacePRM, LeftCover, RightCover, BottomCover, TopCover, BentLength, BentAngle, Orientation, Diameter):
+
+def getpointsOfBentShapeRebar(
+    FacePRM,
+    l_cover,
+    r_cover,
+    b_cover,
+    t_cover,
+    bentLength,
+    bentAngle,
+    orientation,
+    diameter,
+):
+    """ getpointsOfBentShapeRebar(FacePRM, LeftCover, RightCover, BottomCover,
+    TopCover, BentLength, BentAngle, Orientation, Diameter):
     Return points of the LShape rebar in the form of array for sketch.
-    It takes four different orientations input i.e. 'Bottom', 'Top', 'Left', 'Right'.
+    It takes four different orientations input i.e. 'Bottom', 'Top', 'Left',
+    'Right'.
     """
     if orientation == "Bottom":
         t_cover += diameter / 2
@@ -49,7 +62,9 @@ def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentL
         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
         x2 = x1 + bentLength
         y2 = y1
-        dis = (FacePRM[0][1] - t_cover - b_cover) * math.tan(math.radians(bentAngle - 90))
+        dis = (FacePRM[0][1] - t_cover - b_cover) * math.tan(
+            math.radians(bentAngle - 90)
+        )
         x3 = x2 + dis
         y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
         x4 = FacePRM[1][0] + FacePRM[0][0] / 2 - r_cover - bentLength - dis
@@ -65,7 +80,9 @@ def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentL
         y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
         x2 = x1 + bentLength
         y2 = y1
-        dis = (FacePRM[0][1] - t_cover - b_cover) * math.tan(math.radians(bentAngle - 90))
+        dis = (FacePRM[0][1] - t_cover - b_cover) * math.tan(
+            math.radians(bentAngle - 90)
+        )
         x3 = x2 + dis
         y3 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
         x4 = FacePRM[1][0] + FacePRM[0][0] / 2 - r_cover - bentLength - dis
@@ -81,7 +98,9 @@ def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentL
         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
         x2 = x1
         y2 = y1 - bentLength
-        dis = (FacePRM[0][0] - r_cover - l_cover) * math.tan(math.radians(bentAngle - 90))
+        dis = (FacePRM[0][0] - r_cover - l_cover) * math.tan(
+            math.radians(bentAngle - 90)
+        )
         x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
         y3 = y2 - dis
         x4 = x3
@@ -97,7 +116,9 @@ def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentL
         y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
         x2 = x1
         y2 = y1 - bentLength
-        dis = (FacePRM[0][0] - r_cover - l_cover) * math.tan(math.radians(bentAngle - 90))
+        dis = (FacePRM[0][0] - r_cover - l_cover) * math.tan(
+            math.radians(bentAngle - 90)
+        )
         x3 = FacePRM[1][0] + FacePRM[0][0] / 2 - r_cover
         y3 = y2 - dis
         x4 = x3
@@ -106,12 +127,18 @@ def getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentL
         y5 = y4 - dis
         x6 = x5
         y6 = y5 - bentLength
-    return [FreeCAD.Vector(x1, y1, 0), FreeCAD.Vector(x2, y2, 0),\
-           FreeCAD.Vector(x3, y3, 0), FreeCAD.Vector(x4, y4, 0),\
-           FreeCAD.Vector(x5, y5, 0), FreeCAD.Vector(x6, y6, 0)]
+    return [
+        FreeCAD.Vector(x1, y1, 0),
+        FreeCAD.Vector(x2, y2, 0),
+        FreeCAD.Vector(x3, y3, 0),
+        FreeCAD.Vector(x4, y4, 0),
+        FreeCAD.Vector(x5, y5, 0),
+        FreeCAD.Vector(x6, y6, 0),
+    ]
+
 
 class _BentShapeRebarTaskPanel:
-    def __init__(self, Rebar = None):
+    def __init__(self, Rebar=None):
         self.CustomSpacing = None
         if not Rebar:
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
@@ -120,39 +147,89 @@ class _BentShapeRebarTaskPanel:
         else:
             self.FaceName = Rebar.Base.Support[0][1][0]
             self.SelectedObj = Rebar.Base.Support[0][0]
-        self.form = FreeCADGui.PySideUic.loadUi(os.path.splitext(__file__)[0] + ".ui")
-        self.form.setWindowTitle(QtGui.QApplication.translate("RebarAddon", "Bent Shape Rebar", None))
+        self.form = FreeCADGui.PySideUic.loadUi(
+            os.path.splitext(__file__)[0] + ".ui"
+        )
+        self.form.setWindowTitle(
+            QtGui.QApplication.translate("RebarAddon", "Bent Shape Rebar", None)
+        )
         self.form.orientationValue.addItems(["Bottom", "Top", "Right", "Left"])
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
-        self.form.customSpacing.clicked.connect(lambda: runRebarDistribution(self))
-        self.form.removeCustomSpacing.clicked.connect(lambda: removeRebarDistribution(self))
-        self.form.PickSelectedFace.clicked.connect(lambda: getSelectedFace(self))
-        self.form.orientationValue.currentIndexChanged.connect(self.getOrientation)
-        self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/BentShapeRebar.svg"))
-        # self.form.toolButton.setIcon(self.form.toolButton.style().standardIcon(QtGui.QStyle.SP_DialogHelpButton))
-        self.form.toolButton.clicked.connect(lambda: showPopUpImageDialog(os.path.split(os.path.abspath(__file__))[0] + "/icons/BentShapeRebarDetailed.svg"))
+        self.form.customSpacing.clicked.connect(
+            lambda: runRebarDistribution(self)
+        )
+        self.form.removeCustomSpacing.clicked.connect(
+            lambda: removeRebarDistribution(self)
+        )
+        self.form.PickSelectedFace.clicked.connect(
+            lambda: getSelectedFace(self)
+        )
+        self.form.orientationValue.currentIndexChanged.connect(
+            self.getOrientation
+        )
+        self.form.image.setPixmap(
+            QtGui.QPixmap(
+                os.path.split(os.path.abspath(__file__))[0]
+                + "/icons/BentShapeRebar.svg"
+            )
+        )
+        # self.form.toolButton.setIcon(
+        #     self.form.toolButton.style().standardIcon(
+        #         QtGui.QStyle.SP_DialogHelpButton
+        #     )
+        # )
+        self.form.toolButton.clicked.connect(
+            lambda: showPopUpImageDialog(
+                os.path.split(os.path.abspath(__file__))[0]
+                + "/icons/BentShapeRebarDetailed.svg"
+            )
+        )
         self.Rebar = Rebar
 
     def getOrientation(self):
         orientation = self.form.orientationValue.currentText()
-        #if orientation == "Bottom":
-        #    self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarBR.svg"))
-        #elif orientation == "Top":
-        #    self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarBL.svg"))
-        #elif orientation == "Right":
-        #    self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarTR.svg"))
-        #else:
-        #    self.form.image.setPixmap(QtGui.QPixmap(os.path.split(os.path.abspath(__file__))[0] + "/icons/LShapeRebarTL.svg"))
+        # if orientation == "Bottom":
+        #     self.form.image.setPixmap(
+        #         QtGui.QPixmap(
+        #             os.path.split(os.path.abspath(__file__))[0]
+        #             + "/icons/LShapeRebarBR.svg"
+        #         )
+        #     )
+        # elif orientation == "Top":
+        #     self.form.image.setPixmap(
+        #         QtGui.QPixmap(
+        #             os.path.split(os.path.abspath(__file__))[0]
+        #             + "/icons/LShapeRebarBL.svg"
+        #         )
+        #     )
+        # elif orientation == "Right":
+        #     self.form.image.setPixmap(
+        #         QtGui.QPixmap(
+        #             os.path.split(os.path.abspath(__file__))[0]
+        #             + "/icons/LShapeRebarTR.svg"
+        #         )
+        #     )
+        # else:
+        #     self.form.image.setPixmap(
+        #         QtGui.QPixmap(
+        #             os.path.split(os.path.abspath(__file__))[0]
+        #             + "/icons/LShapeRebarTL.svg"
+        #         )
+        #     )
 
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Apply) | int(QtGui.QDialogButtonBox.Cancel)
+        return (
+            int(QtGui.QDialogButtonBox.Ok)
+            | int(QtGui.QDialogButtonBox.Apply)
+            | int(QtGui.QDialogButtonBox.Cancel)
+        )
 
     def clicked(self, button):
         if button == int(QtGui.QDialogButtonBox.Apply):
             self.accept(button)
 
-    def accept(self, signal = None):
+    def accept(self, signal=None):
         f_cover = self.form.frontCover.text()
         f_cover = FreeCAD.Units.Quantity(f_cover).Value
         b_cover = self.form.bottomCover.text()
@@ -175,19 +252,81 @@ class _BentShapeRebarTaskPanel:
         if not self.Rebar:
             if amount_check:
                 amount = self.form.amount.value()
-                rebar = makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
+                rebar = makeBentShapeRebar(
+                    f_cover,
+                    b_cover,
+                    l_cover,
+                    r_cover,
+                    diameter,
+                    t_cover,
+                    bentLength,
+                    bentAngle,
+                    rounding,
+                    True,
+                    amount,
+                    orientation,
+                    self.SelectedObj,
+                    self.FaceName,
+                )
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                rebar = makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
+                rebar = makeBentShapeRebar(
+                    f_cover,
+                    b_cover,
+                    l_cover,
+                    r_cover,
+                    diameter,
+                    t_cover,
+                    bentLength,
+                    bentAngle,
+                    rounding,
+                    False,
+                    spacing,
+                    orientation,
+                    self.SelectedObj,
+                    self.FaceName,
+                )
         else:
             if amount_check:
                 amount = self.form.amount.value()
-                rebar = editBentShapeRebar(self.Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, True, amount, orientation, self.SelectedObj, self.FaceName)
+                rebar = editBentShapeRebar(
+                    self.Rebar,
+                    f_cover,
+                    b_cover,
+                    l_cover,
+                    r_cover,
+                    diameter,
+                    t_cover,
+                    bentLength,
+                    bentAngle,
+                    rounding,
+                    True,
+                    amount,
+                    orientation,
+                    self.SelectedObj,
+                    self.FaceName,
+                )
             elif spacing_check:
                 spacing = self.form.spacing.text()
                 spacing = FreeCAD.Units.Quantity(spacing).Value
-                rebar = editBentShapeRebar(self.Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, False, spacing, orientation, self.SelectedObj, self.FaceName)
+                rebar = editBentShapeRebar(
+                    self.Rebar,
+                    f_cover,
+                    b_cover,
+                    l_cover,
+                    r_cover,
+                    diameter,
+                    t_cover,
+                    bentLength,
+                    bentAngle,
+                    rounding,
+                    False,
+                    spacing,
+                    orientation,
+                    self.SelectedObj,
+                    self.FaceName,
+                )
         if self.CustomSpacing:
             rebar.CustomSpacing = self.CustomSpacing
             FreeCAD.ActiveDocument.recompute()
@@ -206,10 +345,27 @@ class _BentShapeRebarTaskPanel:
         self.form.spacing.setEnabled(True)
 
 
-def makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, amount_spacing_check, amount_spacing_value, orientation = "Bottom Left", structure = None, facename = None):
-    """ makeBentShapeRebar(FrontCover, BottomCover, LeftCover, RightCover, Diameter, TopCover, BentLength, BentAngle, Rounding,
-    AmountSpacingCheck, AmountSpacingValue, Orientation, Structure, Facename): Adds the Bent-Shape reinforcement bar to the
-    selected structural object.
+def makeBentShapeRebar(
+    f_cover,
+    b_cover,
+    l_cover,
+    r_cover,
+    diameter,
+    t_cover,
+    bentLength,
+    bentAngle,
+    rounding,
+    amount_spacing_check,
+    amount_spacing_value,
+    orientation="Bottom Left",
+    structure=None,
+    facename=None,
+):
+    """ makeBentShapeRebar(FrontCover, BottomCover, LeftCover, RightCover,
+    Diameter, TopCover, BentLength, BentAngle, Rounding, AmountSpacingCheck,
+    AmountSpacingValue, Orientation, Structure, Facename):
+    Adds the Bent-Shape reinforcement bar to the selected structural object.
+
     It takes four different orientations input i.e. 'Bottom', 'Top', 'Left', 'Right'.
     """
     if not structure and not facename:
@@ -217,16 +373,32 @@ def makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, be
         structure = selected_obj.Object
         facename = selected_obj.SubElementNames[0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
-    #StructurePRM = getTrueParametersOfStructure(structure)
+    # StructurePRM = getTrueParametersOfStructure(structure)
     FacePRM = getParametersOfFace(structure, facename)
     if not FacePRM:
-        FreeCAD.Console.PrintError("Cannot identified shape or from which base object sturctural element is derived\n")
+        FreeCAD.Console.PrintError(
+            "Cannot identified shape or from which base object sturctural "
+            "element is derived\n"
+        )
         return
     # Get points of L-Shape rebar
-    points = getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentLength, bentAngle, orientation, diameter)
+    points = getpointsOfBentShapeRebar(
+        FacePRM,
+        l_cover,
+        r_cover,
+        b_cover,
+        t_cover,
+        bentLength,
+        bentAngle,
+        orientation,
+        diameter,
+    )
     import Part
     import Arch
-    sketch = FreeCAD.activeDocument().addObject('Sketcher::SketchObject', 'Sketch')
+
+    sketch = FreeCAD.activeDocument().addObject(
+        "Sketcher::SketchObject", "Sketch"
+    )
     sketch.MapMode = "FlatFace"
     sketch.Support = [(structure, facename)]
     FreeCAD.ActiveDocument.recompute()
@@ -236,35 +408,107 @@ def makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, be
     sketch.addGeometry(Part.LineSegment(points[3], points[4]), False)
     sketch.addGeometry(Part.LineSegment(points[4], points[5]), False)
     import Sketcher
+
     if amount_spacing_check:
-        rebar = Arch.makeRebar(structure, sketch, diameter, amount_spacing_value, f_cover + diameter / 2)
+        rebar = Arch.makeRebar(
+            structure,
+            sketch,
+            diameter,
+            amount_spacing_value,
+            f_cover + diameter / 2,
+        )
         FreeCAD.ActiveDocument.recompute()
     else:
-        size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
-        rebar = Arch.makeRebar(structure, sketch, diameter, int((size - diameter) / amount_spacing_value), f_cover + diameter / 2)
+        size = (
+            ArchCommands.projectToVector(
+                structure.Shape.copy(), face.normalAt(0, 0)
+            )
+        ).Length
+        rebar = Arch.makeRebar(
+            structure,
+            sketch,
+            diameter,
+            int((size - diameter) / amount_spacing_value),
+            f_cover + diameter / 2,
+        )
     rebar.Rounding = rounding
     # Adds properties to the rebar object
-    rebar.ViewObject.addProperty("App::PropertyString", "RebarShape", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).RebarShape = "BentShapeRebar"
+    rebar.ViewObject.addProperty(
+        "App::PropertyString",
+        "RebarShape",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Shape of rebar"),
+    ).RebarShape = "BentShapeRebar"
     rebar.ViewObject.setEditorMode("RebarShape", 2)
-    rebar.addProperty("App::PropertyDistance", "FrontCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Front cover of rebar")).FrontCover = f_cover
+    rebar.addProperty(
+        "App::PropertyDistance",
+        "FrontCover",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Front cover of rebar"),
+    ).FrontCover = f_cover
     rebar.setEditorMode("FrontCover", 2)
-    rebar.addProperty("App::PropertyDistance", "LeftCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Left Side cover of rebar")).LeftCover = l_cover
+    rebar.addProperty(
+        "App::PropertyDistance",
+        "LeftCover",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Left Side cover of rebar"),
+    ).LeftCover = l_cover
     rebar.setEditorMode("LeftCover", 2)
-    rebar.addProperty("App::PropertyDistance", "RightCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Right Side cover of rebar")).RightCover = r_cover
+    rebar.addProperty(
+        "App::PropertyDistance",
+        "RightCover",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Right Side cover of rebar"),
+    ).RightCover = r_cover
     rebar.setEditorMode("RightCover", 2)
-    rebar.addProperty("App::PropertyDistance", "BottomCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Bottom cover of rebar")).BottomCover = b_cover
+    rebar.addProperty(
+        "App::PropertyDistance",
+        "BottomCover",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Bottom cover of rebar"),
+    ).BottomCover = b_cover
     rebar.setEditorMode("BottomCover", 2)
-    rebar.addProperty("App::PropertyBool", "AmountCheck", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Amount radio button is checked")).AmountCheck
+    rebar.addProperty(
+        "App::PropertyBool",
+        "AmountCheck",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Amount radio button is checked"),
+    ).AmountCheck
     rebar.setEditorMode("AmountCheck", 2)
-    rebar.addProperty("App::PropertyDistance", "TopCover", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Top cover of rebar")).TopCover = t_cover
+    rebar.addProperty(
+        "App::PropertyDistance",
+        "TopCover",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Top cover of rebar"),
+    ).TopCover = t_cover
     rebar.setEditorMode("TopCover", 2)
-    rebar.addProperty("App::PropertyDistance", "TrueSpacing", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Spacing between of rebars")).TrueSpacing = amount_spacing_value
-    rebar.addProperty("App::PropertyString", "Orientation", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Shape of rebar")).Orientation = orientation
+    rebar.addProperty(
+        "App::PropertyDistance",
+        "TrueSpacing",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Spacing between of rebars"),
+    ).TrueSpacing = amount_spacing_value
+    rebar.addProperty(
+        "App::PropertyString",
+        "Orientation",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Shape of rebar"),
+    ).Orientation = orientation
     rebar.setEditorMode("Orientation", 2)
     rebar.setEditorMode("TrueSpacing", 2)
-    rebar.addProperty("App::PropertyDistance", "BentLength", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "BentLength cover of rebar")).BentLength = bentLength
+    rebar.addProperty(
+        "App::PropertyDistance",
+        "BentLength",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "BentLength cover of rebar"),
+    ).BentLength = bentLength
     rebar.setEditorMode("BentLength", 2)
-    rebar.addProperty("App::PropertyDistance", "BentAngle", "RebarDialog", QT_TRANSLATE_NOOP("App::Property", "Bent Angle of rebar")).BentAngle = bentAngle
+    rebar.addProperty(
+        "App::PropertyDistance",
+        "BentAngle",
+        "RebarDialog",
+        QT_TRANSLATE_NOOP("App::Property", "Bent Angle of rebar"),
+    ).BentAngle = bentAngle
     rebar.setEditorMode("BentAngle", 2)
 
     if amount_spacing_check:
@@ -276,23 +520,53 @@ def makeBentShapeRebar(f_cover, b_cover, l_cover, r_cover, diameter, t_cover, be
     FreeCAD.ActiveDocument.recompute()
     return rebar
 
-def editBentShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_cover, bentLength, bentAngle, rounding, amount_spacing_check, amount_spacing_value, orientation, structure = None, facename = None):
+
+def editBentShapeRebar(
+    Rebar,
+    f_cover,
+    b_cover,
+    l_cover,
+    r_cover,
+    diameter,
+    t_cover,
+    bentLength,
+    bentAngle,
+    rounding,
+    amount_spacing_check,
+    amount_spacing_value,
+    orientation,
+    structure=None,
+    facename=None,
+):
     sketch = Rebar.Base
     if structure and facename:
         sketch.Support = [(structure, facename)]
     # Check if sketch support is empty.
     if not sketch.Support:
-        showWarning("You have checked: 'Remove external geometry of base sketches when needed.'\nTo uncheck: Edit->Preferences->Arch.")
+        showWarning(
+            "You have checked: 'Remove external geometry of base sketches when "
+            "needed.'\nTo uncheck: Edit->Preferences->Arch."
+        )
         return
     # Assigned values
     facename = sketch.Support[0][1][0]
     structure = sketch.Support[0][0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
-    #StructurePRM = getTrueParametersOfStructure(structure)
+    # StructurePRM = getTrueParametersOfStructure(structure)
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, facename)
     # Get points of L-Shape rebar
-    points = getpointsOfBentShapeRebar(FacePRM, l_cover, r_cover, b_cover, t_cover, bentLength, bentAngle, orientation, diameter)
+    points = getpointsOfBentShapeRebar(
+        FacePRM,
+        l_cover,
+        r_cover,
+        b_cover,
+        t_cover,
+        bentLength,
+        bentAngle,
+        orientation,
+        diameter,
+    )
     sketch.movePoint(0, 1, points[0], 0)
     FreeCAD.ActiveDocument.recompute()
     sketch.movePoint(0, 2, points[1], 0)
@@ -323,7 +597,11 @@ def editBentShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_co
         FreeCAD.ActiveDocument.recompute()
         Rebar.AmountCheck = True
     else:
-        size = (ArchCommands.projectToVector(structure.Shape.copy(), face.normalAt(0, 0))).Length
+        size = (
+            ArchCommands.projectToVector(
+                structure.Shape.copy(), face.normalAt(0, 0)
+            )
+        ).Length
         Rebar.Amount = int((size - diameter) / amount_spacing_value)
         FreeCAD.ActiveDocument.recompute()
         Rebar.AmountCheck = False
@@ -341,6 +619,7 @@ def editBentShapeRebar(Rebar, f_cover, b_cover, l_cover, r_cover, diameter, t_co
     FreeCAD.ActiveDocument.recompute()
     return Rebar
 
+
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
     obj = _BentShapeRebarTaskPanel(vobj.Object)
@@ -353,7 +632,9 @@ def editDialog(vobj):
     obj.form.bentLength.setText(str(vobj.Object.BentLength))
     obj.form.bentAngle.setValue(vobj.Object.BentAngle)
     obj.form.rounding.setValue(vobj.Object.Rounding)
-    obj.form.orientationValue.setCurrentIndex(obj.form.orientationValue.findText(str(vobj.Object.Orientation)))
+    obj.form.orientationValue.setCurrentIndex(
+        obj.form.orientationValue.findText(str(vobj.Object.Orientation))
+    )
     if vobj.Object.AmountCheck:
         obj.form.amount.setValue(vobj.Object.Amount)
     else:
@@ -362,8 +643,9 @@ def editDialog(vobj):
         obj.form.amount.setDisabled(True)
         obj.form.spacing.setEnabled(True)
         obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
-    #obj.form.PickSelectedFace.setVisible(False)
+    # obj.form.PickSelectedFace.setVisible(False)
     FreeCADGui.Control.showDialog(obj)
+
 
 def CommandBentShapeRebar():
     selected_obj = check_selected_face()
