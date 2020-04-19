@@ -73,6 +73,29 @@ Let's continue with the straight rebar tool as the example. In the `StraightReba
 Within the `StraightRebar.py` file we find the `_StraightRebarTaskPanel` class present. This class loads the UI (within the `StriaghtRebar.ui` file) in to a FreeCAD task panel. When a user clicks on the `Apply` or the `Ok` button, the `makeStraightRebar` function is executed and after that when the user wants to change the properties of Straight rebar then the `editStraightRebar()` function is executed.
 
 
+## Development
+
+### Pre commit hook
+
+It is important to install [pre-commit](https://pre-commit.com) and pre commit
+hook to ensure all code run against `black` and `flake8` before committing it 
+and pushing to remote.
+
+To install `pre-commit`, run below,
+
+```bash
+pip install pre-commit==2.2.0
+```
+
+After `pre-commit` installed in your system, please run below command to setup pre-commit hook.
+
+```bash
+pre-commit install
+```
+
+Now, your environment is ready and whenever you commit, `pre-commit` automatically trigger.
+
+
 ## Extras (GSoC 2017)
 - [FreeCAD forum thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=22760)
 - [GSoC proposal](https://brlcad.org/wiki/User:Amritpal_singh/gsoc_proposal)
