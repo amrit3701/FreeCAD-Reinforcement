@@ -164,11 +164,21 @@ def getColumnHeadersSVG(
     return header_svg
 
 
-def getBOMonSheet(bom_svg, svg_size, bom_width, bom_height):
-    """getBOMonSheet(BillOfMaterialSVG, SVGSize, BOMWidth, BOMHeight):
+def getBOMonSheet(
+    bom_svg,
+    svg_size,
+    bom_width,
+    bom_height,
+    bom_left_offset,
+    bom_right_offset,
+    bom_top_offset,
+    bom_bottom_offset,
+):
+    """getBOMonSheet(BillOfMaterialSVG, SVGSize, BOMWidth, BOMHeight,
+    BOMLeftOffset, BOMRightOffset, BOMTopOffset, BOMBottomOffset):
     svg_size is the size of svg sheet as widthxheight in mm.
 
-    Returns svg setting BOM to fit svg size.
+    Returns svg setting BOM to fit svg size applying required offsets.
     """
     if not svg_size:
         return bom_svg
@@ -188,20 +198,48 @@ def getBOMonSheet(bom_svg, svg_size, bom_width, bom_height):
         if svg_width == bom_width and svg_height == bom_height:
             return bom_svg
 
-        bom_svg = bom_svg.replace(
-            '<svg width="{width}mm" height="{height}mm" '
-            'viewBox="0 0 {width} {height}"'.format(
-                width=bom_width, height=bom_height
-            ),
-            '<svg width="{width}mm" height="{height}mm" '
-            'viewBox="0 0 {width} {height}"'.format(
-                width=svg_width, height=svg_height
-            ),
-        )
+        h_scaling_factor = (
+            svg_width - bom_left_offset - bom_right_offset
+        ) / bom_width
+
+        v_scaling_factor = (
+            svg_height - bom_top_offset - bom_bottom_offset
+        ) / bom_height
+
+        if v_scaling_factor < h_scaling_factor:
+            bom_svg = bom_svg.replace(
+                '<svg width="{width}mm" height="{height}mm" '
+                'viewBox="0 0 {width} {height}"'.format(
+                    width=bom_width, height=bom_height
+                ),
+                '<svg width="{width}mm" height="{height}mm" viewBox='
+                '"-{left_offset} -{top_offset} {width} {height}"'.format(
+                    left_offset=(svg_width - v_scaling_factor * bom_width) / 2,
+                    top_offset=bom_top_offset,
+                    width=svg_width,
+                    height=svg_height,
+                ),
+            )
+        else:
+            bom_svg = bom_svg.replace(
+                '<svg width="{width}mm" height="{height}mm" '
+                'viewBox="0 0 {width} {height}"'.format(
+                    width=bom_width, height=bom_height
+                ),
+                '<svg width="{width}mm" height="{height}mm" viewBox='
+                '"-{left_offset} -{top_offset} {width} {height}"'.format(
+                    left_offset=bom_left_offset,
+                    top_offset=bom_top_offset,
+                    width=svg_width,
+                    height=svg_height,
+                ),
+            )
+
+        scaling_factor = min(h_scaling_factor, v_scaling_factor)
 
         bom_svg = bom_svg.replace(
             '<g id="BOM"',
-            '<g id="BOM" transform="scale({})"'.format(svg_width / bom_width),
+            '<g id="BOM" transform="scale({})"'.format(scaling_factor),
         )
 
         return bom_svg
@@ -214,11 +252,16 @@ def makeBillOfMaterialSVG(
     column_width=COLUMN_WIDTH,
     row_height=ROW_HEIGHT,
     svg_size=SVG_SIZE,
+    bom_left_offset=BOM_SVG_LEFT_OFFSET,
+    bom_right_offset=BOM_SVG_RIGHT_OFFSET,
+    bom_top_offset=BOM_SVG_TOP_OFFSET,
+    bom_bottom_offset=BOM_SVG_BOTTOM_OFFSET,
     font_size=FONT_SIZE,
     output_file=None,
 ):
     """makeBillOfMaterialSVG(ColumnHeaders, ColumnUnits, RebarLengthType,
-    ColumnWidth, RowHeight, SVGSize, FontSize, OutputFile):
+    ColumnWidth, RowHeight, SVGSize, BOMLeftOffset, BOMRightOffset,
+    BOMTopOffset, BOMBottomOffset, FontSize, OutputFile):
     Generates the Rebars Material Bill.
 
     column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
@@ -423,8 +466,8 @@ def makeBillOfMaterialSVG(
                 else:
                     svg_output += (
                         indent_level
-                        + '<rect x="{}" y="{}" width="{}" height="{}" '
-                        'style="fill:none;stroke-width:0.35;stroke:#000000;"/>\n'
+                        + '<rect x="{}" y="{}" width="{}" height="{}" style='
+                        '"fill:none;stroke-width:0.35;stroke:#000000;"/>\n'
                     ).format(
                         column_offset + diameter_list.index(dia) * column_width,
                         row_height * (current_row - 1),
@@ -560,8 +603,8 @@ def makeBillOfMaterialSVG(
                 for row in range(3):
                     svg_output += (
                         indent_level
-                        + '<rect x="{}" y="{}" width="{}" height="{}" '
-                        'style="fill:none;stroke-width:0.35;stroke:#000000;"/>\n'
+                        + '<rect x="{}" y="{}" width="{}" height="{}" style='
+                        '"fill:none;stroke-width:0.35;stroke:#000000;"/>\n'
                     ).format(
                         column_offset,
                         row_height * (current_row - 1 + row),
@@ -676,7 +719,16 @@ def makeBillOfMaterialSVG(
         ),
     )
 
-    svg_output = getBOMonSheet(svg_output, svg_size, bom_width, bom_height)
+    svg_output = getBOMonSheet(
+        svg_output,
+        svg_size,
+        bom_width,
+        bom_height,
+        bom_left_offset,
+        bom_right_offset,
+        bom_top_offset,
+        bom_bottom_offset,
+    )
 
     if output_file:
         try:

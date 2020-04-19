@@ -112,3 +112,15 @@ AVAILABLE_SIZES = {
 # Size of svg sheet, if blank (SVG_SIZE = "") then it will be calculated
 # automatically to fit Bill of Material
 SVG_SIZE = AVAILABLE_SIZES["A4"]
+
+# Left offset (minimum) of bill of material svg
+BOM_SVG_LEFT_OFFSET = 6
+
+# Right offset (minimum) of bill of material svg
+BOM_SVG_RIGHT_OFFSET = 6
+
+# Top offset of bill of material svg
+BOM_SVG_TOP_OFFSET = 6
+
+# Bottom offset (minimum) of bill of material svg
+BOM_SVG_BOTTOM_OFFSET = 6
