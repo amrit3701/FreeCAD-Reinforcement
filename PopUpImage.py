@@ -26,22 +26,25 @@ __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
 
-from PySide import QtCore
 from PySide import QtGui
 from PySide import QtSvg
-import FreeCADGui
-import os
+
 
 class PopUpImage(QtGui.QDialog):
-   def __init__(self, img):
+    def __init__(self, img):
         QtGui.QDialog.__init__(self)
         self.image = QtSvg.QSvgWidget(img)
-        self.setWindowTitle(QtGui.QApplication.translate("RebarTool", "Detailed description", None))
+        self.setWindowTitle(
+            QtGui.QApplication.translate(
+                "RebarTool", "Detailed description", None
+            )
+        )
         self.verticalLayout = QtGui.QVBoxLayout(self)
         self.verticalLayout.addWidget(self.image)
 
+
 def showPopUpImageDialog(img):
-    """ showPopUpImageDialog(image): This function will show a given image in a pop-up
-    dialog box."""
+    """ showPopUpImageDialog(image): This function will show a given image in a
+    pop-up dialog box."""
     dialog = PopUpImage(img)
     dialog.exec_()

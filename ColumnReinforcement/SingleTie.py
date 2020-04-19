@@ -34,7 +34,6 @@ from LShapeRebar import makeLShapeRebar, editLShapeRebar
 from Rebarfunc import (
     showWarning,
     getParametersOfFace,
-    getFaceNumber,
     getFacenameforRebar,
     getLRebarOrientationLeftRightCover,
     setGroupProperties,
@@ -307,7 +306,7 @@ def editSingleTieFourRebars(
     # Edit Tie
     rounding = (float(dia_of_tie) / 2 + dia_of_rebars / 2) / dia_of_tie
     f_cover = offset_of_tie
-    ties = editStirrup(
+    editStirrup(
         Tie,
         l_cover_of_tie,
         r_cover_of_tie,

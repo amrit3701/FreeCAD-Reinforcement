@@ -773,7 +773,7 @@ def editSingleTieMultipleRebars(
     ydir_rebars = ydir_rebars_group.YDirRebars
 
     # Check if there is need to recreate rebars
-    recreate_Xdir_rebars = False
+    recreate_xdir_rebars = False
     recreate_ydir_rebars = False
     prev_xdir_rebars_type = xdir_rebars_group.RebarType
     prev_xdir_rebars_number_diameter = xdir_rebars_group.NumberDiameter
@@ -1240,7 +1240,7 @@ def editYDirRebars(
                     structure,
                     facename_for_ydir_rebars,
                 )
-                ydir_rebars[index].OffsetEnd = (
+                ydir_rebars_list[index].OffsetEnd = (
                     rear_cover_of_ydir_rebars + dia / 2
                 )
                 f_cover_of_ydir_rebars += (

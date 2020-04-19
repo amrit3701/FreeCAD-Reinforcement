@@ -298,7 +298,6 @@ def makeMainRebars(
             )
         elif hook_extend_along == "y-axis":
             rebar_number_spacing_value = 1
-            orientation = list_orientation[1]
             for i, orientation in enumerate(list_orientation):
                 main_rebars.append(
                     makeLShapeRebar(
@@ -633,7 +632,6 @@ def editMainRebars(
                 )
             elif hook_extend_along == "y-axis":
                 rebar_number_spacing_value = 1
-                orientation = list_orientation[1]
                 for i, orientation in enumerate(list_orientation):
                     if len(main_rebars) > i:
                         editLShapeRebar(

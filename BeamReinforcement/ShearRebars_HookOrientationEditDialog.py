@@ -50,7 +50,7 @@ class _HookOrientationEditDialog:
         sets = len(self.HookOrientationTuple)
         for i in range(0, sets):
             self.addSet()
-            if self.HookOrientationTuple[i] == None:
+            if self.HookOrientationTuple[i] is None:
                 self.HookOrientationComboBoxList[i].setCurrentIndex(
                     self.HookOrientationComboBoxList[i].findText("Front Inside")
                 )
