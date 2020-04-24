@@ -28,7 +28,7 @@ __url__ = "https://www.freecadweb.org"
 
 import FreeCAD
 
-from .BOMfunc import *
+from .BOMfunc import getMarkReinforcementsDict, getRebarSharpEdgedLength
 from .config import *
 
 

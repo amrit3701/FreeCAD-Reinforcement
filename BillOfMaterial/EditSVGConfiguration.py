@@ -1,0 +1,228 @@
+# -*- coding: utf-8 -*-
+# ***************************************************************************
+# *                                                                         *
+# *   Copyright (c) 2020 - Suraj <dadralj18@gmail.com>                      *
+# *                                                                         *
+# *   This program is free software; you can redistribute it and/or modify  *
+# *   it under the terms of the GNU Lesser General Public License (LGPL)    *
+# *   as published by the Free Software Foundation; either version 2 of     *
+# *   the License, or (at your option) any later version.                   *
+# *   for detail see the LICENCE text file.                                 *
+# *                                                                         *
+# *   This program is distributed in the hope that it will be useful,       *
+# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+# *   GNU Library General Public License for more details.                  *
+# *                                                                         *
+# *   You should have received a copy of the GNU Library General Public     *
+# *   License along with this program; if not, write to the Free Software   *
+# *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
+# *   USA                                                                   *
+# *                                                                         *
+# ***************************************************************************
+
+__title__ = "BOM - Edit SVG Configuration Gui"
+__author__ = "Suraj"
+__url__ = "https://www.freecadweb.org"
+
+
+import os
+from PySide2 import QtCore, QtWidgets
+
+import FreeCAD
+import FreeCADGui
+
+
+class _EditSVGConfigurationDialog:
+    """This is a class for dialog box of editing Bill Of Material SVG
+    configuration."""
+
+    def __init__(
+        self,
+        font_size,
+        column_width,
+        row_height,
+        bom_left_offset,
+        bom_right_offset,
+        bom_top_offset,
+        bom_bottom_offset,
+        available_svg_sizes,
+        svg_size,
+    ):
+        """This function set initial data in SVG Configuration edit dialog box.
+        """
+        self.font_size = font_size
+        self.column_width = column_width
+        self.row_height = row_height
+        self.bom_left_offset = bom_left_offset
+        self.bom_right_offset = bom_right_offset
+        self.bom_top_offset = bom_top_offset
+        self.bom_bottom_offset = bom_bottom_offset
+        self.available_svg_sizes = available_svg_sizes
+        self.svg_size = svg_size
+        self.form = FreeCADGui.PySideUic.loadUi(
+            os.path.splitext(__file__)[0] + ".ui"
+        )
+        self.form.setWindowTitle(
+            QtWidgets.QApplication.translate(
+                "RebarAddon", "BOM - Edit SVG Configurations", None
+            )
+        )
+
+    def setupUi(self):
+        """This function is used to setup ui by calling appropriate functions.
+        """
+        self.addDropdownMenuItems()
+        self.setDefaultValues()
+        self.connectSignalSlots()
+
+    def addDropdownMenuItems(self):
+        """This function add dropdown items to each Gui::PrefComboBox."""
+        svg_size_list = ["Fit BOM"]
+        svg_size_list.extend(self.available_svg_sizes.keys())
+        self.form.predefinedSVGSize.addItems(svg_size_list)
+        for i, size in enumerate(self.available_svg_sizes):
+            self.form.predefinedSVGSize.setItemData(
+                i + 1,
+                "size: " + self.available_svg_sizes[size],
+                QtCore.Qt.ItemDataRole.ToolTipRole,
+            )
+
+    def setDefaultValues(self):
+        """This function is used to set default values in ui."""
+        self.form.fontSize.setValue(self.font_size)
+        self.form.columnWidth.setText(str(self.column_width))
+        self.form.rowHeight.setText(str(self.row_height))
+        self.form.bomLeftOffset.setText(str(self.bom_left_offset))
+        self.form.bomRightOffset.setText(str(self.bom_right_offset))
+        self.form.bomTopOffset.setText(str(self.bom_top_offset))
+        self.form.bomBottomOffset.setText(str(self.bom_bottom_offset))
+
+        # Set SVG size in ui
+        if self.svg_size in self.available_svg_sizes.values():
+            self.form.predefinedSVGSize.setCurrentIndex(
+                self.form.predefinedSVGSize.findText(
+                    list(self.available_svg_sizes.keys())[
+                        list(self.available_svg_sizes.values()).index(
+                            self.svg_size
+                        )
+                    ]
+                )
+            )
+            self.form.predefinedSVGSizeRadio.setChecked(True)
+            self.form.customSVGSizeRadio.setChecked(False)
+            self.predefined_svg_size_radio_clicked()
+        else:
+            try:
+                svg_width = float(self.svg_size.split("x")[0].strip())
+                svg_height = float(self.svg_size.split("x")[1].strip())
+                self.form.svgWidth.setText(str(svg_width) + "mm")
+                self.form.svgHeight.setText(str(svg_height) + "mm")
+                self.form.predefinedSVGSizeRadio.setChecked(False)
+                self.form.customSVGSizeRadio.setChecked(True)
+                self.custom_svg_size_radio_clicked()
+            except:
+                self.form.predefinedSVGSize.setCurrentIndex(
+                    self.form.predefinedSVGSize.findText("Fit BOM")
+                )
+                self.form.predefinedSVGSizeRadio.setChecked(True)
+                self.form.customSVGSizeRadio.setChecked(False)
+                self.predefined_svg_size_radio_clicked()
+
+    def connectSignalSlots(self):
+        """This function is used to connect different slots in UI to appropriate
+        functions."""
+        self.form.buttonBox.accepted.connect(self.accept)
+        self.form.buttonBox.rejected.connect(lambda: self.form.close())
+        self.form.predefinedSVGSizeRadio.clicked.connect(
+            self.predefined_svg_size_radio_clicked
+        )
+        self.form.customSVGSizeRadio.clicked.connect(
+            self.custom_svg_size_radio_clicked
+        )
+
+    def predefined_svg_size_radio_clicked(self):
+        """This function is executed when Predefined svg size radio button is
+        clicked in ui."""
+        self.form.predefinedSVGSize.setEnabled(True)
+        self.form.customSVGSizeWidget.setEnabled(False)
+
+    def custom_svg_size_radio_clicked(self):
+        """This function is executed when Custom svg size radio button is
+        clicked in ui."""
+        self.form.predefinedSVGSize.setEnabled(False)
+        self.form.customSVGSizeWidget.setEnabled(True)
+
+    def accept(self):
+        """This function is executed when 'OK' button is clicked from UI."""
+        self.font_size = self.form.fontSize.value()
+        self.column_width = FreeCAD.Units.Quantity(
+            self.form.columnWidth.text()
+        ).Value
+        self.row_height = FreeCAD.Units.Quantity(
+            self.form.rowHeight.text()
+        ).Value
+        self.bom_left_offset = FreeCAD.Units.Quantity(
+            self.form.bomLeftOffset.text()
+        ).Value
+        self.bom_right_offset = FreeCAD.Units.Quantity(
+            self.form.bomRightOffset.text()
+        ).Value
+        self.bom_top_offset = FreeCAD.Units.Quantity(
+            self.form.bomTopOffset.text()
+        ).Value
+        self.bom_bottom_offset = FreeCAD.Units.Quantity(
+            self.form.bomBottomOffset.text()
+        ).Value
+        self.svg_size = self.getSVGSize()
+        self.form.close()
+
+    def getSVGSize(self):
+        """This function is used to get svg size from ui."""
+        predefined_svg_size_check = self.form.predefinedSVGSizeRadio.isChecked()
+        custom_svg_size_check = self.form.customSVGSizeRadio.isChecked()
+
+        if predefined_svg_size_check:
+            svg_sheet = self.form.predefinedSVGSize.currentText()
+            if svg_sheet in self.available_svg_sizes:
+                svg_size = self.available_svg_sizes[
+                    self.form.predefinedSVGSize.currentText()
+                ]
+                return svg_size
+            else:
+                return ""
+        elif custom_svg_size_check:
+            svg_width = self.form.svgWidth.text()
+            svg_width = FreeCAD.Units.Quantity(svg_width).Value
+            svg_height = self.form.svgHeight.text()
+            svg_height = FreeCAD.Units.Quantity(svg_height).Value
+            svg_size = str(svg_width) + "x" + str(svg_height)
+            return svg_size
+
+
+def runEditSVGConfigurationDialog(parent_dialog):
+    """This function is used to invoke dialog box for editing svg configuration
+    for bill of material. It is also responsive for returning data to parent
+    dialog box."""
+    dialog = _EditSVGConfigurationDialog(
+        parent_dialog.font_size,
+        parent_dialog.column_width,
+        parent_dialog.row_height,
+        parent_dialog.bom_left_offset,
+        parent_dialog.bom_right_offset,
+        parent_dialog.bom_top_offset,
+        parent_dialog.bom_bottom_offset,
+        parent_dialog.available_svg_sizes,
+        parent_dialog.svg_size,
+    )
+    dialog.setupUi()
+    dialog.form.exec_()
+    parent_dialog.font_size = dialog.font_size
+    parent_dialog.column_width = dialog.column_width
+    parent_dialog.row_height = dialog.row_height
+    parent_dialog.bom_left_offset = dialog.bom_left_offset
+    parent_dialog.bom_right_offset = dialog.bom_right_offset
+    parent_dialog.bom_top_offset = dialog.bom_top_offset
+    parent_dialog.bom_bottom_offset = dialog.bom_bottom_offset
+    parent_dialog.available_svg_sizes = dialog.available_svg_sizes
+    parent_dialog.svg_size = dialog.svg_size

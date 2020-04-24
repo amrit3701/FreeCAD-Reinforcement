@@ -27,9 +27,8 @@ __url__ = "https://www.freecadweb.org"
 
 
 import os
-from PySide2 import QtCore, QtWidgets
+from PySide2 import QtWidgets
 
-import FreeCAD
 import FreeCADGui
 
 from .UnitLineEdit import UnitLineEdit
@@ -46,6 +45,13 @@ class _BillOfMaterialDialog:
         column_headers,
         column_units,
         rebar_length_type,
+        font_size,
+        column_width,
+        row_height,
+        bom_left_offset,
+        bom_right_offset,
+        bom_top_offset,
+        bom_bottom_offset,
         available_svg_sizes,
         svg_size,
     ):
@@ -54,6 +60,13 @@ class _BillOfMaterialDialog:
         self.column_units = column_units
         self.rebar_length_type = rebar_length_type
         self.allowed_rebar_length_types = ["RealLength", "LengthWithSharpEdges"]
+        self.font_size = font_size
+        self.column_width = column_width
+        self.row_height = row_height
+        self.bom_left_offset = bom_left_offset
+        self.bom_right_offset = bom_right_offset
+        self.bom_top_offset = bom_top_offset
+        self.bom_bottom_offset = bom_bottom_offset
         self.available_svg_sizes = available_svg_sizes
         self.svg_size = svg_size
         self.form = FreeCADGui.PySideUic.loadUi(
@@ -76,51 +89,8 @@ class _BillOfMaterialDialog:
             self.form.rebarLengthType.findText(self.rebar_length_type)
         )
 
-        # Set SVG size in ui
-        if self.svg_size in self.available_svg_sizes.values():
-            self.form.predefinedSVGSize.setCurrentIndex(
-                self.form.predefinedSVGSize.findText(
-                    list(self.available_svg_sizes.keys())[
-                        list(self.available_svg_sizes.values()).index(
-                            self.svg_size
-                        )
-                    ]
-                )
-            )
-            self.form.predefinedSVGSizeRadio.setChecked(True)
-            self.form.customSVGSizeRadio.setChecked(False)
-            self.predefined_svg_size_radio_clicked()
-        else:
-            try:
-                svg_width = float(self.svg_size.split("x")[0].strip())
-                svg_height = float(self.svg_size.split("x")[1].strip())
-                self.form.svgWidth.setText(str(svg_width) + "mm")
-                self.form.svgHeight.setText(str(svg_height) + "mm")
-                self.form.predefinedSVGSizeRadio.setChecked(False)
-                self.form.customSVGSizeRadio.setChecked(True)
-                self.custom_svg_size_radio_clicked()
-            except:
-                self.form.predefinedSVGSize.setCurrentIndex(
-                    self.form.predefinedSVGSize.findText("Fit BOM")
-                )
-                self.form.predefinedSVGSizeRadio.setChecked(True)
-                self.form.customSVGSizeRadio.setChecked(False)
-                self.predefined_svg_size_radio_clicked()
-
         # Connect signal and slots in ui
         self.connectSignalSlots()
-
-    def connectSignalSlots(self):
-        """This function is used to connect different slots in UI to appropriate
-        functions."""
-        self.form.buttonBox.accepted.connect(self.accept)
-        self.form.buttonBox.rejected.connect(lambda: self.form.close())
-        self.form.predefinedSVGSizeRadio.clicked.connect(
-            self.predefined_svg_size_radio_clicked
-        )
-        self.form.customSVGSizeRadio.clicked.connect(
-            self.custom_svg_size_radio_clicked
-        )
 
     def addUnitsInputFields(self):
         """This function add input fields for units of data."""
@@ -177,23 +147,27 @@ class _BillOfMaterialDialog:
         """This function add dropdown items to each Gui::PrefComboBox."""
         self.form.rebarLengthType.addItems(self.allowed_rebar_length_types)
 
-        svg_size_list = ["Fit BOM"]
-        svg_size_list.extend(self.available_svg_sizes.keys())
-        self.form.predefinedSVGSize.addItems(svg_size_list)
-        for i, size in enumerate(self.available_svg_sizes):
-            self.form.predefinedSVGSize.setItemData(
-                i + 1,
-                "size: " + self.available_svg_sizes[size],
-                QtCore.Qt.ItemDataRole.ToolTipRole,
-            )
+    def connectSignalSlots(self):
+        """This function is used to connect different slots in UI to appropriate
+        functions."""
+        from .EditSVGConfiguration import runEditSVGConfigurationDialog
 
-    def predefined_svg_size_radio_clicked(self):
-        self.form.predefinedSVGSize.setEnabled(True)
-        self.form.customSVGSizeWidget.setEnabled(False)
+        self.form.editSVGConfigButton.clicked.connect(
+            lambda: runEditSVGConfigurationDialog(self)
+        )
+        self.form.exportSVG.stateChanged.connect(
+            self.export_svg_checkbox_clicked
+        )
+        self.form.buttonBox.accepted.connect(self.accept)
+        self.form.buttonBox.rejected.connect(lambda: self.form.close())
 
-    def custom_svg_size_radio_clicked(self):
-        self.form.predefinedSVGSize.setEnabled(False)
-        self.form.customSVGSizeWidget.setEnabled(True)
+    def export_svg_checkbox_clicked(self):
+        """This function is executed when Export SVG button is checked/unchecked
+        in ui."""
+        if self.form.exportSVG.isChecked():
+            self.form.editSVGConfigButton.setEnabled(True)
+        else:
+            self.form.editSVGConfigButton.setEnabled(False)
 
     def accept(self):
         """This function is executed when 'OK' button is clicked from UI. It
@@ -221,37 +195,21 @@ class _BillOfMaterialDialog:
             )
         export_svg = self.form.exportSVG.isChecked()
         if export_svg:
-            svg_size = self.getSVGSize()
             svg_string = makeBillOfMaterialSVG(
                 column_headers=column_headers,
                 column_units=column_units,
                 rebar_length_type=rebar_length_type,
-                svg_size=svg_size,
+                font_size=self.font_size,
+                column_width=self.column_width,
+                row_height=self.row_height,
+                bom_left_offset=self.bom_left_offset,
+                bom_right_offset=self.bom_right_offset,
+                bom_top_offset=self.bom_top_offset,
+                bom_bottom_offset=self.bom_bottom_offset,
+                svg_size=self.svg_size,
             )
             self.saveSVG(svg_string)
         self.form.close()
-
-    def getSVGSize(self):
-        """This function is used to get svg size from ui."""
-        predefined_svg_size_check = self.form.predefinedSVGSizeRadio.isChecked()
-        custom_svg_size_check = self.form.customSVGSizeRadio.isChecked()
-
-        if predefined_svg_size_check:
-            svg_sheet = self.form.predefinedSVGSize.currentText()
-            if svg_sheet in self.available_svg_sizes:
-                svg_size = self.available_svg_sizes[
-                    self.form.predefinedSVGSize.currentText()
-                ]
-                return svg_size
-            else:
-                return ""
-        elif custom_svg_size_check:
-            svg_width = self.form.svgWidth.text()
-            svg_width = FreeCAD.Units.Quantity(svg_width).Value
-            svg_height = self.form.svgHeight.text()
-            svg_height = FreeCAD.Units.Quantity(svg_height).Value
-            svg_size = str(svg_width) + "x" + str(svg_height)
-            return svg_size
 
     def saveSVG(self, svg_string):
         """This function save svg output in file chosen from a file dialog box.
@@ -322,6 +280,13 @@ def CommandBillOfMaterial(
     column_headers=COLUMN_HEADERS,
     column_units=COLUMN_UNITS,
     rebar_length_type=REBAR_LENGTH_TYPE,
+    font_size=FONT_SIZE,
+    column_width=COLUMN_WIDTH,
+    row_height=ROW_HEIGHT,
+    bom_left_offset=BOM_SVG_LEFT_OFFSET,
+    bom_right_offset=BOM_SVG_RIGHT_OFFSET,
+    bom_top_offset=BOM_SVG_TOP_OFFSET,
+    bom_bottom_offset=BOM_SVG_BOTTOM_OFFSET,
     available_svg_sizes=AVAILABLE_SVG_SIZES,
     svg_size=SVG_SIZE,
 ):
@@ -331,6 +296,13 @@ def CommandBillOfMaterial(
         column_headers,
         column_units,
         rebar_length_type,
+        font_size,
+        column_width,
+        row_height,
+        bom_left_offset,
+        bom_right_offset,
+        bom_top_offset,
+        bom_bottom_offset,
         available_svg_sizes,
         svg_size,
     )

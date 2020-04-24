@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>507</width>
+    <height>368</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="1" column="0">
+    <widget class="QLabel" name="columnWidthLabel">
+     <property name="text">
+      <string>Column Width</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="Gui::InputField" name="columnWidth">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>30.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="rowHeightLabel">
+     <property name="text">
+      <string>Row Height</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="Gui::InputField" name="rowHeight">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>10.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="2">
+    <widget class="QLabel" name="svgSizeLabel">
+     <property name="text">
+      <string>SVG Size</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="Gui::PrefRadioButton" name="predefinedSVGSizeRadio">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>112</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Predefined</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="Gui::PrefComboBox" name="predefinedSVGSize"/>
+   </item>
+   <item row="9" column="0">
+    <widget class="Gui::PrefRadioButton" name="customSVGSizeRadio">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>87</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Custom</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="fontSizeLabel">
+     <property name="text">
+      <string>Font Size</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="Gui::PrefSpinBox" name="fontSize">
+     <property name="value">
+      <number>3</number>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="bomLeftOffsetLabel">
+     <property name="text">
+      <string>BOM Left Offset</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="Gui::InputField" name="bomLeftOffset">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>6.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="bomRightOffsetLabel">
+     <property name="text">
+      <string>BOM Right Offset</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="Gui::InputField" name="bomRightOffset">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>6.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="bomTopOffsetLabel">
+     <property name="text">
+      <string>BOM Top Offset</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="bomBottomOffsetLabel">
+     <property name="text">
+      <string>BOM Bottom Offset</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="Gui::InputField" name="bomTopOffset">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>6.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="Gui::InputField" name="bomBottomOffset">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>6.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1">
+    <widget class="QWidget" name="customSVGSizeWidget" native="true">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>328</width>
+       <height>0</height>
+      </size>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_7">
+      <property name="leftMargin">
+       <number>1</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="svgWidthLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Width</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Gui::InputField" name="svgWidth">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>210 mm</string>
+        </property>
+        <property name="minimum">
+         <double>0.000000000000000</double>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true">mm</string>
+        </property>
+        <property name="quantity" stdset="0">
+         <double>210.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="svgHeightLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Height</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Gui::InputField" name="svgHeight">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>297 mm</string>
+        </property>
+        <property name="minimum">
+         <double>0.000000000000000</double>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true">mm</string>
+        </property>
+        <property name="quantity" stdset="0">
+         <double>297.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="10" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::InputField</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/InputField.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefRadioButton</class>
+   <extends>QRadioButton</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefComboBox</class>
+   <extends>QComboBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>fontSize</tabstop>
+  <tabstop>columnWidth</tabstop>
+  <tabstop>rowHeight</tabstop>
+  <tabstop>bomLeftOffset</tabstop>
+  <tabstop>bomRightOffset</tabstop>
+  <tabstop>bomTopOffset</tabstop>
+  <tabstop>bomBottomOffset</tabstop>
+  <tabstop>predefinedSVGSizeRadio</tabstop>
+  <tabstop>predefinedSVGSize</tabstop>
+  <tabstop>customSVGSizeRadio</tabstop>
+  <tabstop>svgWidth</tabstop>
+  <tabstop>svgHeight</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
