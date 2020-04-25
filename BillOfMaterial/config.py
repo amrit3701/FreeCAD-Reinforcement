@@ -101,7 +101,7 @@ ROW_HEIGHT = 10
 FONT_SIZE = 3
 
 # Available sizes as widthxheight in mm
-AVAILABLE_SIZES = {
+AVAILABLE_SVG_SIZES = {
     "A0": "841x1189",
     "A1": "594x841",
     "A2": "420x594",
@@ -111,7 +111,7 @@ AVAILABLE_SIZES = {
 
 # Size of svg sheet, if blank (SVG_SIZE = "") then it will be calculated
 # automatically to fit Bill of Material
-SVG_SIZE = AVAILABLE_SIZES["A4"]
+SVG_SIZE = AVAILABLE_SVG_SIZES["A4"]
 
 # Left offset (minimum) of bill of material svg
 BOM_SVG_LEFT_OFFSET = 6
