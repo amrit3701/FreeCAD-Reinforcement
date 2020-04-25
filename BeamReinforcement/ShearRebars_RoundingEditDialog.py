@@ -50,7 +50,7 @@ class _RoundingEditDialog:
         sets = len(self.RoundingTuple)
         for i in range(0, sets):
             self.addSet()
-            if self.RoundingTuple[i] == None:
+            if self.RoundingTuple[i] is None:
                 self.RoundingSpinBoxList[i].setValue(2)
                 self.RoundingSpinBoxList[i].setEnabled(False)
             else:

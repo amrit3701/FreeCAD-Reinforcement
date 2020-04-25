@@ -36,6 +36,7 @@ import math
 # Generic functions
 # --------------------------------------------------------------------------
 
+
 def getEdgesAngle(edge1, edge2):
     """ getEdgesAngle(edge1, edge2): returns a angle between two edges."""
     vec1 = vec(edge1)
@@ -44,16 +45,23 @@ def getEdgesAngle(edge1, edge2):
     angle = math.degrees(angle)
     return angle
 
+
 def checkRectangle(edges):
-    """ checkRectangle(edges=[]): This function checks whether the given form rectangle
-        or not. It will return True when edges form rectangular shape or return False
-        when edges not form a rectangular."""
-    angles = [round(getEdgesAngle(edges[0], edges[1])), round(getEdgesAngle(edges[0], edges[2])),
-            round(getEdgesAngle(edges[0], edges[3]))]
-    if angles.count(90) == 2 and (angles.count(180) == 1 or angles.count(0) == 1):
+    """ checkRectangle(edges=[]): This function checks whether the given form
+    rectangle or not. It will return True when edges form rectangular shape or
+    return False when edges not form a rectangular shape."""
+    angles = [
+        round(getEdgesAngle(edges[0], edges[1])),
+        round(getEdgesAngle(edges[0], edges[2])),
+        round(getEdgesAngle(edges[0], edges[3])),
+    ]
+    if angles.count(90) == 2 and (
+        angles.count(180) == 1 or angles.count(0) == 1
+    ):
         return True
     else:
         return False
+
 
 def getBaseStructuralObject(obj):
     """ getBaseStructuralObject(obj): This function will return last base
@@ -63,6 +71,7 @@ def getBaseStructuralObject(obj):
     else:
         return getBaseStructuralObject(obj.Base)
 
+
 def getBaseObject(obj):
     """ getBaseObject(obj): This function will return last base object."""
     if hasattr(obj, "Base"):
@@ -70,22 +79,24 @@ def getBaseObject(obj):
     else:
         return obj
 
+
 def getFaceNumber(s):
     """ getFaceNumber(facename): This will return a face number from face name.
     For eg.:
         Input: "Face12"
         Output: 12"""
-    head = s.rstrip('0123456789')
-    tail = s[len(head):]
+    head = s.rstrip("0123456789")
+    tail = s[len(head) :]
     return int(tail)
 
-def facenormalDirection(structure = None, facename = None):
+
+def facenormalDirection(structure=None, facename=None):
     if not structure and not facename:
         selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
         structure = selected_obj.Object
         facename = selected_obj.SubElementNames[0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
-    normal = face.normalAt(0,0)
+    normal = face.normalAt(0, 0)
     normal = face.Placement.Rotation.inverted().multVec(normal)
     return normal
 
@@ -113,6 +124,7 @@ def gettupleOfNumberDiameter(diameter_string):
 # Main functions which is use while creating any rebar.
 # --------------------------------------------------------------------------
 
+
 def getTrueParametersOfStructure(obj):
     """ getTrueParametersOfStructure(obj): This function return actual length,
     width and height of the structural element in the form of array like
@@ -126,8 +138,14 @@ def getTrueParametersOfStructure(obj):
             if checkRectangle(edges):
                 for edge in edges:
                     # Representation vector of edge
-                    rep_vector = edge.Vertexes[1].Point.sub(edge.Vertexes[0].Point)
-                    rep_vector_angle = round(math.degrees(rep_vector.getAngle(FreeCAD.Vector(1,0,0))))
+                    rep_vector = edge.Vertexes[1].Point.sub(
+                        edge.Vertexes[0].Point
+                    )
+                    rep_vector_angle = round(
+                        math.degrees(
+                            rep_vector.getAngle(FreeCAD.Vector(1, 0, 0))
+                        )
+                    )
                     if rep_vector_angle in {0, 180}:
                         length = edge.Length
                     else:
@@ -144,23 +162,29 @@ def getTrueParametersOfStructure(obj):
         height = structuralBaseObject.Height.Value
     return [length, width, height]
 
+
 def getParametersOfFace(structure, facename, sketch=True):
-    """ getParametersOfFace(structure, facename, sketch = True): This function will return
-    length, width and points of center of mass of a given face w.r.t sketch value.
+    """getParametersOfFace(structure, facename, sketch = True):
+    This function will return length, width and points of center of mass of a
+    given face w.r.t sketch value.
 
     For eg.:
-    Case 1: When sketch is True: We use True when we want to create rebars from sketch
-        (planar rebars) and the sketch is strictly based on 2D, so we neglected the normal
-        axis of the face.
+    Case 1: When sketch is True: We use True when we want to create rebars from
+        sketch (planar rebars) and the sketch is strictly based on 2D, so we
+        neglected the normal axis of the face.
         Output: [(FaceLength, FaceWidth), (CenterOfMassX, CenterOfMassY)]
 
-    Case 2: When sketch is False: When we want to create non-planar rebars(like stirrup)
-        or rebar from a wire. Also for creating rebar from wire we will require
-        three coordinates (x, y, z).
-        Output: [(FaceLength, FaceWidth), (CenterOfMassX, CenterOfMassY, CenterOfMassZ)]"""
+    Case 2: When sketch is False: When we want to create non-planar rebars (like
+        stirrup) or rebar from a wire. Also for creating rebar from wire we will
+        require three coordinates (x, y, z).
+        Output: [(FaceLength, FaceWidth), (CenterOfMassX, CenterOfMassY,
+        CenterOfMassZ)]
+    """
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
     center_of_mass = face.CenterOfMass
-    #center_of_mass = center_of_mass.sub(getBaseStructuralObject(structure).Placement.Base)
+    # center_of_mass = center_of_mass.sub(
+    #     getBaseStructuralObject(structure).Placement.Base
+    # )
     center_of_mass = center_of_mass.sub(structure.Placement.Base)
     Edges = []
     facePRM = []
@@ -173,7 +197,9 @@ def getParametersOfFace(structure, facename, sketch=True):
             else:
                 # Checks whether similar edges is already present in Edges list
                 # or not.
-                if round((vec(edge)).Length) not in [round((vec(x)).Length) for x in Edges]:
+                if round((vec(edge)).Length) not in [
+                    round((vec(x)).Length) for x in Edges
+                ]:
                     Edges.append(edge)
         if len(Edges) == 1:
             Edges.append(edge)
@@ -205,12 +231,16 @@ def getParametersOfFace(structure, facename, sketch=True):
         boundbox = face.BoundBox
         # Check that one length of bounding box is zero. Here bounding box
         # looks like a plane.
-        if 0 in {round(boundbox.XLength), round(boundbox.YLength), round(boundbox.ZLength)}:
-            normal = face.normalAt(0,0)
+        if 0 in {
+            round(boundbox.XLength),
+            round(boundbox.YLength),
+            round(boundbox.ZLength),
+        }:
+            normal = face.normalAt(0, 0)
             normal = face.Placement.Rotation.inverted().multVec(normal)
-            #print "x: ", boundbox.XLength
-            #print "y: ", boundbox.YLength
-            #print "z: ", boundbox.ZLength
+            # print "x: ", boundbox.XLength
+            # print "y: ", boundbox.YLength
+            # print "z: ", boundbox.ZLength
             # Set length and width of user selected face of structural element
             flag = True
             # FIXME: Improve below logic.
@@ -218,7 +248,7 @@ def getParametersOfFace(structure, facename, sketch=True):
                 if round(normal[i]) == 0:
                     if flag and i == 0:
                         x = center_of_mass[i]
-                        facelength =  boundbox.XLength
+                        facelength = boundbox.XLength
                         flag = False
                     elif flag and i == 1:
                         x = center_of_mass[i]
@@ -230,19 +260,21 @@ def getParametersOfFace(structure, facename, sketch=True):
                     elif i == 2:
                         y = center_of_mass[i]
                         facewidth = boundbox.ZLength
-            #print [(facelength, facewidth), (x, y)]
+            # print [(facelength, facewidth), (x, y)]
     # Return parameter of the face when rebar is not created from the sketch.
     # For eg. non-planar rebars like stirrup etc.
     if not sketch:
         center_of_mass = face.CenterOfMass
         return [(facelength, facewidth), center_of_mass]
-    #TODO: Add support when bounding box have depth. Here bounding box looks
+    # TODO: Add support when bounding box have depth. Here bounding box looks
     # like cuboid. If we given curved face.
     return [(facelength, facewidth), (x, y)]
+
 
 # -------------------------------------------------------------------------
 # Functions which is mainly used while creating stirrup.
 # -------------------------------------------------------------------------
+
 
 def extendedTangentPartLength(rounding, diameter, angle):
     """ extendedTangentPartLength(rounding, diameter, angle): Get a extended
@@ -251,6 +283,7 @@ def extendedTangentPartLength(rounding, diameter, angle):
     x1 = radius / math.tan(math.radians(angle))
     x2 = radius / math.cos(math.radians(90 - angle)) - radius
     return x1 + x2
+
 
 def extendedTangentLength(rounding, diameter, angle):
     """ extendedTangentLength(rounding, diameter, angle): Get a extended
@@ -276,6 +309,7 @@ def setGroupProperties(properties, group_obj):
             QT_TRANSLATE_NOOP("App::Property", prop[2]),
         )
         group_obj.setEditorMode(prop[1], prop[3])
+
 
 def setGroupPropertiesValues(properties_values, group_obj):
     for prop in properties_values:
@@ -767,7 +801,8 @@ class _ViewProviderBeamReinforcementGroup:
 
 # -------------------------------------------------------------------------
 # Warning / Alert functions when user do something wrong.
-#--------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+
 
 def check_selected_face():
     """ check_selected_face(): This function checks whether user have selected
@@ -783,7 +818,10 @@ def check_selected_face():
             showWarning("Select any face of the structural element.")
         elif "Face" in selected_face_names[0]:
             if len(selected_face_names) > 1:
-                showWarning("You have selected more than one face of the structural element.")
+                showWarning(
+                    "You have selected more than one face of the structural "
+                    "element."
+                )
                 selected_obj = None
             elif len(selected_face_names) == 1:
                 selected_obj = selected_objs[0]
@@ -792,6 +830,7 @@ def check_selected_face():
             selected_obj = None
     return selected_obj
 
+
 def getSelectedFace(self):
     selected_objs = FreeCADGui.Selection.getSelectionEx()
     if selected_objs:
@@ -799,13 +838,16 @@ def getSelectedFace(self):
             if "Face" in selected_objs[0].SubElementNames[0]:
                 self.SelectedObj = selected_objs[0].Object
                 self.FaceName = selected_objs[0].SubElementNames[0]
-                self.form.PickSelectedFaceLabel.setText("Selected face is " + self.FaceName)
+                self.form.PickSelectedFaceLabel.setText(
+                    "Selected face is " + self.FaceName
+                )
             else:
                 showWarning("Select any face of the structural element.")
         else:
             showWarning("Select only one face of the structural element.")
     else:
         showWarning("Select any face of the structural element.")
+
 
 def showWarning(message):
     """ showWarning(message): This function is used to produce warning
@@ -816,6 +858,7 @@ def showWarning(message):
     msg.setStandardButtons(QtGui.QMessageBox.Ok)
     msg.exec_()
 
+
 # Qt translation handling
 def translate(context, text, disambig=None):
     return QtCore.QCoreApplication.translate(context, text, disambig)
@@ -823,7 +866,7 @@ def translate(context, text, disambig=None):
 
 def print_in_freecad_console(*msg):
     """ Print given arguments on FreeCAD console."""
-    s = ''
+    s = ""
     for m in msg:
-        s += str(m) + ', '
-    FreeCAD.Console.PrintMessage(str(s) + '\n')
+        s += str(m) + ", "
+    FreeCAD.Console.PrintMessage(str(s) + "\n")
