@@ -98,10 +98,15 @@ def getSVGDataCell(column_offset, row_offset, width, height, data, font_size):
 
 
 def getColumnHeadersSVG(
-    column_headers, diameter_list, column_width, row_height, font_size
+    column_headers,
+    diameter_list,
+    row_offset,
+    column_width,
+    row_height,
+    font_size,
 ):
-    """getColumnHeadersSVG(ColumnHeaders, DiameterList, ColumnWidth, RowHeight,
-    FontSize):
+    """getColumnHeadersSVG(ColumnHeaders, DiameterList, RowOffset, ColumnWidth,
+    RowHeight, FontSize):
     column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
     "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
     its sequence number.
@@ -135,7 +140,7 @@ def getColumnHeadersSVG(
         if column_header != "RebarsTotalLength":
             header_svg += "  " + getSVGDataCell(
                 column_offset,
-                0,
+                row_offset,
                 column_width,
                 height,
                 column_headers[column_header][0],
@@ -145,7 +150,7 @@ def getColumnHeadersSVG(
         elif column_header == "RebarsTotalLength":
             header_svg += "  " + getSVGDataCell(
                 column_offset,
-                0,
+                row_offset,
                 column_width * len(diameter_list),
                 row_height,
                 column_headers[column_header][0],
@@ -155,7 +160,7 @@ def getColumnHeadersSVG(
             for dia in diameter_list:
                 header_svg += "    " + getSVGDataCell(
                     column_offset,
-                    row_height,
+                    row_offset + row_height,
                     column_width,
                     row_height,
                     "#" + str(dia.Value).rstrip("0").rstrip("."),
@@ -242,8 +247,8 @@ def getBOMonSheet(
         scaling_factor = min(h_scaling_factor, v_scaling_factor)
 
         bom_svg = bom_svg.replace(
-            '<g id="BOM"',
-            '<g id="BOM" transform="scale({})"'.format(scaling_factor),
+            '<g id="BOM_Sheet"',
+            '<g id="BOM_Sheet" transform="scale({})"'.format(scaling_factor),
         )
 
         return bom_svg
@@ -305,13 +310,26 @@ def makeBillOfMaterialSVG(
     head = getSVGHead()
     svg_output = head
 
-    svg_output += '<g id="BOM">\n'
+    svg_output += '<g id="BOM_Sheet">\n'
     indent_level = "  "
+    svg_output += indent_level + (
+        '<text text-anchor="start" style="" x="{}" y="{}" '
+        'dominant-baseline="hanging" font-family="DejaVu Sans"'
+        ' font-size="{}" fill="#000000">Bill of Material</text>\n'
+    ).format(0, 1, 2 * font_size)
+
+    svg_output += indent_level + '<g id="BOM">\n'
+    indent_level += "  "
 
     mark_reinforcements_dict = getMarkReinforcementsDict()
     diameter_list = getUniqueDiameterList(mark_reinforcements_dict)
     header_svg = getColumnHeadersSVG(
-        column_headers, diameter_list, column_width, row_height, font_size
+        column_headers,
+        diameter_list,
+        row_height,
+        column_width,
+        row_height,
+        font_size,
     )
     svg_output += indent_level + header_svg.replace(
         "\n", "\n" + indent_level
@@ -324,11 +342,11 @@ def makeBillOfMaterialSVG(
 
     # Add data to svg
     if "RebarsTotalLength" in column_headers:
+        first_row = 4
+        current_row = 4
+    else:
         first_row = 3
         current_row = 3
-    else:
-        first_row = 2
-        current_row = 2
     svg_output += indent_level + '<g id="BOM_Data">\n'
     indent_level += "  "
     for mark_number in sorted(mark_reinforcements_dict):
@@ -708,6 +726,9 @@ def makeBillOfMaterialSVG(
             ).replace("\n", "\n" + indent_level).rstrip(indent_level)
     indent_level = " " * (len(indent_level) - 2)
     svg_output += indent_level + "</g>\n"
+
+    svg_output += "</g>\n"
+    indent_level = " " * (len(indent_level) - 2)
 
     svg_output += "</g>\n"
     svg_output += "\n</svg>"

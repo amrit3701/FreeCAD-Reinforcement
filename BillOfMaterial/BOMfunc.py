@@ -55,7 +55,7 @@ def getMarkReinforcementsDict():
 
 def getUniqueDiameterList(mark_reinforcements_dict):
     """getUniqueDiameterList(MarkReinforcementDict):
-    MarkReinforcementsDict is a dictionary with mark as key and corresponding
+    mark_reinforcements_dict is a dictionary with mark as key and corresponding
     reinforcement objects list as value.
 
     Returns list of unique diameters of reinforcement objects.
