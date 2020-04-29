@@ -186,7 +186,7 @@ def getBOMSVGHeader(
         else:
             FreeCAD.Console.PrintError(
                 "Error: Unsupported file type of logo.\nValid file types for "
-                "logo are: " + ", ".join(valid_logo_filetypes)
+                "logo are: " + ", ".join(valid_logo_filetypes) + "\n"
             )
             svg_header_company_logo_height = 0
     svg_header += "</g>\n"
@@ -776,6 +776,25 @@ def makeBillOfMaterialSVG(
                         ).toStr(),
                         font_size,
                     ).replace("\n", "\n" + indent_level).rstrip(indent_level)
+                else:
+                    svg_output += indent_level + (
+                        '<rect x="{}" y="{}" width="{}" height="{}" style='
+                        '"fill:none;stroke-width:0.35;stroke:#000000;"/>\n'
+                    ).format(
+                        rebar_total_length_offset + i * column_width,
+                        y_offset + row_height,
+                        column_width,
+                        row_height,
+                    )
+                    svg_output += indent_level + (
+                        '<rect x="{}" y="{}" width="{}" height="{}" style='
+                        '"fill:none;stroke-width:0.35;stroke:#000000;"/>\n'
+                    ).format(
+                        rebar_total_length_offset + i * column_width,
+                        y_offset + 2 * row_height,
+                        column_width,
+                        row_height,
+                    )
 
             for remColumn in range(
                 len(column_headers) - column_headers["RebarsTotalLength"][1]

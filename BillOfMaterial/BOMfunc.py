@@ -42,16 +42,15 @@ def getMarkReinforcementsDict():
     default_mark_number = 0
     mark_reinforcements_dict = {}
     for item in objects_list:
-        if hasattr(item, "BaseRebar"):
-            if hasattr(item.BaseRebar, "IfcType"):
-                if item.BaseRebar.IfcType == "Reinforcing Bar":
-                    if not hasattr(item.BaseRebar, "MarkNumber"):
-                        mark_number = default_mark_number
-                    else:
-                        mark_number = item.BaseRebar.MarkNumber
-                    if mark_number not in mark_reinforcements_dict:
-                        mark_reinforcements_dict[mark_number] = []
-                    mark_reinforcements_dict[mark_number].append(item)
+        if hasattr(item, "BaseRebar") and hasattr(item, "IfcType"):
+            if item.IfcType == "Reinforcing Bar":
+                if not hasattr(item.BaseRebar, "MarkNumber"):
+                    mark_number = default_mark_number
+                else:
+                    mark_number = item.BaseRebar.MarkNumber
+                if mark_number not in mark_reinforcements_dict:
+                    mark_reinforcements_dict[mark_number] = []
+                mark_reinforcements_dict[mark_number].append(item)
     return mark_reinforcements_dict
 
 
