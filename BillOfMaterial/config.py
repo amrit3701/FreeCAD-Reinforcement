@@ -26,6 +26,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
+from pathlib import Path
 from datetime import date
 
 import FreeCAD
@@ -128,17 +129,28 @@ BOM_SVG_TOP_OFFSET = 6
 # Bottom offset (minimum) of bill of material svg
 BOM_SVG_BOTTOM_OFFSET = 6
 
+# Project info will be shown as "Key: value" pairs.
 SVG_HEADER_PROJECT_INFO = {
     "Project": "Project Name",
     "Created By": "Author Name",
     "Date": str(date.today()),
 }
 
+# This will be shown next to company logo
 SVG_HEADER_COMPANY_INFO = (
     "Company Name\nAddress Line1\nAddress Line2\nTel. 99999-88888\nEmail: "
     "foo@foo.com\nwebsite"
 )
 
-SVG_HEADER_COMPANY_LOGO = "./company_logo.svg"
+# Logo path must be absolute path of logo file.
+# Supported logo file formats are: "png", "jpeg", "jpg", "ico" and "bmp"
+SVG_HEADER_COMPANY_LOGO = Path(__file__).parent.absolute() / "company_logo.png"
 
+# Maximum width of logo to be used in BOM
+SVG_HEADER_COMPANY_LOGO_WIDTH = 30
+
+# Maximum height of logo to be used in BOM
+SVG_HEADER_COMPANY_LOGO_HEIGHT = 30
+
+# Footer text to be included in BOM
 SVG_FOOTER_TEXT = "Proudly generated using FreeCAD - Rebar Addon"

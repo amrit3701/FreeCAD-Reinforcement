@@ -26,6 +26,9 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
+import os
+import base64
+
 import FreeCAD
 
 from .BOMfunc import (
@@ -70,6 +73,7 @@ def getSVGHead():
     """Returns svg start tag with freecad namespace."""
     head = """<svg
     xmlns="http://www.w3.org/2000/svg" version="1.1"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:freecad="http://www.freecadweb.org/wiki/index.php?title=Svg_Namespace">
     """.rstrip(
         "    "
@@ -81,6 +85,8 @@ def getBOMSVGHeader(
     svg_header_project_info,
     svg_header_company_info,
     svg_header_company_logo,
+    svg_header_company_logo_width,
+    svg_header_company_logo_height,
     font_size,
     row_height,
     bom_width,
@@ -90,7 +96,8 @@ def getBOMSVGHeader(
 
     svg_header += indent_level + (
         '<text style="" x="{}" y="{}" font-family="DejaVu Sans"'
-        ' font-size="{}" fill="#000000">Bill of Material</text>\n'
+        ' font-size="{}" fill="#000000" freecad:editable="BOM_Header">'
+        "<tspan>Bill of Material</tspan></text>\n"
     ).format(0, 4 * font_size, 4 * font_size)
 
     project_info_y_offset = 4 * font_size
@@ -98,14 +105,16 @@ def getBOMSVGHeader(
         project_info_svg = indent_level + '<g id="BOM_ProjectInfo">\n'
         indent_level += "  "
 
-        for key, value in svg_header_project_info.items():
+        for i, (key, value) in enumerate(svg_header_project_info.items()):
             project_info_svg += (
                 indent_level + '<text style="" x="{}" y="{}" '
-                'font-family="DejaVu Sans" font-size="{}" fill="#000000">{}: {}'
+                'font-family="DejaVu Sans" font-size="{}" fill="#000000" '
+                'freecad:editable="BOM_ProjectInfo_{}"><tspan>{}: {}</tspan>'
                 "</text>\n".format(
                     0,
                     project_info_y_offset + 2 * font_size,
                     2 * font_size,
+                    i + 1,
                     key,
                     value,
                 )
@@ -116,23 +125,26 @@ def getBOMSVGHeader(
         svg_header += project_info_svg
 
     company_info_y_offset = 0
+    x_offset = bom_width
     if svg_header_company_info:
         x_offset = bom_width - max(
             getStringWidth(input_string, 2 * font_size, "DejaVu Sans")
             for input_string in svg_header_company_info.split("\n")
         )
-        company_info_svg = indent_level + '<g id="BOM_CompanyInfo">'
+        company_info_svg = indent_level + '<g id="BOM_CompanyInfo">\n'
         indent_level += "  "
 
-        for line in svg_header_company_info.split("\n"):
+        for i, line in enumerate(svg_header_company_info.split("\n")):
             line = line.strip()
             company_info_svg += (
                 indent_level + '<text style="" x="{}" y="{}" '
-                'font-family="DejaVu Sans" font-size="{}" fill="#000000">{}'
-                "</text>\n".format(
+                'font-family="DejaVu Sans" font-size="{}" fill="#000000" '
+                'freecad:editable="BOM_CompanyInfo_{}"><tspan>{}</tspan></text>'
+                "\n".format(
                     x_offset,
                     company_info_y_offset + 2 * font_size,
                     2 * font_size,
+                    i + 1,
                     line,
                 )
             )
@@ -141,9 +153,52 @@ def getBOMSVGHeader(
         company_info_svg += indent_level + "</g>\n"
         svg_header += company_info_svg
 
+    if svg_header_company_logo:
+        file_type = (
+            os.path.splitext(svg_header_company_logo)[1].lstrip(".").lower()
+        )
+        valid_logo_filetypes = ["png", "jpeg", "jpg", "ico", "bmp"]
+        if file_type in valid_logo_filetypes:
+            # TODO: Add support for inserting svg logo into BOM
+            try:
+                with open(svg_header_company_logo, "rb") as logo_svg:
+                    base64_encoded_logo = base64.b64encode(logo_svg.read())
+                    base64_logo = base64_encoded_logo.decode("utf-8")
+                    svg_header += (
+                        indent_level
+                        + '<image x="{}" y="{}" width="{}" height="{}" '
+                        'xlink:href="data:image/{};base64,{}"/>\n'.format(
+                            x_offset - svg_header_company_logo_width - 2,
+                            2,
+                            svg_header_company_logo_width,
+                            svg_header_company_logo_height,
+                            file_type,
+                            base64_logo,
+                        )
+                    )
+            except:
+                FreeCAD.Console.PrintError(
+                    "Error opening file "
+                    + str(svg_header_company_logo)
+                    + "\nCannot insert logo into BOM svg.\n"
+                )
+                svg_header_company_logo_height = 0
+        else:
+            FreeCAD.Console.PrintError(
+                "Error: Unsupported file type of logo.\nValid file types for "
+                "logo are: " + ", ".join(valid_logo_filetypes)
+            )
+            svg_header_company_logo_height = 0
     svg_header += "</g>\n"
 
-    y_offset = max(project_info_y_offset, company_info_y_offset) + row_height
+    y_offset = (
+        max(
+            project_info_y_offset,
+            company_info_y_offset,
+            svg_header_company_logo_height,
+        )
+        + row_height
+    )
 
     return (svg_header, y_offset)
 
@@ -245,6 +300,23 @@ def getColumnHeadersSVG(
     return column_headers_svg
 
 
+def getBOMSVGFooter(
+    svg_footer_text, y_offset, font_size, bom_width, row_height
+):
+    svg_footer = '<g id="BOM_Footer">\n'
+    indent_level = "  "
+    footer_width = getStringWidth(svg_footer_text, font_size, "DejaVu Sans")
+    x_offset = bom_width - footer_width
+    svg_footer += indent_level + (
+        '<text style="" x="{}" y="{}" font-family="DejaVu Sans"'
+        ' font-size="{}" fill="#000000" freecad:editable="BOM_Footer">'
+        "<tspan>{}</tspan></text>\n"
+    ).format(x_offset, y_offset + row_height, font_size, svg_footer_text)
+    indent_level = " " * (len(indent_level) - 2)
+    svg_footer += indent_level + "</g>"
+    return svg_footer
+
+
 def getBOMonSheet(
     bom_svg,
     svg_size,
@@ -333,6 +405,8 @@ def makeBillOfMaterialSVG(
     svg_header_project_info=SVG_HEADER_PROJECT_INFO,
     svg_header_company_info=SVG_HEADER_COMPANY_INFO,
     svg_header_company_logo=SVG_HEADER_COMPANY_LOGO,
+    svg_header_company_logo_width=SVG_HEADER_COMPANY_LOGO_WIDTH,
+    svg_header_company_logo_height=SVG_HEADER_COMPANY_LOGO_HEIGHT,
     svg_footer_text=SVG_FOOTER_TEXT,
     font_size=FONT_SIZE,
     column_width=COLUMN_WIDTH,
@@ -397,6 +471,8 @@ def makeBillOfMaterialSVG(
         svg_header_project_info,
         svg_header_company_info,
         svg_header_company_logo,
+        svg_header_company_logo_width,
+        svg_header_company_logo_height,
         font_size,
         row_height,
         bom_width,
@@ -813,12 +889,18 @@ def makeBillOfMaterialSVG(
                 font_size,
             ).replace("\n", "\n" + indent_level).rstrip(indent_level)
     indent_level = " " * (len(indent_level) - 2)
-    y_offset += 2 * row_height
+    y_offset += 3 * row_height
     svg_output += indent_level + "</g>\n"
 
     svg_output += "</g>\n"
     indent_level = " " * (len(indent_level) - 2)
 
+    svg_footer = getBOMSVGFooter(
+        svg_footer_text, y_offset, font_size, bom_width, row_height
+    )
+    svg_output += svg_footer.replace("\n", "\n" + indent_level).rstrip(
+        indent_level
+    )
     svg_output += "</g>\n"
     svg_output += "\n</svg>"
 
