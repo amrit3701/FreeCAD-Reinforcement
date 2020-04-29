@@ -32,6 +32,7 @@ from .BOMfunc import (
     getMarkReinforcementsDict,
     getUniqueDiameterList,
     getRebarSharpEdgedLength,
+    getStringWidth,
 )
 from .config import *
 
@@ -76,6 +77,77 @@ def getSVGHead():
     return head
 
 
+def getBOMSVGHeader(
+    svg_header_project_info,
+    svg_header_company_info,
+    svg_header_company_logo,
+    font_size,
+    row_height,
+    bom_width,
+):
+    svg_header = '<g id="BOM_Header">\n'
+    indent_level = "  "
+
+    svg_header += indent_level + (
+        '<text style="" x="{}" y="{}" font-family="DejaVu Sans"'
+        ' font-size="{}" fill="#000000">Bill of Material</text>\n'
+    ).format(0, 4 * font_size, 4 * font_size)
+
+    project_info_y_offset = 4 * font_size
+    if svg_header_project_info:
+        project_info_svg = indent_level + '<g id="BOM_ProjectInfo">\n'
+        indent_level += "  "
+
+        for key, value in svg_header_project_info.items():
+            project_info_svg += (
+                indent_level + '<text style="" x="{}" y="{}" '
+                'font-family="DejaVu Sans" font-size="{}" fill="#000000">{}: {}'
+                "</text>\n".format(
+                    0,
+                    project_info_y_offset + 2 * font_size,
+                    2 * font_size,
+                    key,
+                    value,
+                )
+            )
+            project_info_y_offset += 2 * font_size
+        indent_level = " " * (len(indent_level) - 2)
+        project_info_svg += indent_level + "</g>\n"
+        svg_header += project_info_svg
+
+    company_info_y_offset = 0
+    if svg_header_company_info:
+        x_offset = bom_width - max(
+            getStringWidth(input_string, 2 * font_size, "DejaVu Sans")
+            for input_string in svg_header_company_info.split("\n")
+        )
+        company_info_svg = indent_level + '<g id="BOM_CompanyInfo">'
+        indent_level += "  "
+
+        for line in svg_header_company_info.split("\n"):
+            line = line.strip()
+            company_info_svg += (
+                indent_level + '<text style="" x="{}" y="{}" '
+                'font-family="DejaVu Sans" font-size="{}" fill="#000000">{}'
+                "</text>\n".format(
+                    x_offset,
+                    company_info_y_offset + 2 * font_size,
+                    2 * font_size,
+                    line,
+                )
+            )
+            company_info_y_offset += 2 * font_size
+        indent_level = " " * (len(indent_level) - 2)
+        company_info_svg += indent_level + "</g>\n"
+        svg_header += company_info_svg
+
+    svg_header += "</g>\n"
+
+    y_offset = max(project_info_y_offset, company_info_y_offset) + row_height
+
+    return (svg_header, y_offset)
+
+
 def getSVGDataCell(column_offset, row_offset, width, height, data, font_size):
     """getSVGDataCell(ColumnOffset, RowOffset, CellWidth, CellHeight, Data,
     FontSize):
@@ -100,12 +172,12 @@ def getSVGDataCell(column_offset, row_offset, width, height, data, font_size):
 def getColumnHeadersSVG(
     column_headers,
     diameter_list,
-    row_offset,
+    y_offset,
     column_width,
     row_height,
     font_size,
 ):
-    """getColumnHeadersSVG(ColumnHeaders, DiameterList, RowOffset, ColumnWidth,
+    """getColumnHeadersSVG(ColumnHeaders, DiameterList, YOffset, ColumnWidth,
     RowHeight, FontSize):
     column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
     "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
@@ -127,7 +199,7 @@ def getColumnHeadersSVG(
         if column_header_tuple[1] != 0
     }
 
-    header_svg = '<g id="BOM_Headers">\n'
+    column_headers_svg = '<g id="BOM_Headers">\n'
     column_offset = 0
     if "RebarsTotalLength" in column_headers:
         height = 2 * row_height
@@ -138,9 +210,9 @@ def getColumnHeadersSVG(
         column_headers, key=lambda x: column_headers[x][1]
     ):
         if column_header != "RebarsTotalLength":
-            header_svg += "  " + getSVGDataCell(
+            column_headers_svg += "  " + getSVGDataCell(
                 column_offset,
-                row_offset,
+                y_offset,
                 column_width,
                 height,
                 column_headers[column_header][0],
@@ -148,29 +220,29 @@ def getColumnHeadersSVG(
             ).replace("\n", "\n  ").rstrip("  ")
             column_offset += column_width
         elif column_header == "RebarsTotalLength":
-            header_svg += "  " + getSVGDataCell(
+            column_headers_svg += "  " + getSVGDataCell(
                 column_offset,
-                row_offset,
+                y_offset,
                 column_width * len(diameter_list),
                 row_height,
                 column_headers[column_header][0],
                 font_size,
             ).replace("\n", "\n  ").rstrip("  ")
-            header_svg += '  <g id="BOM_Headers_Diameter">\n'
+            column_headers_svg += '  <g id="BOM_Headers_Diameter">\n'
             for dia in diameter_list:
-                header_svg += "    " + getSVGDataCell(
+                column_headers_svg += "    " + getSVGDataCell(
                     column_offset,
-                    row_offset + row_height,
+                    y_offset + row_height,
                     column_width,
                     row_height,
                     "#" + str(dia.Value).rstrip("0").rstrip("."),
                     font_size,
                 ).replace("\n", "\n    ").rstrip("    ")
                 column_offset += column_width
-            header_svg += "  </g>\n"
+            column_headers_svg += "  </g>\n"
 
-    header_svg += "</g>\n"
-    return header_svg
+    column_headers_svg += "</g>\n"
+    return column_headers_svg
 
 
 def getBOMonSheet(
@@ -258,6 +330,10 @@ def makeBillOfMaterialSVG(
     column_headers=COLUMN_HEADERS,
     column_units=COLUMN_UNITS,
     rebar_length_type=REBAR_LENGTH_TYPE,
+    svg_header_project_info=SVG_HEADER_PROJECT_INFO,
+    svg_header_company_info=SVG_HEADER_COMPANY_INFO,
+    svg_header_company_logo=SVG_HEADER_COMPANY_LOGO,
+    svg_footer_text=SVG_FOOTER_TEXT,
     font_size=FONT_SIZE,
     column_width=COLUMN_WIDTH,
     row_height=ROW_HEIGHT,
@@ -307,31 +383,40 @@ def makeBillOfMaterialSVG(
 
     Returns Bill Of Material svg code.
     """
+    mark_reinforcements_dict = getMarkReinforcementsDict()
+    diameter_list = getUniqueDiameterList(mark_reinforcements_dict)
+
     head = getSVGHead()
     svg_output = head
 
     svg_output += '<g id="BOM_Sheet">\n'
     indent_level = "  "
-    svg_output += indent_level + (
-        '<text text-anchor="start" style="" x="{}" y="{}" '
-        'dominant-baseline="hanging" font-family="DejaVu Sans"'
-        ' font-size="{}" fill="#000000">Bill of Material</text>\n'
-    ).format(0, 1, 2 * font_size)
+
+    bom_width = column_width * (len(column_headers) + len(diameter_list) - 1)
+    svg_header, y_offset = getBOMSVGHeader(
+        svg_header_project_info,
+        svg_header_company_info,
+        svg_header_company_logo,
+        font_size,
+        row_height,
+        bom_width,
+    )
+    svg_output += indent_level + svg_header.replace(
+        "\n", "\n" + indent_level
+    ).rstrip(indent_level)
 
     svg_output += indent_level + '<g id="BOM">\n'
     indent_level += "  "
 
-    mark_reinforcements_dict = getMarkReinforcementsDict()
-    diameter_list = getUniqueDiameterList(mark_reinforcements_dict)
-    header_svg = getColumnHeadersSVG(
+    column_headers_svg = getColumnHeadersSVG(
         column_headers,
         diameter_list,
-        row_height,
+        y_offset,
         column_width,
         row_height,
         font_size,
     )
-    svg_output += indent_level + header_svg.replace(
+    svg_output += indent_level + column_headers_svg.replace(
         "\n", "\n" + indent_level
     ).rstrip(indent_level)
 
@@ -342,11 +427,13 @@ def makeBillOfMaterialSVG(
 
     # Add data to svg
     if "RebarsTotalLength" in column_headers:
-        first_row = 4
-        current_row = 4
-    else:
         first_row = 3
         current_row = 3
+        y_offset += 2 * row_height
+    else:
+        first_row = 2
+        current_row = 2
+        y_offset += row_height
     svg_output += indent_level + '<g id="BOM_Data">\n'
     indent_level += "  "
     for mark_number in sorted(mark_reinforcements_dict):
@@ -365,7 +452,7 @@ def makeBillOfMaterialSVG(
             )
             svg_output += indent_level + getSVGDataCell(
                 column_offset,
-                row_height * (current_row - 1),
+                y_offset,
                 column_width,
                 row_height,
                 mark_number,
@@ -382,7 +469,7 @@ def makeBillOfMaterialSVG(
             )
             svg_output += indent_level + getSVGDataCell(
                 column_offset,
-                row_height * (current_row - 1),
+                y_offset,
                 column_width,
                 row_height,
                 rebars_count,
@@ -408,7 +495,7 @@ def makeBillOfMaterialSVG(
             )
             svg_output += indent_level + getSVGDataCell(
                 column_offset,
-                row_height * (current_row - 1),
+                y_offset,
                 column_width,
                 row_height,
                 disp_diameter,
@@ -442,7 +529,7 @@ def makeBillOfMaterialSVG(
             )
             svg_output += indent_level + getSVGDataCell(
                 column_offset,
-                row_height * (current_row - 1),
+                y_offset,
                 column_width,
                 row_height,
                 disp_base_rebar_length,
@@ -479,7 +566,7 @@ def makeBillOfMaterialSVG(
                     svg_output += indent_level + getSVGDataCell(
                         column_offset
                         + (diameter_list.index(dia)) * column_width,
-                        row_height * (current_row - 1),
+                        y_offset,
                         column_width,
                         row_height,
                         disp_rebar_total_length,
@@ -492,13 +579,14 @@ def makeBillOfMaterialSVG(
                         '"fill:none;stroke-width:0.35;stroke:#000000;"/>\n'
                     ).format(
                         column_offset + diameter_list.index(dia) * column_width,
-                        row_height * (current_row - 1),
+                        y_offset,
                         column_width,
                         row_height,
                     )
 
         indent_level = " " * (len(indent_level) - 2)
         svg_output += indent_level + "</g>\n"
+        y_offset += row_height
         current_row += 1
     indent_level = " " * (len(indent_level) - 2)
     svg_output += indent_level + "</g>\n"
@@ -508,11 +596,11 @@ def makeBillOfMaterialSVG(
         'style="fill:none;stroke-width:0.35;stroke:#000000;"/>\n'
     ).format(
         0,
-        row_height * (current_row - 1),
+        y_offset,
         column_width * (len(column_headers) + len(diameter_list) - 1),
-        1 * row_height,
+        row_height,
     )
-    current_row += 1
+    y_offset += row_height
 
     svg_output += indent_level + '<g id="BOM_Data_Total">\n'
     indent_level += "  "
@@ -525,7 +613,7 @@ def makeBillOfMaterialSVG(
 
             svg_output += indent_level + getSVGDataCell(
                 0,
-                row_height * (current_row - 1),
+                y_offset,
                 rebar_total_length_offset,
                 row_height,
                 "Total length in "
@@ -535,7 +623,7 @@ def makeBillOfMaterialSVG(
             ).replace("\n", "\n" + indent_level).rstrip(indent_level)
             svg_output += indent_level + getSVGDataCell(
                 0,
-                row_height * (current_row),
+                y_offset + row_height,
                 rebar_total_length_offset,
                 row_height,
                 "Weight in Kg/" + column_units["RebarsTotalLength"],
@@ -543,7 +631,7 @@ def makeBillOfMaterialSVG(
             ).replace("\n", "\n" + indent_level).rstrip(indent_level)
             svg_output += indent_level + getSVGDataCell(
                 0,
-                row_height * (current_row + 1),
+                y_offset + 2 * row_height,
                 rebar_total_length_offset,
                 row_height,
                 "Total Weight in Kg/Diameter",
@@ -569,7 +657,7 @@ def makeBillOfMaterialSVG(
 
                 svg_output += indent_level + getSVGDataCell(
                     rebar_total_length_offset + i * column_width,
-                    row_height * (current_row - 1),
+                    y_offset,
                     column_width,
                     row_height,
                     disp_dia_total_length,
@@ -595,7 +683,7 @@ def makeBillOfMaterialSVG(
 
                     svg_output += indent_level + getSVGDataCell(
                         rebar_total_length_offset + i * column_width,
-                        row_height * (current_row),
+                        y_offset + row_height,
                         column_width,
                         row_height,
                         disp_dia_weight,
@@ -603,7 +691,7 @@ def makeBillOfMaterialSVG(
                     ).replace("\n", "\n" + indent_level).rstrip(indent_level)
                     svg_output += indent_level + getSVGDataCell(
                         rebar_total_length_offset + i * column_width,
-                        row_height * (current_row + 1),
+                        y_offset + 2 * row_height,
                         column_width,
                         row_height,
                         (
@@ -629,7 +717,7 @@ def makeBillOfMaterialSVG(
                         '"fill:none;stroke-width:0.35;stroke:#000000;"/>\n'
                     ).format(
                         column_offset,
-                        row_height * (current_row - 1 + row),
+                        y_offset + row * row_height,
                         column_width,
                         row_height,
                     )
@@ -653,7 +741,7 @@ def makeBillOfMaterialSVG(
 
                 svg_output += indent_level + getSVGDataCell(
                     i * column_width,
-                    row_height * (current_row - 1),
+                    y_offset,
                     column_width,
                     row_height,
                     disp_dia_total_length,
@@ -679,7 +767,7 @@ def makeBillOfMaterialSVG(
 
                     svg_output += indent_level + getSVGDataCell(
                         i * column_width,
-                        row_height * (current_row),
+                        y_offset + row_height,
                         column_width,
                         row_height,
                         disp_dia_weight,
@@ -687,7 +775,7 @@ def makeBillOfMaterialSVG(
                     ).replace("\n", "\n" + indent_level).rstrip(indent_level)
                     svg_output += indent_level + getSVGDataCell(
                         i * column_width,
-                        row_height * (current_row + 1),
+                        y_offset + 2 * row_height,
                         column_width,
                         row_height,
                         (
@@ -700,7 +788,7 @@ def makeBillOfMaterialSVG(
             first_txt_column_offset = len(diameter_list) * column_width
             svg_output += indent_level + getSVGDataCell(
                 first_txt_column_offset,
-                row_height * (current_row - 1),
+                y_offset,
                 column_width * (len(column_headers) - 1),
                 row_height,
                 "Total length in "
@@ -710,7 +798,7 @@ def makeBillOfMaterialSVG(
             ).replace("\n", "\n" + indent_level).rstrip(indent_level)
             svg_output += indent_level + getSVGDataCell(
                 first_txt_column_offset,
-                row_height * (current_row),
+                y_offset + row_height,
                 column_width * (len(column_headers) - 1),
                 row_height,
                 "Weight in Kg/" + column_units["RebarsTotalLength"],
@@ -718,13 +806,14 @@ def makeBillOfMaterialSVG(
             ).replace("\n", "\n" + indent_level).rstrip(indent_level)
             svg_output += indent_level + getSVGDataCell(
                 first_txt_column_offset,
-                row_height * (current_row + 1),
+                y_offset + 2 * row_height,
                 column_width * (len(column_headers) - 1),
                 row_height,
                 "Total Weight in Kg/Diameter",
                 font_size,
             ).replace("\n", "\n" + indent_level).rstrip(indent_level)
     indent_level = " " * (len(indent_level) - 2)
+    y_offset += 2 * row_height
     svg_output += indent_level + "</g>\n"
 
     svg_output += "</g>\n"
@@ -733,7 +822,7 @@ def makeBillOfMaterialSVG(
     svg_output += "</g>\n"
     svg_output += "\n</svg>"
 
-    bom_height = row_height * (current_row + 2)
+    bom_height = y_offset
     bom_width = column_width * (len(column_headers) + len(diameter_list) - 1)
 
     svg_output = svg_output.replace(

@@ -25,6 +25,9 @@ __title__ = "Bill Of Material Configuration"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
+
+from datetime import date
+
 import FreeCAD
 
 
@@ -124,3 +127,18 @@ BOM_SVG_TOP_OFFSET = 6
 
 # Bottom offset (minimum) of bill of material svg
 BOM_SVG_BOTTOM_OFFSET = 6
+
+SVG_HEADER_PROJECT_INFO = {
+    "Project": "Project Name",
+    "Created By": "Author Name",
+    "Date": str(date.today()),
+}
+
+SVG_HEADER_COMPANY_INFO = (
+    "Company Name\nAddress Line1\nAddress Line2\nTel. 99999-88888\nEmail: "
+    "foo@foo.com\nwebsite"
+)
+
+SVG_HEADER_COMPANY_LOGO = "./company_logo.svg"
+
+SVG_FOOTER_TEXT = "Proudly generated using FreeCAD - Rebar Addon"

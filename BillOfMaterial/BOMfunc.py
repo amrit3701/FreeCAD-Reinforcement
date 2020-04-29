@@ -26,6 +26,8 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
+from PySide2 import QtGui, QtWidgets
+
 import FreeCAD
 
 
@@ -108,3 +110,27 @@ def getRebarSharpEdgedLength(rebar):
             "Cannot calculate rebar length from its base object\n"
         )
         return FreeCAD.Units.Quantity("0 mm")
+
+
+def getStringWidth(input_string, font_size, font_family):
+    """getStringWidth(InputString, FontSize, FontFamily):
+    font_size is size of font in mm.
+
+    Known Issue
+    -----------
+    This function uses QtGui which makes the function can't be used in non-gui
+    environment e.g. on server with no X11 display.
+
+    Returns width of string in mm.
+    """
+    app = QtWidgets.QApplication.instance()
+    if app is None:
+        app = QtWidgets.QApplication()
+    # Convert font size from mm to points
+    font_size = 2.8346456693 * font_size
+    font = QtGui.QFont(font_family, font_size)
+    font_metrics = QtGui.QFontMetrics(font)
+    width = font_metrics.boundingRect(input_string).width()
+    # Convert width from pixels to mm
+    width = 0.2645833333 * width
+    return width
