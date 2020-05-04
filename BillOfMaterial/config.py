@@ -130,16 +130,20 @@ BOM_SVG_TOP_OFFSET = 6
 BOM_SVG_BOTTOM_OFFSET = 6
 
 # Project info will be shown as "Key: value" pairs.
-SVG_HEADER_PROJECT_INFO = {
-    "Project": "Project Name",
-    "Created By": "Author Name",
-    "Date": str(date.today()),
-}
+SVG_HEADER_PROJECT_INFO = (
+    "Project: Project Name\n"
+    "Created By: Author Name\n"
+    "Date:" + str(date.today())
+)
 
 # This will be shown next to company logo
 SVG_HEADER_COMPANY_INFO = (
-    "Company Name\nAddress Line1\nAddress Line2\nTel. 99999-88888\nEmail: "
-    "foo@foo.com\nwebsite"
+    "Company Name\n"
+    "Address Line1\n"
+    "Address Line2\n"
+    "Tel. 99999-88888\n"
+    "Email: foo@foo.com\n"
+    "website"
 )
 
 # Logo path must be absolute path of logo file.

@@ -45,6 +45,12 @@ class _BillOfMaterialDialog:
         column_headers,
         column_units,
         rebar_length_type,
+        svg_header_project_info,
+        svg_header_company_info,
+        svg_header_company_logo,
+        svg_header_company_logo_width,
+        svg_header_company_logo_height,
+        svg_footer_text,
         font_size,
         column_width,
         row_height,
@@ -60,6 +66,12 @@ class _BillOfMaterialDialog:
         self.column_units = column_units
         self.rebar_length_type = rebar_length_type
         self.allowed_rebar_length_types = ["RealLength", "LengthWithSharpEdges"]
+        self.svg_project_info = svg_header_project_info
+        self.svg_company_info = svg_header_company_info
+        self.svg_company_logo = svg_header_company_logo
+        self.svg_company_logo_width = svg_header_company_logo_width
+        self.svg_company_logo_height = svg_header_company_logo_height
+        self.svg_footer = svg_footer_text
         self.font_size = font_size
         self.column_width = column_width
         self.row_height = row_height
@@ -199,6 +211,12 @@ class _BillOfMaterialDialog:
                 column_headers=column_headers,
                 column_units=column_units,
                 rebar_length_type=rebar_length_type,
+                svg_header_project_info=self.svg_project_info,
+                svg_header_company_info=self.svg_company_info,
+                svg_header_company_logo=self.svg_company_logo,
+                svg_header_company_logo_width=self.svg_company_logo_width,
+                svg_header_company_logo_height=self.svg_company_logo_height,
+                svg_footer_text=self.svg_footer,
                 font_size=self.font_size,
                 column_width=self.column_width,
                 row_height=self.row_height,
@@ -280,6 +298,12 @@ def CommandBillOfMaterial(
     column_headers=COLUMN_HEADERS,
     column_units=COLUMN_UNITS,
     rebar_length_type=REBAR_LENGTH_TYPE,
+    svg_header_project_info=SVG_HEADER_PROJECT_INFO,
+    svg_header_company_info=SVG_HEADER_COMPANY_INFO,
+    svg_header_company_logo=SVG_HEADER_COMPANY_LOGO,
+    svg_header_company_logo_width=SVG_HEADER_COMPANY_LOGO_WIDTH,
+    svg_header_company_logo_height=SVG_HEADER_COMPANY_LOGO_HEIGHT,
+    svg_footer_text=SVG_FOOTER_TEXT,
     font_size=FONT_SIZE,
     column_width=COLUMN_WIDTH,
     row_height=ROW_HEIGHT,
@@ -290,12 +314,18 @@ def CommandBillOfMaterial(
     available_svg_sizes=AVAILABLE_SVG_SIZES,
     svg_size=SVG_SIZE,
 ):
-    """This function is used to invoke dialog box for rebars bill of
-    material."""
+    """This function is used to invoke dialog box for rebars bill of material.
+    """
     dialog = _BillOfMaterialDialog(
         column_headers,
         column_units,
         rebar_length_type,
+        svg_header_project_info,
+        svg_header_company_info,
+        svg_header_company_logo,
+        svg_header_company_logo_width,
+        svg_header_company_logo_height,
+        svg_footer_text,
         font_size,
         column_width,
         row_height,

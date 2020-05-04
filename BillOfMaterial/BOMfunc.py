@@ -124,7 +124,7 @@ def getStringWidth(input_string, font_size, font_family):
     """
     app = QtWidgets.QApplication.instance()
     if app is None:
-        app = QtWidgets.QApplication()
+        QtWidgets.QApplication()
     # Convert font size from mm to points
     font_size = 2.8346456693 * font_size
     font = QtGui.QFont(font_family, font_size)

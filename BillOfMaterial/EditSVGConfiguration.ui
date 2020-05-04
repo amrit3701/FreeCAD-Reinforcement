@@ -6,172 +6,235 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
-    <height>368</height>
+    <width>734</width>
+    <height>611</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QFormLayout" name="formLayout">
-   <item row="1" column="0">
-    <widget class="QLabel" name="columnWidthLabel">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0">
+   <item row="0" column="0">
+    <widget class="QLabel" name="svgHeaderLabel">
      <property name="text">
-      <string>Column Width</string>
+      <string>SVG Header</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="Gui::InputField" name="columnWidth">
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>0</number>
      </property>
-     <property name="quantity" stdset="0">
-      <double>30.000000000000000</double>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>6</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="projectInfoLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Project Info</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="1" rowspan="2">
+    <widget class="QPlainTextEdit" name="projectInfo">
+     <property name="tabChangesFocus">
+      <bool>true</bool>
+     </property>
+     <property name="lineWrapMode">
+      <enum>QPlainTextEdit::NoWrap</enum>
+     </property>
+     <property name="plainText">
+      <string>Project: Project Name
+Created By: Author Name</string>
      </property>
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="rowHeightLabel">
-     <property name="text">
-      <string>Row Height</string>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="Gui::InputField" name="rowHeight">
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-     <property name="quantity" stdset="0">
-      <double>10.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0" colspan="2">
-    <widget class="QLabel" name="svgSizeLabel">
-     <property name="text">
-      <string>SVG Size</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="Gui::PrefRadioButton" name="predefinedSVGSizeRadio">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
+     <property name="sizeHint" stdset="0">
       <size>
-       <width>112</width>
-       <height>0</height>
+       <width>152</width>
+       <height>39</height>
       </size>
      </property>
-     <property name="text">
-      <string>Predefined</string>
+    </spacer>
+   </item>
+   <item row="3" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <property name="spacing">
+      <number>0</number>
      </property>
-     <property name="checked">
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>6</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="companyInfoLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Company Info</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="1" rowspan="2">
+    <widget class="QPlainTextEdit" name="companyInfo">
+     <property name="tabChangesFocus">
       <bool>true</bool>
      </property>
+     <property name="lineWrapMode">
+      <enum>QPlainTextEdit::NoWrap</enum>
+     </property>
+     <property name="plainText">
+      <string>Company Name
+Address Line1
+Address Line2
+Tel. 99999-88888
+Email: foo@foo.com
+website</string>
+     </property>
     </widget>
    </item>
-   <item row="8" column="1">
-    <widget class="Gui::PrefComboBox" name="predefinedSVGSize"/>
-   </item>
-   <item row="9" column="0">
-    <widget class="Gui::PrefRadioButton" name="customSVGSizeRadio">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="4" column="0">
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>152</width>
+       <height>39</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="logoSizeLabel">
+     <property name="text">
+      <string>Logo Max Size</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="svgFooterLabel">
+     <property name="text">
+      <string>SVG Footer</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1" colspan="2">
+    <widget class="Gui::PrefLineEdit" name="svgFooter">
      <property name="minimumSize">
       <size>
-       <width>87</width>
+       <width>400</width>
        <height>0</height>
       </size>
      </property>
      <property name="text">
-      <string>Custom</string>
+      <string>Proudly generated using FreeCAD - Rebar Addon</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
+   <item row="7" column="0">
     <widget class="QLabel" name="fontSizeLabel">
      <property name="text">
       <string>Font Size</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
+   <item row="7" column="1" colspan="2">
     <widget class="Gui::PrefSpinBox" name="fontSize">
      <property name="value">
       <number>3</number>
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="8" column="0">
+    <widget class="QLabel" name="columnWidthLabel">
+     <property name="text">
+      <string>Column Width</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="rowHeightLabel">
+     <property name="text">
+      <string>Row Height</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
     <widget class="QLabel" name="bomLeftOffsetLabel">
      <property name="text">
       <string>BOM Left Offset</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
-    <widget class="Gui::InputField" name="bomLeftOffset">
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-     <property name="quantity" stdset="0">
-      <double>6.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
+   <item row="11" column="0">
     <widget class="QLabel" name="bomRightOffsetLabel">
      <property name="text">
       <string>BOM Right Offset</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
-    <widget class="Gui::InputField" name="bomRightOffset">
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-     <property name="quantity" stdset="0">
-      <double>6.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
+   <item row="12" column="0">
     <widget class="QLabel" name="bomTopOffsetLabel">
      <property name="text">
       <string>BOM Top Offset</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="13" column="0">
     <widget class="QLabel" name="bomBottomOffsetLabel">
      <property name="text">
       <string>BOM Bottom Offset</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
-    <widget class="Gui::InputField" name="bomTopOffset">
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-     <property name="quantity" stdset="0">
-      <double>6.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
+   <item row="13" column="1" colspan="2">
     <widget class="Gui::InputField" name="bomBottomOffset">
      <property name="unit" stdset="0">
       <string notr="true">mm</string>
@@ -181,7 +244,89 @@
      </property>
     </widget>
    </item>
-   <item row="9" column="1">
+   <item row="14" column="0">
+    <widget class="QLabel" name="svgSizeLabel">
+     <property name="text">
+      <string>SVG Size</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>6</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="Gui::PrefRadioButton" name="predefinedSVGSizeRadio">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Predefined</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="16" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <spacer name="horizontalSpacer_6">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>6</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="Gui::PrefRadioButton" name="customSVGSizeRadio">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Custom</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="16" column="1" colspan="2">
     <widget class="QWidget" name="customSVGSizeWidget" native="true">
      <property name="enabled">
       <bool>false</bool>
@@ -198,9 +343,9 @@
        <height>0</height>
       </size>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_7">
+     <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,1,0,1">
       <property name="leftMargin">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
        <number>0</number>
@@ -214,7 +359,7 @@
       <item>
        <widget class="QLabel" name="svgWidthLabel">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -227,7 +372,7 @@
       <item>
        <widget class="Gui::InputField" name="svgWidth">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -255,7 +400,7 @@
       <item>
        <widget class="QLabel" name="svgHeightLabel">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -268,7 +413,7 @@
       <item>
        <widget class="Gui::InputField" name="svgHeight">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -296,12 +441,173 @@
      </layout>
     </widget>
    </item>
-   <item row="10" column="0" colspan="2">
+   <item row="8" column="1" colspan="2">
+    <widget class="Gui::InputField" name="columnWidth">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>30.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1" colspan="2">
+    <widget class="Gui::InputField" name="rowHeight">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>10.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1" colspan="2">
+    <widget class="Gui::InputField" name="bomLeftOffset">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>6.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1" colspan="2">
+    <widget class="Gui::InputField" name="bomRightOffset">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>6.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="1" colspan="2">
+    <widget class="Gui::InputField" name="bomTopOffset">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>6.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="1" colspan="2">
+    <widget class="Gui::PrefComboBox" name="predefinedSVGSize"/>
+   </item>
+   <item row="17" column="0" colspan="3">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
+   </item>
+   <item row="5" column="1" colspan="2">
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1,0,1">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="logoWidthLabel">
+        <property name="text">
+         <string>Width</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Gui::InputField" name="logoWidth">
+        <property name="text">
+         <string>30 mm</string>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true">mm</string>
+        </property>
+        <property name="quantity" stdset="0">
+         <double>30.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="logoHeightLabel">
+        <property name="text">
+         <string>Height</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Gui::InputField" name="logoHeight">
+        <property name="unit" stdset="0">
+         <string notr="true">mm</string>
+        </property>
+        <property name="quantity" stdset="0">
+         <double>30.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="2" rowspan="4">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="companyLogoImage">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>Company Logo Image</string>
+       </property>
+       <property name="text">
+        <string>Company Logo Image</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="editCompanyLogo">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip">
+          <string>Edit company logo</string>
+         </property>
+         <property name="text">
+          <string>Edit </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="clearCompanyLogo">
+         <property name="toolTip">
+          <string>Clear company logo</string>
+         </property>
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -326,8 +632,20 @@
    <extends>QComboBox</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
+  <customwidget>
+   <class>Gui::PrefLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>projectInfo</tabstop>
+  <tabstop>companyInfo</tabstop>
+  <tabstop>editCompanyLogo</tabstop>
+  <tabstop>clearCompanyLogo</tabstop>
+  <tabstop>logoWidth</tabstop>
+  <tabstop>logoHeight</tabstop>
+  <tabstop>svgFooter</tabstop>
   <tabstop>fontSize</tabstop>
   <tabstop>columnWidth</tabstop>
   <tabstop>rowHeight</tabstop>

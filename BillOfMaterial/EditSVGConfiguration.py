@@ -27,7 +27,7 @@ __url__ = "https://www.freecadweb.org"
 
 
 import os
-from PySide2 import QtCore, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 
 import FreeCAD
 import FreeCADGui
@@ -39,6 +39,12 @@ class _EditSVGConfigurationDialog:
 
     def __init__(
         self,
+        svg_project_info,
+        svg_company_info,
+        svg_company_logo,
+        svg_company_logo_width,
+        svg_company_logo_height,
+        svg_footer,
         font_size,
         column_width,
         row_height,
@@ -51,6 +57,13 @@ class _EditSVGConfigurationDialog:
     ):
         """This function set initial data in SVG Configuration edit dialog box.
         """
+        self.svg_project_info = svg_project_info
+        self.svg_company_info = svg_company_info
+        self.svg_company_logo = svg_company_logo
+        self.tmp_svg_company_logo = svg_company_logo
+        self.svg_company_logo_width = svg_company_logo_width
+        self.svg_company_logo_height = svg_company_logo_height
+        self.svg_footer = svg_footer
         self.font_size = font_size
         self.column_width = column_width
         self.row_height = row_height
@@ -90,6 +103,20 @@ class _EditSVGConfigurationDialog:
 
     def setDefaultValues(self):
         """This function is used to set default values in ui."""
+        self.form.projectInfo.setPlainText(self.svg_project_info)
+        self.form.companyInfo.setPlainText(self.svg_company_info)
+        if self.svg_company_logo:
+            self.form.companyLogoImage.setPixmap(
+                QtGui.QPixmap(str(self.svg_company_logo)).scaled(
+                    120,
+                    120,
+                    QtCore.Qt.KeepAspectRatio,
+                    QtCore.Qt.SmoothTransformation,
+                )
+            )
+        self.form.logoWidth.setText(str(self.svg_company_logo_width))
+        self.form.logoHeight.setText(str(self.svg_company_logo_height))
+        self.form.svgFooter.setText(self.svg_footer)
         self.form.fontSize.setValue(self.font_size)
         self.form.columnWidth.setText(str(self.column_width))
         self.form.rowHeight.setText(str(self.row_height))
@@ -132,14 +159,40 @@ class _EditSVGConfigurationDialog:
     def connectSignalSlots(self):
         """This function is used to connect different slots in UI to appropriate
         functions."""
-        self.form.buttonBox.accepted.connect(self.accept)
-        self.form.buttonBox.rejected.connect(lambda: self.form.close())
+        self.form.clearCompanyLogo.clicked.connect(self.clear_logo_clicked)
+        self.form.editCompanyLogo.clicked.connect(self.edit_logo_clicked)
         self.form.predefinedSVGSizeRadio.clicked.connect(
             self.predefined_svg_size_radio_clicked
         )
         self.form.customSVGSizeRadio.clicked.connect(
             self.custom_svg_size_radio_clicked
         )
+        self.form.buttonBox.accepted.connect(self.accept)
+        self.form.buttonBox.rejected.connect(lambda: self.form.close())
+
+    def clear_logo_clicked(self):
+        """This function is executed when Clear button clicked in ui to clear
+        svg company logo."""
+        self.tmp_svg_company_logo = ""
+        self.form.companyLogoImage.clear()
+
+    def edit_logo_clicked(self):
+        """This function is executed when Edit button clicked in ui to execute
+        QFileDialog to select company logo image."""
+        path = FreeCAD.ConfigGet("UserAppData")
+        logo_file, Filter = QtWidgets.QFileDialog.getOpenFileName(
+            None, "Choose company logo image", path, "*png *jpeg *jpg *ico *bmp"
+        )
+        if logo_file:
+            self.tmp_svg_company_logo = logo_file
+            self.form.companyLogoImage.setPixmap(
+                QtGui.QPixmap(str(self.tmp_svg_company_logo)).scaled(
+                    120,
+                    120,
+                    QtCore.Qt.KeepAspectRatio,
+                    QtCore.Qt.SmoothTransformation,
+                )
+            )
 
     def predefined_svg_size_radio_clicked(self):
         """This function is executed when Predefined svg size radio button is
@@ -155,6 +208,16 @@ class _EditSVGConfigurationDialog:
 
     def accept(self):
         """This function is executed when 'OK' button is clicked from UI."""
+        self.svg_project_info = self.form.projectInfo.toPlainText()
+        self.svg_company_info = self.form.companyInfo.toPlainText()
+        self.svg_company_logo = self.tmp_svg_company_logo
+        self.svg_company_logo_width = FreeCAD.Units.Quantity(
+            self.form.logoWidth.text()
+        ).Value
+        self.svg_company_logo_height = FreeCAD.Units.Quantity(
+            self.form.logoHeight.text()
+        ).Value
+        self.svg_footer = self.form.svgFooter.text()
         self.font_size = self.form.fontSize.value()
         self.column_width = FreeCAD.Units.Quantity(
             self.form.columnWidth.text()
@@ -205,6 +268,12 @@ def runEditSVGConfigurationDialog(parent_dialog):
     for bill of material. It is also responsive for returning data to parent
     dialog box."""
     dialog = _EditSVGConfigurationDialog(
+        parent_dialog.svg_project_info,
+        parent_dialog.svg_company_info,
+        parent_dialog.svg_company_logo,
+        parent_dialog.svg_company_logo_width,
+        parent_dialog.svg_company_logo_height,
+        parent_dialog.svg_footer,
         parent_dialog.font_size,
         parent_dialog.column_width,
         parent_dialog.row_height,
@@ -217,6 +286,12 @@ def runEditSVGConfigurationDialog(parent_dialog):
     )
     dialog.setupUi()
     dialog.form.exec_()
+    parent_dialog.svg_project_info = dialog.svg_project_info
+    parent_dialog.svg_company_info = dialog.svg_company_info
+    parent_dialog.svg_company_logo = dialog.svg_company_logo
+    parent_dialog.svg_company_logo_width = dialog.svg_company_logo_width
+    parent_dialog.svg_company_logo_height = dialog.svg_company_logo_height
+    parent_dialog.svg_footer = dialog.svg_footer
     parent_dialog.font_size = dialog.font_size
     parent_dialog.column_width = dialog.column_width
     parent_dialog.row_height = dialog.row_height

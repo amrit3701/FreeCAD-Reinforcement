@@ -105,18 +105,17 @@ def getBOMSVGHeader(
         project_info_svg = indent_level + '<g id="BOM_ProjectInfo">\n'
         indent_level += "  "
 
-        for i, (key, value) in enumerate(svg_header_project_info.items()):
+        for i, line in enumerate(svg_header_project_info.strip().split("\n")):
             project_info_svg += (
                 indent_level + '<text style="" x="{}" y="{}" '
                 'font-family="DejaVu Sans" font-size="{}" fill="#000000" '
-                'freecad:editable="BOM_ProjectInfo_{}"><tspan>{}: {}</tspan>'
+                'freecad:editable="BOM_ProjectInfo_{}"><tspan>{}</tspan>'
                 "</text>\n".format(
                     0,
                     project_info_y_offset + 2 * font_size,
                     2 * font_size,
                     i + 1,
-                    key,
-                    value,
+                    line,
                 )
             )
             project_info_y_offset += 2 * font_size
@@ -129,12 +128,12 @@ def getBOMSVGHeader(
     if svg_header_company_info:
         x_offset = bom_width - max(
             getStringWidth(input_string, 2 * font_size, "DejaVu Sans")
-            for input_string in svg_header_company_info.split("\n")
+            for input_string in svg_header_company_info.strip().split("\n")
         )
         company_info_svg = indent_level + '<g id="BOM_CompanyInfo">\n'
         indent_level += "  "
 
-        for i, line in enumerate(svg_header_company_info.split("\n")):
+        for i, line in enumerate(svg_header_company_info.strip().split("\n")):
             line = line.strip()
             company_info_svg += (
                 indent_level + '<text style="" x="{}" y="{}" '
