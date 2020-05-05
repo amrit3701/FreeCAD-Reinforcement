@@ -39,6 +39,7 @@ class _EditSVGConfigurationDialog:
 
     def __init__(
         self,
+        svg_bom_header_text,
         svg_project_info,
         svg_company_info,
         svg_company_logo,
@@ -57,6 +58,7 @@ class _EditSVGConfigurationDialog:
     ):
         """This function set initial data in SVG Configuration edit dialog box.
         """
+        self.svg_bom_header_text = svg_bom_header_text
         self.svg_project_info = svg_project_info
         self.svg_company_info = svg_company_info
         self.svg_company_logo = svg_company_logo
@@ -103,6 +105,7 @@ class _EditSVGConfigurationDialog:
 
     def setDefaultValues(self):
         """This function is used to set default values in ui."""
+        self.form.headerText.setText(self.svg_bom_header_text)
         self.form.projectInfo.setPlainText(self.svg_project_info)
         self.form.companyInfo.setPlainText(self.svg_company_info)
         if self.svg_company_logo:
@@ -208,6 +211,7 @@ class _EditSVGConfigurationDialog:
 
     def accept(self):
         """This function is executed when 'OK' button is clicked from UI."""
+        self.svg_bom_header_text = self.form.headerText.text()
         self.svg_project_info = self.form.projectInfo.toPlainText()
         self.svg_company_info = self.form.companyInfo.toPlainText()
         self.svg_company_logo = self.tmp_svg_company_logo
@@ -268,6 +272,7 @@ def runEditSVGConfigurationDialog(parent_dialog):
     for bill of material. It is also responsive for returning data to parent
     dialog box."""
     dialog = _EditSVGConfigurationDialog(
+        parent_dialog.svg_bom_header_text,
         parent_dialog.svg_project_info,
         parent_dialog.svg_company_info,
         parent_dialog.svg_company_logo,
@@ -286,7 +291,7 @@ def runEditSVGConfigurationDialog(parent_dialog):
     )
     dialog.setupUi()
     dialog.form.exec_()
-    parent_dialog.svg_project_info = dialog.svg_project_info
+    parent_dialog.svg_bom_header_text = dialog.svg_bom_header_text
     parent_dialog.svg_company_info = dialog.svg_company_info
     parent_dialog.svg_company_logo = dialog.svg_company_logo
     parent_dialog.svg_company_logo_width = dialog.svg_company_logo_width

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>734</width>
-    <height>611</height>
+    <height>644</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,6 +22,43 @@
     </widget>
    </item>
    <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>6</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="headerTextLabel">
+       <property name="text">
+        <string>Header Text</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="1">
+    <widget class="Gui::PrefLineEdit" name="headerText">
+     <property name="text">
+      <string>Bill of Material</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <property name="spacing">
       <number>0</number>
@@ -57,7 +94,7 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="1" rowspan="2">
+   <item row="2" column="1" rowspan="2">
     <widget class="QPlainTextEdit" name="projectInfo">
      <property name="tabChangesFocus">
       <bool>true</bool>
@@ -71,7 +108,7 @@ Created By: Author Name</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
+   <item row="3" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -84,7 +121,7 @@ Created By: Author Name</string>
      </property>
     </spacer>
    </item>
-   <item row="3" column="0">
+   <item row="4" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <property name="spacing">
       <number>0</number>
@@ -120,7 +157,7 @@ Created By: Author Name</string>
      </item>
     </layout>
    </item>
-   <item row="3" column="1" rowspan="2">
+   <item row="4" column="1" rowspan="2">
     <widget class="QPlainTextEdit" name="companyInfo">
      <property name="tabChangesFocus">
       <bool>true</bool>
@@ -138,7 +175,7 @@ website</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="5" column="0">
     <spacer name="verticalSpacer_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -151,21 +188,99 @@ website</string>
      </property>
     </spacer>
    </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="logoSizeLabel">
-     <property name="text">
-      <string>Logo Max Size</string>
+   <item row="6" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <property name="spacing">
+      <number>0</number>
      </property>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>6</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="logoSizeLabel">
+       <property name="text">
+        <string>Logo Max Size</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="6" column="1" colspan="2">
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1,0,1">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="logoWidthLabel">
+        <property name="text">
+         <string>Width</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Gui::InputField" name="logoWidth">
+        <property name="text">
+         <string>30 mm</string>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true">mm</string>
+        </property>
+        <property name="quantity" stdset="0">
+         <double>30.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="logoHeightLabel">
+        <property name="text">
+         <string>Height</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Gui::InputField" name="logoHeight">
+        <property name="unit" stdset="0">
+         <string notr="true">mm</string>
+        </property>
+        <property name="quantity" stdset="0">
+         <double>30.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="7" column="0">
     <widget class="QLabel" name="svgFooterLabel">
      <property name="text">
       <string>SVG Footer</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="1" colspan="2">
+   <item row="7" column="1" colspan="2">
     <widget class="Gui::PrefLineEdit" name="svgFooter">
      <property name="minimumSize">
       <size>
@@ -178,63 +293,63 @@ website</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
+   <item row="8" column="0">
     <widget class="QLabel" name="fontSizeLabel">
      <property name="text">
       <string>Font Size</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="1" colspan="2">
+   <item row="8" column="1" colspan="2">
     <widget class="Gui::PrefSpinBox" name="fontSize">
      <property name="value">
       <number>3</number>
      </property>
     </widget>
    </item>
-   <item row="8" column="0">
+   <item row="9" column="0">
     <widget class="QLabel" name="columnWidthLabel">
      <property name="text">
       <string>Column Width</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="0">
+   <item row="10" column="0">
     <widget class="QLabel" name="rowHeightLabel">
      <property name="text">
       <string>Row Height</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="0">
+   <item row="11" column="0">
     <widget class="QLabel" name="bomLeftOffsetLabel">
      <property name="text">
       <string>BOM Left Offset</string>
      </property>
     </widget>
    </item>
-   <item row="11" column="0">
+   <item row="12" column="0">
     <widget class="QLabel" name="bomRightOffsetLabel">
      <property name="text">
       <string>BOM Right Offset</string>
      </property>
     </widget>
    </item>
-   <item row="12" column="0">
+   <item row="13" column="0">
     <widget class="QLabel" name="bomTopOffsetLabel">
      <property name="text">
       <string>BOM Top Offset</string>
      </property>
     </widget>
    </item>
-   <item row="13" column="0">
+   <item row="14" column="0">
     <widget class="QLabel" name="bomBottomOffsetLabel">
      <property name="text">
       <string>BOM Bottom Offset</string>
      </property>
     </widget>
    </item>
-   <item row="13" column="1" colspan="2">
+   <item row="14" column="1" colspan="2">
     <widget class="Gui::InputField" name="bomBottomOffset">
      <property name="unit" stdset="0">
       <string notr="true">mm</string>
@@ -244,14 +359,14 @@ website</string>
      </property>
     </widget>
    </item>
-   <item row="14" column="0">
+   <item row="15" column="0">
     <widget class="QLabel" name="svgSizeLabel">
      <property name="text">
       <string>SVG Size</string>
      </property>
     </widget>
    </item>
-   <item row="15" column="0">
+   <item row="16" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <property name="spacing">
       <number>0</number>
@@ -290,7 +405,7 @@ website</string>
      </item>
     </layout>
    </item>
-   <item row="16" column="0">
+   <item row="17" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <property name="spacing">
       <number>0</number>
@@ -326,7 +441,7 @@ website</string>
      </item>
     </layout>
    </item>
-   <item row="16" column="1" colspan="2">
+   <item row="17" column="1" colspan="2">
     <widget class="QWidget" name="customSVGSizeWidget" native="true">
      <property name="enabled">
       <bool>false</bool>
@@ -441,122 +556,7 @@ website</string>
      </layout>
     </widget>
    </item>
-   <item row="8" column="1" colspan="2">
-    <widget class="Gui::InputField" name="columnWidth">
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-     <property name="quantity" stdset="0">
-      <double>30.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="1" colspan="2">
-    <widget class="Gui::InputField" name="rowHeight">
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-     <property name="quantity" stdset="0">
-      <double>10.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="1" colspan="2">
-    <widget class="Gui::InputField" name="bomLeftOffset">
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-     <property name="quantity" stdset="0">
-      <double>6.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="1" colspan="2">
-    <widget class="Gui::InputField" name="bomRightOffset">
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-     <property name="quantity" stdset="0">
-      <double>6.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="1" colspan="2">
-    <widget class="Gui::InputField" name="bomTopOffset">
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-     <property name="quantity" stdset="0">
-      <double>6.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="15" column="1" colspan="2">
-    <widget class="Gui::PrefComboBox" name="predefinedSVGSize"/>
-   </item>
-   <item row="17" column="0" colspan="3">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1" colspan="2">
-    <widget class="QWidget" name="widget" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1,0,1">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="logoWidthLabel">
-        <property name="text">
-         <string>Width</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Gui::InputField" name="logoWidth">
-        <property name="text">
-         <string>30 mm</string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true">mm</string>
-        </property>
-        <property name="quantity" stdset="0">
-         <double>30.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="logoHeightLabel">
-        <property name="text">
-         <string>Height</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Gui::InputField" name="logoHeight">
-        <property name="unit" stdset="0">
-         <string notr="true">mm</string>
-        </property>
-        <property name="quantity" stdset="0">
-         <double>30.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="2" rowspan="4">
+   <item row="1" column="2" rowspan="5">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QLabel" name="companyLogoImage">
@@ -609,6 +609,66 @@ website</string>
      </item>
     </layout>
    </item>
+   <item row="9" column="1" colspan="2">
+    <widget class="Gui::InputField" name="columnWidth">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>30.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1" colspan="2">
+    <widget class="Gui::InputField" name="rowHeight">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>10.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1" colspan="2">
+    <widget class="Gui::InputField" name="bomLeftOffset">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>6.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="1" colspan="2">
+    <widget class="Gui::InputField" name="bomRightOffset">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>6.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="1" colspan="2">
+    <widget class="Gui::InputField" name="bomTopOffset">
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>6.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="1" colspan="2">
+    <widget class="Gui::PrefComboBox" name="predefinedSVGSize"/>
+   </item>
+   <item row="18" column="0" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -639,6 +699,7 @@ website</string>
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>headerText</tabstop>
   <tabstop>projectInfo</tabstop>
   <tabstop>companyInfo</tabstop>
   <tabstop>editCompanyLogo</tabstop>

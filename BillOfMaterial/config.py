@@ -129,7 +129,10 @@ BOM_SVG_TOP_OFFSET = 6
 # Bottom offset (minimum) of bill of material svg
 BOM_SVG_BOTTOM_OFFSET = 6
 
-# Project info will be shown as "Key: value" pairs.
+# Header text to insert at top left corner in SVG
+SVG_BOM_HEADER_TEXT = "Bill of Material"
+
+# Project info will be shown below header text
 SVG_HEADER_PROJECT_INFO = (
     "Project: Project Name\n"
     "Created By: Author Name\n"

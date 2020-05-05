@@ -45,6 +45,7 @@ class _BillOfMaterialDialog:
         column_headers,
         column_units,
         rebar_length_type,
+        svg_bom_header_text,
         svg_header_project_info,
         svg_header_company_info,
         svg_header_company_logo,
@@ -66,6 +67,7 @@ class _BillOfMaterialDialog:
         self.column_units = column_units
         self.rebar_length_type = rebar_length_type
         self.allowed_rebar_length_types = ["RealLength", "LengthWithSharpEdges"]
+        self.svg_bom_header_text = svg_bom_header_text
         self.svg_project_info = svg_header_project_info
         self.svg_company_info = svg_header_company_info
         self.svg_company_logo = svg_header_company_logo
@@ -211,6 +213,7 @@ class _BillOfMaterialDialog:
                 column_headers=column_headers,
                 column_units=column_units,
                 rebar_length_type=rebar_length_type,
+                svg_bom_header_text=self.svg_bom_header_text,
                 svg_header_project_info=self.svg_project_info,
                 svg_header_company_info=self.svg_company_info,
                 svg_header_company_logo=self.svg_company_logo,
@@ -298,6 +301,7 @@ def CommandBillOfMaterial(
     column_headers=COLUMN_HEADERS,
     column_units=COLUMN_UNITS,
     rebar_length_type=REBAR_LENGTH_TYPE,
+    svg_bom_header_text=SVG_BOM_HEADER_TEXT,
     svg_header_project_info=SVG_HEADER_PROJECT_INFO,
     svg_header_company_info=SVG_HEADER_COMPANY_INFO,
     svg_header_company_logo=SVG_HEADER_COMPANY_LOGO,
@@ -320,6 +324,7 @@ def CommandBillOfMaterial(
         column_headers,
         column_units,
         rebar_length_type,
+        svg_bom_header_text,
         svg_header_project_info,
         svg_header_company_info,
         svg_header_company_logo,

@@ -82,6 +82,7 @@ def getSVGHead():
 
 
 def getBOMSVGHeader(
+    svg_bom_header_text,
     svg_header_project_info,
     svg_header_company_info,
     svg_header_company_logo,
@@ -91,16 +92,28 @@ def getBOMSVGHeader(
     row_height,
     bom_width,
 ):
+    # Return if nothing to be done
+    if not (
+        svg_bom_header_text
+        or svg_header_project_info
+        or svg_header_company_info
+        or svg_header_company_logo
+    ):
+        return ("", 0)
+
     svg_header = '<g id="BOM_Header">\n'
     indent_level = "  "
 
-    svg_header += indent_level + (
-        '<text style="" x="{}" y="{}" font-family="DejaVu Sans"'
-        ' font-size="{}" fill="#000000" freecad:editable="BOM_Header">'
-        "<tspan>Bill of Material</tspan></text>\n"
-    ).format(0, 4 * font_size, 4 * font_size)
+    y_offset = 0
+    if svg_bom_header_text:
+        svg_header += indent_level + (
+            '<text style="" x="{}" y="{}" font-family="DejaVu Sans"'
+            ' font-size="{}" fill="#000000" freecad:editable="BOM_Header">'
+            "<tspan>{}</tspan></text>\n"
+        ).format(0, 4 * font_size, 4 * font_size, svg_bom_header_text.strip())
+        y_offset += 4 * font_size
 
-    project_info_y_offset = 4 * font_size
+    project_info_y_offset = y_offset
     if svg_header_project_info:
         project_info_svg = indent_level + '<g id="BOM_ProjectInfo">\n'
         indent_level += "  "
@@ -152,6 +165,7 @@ def getBOMSVGHeader(
         company_info_svg += indent_level + "</g>\n"
         svg_header += company_info_svg
 
+    logo_height = 0
     if svg_header_company_logo:
         file_type = (
             os.path.splitext(svg_header_company_logo)[1].lstrip(".").lower()
@@ -175,27 +189,22 @@ def getBOMSVGHeader(
                             base64_logo,
                         )
                     )
+                    logo_height = svg_header_company_logo_height
             except:
                 FreeCAD.Console.PrintError(
                     "Error opening file "
                     + str(svg_header_company_logo)
                     + "\nCannot insert logo into BOM svg.\n"
                 )
-                svg_header_company_logo_height = 0
         else:
             FreeCAD.Console.PrintError(
                 "Error: Unsupported file type of logo.\nValid file types for "
                 "logo are: " + ", ".join(valid_logo_filetypes) + "\n"
             )
-            svg_header_company_logo_height = 0
     svg_header += "</g>\n"
 
     y_offset = (
-        max(
-            project_info_y_offset,
-            company_info_y_offset,
-            svg_header_company_logo_height,
-        )
+        max(project_info_y_offset, company_info_y_offset, logo_height)
         + row_height
     )
 
@@ -405,6 +414,7 @@ def makeBillOfMaterialSVG(
     column_headers=COLUMN_HEADERS,
     column_units=COLUMN_UNITS,
     rebar_length_type=REBAR_LENGTH_TYPE,
+    svg_bom_header_text=SVG_BOM_HEADER_TEXT,
     svg_header_project_info=SVG_HEADER_PROJECT_INFO,
     svg_header_company_info=SVG_HEADER_COMPANY_INFO,
     svg_header_company_logo=SVG_HEADER_COMPANY_LOGO,
@@ -471,6 +481,7 @@ def makeBillOfMaterialSVG(
 
     bom_width = column_width * (len(column_headers) + len(diameter_list) - 1)
     svg_header, y_offset = getBOMSVGHeader(
+        svg_bom_header_text,
         svg_header_project_info,
         svg_header_company_info,
         svg_header_company_logo,
@@ -962,12 +973,14 @@ def makeBillOfMaterialSVG(
     svg_output += "</g>\n"
     indent_level = " " * (len(indent_level) - 2)
 
-    svg_footer = getBOMSVGFooter(
-        svg_footer_text, y_offset, font_size, bom_width, row_height
-    )
-    svg_output += svg_footer.replace("\n", "\n" + indent_level).rstrip(
-        indent_level
-    )
+    if svg_footer_text:
+        svg_footer = getBOMSVGFooter(
+            svg_footer_text, y_offset, font_size, bom_width, row_height
+        )
+        svg_output += svg_footer.replace("\n", "\n" + indent_level).rstrip(
+            indent_level
+        )
+        y_offset += row_height
     svg_output += "</g>\n"
     svg_output += "\n</svg>"
 
