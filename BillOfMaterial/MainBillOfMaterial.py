@@ -52,6 +52,7 @@ class _BillOfMaterialDialog:
         svg_header_company_logo_width,
         svg_header_company_logo_height,
         svg_footer_text,
+        font_family,
         font_size,
         column_width,
         row_height,
@@ -74,6 +75,7 @@ class _BillOfMaterialDialog:
         self.svg_company_logo_width = svg_header_company_logo_width
         self.svg_company_logo_height = svg_header_company_logo_height
         self.svg_footer = svg_footer_text
+        self.font_family = font_family
         self.font_size = font_size
         self.column_width = column_width
         self.row_height = row_height
@@ -220,6 +222,7 @@ class _BillOfMaterialDialog:
                 svg_header_company_logo_width=self.svg_company_logo_width,
                 svg_header_company_logo_height=self.svg_company_logo_height,
                 svg_footer_text=self.svg_footer,
+                font_family=self.font_family,
                 font_size=self.font_size,
                 column_width=self.column_width,
                 row_height=self.row_height,
@@ -308,6 +311,7 @@ def CommandBillOfMaterial(
     svg_header_company_logo_width=SVG_HEADER_COMPANY_LOGO_WIDTH,
     svg_header_company_logo_height=SVG_HEADER_COMPANY_LOGO_HEIGHT,
     svg_footer_text=SVG_FOOTER_TEXT,
+    font_family=FONT_FAMILY,
     font_size=FONT_SIZE,
     column_width=COLUMN_WIDTH,
     row_height=ROW_HEIGHT,
@@ -331,6 +335,7 @@ def CommandBillOfMaterial(
         svg_header_company_logo_width,
         svg_header_company_logo_height,
         svg_footer_text,
+        font_family,
         font_size,
         column_width,
         row_height,

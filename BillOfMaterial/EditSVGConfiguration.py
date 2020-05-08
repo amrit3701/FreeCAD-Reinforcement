@@ -46,6 +46,7 @@ class _EditSVGConfigurationDialog:
         svg_company_logo_width,
         svg_company_logo_height,
         svg_footer,
+        font_family,
         font_size,
         column_width,
         row_height,
@@ -66,6 +67,7 @@ class _EditSVGConfigurationDialog:
         self.svg_company_logo_width = svg_company_logo_width
         self.svg_company_logo_height = svg_company_logo_height
         self.svg_footer = svg_footer
+        self.font_family = font_family
         self.font_size = font_size
         self.column_width = column_width
         self.row_height = row_height
@@ -120,6 +122,9 @@ class _EditSVGConfigurationDialog:
         self.form.logoWidth.setText(str(self.svg_company_logo_width))
         self.form.logoHeight.setText(str(self.svg_company_logo_height))
         self.form.svgFooter.setText(self.svg_footer)
+        self.form.fontFamily.setCurrentIndex(
+            self.form.fontFamily.findText(self.font_family)
+        )
         self.form.fontSize.setValue(self.font_size)
         self.form.columnWidth.setText(str(self.column_width))
         self.form.rowHeight.setText(str(self.row_height))
@@ -222,6 +227,7 @@ class _EditSVGConfigurationDialog:
             self.form.logoHeight.text()
         ).Value
         self.svg_footer = self.form.svgFooter.text()
+        self.font_family = self.form.fontFamily.currentText()
         self.font_size = self.form.fontSize.value()
         self.column_width = FreeCAD.Units.Quantity(
             self.form.columnWidth.text()
@@ -279,6 +285,7 @@ def runEditSVGConfigurationDialog(parent_dialog):
         parent_dialog.svg_company_logo_width,
         parent_dialog.svg_company_logo_height,
         parent_dialog.svg_footer,
+        parent_dialog.font_family,
         parent_dialog.font_size,
         parent_dialog.column_width,
         parent_dialog.row_height,
@@ -297,6 +304,7 @@ def runEditSVGConfigurationDialog(parent_dialog):
     parent_dialog.svg_company_logo_width = dialog.svg_company_logo_width
     parent_dialog.svg_company_logo_height = dialog.svg_company_logo_height
     parent_dialog.svg_footer = dialog.svg_footer
+    parent_dialog.font_family = dialog.font_family
     parent_dialog.font_size = dialog.font_size
     parent_dialog.column_width = dialog.column_width
     parent_dialog.row_height = dialog.row_height
