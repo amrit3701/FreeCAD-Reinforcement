@@ -101,6 +101,9 @@ COLUMN_WIDTH = 30
 # Height of each row in svg table
 ROW_HEIGHT = 10
 
+# Font family of text in bom svg
+FONT_FAMILY = "DejaVu Sans"
+
 # Font size of svg text
 FONT_SIZE = 3
 
