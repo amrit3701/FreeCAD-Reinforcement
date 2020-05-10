@@ -271,22 +271,32 @@ def getColumnHeadersSVG(
 def getBOMScalingFactor(
     bom_width,
     bom_height,
-    bom_table_max_width,
-    bom_table_max_height,
     bom_left_offset,
     bom_top_offset,
     template_width,
     template_height,
+    bom_min_right_offset,
+    bom_min_bottom_offset,
+    bom_table_max_width,
+    bom_table_max_height,
 ):
-    """getBOMScalingFactor(BOMWidth, BOMHeight, BOMTableMaxWidth,
-    BOMTableMaxHeight, BOMLeftOffset, BOMTopOffset, TemplateWidth,
-    TemplateHeight):
+    """getBOMScalingFactor(BOMWidth, BOMHeight, BOMLeftOffset, BOMTopOffset,
+    TemplateWidth, TemplateHeight, BOMMinRightOffset, BOMMinBottomOffset,
+    BOMTableMaxWidth, BOMTableMaxHeight):
     Returns scaling factor for bom table svg to fit inside template.
     """
     scale = False
-    if (template_width - bom_width - bom_left_offset) < 0 or (
-        template_height - bom_height - bom_top_offset
-    ) < 0:
+    if (
+        (template_width - bom_width - bom_left_offset - bom_min_right_offset)
+        < 0
+        or (
+            template_height
+            - bom_height
+            - bom_top_offset
+            - bom_min_bottom_offset,
+        )
+        < 0
+    ):
         scale = True
 
     if bom_table_max_width:
@@ -300,13 +310,17 @@ def getBOMScalingFactor(
     if not scale:
         return 1
 
-    h_scaling_factor = (template_width - bom_left_offset) / bom_width
+    h_scaling_factor = (
+        template_width - bom_left_offset - bom_min_right_offset
+    ) / bom_width
     if bom_table_max_width:
         h_scaling_factor = min(
             h_scaling_factor, bom_table_max_width / bom_width
         )
 
-    v_scaling_factor = (template_height - bom_top_offset) / bom_height
+    v_scaling_factor = (
+        template_height - bom_top_offset - bom_min_bottom_offset
+    ) / bom_height
     if bom_table_max_height:
         v_scaling_factor = min(
             v_scaling_factor, bom_table_max_height / bom_height
@@ -326,6 +340,8 @@ def makeBillOfMaterialSVG(
     row_height=ROW_HEIGHT,
     bom_left_offset=BOM_SVG_LEFT_OFFSET,
     bom_top_offset=BOM_SVG_TOP_OFFSET,
+    bom_min_right_offset=BOM_SVG_MIN_RIGHT_OFFSET,
+    bom_min_bottom_offset=BOM_SVG_MIN_BOTTOM_OFFSET,
     bom_table_svg_max_width=BOM_TABLE_SVG_MAX_WIDTH,
     bom_table_svg_max_height=BOM_TABLE_SVG_MAX_HEIGHT,
     template_file=TEMPLATE_FILE,
@@ -333,7 +349,8 @@ def makeBillOfMaterialSVG(
 ):
     """makeBillOfMaterialSVG(ColumnHeaders, ColumnUnits, RebarLengthType,
     FontFamily, FontSize, ColumnWidth, RowHeight, BOMLeftOffset, BOMTopOffset,
-    BOMTableSVGMaxWidth, BOMTableSVGMaxHeight, TemplateFile, OutputFile):
+    BOMMinRightOffset, BOMMinBottomOffset, BOMTableSVGMaxWidth,
+    BOMTableSVGMaxHeight, TemplateFile, OutputFile):
     Generates the Rebars Material Bill SVG.
 
     column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
@@ -901,12 +918,14 @@ def makeBillOfMaterialSVG(
     scaling_factor = getBOMScalingFactor(
         bom_width,
         bom_height,
-        bom_table_svg_max_width,
-        bom_table_svg_max_height,
         bom_left_offset,
         bom_top_offset,
         template_width,
         template_height,
+        bom_min_right_offset,
+        bom_min_bottom_offset,
+        bom_table_svg_max_width,
+        bom_table_svg_max_height,
     )
 
     bom_content_obj = bom_obj.Views[0]

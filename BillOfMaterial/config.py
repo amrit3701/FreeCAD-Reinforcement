@@ -106,17 +106,29 @@ FONT_FAMILY = "DejaVu Sans"
 # Font size of svg text
 FONT_SIZE = 3
 
-# Left offset (minimum) of bill of material svg
+# Left offset of bill of material svg
 BOM_SVG_LEFT_OFFSET = 6
 
 # Top offset of bill of material svg
 BOM_SVG_TOP_OFFSET = 40
 
+# BillOfMaterial Template File. It must be valid TechDraw template file as here:
+# https://wiki.freecadweb.org/Svg_Namespace
+TEMPLATE_FILE = Path(__file__).parent.absolute() / "BOMTemplate.svg"
+
+# ------------------------Constraints on bom table svg------------------------
+# Minimum right offset of bill of material svg
+BOM_SVG_MIN_RIGHT_OFFSET = 6
+
+# Minimum bottom offset of bill of material svg
+BOM_SVG_MIN_BOTTOM_OFFSET = 6
+
 # Maximum width of bill of material table in svg
+# Set BOM_TABLE_SVG_MAX_WIDTH = None, if you don't want this constraint to be
+# applied
 BOM_TABLE_SVG_MAX_WIDTH = 198
 
 # Maximum height of bill of material table in svg
+# Set BOM_TABLE_SVG_MAX_HEIGHT = None, if you don't want this constraint to be
+# applied
 BOM_TABLE_SVG_MAX_HEIGHT = 250
-
-# BillOfMaterial Template File
-TEMPLATE_FILE = Path(__file__).parent.absolute() / "BOMTemplate.svg"
