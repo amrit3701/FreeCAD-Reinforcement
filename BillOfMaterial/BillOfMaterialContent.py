@@ -32,6 +32,18 @@ class BOMContent:
             )
             obj.Font = "DejaVu Sans"
 
+        if "FontSize" not in pl:
+            obj.addProperty(
+                "App::PropertyLength",
+                "FontSize",
+                "BOMContent",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The font size of Bill of Material content.",
+                ),
+            )
+            obj.FontSize = 3
+
     def onDocumentRestored(self, obj):
         """Upgrade BOMContent object."""
         self.setProperties(obj)
@@ -45,7 +57,16 @@ class BOMContent:
             if obj.Font:
                 obj.Symbol = re.sub(
                     'font-family="([^"]+)"',
-                    'font-family="{}"'.format(str(obj.Font)),
+                    'font-family="{}"'.format(obj.Font),
+                    obj.Symbol,
+                )
+                obj.ViewObject.update()
+
+        if hasattr(obj, "FontSize"):
+            if obj.FontSize:
+                obj.Symbol = re.sub(
+                    'font-size="([^"]+)"',
+                    'font-size="{}"'.format(obj.FontSize.Value),
                     obj.Symbol,
                 )
                 obj.ViewObject.update()

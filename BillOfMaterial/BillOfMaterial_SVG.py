@@ -931,6 +931,7 @@ def makeBillOfMaterialSVG(
     bom_content_obj = bom_obj.Views[0]
     bom_content_obj.Symbol = svg_output
     bom_content_obj.Font = font_family
+    bom_content_obj.FontSize = font_size
     bom_content_obj.X = bom_width * scaling_factor / 2 + bom_left_offset
     bom_content_obj.Y = (
         template_height - bom_height * scaling_factor / 2 - bom_top_offset
