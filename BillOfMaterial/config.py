@@ -27,7 +27,6 @@ __url__ = "https://www.freecadweb.org"
 
 
 from pathlib import Path
-from datetime import date
 
 import FreeCAD
 
@@ -107,60 +106,17 @@ FONT_FAMILY = "DejaVu Sans"
 # Font size of svg text
 FONT_SIZE = 3
 
-# Available sizes as widthxheight in mm
-AVAILABLE_SVG_SIZES = {
-    "A0": "841x1189",
-    "A1": "594x841",
-    "A2": "420x594",
-    "A3": "297x420",
-    "A4": "210x297",
-}
-
-# Size of svg sheet, if blank (SVG_SIZE = "") then it will be calculated
-# automatically to fit Bill of Material
-SVG_SIZE = AVAILABLE_SVG_SIZES["A4"]
-
 # Left offset (minimum) of bill of material svg
 BOM_SVG_LEFT_OFFSET = 6
 
-# Right offset (minimum) of bill of material svg
-BOM_SVG_RIGHT_OFFSET = 6
-
 # Top offset of bill of material svg
-BOM_SVG_TOP_OFFSET = 6
+BOM_SVG_TOP_OFFSET = 40
 
-# Bottom offset (minimum) of bill of material svg
-BOM_SVG_BOTTOM_OFFSET = 6
+# Maximum width of bill of material table in svg
+BOM_TABLE_SVG_MAX_WIDTH = 198
 
-# Header text to insert at top left corner in SVG
-SVG_BOM_HEADER_TEXT = "Bill of Material"
+# Maximum height of bill of material table in svg
+BOM_TABLE_SVG_MAX_HEIGHT = 250
 
-# Project info will be shown below header text
-SVG_HEADER_PROJECT_INFO = (
-    "Project: Project Name\n"
-    "Created By: Author Name\n"
-    "Date:" + str(date.today())
-)
-
-# This will be shown next to company logo
-SVG_HEADER_COMPANY_INFO = (
-    "Company Name\n"
-    "Address Line1\n"
-    "Address Line2\n"
-    "Tel. 99999-88888\n"
-    "Email: foo@foo.com\n"
-    "website"
-)
-
-# Logo path must be absolute path of logo file.
-# Supported logo file formats are: "png", "jpeg", "jpg", "ico" and "bmp"
-SVG_HEADER_COMPANY_LOGO = Path(__file__).parent.absolute() / "company_logo.png"
-
-# Maximum width of logo to be used in BOM
-SVG_HEADER_COMPANY_LOGO_WIDTH = 30
-
-# Maximum height of logo to be used in BOM
-SVG_HEADER_COMPANY_LOGO_HEIGHT = 30
-
-# Footer text to be included in BOM
-SVG_FOOTER_TEXT = "Proudly generated using FreeCAD - Rebar Addon"
+# BillOfMaterial Template File
+TEMPLATE_FILE = Path(__file__).parent.absolute() / "BOMTemplate.svg"
