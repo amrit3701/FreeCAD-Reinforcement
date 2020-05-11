@@ -156,9 +156,9 @@ p, li { white-space: pre-wrap; }
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
      <item>
-      <widget class="Gui::PrefCheckBox" name="exportSVG">
+      <widget class="Gui::PrefCheckBox" name="createSVG">
        <property name="text">
-        <string>Export svg</string>
+        <string>Create svg</string>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -173,6 +173,49 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QWidget" name="svgOutputFileWidget" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="svgOutputFileLabel">
+        <property name="text">
+         <string>SVG Output File</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="Gui::PrefLineEdit" name="svgOutputFile">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="chooseSVGOutputFile">
+          <property name="text">
+           <string>Choose</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -197,11 +240,21 @@ p, li { white-space: pre-wrap; }
    <extends>QComboBox</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
+  <customwidget>
+   <class>Gui::PrefLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>rebarLengthType</tabstop>
   <tabstop>columnHeaderListWidget</tabstop>
   <tabstop>noteText</tabstop>
+  <tabstop>createSpreadsheet</tabstop>
+  <tabstop>createSVG</tabstop>
+  <tabstop>editSVGConfigButton</tabstop>
+  <tabstop>svgOutputFile</tabstop>
+  <tabstop>chooseSVGOutputFile</tabstop>
  </tabstops>
  <resources/>
  <connections/>

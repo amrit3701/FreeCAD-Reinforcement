@@ -29,6 +29,7 @@ __url__ = "https://www.freecadweb.org"
 import os
 from PySide2 import QtWidgets
 
+import FreeCAD
 import FreeCADGui
 
 from .UnitLineEdit import UnitLineEdit
@@ -45,46 +46,34 @@ class _BillOfMaterialDialog:
         column_headers,
         column_units,
         rebar_length_type,
-        svg_bom_header_text,
-        svg_header_project_info,
-        svg_header_company_info,
-        svg_header_company_logo,
-        svg_header_company_logo_width,
-        svg_header_company_logo_height,
-        svg_footer_text,
         font_family,
         font_size,
         column_width,
         row_height,
         bom_left_offset,
-        bom_right_offset,
         bom_top_offset,
-        bom_bottom_offset,
-        available_svg_sizes,
-        svg_size,
+        bom_min_right_offset,
+        bom_min_bottom_offset,
+        bom_table_svg_max_width,
+        bom_table_svg_max_height,
+        template_file,
     ):
         """This function set initial data in Bill of Material dialog box."""
         self.column_headers_data = column_headers
         self.column_units = column_units
         self.rebar_length_type = rebar_length_type
         self.allowed_rebar_length_types = ["RealLength", "LengthWithSharpEdges"]
-        self.svg_bom_header_text = svg_bom_header_text
-        self.svg_project_info = svg_header_project_info
-        self.svg_company_info = svg_header_company_info
-        self.svg_company_logo = svg_header_company_logo
-        self.svg_company_logo_width = svg_header_company_logo_width
-        self.svg_company_logo_height = svg_header_company_logo_height
-        self.svg_footer = svg_footer_text
         self.font_family = font_family
         self.font_size = font_size
         self.column_width = column_width
         self.row_height = row_height
         self.bom_left_offset = bom_left_offset
-        self.bom_right_offset = bom_right_offset
         self.bom_top_offset = bom_top_offset
-        self.bom_bottom_offset = bom_bottom_offset
-        self.available_svg_sizes = available_svg_sizes
-        self.svg_size = svg_size
+        self.bom_min_right_offset = bom_min_right_offset
+        self.bom_min_bottom_offset = bom_min_bottom_offset
+        self.bom_table_svg_max_width = bom_table_svg_max_width
+        self.bom_table_svg_max_height = bom_table_svg_max_width
+        self.template_file = template_file
         self.form = FreeCADGui.PySideUic.loadUi(
             os.path.splitext(__file__)[0] + ".ui"
         )
@@ -171,19 +160,34 @@ class _BillOfMaterialDialog:
         self.form.editSVGConfigButton.clicked.connect(
             lambda: runEditSVGConfigurationDialog(self)
         )
-        self.form.exportSVG.stateChanged.connect(
-            self.export_svg_checkbox_clicked
+        self.form.createSVG.stateChanged.connect(
+            self.create_svg_checkbox_clicked
+        )
+        self.form.chooseSVGOutputFile.clicked.connect(
+            self.choose_svg_output_file_clicked
         )
         self.form.buttonBox.accepted.connect(self.accept)
         self.form.buttonBox.rejected.connect(lambda: self.form.close())
 
-    def export_svg_checkbox_clicked(self):
-        """This function is executed when Export SVG button is checked/unchecked
+    def create_svg_checkbox_clicked(self):
+        """This function is executed when Create SVG button is checked/unchecked
         in ui."""
-        if self.form.exportSVG.isChecked():
+        if self.form.createSVG.isChecked():
             self.form.editSVGConfigButton.setEnabled(True)
+            self.form.svgOutputFileWidget.setEnabled(True)
         else:
             self.form.editSVGConfigButton.setEnabled(False)
+            self.form.svgOutputFileWidget.setEnabled(False)
+
+    def choose_svg_output_file_clicked(self):
+        """This function is executed when Choose button clicked in ui to execute
+        QFileDialog to select svg output file."""
+        path = FreeCAD.ConfigGet("UserAppData")
+        output_file, Filter = QtWidgets.QFileDialog.getSaveFileName(
+            None, "Choose output file for Bill of Material", path, "*.svg"
+        )
+        if output_file:
+            self.form.svgOutputFile.setText(str(output_file))
 
     def accept(self):
         """This function is executed when 'OK' button is clicked from UI. It
@@ -203,59 +207,35 @@ class _BillOfMaterialDialog:
         column_headers = self.getColumnConfigData()
         rebar_length_type = self.form.rebarLengthType.currentText()
         create_spreadsheet = self.form.createSpreadsheet.isChecked()
+
         if create_spreadsheet:
             makeBillOfMaterial(
                 column_headers=column_headers,
                 column_units=column_units,
                 rebar_length_type=rebar_length_type,
             )
-        export_svg = self.form.exportSVG.isChecked()
-        if export_svg:
-            svg_string = makeBillOfMaterialSVG(
+        create_svg = self.form.createSVG.isChecked()
+
+        if create_svg:
+            output_file = self.form.svgOutputFile.text()
+            makeBillOfMaterialSVG(
                 column_headers=column_headers,
                 column_units=column_units,
                 rebar_length_type=rebar_length_type,
-                svg_bom_header_text=self.svg_bom_header_text,
-                svg_header_project_info=self.svg_project_info,
-                svg_header_company_info=self.svg_company_info,
-                svg_header_company_logo=self.svg_company_logo,
-                svg_header_company_logo_width=self.svg_company_logo_width,
-                svg_header_company_logo_height=self.svg_company_logo_height,
-                svg_footer_text=self.svg_footer,
                 font_family=self.font_family,
                 font_size=self.font_size,
                 column_width=self.column_width,
                 row_height=self.row_height,
                 bom_left_offset=self.bom_left_offset,
-                bom_right_offset=self.bom_right_offset,
                 bom_top_offset=self.bom_top_offset,
-                bom_bottom_offset=self.bom_bottom_offset,
-                svg_size=self.svg_size,
+                bom_min_right_offset=self.bom_min_right_offset,
+                bom_min_bottom_offset=self.bom_min_bottom_offset,
+                bom_table_svg_max_width=self.bom_table_svg_max_width,
+                bom_table_svg_max_height=self.bom_table_svg_max_height,
+                template_file=self.template_file,
+                output_file=output_file,
             )
-            self.saveSVG(svg_string)
         self.form.close()
-
-    def saveSVG(self, svg_string):
-        """This function save svg output in file chosen from a file dialog box.
-        """
-        import FreeCAD
-
-        path = FreeCAD.ConfigGet("UserAppData")
-        svg_filename, Filter = QtWidgets.QFileDialog.getSaveFileName(
-            None, "Export svg output", path, "*.svg"
-        )
-        if not svg_filename:
-            FreeCAD.Console.PrintError("SVG output not saved: Empty filename\n")
-            return
-
-        try:
-            with open(svg_filename, "w") as svg_file:
-                svg_file.write(svg_string)
-
-        except:
-            FreeCAD.Console.PrintError(
-                "Error writing svg to file " + svg_filename + "\n"
-            )
 
     def getColumnUnits(self):
         """This function get units data from UI and return a dictionary with
@@ -304,23 +284,17 @@ def CommandBillOfMaterial(
     column_headers=COLUMN_HEADERS,
     column_units=COLUMN_UNITS,
     rebar_length_type=REBAR_LENGTH_TYPE,
-    svg_bom_header_text=SVG_BOM_HEADER_TEXT,
-    svg_header_project_info=SVG_HEADER_PROJECT_INFO,
-    svg_header_company_info=SVG_HEADER_COMPANY_INFO,
-    svg_header_company_logo=SVG_HEADER_COMPANY_LOGO,
-    svg_header_company_logo_width=SVG_HEADER_COMPANY_LOGO_WIDTH,
-    svg_header_company_logo_height=SVG_HEADER_COMPANY_LOGO_HEIGHT,
-    svg_footer_text=SVG_FOOTER_TEXT,
     font_family=FONT_FAMILY,
     font_size=FONT_SIZE,
     column_width=COLUMN_WIDTH,
     row_height=ROW_HEIGHT,
     bom_left_offset=BOM_SVG_LEFT_OFFSET,
-    bom_right_offset=BOM_SVG_RIGHT_OFFSET,
     bom_top_offset=BOM_SVG_TOP_OFFSET,
-    bom_bottom_offset=BOM_SVG_BOTTOM_OFFSET,
-    available_svg_sizes=AVAILABLE_SVG_SIZES,
-    svg_size=SVG_SIZE,
+    bom_min_right_offset=BOM_SVG_MIN_RIGHT_OFFSET,
+    bom_min_bottom_offset=BOM_SVG_MIN_BOTTOM_OFFSET,
+    bom_table_svg_max_width=BOM_TABLE_SVG_MAX_WIDTH,
+    bom_table_svg_max_height=BOM_TABLE_SVG_MAX_HEIGHT,
+    template_file=TEMPLATE_FILE,
 ):
     """This function is used to invoke dialog box for rebars bill of material.
     """
@@ -328,23 +302,17 @@ def CommandBillOfMaterial(
         column_headers,
         column_units,
         rebar_length_type,
-        svg_bom_header_text,
-        svg_header_project_info,
-        svg_header_company_info,
-        svg_header_company_logo,
-        svg_header_company_logo_width,
-        svg_header_company_logo_height,
-        svg_footer_text,
         font_family,
         font_size,
         column_width,
         row_height,
         bom_left_offset,
-        bom_right_offset,
         bom_top_offset,
-        bom_bottom_offset,
-        available_svg_sizes,
-        svg_size,
+        bom_min_right_offset,
+        bom_min_bottom_offset,
+        bom_table_svg_max_width,
+        bom_table_svg_max_height,
+        template_file,
     )
     dialog.setupUi()
     dialog.form.exec_()

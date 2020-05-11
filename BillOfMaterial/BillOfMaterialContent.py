@@ -44,6 +44,28 @@ class BOMContent:
             )
             obj.FontSize = 3
 
+        if "Width" not in pl:
+            obj.addProperty(
+                "App::PropertyLength",
+                "Width",
+                "BOMContent",
+                QT_TRANSLATE_NOOP(
+                    "App::Property", "The width of Bill of Material content.",
+                ),
+            )
+        obj.setEditorMode("Width", 1)
+
+        if "Height" not in pl:
+            obj.addProperty(
+                "App::PropertyLength",
+                "Height",
+                "BOMContent",
+                QT_TRANSLATE_NOOP(
+                    "App::Property", "The height of Bill of Material content.",
+                ),
+            )
+        obj.setEditorMode("Height", 1)
+
     def onDocumentRestored(self, obj):
         """Upgrade BOMContent object."""
         self.setProperties(obj)
@@ -78,17 +100,16 @@ class BOMContent:
         return None
 
 
-def makeBOMObject(template_file=None):
+def makeBOMObject(template_file):
     """Create BillOfMaterial object to store BOM svg."""
     bom_object = FreeCAD.ActiveDocument.addObject(
         "TechDraw::DrawPage", "BOM_object"
     )
-    if template_file:
-        template = FreeCAD.ActiveDocument.addObject(
-            "TechDraw::DrawSVGTemplate", "Template"
-        )
-        template.Template = str(template_file)
-        bom_object.Template = template
+    template = FreeCAD.ActiveDocument.addObject(
+        "TechDraw::DrawSVGTemplate", "Template"
+    )
+    template.Template = str(template_file)
+    bom_object.Template = template
     bom_content = BOMContent("BOM_content").Object
     bom_object.addView(bom_content)
     FreeCAD.ActiveDocument.recompute()

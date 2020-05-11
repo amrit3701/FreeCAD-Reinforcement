@@ -939,17 +939,20 @@ def makeBillOfMaterialSVG(
     bom_content_obj.Scale = scaling_factor
 
     template_svg = ""
-    if template_file:
-        try:
-            with open(template_file, "r") as template:
-                template_svg = template.read()
-        except:
-            pass
-            FreeCAD.Console.PrintError(
-                "Error reading template file " + str(template_file) + "\n"
-            )
+    try:
+        with open(template_file, "r") as template:
+            template_svg = template.read()
+    except:
+        pass
+        FreeCAD.Console.PrintError(
+            "Error reading template file " + str(template_file) + "\n"
+        )
 
     if output_file:
+        svg_sheet = minidom.parseString(
+            ElementTree.tostring(bom_table_svg, encoding="unicode")
+        ).toprettyxml(indent="  ")
+
         if template_svg:
             bom_table_svg.set(
                 "transform",
@@ -957,12 +960,14 @@ def makeBillOfMaterialSVG(
                     bom_left_offset, bom_top_offset, scaling_factor
                 ),
             )
-            svg_sheet = template_svg.replace(
-                "<!-- DrawingContent -->",
-                minidom.parseString(
-                    ElementTree.tostring(bom_table_svg, encoding="unicode")
-                ).toprettyxml(indent="  "),
-            )
+            bom_svg = minidom.parseString(
+                ElementTree.tostring(bom_table_svg, encoding="unicode")
+            ).toprettyxml(indent="  ")
+            # Remove xml declaration as XML declaration allowed only at the
+            # start of the document
+            if "<?xml" in bom_svg.splitlines()[0]:
+                bom_svg = bom_svg.lstrip(bom_svg.splitlines()[0])
+            svg_sheet = template_svg.replace("<!-- DrawingContent -->", bom_svg)
 
         try:
             with open(output_file, "w") as svg_output_file:
