@@ -133,3 +133,70 @@ def getStringWidth(input_string, font_size, font_family):
     # Convert width from pixels to mm
     width = 0.2645833333 * width
     return width
+
+
+# --------------------------------------------------------------------------
+# SVG Functions
+# --------------------------------------------------------------------------
+
+
+def getBOMScalingFactor(
+    bom_width,
+    bom_height,
+    bom_left_offset,
+    bom_top_offset,
+    template_width,
+    template_height,
+    bom_min_right_offset,
+    bom_min_bottom_offset,
+    bom_table_max_width,
+    bom_table_max_height,
+):
+    """getBOMScalingFactor(BOMWidth, BOMHeight, BOMLeftOffset, BOMTopOffset,
+    TemplateWidth, TemplateHeight, BOMMinRightOffset, BOMMinBottomOffset,
+    BOMTableMaxWidth, BOMTableMaxHeight):
+    Returns scaling factor for bom table svg to fit inside template.
+    """
+    scale = False
+    if (
+        (template_width - bom_width - bom_left_offset - bom_min_right_offset)
+        < 0
+        or (
+            template_height
+            - bom_height
+            - bom_top_offset
+            - bom_min_bottom_offset
+        )
+        < 0
+    ):
+        scale = True
+
+    if bom_table_max_width:
+        if bom_table_max_width < bom_width:
+            scale = True
+
+    if bom_table_max_height:
+        if bom_table_max_height < bom_height:
+            scale = True
+
+    if not scale:
+        return 1
+
+    h_scaling_factor = (
+        template_width - bom_left_offset - bom_min_right_offset
+    ) / bom_width
+    if bom_table_max_width:
+        h_scaling_factor = min(
+            h_scaling_factor, bom_table_max_width / bom_width
+        )
+
+    v_scaling_factor = (
+        template_height - bom_top_offset - bom_min_bottom_offset
+    ) / bom_height
+    if bom_table_max_height:
+        v_scaling_factor = min(
+            v_scaling_factor, bom_table_max_height / bom_height
+        )
+
+    scaling_factor = min(h_scaling_factor, v_scaling_factor)
+    return scaling_factor

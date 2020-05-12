@@ -72,7 +72,7 @@ class _BillOfMaterialDialog:
         self.bom_min_right_offset = bom_min_right_offset
         self.bom_min_bottom_offset = bom_min_bottom_offset
         self.bom_table_svg_max_width = bom_table_svg_max_width
-        self.bom_table_svg_max_height = bom_table_svg_max_width
+        self.bom_table_svg_max_height = bom_table_svg_max_height
         self.template_file = template_file
         self.form = FreeCADGui.PySideUic.loadUi(
             os.path.splitext(__file__)[0] + ".ui"

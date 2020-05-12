@@ -151,7 +151,6 @@ def runEditSVGConfigurationDialog(parent_dialog):
     """This function is used to invoke dialog box for editing svg configuration
     for bill of material. It is also responsive for returning data to parent
     dialog box."""
-    print("a")
     dialog = _EditSVGConfigurationDialog(
         parent_dialog.font_family,
         parent_dialog.font_size,

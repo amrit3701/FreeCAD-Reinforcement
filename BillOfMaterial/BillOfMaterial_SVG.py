@@ -35,6 +35,7 @@ from .BOMfunc import (
     getMarkReinforcementsDict,
     getUniqueDiameterList,
     getRebarSharpEdgedLength,
+    getBOMScalingFactor,
 )
 from .BillOfMaterialContent import makeBOMObject
 from .config import *
@@ -103,37 +104,6 @@ def getSVGTextElement(
     text.set("text-anchor", text_anchor)
     text.set("dominant-baseline", dominant_baseline)
     text.text = str(data)
-    return text
-
-
-def getEditableSVGTextElement(
-    data,
-    element_id,
-    x_offset,
-    y_offset,
-    font_family,
-    font_size,
-    text_anchor="start",
-    dominant_baseline="baseline",
-):
-    """getEditableSVGTextElement(Data, ElementId, XOffset, YOffset, FontFamily,
-    FontSize, TextAnchor, DominantBaseline):
-    Returns freecad:editable text element with filled data and required
-    placement.
-    """
-    text = getSVGTextElement(
-        "",
-        x_offset,
-        y_offset,
-        font_family,
-        font_size,
-        text_anchor,
-        dominant_baseline,
-    )
-    text.set("freecad:editable", element_id)
-    tspan = ElementTree.Element("tspan")
-    tspan.text = str(data)
-    text.append(tspan)
     return text
 
 
@@ -266,68 +236,6 @@ def getColumnHeadersSVG(
             column_headers_svg.append(dia_headers_svg)
 
     return column_headers_svg
-
-
-def getBOMScalingFactor(
-    bom_width,
-    bom_height,
-    bom_left_offset,
-    bom_top_offset,
-    template_width,
-    template_height,
-    bom_min_right_offset,
-    bom_min_bottom_offset,
-    bom_table_max_width,
-    bom_table_max_height,
-):
-    """getBOMScalingFactor(BOMWidth, BOMHeight, BOMLeftOffset, BOMTopOffset,
-    TemplateWidth, TemplateHeight, BOMMinRightOffset, BOMMinBottomOffset,
-    BOMTableMaxWidth, BOMTableMaxHeight):
-    Returns scaling factor for bom table svg to fit inside template.
-    """
-    scale = False
-    if (
-        (template_width - bom_width - bom_left_offset - bom_min_right_offset)
-        < 0
-        or (
-            template_height
-            - bom_height
-            - bom_top_offset
-            - bom_min_bottom_offset,
-        )
-        < 0
-    ):
-        scale = True
-
-    if bom_table_max_width:
-        if bom_table_max_width < bom_width:
-            scale = True
-
-    if bom_table_max_height:
-        if bom_table_max_height < bom_height:
-            scale = True
-
-    if not scale:
-        return 1
-
-    h_scaling_factor = (
-        template_width - bom_left_offset - bom_min_right_offset
-    ) / bom_width
-    if bom_table_max_width:
-        h_scaling_factor = min(
-            h_scaling_factor, bom_table_max_width / bom_width
-        )
-
-    v_scaling_factor = (
-        template_height - bom_top_offset - bom_min_bottom_offset
-    ) / bom_height
-    if bom_table_max_height:
-        v_scaling_factor = min(
-            v_scaling_factor, bom_table_max_height / bom_height
-        )
-
-    scaling_factor = min(h_scaling_factor, v_scaling_factor)
-    return scaling_factor
 
 
 def makeBillOfMaterialSVG(
@@ -932,6 +840,15 @@ def makeBillOfMaterialSVG(
     bom_content_obj.Symbol = svg_output
     bom_content_obj.Font = font_family
     bom_content_obj.FontSize = font_size
+    bom_content_obj.Template = bom_obj.Template
+    bom_content_obj.Width = bom_width
+    bom_content_obj.Height = bom_height
+    bom_content_obj.LeftOffset = bom_left_offset
+    bom_content_obj.TopOffset = bom_top_offset
+    bom_content_obj.MinRightOffset = bom_min_right_offset
+    bom_content_obj.MinBottomOffset = bom_min_bottom_offset
+    bom_content_obj.MaxWidth = bom_table_svg_max_width
+    bom_content_obj.MaxHeight = bom_table_svg_max_height
     bom_content_obj.X = bom_width * scaling_factor / 2 + bom_left_offset
     bom_content_obj.Y = (
         template_height - bom_height * scaling_factor / 2 - bom_top_offset
