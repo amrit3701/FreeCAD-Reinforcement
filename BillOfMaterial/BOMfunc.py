@@ -29,28 +29,64 @@ __url__ = "https://www.freecadweb.org"
 from PySide2 import QtGui, QtWidgets
 
 import FreeCAD
+import Draft
 
 
 def getMarkReinforcementsDict():
     """Returns dictionary with mark as key and corresponding reinforcement
-    objects list as value from active document."""
+    objects list as value from active document. For ArchRebar objects, mark
+    number will be 0."""
     # Get Part::FeaturePython objects list
-    objects_list = FreeCAD.ActiveDocument.findObjects("Part::FeaturePython")
+    objects_list = FreeCAD.ActiveDocument.Objects
 
     # Create dictionary with mark number as key with corresponding reinforcement
     # objects list as value
-    default_mark_number = 0
     mark_reinforcements_dict = {}
-    for item in objects_list:
-        if hasattr(item, "BaseRebar") and hasattr(item, "IfcType"):
-            if item.IfcType == "Reinforcing Bar":
-                if not hasattr(item.BaseRebar, "MarkNumber"):
-                    mark_number = default_mark_number
-                else:
-                    mark_number = item.BaseRebar.MarkNumber
-                if mark_number not in mark_reinforcements_dict:
-                    mark_reinforcements_dict[mark_number] = []
-                mark_reinforcements_dict[mark_number].append(item)
+
+    # Get ArchRebar objects
+    rebars_list = Draft.get_objects_of_type(objects_list, "Rebar")
+
+    for rebar in rebars_list:
+        if hasattr(rebar, "MarkNumber"):
+            if rebar.MarkNumber:
+                mark = rebar.MarkNumber
+            else:
+                mark = "D{}L{}".format(
+                    round(rebar.Diameter.Value), round(rebar.Length.Value)
+                )
+        else:
+            mark = "D{}L{}".format(
+                round(rebar.Diameter.Value), round(rebar.Length.Value)
+            )
+
+        if mark not in mark_reinforcements_dict:
+            mark_reinforcements_dict[mark] = []
+        mark_reinforcements_dict[mark].append(rebar)
+
+    # Get Rebar2 objects
+    reinforcement_list = Draft.get_objects_of_type(
+        objects_list, "ReinforcementGeneric"
+    )
+    reinforcement_list.extend(
+        Draft.get_objects_of_type(objects_list, "ReinforcementLattice")
+    )
+    reinforcement_list.extend(
+        Draft.get_objects_of_type(objects_list, "ReinforcementCustom")
+    )
+    reinforcement_list.extend(
+        Draft.get_objects_of_type(objects_list, "ReinforcementIndividual")
+    )
+    reinforcement_list.extend(
+        Draft.get_objects_of_type(objects_list, "ReinforcementLinear")
+    )
+
+    for reinforcement in reinforcement_list:
+        if reinforcement.BaseRebar.MarkNumber not in mark_reinforcements_dict:
+            mark_reinforcements_dict[reinforcement.BaseRebar.MarkNumber] = []
+        mark_reinforcements_dict[reinforcement.BaseRebar.MarkNumber].append(
+            reinforcement
+        )
+
     return mark_reinforcements_dict
 
 
@@ -63,9 +99,15 @@ def getUniqueDiameterList(mark_reinforcements_dict):
     """
     diameter_list = []
     for _, reinforcement_list in mark_reinforcements_dict.items():
-        diameter = reinforcement_list[0].BaseRebar.Diameter
-        if diameter not in diameter_list:
-            diameter_list.append(diameter)
+        if hasattr(reinforcement_list[0], "BaseRebar"):
+            diameter = reinforcement_list[0].BaseRebar.Diameter
+            if diameter not in diameter_list:
+                diameter_list.append(diameter)
+        elif hasattr(reinforcement_list[0], "Diameter"):
+            for rebar in reinforcement_list:
+                diameter = rebar.Diameter
+                if diameter not in diameter_list:
+                    diameter_list.append(diameter)
     diameter_list.sort()
     return diameter_list
 

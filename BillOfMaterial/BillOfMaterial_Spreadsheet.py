@@ -199,8 +199,11 @@ def makeBillOfMaterial(
         first_row = 2
         current_row = 2
     diameter_list = []
-    for mark_number in sorted(mark_reinforcements_dict):
-        base_rebar = mark_reinforcements_dict[mark_number][0].BaseRebar
+    for mark_number in mark_reinforcements_dict:
+        if hasattr(mark_reinforcements_dict[mark_number][0], "BaseRebar"):
+            base_rebar = mark_reinforcements_dict[mark_number][0].BaseRebar
+        else:
+            base_rebar = mark_reinforcements_dict[mark_number][0]
 
         if "Mark" in column_headers:
             bill_of_material.set(

@@ -335,8 +335,12 @@ def makeBillOfMaterialSVG(
         current_row = 2
         y_offset += row_height
 
-    for mark_number in sorted(mark_reinforcements_dict):
-        base_rebar = mark_reinforcements_dict[mark_number][0].BaseRebar
+    for mark_number in mark_reinforcements_dict:
+        if hasattr(mark_reinforcements_dict[mark_number][0], "BaseRebar"):
+            base_rebar = mark_reinforcements_dict[mark_number][0].BaseRebar
+        else:
+            base_rebar = mark_reinforcements_dict[mark_number][0]
+
         bom_row_svg = ElementTree.Element("g")
         # TODO: Modify logic of str(current_row - first_row + 1)
         # first_row variable maybe eliminated
