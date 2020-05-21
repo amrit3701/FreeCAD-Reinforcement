@@ -1,8 +1,9 @@
 import re
+from xml.etree import ElementTree
 from PySide2.QtCore import QT_TRANSLATE_NOOP
 import FreeCAD
 
-from .BOMfunc import getBOMScalingFactor
+from .BOMfunc import getBOMScalingFactor, getStringWidth
 
 
 class BOMContent:
@@ -151,6 +152,45 @@ class BOMContent:
             )
             obj.MaxHeight = 250
 
+        if "PrefColumnWidth" not in pl:
+            obj.addProperty(
+                "App::PropertyLength",
+                "PrefColumnWidth",
+                "BOMContent",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The preffered column width of table of Bill of Material "
+                    "content.",
+                ),
+            )
+            obj.PrefColumnWidth = 30
+
+        if "ColumnWidth" not in pl:
+            obj.addProperty(
+                "App::PropertyLength",
+                "ColumnWidth",
+                "BOMContent",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The column width of table of Bill of Material content.",
+                ),
+            )
+            obj.ColumnWidth = 30
+        obj.setEditorMode("ColumnWidth", 2)
+
+        if "RowHeight" not in pl:
+            obj.addProperty(
+                "App::PropertyLength",
+                "RowHeight",
+                "BOMContent",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The row height of table of Bill of Material content.",
+                ),
+            )
+            obj.RowHeight = 10
+        obj.setEditorMode("RowHeight", 2)
+
     def onDocumentRestored(self, obj):
         """Upgrade BOMContent object."""
         self.setProperties(obj)
@@ -176,6 +216,8 @@ class BOMContent:
             )
             obj.ViewObject.update()
 
+        self.setColumnWidth(obj)
+
         if obj.Width and obj.Height and obj.Template:
             scaling_factor = getBOMScalingFactor(
                 obj.Width.Value,
@@ -197,6 +239,139 @@ class BOMContent:
             )
             obj.Scale = scaling_factor
             obj.ViewObject.update()
+
+    def getColumnWidth(self, bom_content_obj):
+        font_size = bom_content_obj.FontSize
+        font_family = bom_content_obj.Font
+        min_column_width = 0
+
+        namespace = {"xmlns": "http://www.w3.org/2000/svg"}
+        bom_content = ElementTree.fromstring(bom_content_obj.Symbol)
+        prev_column_width = bom_content_obj.ColumnWidth.Value
+
+        column_count = int(bom_content_obj.Width.Value / prev_column_width)
+        for col_seq in range(1, column_count + 1):
+            text_elements = bom_content.findall(
+                ".//*[@id='bom_table_cell_column_{}']/xmlns:text".format(
+                    col_seq
+                ),
+                namespace,
+            )
+            for text_element in text_elements:
+                text = text_element.text
+                min_column_width = max(
+                    min_column_width,
+                    getStringWidth(text, font_size, font_family),
+                )
+
+        multi_column_text_elements = bom_content.findall(
+            ".//*[@id='bom_table_cell_column_multi_column']/xmlns:text",
+            namespace,
+        )
+        multi_column_rect_elements = bom_content.findall(
+            ".//*[@id='bom_table_cell_column_multi_column']/xmlns:rect",
+            namespace,
+        )
+        for i, text_element in enumerate(multi_column_text_elements):
+            text = text_element.text
+            text_width = getStringWidth(text, font_size, font_family)
+            rect_width = float(multi_column_rect_elements[i].get("width"))
+            col_span = int(rect_width / prev_column_width)
+            available_width = col_span * bom_content_obj.PrefColumnWidth.Value
+            if text_width > available_width:
+                text_width_per_column = text_width / col_span
+                min_column_width = max(min_column_width, text_width_per_column)
+        return min_column_width
+
+    def setColumnWidth(self, bom_content_obj):
+        pref_column_width = bom_content_obj.PrefColumnWidth.Value
+        column_width = self.getColumnWidth(bom_content_obj) + 4
+        if column_width < pref_column_width:
+            column_width = pref_column_width
+
+        namespace = {"xmlns": "http://www.w3.org/2000/svg"}
+        ElementTree.register_namespace("", "http://www.w3.org/2000/svg")
+        bom_content = ElementTree.fromstring(bom_content_obj.Symbol)
+
+        column_count = int(
+            bom_content_obj.Width.Value / bom_content_obj.ColumnWidth.Value
+        )
+        for col_seq in range(1, column_count + 1):
+            rectangle_elements = bom_content.findall(
+                ".//*[@id='bom_table_cell_column_{}']/xmlns:rect".format(
+                    col_seq
+                ),
+                namespace,
+            )
+            text_elements = bom_content.findall(
+                ".//*[@id='bom_table_cell_column_{}']/xmlns:text".format(
+                    col_seq
+                ),
+                namespace,
+            )
+            for row in range(len(rectangle_elements)):
+                rectangle_elements[row].set("width", str(column_width))
+                rectangle_elements[row].set(
+                    "x", str(column_width * (col_seq - 1))
+                )
+                text_elements[row].set(
+                    "x", str(column_width * (col_seq - 1) + column_width / 2)
+                )
+            cell_elements = bom_content.findall(
+                ".//*xmlns:rect[@id='bom_table_cell_column_{}']".format(
+                    col_seq
+                ),
+                namespace,
+            )
+            for cell in cell_elements:
+                cell.set("width", str(column_width))
+                cell.set("x", str(column_width * (col_seq - 1)))
+
+        multi_column_rect_elements = bom_content.findall(
+            ".//*[@id='bom_table_cell_column_multi_column']/xmlns:rect",
+            namespace,
+        )
+        multi_column_text_elements = bom_content.findall(
+            ".//*[@id='bom_table_cell_column_multi_column']/xmlns:text",
+            namespace,
+        )
+        for i, rect_element in enumerate(multi_column_rect_elements):
+            col_span = int(
+                float(rect_element.get("width"))
+                / bom_content_obj.ColumnWidth.Value
+            )
+            col_seq = (
+                int(
+                    float(rect_element.get("x"))
+                    / bom_content_obj.ColumnWidth.Value
+                )
+                + 1
+            )
+            rect_element.set("width", str(column_width * col_span))
+            rect_element.set("x", str(column_width * (col_seq - 1)))
+            multi_column_text_elements[i].set(
+                "x",
+                str(column_width * (col_seq - 1) + column_width * col_span / 2),
+            )
+
+        total_separator = bom_content.find(
+            ".//*[@id='bom_table_cell_column_separator']",
+        )
+        if total_separator is not None:
+            total_separator.set("width", str(column_count * column_width))
+
+        bom_content.set(
+            "viewBox",
+            "0 0 {} {}".format(
+                column_count * column_width, bom_content_obj.Height.Value
+            ),
+        )
+        bom_content.set("width", "{}mm".format(column_count * column_width))
+        bom_content_obj.ColumnWidth = column_width
+        bom_content_obj.Width = column_count * column_width
+        bom_content_obj.Symbol = ElementTree.tostring(
+            bom_content, encoding="unicode"
+        )
 
     def __getstate__(self):
         return None

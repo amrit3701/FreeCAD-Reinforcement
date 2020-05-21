@@ -41,9 +41,8 @@ from .BillOfMaterialContent import makeBOMObject
 from .config import *
 
 
-def getColumnOffset(column_headers, diameter_list, column_header, column_width):
-    """getColumnOffset(ColumnHeadersConfig, DiameterList, ColumnHeader,
-    ColumnWidth):
+def getColumnNumber(column_headers, diameter_list, column_header):
+    """getColumnNumber(ColumnHeadersConfig, DiameterList, ColumnHeader):
     column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
     "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
     its sequence number.
@@ -57,17 +56,15 @@ def getColumnOffset(column_headers, diameter_list, column_header, column_width):
 
     column_header is the key from dictionary column_headers for which we need to
     find its left offset in SVG.
-    column_width is the width of each column in svg.
 
-    Returns left offset of column in svg.
+    Returns position number of column in svg.
     """
     seq = column_headers[column_header][1]
     if "RebarsTotalLength" in column_headers:
         if column_headers["RebarsTotalLength"][1] < seq:
             if len(diameter_list) != 0:
                 seq += len(diameter_list) - 1
-    offset = column_width * (seq - 1)
-    return offset
+    return seq
 
 
 def getSVGRootElement():
@@ -107,8 +104,9 @@ def getSVGTextElement(
     return text
 
 
-def getSVGRectangle(x_offset, y_offset, width, height):
-    """getSVGRectangle(XOffset, YOffset, RectangleWidth, RectangleHeight):
+def getSVGRectangle(x_offset, y_offset, width, height, column_seq=None):
+    """getSVGRectangle(XOffset, YOffset, RectangleWidth, RectangleHeight,
+    ColumnSequence):
     Returns rectangle element with required placement and size of rectangle.
     """
     rectangle_svg = ElementTree.Element(
@@ -119,19 +117,21 @@ def getSVGRectangle(x_offset, y_offset, width, height):
         height=str(height),
         style="fill:none;stroke-width:0.35;stroke:#000000;",
     )
+    if column_seq:
+        rectangle_svg.set("id", "bom_table_cell_column_{}".format(column_seq))
     return rectangle_svg
 
 
 def getSVGDataCell(
-    data, x_offset, y_offset, width, height, font_family, font_size
+    data, column_seq, x_offset, y_offset, width, height, font_family, font_size
 ):
-    """getSVGDataCell(Data, XOffset, YOffset, CellWidth, CellHeight, FontFamily,
-    FontSize):
+    """getSVGDataCell(Data, ColumnSequence, XOffset, YOffset, CellWidth,
+    CellHeight, FontFamily, FontSize):
     Returns element with rectangular cell with filled data and required
     pleacement of cell.
     """
     cell_svg = ElementTree.Element("g")
-    cell_svg.set("id", "bom_table_cell")
+    cell_svg.set("id", "bom_table_cell_column_{}".format(column_seq))
     cell_svg.append(getSVGRectangle(x_offset, y_offset, width, height))
     cell_svg.append(
         getSVGTextElement(
@@ -172,13 +172,6 @@ def getColumnHeadersSVG(
 
     Returns svg code for column headers.
     """
-    # Delete hidden headers
-    column_headers = {
-        column_header: column_header_tuple
-        for column_header, column_header_tuple in column_headers.items()
-        if column_header_tuple[1] != 0
-    }
-
     column_headers_svg = ElementTree.Element("g")
     column_headers_svg.set("id", "BOM_column_headers")
     column_offset = 0
@@ -187,6 +180,7 @@ def getColumnHeadersSVG(
     else:
         height = row_height
 
+    column_seq = 1
     for column_header in sorted(
         column_headers, key=lambda x: column_headers[x][1]
     ):
@@ -194,6 +188,7 @@ def getColumnHeadersSVG(
             column_headers_svg.append(
                 getSVGDataCell(
                     column_headers[column_header][0],
+                    column_seq,
                     column_offset,
                     y_offset,
                     column_width,
@@ -203,10 +198,12 @@ def getColumnHeadersSVG(
                 )
             )
             column_offset += column_width
+            column_seq += 1
         elif column_header == "RebarsTotalLength":
             column_headers_svg.append(
                 getSVGDataCell(
                     column_headers[column_header][0],
+                    "multi_column",
                     column_offset,
                     y_offset,
                     column_width * len(diameter_list),
@@ -224,6 +221,7 @@ def getColumnHeadersSVG(
                         + str(round(dia.Value, dia_precision))
                         .rstrip("0")
                         .rstrip("."),
+                        column_seq,
                         column_offset,
                         y_offset + row_height,
                         column_width,
@@ -233,6 +231,7 @@ def getColumnHeadersSVG(
                     )
                 )
                 column_offset += column_width
+                column_seq += 1
             column_headers_svg.append(dia_headers_svg)
 
     return column_headers_svg
@@ -295,6 +294,13 @@ def makeBillOfMaterialSVG(
 
     Returns Bill Of Material svg code.
     """
+    # Delete hidden headers
+    column_headers = {
+        column_header: column_header_tuple
+        for column_header, column_header_tuple in column_headers.items()
+        if column_header_tuple[1] != 0
+    }
+
     mark_reinforcements_dict = getMarkReinforcementsDict()
     diameter_list = getUniqueDiameterList(mark_reinforcements_dict)
 
@@ -349,12 +355,14 @@ def makeBillOfMaterialSVG(
         )
 
         if "Mark" in column_headers:
-            column_offset = getColumnOffset(
-                column_headers, diameter_list, "Mark", column_width
+            column_number = getColumnNumber(
+                column_headers, diameter_list, "Mark"
             )
+            column_offset = column_width * (column_number - 1)
             bom_row_svg.append(
                 getSVGDataCell(
                     mark_number,
+                    column_number,
                     column_offset,
                     y_offset,
                     column_width,
@@ -369,12 +377,14 @@ def makeBillOfMaterialSVG(
             rebars_count += reinforcement.Amount
 
         if "RebarsCount" in column_headers:
-            column_offset = getColumnOffset(
-                column_headers, diameter_list, "RebarsCount", column_width
+            column_number = getColumnNumber(
+                column_headers, diameter_list, "RebarsCount"
             )
+            column_offset = column_width * (column_number - 1)
             bom_row_svg.append(
                 getSVGDataCell(
                     rebars_count,
+                    column_number,
                     column_offset,
                     y_offset,
                     column_width,
@@ -403,12 +413,14 @@ def makeBillOfMaterialSVG(
                 )
             else:
                 disp_diameter = str(round(disp_diameter, precision))
-            column_offset = getColumnOffset(
-                column_headers, diameter_list, "Diameter", column_width
+            column_number = getColumnNumber(
+                column_headers, diameter_list, "Diameter"
             )
+            column_offset = column_width * (column_number - 1)
             bom_row_svg.append(
                 getSVGDataCell(
                     disp_diameter,
+                    column_number,
                     column_offset,
                     y_offset,
                     column_width,
@@ -445,12 +457,14 @@ def makeBillOfMaterialSVG(
                     round(disp_base_rebar_length, precision)
                 )
 
-            column_offset = getColumnOffset(
-                column_headers, diameter_list, "RebarLength", column_width
+            column_number = getColumnNumber(
+                column_headers, diameter_list, "RebarLength"
             )
+            column_offset = column_width * (column_number - 1)
             bom_row_svg.append(
                 getSVGDataCell(
                     disp_base_rebar_length,
+                    column_number,
                     column_offset,
                     y_offset,
                     column_width,
@@ -487,14 +501,16 @@ def makeBillOfMaterialSVG(
                     round(disp_rebar_total_length, precision)
                 )
 
-            column_offset = getColumnOffset(
-                column_headers, diameter_list, "RebarsTotalLength", column_width
+            column_number = getColumnNumber(
+                column_headers, diameter_list, "RebarsTotalLength"
             )
-            for dia in diameter_list:
+            column_offset = column_width * (column_number - 1)
+            for i, dia in enumerate(diameter_list):
                 if dia == base_rebar.Diameter:
                     bom_row_svg.append(
                         getSVGDataCell(
                             disp_rebar_total_length,
+                            column_number + i,
                             column_offset
                             + (diameter_list.index(dia)) * column_width,
                             y_offset,
@@ -512,6 +528,7 @@ def makeBillOfMaterialSVG(
                             y_offset,
                             column_width,
                             row_height,
+                            column_number + i,
                         )
                     )
 
@@ -519,30 +536,34 @@ def makeBillOfMaterialSVG(
         y_offset += row_height
         current_row += 1
 
-    bom_table_svg.append(
-        getSVGRectangle(
-            0,
-            y_offset,
-            column_width * (len(column_headers) + len(diameter_list) - 1),
-            row_height,
+    if "RebarsTotalLength" in column_headers:
+        bom_table_svg.append(
+            getSVGRectangle(
+                0,
+                y_offset,
+                column_width * (len(column_headers) + len(diameter_list) - 1),
+                row_height,
+                "separator",
+            )
         )
-    )
-    y_offset += row_height
+        y_offset += row_height
 
-    bom_data_total_svg = ElementTree.Element("g")
-    bom_data_total_svg.set("id", "BOM_data_total")
     # Display total length, weight/m and total weight of all rebars
     if "RebarsTotalLength" in column_headers:
+        bom_data_total_svg = ElementTree.Element("g")
+        bom_data_total_svg.set("id", "BOM_data_total")
         if column_headers["RebarsTotalLength"][1] != 1:
-            rebar_total_length_offset = getColumnOffset(
-                column_headers, diameter_list, "RebarsTotalLength", column_width
+            column_number = getColumnNumber(
+                column_headers, diameter_list, "RebarsTotalLength"
             )
+            rebar_total_length_offset = column_width * (column_number - 1)
 
             bom_data_total_svg.append(
                 getSVGDataCell(
                     "Total length in "
                     + column_units["RebarsTotalLength"]
                     + "/Diameter",
+                    "multi_column",
                     0,
                     y_offset,
                     rebar_total_length_offset,
@@ -554,6 +575,7 @@ def makeBillOfMaterialSVG(
             bom_data_total_svg.append(
                 getSVGDataCell(
                     "Weight in Kg/" + column_units["RebarsTotalLength"],
+                    "multi_column",
                     0,
                     y_offset + row_height,
                     rebar_total_length_offset,
@@ -565,6 +587,7 @@ def makeBillOfMaterialSVG(
             bom_data_total_svg.append(
                 getSVGDataCell(
                     "Total Weight in Kg/Diameter",
+                    "multi_column",
                     0,
                     y_offset + 2 * row_height,
                     rebar_total_length_offset,
@@ -599,6 +622,7 @@ def makeBillOfMaterialSVG(
                 bom_data_total_svg.append(
                     getSVGDataCell(
                         disp_dia_total_length,
+                        column_number + i,
                         rebar_total_length_offset + i * column_width,
                         y_offset,
                         column_width,
@@ -632,6 +656,7 @@ def makeBillOfMaterialSVG(
                     bom_data_total_svg.append(
                         getSVGDataCell(
                             disp_dia_weight,
+                            column_number + i,
                             rebar_total_length_offset + i * column_width,
                             y_offset + row_height,
                             column_width,
@@ -647,6 +672,7 @@ def makeBillOfMaterialSVG(
                                 * dia_total_length_dict[dia.Value],
                                 precision,
                             ),
+                            column_number + i,
                             rebar_total_length_offset + i * column_width,
                             y_offset + 2 * row_height,
                             column_width,
@@ -662,6 +688,7 @@ def makeBillOfMaterialSVG(
                             y_offset + row_height,
                             column_width,
                             row_height,
+                            column_number + i,
                         )
                     )
                     bom_data_total_svg.append(
@@ -670,25 +697,27 @@ def makeBillOfMaterialSVG(
                             y_offset + 2 * row_height,
                             column_width,
                             row_height,
+                            column_number + i,
                         )
                     )
 
             for remColumn in range(
                 len(column_headers) - column_headers["RebarsTotalLength"][1]
             ):
-                column_offset = (
+                rem_column_number = (
                     column_headers["RebarsTotalLength"][1]
                     + len(diameter_list)
-                    - 1
                     + remColumn
-                ) * column_width
+                )
+                rem_column_offset = (column_number - 1) * column_width
                 for row in range(3):
                     bom_data_total_svg.append(
                         getSVGRectangle(
-                            column_offset,
+                            rem_column_offset,
                             y_offset + row * row_height,
                             column_width,
                             row_height,
+                            rem_column_number,
                         )
                     )
         else:
@@ -717,6 +746,7 @@ def makeBillOfMaterialSVG(
                 bom_data_total_svg.append(
                     getSVGDataCell(
                         disp_dia_total_length,
+                        i + 1,
                         i * column_width,
                         y_offset,
                         column_width,
@@ -750,6 +780,7 @@ def makeBillOfMaterialSVG(
                     bom_data_total_svg.append(
                         getSVGDataCell(
                             disp_dia_weight,
+                            i + 1,
                             i * column_width,
                             y_offset + row_height,
                             column_width,
@@ -765,6 +796,7 @@ def makeBillOfMaterialSVG(
                                 * dia_total_length_dict[dia.Value],
                                 precision,
                             ),
+                            i + 1,
                             i * column_width,
                             y_offset + 2 * row_height,
                             column_width,
@@ -780,6 +812,7 @@ def makeBillOfMaterialSVG(
                     "Total length in "
                     + column_units["RebarsTotalLength"]
                     + "/Diameter",
+                    "multi_column",
                     first_txt_column_offset,
                     y_offset,
                     column_width * (len(column_headers) - 1),
@@ -791,6 +824,7 @@ def makeBillOfMaterialSVG(
             bom_data_total_svg.append(
                 getSVGDataCell(
                     "Weight in Kg/" + column_units["RebarsTotalLength"],
+                    "multi_column",
                     first_txt_column_offset,
                     y_offset + row_height,
                     column_width * (len(column_headers) - 1),
@@ -802,6 +836,7 @@ def makeBillOfMaterialSVG(
             bom_data_total_svg.append(
                 getSVGDataCell(
                     "Total Weight in Kg/Diameter",
+                    "multi_column",
                     first_txt_column_offset,
                     y_offset + 2 * row_height,
                     column_width * (len(column_headers) - 1),
@@ -810,12 +845,17 @@ def makeBillOfMaterialSVG(
                     font_size,
                 )
             )
-    y_offset += 3 * row_height
-    bom_table_svg.append(bom_data_total_svg)
+        y_offset += 3 * row_height
+        bom_table_svg.append(bom_data_total_svg)
     svg.append(bom_table_svg)
 
     bom_height = y_offset
-    bom_width = column_width * (len(column_headers) + len(diameter_list) - 1)
+    if "RebarsTotalLength" in column_headers:
+        bom_width = column_width * (
+            len(column_headers) + len(diameter_list) - 1
+        )
+    else:
+        bom_width = column_width * len(column_headers)
     svg.set("width", str(bom_width) + "mm")
     svg.set("height", str(bom_height) + "mm")
     svg.set("viewBox", "0 0 {} {}".format(bom_width, bom_height))
@@ -845,6 +885,8 @@ def makeBillOfMaterialSVG(
     bom_content_obj.Font = font_family
     bom_content_obj.FontSize = font_size
     bom_content_obj.Template = bom_obj.Template
+    bom_content_obj.PrefColumnWidth = column_width
+    bom_content_obj.RowHeight = row_height
     bom_content_obj.Width = bom_width
     bom_content_obj.Height = bom_height
     bom_content_obj.LeftOffset = bom_left_offset

@@ -265,12 +265,14 @@ def makeBillOfMaterial(
                     str(base_rebar_length),
                 )
 
-        rebar_total_length = FreeCAD.Units.Quantity("0 mm")
-        for reinforcement in mark_reinforcements_dict[mark_number]:
-            rebar_total_length += reinforcement.Amount * base_rebar_length
-        dia_total_length_dict[base_rebar.Diameter.Value] += rebar_total_length
-
         if "RebarsTotalLength" in column_headers:
+            rebar_total_length = FreeCAD.Units.Quantity("0 mm")
+            for reinforcement in mark_reinforcements_dict[mark_number]:
+                rebar_total_length += reinforcement.Amount * base_rebar_length
+            dia_total_length_dict[
+                base_rebar.Diameter.Value
+            ] += rebar_total_length
+
             bill_of_material.set(
                 chr(
                     ord(

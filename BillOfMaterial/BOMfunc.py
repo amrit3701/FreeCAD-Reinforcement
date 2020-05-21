@@ -34,8 +34,7 @@ import Draft
 
 def getMarkReinforcementsDict():
     """Returns dictionary with mark as key and corresponding reinforcement
-    objects list as value from active document. For ArchRebar objects, mark
-    number will be 0."""
+    objects list as value from active document."""
     # Get Part::FeaturePython objects list
     objects_list = FreeCAD.ActiveDocument.Objects
 
