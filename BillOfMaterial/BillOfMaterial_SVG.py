@@ -242,6 +242,7 @@ def makeBillOfMaterialSVG(
     column_units=COLUMN_UNITS,
     rebar_length_type=REBAR_LENGTH_TYPE,
     font_family=FONT_FAMILY,
+    font_filename=FONT_FILENAME,
     font_size=FONT_SIZE,
     column_width=COLUMN_WIDTH,
     row_height=ROW_HEIGHT,
@@ -255,8 +256,8 @@ def makeBillOfMaterialSVG(
     output_file=None,
 ):
     """makeBillOfMaterialSVG(ColumnHeaders, ColumnUnits, RebarLengthType,
-    FontFamily, FontSize, ColumnWidth, RowHeight, BOMLeftOffset, BOMTopOffset,
-    BOMMinRightOffset, BOMMinBottomOffset, BOMTableSVGMaxWidth,
+    FontFamily, FontSize, FontFilename, ColumnWidth, RowHeight, BOMLeftOffset,
+    BOMTopOffset, BOMMinRightOffset, BOMMinBottomOffset, BOMTableSVGMaxWidth,
     BOMTableSVGMaxHeight, TemplateFile, OutputFile):
     Generates the Rebars Material Bill SVG.
 
@@ -291,6 +292,9 @@ def makeBillOfMaterialSVG(
          }
 
     rebar_length_type can be "RealLength" or "LengthWithSharpEdges".
+
+    font_filename is required if you are working in pure console mode, without
+    any gui.
 
     Returns Bill Of Material svg code.
     """
@@ -883,6 +887,7 @@ def makeBillOfMaterialSVG(
     bom_content_obj = bom_obj.Views[0]
     bom_content_obj.Symbol = svg_output
     bom_content_obj.Font = font_family
+    bom_content_obj.FontFilename = font_filename
     bom_content_obj.FontSize = font_size
     bom_content_obj.Template = bom_obj.Template
     bom_content_obj.PrefColumnWidth = column_width
@@ -900,6 +905,7 @@ def makeBillOfMaterialSVG(
         template_height - bom_height * scaling_factor / 2 - bom_top_offset
     )
     bom_content_obj.Scale = scaling_factor
+    bom_content_obj.recompute()
 
     template_svg = ""
     try:
@@ -941,4 +947,4 @@ def makeBillOfMaterialSVG(
             )
 
     FreeCAD.ActiveDocument.recompute()
-    return svg_output
+    return bom_obj

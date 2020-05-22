@@ -35,6 +35,19 @@ class BOMContent:
             )
             obj.Font = "DejaVu Sans"
 
+        if not hasattr(obj, "FontFile"):
+            obj.addProperty(
+                "App::PropertyFile",
+                "FontFilename",
+                "BOMContent",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The font filename for font of Bill of Material content. It"
+                    " is required for working in pure console mode.",
+                ),
+            )
+            obj.FontFilename = "DejaVuSans.ttf"
+
         if "FontSize" not in pl:
             obj.addProperty(
                 "App::PropertyLength",
@@ -206,7 +219,6 @@ class BOMContent:
                 'font-family="{}"'.format(obj.Font),
                 obj.Symbol,
             )
-            obj.ViewObject.update()
 
         if obj.FontSize:
             obj.Symbol = re.sub(
@@ -214,7 +226,6 @@ class BOMContent:
                 'font-size="{}"'.format(obj.FontSize.Value),
                 obj.Symbol,
             )
-            obj.ViewObject.update()
 
         self.setColumnWidth(obj)
 
@@ -238,11 +249,13 @@ class BOMContent:
                 - obj.TopOffset.Value
             )
             obj.Scale = scaling_factor
+        if FreeCAD.GuiUp:
             obj.ViewObject.update()
 
     def getColumnWidth(self, bom_content_obj):
-        font_size = bom_content_obj.FontSize
+        font_size = bom_content_obj.FontSize.Value
         font_family = bom_content_obj.Font
+        font_filename = bom_content_obj.FontFilename
         min_column_width = 0
 
         namespace = {"xmlns": "http://www.w3.org/2000/svg"}
@@ -261,7 +274,7 @@ class BOMContent:
                 text = text_element.text
                 min_column_width = max(
                     min_column_width,
-                    getStringWidth(text, font_size, font_family),
+                    getStringWidth(text, font_size, font_family, font_filename),
                 )
 
         multi_column_text_elements = bom_content.findall(
@@ -274,7 +287,9 @@ class BOMContent:
         )
         for i, text_element in enumerate(multi_column_text_elements):
             text = text_element.text
-            text_width = getStringWidth(text, font_size, font_family)
+            text_width = getStringWidth(
+                text, font_size, font_family, font_filename
+            )
             rect_width = float(multi_column_rect_elements[i].get("width"))
             col_span = int(rect_width / prev_column_width)
             available_width = col_span * bom_content_obj.PrefColumnWidth.Value

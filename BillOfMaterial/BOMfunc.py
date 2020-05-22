@@ -152,27 +152,57 @@ def getRebarSharpEdgedLength(rebar):
         return FreeCAD.Units.Quantity("0 mm")
 
 
-def getStringWidth(input_string, font_size, font_family):
+def getStringWidth(
+    input_string,
+    font_size,
+    font_family="DejaVu Sans",
+    font_file="DejaVuSans.ttf",
+):
     """getStringWidth(InputString, FontSize, FontFamily):
     font_size is size of font in mm.
-
-    Known Issue
-    -----------
-    This function uses QtGui which makes the function can't be used in non-gui
-    environment e.g. on server with no X11 display.
+    font_file is required where no X11 display is available, in pure console
+    mode.
 
     Returns width of string in mm.
     """
-    app = QtWidgets.QApplication.instance()
-    if app is None:
-        QtWidgets.QApplication()
+    import os
+
     # Convert font size from mm to points
     font_size = 2.8346456693 * font_size
-    font = QtGui.QFont(font_family, font_size)
-    font_metrics = QtGui.QFontMetrics(font)
-    width = font_metrics.boundingRect(input_string).width()
-    # Convert width from pixels to mm
-    width = 0.2645833333 * width
+
+    # "if FreeCAD.GuiUp:" is not used, as DISPLAY environment may be available
+    # in FreeCAD console mode, where FreeCAD.GuiUp returns False
+    if "DISPLAY" in os.environ:
+        app = QtWidgets.QApplication.instance()
+        if app is None:
+            QtWidgets.QApplication()
+        font = QtGui.QFont(font_family, font_size)
+        font_metrics = QtGui.QFontMetrics(font)
+        width = font_metrics.boundingRect(input_string).width()
+        # Convert width from pixels to mm
+        width = 0.2645833333 * width
+    else:
+        try:
+            from PIL import ImageFont
+        except ModuleNotFoundError as error:
+            FreeCAD.Console.PrintError(
+                "Module {} not found. It is required to calculate string width "
+                "in console mode.\n".format(error.name)
+            )
+            return len(input_string) * font_size / 2.8346456693
+
+        try:
+            font = ImageFont.truetype(font_file, round(font_size))
+        except OSError:
+            FreeCAD.Console.PrintError(
+                "Unable to find/open Font file `{}`. Default font `better than "
+                "nothing` will be used from PIL library.".format(font_file)
+            )
+            font = ImageFont.load_default()
+
+        width = font.getsize(input_string, stroke_width=0.35)[0]
+        # Convert width from points to mm
+        width = width / 2.8346456693
     return width
 
 

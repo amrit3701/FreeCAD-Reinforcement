@@ -103,6 +103,9 @@ ROW_HEIGHT = 10
 # Font family of text in bom svg
 FONT_FAMILY = "DejaVu Sans"
 
+# Font filename of font for text in bom svg
+FONT_FILENAME = "DejaVuSans.ttf"
+
 # Font size of svg text
 FONT_SIZE = 3
 
