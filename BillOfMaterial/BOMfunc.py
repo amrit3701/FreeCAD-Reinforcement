@@ -196,7 +196,7 @@ def getStringWidth(
         except OSError:
             FreeCAD.Console.PrintError(
                 "Unable to find/open Font file `{}`. Default font `better than "
-                "nothing` will be used from PIL library.".format(font_file)
+                "nothing` will be used from PIL library.\n".format(font_file)
             )
             font = ImageFont.load_default()
 

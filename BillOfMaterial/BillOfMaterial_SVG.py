@@ -305,6 +305,14 @@ def makeBillOfMaterialSVG(
         if column_header_tuple[1] != 0
     }
 
+    # Fix column units
+    if "Diameter" not in column_units:
+        column_units["Diameter"] = "mm"
+    if "RebarLength" not in column_units:
+        column_units["RebarLength"] = "m"
+    if "RebarsTotalLength" not in column_units:
+        column_units["RebarsTotalLength"] = "m"
+
     mark_reinforcements_dict = getMarkReinforcementsDict()
     diameter_list = getUniqueDiameterList(mark_reinforcements_dict)
 
@@ -400,23 +408,20 @@ def makeBillOfMaterialSVG(
 
         if "Diameter" in column_headers:
             disp_diameter = base_rebar.Diameter
-            if "Diameter" in column_units:
-                disp_diameter = (
-                    str(
-                        round(
-                            disp_diameter.getValueAs(
-                                column_units["Diameter"]
-                            ).Value,
-                            precision,
-                        )
+            disp_diameter = (
+                str(
+                    round(
+                        disp_diameter.getValueAs(
+                            column_units["Diameter"]
+                        ).Value,
+                        precision,
                     )
-                    .rstrip("0")
-                    .rstrip(".")
-                    + " "
-                    + column_units["Diameter"]
                 )
-            else:
-                disp_diameter = str(round(disp_diameter, precision))
+                .rstrip("0")
+                .rstrip(".")
+                + " "
+                + column_units["Diameter"]
+            )
             column_number = getColumnNumber(
                 column_headers, diameter_list, "Diameter"
             )
@@ -441,25 +446,20 @@ def makeBillOfMaterialSVG(
             else:
                 base_rebar_length = getRebarSharpEdgedLength(base_rebar)
             disp_base_rebar_length = base_rebar_length
-            if "RebarLength" in column_units:
-                disp_base_rebar_length = (
-                    str(
-                        round(
-                            base_rebar_length.getValueAs(
-                                column_units["RebarLength"]
-                            ).Value,
-                            precision,
-                        )
+            disp_base_rebar_length = (
+                str(
+                    round(
+                        base_rebar_length.getValueAs(
+                            column_units["RebarLength"]
+                        ).Value,
+                        precision,
                     )
-                    .rstrip("0")
-                    .rstrip(".")
-                    + " "
-                    + column_units["RebarLength"]
                 )
-            else:
-                disp_base_rebar_length = str(
-                    round(disp_base_rebar_length, precision)
-                )
+                .rstrip("0")
+                .rstrip(".")
+                + " "
+                + column_units["RebarLength"]
+            )
 
             column_number = getColumnNumber(
                 column_headers, diameter_list, "RebarLength"
@@ -485,25 +485,20 @@ def makeBillOfMaterialSVG(
 
         if "RebarsTotalLength" in column_headers:
             disp_rebar_total_length = rebar_total_length
-            if "RebarsTotalLength" in column_units:
-                disp_rebar_total_length = (
-                    str(
-                        round(
-                            rebar_total_length.getValueAs(
-                                column_units["RebarsTotalLength"]
-                            ).Value,
-                            precision,
-                        )
+            disp_rebar_total_length = (
+                str(
+                    round(
+                        rebar_total_length.getValueAs(
+                            column_units["RebarsTotalLength"]
+                        ).Value,
+                        precision,
                     )
-                    .rstrip("0")
-                    .rstrip(".")
-                    + " "
-                    + column_units["RebarsTotalLength"]
                 )
-            else:
-                disp_rebar_total_length = str(
-                    round(disp_rebar_total_length, precision)
-                )
+                .rstrip("0")
+                .rstrip(".")
+                + " "
+                + column_units["RebarsTotalLength"]
+            )
 
             column_number = getColumnNumber(
                 column_headers, diameter_list, "RebarsTotalLength"
@@ -603,25 +598,20 @@ def makeBillOfMaterialSVG(
 
             for i, dia in enumerate(diameter_list):
                 disp_dia_total_length = dia_total_length_dict[dia.Value]
-                if "RebarsTotalLength" in column_units:
-                    disp_dia_total_length = (
-                        str(
-                            round(
-                                disp_dia_total_length.getValueAs(
-                                    column_units["RebarsTotalLength"]
-                                ).Value,
-                                precision,
-                            )
+                disp_dia_total_length = (
+                    str(
+                        round(
+                            disp_dia_total_length.getValueAs(
+                                column_units["RebarsTotalLength"]
+                            ).Value,
+                            precision,
                         )
-                        .rstrip("0")
-                        .rstrip(".")
-                        + " "
-                        + column_units["RebarsTotalLength"]
                     )
-                else:
-                    disp_dia_total_length = str(
-                        round(disp_dia_total_length, precision)
-                    )
+                    .rstrip("0")
+                    .rstrip(".")
+                    + " "
+                    + column_units["RebarsTotalLength"]
+                )
 
                 bom_data_total_svg.append(
                     getSVGDataCell(
@@ -638,24 +628,20 @@ def makeBillOfMaterialSVG(
 
                 if dia.Value in DIA_WEIGHT_MAP:
                     disp_dia_weight = DIA_WEIGHT_MAP[dia.Value]
-                    if "RebarsTotalLength" in column_units:
-                        disp_dia_weight = (
-                            str(
-                                round(
-                                    disp_dia_weight.getValueAs(
-                                        "kg/"
-                                        + column_units["RebarsTotalLength"]
-                                    ).Value,
-                                    precision,
-                                )
+                    disp_dia_weight = (
+                        str(
+                            round(
+                                disp_dia_weight.getValueAs(
+                                    "kg/" + column_units["RebarsTotalLength"]
+                                ).Value,
+                                precision,
                             )
-                            .rstrip("0")
-                            .rstrip(".")
-                            + " "
-                            + column_units["RebarsTotalLength"]
                         )
-                    else:
-                        disp_dia_weight = str(round(disp_dia_weight, precision))
+                        .rstrip("0")
+                        .rstrip(".")
+                        + " kg/"
+                        + column_units["RebarsTotalLength"]
+                    )
 
                     bom_data_total_svg.append(
                         getSVGDataCell(
@@ -671,11 +657,18 @@ def makeBillOfMaterialSVG(
                     )
                     bom_data_total_svg.append(
                         getSVGDataCell(
-                            round(
-                                DIA_WEIGHT_MAP[dia.Value]
-                                * dia_total_length_dict[dia.Value],
-                                precision,
-                            ),
+                            str(
+                                round(
+                                    (
+                                        DIA_WEIGHT_MAP[dia.Value]
+                                        * dia_total_length_dict[dia.Value]
+                                    ).Value,
+                                    precision,
+                                )
+                            )
+                            .rstrip("0")
+                            .rstrip(".")
+                            + " kg",
                             column_number + i,
                             rebar_total_length_offset + i * column_width,
                             y_offset + 2 * row_height,
@@ -727,25 +720,20 @@ def makeBillOfMaterialSVG(
         else:
             for i, dia in enumerate(diameter_list):
                 disp_dia_total_length = dia_total_length_dict[dia.Value]
-                if "RebarsTotalLength" in column_units:
-                    disp_dia_total_length = (
-                        str(
-                            round(
-                                disp_dia_total_length.getValueAs(
-                                    column_units["RebarsTotalLength"]
-                                ).Value,
-                                precision,
-                            )
+                disp_dia_total_length = (
+                    str(
+                        round(
+                            disp_dia_total_length.getValueAs(
+                                column_units["RebarsTotalLength"]
+                            ).Value,
+                            precision,
                         )
-                        .rstrip("0")
-                        .rstrip(".")
-                        + " "
-                        + column_units["RebarsTotalLength"]
                     )
-                else:
-                    disp_dia_total_length = str(
-                        round(disp_dia_total_length, precision)
-                    )
+                    .rstrip("0")
+                    .rstrip(".")
+                    + " "
+                    + column_units["RebarsTotalLength"]
+                )
 
                 bom_data_total_svg.append(
                     getSVGDataCell(
@@ -762,24 +750,20 @@ def makeBillOfMaterialSVG(
 
                 if dia.Value in DIA_WEIGHT_MAP:
                     disp_dia_weight = DIA_WEIGHT_MAP[dia.Value]
-                    if "RebarsTotalLength" in column_units:
-                        disp_dia_weight = (
-                            str(
-                                round(
-                                    disp_dia_weight.getValueAs(
-                                        "kg/"
-                                        + column_units["RebarsTotalLength"]
-                                    ).Value,
-                                    precision,
-                                )
+                    disp_dia_weight = (
+                        str(
+                            round(
+                                disp_dia_weight.getValueAs(
+                                    "kg/" + column_units["RebarsTotalLength"]
+                                ).Value,
+                                precision,
                             )
-                            .rstrip("0")
-                            .rstrip(".")
-                            + " "
-                            + column_units["RebarsTotalLength"]
                         )
-                    else:
-                        disp_dia_weight = str(round(disp_dia_weight, precision))
+                        .rstrip("0")
+                        .rstrip(".")
+                        + " kg/"
+                        + column_units["RebarsTotalLength"]
+                    )
 
                     bom_data_total_svg.append(
                         getSVGDataCell(
@@ -795,11 +779,18 @@ def makeBillOfMaterialSVG(
                     )
                     bom_data_total_svg.append(
                         getSVGDataCell(
-                            round(
-                                DIA_WEIGHT_MAP[dia.Value]
-                                * dia_total_length_dict[dia.Value],
-                                precision,
-                            ),
+                            str(
+                                round(
+                                    (
+                                        DIA_WEIGHT_MAP[dia.Value]
+                                        * dia_total_length_dict[dia.Value]
+                                    ).Value,
+                                    precision,
+                                )
+                            )
+                            .rstrip("0")
+                            .rstrip(".")
+                            + " kg",
                             i + 1,
                             i * column_width,
                             y_offset + 2 * row_height,
