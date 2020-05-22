@@ -21,9 +21,8 @@ class BOMContent:
     def setProperties(self, obj):
         """Add properties to BOMContent object."""
         self.Type = "BOMContent"
-        pl = obj.PropertiesList
 
-        if "Font" not in pl:
+        if not hasattr(obj, "Font"):
             obj.addProperty(
                 "App::PropertyFont",
                 "Font",
@@ -35,7 +34,7 @@ class BOMContent:
             )
             obj.Font = "DejaVu Sans"
 
-        if not hasattr(obj, "FontFile"):
+        if not hasattr(obj, "FontFilename"):
             obj.addProperty(
                 "App::PropertyFile",
                 "FontFilename",
@@ -48,7 +47,7 @@ class BOMContent:
             )
             obj.FontFilename = "DejaVuSans.ttf"
 
-        if "FontSize" not in pl:
+        if not hasattr(obj, "FontSize"):
             obj.addProperty(
                 "App::PropertyLength",
                 "FontSize",
@@ -60,7 +59,7 @@ class BOMContent:
             )
             obj.FontSize = 3
 
-        if "Template" not in pl:
+        if not hasattr(obj, "Template"):
             obj.addProperty(
                 "App::PropertyLink",
                 "Template",
@@ -71,7 +70,7 @@ class BOMContent:
                 ),
             )
 
-        if "Width" not in pl:
+        if not hasattr(obj, "Width"):
             obj.addProperty(
                 "App::PropertyLength",
                 "Width",
@@ -82,7 +81,7 @@ class BOMContent:
             )
         obj.setEditorMode("Width", 2)
 
-        if "Height" not in pl:
+        if not hasattr(obj, "Height"):
             obj.addProperty(
                 "App::PropertyLength",
                 "Height",
@@ -93,7 +92,7 @@ class BOMContent:
             )
         obj.setEditorMode("Height", 2)
 
-        if "LeftOffset" not in pl:
+        if not hasattr(obj, "LeftOffset"):
             obj.addProperty(
                 "App::PropertyLength",
                 "LeftOffset",
@@ -105,7 +104,7 @@ class BOMContent:
             )
             obj.LeftOffset = 6
 
-        if "TopOffset" not in pl:
+        if not hasattr(obj, "TopOffset"):
             obj.addProperty(
                 "App::PropertyLength",
                 "TopOffset",
@@ -117,7 +116,7 @@ class BOMContent:
             )
             obj.TopOffset = 6
 
-        if "MinRightOffset" not in pl:
+        if not hasattr(obj, "MinRightOffset"):
             obj.addProperty(
                 "App::PropertyLength",
                 "MinRightOffset",
@@ -129,7 +128,7 @@ class BOMContent:
             )
             obj.MinRightOffset = 6
 
-        if "MinBottomOffset" not in pl:
+        if not hasattr(obj, "MinBottomOffset"):
             obj.addProperty(
                 "App::PropertyLength",
                 "MinBottomOffset",
@@ -141,7 +140,7 @@ class BOMContent:
             )
             obj.MinBottomOffset = 6
 
-        if "MaxWidth" not in pl:
+        if not hasattr(obj, "MaxWidth"):
             obj.addProperty(
                 "App::PropertyLength",
                 "MaxWidth",
@@ -153,7 +152,7 @@ class BOMContent:
             )
             obj.MaxWidth = 190
 
-        if "MaxHeight" not in pl:
+        if not hasattr(obj, "MaxHeight"):
             obj.addProperty(
                 "App::PropertyLength",
                 "MaxHeight",
@@ -165,7 +164,7 @@ class BOMContent:
             )
             obj.MaxHeight = 250
 
-        if "PrefColumnWidth" not in pl:
+        if not hasattr(obj, "PrefColumnWidth"):
             obj.addProperty(
                 "App::PropertyLength",
                 "PrefColumnWidth",
@@ -178,7 +177,7 @@ class BOMContent:
             )
             obj.PrefColumnWidth = 30
 
-        if "ColumnWidth" not in pl:
+        if not hasattr(obj, "ColumnWidth"):
             obj.addProperty(
                 "App::PropertyLength",
                 "ColumnWidth",
@@ -191,7 +190,7 @@ class BOMContent:
             obj.ColumnWidth = 30
         obj.setEditorMode("ColumnWidth", 2)
 
-        if "RowHeight" not in pl:
+        if not hasattr(obj, "RowHeight"):
             obj.addProperty(
                 "App::PropertyLength",
                 "RowHeight",

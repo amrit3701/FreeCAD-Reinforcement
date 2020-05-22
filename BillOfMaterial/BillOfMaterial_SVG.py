@@ -902,8 +902,7 @@ def makeBillOfMaterialSVG(
     try:
         with open(template_file, "r") as template:
             template_svg = template.read()
-    except:
-        pass
+    except OSError:
         FreeCAD.Console.PrintError(
             "Error reading template file " + str(template_file) + "\n"
         )
@@ -932,7 +931,7 @@ def makeBillOfMaterialSVG(
         try:
             with open(output_file, "w") as svg_output_file:
                 svg_output_file.write(svg_sheet)
-        except:
+        except OSError:
             FreeCAD.Console.PrintError(
                 "Error writing svg to file " + str(svg_output_file) + "\n"
             )
