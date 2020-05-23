@@ -38,7 +38,7 @@ from .BOMfunc import (
     getBOMScalingFactor,
 )
 from .BillOfMaterialContent import makeBOMObject
-from .config import *
+from .BOMPreferences import BOMPreferences
 
 
 def getColumnNumber(column_headers, diameter_list, column_header):
@@ -238,27 +238,28 @@ def getColumnHeadersSVG(
 
 
 def makeBillOfMaterialSVG(
-    column_headers=COLUMN_HEADERS,
-    column_units=COLUMN_UNITS,
-    rebar_length_type=REBAR_LENGTH_TYPE,
-    font_family=FONT_FAMILY,
-    font_filename=FONT_FILENAME,
-    font_size=FONT_SIZE,
-    column_width=COLUMN_WIDTH,
-    row_height=ROW_HEIGHT,
-    bom_left_offset=BOM_SVG_LEFT_OFFSET,
-    bom_top_offset=BOM_SVG_TOP_OFFSET,
-    bom_min_right_offset=BOM_SVG_MIN_RIGHT_OFFSET,
-    bom_min_bottom_offset=BOM_SVG_MIN_BOTTOM_OFFSET,
-    bom_table_svg_max_width=BOM_TABLE_SVG_MAX_WIDTH,
-    bom_table_svg_max_height=BOM_TABLE_SVG_MAX_HEIGHT,
-    template_file=TEMPLATE_FILE,
+    column_headers=None,
+    column_units=None,
+    dia_weight_map=None,
+    rebar_length_type=None,
+    font_family=None,
+    font_filename=None,
+    font_size=None,
+    column_width=None,
+    row_height=None,
+    bom_left_offset=None,
+    bom_top_offset=None,
+    bom_min_right_offset=None,
+    bom_min_bottom_offset=None,
+    bom_table_svg_max_width=None,
+    bom_table_svg_max_height=None,
+    template_file=None,
     output_file=None,
 ):
-    """makeBillOfMaterialSVG(ColumnHeaders, ColumnUnits, RebarLengthType,
-    FontFamily, FontSize, FontFilename, ColumnWidth, RowHeight, BOMLeftOffset,
-    BOMTopOffset, BOMMinRightOffset, BOMMinBottomOffset, BOMTableSVGMaxWidth,
-    BOMTableSVGMaxHeight, TemplateFile, OutputFile):
+    """makeBillOfMaterialSVG(ColumnHeaders, ColumnUnits, DiaWeightMap,
+    RebarLengthType, FontFamily, FontSize, FontFilename, ColumnWidth, RowHeight,
+    BOMLeftOffset, BOMTopOffset, BOMMinRightOffset, BOMMinBottomOffset,
+    BOMTableSVGMaxWidth, BOMTableSVGMaxHeight, TemplateFile, OutputFile):
     Generates the Rebars Material Bill SVG.
 
     column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
@@ -298,6 +299,42 @@ def makeBillOfMaterialSVG(
 
     Returns Bill Of Material svg code.
     """
+    bom_preferences = BOMPreferences()
+    if not column_headers:
+        column_headers = bom_preferences.getColumnHeaders()
+    if not column_units:
+        column_units = bom_preferences.getColumnUnits()
+    if not dia_weight_map:
+        dia_weight_map = bom_preferences.getDiaWeightMap()
+    if not rebar_length_type:
+        rebar_length_type = bom_preferences.getRebarLengthType()
+
+    svg_pref = bom_preferences.getSVGPrefGroup()
+    if not font_family:
+        font_family = svg_pref.GetString("FontFamily")
+    if not font_filename:
+        font_filename = svg_pref.GetString("FontFilename")
+    if not font_size:
+        font_size = svg_pref.GetFloat("FontSize")
+    if not column_width:
+        column_width = svg_pref.GetFloat("ColumnWidth")
+    if not row_height:
+        row_height = svg_pref.GetFloat("RowHeight")
+    if not bom_left_offset:
+        bom_left_offset = svg_pref.GetFloat("LeftOffset")
+    if not bom_top_offset:
+        bom_top_offset = svg_pref.GetFloat("TopOffset")
+    if not bom_min_right_offset:
+        bom_min_right_offset = svg_pref.GetFloat("MinRightOffset")
+    if not bom_min_bottom_offset:
+        bom_min_bottom_offset = svg_pref.GetFloat("MinBottomOffset")
+    if not bom_table_svg_max_width:
+        bom_table_svg_max_width = svg_pref.GetFloat("MaxWidth")
+    if not bom_table_svg_max_height:
+        bom_table_svg_max_height = svg_pref.GetFloat("MaxHeight")
+    if not template_file:
+        template_file = svg_pref.GetString("TemplateFile")
+
     # Delete hidden headers
     column_headers = {
         column_header: column_header_tuple
@@ -626,8 +663,8 @@ def makeBillOfMaterialSVG(
                     )
                 )
 
-                if dia.Value in DIA_WEIGHT_MAP:
-                    disp_dia_weight = DIA_WEIGHT_MAP[dia.Value]
+                if dia.Value in dia_weight_map:
+                    disp_dia_weight = dia_weight_map[dia.Value]
                     disp_dia_weight = (
                         str(
                             round(
@@ -660,7 +697,7 @@ def makeBillOfMaterialSVG(
                             str(
                                 round(
                                     (
-                                        DIA_WEIGHT_MAP[dia.Value]
+                                        dia_weight_map[dia.Value]
                                         * dia_total_length_dict[dia.Value]
                                     ).Value,
                                     precision,
@@ -748,8 +785,8 @@ def makeBillOfMaterialSVG(
                     )
                 )
 
-                if dia.Value in DIA_WEIGHT_MAP:
-                    disp_dia_weight = DIA_WEIGHT_MAP[dia.Value]
+                if dia.Value in dia_weight_map:
+                    disp_dia_weight = dia_weight_map[dia.Value]
                     disp_dia_weight = (
                         str(
                             round(
@@ -782,7 +819,7 @@ def makeBillOfMaterialSVG(
                             str(
                                 round(
                                     (
-                                        DIA_WEIGHT_MAP[dia.Value]
+                                        dia_weight_map[dia.Value]
                                         * dia_total_length_dict[dia.Value]
                                     ).Value,
                                     precision,

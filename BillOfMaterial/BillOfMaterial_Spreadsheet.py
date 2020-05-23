@@ -29,7 +29,7 @@ __url__ = "https://www.freecadweb.org"
 import FreeCAD
 
 from .BOMfunc import getMarkReinforcementsDict, getRebarSharpEdgedLength
-from .config import *
+from .BOMPreferences import BOMPreferences
 
 
 def addSheetHeaders(column_headers, spreadsheet):
@@ -132,10 +132,10 @@ def getHeaderColumn(column_headers, diameter_list, column_header):
 
 
 def makeBillOfMaterial(
-    column_headers=COLUMN_HEADERS,
-    column_units=COLUMN_UNITS,
-    dia_weight_map=DIA_WEIGHT_MAP,
-    rebar_length_type=REBAR_LENGTH_TYPE,
+    column_headers=None,
+    column_units=None,
+    dia_weight_map=None,
+    rebar_length_type=None,
     structures_list=None,
     obj_name="RebarBillOfMaterial",
 ):
@@ -177,6 +177,16 @@ def makeBillOfMaterial(
 
     Returns Bill Of Material spreadsheet object.
     """
+    bom_preferences = BOMPreferences()
+    if not column_headers:
+        column_headers = bom_preferences.getColumnHeaders()
+    if not column_units:
+        column_units = bom_preferences.getColumnUnits()
+    if not dia_weight_map:
+        dia_weight_map = bom_preferences.getDiaWeightMap()
+    if not rebar_length_type:
+        rebar_length_type = bom_preferences.getRebarLengthType()
+
     # Create new spreadsheet object
     bill_of_material = FreeCAD.ActiveDocument.addObject(
         "Spreadsheet::Sheet", obj_name

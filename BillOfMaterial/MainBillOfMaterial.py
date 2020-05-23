@@ -35,7 +35,7 @@ import FreeCADGui
 from .UnitLineEdit import UnitLineEdit
 from .BillOfMaterial_Spreadsheet import makeBillOfMaterial
 from .BillOfMaterial_SVG import makeBillOfMaterialSVG
-from .config import *
+from .BOMPreferences import BOMPreferences
 
 
 class _BillOfMaterialDialog:
@@ -281,23 +281,55 @@ class _BillOfMaterialDialog:
 
 
 def CommandBillOfMaterial(
-    column_headers=COLUMN_HEADERS,
-    column_units=COLUMN_UNITS,
-    rebar_length_type=REBAR_LENGTH_TYPE,
-    font_family=FONT_FAMILY,
-    font_size=FONT_SIZE,
-    column_width=COLUMN_WIDTH,
-    row_height=ROW_HEIGHT,
-    bom_left_offset=BOM_SVG_LEFT_OFFSET,
-    bom_top_offset=BOM_SVG_TOP_OFFSET,
-    bom_min_right_offset=BOM_SVG_MIN_RIGHT_OFFSET,
-    bom_min_bottom_offset=BOM_SVG_MIN_BOTTOM_OFFSET,
-    bom_table_svg_max_width=BOM_TABLE_SVG_MAX_WIDTH,
-    bom_table_svg_max_height=BOM_TABLE_SVG_MAX_HEIGHT,
-    template_file=TEMPLATE_FILE,
+    column_headers=None,
+    column_units=None,
+    rebar_length_type=None,
+    font_family=None,
+    font_size=None,
+    column_width=None,
+    row_height=None,
+    bom_left_offset=None,
+    bom_top_offset=None,
+    bom_min_right_offset=None,
+    bom_min_bottom_offset=None,
+    bom_table_svg_max_width=None,
+    bom_table_svg_max_height=None,
+    template_file=None,
 ):
     """This function is used to invoke dialog box for rebars bill of material.
     """
+    bom_preferences = BOMPreferences()
+    if not column_headers:
+        column_headers = bom_preferences.getColumnHeaders()
+    if not column_units:
+        column_units = bom_preferences.getColumnUnits()
+    if not rebar_length_type:
+        rebar_length_type = bom_preferences.getRebarLengthType()
+
+    svg_pref = bom_preferences.getSVGPrefGroup()
+    if not font_family:
+        font_family = svg_pref.GetString("FontFamily")
+    if not font_size:
+        font_size = svg_pref.GetFloat("FontSize")
+    if not column_width:
+        column_width = svg_pref.GetFloat("ColumnWidth")
+    if not row_height:
+        row_height = svg_pref.GetFloat("RowHeight")
+    if not bom_left_offset:
+        bom_left_offset = svg_pref.GetFloat("LeftOffset")
+    if not bom_top_offset:
+        bom_top_offset = svg_pref.GetFloat("TopOffset")
+    if not bom_min_right_offset:
+        bom_min_right_offset = svg_pref.GetFloat("MinRightOffset")
+    if not bom_min_bottom_offset:
+        bom_min_bottom_offset = svg_pref.GetFloat("MinBottomOffset")
+    if not bom_table_svg_max_width:
+        bom_table_svg_max_width = svg_pref.GetFloat("MaxWidth")
+    if not bom_table_svg_max_height:
+        bom_table_svg_max_height = svg_pref.GetFloat("MaxHeight")
+    if not template_file:
+        template_file = svg_pref.GetString("TemplateFile")
+
     dialog = _BillOfMaterialDialog(
         column_headers,
         column_units,
