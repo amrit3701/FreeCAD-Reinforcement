@@ -40,19 +40,55 @@ from .config import (
     FONT_SIZE,
     BOM_SVG_LEFT_OFFSET,
     BOM_SVG_TOP_OFFSET,
-    TEMPLATE_FILE,
     BOM_SVG_MIN_RIGHT_OFFSET,
     BOM_SVG_MIN_BOTTOM_OFFSET,
     BOM_TABLE_SVG_MAX_WIDTH,
     BOM_TABLE_SVG_MAX_HEIGHT,
+    TEMPLATE_FILE,
 )
 
 
 class BOMPreferences:
-    def __init__(self):
+    def __init__(
+        self,
+        conf_column_units=COLUMN_UNITS,
+        conf_column_headers=COLUMN_HEADERS,
+        conf_dia_weight_map=DIA_WEIGHT_MAP,
+        conf_rebar_length_type=REBAR_LENGTH_TYPE,
+        conf_column_width=COLUMN_WIDTH,
+        conf_row_height=ROW_HEIGHT,
+        conf_font_family=FONT_FAMILY,
+        conf_font_filename=FONT_FILENAME,
+        conf_font_size=FONT_SIZE,
+        conf_bom_svg_left_offset=BOM_SVG_LEFT_OFFSET,
+        conf_bom_svg_top_offset=BOM_SVG_TOP_OFFSET,
+        conf_bom_svg_min_right_offset=BOM_SVG_MIN_RIGHT_OFFSET,
+        conf_bom_svg_min_bottom_offset=BOM_SVG_MIN_BOTTOM_OFFSET,
+        conf_bom_table_svg_max_width=BOM_TABLE_SVG_MAX_WIDTH,
+        conf_bom_table_svg_max_height=BOM_TABLE_SVG_MAX_HEIGHT,
+        conf_template_file=TEMPLATE_FILE,
+        overwrite=False,
+    ):
         self.bom_pref = FreeCAD.ParamGet(
             "User parameter:BaseApp/Preferences/Mod/RebarTools/BOM"
         )
+        self.conf_column_units = conf_column_units
+        self.conf_column_headers = conf_column_headers
+        self.conf_dia_weight_map = conf_dia_weight_map
+        self.conf_rebar_length_type = conf_rebar_length_type
+        self.conf_column_width = conf_column_width
+        self.conf_row_height = conf_row_height
+        self.conf_font_family = conf_font_family
+        self.conf_font_filename = conf_font_filename
+        self.conf_font_size = conf_font_size
+        self.conf_bom_svg_left_offset = conf_bom_svg_left_offset
+        self.conf_bom_svg_top_offset = conf_bom_svg_top_offset
+        self.conf_template_file = conf_template_file
+        self.conf_bom_svg_min_right_offset = conf_bom_svg_min_right_offset
+        self.conf_bom_svg_min_bottom_offset = conf_bom_svg_min_bottom_offset
+        self.conf_bom_table_svg_max_width = conf_bom_table_svg_max_width
+        self.conf_bom_table_svg_max_height = conf_bom_table_svg_max_height
+        self.overwrite = overwrite
         self.setColumnUnits()
         self.setColumnHeaders()
         self.setDiaWeightMap()
@@ -61,73 +97,159 @@ class BOMPreferences:
 
     def setColumnUnits(self):
         self.column_units = self.bom_pref.GetGroup("ColumnUnits")
-        for column in COLUMN_UNITS:
-            units = self.column_units.GetString(column, COLUMN_UNITS[column])
-            self.column_units.SetString(column, units)
+        for column in self.conf_column_units:
+            units = self.column_units.GetString(
+                column, self.conf_column_units[column]
+            )
+            self.column_units.SetString(
+                column,
+                units if not self.overwrite else self.conf_column_units[column],
+            )
 
     def setColumnHeaders(self):
         self.column_headers = self.bom_pref.GetGroup("ColumnHeaders")
-        for column in COLUMN_HEADERS:
+        for column in self.conf_column_headers:
             header = self.column_headers.GetGroup(column)
-            header_disp = header.GetString("display", COLUMN_HEADERS[column][0])
-            header_seq = header.GetInt("sequence", COLUMN_HEADERS[column][1])
-            header.SetString("display", header_disp)
-            header.SetInt("sequence", header_seq)
+            header_disp = header.GetString(
+                "display", self.conf_column_headers[column][0]
+            )
+            header_seq = header.GetInt(
+                "sequence", self.conf_column_headers[column][1]
+            )
+            header.SetString(
+                "display",
+                header_disp
+                if not self.overwrite
+                else self.conf_column_headers[column][0],
+            )
+            header.SetInt(
+                "sequence",
+                header_seq
+                if not self.overwrite
+                else self.conf_column_headers[column][1],
+            )
 
     def setDiaWeightMap(self):
         self.dia_weight_map = self.bom_pref.GetGroup("DiaWeightMap")
-        for dia in DIA_WEIGHT_MAP:
+        for dia in self.conf_dia_weight_map:
             weight = self.dia_weight_map.GetFloat(
-                str(dia), DIA_WEIGHT_MAP[dia].Value
+                str(dia), self.conf_dia_weight_map[dia].Value
             )
-            self.dia_weight_map.SetFloat(str(dia), weight)
+            self.dia_weight_map.SetFloat(
+                str(dia),
+                weight
+                if not self.overwrite
+                else self.conf_dia_weight_map[dia].Value,
+            )
 
     def setRebarLengthType(self):
         self.rebar_length_type = self.bom_pref.GetString(
-            "RebarLengthType", REBAR_LENGTH_TYPE
+            "RebarLengthType", self.conf_rebar_length_type
         )
-        self.bom_pref.SetString("RebarLengthType", self.rebar_length_type)
+        self.bom_pref.SetString(
+            "RebarLengthType",
+            self.rebar_length_type
+            if not self.overwrite
+            else self.conf_rebar_length_type,
+        )
 
     def setSVGPref(self):
         self.svg_pref = self.bom_pref.GetGroup("SVG")
-        column_width = self.svg_pref.GetFloat("ColumnWidth", COLUMN_WIDTH)
-        self.svg_pref.SetFloat("ColumnWidth", column_width)
-        row_height = self.svg_pref.GetFloat("RowHeight", ROW_HEIGHT)
-        self.svg_pref.SetFloat("RowHeight", row_height)
-        font_family = self.svg_pref.GetString("FontFamily", FONT_FAMILY)
-        self.svg_pref.SetString("FontFamily", font_family)
+        column_width = self.svg_pref.GetFloat(
+            "ColumnWidth", self.conf_column_width
+        )
+        self.svg_pref.SetFloat(
+            "ColumnWidth",
+            column_width if not self.overwrite else self.conf_column_width,
+        )
+        row_height = self.svg_pref.GetFloat("RowHeight", self.conf_row_height)
+        self.svg_pref.SetFloat(
+            "RowHeight",
+            row_height if not self.overwrite else self.conf_row_height,
+        )
+        font_family = self.svg_pref.GetString(
+            "FontFamily", self.conf_font_family
+        )
+        self.svg_pref.SetString(
+            "FontFamily",
+            font_family if not self.overwrite else self.conf_font_family,
+        )
         font_filename = self.svg_pref.GetString(
-            "FontFilename", str(FONT_FILENAME)
+            "FontFilename", str(self.conf_font_filename)
         )
-        self.svg_pref.SetString("FontFilename", str(font_filename))
-        font_size = self.svg_pref.GetFloat("FontSize", FONT_SIZE)
-        self.svg_pref.SetFloat("FontSize", font_size)
+        self.svg_pref.SetString(
+            "FontFilename",
+            str(font_filename)
+            if not self.overwrite
+            else str(self.conf_font_filename),
+        )
+        font_size = self.svg_pref.GetFloat("FontSize", self.conf_font_size)
+        self.svg_pref.SetFloat(
+            "FontSize", font_size if not self.overwrite else self.conf_font_size
+        )
         bom_svg_left_offset = self.svg_pref.GetFloat(
-            "LeftOffset", BOM_SVG_LEFT_OFFSET
+            "LeftOffset", self.conf_bom_svg_left_offset
         )
-        self.svg_pref.SetFloat("LeftOffset", bom_svg_left_offset)
+        self.svg_pref.SetFloat(
+            "LeftOffset",
+            bom_svg_left_offset
+            if not self.overwrite
+            else self.conf_bom_svg_left_offset,
+        )
         bom_svg_top_offset = self.svg_pref.GetFloat(
-            "TopOffset", BOM_SVG_TOP_OFFSET
+            "TopOffset", self.conf_bom_svg_top_offset
         )
-        self.svg_pref.SetFloat("TopOffset", bom_svg_top_offset)
-        template_file = self.svg_pref.GetString(
-            "TemplateFile", str(TEMPLATE_FILE)
+        self.svg_pref.SetFloat(
+            "TopOffset",
+            bom_svg_top_offset
+            if not self.overwrite
+            else self.conf_bom_svg_top_offset,
         )
-        self.svg_pref.SetString("TemplateFile", str(template_file))
         min_right_offset = self.svg_pref.GetFloat(
-            "MinRightOffset", BOM_SVG_MIN_RIGHT_OFFSET
+            "MinRightOffset", self.conf_bom_svg_min_right_offset
         )
-        self.svg_pref.SetFloat("MinRightOffset", min_right_offset)
+        self.svg_pref.SetFloat(
+            "MinRightOffset",
+            min_right_offset
+            if not self.overwrite
+            else self.conf_bom_svg_min_right_offset,
+        )
         min_bottom_offset = self.svg_pref.GetFloat(
-            "MinBottomOffset", BOM_SVG_MIN_BOTTOM_OFFSET
+            "MinBottomOffset", self.conf_bom_svg_min_bottom_offset
         )
-        self.svg_pref.SetFloat("MinBottomOffset", min_bottom_offset)
-        max_width = self.svg_pref.GetFloat("MaxWidth", BOM_TABLE_SVG_MAX_WIDTH)
-        self.svg_pref.SetFloat("MaxWidth", max_width)
+        self.svg_pref.SetFloat(
+            "MinBottomOffset",
+            min_bottom_offset
+            if not self.overwrite
+            else self.conf_bom_svg_min_bottom_offset,
+        )
+        max_width = self.svg_pref.GetFloat(
+            "MaxWidth", self.conf_bom_table_svg_max_width
+        )
+        self.svg_pref.SetFloat(
+            "MaxWidth",
+            max_width
+            if not self.overwrite
+            else self.conf_bom_table_svg_max_width,
+        )
         max_height = self.svg_pref.GetFloat(
-            "MaxHeight", BOM_TABLE_SVG_MAX_HEIGHT
+            "MaxHeight", self.conf_bom_table_svg_max_height
         )
-        self.svg_pref.SetFloat("MaxHeight", max_height)
+        self.svg_pref.SetFloat(
+            "MaxHeight",
+            max_height
+            if not self.overwrite
+            else self.conf_bom_table_svg_max_height,
+        )
+        template_file = self.svg_pref.GetString(
+            "TemplateFile", str(self.conf_template_file)
+        )
+        self.svg_pref.SetString(
+            "TemplateFile",
+            str(template_file)
+            if not self.overwrite
+            else str(self.conf_template_file),
+        )
 
     def getColumnUnits(self):
         column_units = {}

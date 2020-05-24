@@ -235,6 +235,22 @@ class _BillOfMaterialDialog:
                 template_file=self.template_file,
                 output_file=output_file,
             )
+
+        if self.form.savePreferences.isChecked():
+            BOMPreferences(
+                conf_column_units=column_units,
+                conf_column_headers=column_headers,
+                conf_rebar_length_type=rebar_length_type,
+                conf_column_width=self.column_width,
+                conf_row_height=self.row_height,
+                conf_font_family=self.font_family,
+                conf_font_size=self.font_size,
+                conf_bom_svg_left_offset=self.bom_left_offset,
+                conf_bom_svg_top_offset=self.bom_top_offset,
+                conf_bom_svg_min_right_offset=self.bom_min_right_offset,
+                conf_bom_svg_min_bottom_offset=self.bom_min_bottom_offset,
+                overwrite=True,
+            )
         self.form.close()
 
     def getColumnUnits(self):
