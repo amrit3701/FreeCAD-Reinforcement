@@ -46,6 +46,7 @@ class BOMContent:
                 ),
             )
             obj.FontFilename = "DejaVuSans.ttf"
+        obj.setEditorMode("FontFilename", 2)
 
         if not hasattr(obj, "FontSize"):
             obj.addProperty(

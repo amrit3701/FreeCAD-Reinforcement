@@ -101,7 +101,7 @@ class _BillOfMaterialDialog:
         """This function add input fields for units of data."""
         main_layout = self.form.verticalLayout
         column_units_layouts = []
-        for column, unit in reversed(self.column_units.items()):
+        for column, unit in reversed(list(self.column_units.items())):
             column_name = QtWidgets.QLabel(column + " unit")
             column_name.setMinimumWidth(160)
             column_unit = UnitLineEdit(unit)
