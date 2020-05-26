@@ -22,7 +22,16 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QFontComboBox" name="fontFamily"/>
+    <widget class="QFontComboBox" name="fontFamily">
+     <property name="editable">
+      <bool>false</bool>
+     </property>
+     <property name="currentFont">
+      <font>
+       <family>DejaVu Sans</family>
+      </font>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="fontSizeLabel">

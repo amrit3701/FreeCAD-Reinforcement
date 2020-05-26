@@ -26,7 +26,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
-from PySide2 import QtGui, QtWidgets
+from PySide2 import QtGui
 
 import FreeCAD
 import Draft
@@ -165,17 +165,10 @@ def getStringWidth(
 
     Returns width of string in mm.
     """
-    import os
-
     # Convert font size from mm to points
     font_size = 2.8346456693 * font_size
 
-    # "if FreeCAD.GuiUp:" is not used, as DISPLAY environment may be available
-    # in FreeCAD console mode, where FreeCAD.GuiUp returns False
-    if "DISPLAY" in os.environ:
-        app = QtWidgets.QApplication.instance()
-        if app is None:
-            QtWidgets.QApplication()
+    if FreeCAD.GuiUp:
         font = QtGui.QFont(font_family, font_size)
         font_metrics = QtGui.QFontMetrics(font)
         width = font_metrics.boundingRect(input_string).width()
