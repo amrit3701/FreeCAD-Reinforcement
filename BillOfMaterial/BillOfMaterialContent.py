@@ -191,6 +191,19 @@ class BOMContent:
             obj.ColumnWidth = 30
         obj.setEditorMode("ColumnWidth", 2)
 
+        if not hasattr(obj, "PrefRowHeight"):
+            obj.addProperty(
+                "App::PropertyLength",
+                "PrefRowHeight",
+                "BOMContent",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The preffered row height of table of Bill of Material "
+                    "content.",
+                ),
+            )
+            obj.PrefRowHeight = 10
+
         if not hasattr(obj, "RowHeight"):
             obj.addProperty(
                 "App::PropertyLength",
@@ -228,6 +241,7 @@ class BOMContent:
             )
 
         self.setColumnWidth(obj)
+        self.setRowHeight(obj)
 
         if obj.Width and obj.Height and obj.Template:
             scaling_factor = getBOMScalingFactor(
@@ -384,6 +398,63 @@ class BOMContent:
         bom_content.set("width", "{}mm".format(column_count * column_width))
         bom_content_obj.ColumnWidth = column_width
         bom_content_obj.Width = column_count * column_width
+        bom_content_obj.Symbol = ElementTree.tostring(
+            bom_content, encoding="unicode"
+        )
+
+    def getRowHeight(self, bom_content_obj):
+        return max(
+            bom_content_obj.PrefRowHeight.Value,
+            bom_content_obj.FontSize.Value * 1.618,
+        )
+
+    def setRowHeight(self, bom_content_obj):
+        row_height = self.getRowHeight(bom_content_obj)
+
+        namespace = {"xmlns": "http://www.w3.org/2000/svg"}
+        ElementTree.register_namespace("", "http://www.w3.org/2000/svg")
+        bom_content = ElementTree.fromstring(bom_content_obj.Symbol)
+
+        text_elements = bom_content.findall(".//xmlns:text", namespace)
+        for text_element in text_elements:
+            preceding_row_count = int(
+                float(text_element.get("y")) / bom_content_obj.RowHeight.Value
+            )
+            offset = (
+                float(text_element.get("y")) % bom_content_obj.RowHeight.Value
+            )
+            text_element.set(
+                "y",
+                str(
+                    preceding_row_count * row_height
+                    + offset * row_height / bom_content_obj.RowHeight.Value
+                ),
+            )
+
+        rect_elements = bom_content.findall(".//xmlns:rect", namespace)
+        for rect_element in rect_elements:
+            preceding_row_count = int(
+                float(rect_element.get("y")) / bom_content_obj.RowHeight.Value
+            )
+            rect_element.set("y", str(preceding_row_count * row_height))
+            row_span = int(
+                float(rect_element.get("height"))
+                / bom_content_obj.RowHeight.Value
+            )
+            rect_element.set("height", str(row_span * row_height))
+
+        row_count = int(
+            bom_content_obj.Height.Value / bom_content_obj.RowHeight.Value
+        )
+        bom_content.set(
+            "viewBox",
+            "0 0 {} {}".format(
+                bom_content_obj.Width.Value, row_count * row_height
+            ),
+        )
+        bom_content.set("height", "{}mm".format(row_count * row_height))
+        bom_content_obj.RowHeight = row_height
+        bom_content_obj.Height = row_count * row_height
         bom_content_obj.Symbol = ElementTree.tostring(
             bom_content, encoding="unicode"
         )
