@@ -82,9 +82,12 @@ class _EditSVGConfigurationDialog:
 
     def setDefaultValues(self):
         """This function is used to set default values in ui."""
-        self.form.fontFamily.setCurrentIndex(
-            self.form.fontFamily.findText(self.font_family)
-        )
+        if self.form.fontFamily.findText(self.font_family) == -1:
+            self.form.fontFamily.setCurrentIndex(0)
+        else:
+            self.form.fontFamily.setCurrentIndex(
+                self.form.fontFamily.findText(self.font_family)
+            )
         self.form.fontSize.setValue(self.font_size)
         self.form.columnWidth.setText(str(self.column_width))
         self.form.rowHeight.setText(str(self.row_height))
