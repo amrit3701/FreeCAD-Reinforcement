@@ -76,6 +76,10 @@ class BOMPreferences:
         self.conf_column_headers = conf_column_headers
         self.conf_dia_weight_map = conf_dia_weight_map
         self.conf_rebar_length_type = conf_rebar_length_type
+        self.available_rebar_length_types = [
+            "RealLength",
+            "LengthWithSharpEdges",
+        ]
         self.conf_column_width = conf_column_width
         self.conf_row_height = conf_row_height
         self.conf_font_family = conf_font_family
@@ -143,14 +147,21 @@ class BOMPreferences:
             )
 
     def setRebarLengthType(self):
-        self.rebar_length_type = self.bom_pref.GetString(
-            "RebarLengthType", self.conf_rebar_length_type
-        )
-        self.bom_pref.SetString(
+        self.rebar_length_type = self.available_rebar_length_types[
+            self.bom_pref.GetInt(
+                "RebarLengthType",
+                self.available_rebar_length_types.index(
+                    self.conf_rebar_length_type
+                ),
+            )
+        ]
+        self.bom_pref.SetInt(
             "RebarLengthType",
-            self.rebar_length_type
+            self.available_rebar_length_types.index(self.rebar_length_type)
             if not self.overwrite
-            else self.conf_rebar_length_type,
+            else self.available_rebar_length_types.index(
+                self.conf_rebar_length_type
+            ),
         )
 
     def setSVGPref(self):

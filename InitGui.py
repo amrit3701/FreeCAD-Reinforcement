@@ -44,9 +44,28 @@ class ReinforcementWorkbench(FreeCADGui.Workbench):
     def Initialize(self):
         """This function is executed when FreeCAD starts"""
         import RebarTools
+        from BillOfMaterial.BOMPreferences import BOMPreferences
+        from pathlib import Path
 
         self.rebar_commands = RebarTools.RebarCommands
         self.appendToolbar("RebarCommands", self.rebar_commands)
+
+        BOMPreferences()
+        FreeCADGui.addPreferencePage(
+            str(
+                Path(RebarTools.__file__).parent.absolute()
+                / "BillOfMaterial"
+                / "BOMPreferences.ui"
+            ),
+            "Reinforcement",
+        )
+        FreeCADGui.addIconPath(
+            str(
+                Path(RebarTools.__file__).parent.absolute()
+                / "icons"
+                / "preferences"
+            )
+        )
 
     def Activated(self):
         """This function is executed when the workbench is activated"""
