@@ -1143,6 +1143,9 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="editable">
+          <bool>false</bool>
+         </property>
          <property name="prefEntry" stdset="0">
           <cstring>FontFamily</cstring>
          </property>
