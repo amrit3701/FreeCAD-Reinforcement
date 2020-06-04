@@ -255,11 +255,13 @@ def makeBillOfMaterialSVG(
     bom_table_svg_max_height=None,
     template_file=None,
     output_file=None,
+    rebar_objects=None,
 ):
     """makeBillOfMaterialSVG(ColumnHeaders, ColumnUnits, DiaWeightMap,
     RebarLengthType, FontFamily, FontSize, FontFilename, ColumnWidth, RowHeight,
     BOMLeftOffset, BOMTopOffset, BOMMinRightOffset, BOMMinBottomOffset,
-    BOMTableSVGMaxWidth, BOMTableSVGMaxHeight, TemplateFile, OutputFile):
+    BOMTableSVGMaxWidth, BOMTableSVGMaxHeight, TemplateFile, OutputFile,
+    RebarObjects):
     Generates the Rebars Material Bill SVG.
 
     column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
@@ -297,8 +299,19 @@ def makeBillOfMaterialSVG(
     font_filename is required if you are working in pure console mode, without
     any gui.
 
+    rebar_objects is the list of ArchRebar and/or rebar2 objects.
+
     Returns Bill Of Material svg code.
     """
+    # Get mark reinforcement dictionary
+    mark_reinforcements_dict = getMarkReinforcementsDict(rebar_objects)
+    if not mark_reinforcements_dict:
+        FreeCAD.Console.PrintWarning(
+            "No rebar object in current selection/document. "
+            "Returning without BillOfMaterial SVG.\n"
+        )
+        return
+
     bom_preferences = BOMPreferences()
     if not column_headers:
         column_headers = bom_preferences.getColumnHeaders()
@@ -350,7 +363,7 @@ def makeBillOfMaterialSVG(
     if "RebarsTotalLength" not in column_units:
         column_units["RebarsTotalLength"] = "m"
 
-    mark_reinforcements_dict = getMarkReinforcementsDict()
+    # Get unique diameter list
     diameter_list = getUniqueDiameterList(mark_reinforcements_dict)
 
     svg = getSVGRootElement()
