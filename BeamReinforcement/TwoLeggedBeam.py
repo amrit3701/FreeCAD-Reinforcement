@@ -34,6 +34,7 @@ from Stirrup import makeStirrup, editStirrup
 from StraightRebar import makeStraightRebar, editStraightRebar
 from LShapeRebar import makeLShapeRebar, editLShapeRebar
 from Rebarfunc import (
+    showWarning,
     getParametersOfFace,
     getFaceNumber,
     getFacenamesforBeamReinforcement,
@@ -320,11 +321,11 @@ def getHookExtensionListofShearRebars(
         for i, _ in enumerate(number_diameter_offset_tuple):
             if rebar_type_list[i] == "StraightRebar":
                 hook_extension_list.append(0)
-            elif hook_extension[i] == None:
+            elif hook_extension[i] is None:
                 hook_extension_list.append(10)
             else:
                 hook_extension_list.append(hook_extension[i])
-    elif hook_extension == None:
+    elif hook_extension is None:
         for i, _ in enumerate(number_diameter_offset_tuple):
             if rebar_type_list[i] == "StraightRebar":
                 hook_extension_list.append(0)
@@ -351,11 +352,11 @@ def getHookOrientationListofShearRebars(
         for i, _ in enumerate(number_diameter_offset_tuple):
             if rebar_type_list[i] == "StraightRebar":
                 hook_orientation_list.append("")
-            elif hook_orientation[i] == None:
+            elif hook_orientation[i] is None:
                 hook_orientation_list.append("Front Inside")
             else:
                 hook_orientation_list.append(hook_orientation[i])
-    elif hook_orientation == None:
+    elif hook_orientation is None:
         for i, _ in enumerate(number_diameter_offset_tuple):
             if rebar_type_list[i] == "StraightRebar":
                 hook_orientation_list.append("")
@@ -1555,7 +1556,7 @@ def editReinforcement(
     f_cover = offset_of_stirrup
 
     # Create Stirrup
-    stirrup = editStirrup(
+    editStirrup(
         Stirrup,
         l_cover_of_stirrup,
         r_cover_of_stirrup,
@@ -1776,7 +1777,7 @@ def editReinforcement(
             setGroupProperties(properties, left_rebars_group)
             addLeftRightRebarGroupsProperties(left_rebars_group)
 
-        left_reinforcement_rebars = makeLeftReinforcement(
+        makeLeftReinforcement(
             left_rebars_group,
             l_cover_of_stirrup,
             dia_of_stirrup,
@@ -1848,7 +1849,7 @@ def editReinforcement(
             setGroupProperties(properties, right_rebars_group)
             addLeftRightRebarGroupsProperties(right_rebars_group)
 
-        right_reinforcement_rebars = makeRightReinforcement(
+        makeRightReinforcement(
             right_rebars_group,
             l_cover_of_stirrup,
             dia_of_stirrup,

@@ -51,7 +51,7 @@ class _HookExtensionEditDialog:
         sets = len(self.HookExtensionTuple)
         for i in range(0, sets):
             self.addSet()
-            if self.HookExtensionTuple[i] == None:
+            if self.HookExtensionTuple[i] is None:
                 self.HookExtensionInputFieldList[i].setText("40 mm")
                 self.HookExtensionInputFieldList[i].setEnabled(False)
             else:

@@ -54,7 +54,7 @@ class _HookOrientationEditDialog:
             self.addLayer()
             for i in range(0, sets_count_list[layer - 1]):
                 self.addSet()
-                if self.HookOrientationTuple[layer - 1][i] == None:
+                if self.HookOrientationTuple[layer - 1][i] is None:
                     self.HookOrientationComboBoxList[layer - 1][
                         i
                     ].setCurrentIndex(

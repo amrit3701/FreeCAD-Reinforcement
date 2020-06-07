@@ -26,7 +26,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 import os
-from PySide2 import QtWidgets, QtGui
+from PySide2 import QtWidgets
 
 import FreeCAD
 import FreeCADGui

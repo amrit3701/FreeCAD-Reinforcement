@@ -28,7 +28,6 @@ __url__ = "https://www.freecadweb.org"
 import os
 from PySide2 import QtWidgets, QtGui
 
-import FreeCAD
 import FreeCADGui
 
 
@@ -55,7 +54,7 @@ class _RoundingEditDialog:
             self.addLayer()
             for i in range(0, sets_count_list[layer - 1]):
                 self.addSet()
-                if self.RoundingTuple[layer - 1][i] == None:
+                if self.RoundingTuple[layer - 1][i] is None:
                     self.RoundingSpinBoxList[layer - 1][i].setValue(2)
                     self.RoundingSpinBoxList[layer - 1][i].setEnabled(False)
                 else:

@@ -27,13 +27,13 @@ __url__ = "https://www.freecadweb.org"
 
 
 import math
-from PySide.QtCore import QT_TRANSLATE_NOOP
 
 import FreeCAD
 import ArchCommands
 
 from HelicalRebar import makeHelicalRebar, editHelicalRebar
 from Rebarfunc import (
+    showWarning,
     getFaceNumber,
     getParametersOfFace,
     setGroupProperties,
@@ -197,7 +197,6 @@ def makeStraightRebars(
     column_size = ArchCommands.projectToVector(
         structure.Shape.copy(), face.normalAt(0, 0)
     ).Length
-    radius = FacePRM[0][0] / 2 - s_cover
     points_list = getPointsOfStraightRebars(
         FacePRM,
         s_cover,
@@ -208,7 +207,8 @@ def makeStraightRebars(
         number_angle_check,
         number_angle_value,
     )
-    import Arch, Draft
+    import Arch
+    import Draft
 
     pl = FreeCAD.Placement()
     pl.Rotation.Q = (0.5, 0.5, 0.5, 0.5)
