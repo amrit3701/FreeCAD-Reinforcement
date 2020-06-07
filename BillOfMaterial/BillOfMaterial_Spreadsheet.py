@@ -136,11 +136,11 @@ def makeBillOfMaterial(
     column_units=None,
     dia_weight_map=None,
     rebar_length_type=None,
-    structures_list=None,
+    rebar_objects=None,
     obj_name="RebarBillOfMaterial",
 ):
     """makeBillOfMaterial(ColumnHeadersConfig, ColumnUnitsDict, DiaWeightMap,
-    RebarLengthType, StructuresList, ObjectName):
+    RebarLengthType, RebarObjects, ObjectName):
     Generates the Rebars Material Bill.
 
     column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
@@ -174,9 +174,19 @@ def makeBillOfMaterial(
          }
 
     rebar_length_type can be "RealLength" or "LengthWithSharpEdges".
+    rebar_objects is the list of ArchRebar and/or rebar2 objects.
 
     Returns Bill Of Material spreadsheet object.
     """
+    # Get mark reinforcement dictionary
+    mark_reinforcements_dict = getMarkReinforcementsDict(rebar_objects)
+    if not mark_reinforcements_dict:
+        FreeCAD.Console.PrintWarning(
+            "No rebar object in current selection/document. "
+            "Returning without BillOfMaterial Spreadsheet.\n"
+        )
+        return
+
     bom_preferences = BOMPreferences()
     if not column_headers:
         column_headers = bom_preferences.getColumnHeaders()
@@ -194,9 +204,6 @@ def makeBillOfMaterial(
 
     # Add column headers
     column_headers = addSheetHeaders(column_headers, bill_of_material)
-
-    # Get mark reinforcement dictionary
-    mark_reinforcements_dict = getMarkReinforcementsDict()
 
     # Dictionary to store total length of rebars corresponding to its dia
     dia_total_length_dict = {}

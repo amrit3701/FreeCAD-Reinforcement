@@ -32,35 +32,34 @@ import FreeCAD
 import Draft
 
 
-def getMarkReinforcementsDict():
-    """Returns dictionary with mark as key and corresponding reinforcement
-    objects list as value from active document."""
-    # Get Part::FeaturePython objects list
-    objects_list = FreeCAD.ActiveDocument.Objects
+def getReinforcementRebarObjects(objects_list=None):
+    """getReinforcementRebarObjects(ObjectsList):
+    objects_list is the list of ArchRebar, rebar2 and/or structural objects.
 
-    # Create dictionary with mark number as key with corresponding reinforcement
-    # objects list as value
-    mark_reinforcements_dict = {}
+    Returns list of ArchRebar objects that belongs to passed structural elements
+    and reinforcement objects that are derived from passed base rebar2 objects,
+    if objects_list is provided. Otherwise returns list of ArchRebar and
+    reinforcement objects from active document.
+    """
+    if not objects_list:
+        # Get all objects in active document
+        objects_list = FreeCAD.ActiveDocument.Objects
 
     # Get ArchRebar objects
     rebars_list = Draft.get_objects_of_type(objects_list, "Rebar")
 
-    for rebar in rebars_list:
-        if hasattr(rebar, "MarkNumber"):
-            if rebar.MarkNumber:
-                mark = rebar.MarkNumber
-            else:
-                mark = "D{}L{}".format(
-                    round(rebar.Diameter.Value), round(rebar.Length.Value)
-                )
-        else:
-            mark = "D{}L{}".format(
-                round(rebar.Diameter.Value), round(rebar.Length.Value)
-            )
-
-        if mark not in mark_reinforcements_dict:
-            mark_reinforcements_dict[mark] = []
-        mark_reinforcements_dict[mark].append(rebar)
+    # Add all ArchRebar objects present in active document having host present
+    # in objects_list
+    if objects_list != FreeCAD.ActiveDocument.Objects:
+        all_arch_rebar_objects = Draft.get_objects_of_type(
+            FreeCAD.ActiveDocument.Objects, "Rebar"
+        )
+        for arch_rebar_object in all_arch_rebar_objects:
+            if (
+                arch_rebar_object.Host in objects_list
+                and arch_rebar_object not in rebars_list
+            ):
+                rebars_list.append(arch_rebar_object)
 
     # Get Rebar2 objects
     reinforcement_list = Draft.get_objects_of_type(
@@ -79,12 +78,72 @@ def getMarkReinforcementsDict():
         Draft.get_objects_of_type(objects_list, "ReinforcementLinear")
     )
 
-    for reinforcement in reinforcement_list:
-        if reinforcement.BaseRebar.MarkNumber not in mark_reinforcements_dict:
-            mark_reinforcements_dict[reinforcement.BaseRebar.MarkNumber] = []
-        mark_reinforcements_dict[reinforcement.BaseRebar.MarkNumber].append(
-            reinforcement
+    # Add all reinforcement elements present in active document derived from
+    # base rebar objects in objects_list
+    base_rebar_objects = Draft.get_objects_of_type(objects_list, "RebarShape")
+    if objects_list != FreeCAD.ActiveDocument.Objects and base_rebar_objects:
+        all_objects = FreeCAD.ActiveDocument.Objects
+        all_reinforcement_obj = Draft.get_objects_of_type(
+            all_objects, "ReinforcementGeneric"
         )
+        all_reinforcement_obj.extend(
+            Draft.get_objects_of_type(all_objects, "ReinforcementLattice")
+        )
+        all_reinforcement_obj.extend(
+            Draft.get_objects_of_type(all_objects, "ReinforcementCustom")
+        )
+        all_reinforcement_obj.extend(
+            Draft.get_objects_of_type(all_objects, "ReinforcementIndividual")
+        )
+        all_reinforcement_obj.extend(
+            Draft.get_objects_of_type(all_objects, "ReinforcementLinear")
+        )
+        for reinforcement in all_reinforcement_obj:
+            if (
+                reinforcement.BaseRebar in base_rebar_objects
+                and reinforcement not in reinforcement_list
+            ):
+                reinforcement_list.append(reinforcement)
+
+    rebars_list.extend(reinforcement_list)
+    return rebars_list
+
+
+def getMarkReinforcementsDict(objects_list=None):
+    """getMarkReinforcementsDict(ObjectsList):
+    objects_list is the list of ArchRebar, rebar2 and/or structural objects.
+
+    Returns dictionary with mark as key and corresponding reinforcement objects
+    list as value from active document."""
+    rebar_objects = getReinforcementRebarObjects(objects_list)
+
+    # Create dictionary with mark number as key with corresponding reinforcement
+    # objects list as value
+    mark_reinforcements_dict = {}
+
+    for rebar in rebar_objects:
+        # If object is ArchRebar object
+        if Draft.get_type(rebar) == "Rebar":
+            if hasattr(rebar, "MarkNumber"):
+                if rebar.MarkNumber:
+                    mark = rebar.MarkNumber
+                else:
+                    mark = "D{}L{}".format(
+                        round(rebar.Diameter.Value), round(rebar.Length.Value)
+                    )
+            else:
+                mark = "D{}L{}".format(
+                    round(rebar.Diameter.Value), round(rebar.Length.Value)
+                )
+
+            if mark not in mark_reinforcements_dict:
+                mark_reinforcements_dict[mark] = []
+            mark_reinforcements_dict[mark].append(rebar)
+        # Otherwise object is Rebar2 reinforcement object
+        else:
+            if rebar.BaseRebar.MarkNumber not in mark_reinforcements_dict:
+                mark_reinforcements_dict[rebar.BaseRebar.MarkNumber] = []
+            mark_reinforcements_dict[rebar.BaseRebar.MarkNumber].append(rebar)
 
     return mark_reinforcements_dict
 

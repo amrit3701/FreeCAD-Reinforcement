@@ -203,6 +203,12 @@ class _BillOfMaterialDialog:
         if not units_valid_flag:
             return
 
+        # Get selected objects list
+        selected_objects = [
+            selection.Object
+            for selection in FreeCADGui.Selection.getSelectionEx()
+        ]
+
         column_units = self.getColumnUnits()
         column_headers = self.getColumnConfigData()
         rebar_length_type = self.form.rebarLengthType.currentText()
@@ -213,6 +219,7 @@ class _BillOfMaterialDialog:
                 column_headers=column_headers,
                 column_units=column_units,
                 rebar_length_type=rebar_length_type,
+                rebar_objects=selected_objects,
             )
         create_svg = self.form.createSVG.isChecked()
 
@@ -234,6 +241,7 @@ class _BillOfMaterialDialog:
                 bom_table_svg_max_height=self.bom_table_svg_max_height,
                 template_file=self.template_file,
                 output_file=output_file,
+                rebar_objects=selected_objects,
             )
 
         if self.form.savePreferences.isChecked():
