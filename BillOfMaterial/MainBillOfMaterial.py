@@ -103,7 +103,7 @@ class _BillOfMaterialDialog:
         column_units_layouts = []
         for column, unit in reversed(list(self.column_units.items())):
             column_name = QtWidgets.QLabel(column + " unit")
-            column_name.setMinimumWidth(160)
+            column_name.setMinimumWidth(190)
             column_unit = UnitLineEdit(unit)
             h_layout = QtWidgets.QHBoxLayout()
             h_layout.setSpacing(60)
@@ -133,7 +133,7 @@ class _BillOfMaterialDialog:
             if column_header_tuple[1] != 0:
                 show_hide_checkbox.setChecked(True)
             column_name = QtWidgets.QLabel(column_header)
-            column_name.setMinimumWidth(120)
+            column_name.setMinimumWidth(160)
             spreadsheet_column_header = ui.createWidget("Gui::PrefLineEdit")
             spreadsheet_column_header.setText(column_header_tuple[0])
 
