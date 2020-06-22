@@ -25,14 +25,28 @@ __title__ = "Reinforcement Drawing"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
+
+from xml.etree import ElementTree
+
 import FreeCAD
 import Draft
 import DraftGeomUtils
 import DraftVecUtils
 import WorkingPlane
 
+from SVGfunc import (
+    getSVGRootElement,
+    getPointSVG,
+    isPointInSVG,
+    getLineSVG,
+    isLineInSVG,
+    getSVGTextElement,
+    getSVGPathElement,
+    getArrowMarkerElement,
+)
 
-def get_rebars_span_axis(rebar):
+
+def getRebarsSpanAxis(rebar):
     if (
         Draft.getType(rebar.Base) == "Wire"
     ):  # Draft Wires can have "wrong" placement
@@ -46,7 +60,7 @@ def get_rebars_span_axis(rebar):
     return axis
 
 
-def get_projection_to_svg_plane(vec, plane):
+def getProjectionToSVGPlane(vec, plane):
     nx = DraftVecUtils.project(vec, plane.u)
     lx = nx.Length
     if abs(nx.getAngle(plane.u)) > 0.1:
@@ -60,14 +74,14 @@ def get_projection_to_svg_plane(vec, plane):
     return FreeCAD.Vector(lx, ly, 0)
 
 
-def get_structure_min_max_points(structure, view_plane):
+def getStructureMinMaxPoints(structure, view_plane):
     min_x = 9999999
     min_y = 9999999
     max_x = -9999999
     max_y = -9999999
     vertex_list = structure.Shape.Vertexes
     for vertex in vertex_list:
-        point = get_projection_to_svg_plane(vertex.Point, view_plane)
+        point = getProjectionToSVGPlane(vertex.Point, view_plane)
         min_x = min(min_x, point.x)
         min_y = min(min_y, point.y)
         max_x = max(max_x, point.x)
@@ -75,90 +89,86 @@ def get_structure_min_max_points(structure, view_plane):
     return (min_x, min_y, max_x, max_y)
 
 
-def get_line_svg(p1, p2, plane):
-    if round(p1.x, 2) == round(p2.x, 2) and round(p1.y, 2) == round(p2.y, 2):
-        line_svg = '<circle cx="{}" cy="{}" r="1" ' 'fill="black"/>'.format(
-            round(p1.x, 2), round(p1.y, 2),
-        )
-    else:
-        line_svg = (
-            '<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" '
-            'style="stroke:#000000"/>'.format(
-                x1=round(p1.x, 2),
-                y1=round(p1.y, 2),
-                x2=round(p2.x, 2),
-                y2=round(p2.y, 2),
-            )
-        )
-    return line_svg
-
-
-def get_line_dimensions_data(
+def getLineDimensionsData(
     p1, p2, dimension_text, h_dim_x, h_dim_y, v_dim_x, v_dim_y
 ):
+    dimension = ElementTree.Element("g")
     if abs(p2.y - p1.y) < abs(p2.x - p1.x):
         dimension_line_horizontal = False
         x_cord = v_dim_x
         y_cord = (x_cord - p1.x) * (p2.y - p1.y) / (p2.x - p1.x) + p1.y
-        dimension_line = (
-            '<path d="M{} {} V{}" marker-start="url(#startarrow)" '
-            'style="stroke:#000000"/>'.format(x_cord, y_cord, v_dim_y)
+        dimension_line = getSVGPathElement(
+            "M{} {} V{}".format(x_cord, y_cord, v_dim_y),
+            "url(#start_arrow)",
+            "stroke:#000000",
         )
-        dimension_line += (
-            '<text x="{}" y="{}" style="stroke-width:0.35px" fill="#000000" '
-            'font-family="DejaVu Sans" font-size="10px" text-anchor="middle" '
-            'dominant-baseline="baseline">{}</text>'
-        ).format(v_dim_x, v_dim_y, dimension_text)
+        dimension_label = getSVGTextElement(
+            dimension_text, v_dim_x, v_dim_y, "DejaVu Sans", "10px", "middle"
+        )
+        dimension.append(dimension_line)
+        dimension.append(dimension_label)
     else:
         dimension_line_horizontal = True
         y_cord = h_dim_y
         x_cord = (y_cord - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x
-        dimension_line = (
-            '<path d="M{} {} H{}" marker-start="url(#startarrow)" '
-            'style="stroke:#000000"/>'.format(x_cord, y_cord, h_dim_x)
+        dimension_line = getSVGPathElement(
+            "M{} {} H{}".format(x_cord, y_cord, h_dim_x),
+            "url(#start_arrow)",
+            "stroke:#000000",
         )
-        dimension_line += (
-            '<text x="{}" y="{}" style="stroke-width:0.35px" fill="#000000" '
-            'font-family="DejaVu Sans" font-size="10px" text-anchor="start" '
-            'dominant-baseline="central">{}</text>'
-        ).format(h_dim_x, h_dim_y, dimension_text)
+        dimension_label = getSVGTextElement(
+            dimension_text,
+            h_dim_x,
+            h_dim_y,
+            "DejaVu Sans",
+            "10px",
+            dominant_baseline="central",
+        )
+        dimension.append(dimension_line)
+        dimension.append(dimension_label)
     return {
-        "svg": dimension_line,
+        "svg": dimension,
         "dimension_line_horizontal": dimension_line_horizontal,
     }
 
 
-def get_straight_rebar_svg_data(
+def getStraightRebarSVGData(
     rebar,
     view_plane,
     h_dim_x_offset,
     h_dim_y_offset,
     v_dim_x_offset,
     v_dim_y_offset,
-    svg,
+    rebars_svg,
 ):
-    rebars_svg = ""
+    straight_rebar_svg = ElementTree.Element(
+        "g", attrib={"id": str(rebar.Name)}
+    )
     min_x = 9999999
     min_y = 9999999
     max_x = -9999999
     max_y = -9999999
     is_rebar_visible = False
     drawing_plane_normal = view_plane.axis
-    rebars_dimension_svg = ""
-    if (
-        round(drawing_plane_normal.cross(get_rebars_span_axis(rebar)).Length)
-        == 0
-    ):
-        p1 = get_projection_to_svg_plane(
+    # rebars_dimension_svg = ""
+    if round(drawing_plane_normal.cross(getRebarsSpanAxis(rebar)).Length) == 0:
+        p1 = getProjectionToSVGPlane(
             rebar.Base.Shape.Wires[0].Vertexes[0].Point, view_plane
         )
-        p2 = get_projection_to_svg_plane(
+        p2 = getProjectionToSVGPlane(
             rebar.Base.Shape.Wires[0].Vertexes[1].Point, view_plane
         )
-        rebar_svg = get_line_svg(p1, p2, view_plane)
-        if rebar_svg not in svg:
-            rebars_svg += rebar_svg
-            dimension_data = get_line_dimensions_data(
+        if round(p1.x) == round(p2.x) and round(p1.y) == round(p2.y):
+            rebar_svg = getPointSVG(p1)
+            if not isPointInSVG(p1, rebars_svg):
+                is_rebar_visible = True
+        else:
+            rebar_svg = getLineSVG(p1, p2)
+            if not isLineInSVG(p1, p2, rebars_svg):
+                is_rebar_visible = True
+        if is_rebar_visible:
+            straight_rebar_svg.append(rebar_svg)
+            dimension_data = getLineDimensionsData(
                 p1,
                 p2,
                 "{}⌀{}".format(rebar.Amount, rebar.Diameter),
@@ -167,7 +177,7 @@ def get_straight_rebar_svg_data(
                 v_dim_x_offset,
                 v_dim_y_offset,
             )
-            rebars_dimension_svg += dimension_data["svg"]
+            straight_rebar_svg.append(dimension_data["svg"])
             if dimension_data["dimension_line_horizontal"]:
                 # Add logic calculate increment
                 h_dim_y_offset += 100
@@ -177,26 +187,36 @@ def get_straight_rebar_svg_data(
             min_y = min(p1.y, p2.y)
             max_x = max(p1.x, p2.x)
             max_y = max(p1.y, p2.y)
-            is_rebar_visible = True
     else:
         basewire = rebar.Base.Shape.Wires[0]
-        rebar_points = []
         for placement in rebar.PlacementList:
             wire = basewire.copy()
             wire.Placement = placement.multiply(basewire.Placement)
-            p1 = get_projection_to_svg_plane(wire.Vertexes[0].Point, view_plane)
-            p2 = get_projection_to_svg_plane(wire.Vertexes[1].Point, view_plane)
-            rebar_svg = get_line_svg(p1, p2, view_plane)
-            if rebar_svg not in svg and rebar_svg not in rebars_svg:
-                rebars_svg += rebar_svg
+            p1 = getProjectionToSVGPlane(wire.Vertexes[0].Point, view_plane)
+            p2 = getProjectionToSVGPlane(wire.Vertexes[1].Point, view_plane)
+            if round(p1.x) == round(p2.x) and round(p1.y) == round(p2.y):
+                rebar_svg = getPointSVG(p1)
+                if not (
+                    isPointInSVG(p1, rebars_svg)
+                    or isPointInSVG(p1, straight_rebar_svg)
+                ):
+                    is_rebar_visible = True
+            else:
+                rebar_svg = getLineSVG(p1, p2)
+                if not (
+                    isLineInSVG(p1, p2, rebars_svg)
+                    or isLineInSVG(p1, p2, straight_rebar_svg)
+                ):
+                    is_rebar_visible = True
+            if is_rebar_visible:
+                straight_rebar_svg.append(rebar_svg)
                 min_x = min(min_x, p1.x, p2.x)
                 min_y = min(min_y, p1.y, p2.y)
                 max_x = max(max_x, p1.x, p2.x)
                 max_y = max(max_y, p1.y, p2.y)
-                is_rebar_visible = True
-            rebar_points.append((p1, p2))
     return {
-        "svg": rebars_svg + rebars_dimension_svg,
+        # "svg": rebars_svg + rebars_dimension_svg,
+        "svg": straight_rebar_svg,
         "visibility": is_rebar_visible,
         "min_x": min_x,
         "min_y": min_y,
@@ -207,7 +227,7 @@ def get_straight_rebar_svg_data(
     }
 
 
-def get_reinforcement_drawing_svg(structure, rebars_list, view_direction):
+def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     if isinstance(view_direction, FreeCAD.Vector):
         if view_direction != FreeCAD.Vector(0, 0, 0):
             view_plane = WorkingPlane.plane()
@@ -218,6 +238,18 @@ def get_reinforcement_drawing_svg(structure, rebars_list, view_direction):
             )
     elif isinstance(view_direction, WorkingPlane.plane):
         view_plane = view_direction
+
+    svg = getSVGRootElement()
+    defs_element = ElementTree.Element("defs")
+    defs_element.append(getArrowMarkerElement("start_arrow", "start"))
+    defs_element.append(getArrowMarkerElement("end_arrow", "end"))
+    svg.append(defs_element)
+
+    reinforcement_drawing = ElementTree.Element(
+        "g", attrib={"id": "reinforcement_drawing"}
+    )
+    svg.append(reinforcement_drawing)
+
     # Filter rebars created using Reinforcement Workbench
     straight_rebars = []
     stirrups = []
@@ -233,20 +265,26 @@ def get_reinforcement_drawing_svg(structure, rebars_list, view_direction):
         struct_min_y,
         struct_max_x,
         struct_max_y,
-    ) = get_structure_min_max_points(structure, view_plane)
+    ) = getStructureMinMaxPoints(structure, view_plane)
     max_x = struct_max_x
     max_y = struct_max_y
     min_x = struct_min_x
     min_y = struct_min_y
 
-    rebars_svg = '<g id="StraightRebar">'
+    rebars_svg = ElementTree.Element("g", attrib={"id": "Rebars"})
+    reinforcement_drawing.append(rebars_svg)
+
+    straight_rebars_svg = ElementTree.Element("g")
+    straight_rebars_svg.set("id", "StraightRebar")
+    rebars_svg.append(straight_rebars_svg)
+
     h_dim_x_offset = max_x + 50
     h_dim_y_offset = min_y + 50
     v_dim_x_offset = min_x + 50
     v_dim_y_offset = min_y - 50
     visible_rebars = []
     for rebar in straight_rebars:
-        rebar_data = get_straight_rebar_svg_data(
+        rebar_data = getStraightRebarSVGData(
             rebar,
             view_plane,
             h_dim_x_offset,
@@ -255,8 +293,8 @@ def get_reinforcement_drawing_svg(structure, rebars_list, view_direction):
             v_dim_y_offset,
             rebars_svg,
         )
-        if rebar_data["visibility"] is True:
-            rebars_svg += rebar_data["svg"]
+        if rebar_data["visibility"]:
+            straight_rebars_svg.append(rebar_data["svg"])
             min_x = min(min_x, rebar_data["min_x"])
             min_y = min(min_y, rebar_data["min_y"])
             max_x = max(max_x, rebar_data["max_x"])
@@ -264,41 +302,30 @@ def get_reinforcement_drawing_svg(structure, rebars_list, view_direction):
             h_dim_y_offset = rebar_data["h_dim_y_offset"]
             v_dim_x_offset = rebar_data["v_dim_x_offset"]
             visible_rebars.append(rebar)
-    rebars_svg += "</g>"
 
     # Create Structure SVG
-    structure_svg = Draft.getSVG(
-        structure, direction=view_plane, fillstyle="none"
+    structure_svg = ElementTree.fromstring(
+        '<g id="structure">'
+        + Draft.getSVG(structure, direction=view_plane, fillstyle="none")
+        + "</g>"
+    )
+    reinforcement_drawing.append(structure_svg)
+    reinforcement_drawing.set(
+        "transform",
+        "translate({}, {})".format(round(-min_x + 60), round(-min_y + 100)),
     )
 
-    symbol_svg = (
-        '<defs><marker id="startarrow" markerWidth="10" markerHeight="7" '
-        'refX="0" refY="3.5" orient="auto"><polygon points="10 0, 10 7, 0 3.5"'
-        "/></marker>"
-        '<marker id="endarrow" markerWidth="10" markerHeight="7" refX="0" '
-        'refY="3.5" orient="auto" markerUnits="strokeWidth"> <polygon '
-        'points="0 0, 10 3.5, 0 7"/></marker>'
-        "</defs>"
-    )
-    svg = (
-        '<svg xmlns="http://www.w3.org/2000/svg" height="{svg_height}mm" '
-        'width="{svg_width}mm" viewBox="0 0 {svg_width} {svg_height}">'
-        "<defs>{symbol_def}</defs>"
-        '<g id="rebar_drawing" transform="translate({trans_x}, {trans_y})">'
-        "{structure_svg}{rebars_svg}</g></svg>".format(
-            svg_width=round(max_x - min_x + 200, 2),
-            svg_height=round(max_y - min_y + 200, 2),
-            symbol_def=symbol_svg,
-            trans_x=round(-min_x + 60, 2),
-            trans_y=round(-min_y + 100, 2),
-            structure_svg=structure_svg,
-            rebars_svg=rebars_svg,
-        )
-    )
-    return svg
+    svg_width = round(max_x - min_x + 200)
+    svg_height = round(max_y - min_y + 200)
+
+    svg.set("width", str(svg_width) + "mm")
+    svg.set("height", str(svg_height) + "mm")
+    svg.set("viewBox", "0 0 {} {}".format(svg_width, svg_height))
+
+    return ElementTree.tostring(svg, encoding="unicode")
 
 
-def get_reinforcement_drawing(structure, rebars_list, structure_view="Front"):
+def getReinforcementDrawing(structure, rebars_list, structure_view="Front"):
     if structure_view == "Front":
         view_direction = FreeCAD.Vector(0, -1, 0)
     if structure_view == "Rear":
@@ -314,5 +341,5 @@ def get_reinforcement_drawing(structure, rebars_list, structure_view="Front"):
     else:
         # Fallback
         view_direction = FreeCAD.Vector(0, 1, 0)
-    svg = get_reinforcement_drawing_svg(structure, rebars_list, view_direction)
+    svg = getReinforcementDrawingSVG(structure, rebars_list, view_direction)
     return svg
