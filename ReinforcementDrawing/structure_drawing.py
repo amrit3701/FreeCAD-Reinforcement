@@ -49,6 +49,9 @@ from .config import SVG_POINT_DIA_FACTOR
 
 
 def getRebarsSpanAxis(rebar):
+    """getRebarsSpanAxis(Rebar):
+    Returns span axis of rebars.
+    """
     if (
         Draft.getType(rebar.Base) == "Wire"
     ):  # Draft Wires can have "wrong" placement
@@ -63,6 +66,9 @@ def getRebarsSpanAxis(rebar):
 
 
 def getProjectionToSVGPlane(vec, plane):
+    """getProjectionToSVGPlane(Vector, Plane):
+    Returns projection of vector on plane.
+    """
     nx = DraftVecUtils.project(vec, plane.u)
     lx = nx.Length
     if abs(nx.getAngle(plane.u)) > 0.1:
@@ -71,12 +77,14 @@ def getProjectionToSVGPlane(vec, plane):
     ly = ny.Length
     if abs(ny.getAngle(plane.v)) > 0.1:
         ly = -ly
-    # if techdraw: buggy - we now simply do it at the end
-    #    ly = -ly
     return FreeCAD.Vector(lx, ly, 0)
 
 
 def getStructureMinMaxPoints(structure, view_plane):
+    """getStructureMinMaxPoints(Structure, ViewPlane):
+    Returns (min_x, min_y, max_x, max_y) points for structure projected on
+    view_plane.
+    """
     min_x = 9999999
     min_y = 9999999
     max_x = -9999999
@@ -135,6 +143,9 @@ def getLineDimensionsData(
 
 
 def getRoundCornerSVG(edge, radius, view_plane):
+    """getRoundCornerSVG(Edge, Radius, ViewPlane):
+    Returns round corner edge svg with given radius.
+    """
     p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
     p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
     t1 = edge.tangentAt(edge.FirstParameter)
@@ -159,6 +170,10 @@ def getRoundCornerSVG(edge, radius, view_plane):
 
 
 def isRoundCornerInSVG(edge, radius, view_plane, svg):
+    """isRoundCornerInSVG(Edge, Radius, ViewPlane. SVG):
+    Returns True if svg corresponding to round corner edge is present in SVG
+    element, False otherwise.
+    """
     p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
     p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
     t1 = edge.tangentAt(edge.FirstParameter)
@@ -200,9 +215,147 @@ def isRoundCornerInSVG(edge, radius, view_plane, svg):
         return False
 
 
+def getStirrupSVGPoints(stirrup_wire, stirrup_alignment, view_plane):
+    """getStirrupSVGPoints(StirrupWire, StirrupAlignment, ViewPlane):
+    stirrup_alignment can be "V" for vertical, horizontal otherwise.
+    Returns points corresponding to line representation of stirrup in
+    view_plane.
+    """
+    min_x = 9999999
+    min_y = 9999999
+    max_x = -9999999
+    max_y = -9999999
+    for vertex in stirrup_wire.Vertexes:
+        point = getProjectionToSVGPlane(vertex.Point, view_plane)
+        min_x = min(min_x, point.x)
+        min_y = min(min_y, point.y)
+        max_x = max(max_x, point.x)
+        max_y = max(max_y, point.y)
+    if stirrup_alignment == "V":
+        x_cord = (min_x + max_x) / 2
+        return (
+            FreeCAD.Vector(x_cord, min_y, 0),
+            FreeCAD.Vector(x_cord, max_y, 0),
+        )
+    else:
+        y_cord = (min_y + max_y) / 2
+        return (
+            FreeCAD.Vector(min_x, y_cord, 0),
+            FreeCAD.Vector(max_x, y_cord, 0),
+        )
+
+
+def getStirrupSVGData(
+    rebar, view_plane, rebars_svg,
+):
+    """getStirrupSVGData(StirrupRebar, ViewPlane, RebarsSVG):
+    Returns dictionary containing stirrup svg data.
+    Returned dictionary format:
+    {
+        "svg": stirrup_svg,
+        "visibility": is_rebar_visible,
+        "min_x": min_x,
+        "min_y": min_y,
+        "max_x": max_x,
+        "max_y": max_y,
+    }
+    """
+    stirrup_svg = ElementTree.Element("g", attrib={"id": str(rebar.Name)})
+    min_x = 9999999
+    min_y = 9999999
+    max_x = -9999999
+    max_y = -9999999
+    is_rebar_visible = False
+    drawing_plane_normal = view_plane.axis
+    stirrup_span_axis = getRebarsSpanAxis(rebar)
+    if round(drawing_plane_normal.cross(stirrup_span_axis).Length) == 0:
+        edges = Part.__sortEdges__(
+            DraftGeomUtils.filletWire(
+                rebar.Base.Shape.Wires[0],
+                rebar.Rounding * rebar.Diameter.Value,
+            ).Edges
+        )
+        for edge in edges:
+            if DraftGeomUtils.geomType(edge) == "Line":
+                p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
+                p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
+                edge_svg = getLineSVG(p1, p2)
+                if is_rebar_visible or not isLineInSVG(p1, p2, rebars_svg):
+                    stirrup_svg.append(edge_svg)
+                    is_rebar_visible = True
+                    min_x = min(min_x, p1.x, p2.x)
+                    min_y = min(min_y, p1.y, p2.y)
+                    max_x = max(max_x, p1.x, p2.x)
+                    max_y = max(max_y, p1.y, p2.y)
+            elif DraftGeomUtils.geomType(edge) == "Circle":
+                edge_svg = getRoundCornerSVG(
+                    edge, rebar.Rounding * rebar.Diameter.Value, view_plane,
+                )
+                if is_rebar_visible or not isRoundCornerInSVG(
+                    edge,
+                    rebar.Rounding * rebar.Diameter.Value,
+                    view_plane,
+                    rebars_svg,
+                ):
+                    stirrup_svg.append(edge_svg)
+                    is_rebar_visible = True
+                    p1 = getProjectionToSVGPlane(
+                        edge.Vertexes[0].Point, view_plane
+                    )
+                    p2 = getProjectionToSVGPlane(
+                        edge.Vertexes[1].Point, view_plane
+                    )
+                    min_x = min(min_x, p1.x, p2.x)
+                    min_y = min(min_y, p1.y, p2.y)
+                    max_x = max(max_x, p1.x, p2.x)
+                    max_y = max(max_y, p1.y, p2.y)
+
+    else:
+        if round(stirrup_span_axis.cross(view_plane.u).Length) == 0:
+            stirrup_alignment = "V"
+        else:
+            stirrup_alignment = "H"
+        basewire = DraftGeomUtils.filletWire(
+            rebar.Base.Shape.Wires[0], rebar.Rounding * rebar.Diameter.Value
+        )
+        for placement in rebar.PlacementList:
+            wire = basewire.copy()
+            wire.Placement = placement.multiply(basewire.Placement)
+            p1, p2 = getStirrupSVGPoints(wire, stirrup_alignment, view_plane)
+            rebar_svg = getLineSVG(p1, p2)
+            if not isLineInSVG(p1, p2, rebars_svg):
+                is_rebar_visible = True
+            if is_rebar_visible:
+                stirrup_svg.append(rebar_svg)
+                min_x = min(min_x, p1.x, p2.x)
+                min_y = min(min_y, p1.y, p2.y)
+                max_x = max(max_x, p1.x, p2.x)
+                max_y = max(max_y, p1.y, p2.y)
+    return {
+        "svg": stirrup_svg,
+        "visibility": is_rebar_visible,
+        "min_x": min_x,
+        "min_y": min_y,
+        "max_x": max_x,
+        "max_y": max_y,
+    }
+
+
 def getLShapeRebarSVGData(
     rebar, view_plane, rebars_svg,
 ):
+    """getLShapeRebarSVGData(LShapeRebar, ViewPlane, RebarsSVG):
+    Returns dictionary containing LShape rebar svg data.
+    Returned dictionary format:
+    {
+        "svg": l_rebar_svg,
+        "visibility": is_rebar_visible,
+        "min_x": min_x,
+        "min_y": min_y,
+        "max_x": max_x,
+        "max_y": max_y,
+    }
+    """
     l_rebar_svg = ElementTree.Element("g", attrib={"id": str(rebar.Name)})
     min_x = 9999999
     min_y = 9999999
@@ -342,7 +495,6 @@ def getLShapeRebarSVGData(
                     max_y = max(max_y, p3.y, p4.y)
 
     return {
-        # "svg": rebars_svg + rebars_dimension_svg,
         "svg": l_rebar_svg,
         "visibility": is_rebar_visible,
         "min_x": min_x,
@@ -361,6 +513,18 @@ def getStraightRebarSVGData(
     v_dim_y_offset,
     rebars_svg,
 ):
+    """getStraightRebarSVGData(StraightRebar, ViewPlane, RebarsSVG):
+    Returns dictionary containing straight rebar svg data.
+    Returned dictionary format:
+    {
+        "svg": straight_rebar_svg,
+        "visibility": is_rebar_visible,
+        "min_x": min_x,
+        "min_y": min_y,
+        "max_x": max_x,
+        "max_y": max_y,
+    }
+    """
     straight_rebar_svg = ElementTree.Element(
         "g", attrib={"id": str(rebar.Name)}
     )
@@ -370,7 +534,6 @@ def getStraightRebarSVGData(
     max_y = -9999999
     is_rebar_visible = False
     drawing_plane_normal = view_plane.axis
-    # rebars_dimension_svg = ""
     if round(drawing_plane_normal.cross(getRebarsSpanAxis(rebar)).Length) == 0:
         p1 = getProjectionToSVGPlane(
             rebar.Base.Shape.Wires[0].Vertexes[0].Point, view_plane
@@ -439,7 +602,6 @@ def getStraightRebarSVGData(
                 max_x = max(max_x, p1.x, p2.x)
                 max_y = max(max_y, p1.y, p2.y)
     return {
-        # "svg": rebars_svg + rebars_dimension_svg,
         "svg": straight_rebar_svg,
         "visibility": is_rebar_visible,
         "min_x": min_x,
@@ -452,6 +614,11 @@ def getStraightRebarSVGData(
 
 
 def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
+    """getReinforcementDrawingSVG(Structure, RebarsList, ViewDirection):
+    Returns svg content for reinforcement drawing.
+    view_direction is FreeCAD.Vector() or WorkingPlane.plane() corresponding to
+    direction of view point.
+    """
     if isinstance(view_direction, FreeCAD.Vector):
         if view_direction != FreeCAD.Vector(0, 0, 0):
             view_plane = WorkingPlane.plane()
@@ -479,12 +646,12 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     straight_rebars = []
     stirrups = []
     for rebar in rebars_list:
-        if rebar.ViewObject.RebarShape == "LShapeRebar":
-            l_rebars.append(rebar)
-        if rebar.ViewObject.RebarShape == "StraightRebar":
-            straight_rebars.append(rebar)
-        elif rebar.ViewObject.RebarShape == "Stirrup":
+        if rebar.ViewObject.RebarShape == "Stirrup":
             stirrups.append(rebar)
+        elif rebar.ViewObject.RebarShape == "LShapeRebar":
+            l_rebars.append(rebar)
+        elif rebar.ViewObject.RebarShape == "StraightRebar":
+            straight_rebars.append(rebar)
         # There will be more
 
     (
@@ -502,6 +669,18 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     reinforcement_drawing.append(rebars_svg)
 
     visible_rebars = []
+    stirrups_svg = ElementTree.Element("g", attrib={"id": "Stirrup"})
+    rebars_svg.append(stirrups_svg)
+    for rebar in stirrups:
+        rebar_data = getStirrupSVGData(rebar, view_plane, rebars_svg)
+        if rebar_data["visibility"]:
+            stirrups_svg.append(rebar_data["svg"])
+            min_x = min(min_x, rebar_data["min_x"])
+            min_y = min(min_y, rebar_data["min_y"])
+            max_x = max(max_x, rebar_data["max_x"])
+            max_y = max(max_y, rebar_data["max_y"])
+            visible_rebars.append(rebar)
+
     l_rebars_svg = ElementTree.Element("g", attrib={"id": "LShapeRebar"})
     rebars_svg.append(l_rebars_svg)
     for rebar in l_rebars:
@@ -565,33 +744,37 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     return ElementTree.tostring(svg, encoding="unicode")
 
 
-def getReinforcementDrawing(structure, rebars_list, structure_view="Front"):
-    if structure_view == "Front":
+def getReinforcementDrawing(structure, rebars_list, view="Front"):
+    """getReinforcementDrawing(Structure, RebarsList, [View]):
+    Returns reinforcement drawing view svg.
+    view can be "Front", "Rear", "Left", "Right", "Top" or "Bottom".
+    """
+    if view == "Front":
         view_plane = WorkingPlane.plane()
         view_plane.axis = FreeCAD.Vector(0, -1, 0)
         view_plane.v = FreeCAD.Vector(0, 0, -1)
         view_plane.u = FreeCAD.Vector(1, 0, 0)
-    elif structure_view == "Rear":
+    elif view == "Rear":
         view_plane = WorkingPlane.plane()
         view_plane.axis = FreeCAD.Vector(0, 1, 0)
         view_plane.v = FreeCAD.Vector(0, 0, -1)
         view_plane.u = FreeCAD.Vector(-1, 0, 0)
-    elif structure_view == "Left":
+    elif view == "Left":
         view_plane = WorkingPlane.plane()
         view_plane.axis = FreeCAD.Vector(-1, 0, 0)
         view_plane.v = FreeCAD.Vector(0, 0, -1)
         view_plane.u = FreeCAD.Vector(0, -1, 0)
-    elif structure_view == "Right":
+    elif view == "Right":
         view_plane = WorkingPlane.plane()
         view_plane.axis = FreeCAD.Vector(1, 0, 0)
         view_plane.v = FreeCAD.Vector(0, 0, -1)
         view_plane.u = FreeCAD.Vector(0, 1, 0)
-    elif structure_view == "Top":
+    elif view == "Top":
         view_plane = WorkingPlane.plane()
         view_plane.axis = FreeCAD.Vector(0, 0, 1)
         view_plane.v = FreeCAD.Vector(0, -1, 0)
         view_plane.u = FreeCAD.Vector(1, 0, 0)
-    elif structure_view == "Bottom":
+    elif view == "Bottom":
         view_plane = WorkingPlane.plane()
         view_plane.axis = FreeCAD.Vector(0, 0, -1)
         view_plane.v = FreeCAD.Vector(0, 1, 0)
