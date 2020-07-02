@@ -360,6 +360,184 @@ def getStirrupSVGData(
     }
 
 
+def getUShapeRebarSVGData(
+    rebar, view_plane, rebars_svg,
+):
+    """getUShapeRebarSVGData(UShapeRebar, ViewPlane, RebarsSVG):
+    Returns dictionary containing UShape rebar svg data.
+    Returned dictionary format:
+    {
+        "svg": u_rebar_svg,
+        "visibility": is_rebar_visible,
+        "min_x": min_x,
+        "min_y": min_y,
+        "max_x": max_x,
+        "max_y": max_y,
+    }
+    """
+    u_rebar_svg = ElementTree.Element("g", attrib={"id": str(rebar.Name)})
+    min_max_initialized = False
+    min_x = ()
+    min_y = ()
+    max_x = ()
+    max_y = ()
+    is_rebar_visible = False
+    drawing_plane_normal = view_plane.axis
+    if round(drawing_plane_normal.cross(getRebarsSpanAxis(rebar)).Length) == 0:
+        edges = Part.__sortEdges__(
+            DraftGeomUtils.filletWire(
+                rebar.Base.Shape.Wires[0],
+                rebar.Rounding * rebar.Diameter.Value,
+            ).Edges
+        )
+        for edge in edges:
+            if DraftGeomUtils.geomType(edge) == "Line":
+                p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
+                p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
+                if round(p1.x) == round(p2.x) and round(p1.y) == round(p2.y):
+                    edge_svg = getPointSVG(
+                        p1, radius=SVG_POINT_DIA_FACTOR * rebar.Diameter.Value
+                    )
+                else:
+                    edge_svg = getLineSVG(p1, p2)
+                    if not isLineInSVG(p1, p2, rebars_svg):
+                        is_rebar_visible = True
+                if is_rebar_visible:
+                    u_rebar_svg.append(edge_svg)
+                    is_rebar_visible = True
+                    if min_max_initialized:
+                        min_x = min(min_x, p1.x, p2.x)
+                        min_y = min(min_y, p1.y, p2.y)
+                        max_x = max(max_x, p1.x, p2.x)
+                        max_y = max(max_y, p1.y, p2.y)
+                    else:
+                        min_x = min(p1.x, p2.x)
+                        min_y = min(p1.y, p2.y)
+                        max_x = max(p1.x, p2.x)
+                        max_y = max(p1.y, p2.y)
+                        min_max_initialized = True
+            elif DraftGeomUtils.geomType(edge) == "Circle":
+                p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
+                p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
+                if round(p1.x) == round(p2.x) or round(p1.y) == round(p2.y):
+                    edge_svg = getLineSVG(p1, p2)
+                    if not isLineInSVG(p1, p2, rebars_svg):
+                        is_rebar_visible = True
+                else:
+                    edge_svg = getRoundCornerSVG(
+                        edge, rebar.Rounding * rebar.Diameter.Value, view_plane,
+                    )
+                    if not isRoundCornerInSVG(
+                        edge,
+                        rebar.Rounding * rebar.Diameter.Value,
+                        view_plane,
+                        rebars_svg,
+                    ):
+                        is_rebar_visible = True
+                if is_rebar_visible:
+                    u_rebar_svg.append(edge_svg)
+                    if min_max_initialized:
+                        min_x = min(min_x, p1.x, p2.x)
+                        min_y = min(min_y, p1.y, p2.y)
+                        max_x = max(max_x, p1.x, p2.x)
+                        max_y = max(max_y, p1.y, p2.y)
+                    else:
+                        min_x = min(p1.x, p2.x)
+                        min_y = min(p1.y, p2.y)
+                        max_x = max(p1.x, p2.x)
+                        max_y = max(p1.y, p2.y)
+                        min_max_initialized = True
+    else:
+        basewire = rebar.Base.Shape.Wires[0]
+        for placement in rebar.PlacementList:
+            wire = basewire.copy()
+            wire.Placement = placement.multiply(basewire.Placement)
+
+            edges = Part.__sortEdges__(
+                DraftGeomUtils.filletWire(
+                    wire, rebar.Rounding * rebar.Diameter.Value,
+                ).Edges
+            )
+            for edge in edges:
+                if DraftGeomUtils.geomType(edge) == "Line":
+                    p1 = getProjectionToSVGPlane(
+                        edge.Vertexes[0].Point, view_plane
+                    )
+                    p2 = getProjectionToSVGPlane(
+                        edge.Vertexes[1].Point, view_plane
+                    )
+                    if round(p1.x) == round(p2.x) and round(p1.y) == round(
+                        p2.y
+                    ):
+                        edge_svg = getPointSVG(
+                            p1,
+                            radius=SVG_POINT_DIA_FACTOR * rebar.Diameter.Value,
+                        )
+                    else:
+                        edge_svg = getLineSVG(p1, p2)
+                        if not isLineInSVG(p1, p2, rebars_svg):
+                            is_rebar_visible = True
+                    if is_rebar_visible or not isLineInSVG(p1, p2, rebars_svg):
+                        u_rebar_svg.append(edge_svg)
+                        is_rebar_visible = True
+                        if min_max_initialized:
+                            min_x = min(min_x, p1.x, p2.x)
+                            min_y = min(min_y, p1.y, p2.y)
+                            max_x = max(max_x, p1.x, p2.x)
+                            max_y = max(max_y, p1.y, p2.y)
+                        else:
+                            min_x = min(p1.x, p2.x)
+                            min_y = min(p1.y, p2.y)
+                            max_x = max(p1.x, p2.x)
+                            max_y = max(p1.y, p2.y)
+                            min_max_initialized = True
+                elif DraftGeomUtils.geomType(edge) == "Circle":
+                    p1 = getProjectionToSVGPlane(
+                        edge.Vertexes[0].Point, view_plane
+                    )
+                    p2 = getProjectionToSVGPlane(
+                        edge.Vertexes[1].Point, view_plane
+                    )
+                    if round(p1.x) == round(p2.x) or round(p1.y) == round(p2.y):
+                        edge_svg = getLineSVG(p1, p2)
+                        if not isLineInSVG(p1, p2, rebars_svg):
+                            is_rebar_visible = True
+                    else:
+                        edge_svg = getRoundCornerSVG(
+                            edge,
+                            rebar.Rounding * rebar.Diameter.Value,
+                            view_plane,
+                        )
+                        if not isRoundCornerInSVG(
+                            edge,
+                            rebar.Rounding * rebar.Diameter.Value,
+                            view_plane,
+                            rebars_svg,
+                        ):
+                            is_rebar_visible = True
+                    if is_rebar_visible:
+                        u_rebar_svg.append(edge_svg)
+                        if min_max_initialized:
+                            min_x = min(min_x, p1.x, p2.x)
+                            min_y = min(min_y, p1.y, p2.y)
+                            max_x = max(max_x, p1.x, p2.x)
+                            max_y = max(max_y, p1.y, p2.y)
+                        else:
+                            min_x = min(p1.x, p2.x)
+                            min_y = min(p1.y, p2.y)
+                            max_x = max(p1.x, p2.x)
+                            max_y = max(p1.y, p2.y)
+                            min_max_initialized = True
+    return {
+        "svg": u_rebar_svg,
+        "visibility": is_rebar_visible,
+        "min_x": min_x,
+        "min_y": min_y,
+        "max_x": max_x,
+        "max_y": max_y,
+    }
+
+
 def getLShapeRebarSVGData(
     rebar, view_plane, rebars_svg,
 ):
@@ -437,10 +615,6 @@ def getLShapeRebarSVGData(
             max_y = max(p1.y, p2.y, p5.y, p6.y)
             if len(edges) == 3:
                 l_rebar_svg.append(edge2_svg)
-                min_x = min(min_x, p3.x, p4.x)
-                min_y = min(min_y, p3.y, p4.y)
-                max_x = max(max_x, p3.x, p4.x)
-                max_y = max(max_y, p3.y, p4.y)
     else:
         basewire = rebar.Base.Shape.Wires[0]
         for placement in rebar.PlacementList:
@@ -516,10 +690,6 @@ def getLShapeRebarSVGData(
                     min_max_initialized = True
                 if len(edges) == 3:
                     l_rebar_svg.append(edge2_svg)
-                    min_x = min(min_x, p3.x, p4.x)
-                    min_y = min(min_y, p3.y, p4.y)
-                    max_x = max(max_x, p3.x, p4.x)
-                    max_y = max(max_y, p3.y, p4.y)
 
     return {
         "svg": l_rebar_svg,
@@ -677,12 +847,15 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     svg.append(reinforcement_drawing)
 
     # Filter rebars created using Reinforcement Workbench
+    stirrups = []
+    u_rebars = []
     l_rebars = []
     straight_rebars = []
-    stirrups = []
     for rebar in rebars_list:
         if rebar.ViewObject.RebarShape == "Stirrup":
             stirrups.append(rebar)
+        elif rebar.ViewObject.RebarShape == "UShapeRebar":
+            u_rebars.append(rebar)
         elif rebar.ViewObject.RebarShape == "LShapeRebar":
             l_rebars.append(rebar)
         elif rebar.ViewObject.RebarShape == "StraightRebar":
@@ -710,6 +883,18 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
         rebar_data = getStirrupSVGData(rebar, view_plane, rebars_svg)
         if rebar_data["visibility"]:
             stirrups_svg.append(rebar_data["svg"])
+            min_x = min(min_x, rebar_data["min_x"])
+            min_y = min(min_y, rebar_data["min_y"])
+            max_x = max(max_x, rebar_data["max_x"])
+            max_y = max(max_y, rebar_data["max_y"])
+            visible_rebars.append(rebar)
+
+    u_rebars_svg = ElementTree.Element("g", attrib={"id": "UShapeRebar"})
+    rebars_svg.append(u_rebars_svg)
+    for rebar in u_rebars:
+        rebar_data = getUShapeRebarSVGData(rebar, view_plane, rebars_svg)
+        if rebar_data["visibility"]:
+            u_rebars_svg.append(rebar_data["svg"])
             min_x = min(min_x, rebar_data["min_x"])
             min_y = min(min_y, rebar_data["min_y"])
             max_x = max(max_x, rebar_data["max_x"])
