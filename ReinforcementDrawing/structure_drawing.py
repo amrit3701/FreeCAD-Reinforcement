@@ -568,6 +568,7 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     l_rebars = []
     straight_rebars = []
     helical_rebars = []
+    custom_rebars = []
     for rebar in rebars_list:
         if rebar.ViewObject.RebarShape == "Stirrup":
             stirrups.append(rebar)
@@ -581,6 +582,8 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
             straight_rebars.append(rebar)
         elif rebar.ViewObject.RebarShape == "HelicalRebar":
             helical_rebars.append(rebar)
+        else:
+            custom_rebars.append(rebar)
 
     rebars_svg = ElementTree.Element("g", attrib={"id": "Rebars"})
     reinforcement_drawing.append(rebars_svg)
@@ -652,6 +655,16 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     # repository if you think its wrong assumption
     for rebar in helical_rebars:
         helical_rebars_svg.append(
+            ElementTree.fromstring(
+                Draft.getSVG(rebar, direction=view_plane, fillstyle="none")
+            )
+        )
+        visible_rebars.append(rebar)
+
+    custom_rebars_svg = ElementTree.Element("g", attrib={"id": "CustomRebar"})
+    rebars_svg.append(custom_rebars_svg)
+    for rebar in custom_rebars:
+        custom_rebars_svg.append(
             ElementTree.fromstring(
                 Draft.getSVG(rebar, direction=view_plane, fillstyle="none")
             )
