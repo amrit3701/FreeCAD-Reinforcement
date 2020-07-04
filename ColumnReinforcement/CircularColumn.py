@@ -27,6 +27,7 @@ __url__ = "https://www.freecadweb.org"
 
 
 import math
+from PySide.QtCore import QT_TRANSLATE_NOOP
 
 import FreeCAD
 import ArchCommands
@@ -39,6 +40,7 @@ from Rebarfunc import (
     setGroupProperties,
     setGroupPropertiesValues,
 )
+from RebarData import RebarTypes
 
 if FreeCAD.GuiUp:
     import FreeCADGui
@@ -232,6 +234,14 @@ def makeStraightRebars(
         main_rebars_list[-1].Label = "StraightRebar"
         main_rebars_list[-1].OffsetStart = 0
         main_rebars_list[-1].OffsetEnd = 0
+        main_rebars_list[-1].addProperty(
+            "App::PropertyEnumeration",
+            "RebarShape",
+            "RebarDialog",
+            QT_TRANSLATE_NOOP("App::Property", "Shape of rebar"),
+        ).RebarShape = RebarTypes.tolist()
+        main_rebars_list[-1].RebarShape = "StraightRebar"
+        main_rebars_list[-1].setEditorMode("RebarShape", 2)
 
     return main_rebars_list
 
