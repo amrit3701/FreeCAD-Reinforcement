@@ -271,12 +271,6 @@ def getStirrupSVGData(
                 ):
                     stirrup_svg.append(edge_svg)
                     is_rebar_visible = True
-                    p1 = getProjectionToSVGPlane(
-                        edge.Vertexes[0].Point, view_plane
-                    )
-                    p2 = getProjectionToSVGPlane(
-                        edge.Vertexes[1].Point, view_plane
-                    )
 
     else:
         if round(stirrup_span_axis.cross(view_plane.u).Length) == 0:
@@ -418,141 +412,6 @@ def getUShapeRebarSVGData(
                         u_rebar_svg.append(edge_svg)
     return {
         "svg": u_rebar_svg,
-        "visibility": is_rebar_visible,
-    }
-
-
-def getLShapeRebarSVGData(
-    rebar, view_plane, rebars_svg,
-):
-    """getLShapeRebarSVGData(LShapeRebar, ViewPlane, RebarsSVG):
-    Returns dictionary containing LShape rebar svg data.
-    Returned dictionary format:
-    {
-        "svg": l_rebar_svg,
-        "visibility": is_rebar_visible,
-    }
-    """
-    l_rebar_svg = ElementTree.Element("g", attrib={"id": str(rebar.Name)})
-    is_rebar_visible = False
-    drawing_plane_normal = view_plane.axis
-    if round(drawing_plane_normal.cross(getRebarsSpanAxis(rebar)).Length) == 0:
-        edges = Part.__sortEdges__(
-            DraftGeomUtils.filletWire(
-                rebar.Base.Shape.Wires[0],
-                rebar.Rounding * rebar.Diameter.Value,
-            ).Edges
-        )
-        p1 = getProjectionToSVGPlane(edges[0].Vertexes[0].Point, view_plane)
-        p2 = getProjectionToSVGPlane(edges[0].Vertexes[1].Point, view_plane)
-        if round(p1.x) == round(p2.x) and round(p1.y) == round(p2.y):
-            edge1_svg = getPointSVG(
-                p1, radius=SVG_POINT_DIA_FACTOR * rebar.Diameter.Value
-            )
-        else:
-            edge1_svg = getLineSVG(p1, p2)
-            if not isLineInSVG(p1, p2, rebars_svg):
-                is_rebar_visible = True
-        if len(edges) == 3:
-            p3 = getProjectionToSVGPlane(edges[1].Vertexes[0].Point, view_plane)
-            p4 = getProjectionToSVGPlane(edges[1].Vertexes[1].Point, view_plane)
-            if round(p3.x) == round(p4.x) or round(p3.y) == round(p4.y):
-                edge2_svg = getLineSVG(p3, p4)
-                if not isLineInSVG(p3, p4, rebars_svg):
-                    is_rebar_visible = True
-            else:
-                edge2_svg = getRoundCornerSVG(
-                    edges[1], rebar.Rounding * rebar.Diameter.Value, view_plane,
-                )
-                if not isRoundCornerInSVG(
-                    edges[1],
-                    rebar.Rounding * rebar.Diameter.Value,
-                    view_plane,
-                    rebars_svg,
-                ):
-                    is_rebar_visible = True
-        p5 = getProjectionToSVGPlane(edges[-1].Vertexes[0].Point, view_plane)
-        p6 = getProjectionToSVGPlane(edges[-1].Vertexes[1].Point, view_plane)
-        if round(p5.x) == round(p6.x) and round(p5.y) == round(p6.y):
-            edge3_svg = getPointSVG(
-                p5, radius=SVG_POINT_DIA_FACTOR * rebar.Diameter.Value
-            )
-        else:
-            edge3_svg = getLineSVG(p5, p6)
-            if not isLineInSVG(p5, p6, rebars_svg):
-                is_rebar_visible = True
-        if is_rebar_visible:
-            l_rebar_svg.append(edge1_svg)
-            l_rebar_svg.append(edge3_svg)
-            if len(edges) == 3:
-                l_rebar_svg.append(edge2_svg)
-    else:
-        basewire = rebar.Base.Shape.Wires[0]
-        for placement in rebar.PlacementList:
-            wire = basewire.copy()
-            wire.Placement = placement.multiply(basewire.Placement)
-
-            edges = Part.__sortEdges__(
-                DraftGeomUtils.filletWire(
-                    wire, rebar.Rounding * rebar.Diameter.Value,
-                ).Edges
-            )
-            p1 = getProjectionToSVGPlane(edges[0].Vertexes[0].Point, view_plane)
-            p2 = getProjectionToSVGPlane(edges[0].Vertexes[1].Point, view_plane)
-            if round(p1.x) == round(p2.x) and round(p1.y) == round(p2.y):
-                edge1_svg = getPointSVG(
-                    p1, radius=SVG_POINT_DIA_FACTOR * rebar.Diameter.Value
-                )
-            else:
-                edge1_svg = getLineSVG(p1, p2)
-                if not isLineInSVG(p1, p2, rebars_svg):
-                    is_rebar_visible = True
-            if len(edges) == 3:
-                p3 = getProjectionToSVGPlane(
-                    edges[1].Vertexes[0].Point, view_plane
-                )
-                p4 = getProjectionToSVGPlane(
-                    edges[1].Vertexes[1].Point, view_plane
-                )
-                if round(p3.x) == round(p4.x) or round(p3.y) == round(p4.y):
-                    edge2_svg = getLineSVG(p3, p4)
-                    if not isLineInSVG(p3, p4, rebars_svg):
-                        is_rebar_visible = True
-                else:
-                    edge2_svg = getRoundCornerSVG(
-                        edges[1],
-                        rebar.Rounding * rebar.Diameter.Value,
-                        view_plane,
-                    )
-                    if not isRoundCornerInSVG(
-                        edges[1],
-                        rebar.Rounding * rebar.Diameter.Value,
-                        view_plane,
-                        rebars_svg,
-                    ):
-                        is_rebar_visible = True
-            p5 = getProjectionToSVGPlane(
-                edges[-1].Vertexes[0].Point, view_plane
-            )
-            p6 = getProjectionToSVGPlane(
-                edges[-1].Vertexes[1].Point, view_plane
-            )
-            if round(p5.x) == round(p6.x) and round(p5.y) == round(p6.y):
-                edge3_svg = getPointSVG(
-                    p5, radius=SVG_POINT_DIA_FACTOR * rebar.Diameter.Value
-                )
-            else:
-                edge3_svg = getLineSVG(p5, p6)
-                if not isLineInSVG(p5, p6, rebars_svg):
-                    is_rebar_visible = True
-            if is_rebar_visible:
-                l_rebar_svg.append(edge1_svg)
-                l_rebar_svg.append(edge3_svg)
-                if len(edges) == 3:
-                    l_rebar_svg.append(edge2_svg)
-
-    return {
-        "svg": l_rebar_svg,
         "visibility": is_rebar_visible,
     }
 
@@ -704,19 +563,21 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
 
     # Filter rebars created using Reinforcement Workbench
     stirrups = []
+    bent_rebars = []
     u_rebars = []
     l_rebars = []
     straight_rebars = []
     for rebar in rebars_list:
         if rebar.ViewObject.RebarShape == "Stirrup":
             stirrups.append(rebar)
+        elif rebar.ViewObject.RebarShape == "BentShapeRebar":
+            bent_rebars.append(rebar)
         elif rebar.ViewObject.RebarShape == "UShapeRebar":
             u_rebars.append(rebar)
         elif rebar.ViewObject.RebarShape == "LShapeRebar":
             l_rebars.append(rebar)
         elif rebar.ViewObject.RebarShape == "StraightRebar":
             straight_rebars.append(rebar)
-        # There will be more
 
     rebars_svg = ElementTree.Element("g", attrib={"id": "Rebars"})
     reinforcement_drawing.append(rebars_svg)
@@ -730,6 +591,14 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
             stirrups_svg.append(rebar_data["svg"])
             visible_rebars.append(rebar)
 
+    bent_rebars_svg = ElementTree.Element("g", attrib={"id": "BentShapeRebar"})
+    rebars_svg.append(bent_rebars_svg)
+    for rebar in bent_rebars:
+        rebar_data = getUShapeRebarSVGData(rebar, view_plane, rebars_svg)
+        if rebar_data["visibility"]:
+            bent_rebars_svg.append(rebar_data["svg"])
+            visible_rebars.append(rebar)
+
     u_rebars_svg = ElementTree.Element("g", attrib={"id": "UShapeRebar"})
     rebars_svg.append(u_rebars_svg)
     for rebar in u_rebars:
@@ -741,7 +610,7 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     l_rebars_svg = ElementTree.Element("g", attrib={"id": "LShapeRebar"})
     rebars_svg.append(l_rebars_svg)
     for rebar in l_rebars:
-        rebar_data = getLShapeRebarSVGData(rebar, view_plane, rebars_svg)
+        rebar_data = getUShapeRebarSVGData(rebar, view_plane, rebars_svg)
         if rebar_data["visibility"]:
             l_rebars_svg.append(rebar_data["svg"])
             visible_rebars.append(rebar)
