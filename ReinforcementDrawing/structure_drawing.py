@@ -570,17 +570,17 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     helical_rebars = []
     custom_rebars = []
     for rebar in rebars_list:
-        if rebar.ViewObject.RebarShape == "Stirrup":
+        if rebar.RebarShape == "Stirrup":
             stirrups.append(rebar)
-        elif rebar.ViewObject.RebarShape == "BentShapeRebar":
+        elif rebar.RebarShape == "BentShapeRebar":
             bent_rebars.append(rebar)
-        elif rebar.ViewObject.RebarShape == "UShapeRebar":
+        elif rebar.RebarShape == "UShapeRebar":
             u_rebars.append(rebar)
-        elif rebar.ViewObject.RebarShape == "LShapeRebar":
+        elif rebar.RebarShape == "LShapeRebar":
             l_rebars.append(rebar)
-        elif rebar.ViewObject.RebarShape == "StraightRebar":
+        elif rebar.RebarShape == "StraightRebar":
             straight_rebars.append(rebar)
-        elif rebar.ViewObject.RebarShape == "HelicalRebar":
+        elif rebar.RebarShape == "HelicalRebar":
             helical_rebars.append(rebar)
         else:
             custom_rebars.append(rebar)
