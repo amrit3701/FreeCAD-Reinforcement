@@ -290,9 +290,7 @@ def editSingleTieFourRebars(
     It takes two different inputs for hook_extend_along i.e. 'x-axis', 'y-axis'.
     """
     Tie = rebar_group.RebarGroups[0].Ties[0]
-    prev_rebar_type = (
-        rebar_group.RebarGroups[1].MainRebars[0].ViewObject.RebarShape
-    )
+    prev_rebar_type = rebar_group.RebarGroups[1].MainRebars[0].RebarShape
     if not structure and not facename:
         structure = Tie.Base.Support[0][0]
         facename = Tie.Base.Support[0][1][0]

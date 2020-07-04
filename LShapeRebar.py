@@ -33,6 +33,7 @@ from Rebarfunc import (
     showWarning,
     check_selected_face,
 )
+from RebarData import RebarTypes
 from PySide.QtCore import QT_TRANSLATE_NOOP
 from RebarDistribution import runRebarDistribution, removeRebarDistribution
 from PopUpImage import showPopUpImageDialog
@@ -369,13 +370,14 @@ def makeLShapeRebar(
         )
     rebar.Rounding = rounding
     # Adds properties to the rebar object
-    rebar.ViewObject.addProperty(
-        "App::PropertyString",
+    rebar.addProperty(
+        "App::PropertyEnumeration",
         "RebarShape",
         "RebarDialog",
         QT_TRANSLATE_NOOP("App::Property", "Shape of rebar"),
-    ).RebarShape = "LShapeRebar"
-    rebar.ViewObject.setEditorMode("RebarShape", 2)
+    ).RebarShape = RebarTypes.tolist()
+    rebar.RebarShape = "LShapeRebar"
+    rebar.setEditorMode("RebarShape", 2)
     rebar.addProperty(
         "App::PropertyDistance",
         "FrontCover",
