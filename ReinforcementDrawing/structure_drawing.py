@@ -567,6 +567,7 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     u_rebars = []
     l_rebars = []
     straight_rebars = []
+    helical_rebars = []
     for rebar in rebars_list:
         if rebar.ViewObject.RebarShape == "Stirrup":
             stirrups.append(rebar)
@@ -578,6 +579,8 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
             l_rebars.append(rebar)
         elif rebar.ViewObject.RebarShape == "StraightRebar":
             straight_rebars.append(rebar)
+        elif rebar.ViewObject.RebarShape == "HelicalRebar":
+            helical_rebars.append(rebar)
 
     rebars_svg = ElementTree.Element("g", attrib={"id": "Rebars"})
     reinforcement_drawing.append(rebars_svg)
@@ -639,6 +642,20 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
             h_dim_y_offset = rebar_data["h_dim_y_offset"]
             v_dim_x_offset = rebar_data["v_dim_x_offset"]
             visible_rebars.append(rebar)
+
+    helical_rebars_svg = ElementTree.Element("g", attrib={"id": "HelicalRebar"})
+    rebars_svg.append(helical_rebars_svg)
+
+    # SVG is generated for all helical rebars, because all helical rebars in
+    # circular column are assumed to be visible, not overlapped by any other
+    # rebar type (it makes sense for me). Please create an issue on github
+    # repository if you think its wrong assumption
+    for rebar in helical_rebars:
+        helical_rebars_svg.append(
+            ElementTree.fromstring(
+                Draft.getSVG(rebar, direction=view_plane, fillstyle="none")
+            )
+        )
 
     # Create Structure SVG
     structure_svg = ElementTree.fromstring(
