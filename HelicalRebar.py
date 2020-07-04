@@ -34,6 +34,7 @@ from Rebarfunc import (
     check_selected_face,
     facenormalDirection,
 )
+from RebarData import RebarTypes
 from PySide.QtCore import QT_TRANSLATE_NOOP
 from PopUpImage import showPopUpImageDialog
 import FreeCAD
@@ -295,13 +296,14 @@ def makeHelicalRebar(
     rebar.OffsetEnd = diameter / 2
     FreeCAD.ActiveDocument.recompute()
     # Adds properties to the rebar object
-    rebar.ViewObject.addProperty(
-        "App::PropertyString",
+    rebar.addProperty(
+        "App::PropertyEnumeration",
         "RebarShape",
         "RebarDialog",
         QT_TRANSLATE_NOOP("App::Property", "Shape of rebar"),
-    ).RebarShape = "HelicalRebar"
-    rebar.ViewObject.setEditorMode("RebarShape", 2)
+    ).RebarShape = RebarTypes.tolist()
+    rebar.RebarShape = "HelicalRebar"
+    rebar.setEditorMode("RebarShape", 2)
     rebar.addProperty(
         "App::PropertyDistance",
         "SideCover",
