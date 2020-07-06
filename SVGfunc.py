@@ -29,6 +29,11 @@ __url__ = "https://www.freecadweb.org"
 from xml.etree import ElementTree
 
 
+# --------------------------------------------------------------------------
+# Generic functions
+# --------------------------------------------------------------------------
+
+
 def getSVGRootElement():
     """Returns svg tag element with freecad namespace."""
     svg = ElementTree.Element("svg")
@@ -215,3 +220,71 @@ def getArrowMarkerElement(arrow_id, marker="start"):
             ElementTree.Element("polygon", points="0 0, 0 7, 10 3.5")
         )
         return arrow_svg
+
+
+# --------------------------------------------------------------------------
+# TechDraw SVG View functions
+# --------------------------------------------------------------------------
+
+
+def getTechdrawViewScalingFactor(
+    view_width,
+    view_height,
+    view_left_offset,
+    view_top_offset,
+    template_width,
+    template_height,
+    view_min_right_offset,
+    view_min_bottom_offset,
+    view_table_max_width,
+    view_table_max_height,
+):
+    """getTechdrawViewScalingFactor(ViewWidth, ViewHeight, ViewLeftOffset,
+    ViewTopOffset, TemplateWidth, TemplateHeight, ViewMinRightOffset,
+    ViewMinBottomOffset, ViewTableMaxWidth, ViewTableMaxHeight):
+    Returns scaling factor for Techdraw svg view symbol object to fit inside
+    template.
+    """
+    scale = False
+    if (
+        (template_width - view_width - view_left_offset - view_min_right_offset)
+        < 0
+        or (
+            template_height
+            - view_height
+            - view_top_offset
+            - view_min_bottom_offset
+        )
+        < 0
+    ):
+        scale = True
+
+    if view_table_max_width:
+        if view_table_max_width < view_width:
+            scale = True
+
+    if view_table_max_height:
+        if view_table_max_height < view_height:
+            scale = True
+
+    if not scale:
+        return 1
+
+    h_scaling_factor = (
+        template_width - view_left_offset - view_min_right_offset
+    ) / view_width
+    if view_table_max_width:
+        h_scaling_factor = min(
+            h_scaling_factor, view_table_max_width / view_width
+        )
+
+    v_scaling_factor = (
+        template_height - view_top_offset - view_min_bottom_offset
+    ) / view_height
+    if view_table_max_height:
+        v_scaling_factor = min(
+            v_scaling_factor, view_table_max_height / view_height
+        )
+
+    scaling_factor = min(h_scaling_factor, v_scaling_factor)
+    return scaling_factor
