@@ -35,12 +35,12 @@ from SVGfunc import (
     getSVGRootElement,
     getSVGRectangle,
     getSVGDataCell,
+    getTechdrawViewScalingFactor,
 )
 from .BOMfunc import (
     getMarkReinforcementsDict,
     getUniqueDiameterList,
     getRebarSharpEdgedLength,
-    getBOMScalingFactor,
 )
 from .BillOfMaterialContent import makeBOMObject
 from .BOMPreferences import BOMPreferences
@@ -851,7 +851,7 @@ def makeBillOfMaterialSVG(
     template_height = bom_obj.Template.Height.Value
     template_width = bom_obj.Template.Width.Value
 
-    scaling_factor = getBOMScalingFactor(
+    scaling_factor = getTechdrawViewScalingFactor(
         bom_width,
         bom_height,
         bom_left_offset,
