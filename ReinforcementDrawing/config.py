@@ -27,7 +27,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
-import FreeCAD
+from pathlib import Path
 
 
 # The diameter of circular point (for rebars perpendicular to view plane) is
@@ -41,9 +41,9 @@ FONT_FAMILY = "DejaVu Sans"
 FONT_SIZE = 30
 
 # Default Template File for Drawing
-TEMPLATE_FILE = FreeCAD.ParamGet(
-    "User parameter:BaseApp/Preferences/Mod/TechDraw/Files"
-).GetString("TemplateFile")
+TEMPLATE_FILE = str(
+    Path(__file__).parent.absolute() / "Templates" / "A4_Landscape_blank.svg"
+)
 
 # Left offset of drawing on Template File
 DRAWING_LEFT_OFFSET = 20
