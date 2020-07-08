@@ -27,36 +27,71 @@ __url__ = "https://www.freecadweb.org"
 
 
 import re
+from xml.etree import ElementTree
 from PySide2.QtCore import QT_TRANSLATE_NOOP
+
 import FreeCAD
 
+from .ReinforcementDrawingfunc import getViewPlane, getReinforcementDrawingSVG
 from SVGfunc import getTechdrawViewScalingFactor
 
 
-class ReinforcementDrawingContent:
-    "A Rebars Drawing SVG Content object."
+class ReinforcementDrawingView:
+    "A Rebars Drawing SVG View object."
 
     def __init__(self, obj_name):
-        """Initialize ReinforcementDrawingContent object."""
-        reinforcement_drawing_content = FreeCAD.ActiveDocument.addObject(
+        """Initialize ReinforcementDrawingView object."""
+        reinforcement_drawing_view = FreeCAD.ActiveDocument.addObject(
             "TechDraw::DrawViewSymbolPython", obj_name
         )
-        self.setProperties(reinforcement_drawing_content)
-        self.Object = reinforcement_drawing_content
-        reinforcement_drawing_content.Proxy = self
+        self.setProperties(reinforcement_drawing_view)
+        self.Object = reinforcement_drawing_view
+        reinforcement_drawing_view.Proxy = self
 
     def setProperties(self, obj):
-        """Add properties to ReinforcementDrawingContent object."""
-        self.Type = "ReinforcementDrawingContent"
+        """Add properties to ReinforcementDrawingView object."""
+        self.Type = "ReinforcementDrawingView"
+
+        if not hasattr(obj, "Structure"):
+            obj.addProperty(
+                "App::PropertyLink",
+                "Structure",
+                "ReinforcementDrawingView",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The structure object acting as Host for rebars.",
+                ),
+            )
+
+        if not hasattr(obj, "Rebars"):
+            obj.addProperty(
+                "App::PropertyLinkList",
+                "Rebars",
+                "ReinforcementDrawingView",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The list of rebar objects to be included in drawing.",
+                ),
+            )
+
+        if not hasattr(obj, "View"):
+            obj.addProperty(
+                "App::PropertyEnumeration",
+                "View",
+                "ReinforcementDrawingView",
+                QT_TRANSLATE_NOOP(
+                    "App::Property", "The reinforcement drawing view.",
+                ),
+            ).View = ["Front", "Rear", "Left", "Right", "Top", "Bottom"]
 
         if not hasattr(obj, "Font"):
             obj.addProperty(
                 "App::PropertyFont",
                 "Font",
-                "ReinforcementDrawingContent",
+                "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The font family of text in Reinforcement Drawing content.",
+                    "The font family of text in Reinforcement Drawing view.",
                 ),
             )
             obj.Font = "DejaVu Sans"
@@ -65,22 +100,22 @@ class ReinforcementDrawingContent:
             obj.addProperty(
                 "App::PropertyLength",
                 "FontSize",
-                "ReinforcementDrawingContent",
+                "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The font size of text in Reinforcement Drawing content.",
+                    "The font size of text in Reinforcement Drawing view.",
                 ),
             )
-            obj.FontSize = 3
+            obj.FontSize = 30
 
         if not hasattr(obj, "Template"):
             obj.addProperty(
                 "App::PropertyLink",
                 "Template",
-                "ReinforcementDrawingContent",
+                "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The template for Reinforcement Drawing content.",
+                    "The template for Reinforcement Drawing view.",
                 ),
             )
 
@@ -88,10 +123,9 @@ class ReinforcementDrawingContent:
             obj.addProperty(
                 "App::PropertyLength",
                 "Width",
-                "ReinforcementDrawingContent",
+                "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
-                    "App::Property",
-                    "The width of Reinforcement Drawing content.",
+                    "App::Property", "The width of Reinforcement Drawing view.",
                 ),
             )
         obj.setEditorMode("Width", 2)
@@ -100,10 +134,10 @@ class ReinforcementDrawingContent:
             obj.addProperty(
                 "App::PropertyLength",
                 "Height",
-                "ReinforcementDrawingContent",
+                "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The height of Reinforcement Drawing content.",
+                    "The height of Reinforcement Drawing view.",
                 ),
             )
         obj.setEditorMode("Height", 2)
@@ -112,10 +146,10 @@ class ReinforcementDrawingContent:
             obj.addProperty(
                 "App::PropertyLength",
                 "LeftOffset",
-                "ReinforcementDrawingContent",
+                "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The left offset of Reinforcement Drawing content.",
+                    "The left offset of Reinforcement Drawing view.",
                 ),
             )
             obj.LeftOffset = 6
@@ -124,10 +158,10 @@ class ReinforcementDrawingContent:
             obj.addProperty(
                 "App::PropertyLength",
                 "TopOffset",
-                "ReinforcementDrawingContent",
+                "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The top offset of Reinforcement Drawing content.",
+                    "The top offset of Reinforcement Drawing view.",
                 ),
             )
             obj.TopOffset = 6
@@ -136,11 +170,10 @@ class ReinforcementDrawingContent:
             obj.addProperty(
                 "App::PropertyLength",
                 "MinRightOffset",
-                "ReinforcementDrawingContent",
+                "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The minimum right offset of Reinforcement Drawing "
-                    "content.",
+                    "The minimum right offset of Reinforcement Drawing view.",
                 ),
             )
             obj.MinRightOffset = 6
@@ -149,11 +182,10 @@ class ReinforcementDrawingContent:
             obj.addProperty(
                 "App::PropertyLength",
                 "MinBottomOffset",
-                "ReinforcementDrawingContent",
+                "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The minimum bottom offset of Reinforcement Drawing "
-                    "content.",
+                    "The minimum bottom offset of Reinforcement Drawing view.",
                 ),
             )
             obj.MinBottomOffset = 6
@@ -162,10 +194,10 @@ class ReinforcementDrawingContent:
             obj.addProperty(
                 "App::PropertyLength",
                 "MaxWidth",
-                "ReinforcementDrawingContent",
+                "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The maximum width of Reinforcement Drawing content.",
+                    "The maximum width of Reinforcement Drawing view.",
                 ),
             )
             obj.MaxWidth = 190
@@ -174,10 +206,10 @@ class ReinforcementDrawingContent:
             obj.addProperty(
                 "App::PropertyLength",
                 "MaxHeight",
-                "ReinforcementDrawingContent",
+                "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The maximum height of Reinforcement Drawing content.",
+                    "The maximum height of Reinforcement Drawing view.",
                 ),
             )
             obj.MaxHeight = 250
@@ -189,24 +221,41 @@ class ReinforcementDrawingContent:
     def execute(self, obj):
         """This function is executed to recompute ReinforcementDrawing
         object."""
-        if not obj.Symbol:
+        if not obj.Structure:
+            FreeCAD.Console.PrintError(
+                "No structure, return without a reinforcement drawing for "
+                "{}.\n".format(obj.Name)
+            )
             return
 
-        if obj.Font:
-            obj.Symbol = re.sub(
-                'font-family="([^"]+)"',
-                'font-family="{}"'.format(obj.Font),
-                obj.Symbol,
+        if not obj.Rebars:
+            FreeCAD.Console.PrintError(
+                "Empty rebars list, return without a reinforcement drawing for "
+                "{}.\n".format(obj.Name)
             )
+            return
 
-        if obj.FontSize:
-            obj.Symbol = re.sub(
-                'font-size="([^"]+)"',
-                'font-size="{}"'.format(obj.FontSize.Value),
-                obj.Symbol,
-            )
+        view_plane = getViewPlane(obj.View)
+        reinforcement_drawing_svg_element = getReinforcementDrawingSVG(
+            obj.Structure, obj.Rebars, view_plane
+        )
+        obj.Symbol = ElementTree.tostring(
+            reinforcement_drawing_svg_element, encoding="unicode"
+        )
+        obj.Symbol = re.sub(
+            'font-family="([^"]+)"',
+            'font-family="{}"'.format(obj.Font),
+            obj.Symbol,
+        )
+        obj.Symbol = re.sub(
+            'font-size="([^"]+)"',
+            'font-size="{}"'.format(obj.FontSize.Value),
+            obj.Symbol,
+        )
+        obj.Width = reinforcement_drawing_svg_element.get("width")
+        obj.Height = reinforcement_drawing_svg_element.get("height")
 
-        if obj.Width and obj.Height and obj.Template:
+        if obj.Width and obj.Height and obj.Template.Template:
             scaling_factor = getTechdrawViewScalingFactor(
                 obj.Width.Value,
                 obj.Height.Value,
@@ -226,6 +275,7 @@ class ReinforcementDrawingContent:
                 - obj.TopOffset.Value
             )
             obj.Scale = scaling_factor
+
         if FreeCAD.GuiUp:
             obj.ViewObject.update()
 
@@ -238,7 +288,7 @@ class ReinforcementDrawingContent:
 
 def makeReinforcementDrawingObject(template_file):
     """makeReinforcementDrawingObject(TemplateFile):
-    Returns ReinforcementDrawing_content object to store reinforcement drawing
+    Returns ReinforcementDrawingView object to store reinforcement drawing
     svg.
     """
     drawing_page = FreeCAD.ActiveDocument.addObject("TechDraw::DrawPage")
@@ -247,9 +297,8 @@ def makeReinforcementDrawingObject(template_file):
     )
     template.Template = str(template_file)
     drawing_page.Template = template
-    reinforcement_drawing_content = ReinforcementDrawingContent(
-        "ReinforcementDrawing_content"
+    reinforcement_drawing_view = ReinforcementDrawingView(
+        "ReinforcementDrawingView"
     ).Object
-    drawing_page.addView(reinforcement_drawing_content)
-    FreeCAD.ActiveDocument.recompute()
+    drawing_page.addView(reinforcement_drawing_view)
     return drawing_page

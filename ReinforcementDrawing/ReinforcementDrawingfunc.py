@@ -21,7 +21,7 @@
 # *                                                                         *
 # ***************************************************************************
 
-__title__ = "Reinforcement Drawing"
+__title__ = "Reinforcement Drawing Functions"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
@@ -45,43 +45,7 @@ from SVGfunc import (
     getSVGPathElement,
     getArrowMarkerElement,
 )
-from .ReinforcementDrawingContent import makeReinforcementDrawingObject
-from .config import (
-    SVG_POINT_DIA_FACTOR,
-    FONT_FAMILY,
-    FONT_SIZE,
-    DRAWING_LEFT_OFFSET,
-    DRAWING_TOP_OFFSET,
-    DRAWING_MIN_RIGHT_OFFSET,
-    DRAWING_MIN_BOTTOM_OFFSET,
-    DRAWING_MAX_WIDTH,
-    DRAWING_MAX_HEIGHT,
-    TEMPLATE_FILE,
-)
-
-
-def getStructureRebarsDict(structure_list=None):
-    """getStructureRebarsDict([StructureList]):
-    structure_list is the list of structural objects. If not provided,
-    structures will be selected from active document acting as Host for rebar
-    objects.
-
-    Returns dictionary with structure as key and corresponding rebar objects
-    list as value.
-    """
-    if not structure_list:
-        structure_list = FreeCAD.ActiveDocument.Objects
-    rebar_objects = Draft.get_objects_of_type(
-        FreeCAD.ActiveDocument.Objects, "Rebar"
-    )
-
-    struct_rebars_dict = {}
-    for rebar in rebar_objects:
-        if rebar.Host in structure_list:
-            if rebar.Host not in struct_rebars_dict:
-                struct_rebars_dict[rebar.Host] = []
-            struct_rebars_dict[rebar.Host].append(rebar)
-    return struct_rebars_dict
+from .config import SVG_POINT_DIA_FACTOR
 
 
 def getRebarsSpanAxis(rebar):
@@ -99,6 +63,50 @@ def getRebarsSpanAxis(rebar):
             axis = FreeCAD.Vector(rebar.Direction)
             axis.normalize()
     return axis
+
+
+def getViewPlane(view):
+    """getViewPlane(View):
+    Returns view_plane corresponding to view, where view can be "Front", "Rear",
+    "Left", "Right", "Top" or "Bottom".
+    """
+    if view == "Front":
+        view_plane = WorkingPlane.plane()
+        view_plane.axis = FreeCAD.Vector(0, -1, 0)
+        view_plane.v = FreeCAD.Vector(0, 0, -1)
+        view_plane.u = FreeCAD.Vector(1, 0, 0)
+    elif view == "Rear":
+        view_plane = WorkingPlane.plane()
+        view_plane.axis = FreeCAD.Vector(0, 1, 0)
+        view_plane.v = FreeCAD.Vector(0, 0, -1)
+        view_plane.u = FreeCAD.Vector(-1, 0, 0)
+    elif view == "Left":
+        view_plane = WorkingPlane.plane()
+        view_plane.axis = FreeCAD.Vector(-1, 0, 0)
+        view_plane.v = FreeCAD.Vector(0, 0, -1)
+        view_plane.u = FreeCAD.Vector(0, -1, 0)
+    elif view == "Right":
+        view_plane = WorkingPlane.plane()
+        view_plane.axis = FreeCAD.Vector(1, 0, 0)
+        view_plane.v = FreeCAD.Vector(0, 0, -1)
+        view_plane.u = FreeCAD.Vector(0, 1, 0)
+    elif view == "Top":
+        view_plane = WorkingPlane.plane()
+        view_plane.axis = FreeCAD.Vector(0, 0, 1)
+        view_plane.v = FreeCAD.Vector(0, -1, 0)
+        view_plane.u = FreeCAD.Vector(1, 0, 0)
+    elif view == "Bottom":
+        view_plane = WorkingPlane.plane()
+        view_plane.axis = FreeCAD.Vector(0, 0, -1)
+        view_plane.v = FreeCAD.Vector(0, 1, 0)
+        view_plane.u = FreeCAD.Vector(1, 0, 0)
+    else:
+        FreeCAD.Console.PrintError(
+            'Invalid/Unsupported view. Valid views are: "Front", "Rear", '
+            '"Left", "Right" "Top" and "Bottom".\n'
+        )
+        return None
+    return view_plane
 
 
 def getProjectionToSVGPlane(vec, plane):
@@ -541,24 +549,8 @@ def getStraightRebarSVGData(
     }
 
 
-def makeReinforcementDrawingSVG(
-    structure,
-    rebars_list,
-    view_direction,
-    font_family,
-    font_size,
-    drawing_left_offset,
-    drawing_top_offset,
-    drawing_min_right_offset,
-    drawing_min_bottom_offset,
-    drawing_max_width,
-    drawing_max_height,
-    template_file,
-):
-    """makeReinforcementDrawingSVG(Structure, RebarsList, ViewDirection,
-    FontFamily, FontSize, DrawingLeftOffset, DrawingTopOffset,
-    DrawingMinRightOffset, DrawingMinBottomOffset, DrawingMaxWidth,
-    DrawingMaxHeight, TemplateFile):
+def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
+    """getReinforcementDrawingSVG(Structure, RebarsList, ViewDirection):
     Generates Reinforcement Drawing View.
 
     view_direction is FreeCAD.Vector() or WorkingPlane.plane() corresponding to
@@ -744,151 +736,4 @@ def makeReinforcementDrawingSVG(
     svg.set("height", str(svg_height) + "mm")
     svg.set("viewBox", "0 0 {} {}".format(svg_width, svg_height))
 
-    reinforcement_drawing_page = makeReinforcementDrawingObject(template_file)
-    reinforcement_drawing_page.Label = structure.Label + " Drawing"
-    drawing_content_obj = reinforcement_drawing_page.Views[0]
-    drawing_content_obj.Symbol = ElementTree.tostring(svg, encoding="unicode")
-    drawing_content_obj.Font = font_family
-    drawing_content_obj.FontSize = font_size
-    drawing_content_obj.Template = reinforcement_drawing_page.Template
-    drawing_content_obj.Width = svg_width
-    drawing_content_obj.Height = svg_height
-    drawing_content_obj.LeftOffset = drawing_left_offset
-    drawing_content_obj.TopOffset = drawing_top_offset
-    drawing_content_obj.MinRightOffset = drawing_min_right_offset
-    drawing_content_obj.MinBottomOffset = drawing_min_bottom_offset
-    drawing_content_obj.MaxWidth = drawing_max_width
-    drawing_content_obj.MaxHeight = drawing_max_height
-    drawing_content_obj.recompute()
-
-    return reinforcement_drawing_page
-
-
-def getReinforcementDrawing(
-    structure,
-    rebars_list,
-    view,
-    font_family,
-    font_size,
-    drawing_left_offset,
-    drawing_top_offset,
-    drawing_min_right_offset,
-    drawing_min_bottom_offset,
-    drawing_max_width,
-    drawing_max_height,
-    template_file,
-):
-    """getReinforcementDrawing(Structure, RebarsList, View, FontFamily,
-    FontSize, DrawingLeftOffset, DrawingTopOffset, DrawingMinRightOffset,
-    DrawingMinBottomOffset, DrawingMaxWidth, DrawingMaxHeight, TemplateFile):
-    Generates Reinforcement Drawing SVG view for structure.
-
-    view can be "Front", "Rear", "Left", "Right", "Top" or "Bottom".
-
-    Returns reinforcement drawing view svg.
-    """
-    if view == "Front":
-        view_plane = WorkingPlane.plane()
-        view_plane.axis = FreeCAD.Vector(0, -1, 0)
-        view_plane.v = FreeCAD.Vector(0, 0, -1)
-        view_plane.u = FreeCAD.Vector(1, 0, 0)
-    elif view == "Rear":
-        view_plane = WorkingPlane.plane()
-        view_plane.axis = FreeCAD.Vector(0, 1, 0)
-        view_plane.v = FreeCAD.Vector(0, 0, -1)
-        view_plane.u = FreeCAD.Vector(-1, 0, 0)
-    elif view == "Left":
-        view_plane = WorkingPlane.plane()
-        view_plane.axis = FreeCAD.Vector(-1, 0, 0)
-        view_plane.v = FreeCAD.Vector(0, 0, -1)
-        view_plane.u = FreeCAD.Vector(0, -1, 0)
-    elif view == "Right":
-        view_plane = WorkingPlane.plane()
-        view_plane.axis = FreeCAD.Vector(1, 0, 0)
-        view_plane.v = FreeCAD.Vector(0, 0, -1)
-        view_plane.u = FreeCAD.Vector(0, 1, 0)
-    elif view == "Top":
-        view_plane = WorkingPlane.plane()
-        view_plane.axis = FreeCAD.Vector(0, 0, 1)
-        view_plane.v = FreeCAD.Vector(0, -1, 0)
-        view_plane.u = FreeCAD.Vector(1, 0, 0)
-    elif view == "Bottom":
-        view_plane = WorkingPlane.plane()
-        view_plane.axis = FreeCAD.Vector(0, 0, -1)
-        view_plane.v = FreeCAD.Vector(0, 1, 0)
-        view_plane.u = FreeCAD.Vector(1, 0, 0)
-    else:
-        # Fallback
-        view_plane = WorkingPlane.plane()
-        view_plane.axis = FreeCAD.Vector(0, 0, 1)
-        view_plane.v = FreeCAD.Vector(0, -1, 0)
-        view_plane.u = FreeCAD.Vector(1, 0, 0)
-    drawing_page = makeReinforcementDrawingSVG(
-        structure,
-        rebars_list,
-        view_plane,
-        font_family,
-        font_size,
-        drawing_left_offset,
-        drawing_top_offset,
-        drawing_min_right_offset,
-        drawing_min_bottom_offset,
-        drawing_max_width,
-        drawing_max_height,
-        template_file,
-    )
-    drawing_page.Label = structure.Label + " " + view
-    return drawing_page.Views[0].Symbol
-
-
-def makeStructuresReinforcementDrawing(
-    structure_list=None,
-    view="Front",
-    font_family=FONT_FAMILY,
-    font_size=FONT_SIZE,
-    drawing_left_offset=DRAWING_LEFT_OFFSET,
-    drawing_top_offset=DRAWING_TOP_OFFSET,
-    drawing_min_right_offset=DRAWING_MIN_RIGHT_OFFSET,
-    drawing_min_bottom_offset=DRAWING_MIN_BOTTOM_OFFSET,
-    drawing_max_width=DRAWING_MAX_WIDTH,
-    drawing_max_height=DRAWING_MAX_HEIGHT,
-    template_file=TEMPLATE_FILE,
-):
-    """makeStructuresReinforcementDrawing([StructureList, View, FontFamily,
-    FontSize, DrawingLeftOffset, DrawingTopOffset, DrawingMinRightOffset,
-    DrawingMinBottomOffset, DrawingMaxWidth, DrawingMaxHeight, TemplateFile]):
-    Generates Reinforcement Drawing SVG view for structures.
-
-    structure_list is the list of structural objects. If not provided,
-    structures will be selected from active document acting as Host for rebar
-    objects.
-
-    view can be "Front", "Rear", "Left", "Right", "Top" or "Bottom".
-
-    Returns dictionary with structure as key and corresponding reinforcement
-    drawing svg as value.
-    """
-    struct_rebars_dict = getStructureRebarsDict(structure_list)
-    if not struct_rebars_dict:
-        FreeCAD.Console.PrintWarning(
-            "No structure/rebar object in current selection/document. "
-            "Returning without drawing svg.\n"
-        )
-        return None
-    struct_svg_dict = {}
-    for structure in struct_rebars_dict:
-        struct_svg_dict[structure] = getReinforcementDrawing(
-            structure,
-            struct_rebars_dict[structure],
-            view,
-            font_family,
-            font_size,
-            drawing_left_offset,
-            drawing_top_offset,
-            drawing_min_right_offset,
-            drawing_min_bottom_offset,
-            drawing_max_width,
-            drawing_max_height,
-            template_file,
-        )
-    return struct_svg_dict
+    return svg
