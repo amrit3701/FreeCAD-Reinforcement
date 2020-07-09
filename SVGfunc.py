@@ -47,13 +47,13 @@ def getSVGRootElement():
     return svg
 
 
-def getPointSVG(point, radius=1):
+def getPointSVG(point, radius=1, fill="black"):
     point_svg = ElementTree.Element(
         "circle",
         cx=str(round(point.x)),
         cy=str(round(point.y)),
         r=str(radius),
-        fill="black",
+        fill=fill,
     )
     return point_svg
 
@@ -72,7 +72,7 @@ def isPointInSVG(point, svg):
         return False
 
 
-def getLineSVG(p1, p2):
+def getLineSVG(p1, p2, stroke_width=0.35, color="black"):
     line_svg = ElementTree.Element(
         "line",
         x1=str(round(p1.x)),
@@ -81,6 +81,8 @@ def getLineSVG(p1, p2):
         y2=str(round(p2.y)),
         style="stroke:#000000",
     )
+    line_svg.set("stroke-width", str(stroke_width))
+    line_svg.set("stroke", color)
     return line_svg
 
 

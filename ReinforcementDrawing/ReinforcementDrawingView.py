@@ -31,8 +31,13 @@ from xml.etree import ElementTree
 from PySide2.QtCore import QT_TRANSLATE_NOOP
 
 import FreeCAD
+from Draft import getrgb
 
-from .ReinforcementDrawingfunc import getViewPlane, getReinforcementDrawingSVG
+from .ReinforcementDrawingfunc import (
+    getViewPlane,
+    getSVGWidthHeight,
+    getReinforcementDrawingSVG,
+)
 from SVGfunc import getTechdrawViewScalingFactor
 
 
@@ -84,6 +89,18 @@ class ReinforcementDrawingView:
                 ),
             ).View = ["Front", "Rear", "Left", "Right", "Top", "Bottom"]
 
+        if not hasattr(obj, "PositionType"):
+            obj.addProperty(
+                "App::PropertyEnumeration",
+                "PositionType",
+                "ReinforcementDrawingView",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The position type of Reinforcement Drawing on Template.",
+                ),
+            ).PositionType = ["Automatic", "Custom"]
+            obj.PositionType = "Automatic"
+
         if not hasattr(obj, "Font"):
             obj.addProperty(
                 "App::PropertyFont",
@@ -106,7 +123,80 @@ class ReinforcementDrawingView:
                     "The font size of text in Reinforcement Drawing view.",
                 ),
             )
-            obj.FontSize = 30
+            obj.FontSize = 3
+
+        if not hasattr(obj, "RebarsStrokeWidth"):
+            obj.addProperty(
+                "App::PropertyLength",
+                "RebarsStrokeWidth",
+                "ReinforcementDrawingView",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The stroke width of rebars in Reinforcement Drawing svg.",
+                ),
+            )
+            obj.RebarsStrokeWidth = 0.35
+
+        if not hasattr(obj, "RebarsColorStyle"):
+            obj.addProperty(
+                "App::PropertyEnumeration",
+                "RebarsColorStyle",
+                "ReinforcementDrawingView",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The color style of rebars in Reinforcement Drawing svg.",
+                ),
+            ).RebarsColorStyle = ["Automatic", "Custom"]
+            obj.RebarsColorStyle = "Automatic"
+
+        if not hasattr(obj, "RebarsColor"):
+            obj.addProperty(
+                "App::PropertyColor",
+                "RebarsColor",
+                "ReinforcementDrawingView",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The color of rebars in Reinforcement Drawing svg.",
+                ),
+            )
+            obj.RebarsColor = (0.67, 0.0, 0.0)
+
+        if not hasattr(obj, "StructureStrokeWidth"):
+            obj.addProperty(
+                "App::PropertyLength",
+                "StructureStrokeWidth",
+                "ReinforcementDrawingView",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The stroke width of structure in Reinforcement Drawing "
+                    "svg.",
+                ),
+            )
+            obj.StructureStrokeWidth = 0.35
+
+        if not hasattr(obj, "StructureColorStyle"):
+            obj.addProperty(
+                "App::PropertyEnumeration",
+                "StructureColorStyle",
+                "ReinforcementDrawingView",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The color style of structure in Reinforcement Drawing svg.",
+                ),
+            ).StructureColorStyle = ["Automatic", "Custom", "None"]
+            obj.StructureColorStyle = "Automatic"
+
+        if not hasattr(obj, "StructureColor"):
+            obj.addProperty(
+                "App::PropertyColor",
+                "StructureColor",
+                "ReinforcementDrawingView",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The color of structure in Reinforcement Drawing svg.",
+                ),
+            )
+            obj.StructureColor = (0.3, 0.9, 0.91)
 
         if not hasattr(obj, "Template"):
             obj.addProperty(
@@ -235,27 +325,19 @@ class ReinforcementDrawingView:
             )
             return
 
+        if obj.PositionType == "Automatic":
+            obj.setEditorMode("X", 1)
+            obj.setEditorMode("Y", 1)
+        else:
+            obj.setEditorMode("X", 0)
+            obj.setEditorMode("Y", 0)
+
         view_plane = getViewPlane(obj.View)
-        reinforcement_drawing_svg_element = getReinforcementDrawingSVG(
+        obj.Width, obj.Height = getSVGWidthHeight(
             obj.Structure, obj.Rebars, view_plane
         )
-        obj.Symbol = ElementTree.tostring(
-            reinforcement_drawing_svg_element, encoding="unicode"
-        )
-        obj.Symbol = re.sub(
-            'font-family="([^"]+)"',
-            'font-family="{}"'.format(obj.Font),
-            obj.Symbol,
-        )
-        obj.Symbol = re.sub(
-            'font-size="([^"]+)"',
-            'font-size="{}"'.format(obj.FontSize.Value),
-            obj.Symbol,
-        )
-        obj.Width = reinforcement_drawing_svg_element.get("width")
-        obj.Height = reinforcement_drawing_svg_element.get("height")
 
-        if obj.Width and obj.Height and obj.Template.Template:
+        if obj.ScaleType == "Automatic":
             scaling_factor = getTechdrawViewScalingFactor(
                 obj.Width.Value,
                 obj.Height.Value,
@@ -268,13 +350,54 @@ class ReinforcementDrawingView:
                 obj.MaxWidth.Value,
                 obj.MaxHeight.Value,
             )
-            obj.X = obj.Width.Value * scaling_factor / 2 + obj.LeftOffset.Value
+            obj.Scale = scaling_factor
+
+        if obj.PositionType == "Automatic":
+            obj.X = obj.Width.Value * obj.Scale / 2 + obj.LeftOffset.Value
             obj.Y = (
                 obj.Template.Height.Value
-                - obj.Height.Value * scaling_factor / 2
+                - obj.Height.Value * obj.Scale / 2
                 - obj.TopOffset.Value
             )
-            obj.Scale = scaling_factor
+
+        if obj.StructureColorStyle == "Automatic":
+            if FreeCAD.GuiUp:
+                struct_fill_style = "shape color"
+            else:
+                struct_fill_style = getrgb(obj.StructureColor)
+        elif obj.StructureColorStyle == "Custom":
+            struct_fill_style = getrgb(obj.StructureColor)
+        else:
+            struct_fill_style = "none"
+
+        if obj.RebarsColorStyle == "Automatic" and FreeCAD.GuiUp:
+            rebars_color_style = "shape color"
+        else:
+            rebars_color_style = getrgb(obj.RebarsColor)
+
+        reinforcement_drawing_svg_element = getReinforcementDrawingSVG(
+            obj.Structure,
+            obj.Rebars,
+            view_plane,
+            obj.RebarsStrokeWidth.Value / obj.Scale,
+            rebars_color_style,
+            obj.StructureStrokeWidth.Value / obj.Scale,
+            struct_fill_style,
+        )
+        obj.Symbol = ElementTree.tostring(
+            reinforcement_drawing_svg_element, encoding="unicode"
+        )
+        obj.Symbol = re.sub(
+            'font-family="([^"]+)"',
+            'font-family="{}"'.format(obj.Font),
+            obj.Symbol,
+        )
+
+        obj.Symbol = re.sub(
+            'font-size="([^"]+)"',
+            'font-size="{}"'.format(obj.FontSize.Value / obj.Scale),
+            obj.Symbol,
+        )
 
         if FreeCAD.GuiUp:
             obj.ViewObject.update()
