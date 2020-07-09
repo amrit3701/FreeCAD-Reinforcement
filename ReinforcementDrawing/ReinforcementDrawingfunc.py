@@ -45,7 +45,6 @@ from SVGfunc import (
     getSVGPathElement,
     getArrowMarkerElement,
 )
-from .config import SVG_POINT_DIA_FACTOR
 
 
 def getRebarsSpanAxis(rebar):
@@ -124,6 +123,45 @@ def getProjectionToSVGPlane(vec, plane):
     return FreeCAD.Vector(lx, ly, 0)
 
 
+def getSVGWidthHeight(structure, rebars_list, view_plane):
+    """getSVGWidthHeight(Structure, RebarsList, ViewPlane):
+    Returns a tuple of width and height of svg.
+    """
+    if view_plane.axis == FreeCAD.Vector(0, -1, 0):
+        pts = [0, 1, 4, 5]
+    elif view_plane.axis == FreeCAD.Vector(0, 1, 0):
+        pts = [2, 3, 6, 7]
+    elif view_plane.axis == FreeCAD.Vector(0, 0, 1):
+        pts = [0, 1, 2, 3]
+    elif view_plane.axis == FreeCAD.Vector(0, 0, -1):
+        pts = [4, 5, 6, 7]
+    elif view_plane.axis == FreeCAD.Vector(1, 0, 0):
+        pts = [1, 2, 5, 6]
+    else:
+        pts = [0, 3, 4, 7]
+
+    bounding_box = Part.Compound(
+        [rebar.Shape for rebar in rebars_list] + [structure.Shape]
+    ).BoundBox
+    point = getProjectionToSVGPlane(bounding_box.getPoint(pts[0]), view_plane)
+    min_x = point.x
+    min_y = point.y
+    max_x = point.x
+    max_y = point.y
+    for pt in pts[1:]:
+        point = getProjectionToSVGPlane(bounding_box.getPoint(pt), view_plane)
+        min_x = min(min_x, point.x)
+        min_y = min(min_y, point.y)
+        max_x = max(max_x, point.x)
+        max_y = max(max_y, point.y)
+    # Padding of 200 is added to accomodate dimensions.
+    # TODO: This padding should be calculated automatically after dimensioning
+    # is done
+    svg_width = max_x - min_x + 200
+    svg_height = max_y - min_y + 200
+    return (svg_width, svg_height)
+
+
 def getLineDimensionsData(
     p1, p2, dimension_text, h_dim_x, h_dim_y, v_dim_x, v_dim_y
 ):
@@ -167,8 +205,8 @@ def getLineDimensionsData(
     }
 
 
-def getRoundCornerSVG(edge, radius, view_plane):
-    """getRoundCornerSVG(Edge, Radius, ViewPlane):
+def getRoundCornerSVG(edge, radius, view_plane, stroke_width, stroke_color):
+    """getRoundCornerSVG(Edge, Radius, ViewPlane, StrokeWidth, StrokeColor):
     Returns round corner edge svg with given radius.
     """
     p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
@@ -191,6 +229,8 @@ def getRoundCornerSVG(edge, radius, view_plane):
             flag_sweep=flag_sweep,
         ),
     )
+    svg.set("stroke-width", str(stroke_width))
+    svg.set("stroke", stroke_color)
     return svg
 
 
@@ -274,16 +314,31 @@ def getStirrupSVGPoints(stirrup_wire, stirrup_alignment, view_plane):
 
 
 def getStirrupSVGData(
-    rebar, view_plane, rebars_svg,
+    rebar, view_plane, rebars_svg, rebars_stroke_width, rebars_color_style
 ):
-    """getStirrupSVGData(StirrupRebar, ViewPlane, RebarsSVG):
+    """getStirrupSVGData(StirrupRebar, ViewPlane, RebarsSVG, RebarsStrokeWidth,
+    RebarsColorStyle):
     Returns dictionary containing stirrup svg data.
+
+    rebars_color_style can be:
+        - "shape color" to select color of rebar shape
+        - color name or hex value of color
+
     Returned dictionary format:
     {
         "svg": stirrup_svg,
         "visibility": is_rebar_visible,
     }
     """
+    if rebars_color_style == "shape color":
+        if FreeCAD.GuiUp:
+            rebars_color = Draft.getrgb(rebar.ViewObject.ShapeColor)
+        else:
+            # TODO: Add logic to get this from FreeCAD preferences
+            rebars_color = "black"
+    else:
+        rebars_color = rebars_color_style
+
     stirrup_svg = ElementTree.Element("g", attrib={"id": str(rebar.Name)})
     is_rebar_visible = False
     drawing_plane_normal = view_plane.axis
@@ -299,13 +354,17 @@ def getStirrupSVGData(
             if DraftGeomUtils.geomType(edge) == "Line":
                 p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
                 p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
-                edge_svg = getLineSVG(p1, p2)
+                edge_svg = getLineSVG(p1, p2, rebars_stroke_width, rebars_color)
                 if is_rebar_visible or not isLineInSVG(p1, p2, rebars_svg):
                     stirrup_svg.append(edge_svg)
                     is_rebar_visible = True
             elif DraftGeomUtils.geomType(edge) == "Circle":
                 edge_svg = getRoundCornerSVG(
-                    edge, rebar.Rounding * rebar.Diameter.Value, view_plane,
+                    edge,
+                    rebar.Rounding * rebar.Diameter.Value,
+                    view_plane,
+                    rebars_stroke_width,
+                    rebars_color,
                 )
                 if is_rebar_visible or not isRoundCornerInSVG(
                     edge,
@@ -328,7 +387,7 @@ def getStirrupSVGData(
             wire = basewire.copy()
             wire.Placement = placement.multiply(basewire.Placement)
             p1, p2 = getStirrupSVGPoints(wire, stirrup_alignment, view_plane)
-            rebar_svg = getLineSVG(p1, p2)
+            rebar_svg = getLineSVG(p1, p2, rebars_stroke_width, rebars_color)
             if not isLineInSVG(p1, p2, rebars_svg):
                 is_rebar_visible = True
             if is_rebar_visible:
@@ -340,16 +399,31 @@ def getStirrupSVGData(
 
 
 def getUShapeRebarSVGData(
-    rebar, view_plane, rebars_svg,
+    rebar, view_plane, rebars_svg, rebars_stroke_width, rebars_color_style
 ):
-    """getUShapeRebarSVGData(UShapeRebar, ViewPlane, RebarsSVG):
+    """getUShapeRebarSVGData(UShapeRebar, ViewPlane, RebarsSVG,
+    RebarsStrokeWidth, RebarsColorStyle):
     Returns dictionary containing UShape rebar svg data.
+
+    rebars_color_style can be:
+        - "shape color" to select color of rebar shape
+        - color name or hex value of color
+
     Returned dictionary format:
     {
         "svg": u_rebar_svg,
         "visibility": is_rebar_visible,
     }
     """
+    if rebars_color_style == "shape color":
+        if FreeCAD.GuiUp:
+            rebars_color = Draft.getrgb(rebar.ViewObject.ShapeColor)
+        else:
+            # TODO: Add logic to get this from FreeCAD preferences
+            rebars_color = "black"
+    else:
+        rebars_color = rebars_color_style
+
     u_rebar_svg = ElementTree.Element("g", attrib={"id": str(rebar.Name)})
     is_rebar_visible = False
     drawing_plane_normal = view_plane.axis
@@ -366,10 +440,12 @@ def getUShapeRebarSVGData(
                 p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
                 if round(p1.x) == round(p2.x) and round(p1.y) == round(p2.y):
                     edge_svg = getPointSVG(
-                        p1, radius=SVG_POINT_DIA_FACTOR * rebar.Diameter.Value
+                        p1, radius=2 * rebars_stroke_width, fill=rebars_color
                     )
                 else:
-                    edge_svg = getLineSVG(p1, p2)
+                    edge_svg = getLineSVG(
+                        p1, p2, rebars_stroke_width, rebars_color
+                    )
                     if not isLineInSVG(p1, p2, rebars_svg):
                         is_rebar_visible = True
                 if is_rebar_visible:
@@ -379,12 +455,18 @@ def getUShapeRebarSVGData(
                 p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
                 p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
                 if round(p1.x) == round(p2.x) or round(p1.y) == round(p2.y):
-                    edge_svg = getLineSVG(p1, p2)
+                    edge_svg = getLineSVG(
+                        p1, p2, rebars_stroke_width, rebars_color
+                    )
                     if not isLineInSVG(p1, p2, rebars_svg):
                         is_rebar_visible = True
                 else:
                     edge_svg = getRoundCornerSVG(
-                        edge, rebar.Rounding * rebar.Diameter.Value, view_plane,
+                        edge,
+                        rebar.Rounding * rebar.Diameter.Value,
+                        view_plane,
+                        rebars_stroke_width,
+                        rebars_color,
                     )
                     if not isRoundCornerInSVG(
                         edge,
@@ -419,10 +501,13 @@ def getUShapeRebarSVGData(
                     ):
                         edge_svg = getPointSVG(
                             p1,
-                            radius=SVG_POINT_DIA_FACTOR * rebar.Diameter.Value,
+                            radius=2 * rebars_stroke_width,
+                            fill=rebars_color,
                         )
                     else:
-                        edge_svg = getLineSVG(p1, p2)
+                        edge_svg = getLineSVG(
+                            p1, p2, rebars_stroke_width, rebars_color
+                        )
                         if not isLineInSVG(p1, p2, rebars_svg):
                             is_rebar_visible = True
                     if is_rebar_visible or not isLineInSVG(p1, p2, rebars_svg):
@@ -436,7 +521,9 @@ def getUShapeRebarSVGData(
                         edge.Vertexes[1].Point, view_plane
                     )
                     if round(p1.x) == round(p2.x) or round(p1.y) == round(p2.y):
-                        edge_svg = getLineSVG(p1, p2)
+                        edge_svg = getLineSVG(
+                            p1, p2, rebars_stroke_width, rebars_color
+                        )
                         if not isLineInSVG(p1, p2, rebars_svg):
                             is_rebar_visible = True
                     else:
@@ -444,6 +531,8 @@ def getUShapeRebarSVGData(
                             edge,
                             rebar.Rounding * rebar.Diameter.Value,
                             view_plane,
+                            rebars_stroke_width,
+                            rebars_color,
                         )
                         if not isRoundCornerInSVG(
                             edge,
@@ -468,15 +557,32 @@ def getStraightRebarSVGData(
     v_dim_x_offset,
     v_dim_y_offset,
     rebars_svg,
+    rebars_stroke_width,
+    rebars_color_style,
 ):
-    """getStraightRebarSVGData(StraightRebar, ViewPlane, RebarsSVG):
+    """getStraightRebarSVGData(StraightRebar, ViewPlane, RebarsSVG,
+    RebarsStrokeWidth, RebarsColorStyle):
     Returns dictionary containing straight rebar svg data.
+
+    rebars_color_style can be:
+        - "shape color" to select color of rebar shape
+        - color name or hex value of color
+
     Returned dictionary format:
     {
         "svg": straight_rebar_svg,
         "visibility": is_rebar_visible,
     }
     """
+    if rebars_color_style == "shape color":
+        if FreeCAD.GuiUp:
+            rebars_color = Draft.getrgb(rebar.ViewObject.ShapeColor)
+        else:
+            # TODO: Add logic to get this from FreeCAD preferences
+            rebars_color = "black"
+    else:
+        rebars_color = rebars_color_style
+
     straight_rebar_svg = ElementTree.Element(
         "g", attrib={"id": str(rebar.Name)}
     )
@@ -491,12 +597,12 @@ def getStraightRebarSVGData(
         )
         if round(p1.x) == round(p2.x) and round(p1.y) == round(p2.y):
             rebar_svg = getPointSVG(
-                p1, radius=SVG_POINT_DIA_FACTOR * rebar.Diameter.Value
+                p1, radius=2 * rebars_stroke_width, fill=rebars_color
             )
             if not isPointInSVG(p1, rebars_svg):
                 is_rebar_visible = True
         else:
-            rebar_svg = getLineSVG(p1, p2)
+            rebar_svg = getLineSVG(p1, p2, rebars_stroke_width, rebars_color)
             if not isLineInSVG(p1, p2, rebars_svg):
                 is_rebar_visible = True
         if is_rebar_visible:
@@ -525,7 +631,7 @@ def getStraightRebarSVGData(
             p2 = getProjectionToSVGPlane(wire.Vertexes[1].Point, view_plane)
             if round(p1.x) == round(p2.x) and round(p1.y) == round(p2.y):
                 rebar_svg = getPointSVG(
-                    p1, radius=SVG_POINT_DIA_FACTOR * rebar.Diameter.Value
+                    p1, radius=2 * rebars_stroke_width, fill=rebars_color
                 )
                 if not (
                     isPointInSVG(p1, rebars_svg)
@@ -533,7 +639,9 @@ def getStraightRebarSVGData(
                 ):
                     is_rebar_visible = True
             else:
-                rebar_svg = getLineSVG(p1, p2)
+                rebar_svg = getLineSVG(
+                    p1, p2, rebars_stroke_width, rebars_color
+                )
                 if not (
                     isLineInSVG(p1, p2, rebars_svg)
                     or isLineInSVG(p1, p2, straight_rebar_svg)
@@ -549,12 +657,30 @@ def getStraightRebarSVGData(
     }
 
 
-def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
-    """getReinforcementDrawingSVG(Structure, RebarsList, ViewDirection):
+def getReinforcementDrawingSVG(
+    structure,
+    rebars_list,
+    view_direction,
+    rebars_stroke_width,
+    rebars_color_style,
+    structure_stroke_width,
+    structure_fill_style,
+):
+    """getReinforcementDrawingSVG(Structure, RebarsList, ViewDirection,
+    RebarsStrokeWidth, RebarsFillStyle, StructureStrokeWidth,
+    StructureFillStyle):
     Generates Reinforcement Drawing View.
 
     view_direction is FreeCAD.Vector() or WorkingPlane.plane() corresponding to
     direction of view point.
+
+    rebars_color_style can be:
+        - "shape color" to select color of rebar shape
+        - color name or hex value of color
+    structure_fill_style can be:
+        - "shape color" to select color of rebar shape
+        - color name or hex value of color
+        - "none" to not fill structure shape
 
     Returns svg content for reinforcement drawing.
     """
@@ -639,7 +765,13 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     stirrups_svg = ElementTree.Element("g", attrib={"id": "Stirrup"})
     rebars_svg.append(stirrups_svg)
     for rebar in stirrups:
-        rebar_data = getStirrupSVGData(rebar, view_plane, rebars_svg)
+        rebar_data = getStirrupSVGData(
+            rebar,
+            view_plane,
+            rebars_svg,
+            rebars_stroke_width,
+            rebars_color_style,
+        )
         if rebar_data["visibility"]:
             stirrups_svg.append(rebar_data["svg"])
             visible_rebars.append(rebar)
@@ -647,7 +779,13 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     bent_rebars_svg = ElementTree.Element("g", attrib={"id": "BentShapeRebar"})
     rebars_svg.append(bent_rebars_svg)
     for rebar in bent_rebars:
-        rebar_data = getUShapeRebarSVGData(rebar, view_plane, rebars_svg)
+        rebar_data = getUShapeRebarSVGData(
+            rebar,
+            view_plane,
+            rebars_svg,
+            rebars_stroke_width,
+            rebars_color_style,
+        )
         if rebar_data["visibility"]:
             bent_rebars_svg.append(rebar_data["svg"])
             visible_rebars.append(rebar)
@@ -655,7 +793,13 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     u_rebars_svg = ElementTree.Element("g", attrib={"id": "UShapeRebar"})
     rebars_svg.append(u_rebars_svg)
     for rebar in u_rebars:
-        rebar_data = getUShapeRebarSVGData(rebar, view_plane, rebars_svg)
+        rebar_data = getUShapeRebarSVGData(
+            rebar,
+            view_plane,
+            rebars_svg,
+            rebars_stroke_width,
+            rebars_color_style,
+        )
         if rebar_data["visibility"]:
             u_rebars_svg.append(rebar_data["svg"])
             visible_rebars.append(rebar)
@@ -663,7 +807,13 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     l_rebars_svg = ElementTree.Element("g", attrib={"id": "LShapeRebar"})
     rebars_svg.append(l_rebars_svg)
     for rebar in l_rebars:
-        rebar_data = getUShapeRebarSVGData(rebar, view_plane, rebars_svg)
+        rebar_data = getUShapeRebarSVGData(
+            rebar,
+            view_plane,
+            rebars_svg,
+            rebars_stroke_width,
+            rebars_color_style,
+        )
         if rebar_data["visibility"]:
             l_rebars_svg.append(rebar_data["svg"])
             visible_rebars.append(rebar)
@@ -686,6 +836,8 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
             v_dim_x_offset,
             v_dim_y_offset,
             rebars_svg,
+            rebars_stroke_width,
+            rebars_color_style,
         )
         if rebar_data["visibility"]:
             straight_rebars_svg.append(rebar_data["svg"])
@@ -701,9 +853,24 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     # rebar type (it makes sense for me). Please create an issue on github
     # repository if you think its wrong assumption
     for rebar in helical_rebars:
+        if rebars_color_style == "shape color":
+            if FreeCAD.GuiUp:
+                rebars_color = rebar.ViewObject.ShapeColor
+            else:
+                # TODO: Add logic to get this from FreeCAD preferences
+                rebars_color = (0, 0, 0)
+        else:
+            from importSVG import getcolor
+
+            rebars_color = getcolor(rebars_color_style)
         helical_rebars_svg.append(
             ElementTree.fromstring(
-                Draft.getSVG(rebar, direction=view_plane, fillstyle="none")
+                Draft.getSVG(
+                    rebar,
+                    direction=view_plane,
+                    fillstyle="none",
+                    color=rebars_color,
+                )
             )
         )
         visible_rebars.append(rebar)
@@ -711,18 +878,53 @@ def getReinforcementDrawingSVG(structure, rebars_list, view_direction):
     custom_rebars_svg = ElementTree.Element("g", attrib={"id": "CustomRebar"})
     rebars_svg.append(custom_rebars_svg)
     for rebar in custom_rebars:
+        if rebars_color_style == "shape color":
+            if FreeCAD.GuiUp:
+                rebars_color = rebar.ViewObject.ShapeColor
+            else:
+                # TODO: Add logic to get this from FreeCAD preferences
+                rebars_color = (0, 0, 0)
+        else:
+            from importSVG import getcolor
+
+            rebars_color = getcolor(rebars_color_style)
         custom_rebars_svg.append(
             ElementTree.fromstring(
-                Draft.getSVG(rebar, direction=view_plane, fillstyle="none")
+                Draft.getSVG(
+                    rebar,
+                    direction=view_plane,
+                    fillstyle="none",
+                    color=rebars_color,
+                )
             )
         )
 
     # Create Structure SVG
-    structure_svg = ElementTree.fromstring(
-        '<g id="structure">'
-        + Draft.getSVG(structure, direction=view_plane, fillstyle="none")
-        + "</g>"
+    _structure_svg = '<g id="structure">{}</g>'.format(
+        Draft.getSVG(
+            structure,
+            direction=view_plane,
+            linewidth=structure_stroke_width,
+            fillstyle=structure_fill_style,
+        )
     )
+
+    # Fix structure transparency (useful in console mode where
+    # obj.ViewObject.Transparency is not available OR in gui mode if
+    # structure transparency is ~0)
+    if structure_fill_style != "none":
+        if _structure_svg.find("fill-opacity") == -1:
+            _structure_svg = _structure_svg.replace(
+                ";fill:", ";fill-opacity:0.2;fill:"
+            )
+        else:
+            import re
+
+            _structure_svg = re.sub(
+                '(fill-opacity:)([^:]+)(;|")', r"\1 0.2\3", _structure_svg
+            )
+
+    structure_svg = ElementTree.fromstring(_structure_svg)
     reinforcement_drawing.append(structure_svg)
     reinforcement_drawing.set(
         "transform",

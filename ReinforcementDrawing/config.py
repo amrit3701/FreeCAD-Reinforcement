@@ -30,15 +30,43 @@ __url__ = "https://www.freecadweb.org"
 from pathlib import Path
 
 
-# The diameter of circular point (for rebars perpendicular to view plane) is
-# calculated as: SVG_POINT_DIA_FACTOR * <dia_of_rebar>
-SVG_POINT_DIA_FACTOR = 0.1
+# stroke-width of structure in drawing svg
+STRUCTURE_STROKE_WIDTH = 0.5
+
+# Fill style of structure
+# - set it to "Automatic" to automatically select structure color
+# - set it to "Custom" to choose structure color value from variable
+#   STRUCTURE_COLOR
+# - set it to none to not fill nothing in structure
+STRUCTURE_COLOR_STYLE = "Automatic"
+
+# Fill color for structure in drawing svg
+# Format: (r, g, b)
+# r, g, b value should be between 0 to 1, so you may need to divide value of r,
+# g, b by 255 to get its value between 0 to 1
+# Make sure r, g, b must be float
+STRUCTURE_COLOR = (0.3, 0.9, 0.91)
+
+# stroke-width of rebars in drawing svg
+REBARS_STROKE_WIDTH = 0.35
+
+# Color style of rebars
+# - set it to "Automatic" to automatically select rebars color
+# - set it to "Custom" to choose shape color value from variable REBARS_COLOR
+REBARS_COLOR_STYLE = "Automatic"
+
+# Fill color for structure in drawing svg
+# Format: (r, g, b)
+# r, g, b value should be between 0 to 1, so you may need to divide value of r,
+# g, b by 255 to get its value between 0 to 1
+# Make sure r, g, b must be float
+REBARS_COLOR = (0.67, 0.0, 0.0)
 
 # Font family of dimension text
 FONT_FAMILY = "DejaVu Sans"
 
 # Font size of dimension text
-FONT_SIZE = 30
+FONT_SIZE = 3
 
 # Default Template File for Drawing
 TEMPLATE_FILE = str(

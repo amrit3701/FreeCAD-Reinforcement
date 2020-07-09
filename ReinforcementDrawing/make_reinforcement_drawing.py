@@ -34,6 +34,12 @@ from .ReinforcementDrawingView import makeReinforcementDrawingObject
 from .config import (
     FONT_FAMILY,
     FONT_SIZE,
+    REBARS_STROKE_WIDTH,
+    REBARS_COLOR_STYLE,
+    REBARS_COLOR,
+    STRUCTURE_STROKE_WIDTH,
+    STRUCTURE_COLOR_STYLE,
+    STRUCTURE_COLOR,
     DRAWING_LEFT_OFFSET,
     DRAWING_TOP_OFFSET,
     DRAWING_MIN_RIGHT_OFFSET,
@@ -74,6 +80,12 @@ def makeReinforcementDrawing(
     view,
     font_family,
     font_size,
+    rebars_stroke_width,
+    rebars_color_style,
+    rebars_color,
+    structure_stroke_width,
+    structure_color_style,
+    structure_color,
     drawing_left_offset,
     drawing_top_offset,
     drawing_min_right_offset,
@@ -83,11 +95,21 @@ def makeReinforcementDrawing(
     template_file,
 ):
     """makeReinforcementDrawing(Structure, RebarsList, View, FontFamily,
-    FontSize, DrawingLeftOffset, DrawingTopOffset, DrawingMinRightOffset,
+    FontSize, RebarsStrokeWidth, RebarsColorStyle, RebarsColor,
+    StructureStrokeWidth, StructureColorStyle, StructureColor,
+    DrawingLeftOffset, DrawingTopOffset, DrawingMinRightOffset,
     DrawingMinBottomOffset, DrawingMaxWidth, DrawingMaxHeight, TemplateFile):
     Generates Reinforcement Drawing SVG view for structure.
 
     view can be "Front", "Rear", "Left", "Right", "Top" or "Bottom".
+
+    rebars_color_style/structure_color_style can be "Automatic" to select color
+    from rebar/structure shape or "Custom" to use color as defined by parameter
+    rebars_color/structure_color.
+
+    rebars_color/structure_color is tuple of r, g, b values of color.
+    r, g, b must be between 0 to 1 and must be float. Divide r, g, b value of
+    color to get values between 0 and 1.
 
     Returns reinforcement drawing view svg.
     """
@@ -99,8 +121,16 @@ def makeReinforcementDrawing(
     drawing_content_obj.Structure = structure
     drawing_content_obj.Rebars = rebars_list
     drawing_content_obj.View = view
+    drawing_content_obj.ScaleType = "Automatic"
+    drawing_content_obj.PositionType = "Automatic"
     drawing_content_obj.Font = font_family
     drawing_content_obj.FontSize = font_size
+    drawing_content_obj.RebarsStrokeWidth = rebars_stroke_width
+    drawing_content_obj.RebarsColorStyle = rebars_color_style
+    drawing_content_obj.RebarsColor = rebars_color
+    drawing_content_obj.StructureStrokeWidth = structure_stroke_width
+    drawing_content_obj.StructureColorStyle = structure_color_style
+    drawing_content_obj.StructureColor = structure_color
     drawing_content_obj.Template = reinforcement_drawing_page.Template
     drawing_content_obj.LeftOffset = drawing_left_offset
     drawing_content_obj.TopOffset = drawing_top_offset
@@ -119,6 +149,12 @@ def makeStructuresReinforcementDrawing(
     view="Front",
     font_family=FONT_FAMILY,
     font_size=FONT_SIZE,
+    rebars_stroke_width=REBARS_STROKE_WIDTH,
+    rebars_color_style=REBARS_COLOR_STYLE,
+    rebars_color=REBARS_COLOR,
+    structure_stroke_width=STRUCTURE_STROKE_WIDTH,
+    structure_color_style=STRUCTURE_COLOR_STYLE,
+    structure_color=STRUCTURE_COLOR,
     drawing_left_offset=DRAWING_LEFT_OFFSET,
     drawing_top_offset=DRAWING_TOP_OFFSET,
     drawing_min_right_offset=DRAWING_MIN_RIGHT_OFFSET,
@@ -128,7 +164,9 @@ def makeStructuresReinforcementDrawing(
     template_file=TEMPLATE_FILE,
 ):
     """makeStructuresReinforcementDrawing([StructureList, View, FontFamily,
-    FontSize, DrawingLeftOffset, DrawingTopOffset, DrawingMinRightOffset,
+    FontSize, RebarsStrokeWidth, RebarsColorStyle, RebarsColor,
+    StructureStrokeWidth, StructureColorStyle, StructureColor,
+    DrawingLeftOffset, DrawingTopOffset, DrawingMinRightOffset,
     DrawingMinBottomOffset, DrawingMaxWidth, DrawingMaxHeight, TemplateFile]):
     Generates Reinforcement Drawing SVG view for structures.
 
@@ -137,6 +175,14 @@ def makeStructuresReinforcementDrawing(
     objects.
 
     view can be "Front", "Rear", "Left", "Right", "Top" or "Bottom".
+
+    rebars_color_style/structure_color_style can be "Automatic" to select color
+    from rebar/structure shape or "Custom" to use color as defined by parameter
+    rebars_color/structure_color.
+
+    rebars_color/structure_color is tuple of r, g, b values of color.
+    r, g, b must be between 0 to 1 and must be float. Divide r, g, b value of
+    color to get values between 0 and 1.
 
     Returns dictionary with structure as key and corresponding reinforcement
     drawing svg as value.
@@ -156,6 +202,12 @@ def makeStructuresReinforcementDrawing(
             view,
             font_family,
             font_size,
+            rebars_stroke_width,
+            rebars_color_style,
+            rebars_color,
+            structure_stroke_width,
+            structure_color_style,
+            structure_color,
             drawing_left_offset,
             drawing_top_offset,
             drawing_min_right_offset,
