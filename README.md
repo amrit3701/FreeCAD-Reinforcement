@@ -3,6 +3,8 @@
 feel free to support this project:  
 
 <a href="https://patreon.com/amrit3701"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.herokuapp.com%2Famrit3701%2Fpledgesssss&style=for-the-badge" /> </a> <a href="https://patreon.com/amrit3701"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fpatreon-shieldsio.herokuapp.com%2Famrit3701&style=for-the-badge" /> </a>
+<img src="https://img.shields.io/liberapay/receives/amrit3701.svg?logo=liberapay">  <img src="https://img.shields.io/liberapay/goal/amrit3701.svg?logo=liberapay">
+
 
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/amrit3701/FreeCAD-Reinforcement.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/amrit3701/FreeCAD-Reinforcement/alerts/) [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/amrit3701/FreeCAD-Reinforcement.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/amrit3701/FreeCAD-Reinforcement/context:python)  
 A Reinforcement and Rebar external FreeCAD workbench/addon
