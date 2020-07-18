@@ -26,7 +26,10 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
+import math
 from xml.etree import ElementTree
+
+import FreeCAD
 
 
 # --------------------------------------------------------------------------
@@ -109,6 +112,156 @@ def isLineInSVG(p1, p2, svg):
         return False
 
 
+def getLinePathElement(
+    points_list,
+    stroke_width=0.35,
+    stroke_style="Continuous",
+    color="black",
+    start_symbol="None",
+    mid_points_symbol="None",
+    end_symbol="None",
+):
+    """getLinePathElement(PointsList, [StrokeWidth, StrokeStyle, Color,
+    StartSymbol, MidPointsSymbol, EndSymbol]):
+    Returns line path joining given points.
+
+    points_list is a list of points (x, y) defining line path.
+
+    stroke_style can be "Continuous", "Dash", "Dot", "DashDot", "DashDotDot" OR
+    stroke-dasharray value for line stroke.
+
+    start_symbol/end_symbol can be "FilledArrow", "Tick", "Dot" or "None".
+
+    mid_points_symbol can be "Tick", "Dot" or "None".
+    """
+    line_svg = ElementTree.Element("g")
+    line_path_data = "M{} {}".format(points_list[0][0], points_list[0][1])
+    for point in points_list[1:]:
+        line_path_data += " L{} {}".format(point[0], point[1])
+    line_path = ElementTree.Element(
+        "path",
+        d=line_path_data,
+        style="stroke:{};stroke-width:{};stroke-linecap:round;"
+        "fill:none;".format(color, stroke_width),
+    )
+    line_svg.append(line_path)
+
+    # Set stroke style
+    if stroke_style == "Continuous":
+        line_path.set("stroke-dasharray", "")
+    elif stroke_style == "Dash":
+        line_path.set("stroke-dasharray", "4,2")
+    elif stroke_style == "Dot":
+        line_path.set("stroke-dasharray", "1,2")
+    elif stroke_style == "DashDot":
+        line_path.set("stroke-dasharray", "4,2, 1,2")
+    elif stroke_style == "DashDotDot":
+        line_path.set("stroke-dasharray", "4,2, 1,2, 1,2")
+    else:
+        line_path.set("stroke-dasharray", str(stroke_style))
+
+    # Set start symbol
+    if start_symbol == "FilledArrow":
+        start_symbol_svg = getFilledArrowSVG("start", stroke_width, color)
+    elif start_symbol == "Tick":
+        start_symbol_svg = getTickSymbolSVG(stroke_width, color)
+    elif start_symbol == "Dot":
+        start_symbol_svg = getPointSVG(
+            point=FreeCAD.Vector(0, 0, 0), radius=2 * stroke_width, fill=color
+        )
+    else:
+        start_symbol_svg = None
+    if start_symbol_svg is not None:
+        start_symbol_svg.set(
+            "transform",
+            "translate({} {}) rotate({} 0 0)".format(
+                points_list[0][0],
+                points_list[0][1],
+                (
+                    math.degrees(
+                        math.atan(
+                            (points_list[0][1] - points_list[1][1])
+                            / (points_list[0][0] - points_list[1][0])
+                        )
+                    )
+                    if points_list[0][0] - points_list[1][0] != 0
+                    else 90
+                ),
+            ),
+        )
+        line_svg.append(start_symbol_svg)
+
+    # Set mid points symbol
+    if mid_points_symbol == "Tick":
+        mid_point_symbol_svg = getTickSymbolSVG(stroke_width, color)
+    elif mid_points_symbol == "Dot":
+        mid_point_symbol_svg = getPointSVG(
+            FreeCAD.Vector(0, 0, 0), radius=2 * stroke_width, fill=color
+        )
+    else:
+        mid_point_symbol_svg = None
+    if mid_point_symbol_svg is not None:
+        import copy
+
+        mid_points_symbol_svg = ElementTree.Element("g", id="line_mid_points")
+        p_point = points_list[0]
+        for mid_point in points_list[1:-1]:
+            mid_point_svg = copy.deepcopy(mid_point_symbol_svg)
+            mid_point_svg.set(
+                "transform",
+                "translate({} {}) rotate({} 0 0)".format(
+                    mid_point[0],
+                    mid_point[1],
+                    (
+                        math.degrees(
+                            math.atan(
+                                (mid_point[1] - p_point[1])
+                                / (mid_point[0] - p_point[0])
+                            )
+                        )
+                        if mid_point[0] - p_point[0] != 0
+                        else 90
+                    ),
+                ),
+            )
+            p_point = mid_point
+            mid_points_symbol_svg.append(mid_point_svg)
+        line_svg.append(mid_points_symbol_svg)
+
+    # Set end symbol
+    if end_symbol == "FilledArrow":
+        end_symbol_svg = getFilledArrowSVG("end", stroke_width, color)
+    elif end_symbol == "Tick":
+        end_symbol_svg = getTickSymbolSVG(stroke_width, color)
+    elif end_symbol == "Dot":
+        end_symbol_svg = getPointSVG(
+            point=FreeCAD.Vector(0, 0, 0), radius=2 * stroke_width, fill=color
+        )
+    else:
+        end_symbol_svg = None
+    if end_symbol_svg is not None:
+        end_symbol_svg.set(
+            "transform",
+            "translate({} {}) rotate({} 0 0)".format(
+                points_list[-1][0],
+                points_list[-1][1],
+                (
+                    math.degrees(
+                        math.atan(
+                            (points_list[-1][1] - points_list[-2][1])
+                            / (points_list[-1][0] - points_list[-2][0])
+                        )
+                    )
+                    if points_list[0][0] - points_list[1][0] != 0
+                    else 90
+                ),
+            ),
+        )
+        line_svg.append(end_symbol_svg)
+
+    return line_svg
+
+
 def getSVGTextElement(
     data,
     x_offset,
@@ -183,45 +336,45 @@ def getSVGDataCell(
     return cell_svg
 
 
-def getSVGPathElement(path_data, marker_start="", style=""):
-    """getSVGPathElement(PathData, MarkerStart, Style):
-    Return svg path element.
+def getFilledArrowSVG(arrow_type="start", stroke_width=0.35, fill="black"):
+    """getFilledArrowSVG([ArrowType, StrokeWidth, FillColor]):
+    arrow_type can be "start" or "end".
+    Returns arrow svg element placed at origin.
     """
-    path = ElementTree.Element("path")
-    path.set("d", str(path_data))
-    path.set("style", str(style))
-    path.set("marker-start", str(marker_start))
-    return path
-
-
-def getArrowMarkerElement(arrow_id, marker="start"):
-    """getStartArrowSVGElement(ArrowId, [Marker]):
-    arrow_id is id assigned to arrow marker element.
-    marker can be "start" or "end".
-    Returns arrow marker element.
-    """
-    if marker == "start":
-        arrow_svg = ElementTree.Element("marker")
-        arrow_svg.set("id", str(arrow_id))
-        arrow_svg.set("refX", str(0))
-        arrow_svg.set("refY", "3.5")
-        arrow_svg.set("orient", "auto")
-        arrow_svg.set("markerUnits", "strokeWidth")
-        arrow_svg.append(
-            ElementTree.Element("polygon", points="0 3.5, 10 0, 10 7")
+    if arrow_type == "start":
+        arrow_svg = ElementTree.Element(
+            "path",
+            d="M0,0 8,-1.5 V1.5 L0,0",
+            style="stroke:{color};fill:{color};stroke-width:{stroke_width};"
+            "stroke-linecap:round;stroke-linejoin:bevel;".format(
+                color=fill, stroke_width=str(stroke_width)
+            ),
         )
         return arrow_svg
     else:
-        arrow_svg = ElementTree.Element("marker")
-        arrow_svg.set("id", str(arrow_id))
-        arrow_svg.set("refX", str(0))
-        arrow_svg.set("refY", "3.5")
-        arrow_svg.set("orient", "auto")
-        arrow_svg.set("markerUnits", "strokeWidth")
-        arrow_svg.append(
-            ElementTree.Element("polygon", points="0 0, 0 7, 10 3.5")
+        arrow_svg = ElementTree.Element(
+            "path",
+            d="M0,0 -8,-1.5 V1.5 L0,0",
+            style="stroke:{color};fill:{color};stroke-width:{stroke_width};"
+            "stroke-linecap:round;stroke-linejoin:bevel;".format(
+                color=fill, stroke_width=stroke_width
+            ),
         )
         return arrow_svg
+
+
+def getTickSymbolSVG(stroke_width=0.35, color="black"):
+    """getTickSymbolSVG([StrokeWidth, Color]):
+    Returns Tick(/) svg element with centre at origin.
+    """
+    tick_svg = ElementTree.Element(
+        "path",
+        d="M{} {} L{} {}".format(-2, 2, 2, -2),
+        style="stroke:{};stroke-width:{};stroke-linecap:round;".format(
+            color, stroke_width
+        ),
+    )
+    return tick_svg
 
 
 # --------------------------------------------------------------------------

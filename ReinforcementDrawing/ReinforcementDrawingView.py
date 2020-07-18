@@ -21,7 +21,7 @@
 # *                                                                         *
 # ***************************************************************************
 
-__title__ = "Reinforcement Drawing Content Object"
+__title__ = "Reinforcement Drawing View Object"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
@@ -181,7 +181,8 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The color style of structure in Reinforcement Drawing svg.",
+                    "The color style of structure in Reinforcement Drawing "
+                    "svg.",
                 ),
             ).StructureColorStyle = ["Automatic", "Custom", "None"]
             obj.StructureColorStyle = "Automatic"
