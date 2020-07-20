@@ -162,7 +162,7 @@ def getLinePathElement(
 
     # Set start symbol
     if start_symbol == "FilledArrow":
-        start_symbol_svg = getFilledArrowSVG("start", stroke_width, color)
+        start_symbol_svg = getFilledArrowSVG(stroke_width, color)
     elif start_symbol == "Tick":
         start_symbol_svg = getTickSymbolSVG(stroke_width, color)
     elif start_symbol == "Dot":
@@ -177,15 +177,11 @@ def getLinePathElement(
             "translate({} {}) rotate({} 0 0)".format(
                 points_list[0][0],
                 points_list[0][1],
-                (
-                    math.degrees(
-                        math.atan(
-                            (points_list[0][1] - points_list[1][1])
-                            / (points_list[0][0] - points_list[1][0])
-                        )
+                math.degrees(
+                    math.atan2(
+                        points_list[0][1] - points_list[1][1],
+                        points_list[0][0] - points_list[1][0],
                     )
-                    if points_list[0][0] - points_list[1][0] != 0
-                    else 90
                 ),
             ),
         )
@@ -212,15 +208,10 @@ def getLinePathElement(
                 "translate({} {}) rotate({} 0 0)".format(
                     mid_point[0],
                     mid_point[1],
-                    (
-                        math.degrees(
-                            math.atan(
-                                (mid_point[1] - p_point[1])
-                                / (mid_point[0] - p_point[0])
-                            )
+                    math.degrees(
+                        math.atan2(
+                            mid_point[1] - p_point[1], mid_point[0] - p_point[0]
                         )
-                        if mid_point[0] - p_point[0] != 0
-                        else 90
                     ),
                 ),
             )
@@ -230,7 +221,7 @@ def getLinePathElement(
 
     # Set end symbol
     if end_symbol == "FilledArrow":
-        end_symbol_svg = getFilledArrowSVG("end", stroke_width, color)
+        end_symbol_svg = getFilledArrowSVG(stroke_width, color)
     elif end_symbol == "Tick":
         end_symbol_svg = getTickSymbolSVG(stroke_width, color)
     elif end_symbol == "Dot":
@@ -245,15 +236,11 @@ def getLinePathElement(
             "translate({} {}) rotate({} 0 0)".format(
                 points_list[-1][0],
                 points_list[-1][1],
-                (
-                    math.degrees(
-                        math.atan(
-                            (points_list[-1][1] - points_list[-2][1])
-                            / (points_list[-1][0] - points_list[-2][0])
-                        )
+                math.degrees(
+                    math.atan2(
+                        points_list[-1][1] - points_list[-2][1],
+                        points_list[-1][0] - points_list[-2][0],
                     )
-                    if points_list[0][0] - points_list[1][0] != 0
-                    else 90
                 ),
             ),
         )
@@ -336,31 +323,19 @@ def getSVGDataCell(
     return cell_svg
 
 
-def getFilledArrowSVG(arrow_type="start", stroke_width=0.35, fill="black"):
-    """getFilledArrowSVG([ArrowType, StrokeWidth, FillColor]):
-    arrow_type can be "start" or "end".
+def getFilledArrowSVG(stroke_width=0.35, fill="black"):
+    """getFilledArrowSVG([StrokeWidth, FillColor]):
     Returns arrow svg element placed at origin.
     """
-    if arrow_type == "start":
-        arrow_svg = ElementTree.Element(
-            "path",
-            d="M0,0 8,-1.5 V1.5 L0,0",
-            style="stroke:{color};fill:{color};stroke-width:{stroke_width};"
-            "stroke-linecap:round;stroke-linejoin:bevel;".format(
-                color=fill, stroke_width=str(stroke_width)
-            ),
-        )
-        return arrow_svg
-    else:
-        arrow_svg = ElementTree.Element(
-            "path",
-            d="M0,0 -8,-1.5 V1.5 L0,0",
-            style="stroke:{color};fill:{color};stroke-width:{stroke_width};"
-            "stroke-linecap:round;stroke-linejoin:bevel;".format(
-                color=fill, stroke_width=stroke_width
-            ),
-        )
-        return arrow_svg
+    arrow_svg = ElementTree.Element(
+        "path",
+        d="M0,0 -8,-1.5 V1.5 L0,0",
+        style="stroke:{color};fill:{color};stroke-width:{stroke_width};"
+        "stroke-linecap:round;stroke-linejoin:bevel;".format(
+            color=fill, stroke_width=str(stroke_width)
+        ),
+    )
+    return arrow_svg
 
 
 def getTickSymbolSVG(stroke_width=0.35, color="black"):

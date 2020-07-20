@@ -33,7 +33,11 @@ import FreeCAD
 from Draft import getrgb
 
 from .ReinforcementDrawingfunc import getViewPlane, getDrawingMinMaxXY
-from .ReinforcementDimensioningfunc import getDimensionLineSVG
+from .ReinforcementDimensioningfunc import (
+    getRebarDimensionLabel,
+    getDimensionLineSVG,
+    getRebarDimensionData,
+)
 from SVGfunc import getSVGRootElement
 
 
@@ -202,7 +206,7 @@ class ReinforcementDimensioning:
                     "App::Property", "The color of dimension lines.",
                 ),
             )
-            obj.LineColor = (0.67, 0.33, 0.0)
+            obj.LineColor = (0.0, 0.0, 0.50)
 
         if not hasattr(obj, "TextColor"):
             obj.addProperty(
@@ -277,12 +281,18 @@ class ReinforcementDimensioning:
             )
             return
 
-        if obj.WayPointsType == "Automatic" and not obj.Rebar:
-            FreeCAD.Console.PrintError(
-                "No Rebar, return without a reinforcement dimensioning for {}."
-                "\n".format(obj.Name)
-            )
-            return
+        if obj.WayPointsType == "Automatic":
+            if not obj.Rebar:
+                FreeCAD.Console.PrintError(
+                    "No Rebar, return without a reinforcement dimensioning for "
+                    "{}.\n".format(obj.Name)
+                )
+                return
+            elif obj.Rebar not in obj.ParentDrawingView.Rebars:
+                FreeCAD.Console.PrintError(
+                    "Rebar is either not visible or not present in "
+                    "reinforcement drawing.\n"
+                )
 
         if obj.WayPointsType == "Custom" and len(obj.WayPoints) < 2:
             FreeCAD.Console.PrintError(
@@ -302,25 +312,83 @@ class ReinforcementDimensioning:
         obj.Y = obj.ParentDrawingView.Y
         root_svg = getSVGRootElement()
 
-        if obj.WayPointsType == "Automatic":
-            if obj.Rebar.RebarShape == "StraightRebar":
-                pass
-
-        dimensions_svg = getDimensionLineSVG(
-            [(point.x, point.y) for point in obj.WayPoints],
-            obj.DimensionFormat,
-            obj.Font,
-            obj.FontSize.Value / obj.Scale,
-            getrgb(obj.TextColor),
-            obj.TextPositionType,
-            obj.StrokeWidth.Value / obj.Scale,
-            obj.LineStyle,
-            getrgb(obj.LineColor),
-            obj.LineStartSymbol,
-            obj.LineMidPointSymbol,
-            obj.LineEndSymbol,
+        view_plane = getViewPlane(obj.ParentDrawingView.View)
+        min_x, min_y, max_x, max_y = getDrawingMinMaxXY(
+            obj.ParentDrawingView.Structure,
+            obj.ParentDrawingView.Rebars,
+            view_plane,
         )
-        root_svg.append(dimensions_svg)
+
+        if obj.WayPointsType == "Automatic":
+            dimension_data_list = getRebarDimensionData(
+                obj.Rebar,
+                obj.DimensionFormat,
+                view_plane,
+                obj.ParentDrawingView.DimensionLeftOffset.Value / obj.Scale,
+                obj.ParentDrawingView.DimensionRightOffset.Value / obj.Scale,
+                obj.ParentDrawingView.DimensionTopOffset.Value / obj.Scale,
+                obj.ParentDrawingView.DimensionBottomOffset.Value / obj.Scale,
+                min_x,
+                min_y,
+                max_x,
+                max_y,
+            )
+            for dimension_data in dimension_data_list:
+                way_points = dimension_data["WayPoints"]
+                dimension_label = dimension_data["DimensionLabel"]
+                dimensions_svg = getDimensionLineSVG(
+                    [(point.x, point.y) for point in way_points],
+                    dimension_label,
+                    obj.Font,
+                    obj.FontSize.Value / obj.Scale,
+                    getrgb(obj.TextColor),
+                    obj.TextPositionType,
+                    obj.StrokeWidth.Value / obj.Scale,
+                    obj.LineStyle,
+                    getrgb(obj.LineColor),
+                    obj.LineStartSymbol,
+                    obj.LineMidPointSymbol,
+                    obj.LineEndSymbol,
+                )
+                # Apply translation so that (0,0) in dimensioning corresponds to
+                # (0,0) in ParentDrawingView
+                dimensions_svg.set(
+                    "transform",
+                    "translate({}, {})".format(
+                        abs(min(min_x, 0)), abs(min(min_y, 0))
+                    ),
+                )
+                root_svg.append(dimensions_svg)
+        else:
+            if obj.Rebar:
+                dimension_label = getRebarDimensionLabel(
+                    obj.Rebar, obj.DimensionFormat
+                )
+            else:
+                dimension_label = obj.DimensionFormat
+            dimensions_svg = getDimensionLineSVG(
+                [(point.x, point.y) for point in obj.WayPoints],
+                dimension_label,
+                obj.Font,
+                obj.FontSize.Value / obj.Scale,
+                getrgb(obj.TextColor),
+                obj.TextPositionType,
+                obj.StrokeWidth.Value / obj.Scale,
+                obj.LineStyle,
+                getrgb(obj.LineColor),
+                obj.LineStartSymbol,
+                obj.LineMidPointSymbol,
+                obj.LineEndSymbol,
+            )
+            # Apply translation so that (0,0) in dimensioning corresponds to
+            # (0,0) in ParentDrawingView
+            dimensions_svg.set(
+                "transform",
+                "translate({}, {})".format(
+                    abs(min(min_x, 0)), abs(min(min_y, 0))
+                ),
+            )
+            root_svg.append(dimensions_svg)
 
         # Set svg height and width same as ParentDrawingView
         root_svg.set("width", "{}mm".format(obj.ParentDrawingView.Width.Value))
@@ -335,18 +403,6 @@ class ReinforcementDimensioning:
             ),
         )
 
-        # Apply translation so that (0,0) in dimensioning corresponds to (0,0)
-        # in ParentDrawingView
-        min_x, min_y, max_x, max_y = getDrawingMinMaxXY(
-            obj.ParentDrawingView.Structure,
-            obj.ParentDrawingView.Rebars,
-            getViewPlane(obj.ParentDrawingView.View),
-        )
-        dimensions_svg.set(
-            "transform",
-            "translate({}, {})".format(abs(min(min_x, 0)), abs(min(min_y, 0))),
-        )
-
         obj.Symbol = ElementTree.tostring(root_svg, encoding="unicode")
 
         if FreeCAD.GuiUp:
@@ -357,3 +413,13 @@ class ReinforcementDimensioning:
 
     def __setstate__(self, state):
         return None
+
+
+def makeReinforcementDimensioningObject(parent_drawing_view, drawing_page=None):
+    dimension_obj = ReinforcementDimensioning(
+        "ReinforcementDimensioning"
+    ).Object
+    dimension_obj.ParentDrawingView = parent_drawing_view
+    if drawing_page:
+        drawing_page.addView(dimension_obj)
+    return dimension_obj
