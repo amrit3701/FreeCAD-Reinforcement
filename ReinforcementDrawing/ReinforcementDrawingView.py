@@ -305,6 +305,57 @@ class ReinforcementDrawingView:
             )
             obj.MaxHeight = 250
 
+        # These offsets are used by ReinforcementDimensioning objects to
+        # autocalculate rebars dimension points to align dimension text to left,
+        # right, top or bottom line
+        if not hasattr(obj, "DimensionLeftOffset"):
+            obj.addProperty(
+                "App::PropertyLength",
+                "DimensionLeftOffset",
+                "ReinforcementDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The left offset of Reinforcement Dimension.",
+                ),
+            )
+            obj.DimensionLeftOffset = 10
+
+        if not hasattr(obj, "DimensionRightOffset"):
+            obj.addProperty(
+                "App::PropertyLength",
+                "DimensionRightOffset",
+                "ReinforcementDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The right offset of Reinforcement Dimension.",
+                ),
+            )
+            obj.DimensionRightOffset = 10
+
+        if not hasattr(obj, "DimensionTopOffset"):
+            obj.addProperty(
+                "App::PropertyLength",
+                "DimensionTopOffset",
+                "ReinforcementDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The top offset of Reinforcement Dimension.",
+                ),
+            )
+            obj.DimensionTopOffset = 10
+
+        if not hasattr(obj, "DimensionBottomOffset"):
+            obj.addProperty(
+                "App::PropertyLength",
+                "DimensionBottomOffset",
+                "ReinforcementDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The bottom offset of Reinforcement Dimension.",
+                ),
+            )
+            obj.DimensionBottomOffset = 10
+
     def onDocumentRestored(self, obj):
         """Upgrade ReinforcementDrawing object."""
         self.setProperties(obj)
