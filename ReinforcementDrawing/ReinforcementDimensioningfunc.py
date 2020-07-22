@@ -26,18 +26,23 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
+import math
 from xml.etree import ElementTree
 
 import FreeCAD
 import DraftGeomUtils
+import DraftVecUtils
 
 from .ReinforcementDrawingfunc import getRebarsSpanAxis, getStirrupSVGPoints
 from SVGfunc import getSVGTextElement, getLinePathElement
 
 
-def getPathMidPoint(points_list):
-    """getPathMidPoint(PointsList):
+def getPathMidPoint(points_list, return_left_right_points=False):
+    """getPathMidPoint(PointsList, [ReturnLeftRightPoints]):
     Returns mid point of path defined by points_list.
+
+    if return_left_right_points is True, then left and right points of mid_point
+    are also returned: (left_point, mid_point, right_point)
     """
     import math
 
@@ -49,7 +54,10 @@ def getPathMidPoint(points_list):
 
     for i, point in enumerate(points_list[1:], start=1):
         if int(sum(points_dist[:i])) == int(path_length / 2):
-            return point
+            if return_left_right_points:
+                return (points_list[i - 1], point, points_list[i + 1])
+            else:
+                return point
         elif int(sum(points_dist[:i])) > int(path_length / 2):
             p1 = points_list[i - 1]
             p2 = point
@@ -59,7 +67,10 @@ def getPathMidPoint(points_list):
                 p1[0] + (p2[0] - p1[0]) * rem_dist / segment_length,
                 p1[1] + (p2[1] - p1[1]) * rem_dist / segment_length,
             )
-            return mid_point
+            if return_left_right_points:
+                return (p1, mid_point, p2)
+            else:
+                return mid_point
 
 
 def getDimensionLineSVG(
@@ -107,15 +118,39 @@ def getDimensionLineSVG(
     dimension_svg.append(line_svg)
 
     if label_position_type == "MidOfLine":
-        mid_point = getPathMidPoint(points_list)
+        left_point, mid_point, right_point = getPathMidPoint(
+            points_list, return_left_right_points=True
+        )
         label_svg = getSVGTextElement(
             label,
             mid_point[0],
-            mid_point[1] - 1,
+            mid_point[1] - line_stroke_width * 2,
             font_family,
             font_size,
             "middle",
         )
+        if DraftVecUtils.isColinear(
+            [
+                FreeCAD.Vector(left_point[0], left_point[1], 0),
+                FreeCAD.Vector(mid_point[0], mid_point[1], 0),
+                FreeCAD.Vector(right_point[0], right_point[1], 0),
+            ]
+        ):
+            label_svg.set(
+                "transform",
+                "rotate({} {} {})".format(
+                    math.degrees(
+                        math.atan(
+                            (right_point[1] - left_point[1])
+                            / (right_point[0] - left_point[0])
+                        )
+                    )
+                    if right_point[0] - left_point[0] != 0
+                    else -90,
+                    mid_point[0],
+                    mid_point[1],
+                ),
+            )
     elif label_position_type in ("StartOfLine", "EndOfLine"):
         if label_position_type == "StartOfLine":
             p1 = points_list[1]
@@ -148,7 +183,7 @@ def getDimensionLineSVG(
                 label_svg = getSVGTextElement(
                     label,
                     p2[0],
-                    p2[1] - 1 + font_size / 2,
+                    p2[1] + font_size / 2,
                     font_family,
                     font_size,
                     "end",
@@ -158,7 +193,7 @@ def getDimensionLineSVG(
                 label_svg = getSVGTextElement(
                     label,
                     p2[0],
-                    p2[1] - 1 + font_size / 2,
+                    p2[1] + font_size / 2,
                     font_family,
                     font_size,
                     "start",
@@ -270,14 +305,14 @@ def getStirrupDimensionData(
                 if abs(svg_min_y - start_p1.y) < abs(svg_max_y - start_p2.y):
                     # Stirrup is more closer to top of drawing
                     dimension_points = [
-                        FreeCAD.Vector(start_p1.x, start_p1.y - 1),
+                        FreeCAD.Vector(start_p1.x, start_p1.y - 5),
                         FreeCAD.Vector(
                             start_p1.x, svg_min_y - dimension_top_offset
                         ),
                         FreeCAD.Vector(
                             end_p1.x, svg_min_y - dimension_top_offset
                         ),
-                        FreeCAD.Vector(end_p1.x, end_p1.y - 1),
+                        FreeCAD.Vector(end_p1.x, end_p1.y - 5),
                     ]
                     dimension_data_list.append(
                         {
@@ -288,14 +323,14 @@ def getStirrupDimensionData(
                 else:
                     # Stirrup is more closer to bottom of drawing
                     dimension_points = [
-                        FreeCAD.Vector(start_p2.x, start_p2.y + 1),
+                        FreeCAD.Vector(start_p2.x, start_p2.y + 5),
                         FreeCAD.Vector(
                             start_p2.x, svg_max_y + dimension_bottom_offset
                         ),
                         FreeCAD.Vector(
                             end_p2.x, svg_max_y + dimension_bottom_offset
                         ),
-                        FreeCAD.Vector(end_p2.x, end_p2.y + 1),
+                        FreeCAD.Vector(end_p2.x, end_p2.y + 5),
                     ]
                     dimension_data_list.append(
                         {
@@ -307,14 +342,14 @@ def getStirrupDimensionData(
                 if abs(svg_min_x - start_p1.x) < abs(svg_max_x - start_p2.x):
                     # Stirrup is more closer to left of drawing
                     dimension_points = [
-                        FreeCAD.Vector(start_p1.x - 1, start_p1.y),
+                        FreeCAD.Vector(start_p1.x - 5, start_p1.y),
                         FreeCAD.Vector(
                             svg_min_x - dimension_left_offset, start_p1.y
                         ),
                         FreeCAD.Vector(
                             svg_min_x - dimension_left_offset, end_p1.y
                         ),
-                        FreeCAD.Vector(end_p1.x - 1, end_p1.y),
+                        FreeCAD.Vector(end_p1.x - 5, end_p1.y),
                     ]
                     dimension_data_list.append(
                         {
@@ -325,14 +360,14 @@ def getStirrupDimensionData(
                 else:
                     # Stirrup is more closer to right of drawing
                     dimension_points = [
-                        FreeCAD.Vector(start_p2.x + 1, start_p2.y),
+                        FreeCAD.Vector(start_p2.x + 5, start_p2.y),
                         FreeCAD.Vector(
                             svg_max_x + dimension_right_offset, start_p2.y
                         ),
                         FreeCAD.Vector(
                             svg_max_x + dimension_right_offset, end_p2.y
                         ),
-                        FreeCAD.Vector(end_p2.x + 1, end_p2.y),
+                        FreeCAD.Vector(end_p2.x + 5, end_p2.y),
                     ]
                     dimension_data_list.append(
                         {

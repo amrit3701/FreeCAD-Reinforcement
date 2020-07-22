@@ -101,28 +101,6 @@ class ReinforcementDimensioning:
             )
             obj.WayPoints = [(0.00, 0.00, 0.00), (50.00, 0.00, 0.00)]
 
-        # TranslateX/Y are added to correspond (0,0) in TechDraw sheet to
-        # (0, 0) in dimension svg
-        obj.setEditorMode("X", 2)
-        obj.setEditorMode("Y", 2)
-        obj.setEditorMode("LockPosition", 2)
-        obj.LockPosition = True
-        if not hasattr(obj, "TranslateX"):
-            obj.addProperty(
-                "App::PropertyDistance",
-                "TranslateX",
-                "ReinforcementDimensioning",
-                QT_TRANSLATE_NOOP("App::Property", "The X-axis translation."),
-            )
-
-        if not hasattr(obj, "TranslateY"):
-            obj.addProperty(
-                "App::PropertyDistance",
-                "TranslateY",
-                "ReinforcementDimensioning",
-                QT_TRANSLATE_NOOP("App::Property", "The Y-axis translation."),
-            )
-
         if not hasattr(obj, "TextPositionType"):
             obj.addProperty(
                 "App::PropertyEnumeration",
@@ -301,11 +279,6 @@ class ReinforcementDimensioning:
                 "\n".format(obj.Name)
             )
             return
-
-        # TODO: [Enhancement] Rotate dimensions with parent drawing and need to
-        # add appropriate translation for correct placement
-        # Not sure if this feature is needed or not
-        # obj.Rotation = obj.ParentDrawingView.Rotation
 
         obj.Scale = obj.ParentDrawingView.Scale
         obj.X = obj.ParentDrawingView.X
