@@ -26,7 +26,6 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
-import re
 from xml.etree import ElementTree
 from PySide2.QtCore import QT_TRANSLATE_NOOP
 
@@ -100,30 +99,6 @@ class ReinforcementDrawingView:
                 ),
             ).PositionType = ["Automatic", "Custom"]
             obj.PositionType = "Automatic"
-
-        if not hasattr(obj, "Font"):
-            obj.addProperty(
-                "App::PropertyFont",
-                "Font",
-                "ReinforcementDrawingView",
-                QT_TRANSLATE_NOOP(
-                    "App::Property",
-                    "The font family of text in Reinforcement Drawing view.",
-                ),
-            )
-            obj.Font = "DejaVu Sans"
-
-        if not hasattr(obj, "FontSize"):
-            obj.addProperty(
-                "App::PropertyLength",
-                "FontSize",
-                "ReinforcementDrawingView",
-                QT_TRANSLATE_NOOP(
-                    "App::Property",
-                    "The font size of text in Reinforcement Drawing view.",
-                ),
-            )
-            obj.FontSize = 3
 
         if not hasattr(obj, "RebarsStrokeWidth"):
             obj.addProperty(
@@ -310,51 +285,51 @@ class ReinforcementDrawingView:
         # right, top or bottom line
         if not hasattr(obj, "DimensionLeftOffset"):
             obj.addProperty(
-                "App::PropertyLength",
+                "App::PropertyVector",
                 "DimensionLeftOffset",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The left offset of Reinforcement Dimension.",
+                    "The left offset point for Reinforcement Dimension.",
                 ),
             )
-            obj.DimensionLeftOffset = 10
+            obj.DimensionLeftOffset = (10, 10, 0)
 
         if not hasattr(obj, "DimensionRightOffset"):
             obj.addProperty(
-                "App::PropertyLength",
+                "App::PropertyVector",
                 "DimensionRightOffset",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The right offset of Reinforcement Dimension.",
+                    "The right offset point for Reinforcement Dimension.",
                 ),
             )
-            obj.DimensionRightOffset = 10
+            obj.DimensionRightOffset = (10, 10, 0)
 
         if not hasattr(obj, "DimensionTopOffset"):
             obj.addProperty(
-                "App::PropertyLength",
+                "App::PropertyVector",
                 "DimensionTopOffset",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The top offset of Reinforcement Dimension.",
+                    "The top offset point for Reinforcement Dimension.",
                 ),
             )
-            obj.DimensionTopOffset = 10
+            obj.DimensionTopOffset = (10, 10, 0)
 
         if not hasattr(obj, "DimensionBottomOffset"):
             obj.addProperty(
-                "App::PropertyLength",
+                "App::PropertyVector",
                 "DimensionBottomOffset",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The bottom offset of Reinforcement Dimension.",
+                    "The bottom offset point for Reinforcement Dimension.",
                 ),
             )
-            obj.DimensionBottomOffset = 10
+            obj.DimensionBottomOffset = (10, 10, 0)
 
     def onDocumentRestored(self, obj):
         """Upgrade ReinforcementDrawing object."""
@@ -438,17 +413,6 @@ class ReinforcementDrawingView:
         )
         obj.Symbol = ElementTree.tostring(
             reinforcement_drawing_svg_element, encoding="unicode"
-        )
-        obj.Symbol = re.sub(
-            'font-family="([^"]+)"',
-            'font-family="{}"'.format(obj.Font),
-            obj.Symbol,
-        )
-
-        obj.Symbol = re.sub(
-            'font-size="([^"]+)"',
-            'font-size="{}"'.format(obj.FontSize.Value / obj.Scale),
-            obj.Symbol,
         )
 
         if FreeCAD.GuiUp:

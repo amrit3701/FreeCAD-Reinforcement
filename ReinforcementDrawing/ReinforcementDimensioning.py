@@ -38,13 +38,15 @@ from .ReinforcementDimensioningfunc import (
     getDimensionLineSVG,
     getRebarDimensionData,
 )
-from SVGfunc import getSVGRootElement
+from SVGfunc import getSVGRootElement, getSVGTextElement
 
 
 class ReinforcementDimensioning:
     "A Rebar Dimensioning SVG View object."
 
-    def __init__(self, obj_name):
+    def __init__(
+        self, parent_drawing_view, obj_name="ReinforcementDimensioning"
+    ):
         """Initialize Rebars Dimensioning SVG View object."""
         reinforcement_dimensioning = FreeCAD.ActiveDocument.addObject(
             "TechDraw::DrawViewSymbolPython", obj_name
@@ -52,6 +54,32 @@ class ReinforcementDimensioning:
         self.setProperties(reinforcement_dimensioning)
         self.Object = reinforcement_dimensioning
         reinforcement_dimensioning.Proxy = self
+
+        reinforcement_dimensioning.ParentDrawingView = parent_drawing_view
+
+        # Set dimension MinMax values from parent ReinforcementDrawingView
+        # object
+        reinforcement_dimensioning.DimensionLeftOffset = (
+            parent_drawing_view.DimensionLeftOffset
+        )
+        reinforcement_dimensioning.DimensionRightOffset = (
+            parent_drawing_view.DimensionRightOffset
+        )
+        reinforcement_dimensioning.DimensionTopOffset = (
+            parent_drawing_view.DimensionTopOffset
+        )
+        reinforcement_dimensioning.DimensionBottomOffset = (
+            parent_drawing_view.DimensionBottomOffset
+        )
+
+        # Increment parent ReinforcementDrawingView object left/right/top/bottom
+        # dimension offset so that new dimenion objects will not be mixed up
+        # with previously created dimension objects
+        # TODO: Modify this logic to increament single offset as reqd.
+        parent_drawing_view.DimensionLeftOffset += FreeCAD.Vector(5, 5, 0)
+        parent_drawing_view.DimensionRightOffset += FreeCAD.Vector(5, 5, 0)
+        parent_drawing_view.DimensionTopOffset += FreeCAD.Vector(5, 5, 0)
+        parent_drawing_view.DimensionBottomOffset += FreeCAD.Vector(5, 5, 0)
 
     def setProperties(self, obj):
         """Add properties to RebarDimensioning object."""
@@ -124,7 +152,7 @@ class ReinforcementDimensioning:
                     "App::Property", "The dimension label format.",
                 ),
             )
-            obj.DimensionFormat = "%C⌀%D"
+            obj.DimensionFormat = "%M    %C⌀%D"
 
         if not hasattr(obj, "Font"):
             obj.addProperty(
@@ -245,6 +273,54 @@ class ReinforcementDimensioning:
             obj.LineMidPointSymbol = "Dot"
             # TODO: Implement "Open Circle" and "Cross"
 
+        if not hasattr(obj, "DimensionLeftOffset"):
+            obj.addProperty(
+                "App::PropertyVector",
+                "DimensionLeftOffset",
+                "ReinforcementDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The left offset point for automated reinforcement "
+                    "dimensioning.",
+                ),
+            )
+
+        if not hasattr(obj, "DimensionRightOffset"):
+            obj.addProperty(
+                "App::PropertyVector",
+                "DimensionRightOffset",
+                "ReinforcementDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The right offset point for automated reinforcement "
+                    "dimensioning.",
+                ),
+            )
+
+        if not hasattr(obj, "DimensionTopOffset"):
+            obj.addProperty(
+                "App::PropertyVector",
+                "DimensionTopOffset",
+                "ReinforcementDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The top offset point for automated reinforcement "
+                    "dimensioning.",
+                ),
+            )
+
+        if not hasattr(obj, "DimensionBottomOffset"):
+            obj.addProperty(
+                "App::PropertyVector",
+                "DimensionBottomOffset",
+                "ReinforcementDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The bottm offset point for automated reinforcement "
+                    "dimensioning.",
+                ),
+            )
+
     def onDocumentRestored(self, obj):
         """Upgrade ReinforcementDimensioning object."""
         self.setProperties(obj)
@@ -297,32 +373,47 @@ class ReinforcementDimensioning:
                 obj.Rebar,
                 obj.DimensionFormat,
                 view_plane,
-                obj.ParentDrawingView.DimensionLeftOffset.Value / obj.Scale,
-                obj.ParentDrawingView.DimensionRightOffset.Value / obj.Scale,
-                obj.ParentDrawingView.DimensionTopOffset.Value / obj.Scale,
-                obj.ParentDrawingView.DimensionBottomOffset.Value / obj.Scale,
+                obj.DimensionLeftOffset / obj.Scale,
+                obj.DimensionRightOffset / obj.Scale,
+                obj.DimensionTopOffset / obj.Scale,
+                obj.DimensionBottomOffset / obj.Scale,
                 min_x,
                 min_y,
                 max_x,
                 max_y,
             )
             for dimension_data in dimension_data_list:
-                way_points = dimension_data["WayPoints"]
-                dimension_label = dimension_data["DimensionLabel"]
-                dimensions_svg = getDimensionLineSVG(
-                    [(point.x, point.y) for point in way_points],
-                    dimension_label,
-                    obj.Font,
-                    obj.FontSize.Value / obj.Scale,
-                    getrgb(obj.TextColor),
-                    obj.TextPositionType,
-                    obj.StrokeWidth.Value / obj.Scale,
-                    obj.LineStyle,
-                    getrgb(obj.LineColor),
-                    obj.LineStartSymbol,
-                    obj.LineMidPointSymbol,
-                    obj.LineEndSymbol,
-                )
+                if (
+                    "LabelOnly" in dimension_data
+                    and dimension_data["LabelOnly"] is True
+                ):
+                    dimensions_svg = getSVGTextElement(
+                        dimension_data["DimensionLabel"],
+                        dimension_data["LabelPosition"].x,
+                        dimension_data["LabelPosition"].y,
+                        obj.Font,
+                        obj.FontSize.Value / obj.Scale,
+                        "middle",
+                    )
+                    dimensions_svg.set("fill", getrgb(obj.TextColor))
+                else:
+                    way_points = dimension_data["WayPoints"]
+                    dimension_label = dimension_data["DimensionLabel"]
+                    dimensions_svg = getDimensionLineSVG(
+                        [(point.x, point.y) for point in way_points],
+                        dimension_label,
+                        obj.Font,
+                        obj.FontSize.Value / obj.Scale,
+                        getrgb(obj.TextColor),
+                        obj.TextPositionType,
+                        obj.StrokeWidth.Value / obj.Scale,
+                        obj.LineStyle,
+                        getrgb(obj.LineColor),
+                        obj.LineStartSymbol,
+                        obj.LineMidPointSymbol,
+                        obj.LineEndSymbol,
+                    )
+
                 # Apply translation so that (0,0) in dimensioning corresponds to
                 # (0,0) in ParentDrawingView
                 dimensions_svg.set(
@@ -390,9 +481,8 @@ class ReinforcementDimensioning:
 
 def makeReinforcementDimensioningObject(parent_drawing_view, drawing_page=None):
     dimension_obj = ReinforcementDimensioning(
-        "ReinforcementDimensioning"
+        parent_drawing_view, "ReinforcementDimensioning"
     ).Object
-    dimension_obj.ParentDrawingView = parent_drawing_view
     if drawing_page:
         drawing_page.addView(dimension_obj)
     return dimension_obj
