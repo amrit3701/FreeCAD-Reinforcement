@@ -111,7 +111,7 @@ def makeReinforcementDrawing(
     r, g, b must be between 0 to 1 and must be float. Divide r, g, b value of
     color to get values between 0 and 1.
 
-    Returns reinforcement drawing view svg.
+    Returns reinforcement drawing page of type TechDraw::DrawPage.
     """
 
     reinforcement_drawing_page = makeReinforcementDrawingObject(template_file)
@@ -123,8 +123,6 @@ def makeReinforcementDrawing(
     drawing_content_obj.View = view
     drawing_content_obj.ScaleType = "Automatic"
     drawing_content_obj.PositionType = "Automatic"
-    drawing_content_obj.Font = font_family
-    drawing_content_obj.FontSize = font_size
     drawing_content_obj.RebarsStrokeWidth = rebars_stroke_width
     drawing_content_obj.RebarsColorStyle = rebars_color_style
     drawing_content_obj.RebarsColor = rebars_color
@@ -141,7 +139,7 @@ def makeReinforcementDrawing(
     drawing_content_obj.recompute()
     reinforcement_drawing_page.recompute(True)
 
-    return reinforcement_drawing_page.Views[0].Symbol
+    return reinforcement_drawing_page
 
 
 def makeStructuresReinforcementDrawing(
@@ -185,7 +183,7 @@ def makeStructuresReinforcementDrawing(
     color to get values between 0 and 1.
 
     Returns dictionary with structure as key and corresponding reinforcement
-    drawing svg as value.
+    drawing page as value.
     """
     struct_rebars_dict = getStructureRebarsDict(structure_list)
     if not struct_rebars_dict:
@@ -194,9 +192,9 @@ def makeStructuresReinforcementDrawing(
             "Returning without drawing svg.\n"
         )
         return None
-    struct_svg_dict = {}
+    struct_drawing_page_dict = {}
     for structure in struct_rebars_dict:
-        struct_svg_dict[structure] = makeReinforcementDrawing(
+        struct_drawing_page_dict[structure] = makeReinforcementDrawing(
             structure,
             struct_rebars_dict[structure],
             view,
@@ -216,4 +214,4 @@ def makeStructuresReinforcementDrawing(
             drawing_max_height,
             template_file,
         )
-    return struct_svg_dict
+    return struct_drawing_page_dict

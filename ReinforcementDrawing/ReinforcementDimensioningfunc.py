@@ -33,7 +33,11 @@ import FreeCAD
 import DraftGeomUtils
 import DraftVecUtils
 
-from .ReinforcementDrawingfunc import getRebarsSpanAxis, getStirrupSVGPoints
+from .ReinforcementDrawingfunc import (
+    getProjectionToSVGPlane,
+    getRebarsSpanAxis,
+    getStirrupSVGPoints,
+)
 from SVGfunc import getSVGTextElement, getLinePathElement
 
 
@@ -204,7 +208,8 @@ def getDimensionLineSVG(
 
 
 def getRebarDimensionLabel(rebar, dimension_format):
-    dimension_label = dimension_format.replace("%C", str(rebar.Amount))
+    dimension_label = dimension_format.replace("%M", str(rebar.Mark))
+    dimension_label = dimension_label.replace("%C", str(rebar.Amount))
     diameter = str(rebar.Diameter.Value)
     if "." in diameter:
         diameter = diameter.rstrip("0").rstrip(".")
@@ -216,10 +221,10 @@ def getStirrupDimensionData(
     rebar,
     dimension_format,
     view_plane,
-    dimension_left_offset,
-    dimension_right_offset,
-    dimension_top_offset,
-    dimension_bottom_offset,
+    dimension_left_offset_point,
+    dimension_right_offset_point,
+    dimension_top_offset_point,
+    dimension_bottom_offset_point,
     svg_min_x,
     svg_min_y,
     svg_max_x,
@@ -228,8 +233,22 @@ def getStirrupDimensionData(
     drawing_plane_normal = view_plane.axis
     stirrup_span_axis = getRebarsSpanAxis(rebar)
     if round(drawing_plane_normal.cross(stirrup_span_axis).Length) == 0:
-        # TODO: Implement this
-        pass
+        import Part
+
+        edges = Part.__sortEdges__(rebar.Base.Shape.Edges)
+        mid_edge = edges[round(len(edges) / 2)]
+        mid_point = getProjectionToSVGPlane(
+            DraftGeomUtils.findMidpoint(mid_edge), view_plane
+        )
+        return [
+            {
+                "LabelPosition": mid_point,
+                "LabelOnly": True,
+                "DimensionLabel": getRebarDimensionLabel(
+                    rebar, dimension_format
+                ),
+            }
+        ]
     else:
         if round(stirrup_span_axis.cross(view_plane.u).Length) == 0:
             stirrup_alignment = "V"
@@ -272,6 +291,9 @@ def getStirrupDimensionData(
                 rebar_points.append((start_p1, start_p2, end_p1, end_p2))
 
                 dimension_label = dimension_format.replace(
+                    "%M", str(rebar.Mark)
+                )
+                dimension_label = dimension_label.replace(
                     "%C", str(rebars_count)
                 )
                 dimension_label = dimension_label.replace("%D", rebar_diameter)
@@ -307,10 +329,10 @@ def getStirrupDimensionData(
                     dimension_points = [
                         FreeCAD.Vector(start_p1.x, start_p1.y - 5),
                         FreeCAD.Vector(
-                            start_p1.x, svg_min_y - dimension_top_offset
+                            start_p1.x, svg_min_y - dimension_top_offset_point.y
                         ),
                         FreeCAD.Vector(
-                            end_p1.x, svg_min_y - dimension_top_offset
+                            end_p1.x, svg_min_y - dimension_top_offset_point.y
                         ),
                         FreeCAD.Vector(end_p1.x, end_p1.y - 5),
                     ]
@@ -325,10 +347,12 @@ def getStirrupDimensionData(
                     dimension_points = [
                         FreeCAD.Vector(start_p2.x, start_p2.y + 5),
                         FreeCAD.Vector(
-                            start_p2.x, svg_max_y + dimension_bottom_offset
+                            start_p2.x,
+                            svg_max_y + dimension_bottom_offset_point.y,
                         ),
                         FreeCAD.Vector(
-                            end_p2.x, svg_max_y + dimension_bottom_offset
+                            end_p2.x,
+                            svg_max_y + dimension_bottom_offset_point.y,
                         ),
                         FreeCAD.Vector(end_p2.x, end_p2.y + 5),
                     ]
@@ -344,10 +368,11 @@ def getStirrupDimensionData(
                     dimension_points = [
                         FreeCAD.Vector(start_p1.x - 5, start_p1.y),
                         FreeCAD.Vector(
-                            svg_min_x - dimension_left_offset, start_p1.y
+                            svg_min_x - dimension_left_offset_point.x,
+                            start_p1.y,
                         ),
                         FreeCAD.Vector(
-                            svg_min_x - dimension_left_offset, end_p1.y
+                            svg_min_x - dimension_left_offset_point.x, end_p1.y
                         ),
                         FreeCAD.Vector(end_p1.x - 5, end_p1.y),
                     ]
@@ -362,10 +387,11 @@ def getStirrupDimensionData(
                     dimension_points = [
                         FreeCAD.Vector(start_p2.x + 5, start_p2.y),
                         FreeCAD.Vector(
-                            svg_max_x + dimension_right_offset, start_p2.y
+                            svg_max_x + dimension_right_offset_point.x,
+                            start_p2.y,
                         ),
                         FreeCAD.Vector(
-                            svg_max_x + dimension_right_offset, end_p2.y
+                            svg_max_x + dimension_right_offset_point.x, end_p2.y
                         ),
                         FreeCAD.Vector(end_p2.x + 5, end_p2.y),
                     ]
@@ -382,10 +408,10 @@ def getRebarDimensionData(
     rebar,
     dimension_format,
     view_plane,
-    dimension_left_offset,
-    dimension_right_offset,
-    dimension_top_offset,
-    dimension_bottom_offset,
+    dimension_left_offset_point,
+    dimension_right_offset_point,
+    dimension_top_offset_point,
+    dimension_bottom_offset_point,
     svg_min_x,
     svg_min_y,
     svg_max_x,
@@ -396,10 +422,10 @@ def getRebarDimensionData(
             rebar,
             dimension_format,
             view_plane,
-            dimension_left_offset,
-            dimension_right_offset,
-            dimension_top_offset,
-            dimension_bottom_offset,
+            dimension_left_offset_point,
+            dimension_right_offset_point,
+            dimension_top_offset_point,
+            dimension_bottom_offset_point,
             svg_min_x,
             svg_min_y,
             svg_max_x,
