@@ -35,7 +35,7 @@ from Draft import getrgb
 from .ReinforcementDrawingfunc import (
     getViewPlane,
     getSVGWidthHeight,
-    getReinforcementDrawingSVG,
+    getReinforcementDrawingSVGData,
 )
 from SVGfunc import getTechdrawViewScalingFactor
 
@@ -280,6 +280,18 @@ class ReinforcementDrawingView:
             )
             obj.MaxHeight = 250
 
+        if not hasattr(obj, "VisibleRebars"):
+            obj.addProperty(
+                "App::PropertyLinkList",
+                "VisibleRebars",
+                "ReinforcementDrawingView",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The list of visible rebar objects in drawing.",
+                ),
+                8,
+            )
+
         # These offsets are used by ReinforcementDimensioning objects to
         # autocalculate rebars dimension points to align dimension text to left,
         # right, top or bottom line
@@ -402,7 +414,7 @@ class ReinforcementDrawingView:
         else:
             rebars_color_style = getrgb(obj.RebarsColor)
 
-        reinforcement_drawing_svg_element = getReinforcementDrawingSVG(
+        reinforcement_drawing_data = getReinforcementDrawingSVGData(
             obj.Structure,
             obj.Rebars,
             view_plane,
@@ -412,8 +424,9 @@ class ReinforcementDrawingView:
             struct_fill_style,
         )
         obj.Symbol = ElementTree.tostring(
-            reinforcement_drawing_svg_element, encoding="unicode"
+            reinforcement_drawing_data["svg"], encoding="unicode"
         )
+        obj.VisibleRebars = reinforcement_drawing_data["rebars"]
 
         if FreeCAD.GuiUp:
             obj.ViewObject.update()

@@ -257,9 +257,10 @@ def getSVGTextElement(
     font_size,
     text_anchor="start",
     dominant_baseline="baseline",
+    preserve_space=True,
 ):
     """getSVGTextElement(Data, XOffset, YOffset, FontFamily, FontSize,
-    TextAnchor, DominantBaseline):
+    [TextAnchor, DominantBaseline, PreserveSpace]):
     Returns text element with filled data and required placement.
     """
     text = ElementTree.Element(
@@ -269,6 +270,9 @@ def getSVGTextElement(
     text.set("font-size", str(font_size))
     text.set("text-anchor", text_anchor)
     text.set("dominant-baseline", dominant_baseline)
+    if preserve_space:
+        text.set("style", "white-space:pre;")
+        text.set("xml:space", "preserve")
     text.text = str(data)
     return text
 
