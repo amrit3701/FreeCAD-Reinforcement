@@ -285,7 +285,7 @@ def getStirrupSVGData(
         - "shape color" to select color of rebar shape
         - color name or hex value of color
 
-    Returned dictionary format:
+    Returns dictionary format:
     {
         "svg": stirrup_svg,
         "visibility": is_rebar_visible,
@@ -370,7 +370,7 @@ def getUShapeRebarSVGData(
         - "shape color" to select color of rebar shape
         - color name or hex value of color
 
-    Returned dictionary format:
+    Returns dictionary format:
     {
         "svg": u_rebar_svg,
         "visibility": is_rebar_visible,
@@ -521,7 +521,7 @@ def getStraightRebarSVGData(
         - "shape color" to select color of rebar shape
         - color name or hex value of color
 
-    Returned dictionary format:
+    Returns dictionary format:
     {
         "svg": straight_rebar_svg,
         "visibility": is_rebar_visible,
@@ -593,7 +593,7 @@ def getStraightRebarSVGData(
     }
 
 
-def getReinforcementDrawingSVG(
+def getReinforcementDrawingSVGData(
     structure,
     rebars_list,
     view_direction,
@@ -602,7 +602,7 @@ def getReinforcementDrawingSVG(
     structure_stroke_width,
     structure_fill_style,
 ):
-    """getReinforcementDrawingSVG(Structure, RebarsList, ViewDirection,
+    """getReinforcementDrawingSVGData(Structure, RebarsList, ViewDirection,
     RebarsStrokeWidth, RebarsFillStyle, StructureStrokeWidth,
     StructureFillStyle):
     Generates Reinforcement Drawing View.
@@ -618,7 +618,11 @@ def getReinforcementDrawingSVG(
         - color name or hex value of color
         - "none" to not fill structure shape
 
-    Returns svg content for reinforcement drawing.
+    Returns dictionary format:
+    {
+        "svg": reinforcement_drawing_svg,
+        "rebars": visible_rebars,
+    }
     """
     if isinstance(view_direction, FreeCAD.Vector):
         if view_direction != FreeCAD.Vector(0, 0, 0):
@@ -838,4 +842,4 @@ def getReinforcementDrawingSVG(
     svg.set("height", "{}mm".format(svg_height))
     svg.set("viewBox", "0 0 {} {}".format(svg_width, svg_height))
 
-    return svg
+    return {"svg": svg, "rebars": visible_rebars}

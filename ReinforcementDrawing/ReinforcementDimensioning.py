@@ -152,7 +152,7 @@ class ReinforcementDimensioning:
                     "App::Property", "The dimension label format.",
                 ),
             )
-            obj.DimensionFormat = "%M    %C⌀%D"
+            obj.DimensionFormat = "%M  %C⌀%D"
 
         if not hasattr(obj, "Font"):
             obj.addProperty(
@@ -342,7 +342,7 @@ class ReinforcementDimensioning:
                     "{}.\n".format(obj.Name)
                 )
                 return
-            elif obj.Rebar not in obj.ParentDrawingView.Rebars:
+            elif obj.Rebar not in obj.ParentDrawingView.VisibleRebars:
                 FreeCAD.Console.PrintError(
                     "Rebar is either not visible or not present in "
                     "reinforcement drawing.\n"
