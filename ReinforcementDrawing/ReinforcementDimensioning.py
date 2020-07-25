@@ -45,7 +45,7 @@ class ReinforcementDimensioning:
     "A Rebar Dimensioning SVG View object."
 
     def __init__(
-        self, parent_drawing_view, obj_name="ReinforcementDimensioning"
+        self, rebar, parent_drawing_view, obj_name="ReinforcementDimensioning"
     ):
         """Initialize Rebars Dimensioning SVG View object."""
         reinforcement_dimensioning = FreeCAD.ActiveDocument.addObject(
@@ -55,6 +55,7 @@ class ReinforcementDimensioning:
         self.Object = reinforcement_dimensioning
         reinforcement_dimensioning.Proxy = self
 
+        reinforcement_dimensioning.Rebar = rebar
         reinforcement_dimensioning.ParentDrawingView = parent_drawing_view
 
         # Set dimension MinMax values from parent ReinforcementDrawingView
@@ -72,14 +73,11 @@ class ReinforcementDimensioning:
             parent_drawing_view.DimensionBottomOffset
         )
 
-        # Increment parent ReinforcementDrawingView object left/right/top/bottom
-        # dimension offset so that new dimenion objects will not be mixed up
-        # with previously created dimension objects
-        # TODO: Modify this logic to increament single offset as reqd.
-        parent_drawing_view.DimensionLeftOffset += FreeCAD.Vector(5, 5, 0)
-        parent_drawing_view.DimensionRightOffset += FreeCAD.Vector(5, 5, 0)
-        parent_drawing_view.DimensionTopOffset += FreeCAD.Vector(5, 5, 0)
-        parent_drawing_view.DimensionBottomOffset += FreeCAD.Vector(5, 5, 0)
+        # This will be used to increment
+        # ParentDrawing.DimensionLeft/Right/Top/Bottom offset as required only
+        # first time when object is being recomputed
+        self.FirstExecute = True
+        reinforcement_dimensioning.recompute()
 
     def setProperties(self, obj):
         """Add properties to RebarDimensioning object."""
@@ -116,7 +114,6 @@ class ReinforcementDimensioning:
                     "App::Property", "The way points type of dimension line.",
                 ),
             ).WayPointsType = ["Automatic", "Custom"]
-            obj.WayPointsType = "Custom"
 
         if not hasattr(obj, "WayPoints"):
             obj.addProperty(
@@ -369,7 +366,7 @@ class ReinforcementDimensioning:
         )
 
         if obj.WayPointsType == "Automatic":
-            dimension_data_list = getRebarDimensionData(
+            dimension_data_list, dimension_align = getRebarDimensionData(
                 obj.Rebar,
                 obj.DimensionFormat,
                 view_plane,
@@ -382,6 +379,23 @@ class ReinforcementDimensioning:
                 max_x,
                 max_y,
             )
+            if hasattr(self, "FirstExecute") and self.FirstExecute is True:
+                self.FirstExecute = False
+                parent_drawing = obj.ParentDrawingView
+                if dimension_align == "Left":
+                    parent_drawing.DimensionLeftOffset += FreeCAD.Vector(
+                        5, 5, 0
+                    )
+                elif dimension_align == "Right":
+                    parent_drawing.DimensionRightOffset += FreeCAD.Vector(
+                        5, 5, 0
+                    )
+                elif dimension_align == "Top":
+                    parent_drawing.DimensionTopOffset += FreeCAD.Vector(5, 5, 0)
+                elif dimension_align == "Bottom":
+                    parent_drawing.DimensionBottomOffset += FreeCAD.Vector(
+                        5, 5, 0
+                    )
             for dimension_data in dimension_data_list:
                 if (
                     "LabelOnly" in dimension_data
@@ -486,9 +500,11 @@ class ReinforcementDimensioning:
         return None
 
 
-def makeReinforcementDimensioningObject(parent_drawing_view, drawing_page=None):
+def makeReinforcementDimensioningObject(
+    rebar, parent_drawing_view, drawing_page=None
+):
     dimension_obj = ReinforcementDimensioning(
-        parent_drawing_view, "ReinforcementDimensioning"
+        rebar, parent_drawing_view, "ReinforcementDimensioning"
     ).Object
     if drawing_page:
         drawing_page.addView(dimension_obj)
