@@ -304,6 +304,7 @@ class ReinforcementDrawingView:
                     "App::Property",
                     "The left offset point for Reinforcement Dimension.",
                 ),
+                8,
             )
             obj.DimensionLeftOffset = (10, 10, 0)
 
@@ -316,6 +317,7 @@ class ReinforcementDrawingView:
                     "App::Property",
                     "The right offset point for Reinforcement Dimension.",
                 ),
+                8,
             )
             obj.DimensionRightOffset = (10, 10, 0)
 
@@ -328,6 +330,7 @@ class ReinforcementDrawingView:
                     "App::Property",
                     "The top offset point for Reinforcement Dimension.",
                 ),
+                8,
             )
             obj.DimensionTopOffset = (10, 10, 0)
 
@@ -340,6 +343,7 @@ class ReinforcementDrawingView:
                     "App::Property",
                     "The bottom offset point for Reinforcement Dimension.",
                 ),
+                8,
             )
             obj.DimensionBottomOffset = (10, 10, 0)
 
