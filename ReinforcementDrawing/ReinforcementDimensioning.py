@@ -399,6 +399,19 @@ class ReinforcementDimensioning:
                 else:
                     way_points = dimension_data["WayPoints"]
                     dimension_label = dimension_data["DimensionLabel"]
+                    if "LineStartSymbol" in dimension_data:
+                        obj.LineStartSymbol = dimension_data["LineStartSymbol"]
+                    if "LineMidPointSymbol" in dimension_data:
+                        obj.LineMidPointSymbol = dimension_data[
+                            "LineMidPointSymbol"
+                        ]
+                    if "LineEndSymbol" in dimension_data:
+                        obj.LineEndSymbol = dimension_data["LineEndSymbol"]
+                    if "TextPositionType" in dimension_data:
+                        obj.TextPositionType = dimension_data[
+                            "TextPositionType"
+                        ]
+
                     dimensions_svg = getDimensionLineSVG(
                         [(point.x, point.y) for point in way_points],
                         dimension_label,
@@ -417,10 +430,7 @@ class ReinforcementDimensioning:
                 # Apply translation so that (0,0) in dimensioning corresponds to
                 # (0,0) in ParentDrawingView
                 dimensions_svg.set(
-                    "transform",
-                    "translate({}, {})".format(
-                        abs(min(min_x, 0)), abs(min(min_y, 0))
-                    ),
+                    "transform", "translate({}, {})".format(-min_x, -min_y),
                 )
                 root_svg.append(dimensions_svg)
         else:
@@ -447,10 +457,7 @@ class ReinforcementDimensioning:
             # Apply translation so that (0,0) in dimensioning corresponds to
             # (0,0) in ParentDrawingView
             dimensions_svg.set(
-                "transform",
-                "translate({}, {})".format(
-                    abs(min(min_x, 0)), abs(min(min_y, 0))
-                ),
+                "transform", "translate({}, {})".format(-min_x, -min_y),
             )
             root_svg.append(dimensions_svg)
 

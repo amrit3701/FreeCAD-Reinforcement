@@ -161,8 +161,8 @@ def getSVGWidthHeight(structure, rebars_list, view_plane):
     min_x, min_y, max_x, max_y = getDrawingMinMaxXY(
         structure, rebars_list, view_plane
     )
-    svg_width = round(max_x - min(min_x, 0))
-    svg_height = round(max_y - min(min_y, 0))
+    svg_width = round(max_x - min_x)
+    svg_height = round(max_y - min_y)
     return (svg_width, svg_height)
 
 
@@ -829,14 +829,11 @@ def getReinforcementDrawingSVGData(
     structure_svg = ElementTree.fromstring(_structure_svg)
     reinforcement_drawing.append(structure_svg)
     reinforcement_drawing.set(
-        "transform",
-        "translate({}, {})".format(
-            round(abs(min(min_x, 0))), round(abs(min(min_y, 0)))
-        ),
+        "transform", "translate({}, {})".format(round(-min_x), round(-min_y)),
     )
 
-    svg_width = round(max_x - min(min_x, 0))
-    svg_height = round(max_y - min(min_y, 0))
+    svg_width = round(max_x - min_x)
+    svg_height = round(max_y - min_y)
 
     svg.set("width", "{}mm".format(svg_width))
     svg.set("height", "{}mm".format(svg_height))
