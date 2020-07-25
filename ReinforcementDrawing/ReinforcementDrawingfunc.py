@@ -305,10 +305,11 @@ def getStirrupSVGData(
     drawing_plane_normal = view_plane.axis
     stirrup_span_axis = getRebarsSpanAxis(rebar)
     if round(drawing_plane_normal.cross(stirrup_span_axis).Length) == 0:
+        basewire = rebar.Base.Shape.Wires[0].copy()
+        basewire.Placement = rebar.PlacementList[0].multiply(basewire.Placement)
         edges = Part.__sortEdges__(
             DraftGeomUtils.filletWire(
-                rebar.Base.Shape.Wires[0],
-                rebar.Rounding * rebar.Diameter.Value,
+                basewire, rebar.Rounding * rebar.Diameter.Value,
             ).Edges
         )
         for edge in edges:
@@ -389,10 +390,11 @@ def getUShapeRebarSVGData(
     is_rebar_visible = False
     drawing_plane_normal = view_plane.axis
     if round(drawing_plane_normal.cross(getRebarsSpanAxis(rebar)).Length) == 0:
+        basewire = rebar.Base.Shape.Wires[0].copy()
+        basewire.Placement = rebar.PlacementList[0].multiply(basewire.Placement)
         edges = Part.__sortEdges__(
             DraftGeomUtils.filletWire(
-                rebar.Base.Shape.Wires[0],
-                rebar.Rounding * rebar.Diameter.Value,
+                basewire, rebar.Rounding * rebar.Diameter.Value,
             ).Edges
         )
         for edge in edges:
@@ -542,12 +544,10 @@ def getStraightRebarSVGData(
     is_rebar_visible = False
     drawing_plane_normal = view_plane.axis
     if round(drawing_plane_normal.cross(getRebarsSpanAxis(rebar)).Length) == 0:
-        p1 = getProjectionToSVGPlane(
-            rebar.Base.Shape.Wires[0].Vertexes[0].Point, view_plane
-        )
-        p2 = getProjectionToSVGPlane(
-            rebar.Base.Shape.Wires[0].Vertexes[1].Point, view_plane
-        )
+        basewire = rebar.Base.Shape.Wires[0].copy()
+        basewire.Placement = rebar.PlacementList[0].multiply(basewire.Placement)
+        p1 = getProjectionToSVGPlane(basewire.Vertexes[0].Point, view_plane)
+        p2 = getProjectionToSVGPlane(basewire.Vertexes[1].Point, view_plane)
         if round(p1.x) == round(p2.x) and round(p1.y) == round(p2.y):
             rebar_svg = getPointSVG(
                 p1, radius=2 * rebars_stroke_width, fill=rebars_color
