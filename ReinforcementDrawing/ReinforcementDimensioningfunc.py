@@ -240,15 +240,18 @@ def getStirrupDimensionData(
         mid_point = getProjectionToSVGPlane(
             DraftGeomUtils.findMidpoint(mid_edge), view_plane
         )
-        return [
-            {
-                "LabelPosition": mid_point,
-                "LabelOnly": True,
-                "DimensionLabel": getRebarDimensionLabel(
-                    rebar, dimension_format
-                ),
-            }
-        ]
+        return (
+            [
+                {
+                    "LabelPosition": mid_point,
+                    "LabelOnly": True,
+                    "DimensionLabel": getRebarDimensionLabel(
+                        rebar, dimension_format
+                    ),
+                }
+            ],
+            "Center",
+        )
     else:
         if round(stirrup_span_axis.cross(view_plane.u).Length) == 0:
             stirrup_alignment = "V"
@@ -322,10 +325,14 @@ def getStirrupDimensionData(
             )
 
         dimension_data_list = []
-        for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(rebar_points):
-            if stirrup_alignment == "V":
-                if abs(svg_min_y - start_p1.y) < abs(svg_max_y - start_p2.y):
-                    # Stirrup is more closer to top of drawing
+        start_p1, start_p2, end_p1, end_p2 = rebar_points[0]
+        if stirrup_alignment == "V":
+            # Stirrup is more closer to top of drawing
+            if abs(svg_min_y - start_p1.y) < abs(svg_max_y - start_p2.y):
+                dimension_align = "Top"
+                for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
+                    rebar_points
+                ):
                     dimension_points = [
                         FreeCAD.Vector(start_p1.x, start_p1.y - 5),
                         FreeCAD.Vector(
@@ -342,8 +349,12 @@ def getStirrupDimensionData(
                             "DimensionLabel": dimension_labels[i],
                         }
                     )
-                else:
-                    # Stirrup is more closer to bottom of drawing
+            # Stirrup is more closer to bottom of drawing
+            else:
+                dimension_align = "Bottom"
+                for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
+                    rebar_points
+                ):
                     dimension_points = [
                         FreeCAD.Vector(start_p2.x, start_p2.y + 5),
                         FreeCAD.Vector(
@@ -362,9 +373,13 @@ def getStirrupDimensionData(
                             "DimensionLabel": dimension_labels[i],
                         }
                     )
-            else:
-                if abs(svg_min_x - start_p1.x) < abs(svg_max_x - start_p2.x):
-                    # Stirrup is more closer to left of drawing
+        else:
+            # Stirrup is more closer to left of drawing
+            if abs(svg_min_x - start_p1.x) < abs(svg_max_x - start_p2.x):
+                dimension_align = "Left"
+                for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
+                    rebar_points
+                ):
                     dimension_points = [
                         FreeCAD.Vector(start_p1.x - 5, start_p1.y),
                         FreeCAD.Vector(
@@ -382,8 +397,12 @@ def getStirrupDimensionData(
                             "DimensionLabel": dimension_labels[i],
                         }
                     )
-                else:
-                    # Stirrup is more closer to right of drawing
+            # Stirrup is more closer to right of drawing
+            else:
+                dimension_align = "Right"
+                for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
+                    rebar_points
+                ):
                     dimension_points = [
                         FreeCAD.Vector(start_p2.x + 5, start_p2.y),
                         FreeCAD.Vector(
@@ -401,7 +420,7 @@ def getStirrupDimensionData(
                             "DimensionLabel": dimension_labels[i],
                         }
                     )
-        return dimension_data_list
+        return (dimension_data_list, dimension_align)
 
 
 def getStraightRebarDimensionData(
@@ -436,10 +455,12 @@ def getStraightRebarDimensionData(
             if abs(svg_min_y - min(p1.y, p2.y)) < abs(
                 svg_max_y - max(p1.y, p2.y)
             ):
+                dimension_align = "Top"
                 start_x = svg_min_x + dimension_top_offset_point.x
                 start_y = svg_min_y - dimension_top_offset_point.y
             # Rebar is more closer to bottom of drawing
             else:
+                dimension_align = "Bottom"
                 start_x = svg_min_x + dimension_bottom_offset_point.x
                 start_y = svg_max_y + dimension_bottom_offset_point.y
 
@@ -466,10 +487,12 @@ def getStraightRebarDimensionData(
             if abs(svg_min_x - min(p1.x, p2.x)) < abs(
                 svg_max_x - max(p1.x, p2.x)
             ):
+                dimension_align = "Left"
                 start_x = svg_min_x - dimension_left_offset_point.x
                 start_y = svg_min_y + dimension_left_offset_point.y
             # Rebar is more closer to right of drawing
             else:
+                dimension_align = "Right"
                 start_x = svg_max_x + dimension_right_offset_point.x
                 start_y = svg_min_y + dimension_right_offset_point.y
 
@@ -486,20 +509,23 @@ def getStraightRebarDimensionData(
                 end_y = start_y
             end_x = (end_y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x
 
-        return [
-            {
-                "WayPoints": [
-                    FreeCAD.Vector(start_x, start_y),
-                    FreeCAD.Vector(end_x, end_y),
-                ],
-                "DimensionLabel": getRebarDimensionLabel(
-                    rebar, dimension_format
-                ),
-                "LineStartSymbol": "None",
-                "LineEndSymbol": "FilledArrow",
-                "TextPositionType": "StartOfLine",
-            }
-        ]
+        return (
+            [
+                {
+                    "WayPoints": [
+                        FreeCAD.Vector(start_x, start_y),
+                        FreeCAD.Vector(end_x, end_y),
+                    ],
+                    "DimensionLabel": getRebarDimensionLabel(
+                        rebar, dimension_format
+                    ),
+                    "LineStartSymbol": "None",
+                    "LineEndSymbol": "FilledArrow",
+                    "TextPositionType": "StartOfLine",
+                }
+            ],
+            dimension_align,
+        )
     else:
         basewire = rebar.Base.Shape.Wires[0]
         rebar_points = []
@@ -588,6 +614,7 @@ def getStraightRebarDimensionData(
                 if abs(svg_min_y - min(start_p1.y, start_p2.y)) < abs(
                     svg_max_y - max(start_p1.y, start_p2.y)
                 ):
+                    dimension_align = "Top"
                     p1 = start_p1 if start_p1.y < start_p2.y else start_p2
                     p4 = end_p1 if end_p1.y < end_p2.y else end_p2
                     p2 = FreeCAD.Vector(
@@ -598,6 +625,7 @@ def getStraightRebarDimensionData(
                     )
                 # Rebars end points are more closer to bottom of drawing
                 else:
+                    dimension_align = "Bottom"
                     p1 = start_p1 if start_p1.y > start_p2.y else start_p2
                     p4 = end_p1 if end_p1.y > end_p2.y else end_p2
                     p2 = FreeCAD.Vector(
@@ -613,6 +641,7 @@ def getStraightRebarDimensionData(
                 if abs(svg_min_x - min(start_p1.x, start_p2.x)) < abs(
                     svg_max_x - max(start_p1.x, start_p2.x)
                 ):
+                    dimension_align = "Left"
                     p1 = start_p1 if start_p1.x < start_p2.x else start_p2
                     p4 = end_p1 if end_p1.x < end_p2.x else end_p2
                     p2 = FreeCAD.Vector(
@@ -623,6 +652,7 @@ def getStraightRebarDimensionData(
                     )
                 # Rebars end points are more closer to right of drawing
                 else:
+                    dimension_align = "Right"
                     p1 = start_p1 if start_p1.x > start_p2.x else start_p2
                     p4 = end_p1 if end_p1.x > end_p2.x else end_p2
                     p2 = FreeCAD.Vector(
@@ -654,7 +684,7 @@ def getStraightRebarDimensionData(
                         "TextPositionType": "MidOfLine",
                     }
                 )
-        return dimension_data_list
+        return (dimension_data_list, dimension_align)
 
 
 def getLShapeRebarDimensionData(
@@ -684,19 +714,19 @@ def getLShapeRebarDimensionData(
         p2 = getProjectionToSVGPlane(basewire.Vertexes[-2].Point, view_plane)
         if round(p1.x - p2.x) == 0 and round(p1.y - p2.y) == 0:
             p1 = getProjectionToSVGPlane(basewire.Vertexes[0].Point, view_plane)
-            start_p2 = getProjectionToSVGPlane(
-                basewire.Vertexes[1].Point, view_plane
-            )
+            p2 = getProjectionToSVGPlane(basewire.Vertexes[1].Point, view_plane)
         # Rebar is more horizontal, so dimension line will be vertical
         if abs(p2.y - p1.y) < abs(p2.x - p1.x):
             # Rebar is more closer to top of drawing
             if abs(svg_min_y - min(p1.y, p2.y)) < abs(
                 svg_max_y - max(p1.y, p2.y)
             ):
+                dimension_align = "Top"
                 start_x = svg_min_x + dimension_top_offset_point.x
                 start_y = svg_min_y - dimension_top_offset_point.y
             # Rebar is more closer to bottom of drawing
             else:
+                dimension_align = "Bottom"
                 start_x = svg_min_x + dimension_bottom_offset_point.x
                 start_y = svg_max_y + dimension_bottom_offset_point.y
 
@@ -719,10 +749,12 @@ def getLShapeRebarDimensionData(
             if abs(svg_min_x - min(p1.x, p2.x)) < abs(
                 svg_max_x - max(p1.x, p2.x)
             ):
+                dimension_align = "Left"
                 start_x = svg_min_x - dimension_left_offset_point.x
                 start_y = svg_min_y + dimension_left_offset_point.y
             # Rebar is more closer to right of drawing
             else:
+                dimension_align = "Right"
                 start_x = svg_max_x + dimension_right_offset_point.x
                 start_y = svg_min_y + dimension_right_offset_point.y
 
@@ -739,20 +771,23 @@ def getLShapeRebarDimensionData(
                 end_y = start_y
             end_x = (end_y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x
 
-        return [
-            {
-                "WayPoints": [
-                    FreeCAD.Vector(start_x, start_y),
-                    FreeCAD.Vector(end_x, end_y),
-                ],
-                "DimensionLabel": getRebarDimensionLabel(
-                    rebar, dimension_format
-                ),
-                "LineStartSymbol": "None",
-                "LineEndSymbol": "FilledArrow",
-                "TextPositionType": "StartOfLine",
-            }
-        ]
+        return (
+            [
+                {
+                    "WayPoints": [
+                        FreeCAD.Vector(start_x, start_y),
+                        FreeCAD.Vector(end_x, end_y),
+                    ],
+                    "DimensionLabel": getRebarDimensionLabel(
+                        rebar, dimension_format
+                    ),
+                    "LineStartSymbol": "None",
+                    "LineEndSymbol": "FilledArrow",
+                    "TextPositionType": "StartOfLine",
+                }
+            ],
+            dimension_align,
+        )
     else:
         basewire = rebar.Base.Shape.Wires[0]
         rebar_points = []
@@ -882,6 +917,7 @@ def getLShapeRebarDimensionData(
                 if abs(svg_min_y - min(start_p1.y, start_p2.y)) < abs(
                     svg_max_y - max(start_p1.y, start_p2.y)
                 ):
+                    dimension_align = "Top"
                     p1 = start_p1 if start_p1.y < start_p2.y else start_p2
                     p4 = end_p1 if end_p1.y < end_p2.y else end_p2
                     p2 = FreeCAD.Vector(
@@ -892,6 +928,7 @@ def getLShapeRebarDimensionData(
                     )
                 # Rebars end points are more closer to bottom of drawing
                 else:
+                    dimension_align = "Bottom"
                     p1 = start_p1 if start_p1.y > start_p2.y else start_p2
                     p4 = end_p1 if end_p1.y > end_p2.y else end_p2
                     p2 = FreeCAD.Vector(
@@ -907,6 +944,7 @@ def getLShapeRebarDimensionData(
                 if abs(svg_min_x - min(start_p1.x, start_p2.x)) < abs(
                     svg_max_x - max(start_p1.x, start_p2.x)
                 ):
+                    dimension_align = "Left"
                     p1 = start_p1 if start_p1.x < start_p2.x else start_p2
                     p4 = end_p1 if end_p1.x < end_p2.x else end_p2
                     p2 = FreeCAD.Vector(
@@ -917,6 +955,7 @@ def getLShapeRebarDimensionData(
                     )
                 # Rebars end points are more closer to right of drawing
                 else:
+                    dimension_align = "Right"
                     p1 = start_p1 if start_p1.x > start_p2.x else start_p2
                     p4 = end_p1 if end_p1.x > end_p2.x else end_p2
                     p2 = FreeCAD.Vector(
@@ -948,7 +987,7 @@ def getLShapeRebarDimensionData(
                         "TextPositionType": "MidOfLine",
                     }
                 )
-        return dimension_data_list
+        return (dimension_data_list, dimension_align)
 
 
 def getRebarDimensionData(
