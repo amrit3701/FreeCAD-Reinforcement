@@ -32,6 +32,7 @@ from xml.etree import ElementTree
 import FreeCAD
 import DraftGeomUtils
 import DraftVecUtils
+import Part
 
 from .ReinforcementDrawingfunc import (
     getProjectionToSVGPlane,
@@ -233,8 +234,6 @@ def getStirrupDimensionData(
     drawing_plane_normal = view_plane.axis
     stirrup_span_axis = getRebarsSpanAxis(rebar)
     if round(drawing_plane_normal.cross(stirrup_span_axis).Length) == 0:
-        import Part
-
         edges = Part.__sortEdges__(rebar.Base.Shape.Edges)
         mid_edge = edges[round(len(edges) / 2)]
         mid_point = getProjectionToSVGPlane(
@@ -990,6 +989,313 @@ def getLShapeRebarDimensionData(
         return (dimension_data_list, dimension_align)
 
 
+def getUShapeRebarDimensionData(
+    rebar,
+    dimension_format,
+    view_plane,
+    dimension_left_offset_point,
+    dimension_right_offset_point,
+    dimension_top_offset_point,
+    dimension_bottom_offset_point,
+    svg_min_x,
+    svg_min_y,
+    svg_max_x,
+    svg_max_y,
+):
+    drawing_plane_normal = view_plane.axis
+    rebar_span_axis = getRebarsSpanAxis(rebar)
+    # UShape rebars span axis is parallel to drawing plane normal
+    # Thus, only one rebar will be visible
+    if (
+        round(drawing_plane_normal.cross(rebar_span_axis).Length) == 0
+        or rebar.Amount == 1
+    ):
+        basewire = rebar.Base.Shape.Wires[0].copy()
+        basewire.Placement = rebar.PlacementList[0].multiply(basewire.Placement)
+        edges = Part.__sortEdges__(basewire.Edges)
+        mid_edge = edges[round(len(edges) / 2) - 1]
+        p1 = getProjectionToSVGPlane(mid_edge.Vertexes[0].Point, view_plane)
+        p2 = getProjectionToSVGPlane(mid_edge.Vertexes[1].Point, view_plane)
+
+        # Rebar is more horizontal, so dimension line will be vertical
+        if abs(p2.y - p1.y) < abs(p2.x - p1.x):
+            # Rebar is more closer to top of drawing
+            if abs(svg_min_y - min(p1.y, p2.y)) < abs(
+                svg_max_y - max(p1.y, p2.y)
+            ):
+                dimension_align = "Top"
+                start_x = svg_min_x + dimension_top_offset_point.x
+                start_y = svg_min_y - dimension_top_offset_point.y
+            # Rebar is more closer to bottom of drawing
+            else:
+                dimension_align = "Bottom"
+                start_x = svg_min_x + dimension_bottom_offset_point.x
+                start_y = svg_max_y + dimension_bottom_offset_point.y
+
+            min_x = min(p1.x, p2.x)
+            max_x = max(p1.x, p2.x)
+            # start_x is left to line
+            if start_x < min_x:
+                end_x = min_x + 10
+            # start_x is right to line
+            elif max_x < start_x:
+                end_x = max_x - 10
+            # start_x is between line min_x and max_x
+            else:
+                end_x = start_x
+            end_y = (end_x - p1.x) * (p2.y - p1.y) / (p2.x - p1.x) + p1.y
+
+        # Rebar is more vertical, so dimension line will be horizontal
+        else:
+            # Rebar is more closer to left of drawing
+            if abs(svg_min_x - min(p1.x, p2.x)) < abs(
+                svg_max_x - max(p1.x, p2.x)
+            ):
+                dimension_align = "Left"
+                start_x = svg_min_x - dimension_left_offset_point.x
+                start_y = svg_min_y + dimension_left_offset_point.y
+            # Rebar is more closer to right of drawing
+            else:
+                dimension_align = "Right"
+                start_x = svg_max_x + dimension_right_offset_point.x
+                start_y = svg_min_y + dimension_right_offset_point.y
+
+            min_y = min(p1.y, p2.y)
+            max_y = max(p1.y, p2.y)
+            # start_y is above line
+            if start_y < min_y:
+                end_y = min_y + 10
+            # start_y is below line
+            elif max_y < start_y:
+                end_y = max_y - 10
+            # start_y is between line min_y and max_y
+            else:
+                end_y = start_y
+            end_x = (end_y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x
+
+        return (
+            [
+                {
+                    "WayPoints": [
+                        FreeCAD.Vector(start_x, start_y),
+                        FreeCAD.Vector(end_x, end_y),
+                    ],
+                    "DimensionLabel": getRebarDimensionLabel(
+                        rebar, dimension_format
+                    ),
+                    "LineStartSymbol": "None",
+                    "LineEndSymbol": "FilledArrow",
+                    "TextPositionType": "StartOfLine",
+                }
+            ],
+            dimension_align,
+        )
+    else:
+        basewire = rebar.Base.Shape.Wires[0]
+        rebar_points = []
+        dimension_labels = []
+        if rebar.CustomSpacing:
+            rebar_diameter = str(rebar.Diameter.Value)
+            if "." in rebar_diameter:
+                rebar_diameter = rebar_diameter.rstrip("0").rstrip(".")
+
+            start_rebar_index = 0
+            for rebar_spacing_str in rebar.CustomSpacing.split("+"):
+                startwire = basewire.copy()
+                startwire.Placement = rebar.PlacementList[
+                    start_rebar_index
+                ].multiply(basewire.Placement)
+                start_p1 = getProjectionToSVGPlane(
+                    startwire.Edges[0].Vertexes[0].Point, view_plane
+                )
+                start_p2 = getProjectionToSVGPlane(
+                    startwire.Edges[0].Vertexes[1].Point, view_plane
+                )
+                for edge in startwire.Edges[1:]:
+                    if (
+                        round(start_p1.x - start_p2.x) == 0
+                        and round(start_p1.y - start_p2.y) == 0
+                    ):
+                        start_p1 = getProjectionToSVGPlane(
+                            edge.Vertexes[0].Point, view_plane
+                        )
+                        start_p2 = getProjectionToSVGPlane(
+                            edge.Vertexes[1].Point, view_plane
+                        )
+
+                if "@" in rebar_spacing_str:
+                    rebars_count = int(rebar_spacing_str.split("@")[0])
+                else:
+                    rebars_count = 1
+
+                endwire = basewire.copy()
+                endwire.Placement = rebar.PlacementList[
+                    start_rebar_index + rebars_count - 1
+                ].multiply(basewire.Placement)
+                end_p1 = getProjectionToSVGPlane(
+                    endwire.Edges[0].Vertexes[0].Point, view_plane
+                )
+                end_p2 = getProjectionToSVGPlane(
+                    endwire.Edges[0].Vertexes[1].Point, view_plane
+                )
+                for edge in endwire.Edges[1:]:
+                    if (
+                        round(end_p1.x - end_p2.x) == 0
+                        and round(end_p1.y - end_p2.y) == 0
+                    ):
+                        end_p1 = getProjectionToSVGPlane(
+                            edge.Vertexes[0].Point, view_plane
+                        )
+                        end_p2 = getProjectionToSVGPlane(
+                            edge.Vertexes[1].Point, view_plane
+                        )
+
+                start_rebar_index += rebars_count
+                rebar_points.append((start_p1, start_p2, end_p1, end_p2))
+
+                dimension_label = dimension_format.replace(
+                    "%M", str(rebar.Mark)
+                )
+                dimension_label = dimension_label.replace(
+                    "%C", str(rebars_count)
+                )
+                dimension_label = dimension_label.replace(
+                    "%D", rebar_diameter
+                ).strip()
+                dimension_labels.append(dimension_label)
+        else:
+            basewire = rebar.Base.Shape.Wires[0]
+            startwire = basewire.copy()
+            startwire.Placement = rebar.PlacementList[0].multiply(
+                basewire.Placement
+            )
+            start_p1 = getProjectionToSVGPlane(
+                startwire.Edges[0].Vertexes[0].Point, view_plane
+            )
+            start_p2 = getProjectionToSVGPlane(
+                startwire.Edges[0].Vertexes[1].Point, view_plane
+            )
+            for edge in startwire.Edges[1:]:
+                if (
+                    round(start_p1.x - start_p2.x) == 0
+                    and round(start_p1.y - start_p2.y) == 0
+                ):
+                    start_p1 = getProjectionToSVGPlane(
+                        edge.Vertexes[0].Point, view_plane
+                    )
+                    start_p2 = getProjectionToSVGPlane(
+                        edge.Vertexes[1].Point, view_plane
+                    )
+
+            endwire = basewire.copy()
+            endwire.Placement = rebar.PlacementList[-1].multiply(
+                basewire.Placement
+            )
+            end_p1 = getProjectionToSVGPlane(
+                endwire.Edges[0].Vertexes[0].Point, view_plane
+            )
+            end_p2 = getProjectionToSVGPlane(
+                endwire.Edges[0].Vertexes[1].Point, view_plane
+            )
+            for edge in endwire.Edges[1:]:
+                if (
+                    round(end_p1.x - end_p2.x) == 0
+                    and round(end_p1.y - end_p2.y) == 0
+                ):
+                    end_p1 = getProjectionToSVGPlane(
+                        edge.Vertexes[0].Point, view_plane
+                    )
+                    end_p2 = getProjectionToSVGPlane(
+                        edge.Vertexes[1].Point, view_plane
+                    )
+
+            rebar_points.append((start_p1, start_p2, end_p1, end_p2))
+            dimension_labels.append(
+                getRebarDimensionLabel(rebar, dimension_format)
+            )
+
+        dimension_data_list = []
+        for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(rebar_points):
+            # Rebars span along x-axis, so dimension lines will be either on top
+            # or bottom side
+            if round(rebar_span_axis.cross(view_plane.u).Length) == 0:
+                # Rebars end points are more closer to top of drawing
+                if abs(svg_min_y - min(start_p1.y, start_p2.y)) < abs(
+                    svg_max_y - max(start_p1.y, start_p2.y)
+                ):
+                    dimension_align = "Top"
+                    p1 = start_p1 if start_p1.y < start_p2.y else start_p2
+                    p4 = end_p1 if end_p1.y < end_p2.y else end_p2
+                    p2 = FreeCAD.Vector(
+                        p1.x, svg_min_y - dimension_top_offset_point.y
+                    )
+                    p3 = FreeCAD.Vector(
+                        p4.x, svg_min_y - dimension_top_offset_point.y
+                    )
+                # Rebars end points are more closer to bottom of drawing
+                else:
+                    dimension_align = "Bottom"
+                    p1 = start_p1 if start_p1.y > start_p2.y else start_p2
+                    p4 = end_p1 if end_p1.y > end_p2.y else end_p2
+                    p2 = FreeCAD.Vector(
+                        p1.x, svg_max_y + dimension_bottom_offset_point.y
+                    )
+                    p3 = FreeCAD.Vector(
+                        p4.x, svg_max_y + dimension_bottom_offset_point.y
+                    )
+            # Rebars span along y-axis, so dimension lines will be either on
+            # left or right side
+            else:
+                # Rebars end points are more closer to left of drawing
+                if abs(svg_min_x - min(start_p1.x, start_p2.x)) < abs(
+                    svg_max_x - max(start_p1.x, start_p2.x)
+                ):
+                    dimension_align = "Left"
+                    p1 = start_p1 if start_p1.x < start_p2.x else start_p2
+                    p4 = end_p1 if end_p1.x < end_p2.x else end_p2
+                    p2 = FreeCAD.Vector(
+                        svg_min_x - dimension_left_offset_point.x, p1.y
+                    )
+                    p3 = FreeCAD.Vector(
+                        svg_min_x - dimension_left_offset_point.x, p4.y
+                    )
+                # Rebars end points are more closer to right of drawing
+                else:
+                    dimension_align = "Right"
+                    p1 = start_p1 if start_p1.x > start_p2.x else start_p2
+                    p4 = end_p1 if end_p1.x > end_p2.x else end_p2
+                    p2 = FreeCAD.Vector(
+                        svg_max_x + dimension_right_offset_point.x, p1.y
+                    )
+                    p3 = FreeCAD.Vector(
+                        svg_max_x + dimension_right_offset_point.x, p4.y
+                    )
+            if (
+                round(p3.x - p2.x) == 0
+                and round(p3.y - p2.y) == 0
+                and round(p4.x - p1.x) == 0
+                and round(p4.y - p1.y) == 0
+            ):
+                dimension_data_list.append(
+                    {
+                        "WayPoints": [p2, p1],
+                        "DimensionLabel": dimension_labels[i],
+                        "LineStartSymbol": "None",
+                        "LineEndSymbol": "FilledArrow",
+                        "TextPositionType": "StartOfLine",
+                    }
+                )
+            else:
+                dimension_data_list.append(
+                    {
+                        "WayPoints": [p1, p2, p3, p4],
+                        "DimensionLabel": dimension_labels[i],
+                        "TextPositionType": "MidOfLine",
+                    }
+                )
+        return (dimension_data_list, dimension_align)
+
+
 def getRebarDimensionData(
     rebar,
     dimension_format,
@@ -1033,6 +1339,20 @@ def getRebarDimensionData(
         )
     if rebar.RebarShape == "LShapeRebar":
         dimension_data = getLShapeRebarDimensionData(
+            rebar,
+            dimension_format,
+            view_plane,
+            dimension_left_offset_point,
+            dimension_right_offset_point,
+            dimension_top_offset_point,
+            dimension_bottom_offset_point,
+            svg_min_x,
+            svg_min_y,
+            svg_max_x,
+            svg_max_y,
+        )
+    if rebar.RebarShape == "UShapeRebar":
+        dimension_data = getUShapeRebarDimensionData(
             rebar,
             dimension_format,
             view_plane,
