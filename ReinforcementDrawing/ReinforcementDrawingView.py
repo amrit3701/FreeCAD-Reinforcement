@@ -92,7 +92,7 @@ class ReinforcementDrawingView:
             obj.addProperty(
                 "App::PropertyEnumeration",
                 "PositionType",
-                "ReinforcementDrawingView",
+                "Base",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
                     "The position type of Reinforcement Drawing on Template.",
@@ -291,6 +291,7 @@ class ReinforcementDrawingView:
                 ),
                 8,
             )
+        obj.setEditorMode("VisibleRebars", 2)
 
         # These offsets are used by ReinforcementDimensioning objects to
         # autocalculate rebars dimension points to align dimension text to left,
@@ -307,6 +308,7 @@ class ReinforcementDrawingView:
                 8,
             )
             obj.DimensionLeftOffset = (10, 10, 0)
+        obj.setEditorMode("DimensionLeftOffset", 2)
 
         if not hasattr(obj, "DimensionRightOffset"):
             obj.addProperty(
@@ -320,6 +322,7 @@ class ReinforcementDrawingView:
                 8,
             )
             obj.DimensionRightOffset = (10, 10, 0)
+        obj.setEditorMode("DimensionRightOffset", 2)
 
         if not hasattr(obj, "DimensionTopOffset"):
             obj.addProperty(
@@ -333,6 +336,7 @@ class ReinforcementDrawingView:
                 8,
             )
             obj.DimensionTopOffset = (10, 10, 0)
+        obj.setEditorMode("DimensionTopOffset", 2)
 
         if not hasattr(obj, "DimensionBottomOffset"):
             obj.addProperty(
@@ -346,6 +350,7 @@ class ReinforcementDrawingView:
                 8,
             )
             obj.DimensionBottomOffset = (10, 10, 0)
+        obj.setEditorMode("DimensionBottomOffset", 2)
 
     def onDocumentRestored(self, obj):
         """Upgrade ReinforcementDrawing object."""
