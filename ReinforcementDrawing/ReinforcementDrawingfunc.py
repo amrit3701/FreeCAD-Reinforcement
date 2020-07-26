@@ -655,7 +655,9 @@ def getReinforcementDrawingSVGData(
     helical_rebars = []
     custom_rebars = []
     for rebar in rebars_list:
-        if rebar.RebarShape == "Stirrup":
+        if not hasattr(rebar, "RebarShape"):
+            custom_rebars.append(rebar)
+        elif rebar.RebarShape == "Stirrup":
             stirrups.append(rebar)
         elif rebar.RebarShape == "BentShapeRebar":
             bent_rebars.append(rebar)
@@ -770,6 +772,7 @@ def getReinforcementDrawingSVGData(
                 Draft.getSVG(
                     rebar,
                     direction=view_plane,
+                    linewidth=rebars_stroke_width,
                     fillstyle="none",
                     color=rebars_color,
                 )
@@ -795,6 +798,7 @@ def getReinforcementDrawingSVGData(
                 Draft.getSVG(
                     rebar,
                     direction=view_plane,
+                    linewidth=rebars_stroke_width,
                     fillstyle="none",
                     color=rebars_color,
                 )
