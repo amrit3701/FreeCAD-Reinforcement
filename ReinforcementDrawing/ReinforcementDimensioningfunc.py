@@ -1600,6 +1600,164 @@ def getBentRebarDimensionData(
         return dimension_data_list, dimension_align
 
 
+def getHelicalRebarDimensionData(
+    rebar,
+    dimension_format,
+    view_plane,
+    dimension_left_offset_point,
+    dimension_right_offset_point,
+    dimension_top_offset_point,
+    dimension_bottom_offset_point,
+    svg_min_x,
+    svg_min_y,
+    svg_max_x,
+    svg_max_y,
+):
+    drawing_plane_normal = view_plane.axis
+    rebar_span_axis = getRebarsSpanAxis(rebar)
+    # Helical rebars span axis is parallel to drawing plane normal
+    # Thus, helical rebar will be visible as circle
+    if round(drawing_plane_normal.cross(rebar_span_axis).Length) == 0:
+        basewire = rebar.Base.Shape.Wires[0].copy()
+        basewire.Placement = rebar.PlacementList[0].multiply(basewire.Placement)
+        import random
+
+        point = getProjectionToSVGPlane(
+            basewire.Vertexes[
+                random.randint(0, len(basewire.Vertexes) - 1)
+            ].Point,
+            view_plane,
+        )
+        left_dim_point = FreeCAD.Vector(
+            svg_min_x - dimension_left_offset_point.x,
+            svg_min_y + dimension_left_offset_point.y,
+            0,
+        )
+        right_dim_point = FreeCAD.Vector(
+            svg_max_x + dimension_right_offset_point.x,
+            svg_min_y + dimension_right_offset_point.y,
+            0,
+        )
+        top_dim_point = FreeCAD.Vector(
+            svg_min_x + dimension_top_offset_point.x,
+            svg_min_y - dimension_top_offset_point.y,
+            0,
+        )
+        bottom_dim_point = FreeCAD.Vector(
+            svg_min_x + dimension_bottom_offset_point.x,
+            svg_max_y + dimension_bottom_offset_point.y,
+            0,
+        )
+        left_dist = DraftVecUtils.dist(point, left_dim_point)
+        right_dist = DraftVecUtils.dist(point, right_dim_point)
+        top_dist = DraftVecUtils.dist(point, top_dim_point)
+        bottom_dist = DraftVecUtils.dist(point, bottom_dim_point)
+        min_dist = min(left_dist, right_dist, top_dist, bottom_dist)
+
+        # Rebar is more closer to top of drawing
+        if top_dist == min_dist:
+            dimension_align = "Top"
+            start_x = top_dim_point.x
+            start_y = top_dim_point.y
+        # Rebar is more closer to bottom of drawing
+        elif bottom_dist == min_dist:
+            dimension_align = "Bottom"
+            start_x = bottom_dim_point.x
+            start_y = bottom_dim_point.y
+        # Rebar is more closer to left of drawing
+        elif left_dist == min_dist:
+            dimension_align = "Left"
+            start_x = left_dim_point.x
+            start_y = left_dim_point.y
+        # Rebar is more closer to right of drawing
+        else:
+            dimension_align = "Right"
+            start_x = right_dim_point.x
+            start_y = right_dim_point.y
+
+        return (
+            [
+                {
+                    "WayPoints": [
+                        FreeCAD.Vector(start_x, start_y),
+                        FreeCAD.Vector(point.x, point.y),
+                    ],
+                    "DimensionLabel": getRebarDimensionLabel(
+                        rebar, dimension_format
+                    ),
+                    "LineStartSymbol": "None",
+                    "LineEndSymbol": "FilledArrow",
+                    "TextPositionType": "StartOfLine",
+                }
+            ],
+            dimension_align,
+        )
+    else:
+        basewire = rebar.Base.Shape.Wires[0].copy()
+        basewire.Placement = rebar.PlacementList[0].multiply(basewire.Placement)
+        p1 = getProjectionToSVGPlane(basewire.Vertexes[0].Point, view_plane)
+        p4 = getProjectionToSVGPlane(basewire.Vertexes[-1].Point, view_plane)
+
+        # Rebars span along x-axis, so dimension lines will be either on top
+        # or bottom side
+        if round(rebar_span_axis.cross(view_plane.u).Length) == 0:
+            # Rebars end points are more closer to top of drawing
+            if abs(svg_min_y - min(p1.y, p4.y)) < abs(
+                svg_max_y - max(p1.y, p4.y)
+            ):
+                dimension_align = "Top"
+                p2 = FreeCAD.Vector(
+                    p1.x, svg_min_y - dimension_top_offset_point.y
+                )
+                p3 = FreeCAD.Vector(
+                    p4.x, svg_min_y - dimension_top_offset_point.y
+                )
+            # Rebars end points are more closer to bottom of drawing
+            else:
+                dimension_align = "Bottom"
+                p2 = FreeCAD.Vector(
+                    p1.x, svg_max_y + dimension_bottom_offset_point.y
+                )
+                p3 = FreeCAD.Vector(
+                    p4.x, svg_max_y + dimension_bottom_offset_point.y
+                )
+        # Rebars span along y-axis, so dimension lines will be either on
+        # left or right side
+        else:
+            # Rebars end points are more closer to left of drawing
+            if abs(svg_min_x - min(p1.x, p4.x)) < abs(
+                svg_max_x - max(p1.x, p4.x)
+            ):
+                dimension_align = "Left"
+                p2 = FreeCAD.Vector(
+                    svg_min_x - dimension_left_offset_point.x, p1.y
+                )
+                p3 = FreeCAD.Vector(
+                    svg_min_x - dimension_left_offset_point.x, p4.y
+                )
+            # Rebars end points are more closer to right of drawing
+            else:
+                dimension_align = "Right"
+                p2 = FreeCAD.Vector(
+                    svg_max_x + dimension_right_offset_point.x, p1.y
+                )
+                p3 = FreeCAD.Vector(
+                    svg_max_x + dimension_right_offset_point.x, p4.y
+                )
+        return (
+            [
+                {
+                    "WayPoints": [p1, p2, p3, p4],
+                    "DimensionLabel": getRebarDimensionLabel(
+                        rebar, dimension_format
+                    ),
+                    "TextPositionType": "MidOfLine",
+                }
+            ],
+            dimension_align,
+        )
+
+
 def getRebarDimensionData(
     rebar,
     dimension_format,
@@ -1671,6 +1829,20 @@ def getRebarDimensionData(
         )
     elif rebar.RebarShape == "BentShapeRebar":
         dimension_data = getBentRebarDimensionData(
+            rebar,
+            dimension_format,
+            view_plane,
+            dimension_left_offset_point,
+            dimension_right_offset_point,
+            dimension_top_offset_point,
+            dimension_bottom_offset_point,
+            svg_min_x,
+            svg_min_y,
+            svg_max_x,
+            svg_max_y,
+        )
+    elif rebar.RebarShape == "HelicalRebar":
+        dimension_data = getHelicalRebarDimensionData(
             rebar,
             dimension_format,
             view_plane,
