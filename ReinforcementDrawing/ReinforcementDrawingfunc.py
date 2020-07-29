@@ -767,18 +767,16 @@ def getReinforcementDrawingSVGData(
             from importSVG import getcolor
 
             rebars_color = getcolor(rebars_color_style)
-        helical_rebars_svg.append(
-            ElementTree.fromstring(
-                Draft.getSVG(
-                    rebar,
-                    direction=view_plane,
-                    linewidth=rebars_stroke_width,
-                    fillstyle="none",
-                    color=rebars_color,
-                )
-            )
+        rebar_svg_draft = Draft.getSVG(
+            rebar,
+            direction=view_plane,
+            linewidth=rebars_stroke_width,
+            fillstyle="none",
+            color=rebars_color,
         )
-        visible_rebars.append(rebar)
+        if rebar_svg_draft:
+            helical_rebars_svg.append(ElementTree.fromstring(rebar_svg_draft))
+            visible_rebars.append(rebar)
 
     custom_rebars_svg = ElementTree.Element("g", attrib={"id": "CustomRebar"})
     rebars_svg.append(custom_rebars_svg)
@@ -793,17 +791,15 @@ def getReinforcementDrawingSVGData(
             from importSVG import getcolor
 
             rebars_color = getcolor(rebars_color_style)
-        custom_rebars_svg.append(
-            ElementTree.fromstring(
-                Draft.getSVG(
-                    rebar,
-                    direction=view_plane,
-                    linewidth=rebars_stroke_width,
-                    fillstyle="none",
-                    color=rebars_color,
-                )
-            )
+        rebar_svg_draft = Draft.getSVG(
+            rebar,
+            direction=view_plane,
+            linewidth=rebars_stroke_width,
+            fillstyle="none",
+            color=rebars_color,
         )
+        if rebar_svg_draft:
+            custom_rebars_svg.append(ElementTree.fromstring(rebar_svg_draft))
 
     # Create Structure SVG
     _structure_svg = '<g id="structure">{}</g>'.format(
