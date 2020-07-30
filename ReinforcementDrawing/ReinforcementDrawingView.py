@@ -294,62 +294,62 @@ class ReinforcementDrawingView:
         obj.setEditorMode("VisibleRebars", 2)
 
         # These offsets are used by ReinforcementDimensioning objects to
-        # autocalculate rebars dimension points to align dimension text to left,
-        # right, top or bottom line
+        # auto-calculate rebars dimension points to align dimension text to
+        # left, right, top or bottom line
         if not hasattr(obj, "DimensionLeftOffset"):
             obj.addProperty(
-                "App::PropertyVector",
+                "App::PropertyLength",
                 "DimensionLeftOffset",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The left offset point for Reinforcement Dimension.",
+                    "The left offset for Reinforcement Dimension.",
                 ),
                 8,
             )
-            obj.DimensionLeftOffset = (10, 10, 0)
+            obj.DimensionLeftOffset = 10
         obj.setEditorMode("DimensionLeftOffset", 2)
 
         if not hasattr(obj, "DimensionRightOffset"):
             obj.addProperty(
-                "App::PropertyVector",
+                "App::PropertyLength",
                 "DimensionRightOffset",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The right offset point for Reinforcement Dimension.",
+                    "The right offset for Reinforcement Dimension.",
                 ),
                 8,
             )
-            obj.DimensionRightOffset = (10, 10, 0)
+            obj.DimensionRightOffset = 10
         obj.setEditorMode("DimensionRightOffset", 2)
 
         if not hasattr(obj, "DimensionTopOffset"):
             obj.addProperty(
-                "App::PropertyVector",
+                "App::PropertyLength",
                 "DimensionTopOffset",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The top offset point for Reinforcement Dimension.",
+                    "The top offset for Reinforcement Dimension.",
                 ),
                 8,
             )
-            obj.DimensionTopOffset = (10, 10, 0)
+            obj.DimensionTopOffset = 10
         obj.setEditorMode("DimensionTopOffset", 2)
 
         if not hasattr(obj, "DimensionBottomOffset"):
             obj.addProperty(
-                "App::PropertyVector",
+                "App::PropertyLength",
                 "DimensionBottomOffset",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The bottom offset point for Reinforcement Dimension.",
+                    "The bottom offset for Reinforcement Dimension.",
                 ),
                 8,
             )
-            obj.DimensionBottomOffset = (10, 10, 0)
+            obj.DimensionBottomOffset = 10
         obj.setEditorMode("DimensionBottomOffset", 2)
 
     def onDocumentRestored(self, obj):
