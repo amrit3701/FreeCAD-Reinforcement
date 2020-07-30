@@ -272,48 +272,46 @@ class ReinforcementDimensioning:
 
         if not hasattr(obj, "DimensionLeftOffset"):
             obj.addProperty(
-                "App::PropertyVector",
+                "App::PropertyLength",
                 "DimensionLeftOffset",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The left offset point for automated reinforcement "
-                    "dimensioning.",
+                    "The left offset for automated reinforcement dimensioning.",
                 ),
             )
 
         if not hasattr(obj, "DimensionRightOffset"):
             obj.addProperty(
-                "App::PropertyVector",
+                "App::PropertyLength",
                 "DimensionRightOffset",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The right offset point for automated reinforcement "
+                    "The right offset for automated reinforcement "
                     "dimensioning.",
                 ),
             )
 
         if not hasattr(obj, "DimensionTopOffset"):
             obj.addProperty(
-                "App::PropertyVector",
+                "App::PropertyLength",
                 "DimensionTopOffset",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The top offset point for automated reinforcement "
-                    "dimensioning.",
+                    "The top offset for automated reinforcement dimensioning.",
                 ),
             )
 
         if not hasattr(obj, "DimensionBottomOffset"):
             obj.addProperty(
-                "App::PropertyVector",
+                "App::PropertyLength",
                 "DimensionBottomOffset",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The bottm offset point for automated reinforcement "
+                    "The bottom offset for automated reinforcement "
                     "dimensioning.",
                 ),
             )
@@ -370,10 +368,10 @@ class ReinforcementDimensioning:
                 obj.Rebar,
                 obj.DimensionFormat,
                 view_plane,
-                obj.DimensionLeftOffset / obj.Scale,
-                obj.DimensionRightOffset / obj.Scale,
-                obj.DimensionTopOffset / obj.Scale,
-                obj.DimensionBottomOffset / obj.Scale,
+                obj.DimensionLeftOffset.Value / obj.Scale,
+                obj.DimensionRightOffset.Value / obj.Scale,
+                obj.DimensionTopOffset.Value / obj.Scale,
+                obj.DimensionBottomOffset.Value / obj.Scale,
                 min_x,
                 min_y,
                 max_x,
@@ -383,19 +381,13 @@ class ReinforcementDimensioning:
                 self.FirstExecute = False
                 parent_drawing = obj.ParentDrawingView
                 if dimension_align == "Left":
-                    parent_drawing.DimensionLeftOffset += FreeCAD.Vector(
-                        5, 5, 0
-                    )
+                    parent_drawing.DimensionLeftOffset.Value += 5
                 elif dimension_align == "Right":
-                    parent_drawing.DimensionRightOffset += FreeCAD.Vector(
-                        5, 5, 0
-                    )
+                    parent_drawing.DimensionRightOffset.Value += 5
                 elif dimension_align == "Top":
-                    parent_drawing.DimensionTopOffset += FreeCAD.Vector(5, 5, 0)
+                    parent_drawing.DimensionTopOffset.Value += 5
                 elif dimension_align == "Bottom":
-                    parent_drawing.DimensionBottomOffset += FreeCAD.Vector(
-                        5, 5, 0
-                    )
+                    parent_drawing.DimensionBottomOffset.Value += 5
             for dimension_data in dimension_data_list:
                 if (
                     "LabelOnly" in dimension_data
