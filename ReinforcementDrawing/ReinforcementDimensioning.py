@@ -77,7 +77,8 @@ class ReinforcementDimensioning:
         # ParentDrawing.DimensionLeft/Right/Top/Bottom offset as required only
         # first time when object is being recomputed
         self.FirstExecute = True
-        reinforcement_dimensioning.recompute()
+        reinforcement_dimensioning.recompute(True)
+        parent_drawing_view.recompute(True)
 
     def setProperties(self, obj):
         """Add properties to RebarDimensioning object."""
@@ -316,6 +317,19 @@ class ReinforcementDimensioning:
                 ),
             )
 
+        if not hasattr(obj, "OuterDimension"):
+            obj.addProperty(
+                "App::PropertyBool",
+                "OuterDimension",
+                "ReinforcementDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "True if dimension lines to be outside of reinforcement "
+                    "drawing for automated reinforcement dimensioning.",
+                ),
+            )
+            obj.OuterDimension = False
+
     def onDocumentRestored(self, obj):
         """Upgrade ReinforcementDimensioning object."""
         self.setProperties(obj)
@@ -376,6 +390,8 @@ class ReinforcementDimensioning:
                 min_y,
                 max_x,
                 max_y,
+                obj.Scale,
+                obj.OuterDimension,
             )
             if hasattr(self, "FirstExecute") and self.FirstExecute is True:
                 self.FirstExecute = False
@@ -500,4 +516,5 @@ def makeReinforcementDimensioningObject(
     ).Object
     if drawing_page:
         drawing_page.addView(dimension_obj)
+        drawing_page.recompute(True)
     return dimension_obj

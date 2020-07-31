@@ -231,6 +231,8 @@ def getStirrupDimensionData(
     svg_min_y,
     svg_max_x,
     svg_max_y,
+    scale,
+    outer_dimension,
 ):
     drawing_plane_normal = view_plane.axis
     stirrup_span_axis = getRebarsSpanAxis(rebar)
@@ -333,12 +335,24 @@ def getStirrupDimensionData(
                 for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
                     rebar_points
                 ):
-                    dimension_points = [
-                        FreeCAD.Vector(start_p1.x, start_p1.y - 5),
-                        FreeCAD.Vector(start_p1.x, dimension_top_point_y),
-                        FreeCAD.Vector(end_p1.x, dimension_top_point_y),
-                        FreeCAD.Vector(end_p1.x, end_p1.y - 5),
-                    ]
+                    if outer_dimension:
+                        dimension_points = [
+                            FreeCAD.Vector(
+                                start_p1.x, dimension_top_point_y + 4 / scale
+                            ),
+                            FreeCAD.Vector(start_p1.x, dimension_top_point_y),
+                            FreeCAD.Vector(end_p1.x, dimension_top_point_y),
+                            FreeCAD.Vector(
+                                end_p1.x, dimension_top_point_y + 4 / scale
+                            ),
+                        ]
+                    else:
+                        dimension_points = [
+                            FreeCAD.Vector(start_p1.x, start_p1.y - 5),
+                            FreeCAD.Vector(start_p1.x, dimension_top_point_y),
+                            FreeCAD.Vector(end_p1.x, dimension_top_point_y),
+                            FreeCAD.Vector(end_p1.x, end_p1.y - 5),
+                        ]
                     dimension_data_list.append(
                         {
                             "WayPoints": dimension_points,
@@ -351,12 +365,28 @@ def getStirrupDimensionData(
                 for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
                     rebar_points
                 ):
-                    dimension_points = [
-                        FreeCAD.Vector(start_p2.x, start_p2.y + 5),
-                        FreeCAD.Vector(start_p2.x, dimension_bottom_point_y,),
-                        FreeCAD.Vector(end_p2.x, dimension_bottom_point_y,),
-                        FreeCAD.Vector(end_p2.x, end_p2.y + 5),
-                    ]
+                    if outer_dimension:
+                        dimension_points = [
+                            FreeCAD.Vector(
+                                start_p2.x, dimension_bottom_point_y - 4 / scale
+                            ),
+                            FreeCAD.Vector(
+                                start_p2.x, dimension_bottom_point_y
+                            ),
+                            FreeCAD.Vector(end_p2.x, dimension_bottom_point_y),
+                            FreeCAD.Vector(
+                                end_p2.x, dimension_bottom_point_y - 4 / scale
+                            ),
+                        ]
+                    else:
+                        dimension_points = [
+                            FreeCAD.Vector(start_p2.x, start_p2.y + 5),
+                            FreeCAD.Vector(
+                                start_p2.x, dimension_bottom_point_y,
+                            ),
+                            FreeCAD.Vector(end_p2.x, dimension_bottom_point_y),
+                            FreeCAD.Vector(end_p2.x, end_p2.y + 5),
+                        ]
                     dimension_data_list.append(
                         {
                             "WayPoints": dimension_points,
@@ -370,12 +400,24 @@ def getStirrupDimensionData(
                 for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
                     rebar_points
                 ):
-                    dimension_points = [
-                        FreeCAD.Vector(start_p1.x - 5, start_p1.y),
-                        FreeCAD.Vector(dimension_left_point_x, start_p1.y,),
-                        FreeCAD.Vector(dimension_left_point_x, end_p1.y),
-                        FreeCAD.Vector(end_p1.x - 5, end_p1.y),
-                    ]
+                    if outer_dimension:
+                        dimension_points = [
+                            FreeCAD.Vector(
+                                dimension_left_point_x + 4 / scale, start_p1.y
+                            ),
+                            FreeCAD.Vector(dimension_left_point_x, start_p1.y),
+                            FreeCAD.Vector(dimension_left_point_x, end_p1.y),
+                            FreeCAD.Vector(
+                                dimension_left_point_x + 4 / scale, end_p1.y
+                            ),
+                        ]
+                    else:
+                        dimension_points = [
+                            FreeCAD.Vector(start_p1.x - 5, start_p1.y),
+                            FreeCAD.Vector(dimension_left_point_x, start_p1.y),
+                            FreeCAD.Vector(dimension_left_point_x, end_p1.y),
+                            FreeCAD.Vector(end_p1.x - 5, end_p1.y),
+                        ]
                     dimension_data_list.append(
                         {
                             "WayPoints": dimension_points,
@@ -388,12 +430,28 @@ def getStirrupDimensionData(
                 for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
                     rebar_points
                 ):
-                    dimension_points = [
-                        FreeCAD.Vector(start_p2.x + 5, start_p2.y),
-                        FreeCAD.Vector(dimension_right_point_x, start_p2.y,),
-                        FreeCAD.Vector(dimension_right_point_x, end_p2.y),
-                        FreeCAD.Vector(end_p2.x + 5, end_p2.y),
-                    ]
+                    if outer_dimension:
+                        dimension_points = [
+                            FreeCAD.Vector(
+                                dimension_right_point_x - 4 / scale, start_p2.y
+                            ),
+                            FreeCAD.Vector(
+                                dimension_right_point_x, start_p2.y,
+                            ),
+                            FreeCAD.Vector(dimension_right_point_x, end_p2.y),
+                            FreeCAD.Vector(
+                                dimension_right_point_x - 4 / scale, end_p2.y
+                            ),
+                        ]
+                    else:
+                        dimension_points = [
+                            FreeCAD.Vector(start_p2.x + 5, start_p2.y),
+                            FreeCAD.Vector(
+                                dimension_right_point_x, start_p2.y,
+                            ),
+                            FreeCAD.Vector(dimension_right_point_x, end_p2.y),
+                            FreeCAD.Vector(end_p2.x + 5, end_p2.y),
+                        ]
                     dimension_data_list.append(
                         {
                             "WayPoints": dimension_points,
@@ -415,6 +473,8 @@ def getStraightRebarDimensionData(
     svg_min_y,
     svg_max_x,
     svg_max_y,
+    scale,
+    outer_dimension,
 ):
     drawing_plane_normal = view_plane.axis
     rebar_span_axis = getRebarsSpanAxis(rebar)
@@ -445,11 +505,17 @@ def getStraightRebarDimensionData(
                 dimension_align = "Bottom"
                 start_y = dimension_bottom_point_y
 
-            end_y = (
-                (end_x - p1.x) * (p2.y - p1.y) / (p2.x - p1.x) + p1.y
-                if (p2.x - p1.x) != 0
-                else p1.y
-            )
+            if outer_dimension:
+                if dimension_align == "Top":
+                    end_y = dimension_top_point_y + 4 / scale
+                else:
+                    end_y = dimension_bottom_point_y - 4 / scale
+            else:
+                end_y = (
+                    (end_x - p1.x) * (p2.y - p1.y) / (p2.x - p1.x) + p1.y
+                    if (p2.x - p1.x) != 0
+                    else p1.y
+                )
 
         # Rebar is more vertical, so dimension line will be horizontal
         else:
@@ -467,7 +533,13 @@ def getStraightRebarDimensionData(
                 dimension_align = "Right"
                 start_x = dimension_right_point_x
 
-            end_x = (end_y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x
+            if outer_dimension:
+                if dimension_align == "Left":
+                    end_x = dimension_left_point_x + 4 / scale
+                else:
+                    end_x = dimension_right_point_x - 4 / scale
+            else:
+                end_x = (end_y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x
 
         return (
             [
@@ -577,6 +649,13 @@ def getStraightRebarDimensionData(
                     dimension_align = "Top"
                     p1 = start_p1 if start_p1.y < start_p2.y else start_p2
                     p4 = end_p1 if end_p1.y < end_p2.y else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            p1.x, dimension_top_point_y + 4 / scale
+                        )
+                        p4 = FreeCAD.Vector(
+                            p4.x, dimension_top_point_y + 4 / scale
+                        )
                     p2 = FreeCAD.Vector(p1.x, dimension_top_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_top_point_y)
                 # Rebars end points are more closer to bottom of drawing
@@ -584,6 +663,13 @@ def getStraightRebarDimensionData(
                     dimension_align = "Bottom"
                     p1 = start_p1 if start_p1.y > start_p2.y else start_p2
                     p4 = end_p1 if end_p1.y > end_p2.y else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            p1.x, dimension_bottom_point_y - 4 / scale
+                        )
+                        p4 = FreeCAD.Vector(
+                            p4.x, dimension_bottom_point_y - 4 / scale
+                        )
                     p2 = FreeCAD.Vector(p1.x, dimension_bottom_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_bottom_point_y)
             # Rebars span along y-axis, so dimension lines will be either on
@@ -596,6 +682,13 @@ def getStraightRebarDimensionData(
                     dimension_align = "Left"
                     p1 = start_p1 if start_p1.x < start_p2.x else start_p2
                     p4 = end_p1 if end_p1.x < end_p2.x else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            dimension_left_point_x + 4 / scale, p1.y
+                        )
+                        p4 = FreeCAD.Vector(
+                            dimension_left_point_x + 4 / scale, p4.y
+                        )
                     p2 = FreeCAD.Vector(dimension_left_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_left_point_x, p4.y)
                 # Rebars end points are more closer to right of drawing
@@ -603,6 +696,13 @@ def getStraightRebarDimensionData(
                     dimension_align = "Right"
                     p1 = start_p1 if start_p1.x > start_p2.x else start_p2
                     p4 = end_p1 if end_p1.x > end_p2.x else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            dimension_right_point_x - 4 / scale, p1.y
+                        )
+                        p4 = FreeCAD.Vector(
+                            dimension_right_point_x - 4 / scale, p4.y
+                        )
                     p2 = FreeCAD.Vector(dimension_right_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_right_point_x, p4.y)
             if (
@@ -643,6 +743,8 @@ def getLShapeRebarDimensionData(
     svg_min_y,
     svg_max_x,
     svg_max_y,
+    scale,
+    outer_dimension,
 ):
     drawing_plane_normal = view_plane.axis
     rebar_span_axis = getRebarsSpanAxis(rebar)
@@ -675,11 +777,17 @@ def getLShapeRebarDimensionData(
                 dimension_align = "Bottom"
                 start_y = dimension_bottom_point_y
 
-            end_y = (
-                (end_x - p1.x) * (p2.y - p1.y) / (p2.x - p1.x) + p1.y
-                if (p2.x - p1.x) != 0
-                else p1.y
-            )
+            if outer_dimension:
+                if dimension_align == "Top":
+                    end_y = dimension_top_point_y + 4 / scale
+                else:
+                    end_y = dimension_bottom_point_y - 4 / scale
+            else:
+                end_y = (
+                    (end_x - p1.x) * (p2.y - p1.y) / (p2.x - p1.x) + p1.y
+                    if (p2.x - p1.x) != 0
+                    else p1.y
+                )
 
         # Rebar is more vertical, so dimension line will be horizontal
         else:
@@ -697,7 +805,13 @@ def getLShapeRebarDimensionData(
                 dimension_align = "Right"
                 start_x = dimension_right_point_x
 
-            end_x = (end_y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x
+            if outer_dimension:
+                if dimension_align == "Left":
+                    end_x = dimension_left_point_x + 4 / scale
+                else:
+                    end_x = dimension_right_point_x - 4 / scale
+            else:
+                end_x = (end_y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x
 
         return (
             [
@@ -848,6 +962,13 @@ def getLShapeRebarDimensionData(
                     dimension_align = "Top"
                     p1 = start_p1 if start_p1.y < start_p2.y else start_p2
                     p4 = end_p1 if end_p1.y < end_p2.y else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            p1.x, dimension_top_point_y + 4 / scale
+                        )
+                        p4 = FreeCAD.Vector(
+                            p4.x, dimension_top_point_y + 4 / scale
+                        )
                     p2 = FreeCAD.Vector(p1.x, dimension_top_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_top_point_y)
                 # Rebars end points are more closer to bottom of drawing
@@ -855,6 +976,13 @@ def getLShapeRebarDimensionData(
                     dimension_align = "Bottom"
                     p1 = start_p1 if start_p1.y > start_p2.y else start_p2
                     p4 = end_p1 if end_p1.y > end_p2.y else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            p1.x, dimension_bottom_point_y - 4 / scale
+                        )
+                        p4 = FreeCAD.Vector(
+                            p4.x, dimension_bottom_point_y - 4 / scale
+                        )
                     p2 = FreeCAD.Vector(p1.x, dimension_bottom_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_bottom_point_y)
             # Rebars span along y-axis, so dimension lines will be either on
@@ -867,6 +995,13 @@ def getLShapeRebarDimensionData(
                     dimension_align = "Left"
                     p1 = start_p1 if start_p1.x < start_p2.x else start_p2
                     p4 = end_p1 if end_p1.x < end_p2.x else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            dimension_left_point_x + 4 / scale, p1.y
+                        )
+                        p4 = FreeCAD.Vector(
+                            dimension_left_point_x + 4 / scale, p4.y
+                        )
                     p2 = FreeCAD.Vector(dimension_left_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_left_point_x, p4.y)
                 # Rebars end points are more closer to right of drawing
@@ -874,6 +1009,13 @@ def getLShapeRebarDimensionData(
                     dimension_align = "Right"
                     p1 = start_p1 if start_p1.x > start_p2.x else start_p2
                     p4 = end_p1 if end_p1.x > end_p2.x else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            dimension_right_point_x - 4 / scale, p1.y
+                        )
+                        p4 = FreeCAD.Vector(
+                            dimension_right_point_x - 4 / scale, p4.y
+                        )
                     p2 = FreeCAD.Vector(dimension_right_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_right_point_x, p4.y)
             if (
@@ -914,6 +1056,8 @@ def getUShapeRebarDimensionData(
     svg_min_y,
     svg_max_x,
     svg_max_y,
+    scale,
+    outer_dimension,
 ):
     drawing_plane_normal = view_plane.axis
     rebar_span_axis = getRebarsSpanAxis(rebar)
@@ -946,11 +1090,17 @@ def getUShapeRebarDimensionData(
                 dimension_align = "Bottom"
                 start_y = dimension_bottom_point_y
 
-            end_y = (
-                (end_x - p1.x) * (p2.y - p1.y) / (p2.x - p1.x) + p1.y
-                if (p2.x - p1.x) != 0
-                else p1.y
-            )
+            if outer_dimension:
+                if dimension_align == "Top":
+                    end_y = dimension_top_point_y + 4 / scale
+                else:
+                    end_y = dimension_bottom_point_y - 4 / scale
+            else:
+                end_y = (
+                    (end_x - p1.x) * (p2.y - p1.y) / (p2.x - p1.x) + p1.y
+                    if (p2.x - p1.x) != 0
+                    else p1.y
+                )
 
         # Rebar is more vertical, so dimension line will be horizontal
         else:
@@ -968,7 +1118,13 @@ def getUShapeRebarDimensionData(
                 dimension_align = "Right"
                 start_x = dimension_right_point_x
 
-            end_x = (end_y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x
+            if outer_dimension:
+                if dimension_align == "Left":
+                    end_x = dimension_left_point_x + 4 / scale
+                else:
+                    end_x = dimension_right_point_x - 4 / scale
+            else:
+                end_x = (end_y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x
 
         return (
             [
@@ -1123,6 +1279,13 @@ def getUShapeRebarDimensionData(
                     dimension_align = "Top"
                     p1 = start_p1 if start_p1.y < start_p2.y else start_p2
                     p4 = end_p1 if end_p1.y < end_p2.y else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            p1.x, dimension_top_point_y + 4 / scale
+                        )
+                        p4 = FreeCAD.Vector(
+                            p4.x, dimension_top_point_y + 4 / scale
+                        )
                     p2 = FreeCAD.Vector(p1.x, dimension_top_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_top_point_y)
                 # Rebars end points are more closer to bottom of drawing
@@ -1130,6 +1293,13 @@ def getUShapeRebarDimensionData(
                     dimension_align = "Bottom"
                     p1 = start_p1 if start_p1.y > start_p2.y else start_p2
                     p4 = end_p1 if end_p1.y > end_p2.y else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            p1.x, dimension_bottom_point_y - 4 / scale
+                        )
+                        p4 = FreeCAD.Vector(
+                            p4.x, dimension_bottom_point_y - 4 / scale
+                        )
                     p2 = FreeCAD.Vector(p1.x, dimension_bottom_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_bottom_point_y)
             # Rebars span along y-axis, so dimension lines will be either on
@@ -1142,6 +1312,13 @@ def getUShapeRebarDimensionData(
                     dimension_align = "Left"
                     p1 = start_p1 if start_p1.x < start_p2.x else start_p2
                     p4 = end_p1 if end_p1.x < end_p2.x else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            dimension_left_point_x + 4 / scale, p1.y
+                        )
+                        p4 = FreeCAD.Vector(
+                            dimension_left_point_x + 4 / scale, p4.y
+                        )
                     p2 = FreeCAD.Vector(dimension_left_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_left_point_x, p4.y)
                 # Rebars end points are more closer to right of drawing
@@ -1149,6 +1326,13 @@ def getUShapeRebarDimensionData(
                     dimension_align = "Right"
                     p1 = start_p1 if start_p1.x > start_p2.x else start_p2
                     p4 = end_p1 if end_p1.x > end_p2.x else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            dimension_right_point_x - 4 / scale, p1.y
+                        )
+                        p4 = FreeCAD.Vector(
+                            dimension_right_point_x - 4 / scale, p4.y
+                        )
                     p2 = FreeCAD.Vector(dimension_right_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_right_point_x, p4.y)
             if (
@@ -1189,6 +1373,8 @@ def getBentRebarDimensionData(
     svg_min_y,
     svg_max_x,
     svg_max_y,
+    scale,
+    outer_dimension,
 ):
     drawing_plane_normal = view_plane.axis
     rebar_span_axis = getRebarsSpanAxis(rebar)
@@ -1221,11 +1407,17 @@ def getBentRebarDimensionData(
                 dimension_align = "Bottom"
                 start_y = dimension_bottom_point_y
 
-            end_y = (
-                (end_x - p1.x) * (p2.y - p1.y) / (p2.x - p1.x) + p1.y
-                if (p2.x - p1.x) != 0
-                else p1.y
-            )
+            if outer_dimension:
+                if dimension_align == "Top":
+                    end_y = dimension_top_point_y + 4 / scale
+                else:
+                    end_y = dimension_bottom_point_y - 4 / scale
+            else:
+                end_y = (
+                    (end_x - p1.x) * (p2.y - p1.y) / (p2.x - p1.x) + p1.y
+                    if (p2.x - p1.x) != 0
+                    else p1.y
+                )
 
         # Rebar is more vertical, so dimension line will be horizontal
         else:
@@ -1242,8 +1434,13 @@ def getBentRebarDimensionData(
             else:
                 dimension_align = "Right"
                 start_x = dimension_right_point_x
-
-            end_x = (end_y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x
+            if outer_dimension:
+                if dimension_align == "Left":
+                    end_x = dimension_left_point_x + 4 / scale
+                else:
+                    end_x = dimension_right_point_x - 4 / scale
+            else:
+                end_x = (end_y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x
 
         return (
             [
@@ -1395,6 +1592,13 @@ def getBentRebarDimensionData(
                     dimension_align = "Top"
                     p1 = start_p1 if start_p1.y < start_p2.y else start_p2
                     p4 = end_p1 if end_p1.y < end_p2.y else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            p1.x, dimension_top_point_y + 4 / scale
+                        )
+                        p4 = FreeCAD.Vector(
+                            p4.x, dimension_top_point_y + 4 / scale
+                        )
                     p2 = FreeCAD.Vector(p1.x, dimension_top_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_top_point_y)
                 # Rebars end points are more closer to bottom of drawing
@@ -1402,6 +1606,13 @@ def getBentRebarDimensionData(
                     dimension_align = "Bottom"
                     p1 = start_p1 if start_p1.y > start_p2.y else start_p2
                     p4 = end_p1 if end_p1.y > end_p2.y else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            p1.x, dimension_bottom_point_y - 4 / scale
+                        )
+                        p4 = FreeCAD.Vector(
+                            p4.x, dimension_bottom_point_y - 4 / scale
+                        )
                     p2 = FreeCAD.Vector(p1.x, dimension_bottom_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_bottom_point_y)
             # Rebars span along y-axis, so dimension lines will be either on
@@ -1414,6 +1625,13 @@ def getBentRebarDimensionData(
                     dimension_align = "Left"
                     p1 = start_p1 if start_p1.x < start_p2.x else start_p2
                     p4 = end_p1 if end_p1.x < end_p2.x else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            dimension_left_point_x + 4 / scale, p1.y
+                        )
+                        p4 = FreeCAD.Vector(
+                            dimension_left_point_x + 4 / scale, p4.y
+                        )
                     p2 = FreeCAD.Vector(dimension_left_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_left_point_x, p4.y)
                 # Rebars end points are more closer to right of drawing
@@ -1421,6 +1639,13 @@ def getBentRebarDimensionData(
                     dimension_align = "Right"
                     p1 = start_p1 if start_p1.x > start_p2.x else start_p2
                     p4 = end_p1 if end_p1.x > end_p2.x else end_p2
+                    if outer_dimension:
+                        p1 = FreeCAD.Vector(
+                            dimension_right_point_x - 4 / scale, p1.y
+                        )
+                        p4 = FreeCAD.Vector(
+                            dimension_right_point_x - 4 / scale, p4.y
+                        )
                     p2 = FreeCAD.Vector(dimension_right_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_right_point_x, p4.y)
             if (
@@ -1461,6 +1686,8 @@ def getHelicalRebarDimensionData(
     svg_min_y,
     svg_max_x,
     svg_max_y,
+    scale,
+    outer_dimension,
 ):
     drawing_plane_normal = view_plane.axis
     rebar_span_axis = getRebarsSpanAxis(rebar)
@@ -1495,21 +1722,29 @@ def getHelicalRebarDimensionData(
             dimension_align = "Top"
             start_x = point.x
             start_y = dimension_top_point_y
+            if outer_dimension:
+                point.y = start_y + 4 / scale
         # Dimension point is more closer to bottom of drawing
         elif bottom_dist == min_dist:
             dimension_align = "Bottom"
             start_x = point.x
             start_y = dimension_bottom_point_y
+            if outer_dimension:
+                point.y = start_y - 4 / scale
         # Dimension point is more closer to left of drawing
         elif left_dist == min_dist:
             dimension_align = "Left"
             start_x = dimension_left_point_x
             start_y = point.y
+            if outer_dimension:
+                point.x = start_x + 4 / scale
         # Dimension point is more closer to right of drawing
         else:
             dimension_align = "Right"
             start_x = dimension_right_point_x
             start_y = point.y
+            if outer_dimension:
+                point.x = start_x - 4 / scale
 
         return (
             [
@@ -1544,11 +1779,17 @@ def getHelicalRebarDimensionData(
                 dimension_align = "Top"
                 p2 = FreeCAD.Vector(p1.x, dimension_top_point_y)
                 p3 = FreeCAD.Vector(p4.x, dimension_top_point_y)
+                if outer_dimension:
+                    p1.y = dimension_top_point_y + 4 / scale
+                    p4.y = dimension_top_point_y + 4 / scale
             # Rebars end points are more closer to bottom of drawing
             else:
                 dimension_align = "Bottom"
                 p2 = FreeCAD.Vector(p1.x, dimension_bottom_point_y)
                 p3 = FreeCAD.Vector(p4.x, dimension_bottom_point_y)
+                if outer_dimension:
+                    p1.y = dimension_bottom_point_y - 4 / scale
+                    p4.y = dimension_bottom_point_y - 4 / scale
         # Rebars span along y-axis, so dimension lines will be either on
         # left or right side
         else:
@@ -1559,11 +1800,17 @@ def getHelicalRebarDimensionData(
                 dimension_align = "Left"
                 p2 = FreeCAD.Vector(dimension_left_point_x, p1.y)
                 p3 = FreeCAD.Vector(dimension_left_point_x, p4.y)
+                if outer_dimension:
+                    p1.x = dimension_left_point_x + 4 / scale
+                    p4.x = dimension_left_point_x + 4 / scale
             # Rebars end points are more closer to right of drawing
             else:
                 dimension_align = "Right"
                 p2 = FreeCAD.Vector(dimension_right_point_x, p1.y)
                 p3 = FreeCAD.Vector(dimension_right_point_x, p4.y)
+                if outer_dimension:
+                    p1.x = dimension_right_point_x - 4 / scale
+                    p4.x = dimension_right_point_x - 4 / scale
         return (
             [
                 {
@@ -1590,6 +1837,8 @@ def getRebarDimensionData(
     svg_min_y,
     svg_max_x,
     svg_max_y,
+    scale,
+    outer_dimension,
 ):
     if rebar.RebarShape == "Stirrup":
         dimension_data = getStirrupDimensionData(
@@ -1604,6 +1853,8 @@ def getRebarDimensionData(
             svg_min_y,
             svg_max_x,
             svg_max_y,
+            scale,
+            outer_dimension,
         )
     elif rebar.RebarShape == "StraightRebar":
         dimension_data = getStraightRebarDimensionData(
@@ -1618,6 +1869,8 @@ def getRebarDimensionData(
             svg_min_y,
             svg_max_x,
             svg_max_y,
+            scale,
+            outer_dimension,
         )
     elif rebar.RebarShape == "LShapeRebar":
         dimension_data = getLShapeRebarDimensionData(
@@ -1632,6 +1885,8 @@ def getRebarDimensionData(
             svg_min_y,
             svg_max_x,
             svg_max_y,
+            scale,
+            outer_dimension,
         )
     elif rebar.RebarShape == "UShapeRebar":
         dimension_data = getUShapeRebarDimensionData(
@@ -1646,6 +1901,8 @@ def getRebarDimensionData(
             svg_min_y,
             svg_max_x,
             svg_max_y,
+            scale,
+            outer_dimension,
         )
     elif rebar.RebarShape == "BentShapeRebar":
         dimension_data = getBentRebarDimensionData(
@@ -1660,6 +1917,8 @@ def getRebarDimensionData(
             svg_min_y,
             svg_max_x,
             svg_max_y,
+            scale,
+            outer_dimension,
         )
     elif rebar.RebarShape == "HelicalRebar":
         dimension_data = getHelicalRebarDimensionData(
@@ -1674,5 +1933,7 @@ def getRebarDimensionData(
             svg_min_y,
             svg_max_x,
             svg_max_y,
+            scale,
+            outer_dimension,
         )
     return dimension_data
