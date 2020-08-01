@@ -42,7 +42,7 @@ from SVGfunc import getSVGRootElement, getSVGTextElement
 
 
 class ReinforcementDimensioning:
-    "A Rebar Dimensioning SVG View object."
+    """A Rebar Dimensioning SVG View object."""
 
     def __init__(
         self, rebar, parent_drawing_view, obj_name="ReinforcementDimensioning"
@@ -150,7 +150,7 @@ class ReinforcementDimensioning:
                     "App::Property", "The dimension label format.",
                 ),
             )
-            obj.DimensionFormat = "%M  %C⌀%D"
+            obj.DimensionFormat = "%M %C⌀%D,span=%S"
 
         if not hasattr(obj, "Font"):
             obj.addProperty(

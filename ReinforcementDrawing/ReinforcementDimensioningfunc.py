@@ -212,10 +212,32 @@ def getDimensionLineSVG(
 def getRebarDimensionLabel(rebar, dimension_format):
     dimension_label = dimension_format.replace("%M", str(rebar.Mark))
     dimension_label = dimension_label.replace("%C", str(rebar.Amount))
-    diameter = str(rebar.Diameter.Value)
+    # Set diameter
+    diameter = str(rebar.Diameter.Value).strip()
     if "." in diameter:
         diameter = diameter.rstrip("0").rstrip(".")
-    dimension_label = dimension_label.replace("%D", diameter).strip()
+    dimension_label = dimension_label.replace("%D", diameter)
+    # Set rebars span length
+    if hasattr(rebar, "RebarShape") and rebar.RebarShape == "HelicalRebar":
+        span_length = str(
+            round(
+                DraftVecUtils.dist(
+                    rebar.Base.Shape.Wires[0].Vertexes[0].Point,
+                    rebar.Base.Shape.Wires[0].Vertexes[-1].Point,
+                )
+            )
+        ).strip()
+    else:
+        span_length = str(
+            round(
+                DraftVecUtils.dist(
+                    rebar.PlacementList[0].Base, rebar.PlacementList[-1].Base
+                )
+            )
+        ).strip()
+    if "." in span_length:
+        span_length = span_length.rstrip("0").rstrip(".")
+    dimension_label = dimension_label.replace("%S", span_length).strip()
     return dimension_label
 
 
@@ -283,8 +305,19 @@ def getStirrupDimensionData(
 
                 if "@" in rebar_spacing_str:
                     rebars_count = int(rebar_spacing_str.split("@")[0])
+                    rebars_span_length = str(
+                        round(
+                            rebars_count
+                            * float(rebar_spacing_str.split("@")[1])
+                        )
+                    )
+                    if "." in rebars_span_length:
+                        rebars_span_length = rebars_span_length.rstrip(
+                            "0"
+                        ).rstrip(".")
                 else:
                     rebars_count = 1
+                    rebars_span_length = ""
 
                 rebar_mid_points.append([])
                 for placement in rebar.PlacementList[
@@ -316,6 +349,9 @@ def getStirrupDimensionData(
                     "%C", str(rebars_count)
                 )
                 dimension_label = dimension_label.replace("%D", rebar_diameter)
+                dimension_label = dimension_label.replace(
+                    "%S", rebars_span_length
+                ).strip()
                 dimension_labels.append(dimension_label)
         else:
             basewire = DraftGeomUtils.filletWire(
@@ -667,8 +703,19 @@ def getStraightRebarDimensionData(
 
                 if "@" in rebar_spacing_str:
                     rebars_count = int(rebar_spacing_str.split("@")[0])
+                    rebars_span_length = str(
+                        round(
+                            rebars_count
+                            * float(rebar_spacing_str.split("@")[1])
+                        )
+                    )
+                    if "." in rebars_span_length:
+                        rebars_span_length = rebars_span_length.rstrip(
+                            "0"
+                        ).rstrip(".")
                 else:
                     rebars_count = 1
+                    rebars_span_length = ""
 
                 rebar_mid_points.append([])
                 for placement in rebar.PlacementList[
@@ -705,8 +752,9 @@ def getStraightRebarDimensionData(
                 dimension_label = dimension_label.replace(
                     "%C", str(rebars_count)
                 )
+                dimension_label = dimension_label.replace("%D", rebar_diameter)
                 dimension_label = dimension_label.replace(
-                    "%D", rebar_diameter
+                    "%S", rebars_span_length
                 ).strip()
                 dimension_labels.append(dimension_label)
         else:
@@ -1012,8 +1060,19 @@ def getLShapeRebarDimensionData(
 
                 if "@" in rebar_spacing_str:
                     rebars_count = int(rebar_spacing_str.split("@")[0])
+                    rebars_span_length = str(
+                        round(
+                            rebars_count
+                            * float(rebar_spacing_str.split("@")[1])
+                        )
+                    )
+                    if "." in rebars_span_length:
+                        rebars_span_length = rebars_span_length.rstrip(
+                            "0"
+                        ).rstrip(".")
                 else:
                     rebars_count = 1
+                    rebars_span_length = ""
 
                 rebar_mid_points.append([])
                 for placement in rebar.PlacementList[
@@ -1061,8 +1120,9 @@ def getLShapeRebarDimensionData(
                 dimension_label = dimension_label.replace(
                     "%C", str(rebars_count)
                 )
+                dimension_label = dimension_label.replace("%D", rebar_diameter)
                 dimension_label = dimension_label.replace(
-                    "%D", rebar_diameter
+                    "%S", rebars_span_length
                 ).strip()
                 dimension_labels.append(dimension_label)
         else:
@@ -1389,8 +1449,19 @@ def getUShapeRebarDimensionData(
 
                 if "@" in rebar_spacing_str:
                     rebars_count = int(rebar_spacing_str.split("@")[0])
+                    rebars_span_length = str(
+                        round(
+                            rebars_count
+                            * float(rebar_spacing_str.split("@")[1])
+                        )
+                    )
+                    if "." in rebars_span_length:
+                        rebars_span_length = rebars_span_length.rstrip(
+                            "0"
+                        ).rstrip(".")
                 else:
                     rebars_count = 1
+                    rebars_span_length = ""
 
                 rebar_mid_points.append([])
                 for placement in rebar.PlacementList[
@@ -1439,8 +1510,9 @@ def getUShapeRebarDimensionData(
                 dimension_label = dimension_label.replace(
                     "%C", str(rebars_count)
                 )
+                dimension_label = dimension_label.replace("%D", rebar_diameter)
                 dimension_label = dimension_label.replace(
-                    "%D", rebar_diameter
+                    "%S", rebars_span_length
                 ).strip()
                 dimension_labels.append(dimension_label)
         else:
@@ -1776,8 +1848,19 @@ def getBentRebarDimensionData(
 
                 if "@" in rebar_spacing_str:
                     rebars_count = int(rebar_spacing_str.split("@")[0])
+                    rebars_span_length = str(
+                        round(
+                            rebars_count
+                            * float(rebar_spacing_str.split("@")[1])
+                        )
+                    )
+                    if "." in rebars_span_length:
+                        rebars_span_length = rebars_span_length.rstrip(
+                            "0"
+                        ).rstrip(".")
                 else:
                     rebars_count = 1
+                    rebars_span_length = ""
 
                 rebar_mid_points.append([])
                 for placement in rebar.PlacementList[
@@ -1831,8 +1914,9 @@ def getBentRebarDimensionData(
                 dimension_label = dimension_label.replace(
                     "%C", str(rebars_count)
                 )
+                dimension_label = dimension_label.replace("%D", rebar_diameter)
                 dimension_label = dimension_label.replace(
-                    "%D", rebar_diameter
+                    "%S", rebars_span_length
                 ).strip()
                 dimension_labels.append(dimension_label)
         else:
