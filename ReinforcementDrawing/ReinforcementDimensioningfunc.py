@@ -263,7 +263,8 @@ def getStirrupDimensionData(
         basewire = DraftGeomUtils.filletWire(
             rebar.Base.Shape.Wires[0], rebar.Rounding * rebar.Diameter.Value
         )
-        rebar_points = []
+        rebar_start_end_points = []
+        rebar_mid_points = []
         dimension_labels = []
         if rebar.CustomSpacing:
             rebar_diameter = str(rebar.Diameter.Value)
@@ -285,6 +286,17 @@ def getStirrupDimensionData(
                 else:
                     rebars_count = 1
 
+                rebar_mid_points.append([])
+                for placement in rebar.PlacementList[
+                    start_rebar_index + 1 : start_rebar_index + rebars_count - 1
+                ]:
+                    mid_wire = basewire.copy()
+                    mid_wire.Placement = placement.multiply(basewire.Placement)
+                    mid_p1, mid_p2 = getStirrupSVGPoints(
+                        mid_wire, stirrup_alignment, view_plane
+                    )
+                    rebar_mid_points[-1].append((mid_p1, mid_p2))
+
                 endwire = basewire.copy()
                 endwire.Placement = rebar.PlacementList[
                     start_rebar_index + rebars_count - 1
@@ -293,7 +305,9 @@ def getStirrupDimensionData(
                     endwire, stirrup_alignment, view_plane
                 )
                 start_rebar_index += rebars_count
-                rebar_points.append((start_p1, start_p2, end_p1, end_p2))
+                rebar_start_end_points.append(
+                    (start_p1, start_p2, end_p1, end_p2)
+                )
 
                 dimension_label = dimension_format.replace(
                     "%M", str(rebar.Mark)
@@ -321,38 +335,63 @@ def getStirrupDimensionData(
             end_p1, end_p2 = getStirrupSVGPoints(
                 endwire, stirrup_alignment, view_plane
             )
-            rebar_points.append((start_p1, start_p2, end_p1, end_p2))
+
+            rebar_mid_points.append([])
+            for placement in rebar.PlacementList[1:-1]:
+                mid_wire = basewire.copy()
+                mid_wire.Placement = placement.multiply(basewire.Placement)
+                mid_p1, mid_p2 = getStirrupSVGPoints(
+                    mid_wire, stirrup_alignment, view_plane
+                )
+                rebar_mid_points[-1].append((mid_p1, mid_p2))
+
+            rebar_start_end_points.append((start_p1, start_p2, end_p1, end_p2))
             dimension_labels.append(
                 getRebarDimensionLabel(rebar, dimension_format)
             )
 
         dimension_data_list = []
-        start_p1, start_p2, end_p1, end_p2 = rebar_points[0]
+        start_p1, start_p2, end_p1, end_p2 = rebar_start_end_points[0]
         if stirrup_alignment == "V":
             # Stirrup is more closer to top of drawing
             if abs(svg_min_y - start_p1.y) < abs(svg_max_y - start_p2.y):
                 dimension_align = "Top"
                 for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
-                    rebar_points
+                    rebar_start_end_points
                 ):
                     if outer_dimension:
-                        dimension_points = [
+                        dimension_points_start = [
                             FreeCAD.Vector(
                                 start_p1.x, dimension_top_point_y + 4 / scale
                             ),
                             FreeCAD.Vector(start_p1.x, dimension_top_point_y),
+                        ]
+                        dimension_points_end = [
                             FreeCAD.Vector(end_p1.x, dimension_top_point_y),
                             FreeCAD.Vector(
                                 end_p1.x, dimension_top_point_y + 4 / scale
                             ),
                         ]
                     else:
-                        dimension_points = [
+                        dimension_points_start = [
                             FreeCAD.Vector(start_p1.x, start_p1.y - 5),
                             FreeCAD.Vector(start_p1.x, dimension_top_point_y),
+                        ]
+                        dimension_points_end = [
                             FreeCAD.Vector(end_p1.x, dimension_top_point_y),
                             FreeCAD.Vector(end_p1.x, end_p1.y - 5),
                         ]
+
+                    dimension_points = []
+                    dimension_points.extend(dimension_points_start)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_points.append(
+                            FreeCAD.Vector(
+                                mid_points[0].x, dimension_top_point_y
+                            )
+                        )
+                    dimension_points.extend(dimension_points_end)
+
                     dimension_data_list.append(
                         {
                             "WayPoints": dimension_points,
@@ -363,30 +402,45 @@ def getStirrupDimensionData(
             else:
                 dimension_align = "Bottom"
                 for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
-                    rebar_points
+                    rebar_start_end_points
                 ):
                     if outer_dimension:
-                        dimension_points = [
+                        dimension_points_start = [
                             FreeCAD.Vector(
                                 start_p2.x, dimension_bottom_point_y - 4 / scale
                             ),
                             FreeCAD.Vector(
                                 start_p2.x, dimension_bottom_point_y
                             ),
+                        ]
+                        dimension_points_end = [
                             FreeCAD.Vector(end_p2.x, dimension_bottom_point_y),
                             FreeCAD.Vector(
                                 end_p2.x, dimension_bottom_point_y - 4 / scale
                             ),
                         ]
                     else:
-                        dimension_points = [
+                        dimension_points_start = [
                             FreeCAD.Vector(start_p2.x, start_p2.y + 5),
                             FreeCAD.Vector(
                                 start_p2.x, dimension_bottom_point_y,
                             ),
+                        ]
+                        dimension_points_end = [
                             FreeCAD.Vector(end_p2.x, dimension_bottom_point_y),
                             FreeCAD.Vector(end_p2.x, end_p2.y + 5),
                         ]
+
+                    dimension_points = []
+                    dimension_points.extend(dimension_points_start)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_points.append(
+                            FreeCAD.Vector(
+                                mid_points[1].x, dimension_bottom_point_y
+                            )
+                        )
+                    dimension_points.extend(dimension_points_end)
+
                     dimension_data_list.append(
                         {
                             "WayPoints": dimension_points,
@@ -398,26 +452,41 @@ def getStirrupDimensionData(
             if abs(svg_min_x - start_p1.x) < abs(svg_max_x - start_p2.x):
                 dimension_align = "Left"
                 for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
-                    rebar_points
+                    rebar_start_end_points
                 ):
                     if outer_dimension:
-                        dimension_points = [
+                        dimension_points_start = [
                             FreeCAD.Vector(
                                 dimension_left_point_x + 4 / scale, start_p1.y
                             ),
                             FreeCAD.Vector(dimension_left_point_x, start_p1.y),
+                        ]
+                        dimension_points_end = [
                             FreeCAD.Vector(dimension_left_point_x, end_p1.y),
                             FreeCAD.Vector(
                                 dimension_left_point_x + 4 / scale, end_p1.y
                             ),
                         ]
                     else:
-                        dimension_points = [
+                        dimension_points_start = [
                             FreeCAD.Vector(start_p1.x - 5, start_p1.y),
                             FreeCAD.Vector(dimension_left_point_x, start_p1.y),
+                        ]
+                        dimension_points_end = [
                             FreeCAD.Vector(dimension_left_point_x, end_p1.y),
                             FreeCAD.Vector(end_p1.x - 5, end_p1.y),
                         ]
+
+                    dimension_points = []
+                    dimension_points.extend(dimension_points_start)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_points.append(
+                            FreeCAD.Vector(
+                                dimension_left_point_x, mid_points[0].y
+                            )
+                        )
+                    dimension_points.extend(dimension_points_end)
+
                     dimension_data_list.append(
                         {
                             "WayPoints": dimension_points,
@@ -428,30 +497,45 @@ def getStirrupDimensionData(
             else:
                 dimension_align = "Right"
                 for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
-                    rebar_points
+                    rebar_start_end_points
                 ):
                     if outer_dimension:
-                        dimension_points = [
+                        dimension_points_start = [
                             FreeCAD.Vector(
                                 dimension_right_point_x - 4 / scale, start_p2.y
                             ),
                             FreeCAD.Vector(
                                 dimension_right_point_x, start_p2.y,
                             ),
+                        ]
+                        dimension_points_end = [
                             FreeCAD.Vector(dimension_right_point_x, end_p2.y),
                             FreeCAD.Vector(
                                 dimension_right_point_x - 4 / scale, end_p2.y
                             ),
                         ]
                     else:
-                        dimension_points = [
+                        dimension_points_start = [
                             FreeCAD.Vector(start_p2.x + 5, start_p2.y),
                             FreeCAD.Vector(
                                 dimension_right_point_x, start_p2.y,
                             ),
+                        ]
+                        dimension_points_end = [
                             FreeCAD.Vector(dimension_right_point_x, end_p2.y),
                             FreeCAD.Vector(end_p2.x + 5, end_p2.y),
                         ]
+
+                    dimension_points = []
+                    dimension_points.extend(dimension_points_start)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_points.append(
+                            FreeCAD.Vector(
+                                dimension_right_point_x, mid_points[1].y
+                            )
+                        )
+                    dimension_points.extend(dimension_points_end)
+
                     dimension_data_list.append(
                         {
                             "WayPoints": dimension_points,
@@ -560,7 +644,8 @@ def getStraightRebarDimensionData(
         )
     else:
         basewire = rebar.Base.Shape.Wires[0]
-        rebar_points = []
+        rebar_start_end_points = []
+        rebar_mid_points = []
         dimension_labels = []
         if rebar.CustomSpacing:
             rebar_diameter = str(rebar.Diameter.Value)
@@ -585,6 +670,20 @@ def getStraightRebarDimensionData(
                 else:
                     rebars_count = 1
 
+                rebar_mid_points.append([])
+                for placement in rebar.PlacementList[
+                    start_rebar_index + 1 : start_rebar_index + rebars_count - 1
+                ]:
+                    mid_wire = basewire.copy()
+                    mid_wire.Placement = placement.multiply(basewire.Placement)
+                    mid_p1 = getProjectionToSVGPlane(
+                        mid_wire.Vertexes[0].Point, view_plane
+                    )
+                    mid_p2 = getProjectionToSVGPlane(
+                        mid_wire.Vertexes[1].Point, view_plane
+                    )
+                    rebar_mid_points[-1].append((mid_p1, mid_p2))
+
                 endwire = basewire.copy()
                 endwire.Placement = rebar.PlacementList[
                     start_rebar_index + rebars_count - 1
@@ -596,7 +695,9 @@ def getStraightRebarDimensionData(
                     endwire.Vertexes[1].Point, view_plane
                 )
                 start_rebar_index += rebars_count
-                rebar_points.append((start_p1, start_p2, end_p1, end_p2))
+                rebar_start_end_points.append(
+                    (start_p1, start_p2, end_p1, end_p2)
+                )
 
                 dimension_label = dimension_format.replace(
                     "%M", str(rebar.Mark)
@@ -621,6 +722,18 @@ def getStraightRebarDimensionData(
                 startwire.Vertexes[1].Point, view_plane
             )
 
+            rebar_mid_points.append([])
+            for placement in rebar.PlacementList[1:-1]:
+                mid_wire = basewire.copy()
+                mid_wire.Placement = placement.multiply(basewire.Placement)
+                mid_p1 = getProjectionToSVGPlane(
+                    mid_wire.Vertexes[0].Point, view_plane
+                )
+                mid_p2 = getProjectionToSVGPlane(
+                    mid_wire.Vertexes[1].Point, view_plane
+                )
+                rebar_mid_points[-1].append((mid_p1, mid_p2))
+
             endwire = basewire.copy()
             endwire.Placement = rebar.PlacementList[-1].multiply(
                 basewire.Placement
@@ -632,13 +745,16 @@ def getStraightRebarDimensionData(
                 endwire.Vertexes[1].Point, view_plane
             )
 
-            rebar_points.append((start_p1, start_p2, end_p1, end_p2))
+            rebar_start_end_points.append((start_p1, start_p2, end_p1, end_p2))
             dimension_labels.append(
                 getRebarDimensionLabel(rebar, dimension_format)
             )
 
         dimension_data_list = []
-        for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(rebar_points):
+        for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
+            rebar_start_end_points
+        ):
+            dimension_mid_points = []
             # Rebars span along x-axis, so dimension lines will be either on top
             # or bottom side
             if round(rebar_span_axis.cross(view_plane.u).Length) == 0:
@@ -658,6 +774,13 @@ def getStraightRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(p1.x, dimension_top_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_top_point_y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                min(mid_points, key=lambda p: p.y).x,
+                                dimension_top_point_y,
+                            )
+                        )
                 # Rebars end points are more closer to bottom of drawing
                 else:
                     dimension_align = "Bottom"
@@ -672,6 +795,13 @@ def getStraightRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(p1.x, dimension_bottom_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_bottom_point_y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                max(mid_points, key=lambda p: p.y).x,
+                                dimension_bottom_point_y,
+                            )
+                        )
             # Rebars span along y-axis, so dimension lines will be either on
             # left or right side
             else:
@@ -691,6 +821,13 @@ def getStraightRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(dimension_left_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_left_point_x, p4.y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                dimension_left_point_x,
+                                min(mid_points, key=lambda p: p.x).y,
+                            )
+                        )
                 # Rebars end points are more closer to right of drawing
                 else:
                     dimension_align = "Right"
@@ -705,6 +842,13 @@ def getStraightRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(dimension_right_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_right_point_x, p4.y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                dimension_right_point_x,
+                                max(mid_points, key=lambda p: p.x).y,
+                            )
+                        )
             if (
                 round(p3.x - p2.x) == 0
                 and round(p3.y - p2.y) == 0
@@ -721,9 +865,12 @@ def getStraightRebarDimensionData(
                     }
                 )
             else:
+                way_points = [p1, p2]
+                way_points.extend(dimension_mid_points)
+                way_points.extend([p3, p4])
                 dimension_data_list.append(
                     {
-                        "WayPoints": [p1, p2, p3, p4],
+                        "WayPoints": way_points,
                         "DimensionLabel": dimension_labels[i],
                         "TextPositionType": "MidOfLine",
                     }
@@ -832,7 +979,8 @@ def getLShapeRebarDimensionData(
         )
     else:
         basewire = rebar.Base.Shape.Wires[0]
-        rebar_points = []
+        rebar_start_end_points = []
+        rebar_mid_points = []
         dimension_labels = []
         if rebar.CustomSpacing:
             rebar_diameter = str(rebar.Diameter.Value)
@@ -867,6 +1015,20 @@ def getLShapeRebarDimensionData(
                 else:
                     rebars_count = 1
 
+                rebar_mid_points.append([])
+                for placement in rebar.PlacementList[
+                    start_rebar_index + 1 : start_rebar_index + rebars_count - 1
+                ]:
+                    mid_wire = basewire.copy()
+                    mid_wire.Placement = placement.multiply(basewire.Placement)
+                    mid_p1 = getProjectionToSVGPlane(
+                        mid_wire.Vertexes[0].Point, view_plane
+                    )
+                    mid_p2 = getProjectionToSVGPlane(
+                        mid_wire.Vertexes[1].Point, view_plane
+                    )
+                    rebar_mid_points[-1].append((mid_p1, mid_p2))
+
                 endwire = basewire.copy()
                 endwire.Placement = rebar.PlacementList[
                     start_rebar_index + rebars_count - 1
@@ -889,7 +1051,9 @@ def getLShapeRebarDimensionData(
                     )
 
                 start_rebar_index += rebars_count
-                rebar_points.append((start_p1, start_p2, end_p1, end_p2))
+                rebar_start_end_points.append(
+                    (start_p1, start_p2, end_p1, end_p2)
+                )
 
                 dimension_label = dimension_format.replace(
                     "%M", str(rebar.Mark)
@@ -924,6 +1088,18 @@ def getLShapeRebarDimensionData(
                     startwire.Vertexes[-2].Point, view_plane
                 )
 
+            rebar_mid_points.append([])
+            for placement in rebar.PlacementList[1:-1]:
+                mid_wire = basewire.copy()
+                mid_wire.Placement = placement.multiply(basewire.Placement)
+                mid_p1 = getProjectionToSVGPlane(
+                    mid_wire.Vertexes[0].Point, view_plane
+                )
+                mid_p2 = getProjectionToSVGPlane(
+                    mid_wire.Vertexes[1].Point, view_plane
+                )
+                rebar_mid_points[-1].append((mid_p1, mid_p2))
+
             endwire = basewire.copy()
             endwire.Placement = rebar.PlacementList[-1].multiply(
                 basewire.Placement
@@ -945,13 +1121,16 @@ def getLShapeRebarDimensionData(
                     endwire.Vertexes[-2].Point, view_plane
                 )
 
-            rebar_points.append((start_p1, start_p2, end_p1, end_p2))
+            rebar_start_end_points.append((start_p1, start_p2, end_p1, end_p2))
             dimension_labels.append(
                 getRebarDimensionLabel(rebar, dimension_format)
             )
 
         dimension_data_list = []
-        for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(rebar_points):
+        for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
+            rebar_start_end_points
+        ):
+            dimension_mid_points = []
             # Rebars span along x-axis, so dimension lines will be either on top
             # or bottom side
             if round(rebar_span_axis.cross(view_plane.u).Length) == 0:
@@ -971,6 +1150,13 @@ def getLShapeRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(p1.x, dimension_top_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_top_point_y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                min(mid_points, key=lambda p: p.y).x,
+                                dimension_top_point_y,
+                            )
+                        )
                 # Rebars end points are more closer to bottom of drawing
                 else:
                     dimension_align = "Bottom"
@@ -985,6 +1171,13 @@ def getLShapeRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(p1.x, dimension_bottom_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_bottom_point_y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                max(mid_points, key=lambda p: p.y).x,
+                                dimension_bottom_point_y,
+                            )
+                        )
             # Rebars span along y-axis, so dimension lines will be either on
             # left or right side
             else:
@@ -1004,6 +1197,13 @@ def getLShapeRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(dimension_left_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_left_point_x, p4.y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                dimension_left_point_x,
+                                min(mid_points, key=lambda p: p.x).y,
+                            )
+                        )
                 # Rebars end points are more closer to right of drawing
                 else:
                     dimension_align = "Right"
@@ -1018,6 +1218,13 @@ def getLShapeRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(dimension_right_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_right_point_x, p4.y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                dimension_right_point_x,
+                                max(mid_points, key=lambda p: p.x).y,
+                            )
+                        )
             if (
                 round(p3.x - p2.x) == 0
                 and round(p3.y - p2.y) == 0
@@ -1034,9 +1241,12 @@ def getLShapeRebarDimensionData(
                     }
                 )
             else:
+                way_points = [p1, p2]
+                way_points.extend(dimension_mid_points)
+                way_points.extend([p3, p4])
                 dimension_data_list.append(
                     {
-                        "WayPoints": [p1, p2, p3, p4],
+                        "WayPoints": way_points,
                         "DimensionLabel": dimension_labels[i],
                         "TextPositionType": "MidOfLine",
                     }
@@ -1145,7 +1355,8 @@ def getUShapeRebarDimensionData(
         )
     else:
         basewire = rebar.Base.Shape.Wires[0]
-        rebar_points = []
+        rebar_start_end_points = []
+        rebar_mid_points = []
         dimension_labels = []
         if rebar.CustomSpacing:
             rebar_diameter = str(rebar.Diameter.Value)
@@ -1181,6 +1392,20 @@ def getUShapeRebarDimensionData(
                 else:
                     rebars_count = 1
 
+                rebar_mid_points.append([])
+                for placement in rebar.PlacementList[
+                    start_rebar_index + 1 : start_rebar_index + rebars_count - 1
+                ]:
+                    mid_wire = basewire.copy()
+                    mid_wire.Placement = placement.multiply(basewire.Placement)
+                    mid_p1 = getProjectionToSVGPlane(
+                        mid_wire.Vertexes[0].Point, view_plane
+                    )
+                    mid_p2 = getProjectionToSVGPlane(
+                        mid_wire.Vertexes[1].Point, view_plane
+                    )
+                    rebar_mid_points[-1].append((mid_p1, mid_p2))
+
                 endwire = basewire.copy()
                 endwire.Placement = rebar.PlacementList[
                     start_rebar_index + rebars_count - 1
@@ -1204,7 +1429,9 @@ def getUShapeRebarDimensionData(
                         )
 
                 start_rebar_index += rebars_count
-                rebar_points.append((start_p1, start_p2, end_p1, end_p2))
+                rebar_start_end_points.append(
+                    (start_p1, start_p2, end_p1, end_p2)
+                )
 
                 dimension_label = dimension_format.replace(
                     "%M", str(rebar.Mark)
@@ -1240,6 +1467,18 @@ def getUShapeRebarDimensionData(
                         edge.Vertexes[1].Point, view_plane
                     )
 
+            rebar_mid_points.append([])
+            for placement in rebar.PlacementList[1:-1]:
+                mid_wire = basewire.copy()
+                mid_wire.Placement = placement.multiply(basewire.Placement)
+                mid_p1 = getProjectionToSVGPlane(
+                    mid_wire.Vertexes[0].Point, view_plane
+                )
+                mid_p2 = getProjectionToSVGPlane(
+                    mid_wire.Vertexes[1].Point, view_plane
+                )
+                rebar_mid_points[-1].append((mid_p1, mid_p2))
+
             endwire = basewire.copy()
             endwire.Placement = rebar.PlacementList[-1].multiply(
                 basewire.Placement
@@ -1262,13 +1501,16 @@ def getUShapeRebarDimensionData(
                         edge.Vertexes[1].Point, view_plane
                     )
 
-            rebar_points.append((start_p1, start_p2, end_p1, end_p2))
+            rebar_start_end_points.append((start_p1, start_p2, end_p1, end_p2))
             dimension_labels.append(
                 getRebarDimensionLabel(rebar, dimension_format)
             )
 
         dimension_data_list = []
-        for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(rebar_points):
+        for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
+            rebar_start_end_points
+        ):
+            dimension_mid_points = []
             # Rebars span along x-axis, so dimension lines will be either on top
             # or bottom side
             if round(rebar_span_axis.cross(view_plane.u).Length) == 0:
@@ -1288,6 +1530,13 @@ def getUShapeRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(p1.x, dimension_top_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_top_point_y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                min(mid_points, key=lambda p: p.y).x,
+                                dimension_top_point_y,
+                            )
+                        )
                 # Rebars end points are more closer to bottom of drawing
                 else:
                     dimension_align = "Bottom"
@@ -1302,6 +1551,13 @@ def getUShapeRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(p1.x, dimension_bottom_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_bottom_point_y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                max(mid_points, key=lambda p: p.y).x,
+                                dimension_bottom_point_y,
+                            )
+                        )
             # Rebars span along y-axis, so dimension lines will be either on
             # left or right side
             else:
@@ -1321,6 +1577,13 @@ def getUShapeRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(dimension_left_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_left_point_x, p4.y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                dimension_left_point_x,
+                                min(mid_points, key=lambda p: p.x).y,
+                            )
+                        )
                 # Rebars end points are more closer to right of drawing
                 else:
                     dimension_align = "Right"
@@ -1335,6 +1598,13 @@ def getUShapeRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(dimension_right_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_right_point_x, p4.y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                dimension_right_point_x,
+                                max(mid_points, key=lambda p: p.x).y,
+                            )
+                        )
             if (
                 round(p3.x - p2.x) == 0
                 and round(p3.y - p2.y) == 0
@@ -1351,9 +1621,12 @@ def getUShapeRebarDimensionData(
                     }
                 )
             else:
+                way_points = [p1, p2]
+                way_points.extend(dimension_mid_points)
+                way_points.extend([p3, p4])
                 dimension_data_list.append(
                     {
-                        "WayPoints": [p1, p2, p3, p4],
+                        "WayPoints": way_points,
                         "DimensionLabel": dimension_labels[i],
                         "TextPositionType": "MidOfLine",
                     }
@@ -1471,7 +1744,9 @@ def getBentRebarDimensionData(
             full_length_visible = False
         else:
             full_length_visible = True
-        rebar_points = []
+
+        rebar_start_end_points = []
+        rebar_mid_points = []
         dimension_labels = []
         if rebar.CustomSpacing:
             rebar_diameter = str(rebar.Diameter.Value)
@@ -1504,6 +1779,28 @@ def getBentRebarDimensionData(
                 else:
                     rebars_count = 1
 
+                rebar_mid_points.append([])
+                for placement in rebar.PlacementList[
+                    start_rebar_index + 1 : start_rebar_index + rebars_count - 1
+                ]:
+                    mid_wire = basewire.copy()
+                    mid_wire.Placement = placement.multiply(basewire.Placement)
+                    if full_length_visible:
+                        mid_p1 = getProjectionToSVGPlane(
+                            mid_wire.Vertexes[0].Point, view_plane
+                        )
+                        mid_p2 = getProjectionToSVGPlane(
+                            mid_wire.Vertexes[-1].Point, view_plane
+                        )
+                    else:
+                        mid_p1 = getProjectionToSVGPlane(
+                            mid_wire.Edges[1].Vertexes[0].Point, view_plane
+                        )
+                        mid_p2 = getProjectionToSVGPlane(
+                            mid_wire.Edges[1].Vertexes[1].Point, view_plane
+                        )
+                    rebar_mid_points[-1].append((mid_p1, mid_p2))
+
                 endwire = basewire.copy()
                 endwire.Placement = rebar.PlacementList[
                     start_rebar_index + rebars_count - 1
@@ -1524,7 +1821,9 @@ def getBentRebarDimensionData(
                     )
 
                 start_rebar_index += rebars_count
-                rebar_points.append((start_p1, start_p2, end_p1, end_p2))
+                rebar_start_end_points.append(
+                    (start_p1, start_p2, end_p1, end_p2)
+                )
 
                 dimension_label = dimension_format.replace(
                     "%M", str(rebar.Mark)
@@ -1556,6 +1855,26 @@ def getBentRebarDimensionData(
                     startwire.Edges[1].Vertexes[1].Point, view_plane
                 )
 
+            rebar_mid_points.append([])
+            for placement in rebar.PlacementList[1:-1]:
+                mid_wire = basewire.copy()
+                mid_wire.Placement = placement.multiply(basewire.Placement)
+                if full_length_visible:
+                    mid_p1 = getProjectionToSVGPlane(
+                        mid_wire.Vertexes[0].Point, view_plane
+                    )
+                    mid_p2 = getProjectionToSVGPlane(
+                        mid_wire.Vertexes[-1].Point, view_plane
+                    )
+                else:
+                    mid_p1 = getProjectionToSVGPlane(
+                        mid_wire.Edges[1].Vertexes[0].Point, view_plane
+                    )
+                    mid_p2 = getProjectionToSVGPlane(
+                        mid_wire.Edges[1].Vertexes[1].Point, view_plane
+                    )
+                rebar_mid_points[-1].append((mid_p1, mid_p2))
+
             endwire = basewire.copy()
             endwire.Placement = rebar.PlacementList[-1].multiply(
                 basewire.Placement
@@ -1575,13 +1894,16 @@ def getBentRebarDimensionData(
                     endwire.Edges[1].Vertexes[1].Point, view_plane
                 )
 
-            rebar_points.append((start_p1, start_p2, end_p1, end_p2))
+            rebar_start_end_points.append((start_p1, start_p2, end_p1, end_p2))
             dimension_labels.append(
                 getRebarDimensionLabel(rebar, dimension_format)
             )
 
         dimension_data_list = []
-        for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(rebar_points):
+        for i, (start_p1, start_p2, end_p1, end_p2) in enumerate(
+            rebar_start_end_points
+        ):
+            dimension_mid_points = []
             # Rebars span along x-axis, so dimension lines will be either on top
             # or bottom side
             if round(rebar_span_axis.cross(view_plane.u).Length) == 0:
@@ -1601,6 +1923,13 @@ def getBentRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(p1.x, dimension_top_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_top_point_y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                min(mid_points, key=lambda p: p.y).x,
+                                dimension_top_point_y,
+                            )
+                        )
                 # Rebars end points are more closer to bottom of drawing
                 else:
                     dimension_align = "Bottom"
@@ -1615,6 +1944,13 @@ def getBentRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(p1.x, dimension_bottom_point_y)
                     p3 = FreeCAD.Vector(p4.x, dimension_bottom_point_y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                max(mid_points, key=lambda p: p.y).x,
+                                dimension_bottom_point_y,
+                            )
+                        )
             # Rebars span along y-axis, so dimension lines will be either on
             # left or right side
             else:
@@ -1634,6 +1970,13 @@ def getBentRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(dimension_left_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_left_point_x, p4.y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                dimension_left_point_x,
+                                min(mid_points, key=lambda p: p.x).y,
+                            )
+                        )
                 # Rebars end points are more closer to right of drawing
                 else:
                     dimension_align = "Right"
@@ -1648,6 +1991,13 @@ def getBentRebarDimensionData(
                         )
                     p2 = FreeCAD.Vector(dimension_right_point_x, p1.y)
                     p3 = FreeCAD.Vector(dimension_right_point_x, p4.y)
+                    for mid_points in rebar_mid_points[i]:
+                        dimension_mid_points.append(
+                            FreeCAD.Vector(
+                                dimension_right_point_x,
+                                max(mid_points, key=lambda p: p.x).y,
+                            )
+                        )
             if (
                 round(p3.x - p2.x) == 0
                 and round(p3.y - p2.y) == 0
@@ -1664,9 +2014,12 @@ def getBentRebarDimensionData(
                     }
                 )
             else:
+                way_points = [p1, p2]
+                way_points.extend(dimension_mid_points)
+                way_points.extend([p3, p4])
                 dimension_data_list.append(
                     {
-                        "WayPoints": [p1, p2, p3, p4],
+                        "WayPoints": way_points,
                         "DimensionLabel": dimension_labels[i],
                         "TextPositionType": "MidOfLine",
                     }
@@ -1769,6 +2122,7 @@ def getHelicalRebarDimensionData(
         p1 = getProjectionToSVGPlane(basewire.Vertexes[0].Point, view_plane)
         p4 = getProjectionToSVGPlane(basewire.Vertexes[-1].Point, view_plane)
 
+        dimension_mid_points = []
         # Rebars span along x-axis, so dimension lines will be either on top
         # or bottom side
         if round(rebar_span_axis.cross(view_plane.u).Length) == 0:
@@ -1790,6 +2144,12 @@ def getHelicalRebarDimensionData(
                 if outer_dimension:
                     p1.y = dimension_bottom_point_y - 4 / scale
                     p4.y = dimension_bottom_point_y - 4 / scale
+            for point_x in range(
+                int(min(p1.x, p4.x)),
+                int(max(p1.x, p4.x)),
+                int(rebar.Base.Pitch.Value),
+            ):
+                dimension_mid_points.append(FreeCAD.Vector(point_x, p2.y))
         # Rebars span along y-axis, so dimension lines will be either on
         # left or right side
         else:
@@ -1811,10 +2171,20 @@ def getHelicalRebarDimensionData(
                 if outer_dimension:
                     p1.x = dimension_right_point_x - 4 / scale
                     p4.x = dimension_right_point_x - 4 / scale
+            for point_y in range(
+                int(min(p1.y, p4.y)),
+                int(max(p1.y, p4.y)),
+                int(rebar.Base.Pitch.Value),
+            ):
+                dimension_mid_points.append(FreeCAD.Vector(p2.x, point_y))
+
+        way_points = [p1, p2]
+        way_points.extend(dimension_mid_points)
+        way_points.extend([p3, p4])
         return (
             [
                 {
-                    "WayPoints": [p1, p2, p3, p4],
+                    "WayPoints": way_points,
                     "DimensionLabel": getRebarDimensionLabel(
                         rebar, dimension_format
                     ),
