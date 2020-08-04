@@ -353,6 +353,7 @@ def makeStraightRebar(
             diameter,
             amount_spacing_value,
             f_cover + diameter / 2,
+            name="StraightRebar",
         )
         FreeCAD.ActiveDocument.recompute()
     else:
@@ -367,6 +368,7 @@ def makeStraightRebar(
             diameter,
             int((size - diameter) / amount_spacing_value),
             f_cover + diameter / 2,
+            name="StraightRebar",
         )
     # Adds properties to the rebar object
     rebar.addProperty(
@@ -440,7 +442,6 @@ def makeStraightRebar(
     else:
         rebar.AmountCheck = False
         rebar.TrueSpacing = amount_spacing_value
-    rebar.Label = "StraightRebar"
     FreeCAD.ActiveDocument.recompute()
     return rebar
 

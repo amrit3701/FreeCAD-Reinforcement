@@ -422,6 +422,7 @@ def makeBentShapeRebar(
             diameter,
             amount_spacing_value,
             f_cover + diameter / 2,
+            name="BentShapeRebar",
         )
         FreeCAD.ActiveDocument.recompute()
     else:
@@ -436,6 +437,7 @@ def makeBentShapeRebar(
             diameter,
             int((size - diameter) / amount_spacing_value),
             f_cover + diameter / 2,
+            name="BentShapeRebar",
         )
     rebar.Rounding = rounding
     # Adds properties to the rebar object
@@ -523,7 +525,6 @@ def makeBentShapeRebar(
     else:
         rebar.AmountCheck = False
         rebar.TrueSpacing = amount_spacing_value
-    rebar.Label = "BentShapeRebar"
     FreeCAD.ActiveDocument.recompute()
     return rebar
 

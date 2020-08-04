@@ -229,7 +229,13 @@ def makeStraightRebars(
             line.Start = points[0]
             line.End = points[1]
         main_rebars_list.append(
-            Arch.makeRebar(structure, line, dia_of_main_rebars, amount=1)
+            Arch.makeRebar(
+                structure,
+                line,
+                dia_of_main_rebars,
+                amount=1,
+                name="StraightRebar",
+            )
         )
         main_rebars_list[-1].Label = "StraightRebar"
         main_rebars_list[-1].OffsetStart = 0

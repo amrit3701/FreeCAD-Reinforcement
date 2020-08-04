@@ -124,18 +124,10 @@ def getMarkReinforcementsDict(objects_list=None):
     for rebar in rebar_objects:
         # If object is ArchRebar object
         if Draft.get_type(rebar) == "Rebar":
-            if hasattr(rebar, "MarkNumber"):
-                if rebar.MarkNumber:
-                    mark = rebar.MarkNumber
-                else:
-                    mark = "D{}L{}".format(
-                        round(rebar.Diameter.Value), round(rebar.Length.Value)
-                    )
+            if hasattr(rebar, "Mark"):
+                mark = rebar.Mark
             else:
-                mark = "D{}L{}".format(
-                    round(rebar.Diameter.Value), round(rebar.Length.Value)
-                )
-
+                mark = rebar.Label
             if mark not in mark_reinforcements_dict:
                 mark_reinforcements_dict[mark] = []
             mark_reinforcements_dict[mark].append(rebar)
@@ -175,7 +167,7 @@ def getRebarSharpEdgedLength(rebar):
     Returns sharp edged length of rebar object.
     """
     base = rebar.Base
-    # When rebar is drived from DWire
+    # When rebar is derived from DWire
     if hasattr(base, "Length"):
         # When wire shape is created using DraftGeomUtils.filletWire()
         if not hasattr(base, "FilletRadius"):
@@ -198,7 +190,7 @@ def getRebarSharpEdgedLength(rebar):
                 + extension_length
             )
             return rebar_sharp_edged_length
-    # When rebar is drived from Sketch
+    # When rebar is derived from Sketch
     elif base.isDerivedFrom("Sketcher::SketchObject"):
         rebar_length = 0
         for geo in base.Geometry:
