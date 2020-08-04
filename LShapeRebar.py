@@ -353,6 +353,7 @@ def makeLShapeRebar(
             diameter,
             amount_spacing_value,
             f_cover + diameter / 2,
+            name="LShapeRebar",
         )
         FreeCAD.ActiveDocument.recompute()
     else:
@@ -367,6 +368,7 @@ def makeLShapeRebar(
             diameter,
             int((size - diameter) / amount_spacing_value),
             f_cover + diameter / 2,
+            name="LShapeRebar",
         )
     rebar.Rounding = rounding
     # Adds properties to the rebar object
@@ -439,7 +441,6 @@ def makeLShapeRebar(
     else:
         rebar.AmountCheck = False
         rebar.TrueSpacing = amount_spacing_value
-    rebar.Label = "LShapeRebar"
     FreeCAD.ActiveDocument.recompute()
     return rebar
 

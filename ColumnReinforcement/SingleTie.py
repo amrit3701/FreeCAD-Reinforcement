@@ -99,7 +99,6 @@ def makeSingleTieFourRebars(
 
     # Create Straight Rebars
     if rebar_type == "StraightRebar":
-        hook_extend_along == "x-axis"
         facename_for_rebars = getFacenameforRebar(
             hook_extend_along, facename, structure
         )
