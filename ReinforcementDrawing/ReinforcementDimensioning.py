@@ -32,6 +32,7 @@ from xml.etree import ElementTree
 import FreeCAD
 from Draft import getrgb
 
+from RebarData import RebarTypes
 from .ReinforcementDrawingfunc import getViewPlane, getDrawingMinMaxXY
 from .ReinforcementDimensioningfunc import (
     getRebarDimensionLabel,
@@ -39,13 +40,42 @@ from .ReinforcementDimensioningfunc import (
     getRebarDimensionData,
 )
 from SVGfunc import getSVGRootElement, getSVGTextElement
+from .config import (
+    DIMENSION_LABEL_FORMAT,
+    DIMENSION_FONT_FAMILY,
+    DIMENSION_FONT_SIZE,
+    DIMENSION_STROKE_WIDTH,
+    DIMENSION_LINE_STYLE,
+    DIMENSION_LINE_COLOR,
+    DIMENSION_TEXT_COLOR,
+    DIMENSION_SINGLE_REBAR_LINE_START_SYMBOL,
+    DIMENSION_SINGLE_REBAR_LINE_END_SYMBOL,
+    DIMENSION_MULTI_REBAR_LINE_START_SYMBOL,
+    DIMENSION_LINE_MID_POINT_SYMBOL,
+    DIMENSION_MULTI_REBAR_LINE_END_SYMBOL,
+    DIMENSION_LEFT_OFFSET_INCREMENT,
+    DIMENSION_RIGHT_OFFSET_INCREMENT,
+    DIMENSION_TOP_OFFSET_INCREMENT,
+    DIMENSION_BOTTOM_OFFSET_INCREMENT,
+    DIMENSION_SINGLE_REBAR_OUTER_DIM,
+    DIMENSION_MULTI_REBAR_OUTER_DIM,
+    DIMENSION_SINGLE_REBAR_TEXT_POSITION_TYPE,
+    DIMENSION_MULTI_REBAR_TEXT_POSITION_TYPE,
+)
 
 
 class ReinforcementDimensioning:
     """A Rebar Dimensioning SVG View object."""
 
     def __init__(
-        self, rebar, parent_drawing_view, obj_name="ReinforcementDimensioning"
+        self,
+        rebar,
+        parent_drawing_view,
+        dimension_left_offset_increment,
+        dimension_right_offset_increment,
+        dimension_top_offset_increment,
+        dimension_bottom_offset_increment,
+        obj_name="ReinforcementDimensioning",
     ):
         """Initialize Rebars Dimensioning SVG View object."""
         reinforcement_dimensioning = FreeCAD.ActiveDocument.addObject(
@@ -77,6 +107,10 @@ class ReinforcementDimensioning:
         # ParentDrawing.DimensionLeft/Right/Top/Bottom offset as required only
         # first time when object is being recomputed
         self.FirstExecute = True
+        self.DimensionLeftOffsetIncrement = dimension_left_offset_increment
+        self.DimensionRightOffsetIncrement = dimension_right_offset_increment
+        self.DimensionTopOffsetIncrement = dimension_top_offset_increment
+        self.DimensionBottomOffsetIncrement = dimension_bottom_offset_increment
         reinforcement_dimensioning.recompute(True)
         parent_drawing_view.recompute(True)
 
@@ -91,7 +125,7 @@ class ReinforcementDimensioning:
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The parent ReinforcementDrawingView object.",
+                    "The parent ReinforcementDrawingView object",
                 ),
             )
 
@@ -102,7 +136,7 @@ class ReinforcementDimensioning:
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The ArchRebar object to generate dimensioning.",
+                    "The ArchRebar object to generate dimensioning",
                 ),
             )
 
@@ -112,7 +146,7 @@ class ReinforcementDimensioning:
                 "WayPointsType",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The way points type of dimension line.",
+                    "App::Property", "The way points type of dimension line",
                 ),
             ).WayPointsType = ["Automatic", "Custom"]
 
@@ -122,7 +156,7 @@ class ReinforcementDimensioning:
                 "WayPoints",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The way points of dimension line.",
+                    "App::Property", "The way points of dimension line",
                 ),
             )
             obj.WayPoints = [(0.00, 0.00, 0.00), (50.00, 0.00, 0.00)]
@@ -133,7 +167,7 @@ class ReinforcementDimensioning:
                 "TextPositionType",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The position type of dimension text.",
+                    "App::Property", "The position type of dimension text",
                 ),
             ).TextPositionType = [
                 "MidOfLine",
@@ -147,10 +181,10 @@ class ReinforcementDimensioning:
                 "DimensionFormat",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The dimension label format.",
+                    "App::Property", "The dimension label format",
                 ),
             )
-            obj.DimensionFormat = "%M %C⌀%D,span=%S"
+            obj.DimensionFormat = DIMENSION_LABEL_FORMAT
 
         if not hasattr(obj, "Font"):
             obj.addProperty(
@@ -158,10 +192,10 @@ class ReinforcementDimensioning:
                 "Font",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The font family of dimension text.",
+                    "App::Property", "The font family of dimension text",
                 ),
             )
-            obj.Font = "DejaVu Sans"
+            obj.Font = DIMENSION_FONT_FAMILY
 
         if not hasattr(obj, "FontSize"):
             obj.addProperty(
@@ -169,10 +203,10 @@ class ReinforcementDimensioning:
                 "FontSize",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The font size of dimension text.",
+                    "App::Property", "The font size of dimension text",
                 ),
             )
-            obj.FontSize = 3
+            obj.FontSize = DIMENSION_FONT_SIZE
 
         if not hasattr(obj, "StrokeWidth"):
             obj.addProperty(
@@ -180,10 +214,10 @@ class ReinforcementDimensioning:
                 "StrokeWidth",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The stroke width of dimension line.",
+                    "App::Property", "The stroke width of dimension line",
                 ),
             )
-            obj.StrokeWidth = 0.25
+            obj.StrokeWidth = DIMENSION_STROKE_WIDTH
 
         if not hasattr(obj, "LineStyle"):
             obj.addProperty(
@@ -191,7 +225,7 @@ class ReinforcementDimensioning:
                 "LineStyle",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The stroke style of dimension line.",
+                    "App::Property", "The stroke style of dimension line",
                 ),
             ).LineStyle = [
                 "Continuous",
@@ -200,6 +234,7 @@ class ReinforcementDimensioning:
                 "DashDot",
                 "DashDotDot",
             ]
+            obj.LineStyle = DIMENSION_LINE_STYLE
 
         if not hasattr(obj, "LineColor"):
             obj.addProperty(
@@ -207,10 +242,10 @@ class ReinforcementDimensioning:
                 "LineColor",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The color of dimension lines.",
+                    "App::Property", "The color of dimension lines",
                 ),
             )
-            obj.LineColor = (0.0, 0.0, 0.50)
+            obj.LineColor = DIMENSION_LINE_COLOR
 
         if not hasattr(obj, "TextColor"):
             obj.addProperty(
@@ -218,10 +253,10 @@ class ReinforcementDimensioning:
                 "TextColor",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The color of dimension text.",
+                    "App::Property", "The color of dimension text",
                 ),
             )
-            obj.TextColor = (0.0, 0.33, 0.0)
+            obj.TextColor = DIMENSION_TEXT_COLOR
 
         if not hasattr(obj, "LineStartSymbol"):
             obj.addProperty(
@@ -229,7 +264,7 @@ class ReinforcementDimensioning:
                 "LineStartSymbol",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The start symbol of dimension line.",
+                    "App::Property", "The start symbol of dimension line",
                 ),
             ).LineStartSymbol = [
                 "FilledArrow",
@@ -238,6 +273,7 @@ class ReinforcementDimensioning:
                 "None",
             ]
             # TODO: Implement "Open Arrow", "Open Circle" and "Fork"
+            obj.LineStartSymbol = DIMENSION_SINGLE_REBAR_LINE_START_SYMBOL
 
         if not hasattr(obj, "LineEndSymbol"):
             obj.addProperty(
@@ -245,7 +281,7 @@ class ReinforcementDimensioning:
                 "LineEndSymbol",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The end symbol of dimension line.",
+                    "App::Property", "The end symbol of dimension line",
                 ),
             ).LineEndSymbol = [
                 "FilledArrow",
@@ -254,6 +290,7 @@ class ReinforcementDimensioning:
                 "None",
             ]
             # TODO: Implement "Open Arrow", "Open Circle" and "Fork"
+            obj.LineEndSymbol = DIMENSION_SINGLE_REBAR_LINE_END_SYMBOL
 
         if not hasattr(obj, "LineMidPointSymbol"):
             obj.addProperty(
@@ -261,24 +298,24 @@ class ReinforcementDimensioning:
                 "LineMidPointSymbol",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The mid points symbol of dimension line.",
+                    "App::Property", "The mid points symbol of dimension line",
                 ),
             ).LineMidPointSymbol = [
                 "Tick",
                 "Dot",
                 "None",
             ]
-            obj.LineMidPointSymbol = "Dot"
+            obj.LineMidPointSymbol = DIMENSION_LINE_MID_POINT_SYMBOL
             # TODO: Implement "Open Circle" and "Cross"
 
         if not hasattr(obj, "DimensionLeftOffset"):
             obj.addProperty(
                 "App::PropertyLength",
                 "DimensionLeftOffset",
-                "ReinforcementDimensioning",
+                "AutomaticDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The left offset for automated reinforcement dimensioning.",
+                    "The left offset for automated reinforcement dimensioning",
                 ),
             )
 
@@ -286,11 +323,11 @@ class ReinforcementDimensioning:
             obj.addProperty(
                 "App::PropertyLength",
                 "DimensionRightOffset",
-                "ReinforcementDimensioning",
+                "AutomaticDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
                     "The right offset for automated reinforcement "
-                    "dimensioning.",
+                    "dimensioning",
                 ),
             )
 
@@ -298,10 +335,10 @@ class ReinforcementDimensioning:
             obj.addProperty(
                 "App::PropertyLength",
                 "DimensionTopOffset",
-                "ReinforcementDimensioning",
+                "AutomaticDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The top offset for automated reinforcement dimensioning.",
+                    "The top offset for automated reinforcement dimensioning",
                 ),
             )
 
@@ -309,26 +346,157 @@ class ReinforcementDimensioning:
             obj.addProperty(
                 "App::PropertyLength",
                 "DimensionBottomOffset",
-                "ReinforcementDimensioning",
+                "AutomaticDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
                     "The bottom offset for automated reinforcement "
-                    "dimensioning.",
+                    "dimensioning",
                 ),
             )
 
-        if not hasattr(obj, "OuterDimension"):
+        if not hasattr(obj, "SingleRebar_LineStartSymbol"):
+            obj.addProperty(
+                "App::PropertyEnumeration",
+                "SingleRebar_LineStartSymbol",
+                "AutomaticDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The dimension line start symbol, in case of single rebar "
+                    "is visible",
+                ),
+            ).SingleRebar_LineStartSymbol = [
+                "FilledArrow",
+                "Tick",
+                "Dot",
+                "None",
+            ]
+            obj.SingleRebar_LineStartSymbol = (
+                DIMENSION_SINGLE_REBAR_LINE_START_SYMBOL
+            )
+
+        if not hasattr(obj, "SingleRebar_LineEndSymbol"):
+            obj.addProperty(
+                "App::PropertyEnumeration",
+                "SingleRebar_LineEndSymbol",
+                "AutomaticDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The dimension line end symbol, in case of single rebar is "
+                    "visible",
+                ),
+            ).SingleRebar_LineEndSymbol = [
+                "FilledArrow",
+                "Tick",
+                "Dot",
+                "None",
+            ]
+            obj.SingleRebar_LineEndSymbol = (
+                DIMENSION_SINGLE_REBAR_LINE_END_SYMBOL
+            )
+
+        if not hasattr(obj, "MultiRebar_LineStartSymbol"):
+            obj.addProperty(
+                "App::PropertyEnumeration",
+                "MultiRebar_LineStartSymbol",
+                "AutomaticDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The dimension line start symbol, in case of multiple "
+                    "rebars are visible",
+                ),
+            ).MultiRebar_LineStartSymbol = [
+                "FilledArrow",
+                "Tick",
+                "Dot",
+                "None",
+            ]
+            obj.MultiRebar_LineStartSymbol = (
+                DIMENSION_MULTI_REBAR_LINE_START_SYMBOL
+            )
+
+        if not hasattr(obj, "MultiRebar_LineEndSymbol"):
+            obj.addProperty(
+                "App::PropertyEnumeration",
+                "MultiRebar_LineEndSymbol",
+                "AutomaticDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The dimension line end symbol, in case of multiple rebars "
+                    "are visible",
+                ),
+            ).MultiRebar_LineEndSymbol = [
+                "FilledArrow",
+                "Tick",
+                "Dot",
+                "None",
+            ]
+            obj.MultiRebar_LineEndSymbol = DIMENSION_MULTI_REBAR_LINE_END_SYMBOL
+
+        if not hasattr(obj, "SingleRebar_OuterDimension"):
             obj.addProperty(
                 "App::PropertyBool",
-                "OuterDimension",
-                "ReinforcementDimensioning",
+                "SingleRebar_OuterDimension",
+                "AutomaticDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
                     "True if dimension lines to be outside of reinforcement "
-                    "drawing for automated reinforcement dimensioning.",
+                    "drawing for automated reinforcement dimensioning, "
+                    "in case of single rebar is visible",
                 ),
             )
-            obj.OuterDimension = False
+            obj.SingleRebar_OuterDimension = DIMENSION_SINGLE_REBAR_OUTER_DIM
+
+        if not hasattr(obj, "MultiRebar_OuterDimension"):
+            obj.addProperty(
+                "App::PropertyBool",
+                "MultiRebar_OuterDimension",
+                "AutomaticDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "True if dimension lines to be outside of reinforcement "
+                    "drawing for automated reinforcement dimensioning, "
+                    "in case of multiple rebars are visible",
+                ),
+            )
+            obj.MultiRebar_OuterDimension = DIMENSION_MULTI_REBAR_OUTER_DIM
+
+        if not hasattr(obj, "SingleRebar_TextPositionType"):
+            obj.addProperty(
+                "App::PropertyEnumeration",
+                "SingleRebar_TextPositionType",
+                "AutomaticDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The position type of dimension text, in case of single "
+                    "rebar is visible",
+                ),
+            ).SingleRebar_TextPositionType = [
+                "MidOfLine",
+                "StartOfLine",
+                "EndOfLine",
+            ]
+            obj.SingleRebar_TextPositionType = (
+                DIMENSION_SINGLE_REBAR_TEXT_POSITION_TYPE
+            )
+
+        if not hasattr(obj, "MultiRebar_TextPositionType"):
+            obj.addProperty(
+                "App::PropertyEnumeration",
+                "MultiRebar_TextPositionType",
+                "AutomaticDimensioning",
+                QT_TRANSLATE_NOOP(
+                    "App::Property",
+                    "The position type of dimension text, in case of multiple "
+                    "rebars are visible",
+                ),
+            ).MultiRebar_TextPositionType = [
+                "MidOfLine",
+                "StartOfLine",
+                "EndOfLine",
+            ]
+            obj.MultiRebar_TextPositionType = (
+                DIMENSION_MULTI_REBAR_TEXT_POSITION_TYPE
+            )
 
     def onDocumentRestored(self, obj):
         """Upgrade ReinforcementDimensioning object."""
@@ -356,6 +524,21 @@ class ReinforcementDimensioning:
                     "Rebar is either not visible or not present in "
                     "reinforcement drawing.\n"
                 )
+                return
+            elif not hasattr(obj.Rebar, "RebarShape"):
+                FreeCAD.Console.PrintError(
+                    "Unable to find rebar shape type. Automatic dimensioning "
+                    "is not supported for custom rebars.\n"
+                )
+                return
+            elif obj.Rebar.RebarShape not in RebarTypes.tolist():
+                FreeCAD.Console.PrintError(
+                    "Unsupported rebar type {}. Automatic dimensioning is only "
+                    "supported for: {}\n".format(
+                        obj.Rebar.RebarShape, ", ".join(RebarTypes.tolist())
+                    )
+                )
+                return
 
         if obj.WayPointsType == "Custom" and len(obj.WayPoints) < 2:
             FreeCAD.Console.PrintError(
@@ -391,19 +574,28 @@ class ReinforcementDimensioning:
                 max_x,
                 max_y,
                 obj.Scale,
-                obj.OuterDimension,
+                obj.SingleRebar_OuterDimension,
+                obj.MultiRebar_OuterDimension,
             )
             if hasattr(self, "FirstExecute") and self.FirstExecute is True:
                 self.FirstExecute = False
                 parent_drawing = obj.ParentDrawingView
                 if dimension_align == "Left":
-                    parent_drawing.DimensionLeftOffset.Value += 5
+                    parent_drawing.DimensionLeftOffset.Value += (
+                        self.DimensionLeftOffsetIncrement
+                    )
                 elif dimension_align == "Right":
-                    parent_drawing.DimensionRightOffset.Value += 5
+                    parent_drawing.DimensionRightOffset.Value += (
+                        self.DimensionRightOffsetIncrement
+                    )
                 elif dimension_align == "Top":
-                    parent_drawing.DimensionTopOffset.Value += 5
+                    parent_drawing.DimensionTopOffset.Value += (
+                        self.DimensionTopOffsetIncrement
+                    )
                 elif dimension_align == "Bottom":
-                    parent_drawing.DimensionBottomOffset.Value += 5
+                    parent_drawing.DimensionBottomOffset.Value += (
+                        self.DimensionBottomOffsetIncrement
+                    )
             for dimension_data in dimension_data_list:
                 if (
                     "LabelOnly" in dimension_data
@@ -421,18 +613,14 @@ class ReinforcementDimensioning:
                 else:
                     way_points = dimension_data["WayPoints"]
                     dimension_label = dimension_data["DimensionLabel"]
-                    if "LineStartSymbol" in dimension_data:
-                        obj.LineStartSymbol = dimension_data["LineStartSymbol"]
-                    if "LineMidPointSymbol" in dimension_data:
-                        obj.LineMidPointSymbol = dimension_data[
-                            "LineMidPointSymbol"
-                        ]
-                    if "LineEndSymbol" in dimension_data:
-                        obj.LineEndSymbol = dimension_data["LineEndSymbol"]
-                    if "TextPositionType" in dimension_data:
-                        obj.TextPositionType = dimension_data[
-                            "TextPositionType"
-                        ]
+                    if dimension_data["VisibleRebars"] == "Single":
+                        line_start_symbol = obj.SingleRebar_LineStartSymbol
+                        line_end_symbol = obj.SingleRebar_LineEndSymbol
+                        text_position_type = obj.SingleRebar_TextPositionType
+                    elif dimension_data["VisibleRebars"] == "Multiple":
+                        line_start_symbol = obj.MultiRebar_LineStartSymbol
+                        line_end_symbol = obj.MultiRebar_LineEndSymbol
+                        text_position_type = obj.MultiRebar_TextPositionType
 
                     dimensions_svg = getDimensionLineSVG(
                         [(point.x, point.y) for point in way_points],
@@ -440,13 +628,13 @@ class ReinforcementDimensioning:
                         obj.Font,
                         obj.FontSize.Value / obj.Scale,
                         getrgb(obj.TextColor),
-                        obj.TextPositionType,
+                        text_position_type,
                         obj.StrokeWidth.Value / obj.Scale,
                         obj.LineStyle,
                         getrgb(obj.LineColor),
-                        obj.LineStartSymbol,
+                        line_start_symbol,
                         obj.LineMidPointSymbol,
-                        obj.LineEndSymbol,
+                        line_end_symbol,
                     )
 
                 # Apply translation so that (0,0) in dimensioning corresponds to
@@ -509,11 +697,80 @@ class ReinforcementDimensioning:
 
 
 def makeReinforcementDimensioningObject(
-    rebar, parent_drawing_view, drawing_page=None
+    rebar,
+    parent_drawing_view,
+    drawing_page=None,
+    dimension_label_format=DIMENSION_LABEL_FORMAT,
+    dimension_font_family=DIMENSION_FONT_FAMILY,
+    dimension_font_size=DIMENSION_FONT_SIZE,
+    dimension_stroke_width=DIMENSION_STROKE_WIDTH,
+    dimension_line_style=DIMENSION_LINE_STYLE,
+    dimension_line_color=DIMENSION_LINE_COLOR,
+    dimension_text_color=DIMENSION_TEXT_COLOR,
+    dimension_single_rebar_line_start_symbol=(
+        DIMENSION_SINGLE_REBAR_LINE_START_SYMBOL
+    ),
+    dimension_single_rebar_line_end_symbol=(
+        DIMENSION_SINGLE_REBAR_LINE_END_SYMBOL
+    ),
+    dimension_multi_rebar_line_start_symbol=(
+        DIMENSION_MULTI_REBAR_LINE_START_SYMBOL
+    ),
+    dimension_multi_rebar_line_end_symbol=(
+        DIMENSION_MULTI_REBAR_LINE_END_SYMBOL
+    ),
+    dimension_line_mid_point_symbol=DIMENSION_LINE_MID_POINT_SYMBOL,
+    dimension_left_offset_increment=DIMENSION_LEFT_OFFSET_INCREMENT,
+    dimension_right_offset_increment=DIMENSION_RIGHT_OFFSET_INCREMENT,
+    dimension_top_offset_increment=DIMENSION_TOP_OFFSET_INCREMENT,
+    dimension_bottom_offset_increment=DIMENSION_BOTTOM_OFFSET_INCREMENT,
+    dimension_single_rebar_outer_dim=DIMENSION_SINGLE_REBAR_OUTER_DIM,
+    dimension_multi_rebar_outer_dim=DIMENSION_MULTI_REBAR_OUTER_DIM,
+    dimension_single_rebar_text_position_type=(
+        DIMENSION_SINGLE_REBAR_TEXT_POSITION_TYPE
+    ),
+    dimension_multi_rebar_text_position_type=(
+        DIMENSION_MULTI_REBAR_TEXT_POSITION_TYPE
+    ),
 ):
     dimension_obj = ReinforcementDimensioning(
-        rebar, parent_drawing_view, "ReinforcementDimensioning"
+        rebar,
+        parent_drawing_view,
+        dimension_left_offset_increment,
+        dimension_right_offset_increment,
+        dimension_top_offset_increment,
+        dimension_bottom_offset_increment,
+        "ReinforcementDimensioning",
     ).Object
+    dimension_obj.Label = ""
+    dimension_obj.DimensionFormat = dimension_label_format
+    dimension_obj.Font = dimension_font_family
+    dimension_obj.FontSize = dimension_font_size
+    dimension_obj.StrokeWidth = dimension_stroke_width
+    dimension_obj.LineStyle = dimension_line_style
+    dimension_obj.LineColor = dimension_line_color
+    dimension_obj.TextColor = dimension_text_color
+    dimension_obj.SingleRebar_LineStartSymbol = (
+        dimension_single_rebar_line_start_symbol
+    )
+    dimension_obj.SingleRebar_LineEndSymbol = (
+        dimension_single_rebar_line_end_symbol
+    )
+    dimension_obj.MultiRebar_LineStartSymbol = (
+        dimension_multi_rebar_line_start_symbol
+    )
+    dimension_obj.MultiRebar_LineEndSymbol = (
+        dimension_multi_rebar_line_end_symbol
+    )
+    dimension_obj.LineMidPointSymbol = dimension_line_mid_point_symbol
+    dimension_obj.SingleRebar_OuterDimension = dimension_single_rebar_outer_dim
+    dimension_obj.MultiRebar_OuterDimension = dimension_multi_rebar_outer_dim
+    dimension_obj.SingleRebar_TextPositionType = (
+        dimension_single_rebar_text_position_type
+    )
+    dimension_obj.MultiRebar_TextPositionType = (
+        dimension_multi_rebar_text_position_type
+    )
     if drawing_page:
         drawing_page.addView(dimension_obj)
         drawing_page.recompute(True)

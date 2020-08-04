@@ -62,12 +62,6 @@ REBARS_COLOR_STYLE = "Automatic"
 # Make sure r, g, b must be float
 REBARS_COLOR = (0.67, 0.0, 0.0)
 
-# Font family of dimension text
-FONT_FAMILY = "DejaVu Sans"
-
-# Font size of dimension text
-FONT_SIZE = 3
-
 # Default Template File for Drawing
 TEMPLATE_FILE = str(
     Path(__file__).parent.absolute() / "Templates" / "A4_Landscape_blank.svg"
@@ -91,3 +85,83 @@ DRAWING_MAX_WIDTH = 297
 
 # Maximum height of drawing on Template File
 DRAWING_MAX_HEIGHT = 210
+
+# -------------------------Reinforcement Dimensioning-------------------------
+# The format of dimension label
+# %M -> Rebar.Mark
+# %C -> Rebar.Amount
+# %D -> Rebar.Diameter
+# %S -> Rebar span length
+DIMENSION_LABEL_FORMAT = "%M %C⌀%D,span=%S"
+
+# Font family of dimension label
+DIMENSION_FONT_FAMILY = "DejaVu Sans"
+
+# Font size of dimension label
+DIMENSION_FONT_SIZE = 3
+
+# The stroke-width of dimension line
+DIMENSION_STROKE_WIDTH = 0.25
+
+# The stroke style of dimension line
+# Supported line styles: "Continuous", "Dash", "Dot", "DashDot" or "DashDotDot"
+DIMENSION_LINE_STYLE = "Continuous"
+
+# The color of dimension line
+# Format: (r, g, b)
+# r, g, b value should be between 0 to 1, so you may need to divide value of r,
+# g, b by 255 to get its value between 0 to 1
+# Make sure r, g, b must be float
+DIMENSION_LINE_COLOR = (0.0, 0.0, 0.50)
+
+# The color of dimension text
+DIMENSION_TEXT_COLOR = (0.0, 0.33, 0.0)
+
+# The dimension line start symbol, in case of single rebar is visible
+# Supported values: "FilledArrow", "Tick", "Dot" or "None"
+DIMENSION_SINGLE_REBAR_LINE_START_SYMBOL = "None"
+
+# The dimension line end symbol, in case of single rebar is visible
+# Supported values: "FilledArrow", "Tick", "Dot" or "None"
+DIMENSION_SINGLE_REBAR_LINE_END_SYMBOL = "FilledArrow"
+
+# The dimension line start symbol, in case of multiple rebars are visible
+# Supported values: "FilledArrow", "Tick", "Dot" or "None"
+DIMENSION_MULTI_REBAR_LINE_START_SYMBOL = "FilledArrow"
+
+# The dimension line end symbol, in case of multiple rebars are visible
+# Supported values: "FilledArrow", "Tick", "Dot" or "None"
+DIMENSION_MULTI_REBAR_LINE_END_SYMBOL = "FilledArrow"
+
+# The dimension line mid points symbol
+# Supported values: "Tick", "Dot" or "None"
+DIMENSION_LINE_MID_POINT_SYMBOL = "Dot"
+
+# The left/right/top/bottom offset of dimension from drawing
+DIMENSION_LEFT_OFFSET = 10
+DIMENSION_RIGHT_OFFSET = 10
+DIMENSION_TOP_OFFSET = 10
+DIMENSION_BOTTOM_OFFSET = 10
+
+# The increment in left/right/top/bottom offset to move each dimension label
+# away from drawing
+DIMENSION_LEFT_OFFSET_INCREMENT = 6
+DIMENSION_RIGHT_OFFSET_INCREMENT = 6
+DIMENSION_TOP_OFFSET_INCREMENT = 6
+DIMENSION_BOTTOM_OFFSET_INCREMENT = 6
+
+# Set it to True if dimension lines to be outside of reinforcement drawing
+# for automated reinforcement dimensioning, in case of single rebar is
+# visible, set False otherwise
+DIMENSION_SINGLE_REBAR_OUTER_DIM = False
+
+# Set it to True if dimension lines to be outside of reinforcement drawing
+# for automated reinforcement dimensioning, in case of multiple rebars are
+# visible, set False otherwise
+DIMENSION_MULTI_REBAR_OUTER_DIM = True
+
+# The dimension label position type, in case of single rebar is visible
+DIMENSION_SINGLE_REBAR_TEXT_POSITION_TYPE = "StartOfLine"
+
+# The dimension label position type, in case of multiple rebars are visible
+DIMENSION_MULTI_REBAR_TEXT_POSITION_TYPE = "MidOfLine"

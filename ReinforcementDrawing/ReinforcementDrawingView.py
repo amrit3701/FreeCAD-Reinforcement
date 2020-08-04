@@ -38,6 +38,12 @@ from .ReinforcementDrawingfunc import (
     getReinforcementDrawingSVGData,
 )
 from SVGfunc import getTechdrawViewScalingFactor
+from .config import (
+    DIMENSION_LEFT_OFFSET,
+    DIMENSION_RIGHT_OFFSET,
+    DIMENSION_TOP_OFFSET,
+    DIMENSION_BOTTOM_OFFSET,
+)
 
 
 class ReinforcementDrawingView:
@@ -307,7 +313,7 @@ class ReinforcementDrawingView:
                 ),
                 8,
             )
-            obj.DimensionLeftOffset = 10
+            obj.DimensionLeftOffset = DIMENSION_LEFT_OFFSET
         obj.setEditorMode("DimensionLeftOffset", 2)
 
         if not hasattr(obj, "DimensionRightOffset"):
@@ -321,7 +327,7 @@ class ReinforcementDrawingView:
                 ),
                 8,
             )
-            obj.DimensionRightOffset = 10
+            obj.DimensionRightOffset = DIMENSION_RIGHT_OFFSET
         obj.setEditorMode("DimensionRightOffset", 2)
 
         if not hasattr(obj, "DimensionTopOffset"):
@@ -335,7 +341,7 @@ class ReinforcementDrawingView:
                 ),
                 8,
             )
-            obj.DimensionTopOffset = 10
+            obj.DimensionTopOffset = DIMENSION_TOP_OFFSET
         obj.setEditorMode("DimensionTopOffset", 2)
 
         if not hasattr(obj, "DimensionBottomOffset"):
@@ -349,7 +355,7 @@ class ReinforcementDrawingView:
                 ),
                 8,
             )
-            obj.DimensionBottomOffset = 10
+            obj.DimensionBottomOffset = DIMENSION_BOTTOM_OFFSET
         obj.setEditorMode("DimensionBottomOffset", 2)
 
     def onDocumentRestored(self, obj):
