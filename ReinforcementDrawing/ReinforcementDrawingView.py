@@ -69,7 +69,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The structure object acting as Host for rebars.",
+                    "The structure object acting as Host for rebars",
                 ),
             )
 
@@ -80,7 +80,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The list of rebar objects to be included in drawing.",
+                    "The list of rebar objects to be included in drawing",
                 ),
             )
 
@@ -90,7 +90,7 @@ class ReinforcementDrawingView:
                 "View",
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The reinforcement drawing view.",
+                    "App::Property", "The reinforcement drawing view",
                 ),
             ).View = ["Front", "Rear", "Left", "Right", "Top", "Bottom"]
 
@@ -101,7 +101,7 @@ class ReinforcementDrawingView:
                 "Base",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The position type of Reinforcement Drawing on Template.",
+                    "The position type of Reinforcement Drawing on Template",
                 ),
             ).PositionType = ["Automatic", "Custom"]
             obj.PositionType = "Automatic"
@@ -113,7 +113,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The stroke width of rebars in Reinforcement Drawing svg.",
+                    "The stroke width of rebars in Reinforcement Drawing svg",
                 ),
             )
             obj.RebarsStrokeWidth = 0.35
@@ -125,7 +125,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The color style of rebars in Reinforcement Drawing svg.",
+                    "The color style of rebars in Reinforcement Drawing svg",
                 ),
             ).RebarsColorStyle = ["Automatic", "Custom"]
             obj.RebarsColorStyle = "Automatic"
@@ -137,7 +137,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The color of rebars in Reinforcement Drawing svg.",
+                    "The color of rebars in Reinforcement Drawing svg",
                 ),
             )
             obj.RebarsColor = (0.67, 0.0, 0.0)
@@ -150,7 +150,7 @@ class ReinforcementDrawingView:
                 QT_TRANSLATE_NOOP(
                     "App::Property",
                     "The stroke width of structure in Reinforcement Drawing "
-                    "svg.",
+                    "svg",
                 ),
             )
             obj.StructureStrokeWidth = 0.35
@@ -162,8 +162,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The color style of structure in Reinforcement Drawing "
-                    "svg.",
+                    "The color style of structure in Reinforcement Drawing svg",
                 ),
             ).StructureColorStyle = ["Automatic", "Custom", "None"]
             obj.StructureColorStyle = "Automatic"
@@ -175,7 +174,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The color of structure in Reinforcement Drawing svg.",
+                    "The color of structure in Reinforcement Drawing svg",
                 ),
             )
             obj.StructureColor = (0.3, 0.9, 0.91)
@@ -187,7 +186,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The template for Reinforcement Drawing view.",
+                    "The template for Reinforcement Drawing view",
                 ),
             )
 
@@ -197,8 +196,10 @@ class ReinforcementDrawingView:
                 "Width",
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The width of Reinforcement Drawing view.",
+                    "App::Property",
+                    "The width of Reinforcement Drawing view svg",
                 ),
+                8,
             )
         obj.setEditorMode("Width", 2)
 
@@ -209,8 +210,9 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The height of Reinforcement Drawing view.",
+                    "The height of Reinforcement Drawing view svg",
                 ),
+                8,
             )
         obj.setEditorMode("Height", 2)
 
@@ -221,7 +223,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The left offset of Reinforcement Drawing view.",
+                    "The left offset of Reinforcement Drawing view",
                 ),
             )
             obj.LeftOffset = 6
@@ -233,7 +235,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The top offset of Reinforcement Drawing view.",
+                    "The top offset of Reinforcement Drawing view",
                 ),
             )
             obj.TopOffset = 6
@@ -245,7 +247,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The minimum right offset of Reinforcement Drawing view.",
+                    "The minimum right offset of Reinforcement Drawing view",
                 ),
             )
             obj.MinRightOffset = 6
@@ -257,7 +259,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The minimum bottom offset of Reinforcement Drawing view.",
+                    "The minimum bottom offset of Reinforcement Drawing view",
                 ),
             )
             obj.MinBottomOffset = 6
@@ -269,7 +271,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The maximum width of Reinforcement Drawing view.",
+                    "The maximum width of Reinforcement Drawing view",
                 ),
             )
             obj.MaxWidth = 190
@@ -281,7 +283,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The maximum height of Reinforcement Drawing view.",
+                    "The maximum height of Reinforcement Drawing view",
                 ),
             )
             obj.MaxHeight = 250
@@ -293,7 +295,7 @@ class ReinforcementDrawingView:
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The list of visible rebar objects in drawing.",
+                    "The list of visible rebar objects in drawing",
                 ),
                 8,
             )
@@ -309,7 +311,8 @@ class ReinforcementDrawingView:
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The left offset for Reinforcement Dimension.",
+                    "The left offset for each new ReinforcementDimensioning "
+                    "object",
                 ),
                 8,
             )
@@ -323,7 +326,8 @@ class ReinforcementDrawingView:
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The right offset for Reinforcement Dimension.",
+                    "The right offset for each new ReinforcementDimensioning "
+                    "object",
                 ),
                 8,
             )
@@ -337,7 +341,8 @@ class ReinforcementDrawingView:
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The top offset for Reinforcement Dimension.",
+                    "The top offset for each new ReinforcementDimensioning "
+                    "object",
                 ),
                 8,
             )
@@ -351,7 +356,8 @@ class ReinforcementDrawingView:
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The bottom offset for Reinforcement Dimension.",
+                    "The bottom offset for each new ReinforcementDimensioning "
+                    "object",
                 ),
                 8,
             )

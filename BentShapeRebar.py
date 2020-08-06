@@ -482,7 +482,7 @@ def makeBentShapeRebar(
         "AmountCheck",
         "RebarDialog",
         QT_TRANSLATE_NOOP("App::Property", "Amount radio button is checked"),
-    ).AmountCheck
+    )
     rebar.setEditorMode("AmountCheck", 2)
     rebar.addProperty(
         "App::PropertyDistance",

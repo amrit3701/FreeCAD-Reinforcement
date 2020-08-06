@@ -55,7 +55,7 @@ REBARS_STROKE_WIDTH = 0.35
 # - set it to "Custom" to choose shape color value from variable REBARS_COLOR
 REBARS_COLOR_STYLE = "Automatic"
 
-# Fill color for structure in drawing svg
+# Fill color for rebars in drawing svg
 # Format: (r, g, b)
 # r, g, b value should be between 0 to 1, so you may need to divide value of r,
 # g, b by 255 to get its value between 0 to 1
@@ -143,7 +143,7 @@ DIMENSION_RIGHT_OFFSET = 10
 DIMENSION_TOP_OFFSET = 10
 DIMENSION_BOTTOM_OFFSET = 10
 
-# The increment in left/right/top/bottom offset to move each dimension label
+# The increment in left/right/top/bottom offset to move each new dimension label
 # away from drawing
 DIMENSION_LEFT_OFFSET_INCREMENT = 6
 DIMENSION_RIGHT_OFFSET_INCREMENT = 6
@@ -161,7 +161,9 @@ DIMENSION_SINGLE_REBAR_OUTER_DIM = False
 DIMENSION_MULTI_REBAR_OUTER_DIM = True
 
 # The dimension label position type, in case of single rebar is visible
+# Supported values: "StartOfLine", "MidOfLine" or "EndOfLine"
 DIMENSION_SINGLE_REBAR_TEXT_POSITION_TYPE = "StartOfLine"
 
 # The dimension label position type, in case of multiple rebars are visible
+# Supported values: "StartOfLine", "MidOfLine" or "EndOfLine"
 DIMENSION_MULTI_REBAR_TEXT_POSITION_TYPE = "MidOfLine"

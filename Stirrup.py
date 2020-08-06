@@ -409,6 +409,7 @@ def makeStirrup(
             diameter,
             amount_spacing_value,
             f_cover + diameter / 2,
+            name="Stirrup",
         )
     else:
         size = (
@@ -422,6 +423,7 @@ def makeStirrup(
             diameter,
             int((size - diameter) / amount_spacing_value),
             f_cover + diameter / 2,
+            name="Stirrup",
         )
     rebar.Direction = FaceNormal.negative()
     rebar.Rounding = rounding
@@ -492,7 +494,7 @@ def makeStirrup(
         "AmountCheck",
         "RebarDialog",
         QT_TRANSLATE_NOOP("App::Property", "Amount radio button is checked"),
-    ).AmountCheck
+    )
     rebar.setEditorMode("AmountCheck", 2)
     rebar.addProperty(
         "App::PropertyDistance",
@@ -506,7 +508,6 @@ def makeStirrup(
     else:
         rebar.AmountCheck = False
         rebar.TrueSpacing = amount_spacing_value
-    rebar.Label = "Stirrup"
     FreeCAD.ActiveDocument.recompute()
     return rebar
 
