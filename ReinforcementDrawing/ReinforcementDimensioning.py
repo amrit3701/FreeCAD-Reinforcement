@@ -242,7 +242,7 @@ class ReinforcementDimensioning:
                 "LineColor",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The color of dimension lines",
+                    "App::Property", "The color of dimension line",
                 ),
             )
             obj.LineColor = DIMENSION_LINE_COLOR
