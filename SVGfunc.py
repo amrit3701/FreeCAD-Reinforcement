@@ -264,7 +264,11 @@ def getSVGTextElement(
     Returns text element with filled data and required placement.
     """
     text = ElementTree.Element(
-        "text", x=str(x_offset), y=str(y_offset), style="", fill="#000000"
+        "text",
+        x=str(round(x_offset)),
+        y=str(round(y_offset)),
+        style="",
+        fill="#000000",
     )
     text.set("font-family", font_family)
     text.set("font-size", str(font_size))

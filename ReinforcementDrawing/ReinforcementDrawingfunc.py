@@ -26,6 +26,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
+import math
 from xml.etree import ElementTree
 
 import FreeCAD
@@ -34,6 +35,7 @@ import Draft
 import DraftGeomUtils
 import DraftVecUtils
 import WorkingPlane
+from importSVG import getcolor
 
 from SVGfunc import (
     getSVGRootElement,
@@ -105,6 +107,33 @@ def getViewPlane(view):
     return view_plane
 
 
+def getSVGPlaneFromAxis(axis=FreeCAD.Vector(0, -1, 0)):
+    view_plane = WorkingPlane.Plane()
+    # axis is closed to +X axis
+    if axis.getAngle(FreeCAD.Vector(1, 0, 0)) < 0.00001:
+        view_plane.axis = FreeCAD.Vector(1, 0, 0)
+        view_plane.u = FreeCAD.Vector(0, 1, 0)
+        view_plane.v = FreeCAD.Vector(0, 0, -1)
+    # axis is closed to -X axis
+    elif axis.getAngle(FreeCAD.Vector(-1, 0, 0)) < 0.00001:
+        view_plane.axis = FreeCAD.Vector(-1, 0, 0)
+        view_plane.u = FreeCAD.Vector(0, -1, 0)
+        view_plane.v = FreeCAD.Vector(0, 0, -1)
+    else:
+        view_plane.axis = axis
+        y_axis = axis.cross(FreeCAD.Vector(1, 0, 0))
+        y_axis.normalize()
+        if y_axis.z > 0:
+            y_axis = y_axis.negative()
+        elif y_axis.y > 0:
+            y_axis = y_axis.negative()
+        view_plane.v = y_axis
+        view_plane.u = DraftVecUtils.rotate(
+            view_plane.v, math.pi / 2, view_plane.axis
+        )
+    return view_plane
+
+
 def getProjectionToSVGPlane(vec, plane):
     """getProjectionToSVGPlane(Vector, Plane):
     Returns projection of vector on plane.
@@ -151,7 +180,7 @@ def getDrawingMinMaxXY(structure, rebars_list, view_plane):
         min_y = min(min_y, point.y)
         max_x = max(max_x, point.x)
         max_y = max(max_y, point.y)
-    return (min_x, min_y, max_x, max_y)
+    return min_x, min_y, max_x, max_y
 
 
 def getSVGWidthHeight(structure, rebars_list, view_plane):
@@ -163,7 +192,7 @@ def getSVGWidthHeight(structure, rebars_list, view_plane):
     )
     svg_width = round(max_x - min_x)
     svg_height = round(max_y - min_y)
-    return (svg_width, svg_height)
+    return svg_width, svg_height
 
 
 def getRoundCornerSVG(edge, radius, view_plane, stroke_width, stroke_color):
@@ -241,6 +270,26 @@ def isRoundCornerInSVG(edge, radius, view_plane, svg):
         return False
 
 
+def getRebarColor(rebar, rebar_color_style="shape color"):
+    """getRebarColor(Rebar, [RebarColorStyle]):
+    Returns rebar color.
+
+    rebar_color_style can be:
+        - "shape color" to select color of rebar shape [Default]
+        - color name or hex value of color
+
+    """
+    if rebar_color_style == "shape color":
+        if FreeCAD.GuiUp:
+            rebar_color = Draft.getrgb(rebar.ViewObject.ShapeColor)
+        else:
+            # TODO: Add logic to get this from FreeCAD preferences
+            rebar_color = "black"
+    else:
+        rebar_color = rebar_color_style
+    return rebar_color
+
+
 def getStirrupSVGPoints(stirrup_wire, stirrup_alignment, view_plane):
     """getStirrupSVGPoints(StirrupWire, StirrupAlignment, ViewPlane):
     stirrup_alignment can be "V" for vertical, horizontal otherwise.
@@ -291,14 +340,7 @@ def getStirrupSVGData(
         "visibility": is_rebar_visible,
     }
     """
-    if rebars_color_style == "shape color":
-        if FreeCAD.GuiUp:
-            rebars_color = Draft.getrgb(rebar.ViewObject.ShapeColor)
-        else:
-            # TODO: Add logic to get this from FreeCAD preferences
-            rebars_color = "black"
-    else:
-        rebars_color = rebars_color_style
+    rebars_color = getRebarColor(rebar, rebars_color_style)
 
     stirrup_svg = ElementTree.Element("g", attrib={"id": str(rebar.Name)})
     is_rebar_visible = False
@@ -377,14 +419,7 @@ def getUShapeRebarSVGData(
         "visibility": is_rebar_visible,
     }
     """
-    if rebars_color_style == "shape color":
-        if FreeCAD.GuiUp:
-            rebars_color = Draft.getrgb(rebar.ViewObject.ShapeColor)
-        else:
-            # TODO: Add logic to get this from FreeCAD preferences
-            rebars_color = "black"
-    else:
-        rebars_color = rebars_color_style
+    rebars_color = getRebarColor(rebar, rebars_color_style)
 
     u_rebar_svg = ElementTree.Element("g", attrib={"id": str(rebar.Name)})
     is_rebar_visible = False
@@ -529,14 +564,7 @@ def getStraightRebarSVGData(
         "visibility": is_rebar_visible,
     }
     """
-    if rebars_color_style == "shape color":
-        if FreeCAD.GuiUp:
-            rebars_color = Draft.getrgb(rebar.ViewObject.ShapeColor)
-        else:
-            # TODO: Add logic to get this from FreeCAD preferences
-            rebars_color = "black"
-    else:
-        rebars_color = rebars_color_style
+    rebars_color = getRebarColor(rebar, rebars_color_style)
 
     straight_rebar_svg = ElementTree.Element(
         "g", attrib={"id": str(rebar.Name)}
@@ -625,14 +653,9 @@ def getReinforcementDrawingSVGData(
     }
     """
     if isinstance(view_direction, FreeCAD.Vector):
-        if view_direction != FreeCAD.Vector(0, 0, 0):
-            view_plane = WorkingPlane.plane()
-            view_plane.alignToPointAndAxis(
-                FreeCAD.Vector(0, 0, 0),
-                view_direction.negative().negative(),
-                0,
-            )
-    elif isinstance(view_direction, WorkingPlane.plane):
+        if not DraftVecUtils.isNull(view_direction):
+            view_plane = getSVGPlaneFromAxis(view_direction)
+    elif isinstance(view_direction, WorkingPlane.Plane):
         view_plane = view_direction
 
     min_x, min_y, max_x, max_y = getDrawingMinMaxXY(
@@ -757,16 +780,8 @@ def getReinforcementDrawingSVGData(
     # rebar type (it makes sense for me). Please create an issue on github
     # repository if you think its wrong assumption
     for rebar in helical_rebars:
-        if rebars_color_style == "shape color":
-            if FreeCAD.GuiUp:
-                rebars_color = rebar.ViewObject.ShapeColor
-            else:
-                # TODO: Add logic to get this from FreeCAD preferences
-                rebars_color = (0, 0, 0)
-        else:
-            from importSVG import getcolor
-
-            rebars_color = getcolor(rebars_color_style)
+        rebars_color = getRebarColor(rebar, rebars_color_style)
+        rebars_color = getcolor(rebars_color)
         rebar_svg_draft = Draft.getSVG(
             rebar,
             direction=view_plane,
@@ -781,16 +796,8 @@ def getReinforcementDrawingSVGData(
     custom_rebars_svg = ElementTree.Element("g", attrib={"id": "CustomRebar"})
     rebars_svg.append(custom_rebars_svg)
     for rebar in custom_rebars:
-        if rebars_color_style == "shape color":
-            if FreeCAD.GuiUp:
-                rebars_color = rebar.ViewObject.ShapeColor
-            else:
-                # TODO: Add logic to get this from FreeCAD preferences
-                rebars_color = (0, 0, 0)
-        else:
-            from importSVG import getcolor
-
-            rebars_color = getcolor(rebars_color_style)
+        rebars_color = getRebarColor(rebar, rebars_color_style)
+        rebars_color = getcolor(rebars_color)
         rebar_svg_draft = Draft.getSVG(
             rebar,
             direction=view_plane,
