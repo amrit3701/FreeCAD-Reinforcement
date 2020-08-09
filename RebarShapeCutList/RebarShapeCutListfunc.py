@@ -246,8 +246,8 @@ def getRebarShapeSVG(
 
     # Apply max_height and max_width of rebar shape svg And calculate scaling
     # factor
-    rebar_shape_height = rebar_shape_max_y - rebar_shape_min_y
-    rebar_shape_width = rebar_shape_max_x - rebar_shape_min_x
+    rebar_shape_height = (rebar_shape_max_y - rebar_shape_min_y) or 1
+    rebar_shape_width = (rebar_shape_max_x - rebar_shape_min_x) or 1
     h_scaling_factor = v_scaling_factor = scale
     if max_height:
         v_scaling_factor = (

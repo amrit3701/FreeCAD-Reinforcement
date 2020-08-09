@@ -27,6 +27,7 @@ __url__ = "https://www.freecadweb.org"
 
 
 import math
+from typing import Union
 from xml.etree import ElementTree
 
 import FreeCAD
@@ -50,7 +51,25 @@ def getSVGRootElement():
     return svg
 
 
-def getPointSVG(point, radius=1, fill="black"):
+def getPointSVG(
+    point: FreeCAD.Vector, radius: Union[float, str] = 1, fill: str = "black"
+) -> ElementTree.Element:
+    """Create and return point svg element.
+
+    Parameters
+    ----------
+    point: <FreeCAD.Vector>
+        The point to get its svg element.
+    radius: float or str
+        The radius of point in svg.
+    fill: str
+        The fill color for point in svg.
+
+    Returns
+    -------
+    ElementTree.Element
+        The point svg element.
+    """
     point_svg = ElementTree.Element(
         "circle",
         cx=str(round(point.x)),
@@ -312,7 +331,7 @@ def getSVGDataCell(
     """getSVGDataCell(Data, XOffset, YOffset, CellWidth, CellHeight, FontFamily,
     FontSize, ElementId):
     Returns element with rectangular cell with filled data and required
-    pleacement of cell.
+    placement of cell.
     """
     cell_svg = ElementTree.Element("g")
     cell_svg.set("id", str(element_id))
