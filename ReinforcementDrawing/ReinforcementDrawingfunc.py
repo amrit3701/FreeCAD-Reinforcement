@@ -50,12 +50,16 @@ def getRebarsSpanAxis(rebar):
     """getRebarsSpanAxis(Rebar):
     Returns span axis of rebars.
     """
-    if (
-        Draft.getType(rebar.Base) == "Wire"
-    ):  # Draft Wires can have "wrong" placement
-        axis = DraftGeomUtils.getNormal(rebar.Base.Shape)
-    else:
-        axis = rebar.Base.Placement.Rotation.multVec(FreeCAD.Vector(0, 0, -1))
+    # This works fine instead for straight rebars in circular column
+    # if (
+    #     Draft.getType(rebar.Base) == "Wire"
+    # ):  # Draft Wires can have "wrong" placement
+    #     axis = DraftGeomUtils.getNormal(rebar.Base.Shape)
+    # else:
+    #     axis = rebar.Base.Placement.Rotation.multVec(FreeCAD.Vector(0, 0, -1))
+    basewire = rebar.Base.Shape.Wires[0].copy()
+    basewire.Placement = rebar.PlacementList[0].multiply(basewire.Placement)
+    axis = basewire.Placement.Rotation.multVec(FreeCAD.Vector(0, 0, -1))
     if hasattr(rebar, "Direction"):
         if not DraftVecUtils.isNull(rebar.Direction):
             axis = FreeCAD.Vector(rebar.Direction)
@@ -207,7 +211,7 @@ def getRoundCornerSVG(edge, radius, view_plane, stroke_width, stroke_color):
     )
     flag_sweep = int(DraftVecUtils.angle(t1, t2, view_plane.axis) < 0)
     svg = ElementTree.Element("path")
-    svg.set("style", "stroke:#000000;fill:none")
+    svg.set("style", "stroke:{};fill:none".format(stroke_color))
     svg.set(
         "d",
         "M{x1} {y1} A{radius} {radius} 0 0 {flag_sweep} {x2} {y2}".format(

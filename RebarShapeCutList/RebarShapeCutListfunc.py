@@ -21,7 +21,7 @@
 # *                                                                         *
 # ***************************************************************************
 
-__title__ = "Rebar Dimensioning Object"
+__title__ = "RebarShape Cut List Functions"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
@@ -57,7 +57,7 @@ def getBaseRebarsList(one_rebar_per_mark: bool = True) -> list:
     """
     Parameters
     ----------
-    one_rebar_per_mark: bool
+    one_rebar_per_mark: bool, optional
         If it is set to True, then only single rebar will be returned per mark.
         Otherwise all ArchRebar and rebar2.BaseRebar objects will be returned
         from active document.
@@ -204,7 +204,20 @@ def getRebarShapeSVG(
     """
     if isinstance(view_direction, FreeCAD.Vector):
         if DraftVecUtils.isNull(view_direction):
-            view_direction = getRebarsSpanAxis(rebar)
+            if (
+                hasattr(rebar, "RebarShape")
+                and rebar.RebarShape == "HelicalRebar"
+            ):
+                view_direction = rebar.Base.Placement.Rotation.multVec(
+                    FreeCAD.Vector(0, -1, 0)
+                )
+                if hasattr(rebar, "Direction") and not DraftVecUtils.isNull(
+                    rebar.Direction
+                ):
+                    view_direction = FreeCAD.Vector(rebar.Direction)
+                    view_direction.normalize()
+            else:
+                view_direction = getRebarsSpanAxis(rebar)
         view_plane = getSVGPlaneFromAxis(view_direction)
     elif isinstance(view_direction, WorkingPlane.Plane):
         view_plane = view_direction
@@ -318,68 +331,109 @@ def getRebarShapeSVG(
             )
         )
 
-    edges = Part.__sortEdges__(fillet_basewire.Edges)
-    straight_edges = Part.__sortEdges__(basewire.Edges)
-    current_straight_edge_index = 0
-    for edge in edges:
-        if DraftGeomUtils.geomType(edge) == "Line":
-            p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
-            p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
-            # Create Edge svg
-            if round(p1.x) == round(p2.x) and round(p1.y) == round(p2.y):
-                edge_svg = getPointSVG(
-                    p1, radius=2 * rebar_stroke_width, fill=rebar_color
+    if hasattr(rebar, "RebarShape") and rebar.RebarShape == "HelicalRebar":
+        helical_rebar_shape_svg = Draft.getSVG(
+            rebar,
+            direction=view_plane,
+            linewidth=rebar_stroke_width,
+            fillstyle="none",
+            color=rebar_color,
+        )
+        if helical_rebar_shape_svg:
+            rebar_edges_svg.append(
+                ElementTree.fromstring(helical_rebar_shape_svg)
+            )
+        # Create rebar dimension svg
+        top_mid_point = FreeCAD.Vector(
+            (rebar_shape_min_x + rebar_shape_max_x) / 2, rebar_shape_min_y
+        )
+        helical_rebar_length = str(
+            round(rebar.Base.Shape.Wires[0].Length, precision)
+        )
+        helix_radius = str(round(rebar.Base.Radius.Value, precision))
+        if "." in helical_rebar_length:
+            helical_rebar_length = helical_rebar_length.rstrip("0").rstrip(".")
+        if "." in helix_radius:
+            helix_radius = helix_radius.rstrip("0").rstrip(".")
+        edge_dimension_svg.append(
+            getSVGTextElement(
+                "{},r={}".format(helical_rebar_length, helix_radius),
+                top_mid_point.x,
+                top_mid_point.y - rebar_stroke_width * 2,
+                dimension_font_family,
+                dimension_font_size,
+                "middle",
+            )
+        )
+    else:
+        edges = Part.__sortEdges__(fillet_basewire.Edges)
+        straight_edges = Part.__sortEdges__(basewire.Edges)
+        current_straight_edge_index = 0
+        for edge in edges:
+            if DraftGeomUtils.geomType(edge) == "Line":
+                p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
+                p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
+                # Create Edge svg
+                if round(p1.x) == round(p2.x) and round(p1.y) == round(p2.y):
+                    edge_svg = getPointSVG(
+                        p1, radius=2 * rebar_stroke_width, fill=rebar_color
+                    )
+                else:
+                    edge_svg = getLineSVG(
+                        p1, p2, rebar_stroke_width, rebar_color
+                    )
+                # Create edge dimension svg
+                mid_point = FreeCAD.Vector((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
+                dimension_rotation = (
+                    math.degrees(math.atan((p2.y - p1.y) / (p2.x - p1.x)))
+                    if round(p2.x) != round(p1.x)
+                    else -90
                 )
+                edge_length = str(
+                    round(
+                        straight_edges[current_straight_edge_index].Length,
+                        precision,
+                    )
+                )
+                if "." in edge_length:
+                    edge_length = edge_length.rstrip("0").rstrip(".")
+                edge_dimension_svg.append(
+                    getSVGTextElement(
+                        edge_length,
+                        mid_point.x,
+                        mid_point.y - rebar_stroke_width * 2,
+                        dimension_font_family,
+                        dimension_font_size,
+                        "middle",
+                    )
+                )
+                edge_dimension_svg[-1].set(
+                    "transform",
+                    "rotate({} {} {})".format(
+                        dimension_rotation,
+                        round(mid_point.x),
+                        round(mid_point.y),
+                    ),
+                )
+                current_straight_edge_index += 1
+            elif DraftGeomUtils.geomType(edge) == "Circle":
+                p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
+                p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
+                if round(p1.x) == round(p2.x) or round(p1.y) == round(p2.y):
+                    edge_svg = getLineSVG(
+                        p1, p2, rebar_stroke_width, rebar_color
+                    )
+                else:
+                    edge_svg = getRoundCornerSVG(
+                        edge,
+                        rebar.Rounding * rebar.Diameter.Value,
+                        view_plane,
+                        rebar_stroke_width,
+                        rebar_color,
+                    )
             else:
-                edge_svg = getLineSVG(p1, p2, rebar_stroke_width, rebar_color)
-            # Create edge dimension svg
-            mid_point = FreeCAD.Vector((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
-            dimension_rotation = (
-                math.degrees(math.atan((p2.y - p1.y) / (p2.x - p1.x)))
-                if round(p2.x) != round(p1.x)
-                else -90
-            )
-            edge_length = str(
-                round(
-                    straight_edges[current_straight_edge_index].Length,
-                    precision,
-                )
-            )
-            if "." in edge_length:
-                edge_length = edge_length.rstrip("0").rstrip(".")
-            edge_dimension_svg.append(
-                getSVGTextElement(
-                    edge_length,
-                    mid_point.x,
-                    mid_point.y - rebar_stroke_width * 2,
-                    dimension_font_family,
-                    dimension_font_size,
-                    "middle",
-                )
-            )
-            edge_dimension_svg[-1].set(
-                "transform",
-                "rotate({} {} {})".format(
-                    dimension_rotation, round(mid_point.x), round(mid_point.y)
-                ),
-            )
-            current_straight_edge_index += 1
-        elif DraftGeomUtils.geomType(edge) == "Circle":
-            p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
-            p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
-            if round(p1.x) == round(p2.x) or round(p1.y) == round(p2.y):
-                edge_svg = getLineSVG(p1, p2, rebar_stroke_width, rebar_color)
-            else:
-                edge_svg = getRoundCornerSVG(
-                    edge,
-                    rebar.Rounding * rebar.Diameter.Value,
-                    view_plane,
-                    rebar_stroke_width,
-                    rebar_color,
-                )
-        else:
-            edge_svg = ElementTree.Element("g")
-        rebar_edges_svg.append(edge_svg)
+                edge_svg = ElementTree.Element("g")
+            rebar_edges_svg.append(edge_svg)
 
     return svg
 

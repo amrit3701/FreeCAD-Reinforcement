@@ -38,8 +38,14 @@ import FreeCAD
 # --------------------------------------------------------------------------
 
 
-def getSVGRootElement():
-    """Returns svg tag element with freecad namespace."""
+def getSVGRootElement() -> ElementTree.Element:
+    """Returns svg tag element with freecad xmlns namespace.
+
+    Returns
+    -------
+    ElementTree.Element
+        The svg tag element with freecad xmlns namespace.
+    """
     svg = ElementTree.Element("svg")
     svg.set("version", "1.1")
     svg.set("xmlns", "http://www.w3.org/2000/svg")
@@ -101,7 +107,7 @@ def getLineSVG(p1, p2, stroke_width=0.35, color="black"):
         y1=str(round(p1.y)),
         x2=str(round(p2.x)),
         y2=str(round(p2.y)),
-        style="stroke:#000000",
+        style="stroke:{};".format(color),
     )
     line_svg.set("stroke-width", str(stroke_width))
     line_svg.set("stroke", color)
