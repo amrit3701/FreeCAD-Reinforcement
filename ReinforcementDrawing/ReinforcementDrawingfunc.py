@@ -50,16 +50,18 @@ def getRebarsSpanAxis(rebar):
     """getRebarsSpanAxis(Rebar):
     Returns span axis of rebars.
     """
-    # This works fine instead for straight rebars in circular column
-    # if (
-    #     Draft.getType(rebar.Base) == "Wire"
-    # ):  # Draft Wires can have "wrong" placement
-    #     axis = DraftGeomUtils.getNormal(rebar.Base.Shape)
-    # else:
-    #     axis = rebar.Base.Placement.Rotation.multVec(FreeCAD.Vector(0, 0, -1))
-    basewire = rebar.Base.Shape.Wires[0].copy()
-    basewire.Placement = rebar.PlacementList[0].multiply(basewire.Placement)
-    axis = basewire.Placement.Rotation.multVec(FreeCAD.Vector(0, 0, -1))
+    if (
+        (
+            Draft.getType(rebar.Base) == "Wire"
+            or rebar.Base.Shape.ShapeType == "Wire"
+        )
+        and len(rebar.Base.Shape.Wires[0].Edges) != 1
+    ):  # Draft Wires can have "wrong" placement
+        # This works fine instead for straight rebars i.e. for rebars having
+        # base wire with only one edge
+        axis = DraftGeomUtils.getNormal(rebar.Base.Shape)
+    else:
+        axis = rebar.Base.Placement.Rotation.multVec(FreeCAD.Vector(0, 0, -1))
     if hasattr(rebar, "Direction"):
         if not DraftVecUtils.isNull(rebar.Direction):
             axis = FreeCAD.Vector(rebar.Direction)
@@ -199,8 +201,8 @@ def getSVGWidthHeight(structure, rebars_list, view_plane):
     return svg_width, svg_height
 
 
-def getRoundCornerSVG(edge, radius, view_plane, stroke_width, stroke_color):
-    """getRoundCornerSVG(Edge, Radius, ViewPlane, StrokeWidth, StrokeColor):
+def getRoundEdgeSVG(edge, view_plane, stroke_width, stroke_color):
+    """getRoundEdgeSVG(Edge, ViewPlane, StrokeWidth, StrokeColor):
     Returns round corner edge svg with given radius.
     """
     p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
@@ -210,6 +212,7 @@ def getRoundCornerSVG(edge, radius, view_plane, stroke_width, stroke_color):
         edge.FirstParameter + (edge.LastParameter - edge.FirstParameter) / 10
     )
     flag_sweep = int(DraftVecUtils.angle(t1, t2, view_plane.axis) < 0)
+    radius = edge.Curve.Radius
     svg = ElementTree.Element("path")
     svg.set("style", "stroke:{};fill:none".format(stroke_color))
     svg.set(
@@ -367,12 +370,8 @@ def getStirrupSVGData(
                     stirrup_svg.append(edge_svg)
                     is_rebar_visible = True
             elif DraftGeomUtils.geomType(edge) == "Circle":
-                edge_svg = getRoundCornerSVG(
-                    edge,
-                    rebar.Rounding * rebar.Diameter.Value,
-                    view_plane,
-                    rebars_stroke_width,
-                    rebars_color,
+                edge_svg = getRoundEdgeSVG(
+                    edge, view_plane, rebars_stroke_width, rebars_color
                 )
                 if is_rebar_visible or not isRoundCornerInSVG(
                     edge,
@@ -463,12 +462,8 @@ def getUShapeRebarSVGData(
                     if not isLineInSVG(p1, p2, rebars_svg):
                         is_rebar_visible = True
                 else:
-                    edge_svg = getRoundCornerSVG(
-                        edge,
-                        rebar.Rounding * rebar.Diameter.Value,
-                        view_plane,
-                        rebars_stroke_width,
-                        rebars_color,
+                    edge_svg = getRoundEdgeSVG(
+                        edge, view_plane, rebars_stroke_width, rebars_color
                     )
                     if not isRoundCornerInSVG(
                         edge,
@@ -529,12 +524,8 @@ def getUShapeRebarSVGData(
                         if not isLineInSVG(p1, p2, rebars_svg):
                             is_rebar_visible = True
                     else:
-                        edge_svg = getRoundCornerSVG(
-                            edge,
-                            rebar.Rounding * rebar.Diameter.Value,
-                            view_plane,
-                            rebars_stroke_width,
-                            rebars_color,
+                        edge_svg = getRoundEdgeSVG(
+                            edge, view_plane, rebars_stroke_width, rebars_color
                         )
                         if not isRoundCornerInSVG(
                             edge,

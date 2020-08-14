@@ -41,7 +41,7 @@ from ReinforcementDrawing.ReinforcementDrawingfunc import (
     getRebarsSpanAxis,
     getSVGPlaneFromAxis,
     getProjectionToSVGPlane,
-    getRoundCornerSVG,
+    getRoundEdgeSVG,
     getRebarColor,
 )
 from SVGfunc import (
@@ -258,6 +258,8 @@ def getRebarShapeSVG(
     rebar_stroke_width: float = 0.35,
     rebar_color_style: str = "shape color",
     rebar_length_dimension_precision: int = 0,
+    rebar_dimension_units: str = "mm",
+    include_units_in_dimension_label: bool = False,
     dimension_font_family: str = "DejaVu Sans",
     dimension_font_size: float = 2,
     scale: float = 1,
@@ -293,6 +295,12 @@ def getRebarShapeSVG(
         dimension label. Set it to None to use user preferred unit precision
         from FreeCAD unit preferences.
         Default is 0
+    rebar_dimension_units: str, optional
+        The units to be used for rebar length dimensions.
+        Default is "mm".
+    include_units_in_dimension_label: bool, optional
+        If it is True, then rebar length units will be shown in dimension label.
+        Default is False.
     dimension_font_family: str, optional
         The font-family of dimension text.
         Default is "DejaVu Sans".
@@ -583,16 +591,42 @@ def getRebarShapeSVG(
             (rebar_shape_min_x + rebar_shape_max_x) / 2, rebar_shape_min_y
         )
         helical_rebar_length = str(
-            round(rebar.Base.Shape.Wires[0].Length, precision)
+            round(
+                FreeCAD.Units.Quantity(
+                    "{}mm".format(rebar.Base.Shape.Wires[0].Length)
+                )
+                .getValueAs(rebar_dimension_units)
+                .Value,
+                precision,
+            )
         )
-        helix_radius = str(round(rebar.Base.Radius.Value, precision))
+        helix_radius = str(
+            round(
+                rebar.Base.Radius.getValueAs(rebar_dimension_units).Value,
+                precision,
+            )
+        )
+        helix_pitch = str(
+            round(
+                rebar.Base.Pitch.getValueAs(rebar_dimension_units).Value,
+                precision,
+            )
+        )
         if "." in helical_rebar_length:
             helical_rebar_length = helical_rebar_length.rstrip("0").rstrip(".")
         if "." in helix_radius:
             helix_radius = helix_radius.rstrip("0").rstrip(".")
+        if "." in helix_pitch:
+            helix_pitch = helix_pitch.rstrip("0").rstrip(".")
+        if include_units_in_dimension_label:
+            helical_rebar_length += rebar_dimension_units
+            helix_radius += rebar_dimension_units
+            helix_pitch += rebar_dimension_units
         edge_dimension_svg.append(
             getSVGTextElement(
-                "{},r={}".format(helical_rebar_length, helix_radius),
+                "{},r={},pitch={}".format(
+                    helical_rebar_length, helix_radius, helix_pitch
+                ),
                 top_mid_point.x,
                 top_mid_point.y - rebar_stroke_width * 2,
                 dimension_font_family,
@@ -644,12 +678,22 @@ def getRebarShapeSVG(
                 )
                 edge_length = str(
                     round(
-                        straight_edges[current_straight_edge_index].Length,
+                        FreeCAD.Units.Quantity(
+                            "{}mm".format(
+                                straight_edges[
+                                    current_straight_edge_index
+                                ].Length
+                            )
+                        )
+                        .getValueAs(rebar_dimension_units)
+                        .Value,
                         precision,
                     )
                 )
                 if "." in edge_length:
                     edge_length = edge_length.rstrip("0").rstrip(".")
+                if include_units_in_dimension_label:
+                    edge_length += rebar_dimension_units
                 edge_dimension_svg.append(
                     getSVGTextElement(
                         edge_length,
@@ -677,12 +721,8 @@ def getRebarShapeSVG(
                         p1, p2, rebar_stroke_width, rebar_color
                     )
                 else:
-                    edge_svg = getRoundCornerSVG(
-                        edge,
-                        rebar.Rounding * rebar.Diameter.Value,
-                        view_plane,
-                        rebar_stroke_width,
-                        rebar_color,
+                    edge_svg = getRoundEdgeSVG(
+                        edge, view_plane, rebar_stroke_width, rebar_color
                     )
             else:
                 edge_svg = ElementTree.Element("g")
@@ -701,6 +741,8 @@ def getRebarShapeCutList(
     rebars_stroke_width: float = 0.35,
     rebars_color_style: str = "shape color",
     rebar_length_dimension_precision: int = 0,
+    rebar_dimension_units: str = "mm",
+    include_units_in_dimension_label: bool = False,
     dimension_font_family: str = "DejaVu Sans",
     dimension_font_size: float = 2,
     row_height: float = 40,
@@ -735,6 +777,12 @@ def getRebarShapeCutList(
         dimension label. Set it to None to use user preferred unit precision
         from FreeCAD unit preferences.
         Default is 0
+    rebar_dimension_units: str, optional
+        The units to be used for rebar length dimensions.
+        Default is "mm".
+    include_units_in_dimension_label: bool, optional
+        If it is True, then rebar length units will be shown in dimension label.
+        Default is False.
     dimension_font_family: str, optional
         The font-family of dimension text.
         Default is "DejaVu Sans".
@@ -787,6 +835,8 @@ def getRebarShapeCutList(
             rebars_stroke_width,
             rebars_color_style,
             rebar_length_dimension_precision,
+            rebar_dimension_units,
+            include_units_in_dimension_label,
             dimension_font_family,
             dimension_font_size,
             max_height=rebar_shape_max_height,
