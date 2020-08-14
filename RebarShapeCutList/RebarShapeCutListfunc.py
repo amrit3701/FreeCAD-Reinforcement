@@ -143,14 +143,121 @@ def getVertexesMinMaxXY(
     return min_x, min_y, max_x, max_y
 
 
+def getBasewireOfStirrupWithExtendedEdges(
+    stirrup, view_plane: WorkingPlane.Plane, extension_offset: float
+) -> Part.Wire:
+    """Returns stirrup base wire after adding extension_offset to stirrup
+    extended edges, so that end edges of stirrup with 90 degree bent angle do
+    not overlap with stirrup edges.
+
+    Parameters
+    ----------
+    stirrup: <ArchRebar._Rebar>
+        The stirrup with 90 degree bent angle.
+    view_plane: WorkingPlane.Plane
+        The view plane from which stirrup shape is visible.
+    extension_offset: float
+        The distance to move extended end edges of stirrup apart.
+
+    Returns
+    -------
+    Part.Wire
+        The generated stirrup base wire.
+    """
+    basewire = stirrup.Base.Shape.Wires[0].copy()
+
+    # This function is meant for stirrup with bent angle 90 degree
+    if stirrup.BentAngle != 90:
+        return basewire
+
+    min_x, min_y, max_x, max_y = getVertexesMinMaxXY(
+        basewire.Vertexes, view_plane
+    )
+
+    def getModifiedEndEdgePoints(end_edge, coincident_edge):
+        p1 = getProjectionToSVGPlane(end_edge.firstVertex().Point, view_plane)
+        p2 = getProjectionToSVGPlane(end_edge.lastVertex().Point, view_plane)
+        p3 = getProjectionToSVGPlane(
+            coincident_edge.firstVertex().Point, view_plane
+        )
+        p4 = getProjectionToSVGPlane(
+            coincident_edge.lastVertex().Point, view_plane
+        )
+
+        # The extended edge is vertical and is left side of stirrup And
+        # coincident edge is horizontal
+        if (round(p1.x) == round(p2.x) == round(min_x)) and (
+            round(p3.y) == round(p4.y)
+        ):
+            mod_p1 = end_edge.firstVertex().Point.add(
+                extension_offset * view_plane.u.negative().normalize()
+            )
+            mod_p2 = end_edge.lastVertex().Point.add(
+                extension_offset * view_plane.u.negative().normalize()
+            )
+        # The extended edge is vertical and is right side of stirrup And
+        # coincident edge is horizontal
+        elif (round(p1.x) == round(p2.x) == round(max_x)) and (
+            round(p3.y) == round(p4.y)
+        ):
+            mod_p1 = end_edge.firstVertex().Point.add(
+                extension_offset * view_plane.u.normalize()
+            )
+            mod_p2 = end_edge.lastVertex().Point.add(
+                extension_offset * view_plane.u.normalize()
+            )
+        # The extended edge is horizontal and is top side of stirrup And
+        # coincident edge is vertical
+        elif (round(p1.y) == round(p2.y) == round(min_y)) and (
+            round(p3.x) == round(p4.x)
+        ):
+            mod_p1 = end_edge.firstVertex().Point.add(
+                extension_offset * view_plane.v.negative().normalize()
+            )
+            mod_p2 = end_edge.lastVertex().Point.add(
+                extension_offset * view_plane.v.negative().normalize()
+            )
+        # The extended edge is horizontal and is bottom side of stirrup And
+        # coincident edge is vertical
+        elif (round(p1.y) == round(p2.y) == round(max_y)) and (
+            round(p3.x) == round(p4.x)
+        ):
+            mod_p1 = end_edge.firstVertex().Point.add(
+                extension_offset * view_plane.v.normalize()
+            )
+            mod_p2 = end_edge.lastVertex().Point.add(
+                extension_offset * view_plane.v.normalize()
+            )
+        else:
+            # Don't modify any point
+            mod_p1 = end_edge.firstVertex().Point
+            mod_p2 = end_edge.lastVertex().Point
+        return mod_p1, mod_p2
+
+    edges = Part.__sortEdges__(basewire.Edges)
+    # Modify one end edge
+    point_1, point_2 = getModifiedEndEdgePoints(edges[0], edges[1])
+    edges[0] = DraftGeomUtils.edg(point_1, point_2)
+    edges[1] = DraftGeomUtils.edg(point_2, edges[1].lastVertex().Point)
+    # Modify second end edge
+    extension_offset = -1 * extension_offset
+    point_1, point_2 = getModifiedEndEdgePoints(edges[-1], edges[-2])
+    edges[-1] = DraftGeomUtils.edg(point_1, point_2)
+    edges[-2] = DraftGeomUtils.edg(edges[-2].firstVertex().Point, point_1)
+
+    return DraftGeomUtils.connect(edges)
+
+
 def getRebarShapeSVG(
     rebar,
     view_direction: Union[FreeCAD.Vector, WorkingPlane.Plane] = FreeCAD.Vector(
         0, 0, 0
     ),
     include_mark: bool = True,
+    stirrup_extended_edge_offset: float = 2,
     rebar_stroke_width: float = 0.35,
     rebar_color_style: str = "shape color",
+    rebar_length_dimension_precision: int = 0,
     dimension_font_family: str = "DejaVu Sans",
     dimension_font_size: float = 2,
     scale: float = 1,
@@ -171,12 +278,21 @@ def getRebarShapeSVG(
         If it is set to True, then rebar.Mark will be included in rebar shape
         svg.
         Default is True.
+    stirrup_extended_edge_offset: float, optional
+        The offset of extended end edges of stirrup, so that end edges of
+        stirrup with 90 degree bent angle do not overlap with stirrup edges.
+        Default is 2.
     rebar_stroke_width: float, optional
         The stroke-width of rebar in svg.
         Default is 0.35
     rebar_color_style: {"shape color", "color_name", "hex_value_of_color"}
         The color style of rebar.
         "shape color" means select color of rebar shape.
+    rebar_length_dimension_precision: int, optional
+        The number of decimals that should be shown for rebar length as
+        dimension label. Set it to None to use user preferred unit precision
+        from FreeCAD unit preferences.
+        Default is 0
     dimension_font_family: str, optional
         The font-family of dimension text.
         Default is "DejaVu Sans".
@@ -228,10 +344,13 @@ def getRebarShapeSVG(
         )
         return ElementTree.Element("g")
 
-    # Get user preferred unit precision
-    precision: int = FreeCAD.ParamGet(
-        "User parameter:BaseApp/Preferences/Units"
-    ).GetInt("Decimals")
+    if rebar_length_dimension_precision is None:
+        # Get user preferred unit precision
+        precision: int = FreeCAD.ParamGet(
+            "User parameter:BaseApp/Preferences/Units"
+        ).GetInt("Decimals")
+    else:
+        precision = abs(int(rebar_length_dimension_precision))
 
     # Create required svg elements
     svg = getSVGRootElement()
@@ -267,21 +386,99 @@ def getRebarShapeSVG(
             max_height
             - dimension_font_size * (4 if include_mark else 2)
             - 2 * rebar_stroke_width
+            - (
+                stirrup_extended_edge_offset
+                if hasattr(rebar, "RebarShape")
+                and rebar.RebarShape == "Stirrup"
+                and hasattr(rebar, "BentAngle")
+                and rebar.BentAngle == 90
+                and (
+                    round(
+                        getProjectionToSVGPlane(
+                            Part.__sortEdges__(basewire.Edges)[0]
+                            .firstVertex()
+                            .Point,
+                            view_plane,
+                        ).y
+                    )
+                    in (round(rebar_shape_min_y), round(rebar_shape_max_y))
+                )
+                else 0
+            )
         ) / rebar_shape_height
     if max_width:
         h_scaling_factor = (
-            max_width - 2 * dimension_font_size - 2 * rebar_stroke_width
+            max_width
+            - 2 * dimension_font_size
+            - 2 * rebar_stroke_width
+            - (
+                stirrup_extended_edge_offset
+                if hasattr(rebar, "RebarShape")
+                and rebar.RebarShape == "Stirrup"
+                and hasattr(rebar, "BentAngle")
+                and rebar.BentAngle == 90
+                and (
+                    round(
+                        getProjectionToSVGPlane(
+                            Part.__sortEdges__(basewire.Edges)[0]
+                            .firstVertex()
+                            .Point,
+                            view_plane,
+                        ).x
+                    )
+                    in (round(rebar_shape_min_x), round(rebar_shape_max_x))
+                )
+                else 0
+            )
         ) / rebar_shape_width
     scale = min(h_scaling_factor, v_scaling_factor)
     svg_height = (
         rebar_shape_height * scale
         + dimension_font_size * (4 if include_mark else 2)
         - 2 * rebar_stroke_width
+        + (
+            stirrup_extended_edge_offset
+            if hasattr(rebar, "RebarShape")
+            and rebar.RebarShape == "Stirrup"
+            and hasattr(rebar, "BentAngle")
+            and rebar.BentAngle == 90
+            and (
+                round(
+                    getProjectionToSVGPlane(
+                        Part.__sortEdges__(basewire.Edges)[0]
+                        .firstVertex()
+                        .Point,
+                        view_plane,
+                    ).y
+                )
+                in (round(rebar_shape_min_y), round(rebar_shape_max_y))
+            )
+            else 0
+        )
     )
     svg_width = (
         rebar_shape_width * scale
         + 2 * dimension_font_size
         - 2 * rebar_stroke_width
+        + (
+            stirrup_extended_edge_offset
+            if hasattr(rebar, "RebarShape")
+            and rebar.RebarShape == "Stirrup"
+            and hasattr(rebar, "BentAngle")
+            and rebar.BentAngle == 90
+            and (
+                round(
+                    getProjectionToSVGPlane(
+                        Part.__sortEdges__(basewire.Edges)[0]
+                        .firstVertex()
+                        .Point,
+                        view_plane,
+                    ).x
+                )
+                in (round(rebar_shape_min_x), round(rebar_shape_max_x))
+            )
+            else 0
+        )
     )
 
     # Move (min_x, min_y) point in svg plane to (0, 0) so that entire basewire
@@ -290,6 +487,25 @@ def getRebarShapeSVG(
         -(
             rebar_shape_min_x
             - (dimension_font_size + rebar_stroke_width) / scale
+            - (
+                stirrup_extended_edge_offset / scale
+                if hasattr(rebar, "RebarShape")
+                and rebar.RebarShape == "Stirrup"
+                and hasattr(rebar, "BentAngle")
+                and rebar.BentAngle == 90
+                and (
+                    round(
+                        getProjectionToSVGPlane(
+                            Part.__sortEdges__(basewire.Edges)[0]
+                            .firstVertex()
+                            .Point,
+                            view_plane,
+                        ).x
+                    )
+                    == round(rebar_shape_min_x)
+                )
+                else 0
+            )
         )
     )
     translate_y = round(
@@ -297,6 +513,25 @@ def getRebarShapeSVG(
             rebar_shape_min_y
             - (3 if include_mark else 1) * dimension_font_size / scale
             - rebar_stroke_width / scale
+            - (
+                stirrup_extended_edge_offset / scale
+                if hasattr(rebar, "RebarShape")
+                and rebar.RebarShape == "Stirrup"
+                and hasattr(rebar, "BentAngle")
+                and rebar.BentAngle == 90
+                and (
+                    round(
+                        getProjectionToSVGPlane(
+                            Part.__sortEdges__(basewire.Edges)[0]
+                            .firstVertex()
+                            .Point,
+                            view_plane,
+                        ).y
+                    )
+                    == round(rebar_shape_min_y)
+                )
+                else 0
+            )
         )
     )
     rebar_shape_svg.set(
@@ -366,8 +601,26 @@ def getRebarShapeSVG(
             )
         )
     else:
+        if (
+            stirrup_extended_edge_offset
+            and hasattr(rebar, "RebarShape")
+            and rebar.RebarShape == "Stirrup"
+            and hasattr(rebar, "BentAngle")
+            and rebar.BentAngle == 90
+        ):
+            basewire = getBasewireOfStirrupWithExtendedEdges(
+                rebar, view_plane, stirrup_extended_edge_offset / scale
+            )
+            fillet_radius = rebar.Rounding * rebar.Diameter.Value
+            if fillet_radius:
+                fillet_basewire = DraftGeomUtils.filletWire(
+                    basewire, fillet_radius
+                )
+            else:
+                fillet_basewire = basewire
+
         edges = Part.__sortEdges__(fillet_basewire.Edges)
-        straight_edges = Part.__sortEdges__(basewire.Edges)
+        straight_edges = Part.__sortEdges__(rebar.Base.Shape.Wires[0].Edges)
         current_straight_edge_index = 0
         for edge in edges:
             if DraftGeomUtils.geomType(edge) == "Line":
@@ -444,8 +697,10 @@ def getRebarShapeCutList(
         Union[FreeCAD.Vector, WorkingPlane.Plane]
     ] = FreeCAD.Vector(0, 0, 0),
     include_mark: bool = True,
+    stirrup_extended_edge_offset: float = 2,
     rebars_stroke_width: float = 0.35,
     rebars_color_style: str = "shape color",
+    rebar_length_dimension_precision: int = 0,
     dimension_font_family: str = "DejaVu Sans",
     dimension_font_size: float = 2,
     row_height: float = 40,
@@ -465,12 +720,21 @@ def getRebarShapeCutList(
         If it is set to True, then rebar.Mark will be included for each rebar
         shape in rebar shape cut list svg.
         Default is True.
+    stirrup_extended_edge_offset: float, optional
+        The offset of extended end edges of stirrup, so that end edges of
+        stirrup with 90 degree bent angle do not overlap with stirrup edges.
+        Default is 2.
     rebars_stroke_width: float, optional
         The stroke-width of rebars in rebar shape cut list svg.
         Default is 0.35
     rebars_color_style: {"shape color", "color_name", "hex_value_of_color"}
         The color style of rebars.
         "shape color" means select color of rebar shape.
+    rebar_length_dimension_precision: int, optional
+        The number of decimals that should be shown for rebar length as
+        dimension label. Set it to None to use user preferred unit precision
+        from FreeCAD unit preferences.
+        Default is 0
     dimension_font_family: str, optional
         The font-family of dimension text.
         Default is "DejaVu Sans".
@@ -482,6 +746,7 @@ def getRebarShapeCutList(
         Default is 40
     width: float, optional
         The width of rebar shape cut list.
+        Default is 60
 
     Returns
     -------
@@ -518,8 +783,10 @@ def getRebarShapeCutList(
             rebar,
             view_directions[i],
             False,
+            stirrup_extended_edge_offset,
             rebars_stroke_width,
             rebars_color_style,
+            rebar_length_dimension_precision,
             dimension_font_family,
             dimension_font_size,
             max_height=rebar_shape_max_height,
