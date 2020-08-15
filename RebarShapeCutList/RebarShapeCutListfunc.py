@@ -248,6 +248,98 @@ def getBasewireOfStirrupWithExtendedEdges(
     return DraftGeomUtils.connect(edges)
 
 
+def getEdgesAngleSVG(
+    edge1: Part.Edge,
+    edge2: Part.Edge,
+    arc_radius: float,
+    view_plane: WorkingPlane.Plane,
+    font_family: str,
+    font_size: Union[float, str],
+    bent_angle_exclude_list: List[float] = (90, 180),
+    stroke_width: Union[float, str] = 0.2,
+    stroke_color: str = "black",
+) -> ElementTree.Element:
+    """Returns svg representation for angle between two edges by drawing an arc
+    of given radius and adding angle text svg.
+    It returns empty svg if edges doesn't intersect when extended infinitely.
+
+    Parameters
+    ----------
+    edge1: Part.Edge
+        The first edge to get its angle dimension svg with edge2.
+    edge2:
+        The second edge to get its angle dimension svg with edge1.
+    arc_radius: float
+        The radius of dimension arc.
+    view_plane: WorkingPlane.Plane
+        The view plane acting as svg plane.
+    font_family: str
+        The font-family of angle dimension.
+    font_size: float or str
+        The font-size of angle dimension.
+    bent_angle_exclude_list: list of float, optional
+        If angle between two edges if present in bent_angle_exclude_list,
+        then empty svg element will be returned.
+        Default is (90, 180)
+    stroke_width: float or str, optional
+        The stroke-width of arc svg.
+        Default is 0.2
+    stroke_color: str, optional
+        The stroke color of arc svg.
+        Default is "black".
+
+    Returns
+    -------
+    ElementTree.Element
+        The generated edges angle dimension svg.
+    """
+    intersection = DraftGeomUtils.findIntersection(edge1, edge2, True, True)
+    if not intersection:
+        return ElementTree.Element("g")
+    else:
+        intersection = intersection[0]
+
+    p1 = max(
+        DraftGeomUtils.getVerts(edge1),
+        key=lambda x: x.distanceToPoint(intersection),
+    )
+    p2 = max(
+        DraftGeomUtils.getVerts(edge2),
+        key=lambda x: x.distanceToPoint(intersection),
+    )
+    angle = round(
+        math.degrees(
+            abs(DraftVecUtils.angle(p2.sub(intersection), p1.sub(intersection)))
+        )
+    )
+    if angle in bent_angle_exclude_list:
+        return ElementTree.Element("g")
+
+    arc_p1 = intersection.add(arc_radius * p2.sub(intersection).normalize())
+    arc_p2 = intersection.add(arc_radius * p1.sub(intersection).normalize())
+    arc_edge = DraftGeomUtils.arcFrom2Pts(arc_p1, arc_p2, intersection)
+    arc_svg = getRoundEdgeSVG(arc_edge, view_plane, stroke_width, stroke_color)
+
+    proj_p1 = getProjectionToSVGPlane(arc_p1, view_plane)
+    proj_p2 = getProjectionToSVGPlane(arc_p2, view_plane)
+    proj_p3 = getProjectionToSVGPlane(intersection, view_plane)
+    min_x = min(proj_p1.x, proj_p2.x, proj_p3.x)
+    max_x = max(proj_p1.x, proj_p2.x, proj_p3.x)
+    max_y = max(proj_p1.y, proj_p2.y, proj_p3.y)
+    angle_text_svg = getSVGTextElement(
+        "{}°".format(angle),
+        (min_x + max_x) / 2,
+        max_y,
+        font_family,
+        font_size,
+        "middle",
+    )
+
+    bent_angle_svg = ElementTree.Element("g")
+    bent_angle_svg.extend([arc_svg, angle_text_svg])
+    return bent_angle_svg
+
+
 def getRebarShapeSVG(
     rebar,
     view_direction: Union[FreeCAD.Vector, WorkingPlane.Plane] = FreeCAD.Vector(
@@ -260,6 +352,7 @@ def getRebarShapeSVG(
     rebar_length_dimension_precision: int = 0,
     rebar_dimension_units: str = "mm",
     include_units_in_dimension_label: bool = False,
+    bent_angle_dimension_exclude_list: List[float] = (45, 90, 180),
     dimension_font_family: str = "DejaVu Sans",
     dimension_font_size: float = 2,
     scale: float = 1,
@@ -301,6 +394,9 @@ def getRebarShapeSVG(
     include_units_in_dimension_label: bool, optional
         If it is True, then rebar length units will be shown in dimension label.
         Default is False.
+    bent_angle_dimension_exclude_list: list of float, optional
+        The list of bent angles to not include their dimensions.
+        Default is (45, 90, 180).
     dimension_font_family: str, optional
         The font-family of dimension text.
         Default is "DejaVu Sans".
@@ -654,15 +750,13 @@ def getRebarShapeSVG(
                 fillet_basewire = basewire
 
         edges = Part.__sortEdges__(fillet_basewire.Edges)
-        straight_edges: list = Part.__sortEdges__(
-            rebar.Base.Shape.Wires[0].Edges
-        )
+        straight_edges = Part.__sortEdges__(rebar.Base.Shape.Wires[0].Edges)
         for i, edge in enumerate(reversed(straight_edges)):
             if DraftGeomUtils.geomType(edge) != "Line":
                 straight_edges.pop(i)
 
         current_straight_edge_index = 0
-        for edge in edges:
+        for edge_index, edge in enumerate(edges):
             if DraftGeomUtils.geomType(edge) == "Line":
                 p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
                 p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
@@ -719,6 +813,22 @@ def getRebarShapeSVG(
                     ),
                 )
                 current_straight_edge_index += 1
+                if (
+                    0 <= edge_index - 1
+                    and DraftGeomUtils.geomType(edges[edge_index - 1]) == "Line"
+                ):
+                    radius = max(fillet_radius, dimension_font_size * 0.8)
+                    bent_angle_svg = getEdgesAngleSVG(
+                        edges[edge_index - 1],
+                        edge,
+                        radius,
+                        view_plane,
+                        dimension_font_family,
+                        dimension_font_size * 0.8,
+                        bent_angle_dimension_exclude_list,
+                        0.2 / scale,
+                    )
+                    edge_dimension_svg.append(bent_angle_svg)
             elif DraftGeomUtils.geomType(edge) == "Circle":
                 p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
                 p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
@@ -730,6 +840,29 @@ def getRebarShapeSVG(
                     edge_svg = getRoundEdgeSVG(
                         edge, view_plane, rebar_stroke_width, rebar_color
                     )
+                    # Create bent angle svg
+                    if 0 <= edge_index - 1 and edge_index + 1 < len(edges):
+                        prev_edge = edges[edge_index - 1]
+                        next_edge = edges[edge_index + 1]
+                        if (
+                            DraftGeomUtils.geomType(prev_edge)
+                            == DraftGeomUtils.geomType(next_edge)
+                            == "Line"
+                        ):
+                            radius = max(
+                                fillet_radius, dimension_font_size * 0.8
+                            )
+                            bent_angle_svg = getEdgesAngleSVG(
+                                prev_edge,
+                                next_edge,
+                                radius,
+                                view_plane,
+                                dimension_font_family,
+                                dimension_font_size * 0.8,
+                                bent_angle_dimension_exclude_list,
+                                0.2 / scale,
+                            )
+                            edge_dimension_svg.append(bent_angle_svg)
             else:
                 edge_svg = ElementTree.Element("g")
             rebar_edges_svg.append(edge_svg)
@@ -749,6 +882,7 @@ def getRebarShapeCutList(
     rebar_length_dimension_precision: int = 0,
     rebar_dimension_units: str = "mm",
     include_units_in_dimension_label: bool = False,
+    bent_angle_dimension_exclude_list: List[float] = (45, 90, 180),
     dimension_font_family: str = "DejaVu Sans",
     dimension_font_size: float = 2,
     row_height: float = 40,
@@ -789,6 +923,9 @@ def getRebarShapeCutList(
     include_units_in_dimension_label: bool, optional
         If it is True, then rebar length units will be shown in dimension label.
         Default is False.
+    bent_angle_dimension_exclude_list: list of float, optional
+        The list of bent angles to not include their dimensions.
+        Default is (45, 90, 180).
     dimension_font_family: str, optional
         The font-family of dimension text.
         Default is "DejaVu Sans".
@@ -843,6 +980,7 @@ def getRebarShapeCutList(
             rebar_length_dimension_precision,
             rebar_dimension_units,
             include_units_in_dimension_label,
+            bent_angle_dimension_exclude_list,
             dimension_font_family,
             dimension_font_size,
             max_height=rebar_shape_max_height,
