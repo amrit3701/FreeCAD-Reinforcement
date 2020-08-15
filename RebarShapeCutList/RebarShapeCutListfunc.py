@@ -355,6 +355,7 @@ def getRebarShapeSVG(
     bent_angle_dimension_exclude_list: List[float] = (45, 90, 180),
     dimension_font_family: str = "DejaVu Sans",
     dimension_font_size: float = 2,
+    helical_rebar_dimension_label_format: str = "%L,r=%R,pitch=%P",
     scale: float = 1,
     max_height: float = 0,
     max_width: float = 0,
@@ -403,6 +404,12 @@ def getRebarShapeSVG(
     dimension_font_size: float, optional
         The font-size of dimension text.
         Default is 2
+    helical_rebar_dimension_label_format: str, optional
+        The format of helical rebar dimension label.
+            %L -> Length of helical rebar
+            %R -> Helix radius of helical rebar
+            %P -> Helix pitch of helical rebar
+        Default is "%L,r=%R,pitch=%P".
     scale: float, optional
         The scale value to scale rebar svg. The scale parameter helps to
         scale down rebar_stroke_width and dimension_font_size to make them
@@ -720,9 +727,11 @@ def getRebarShapeSVG(
             helix_pitch += rebar_dimension_units
         edge_dimension_svg.append(
             getSVGTextElement(
-                "{},r={},pitch={}".format(
-                    helical_rebar_length, helix_radius, helix_pitch
-                ),
+                helical_rebar_dimension_label_format.replace(
+                    "%L", helical_rebar_length
+                )
+                .replace("%R", helix_radius)
+                .replace("%P", helix_pitch),
                 top_mid_point.x,
                 top_mid_point.y - rebar_stroke_width * 2,
                 dimension_font_family,
@@ -885,6 +894,7 @@ def getRebarShapeCutList(
     bent_angle_dimension_exclude_list: List[float] = (45, 90, 180),
     dimension_font_family: str = "DejaVu Sans",
     dimension_font_size: float = 2,
+    helical_rebar_dimension_label_format: str = "%L,r=%R,pitch=%P",
     row_height: float = 40,
     width: float = 60,
 ) -> ElementTree.Element:
@@ -932,6 +942,12 @@ def getRebarShapeCutList(
     dimension_font_size: float, optional
         The font-size of dimension text.
         Default is 2
+    helical_rebar_dimension_label_format: str, optional
+        The format of helical rebar dimension label.
+            %L -> Length of helical rebar
+            %R -> Helix radius of helical rebar
+            %P -> Helix pitch of helical rebar
+        Default is "%L,r=%R,pitch=%P".
     row_height: float, optional
         The height of each row of rebar shape in rebar shape cut list.
         Default is 40
@@ -983,6 +999,7 @@ def getRebarShapeCutList(
             bent_angle_dimension_exclude_list,
             dimension_font_family,
             dimension_font_size,
+            helical_rebar_dimension_label_format,
             max_height=rebar_shape_max_height,
             max_width=width,
         )
