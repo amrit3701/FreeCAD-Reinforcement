@@ -324,12 +324,13 @@ def getEdgesAngleSVG(
     proj_p2 = getProjectionToSVGPlane(arc_p2, view_plane)
     proj_p3 = getProjectionToSVGPlane(intersection, view_plane)
     min_x = min(proj_p1.x, proj_p2.x, proj_p3.x)
+    min_y = min(proj_p1.y, proj_p2.y, proj_p3.y)
     max_x = max(proj_p1.x, proj_p2.x, proj_p3.x)
     max_y = max(proj_p1.y, proj_p2.y, proj_p3.y)
     angle_text_svg = getSVGTextElement(
         "{}°".format(angle),
         (min_x + max_x) / 2,
-        max_y,
+        min((min_y + max_y + font_size) / 2, max_y),
         font_family,
         font_size,
         "middle",
@@ -359,6 +360,7 @@ def getRebarShapeSVG(
     scale: float = 1,
     max_height: float = 0,
     max_width: float = 0,
+    horizontal_shape: bool = False,
 ) -> ElementTree.Element:
     """Generate and return rebar shape svg.
 
@@ -423,6 +425,12 @@ def getRebarShapeSVG(
     max_width: float, optional
         The maximum width of rebar shape svg.
         Default is 0 to set rebar shape svg width based on scale parameter.
+    horizontal_shape: bool, optional
+        If True, then rebar shape will be made horizontal by rotating -90
+        degree if shape height is more than its width.
+        If False, then rebar shape svg will be returned as viewed from
+        view_direction.
+        Default is False.
 
     Returns
     -------
@@ -487,6 +495,39 @@ def getRebarShapeSVG(
         rebar_shape_max_y,
     ) = getVertexesMinMaxXY(fillet_basewire.Vertexes, view_plane)
 
+    # If rebar shape should be horizontal and its width is less than its
+    # height, then we should rotate basewire to make rebar shape horizontal
+    if horizontal_shape and (rebar_shape_max_x - rebar_shape_min_x) < (
+        rebar_shape_max_y - rebar_shape_min_y
+    ):
+        apply_rotation_to_make_shape_horizontal = True
+        basewire.rotate(basewire.CenterOfMass, view_plane.axis, -90)
+        fillet_radius = rebar.Rounding * rebar.Diameter.Value
+        if fillet_radius:
+            fillet_basewire = DraftGeomUtils.filletWire(basewire, fillet_radius)
+        else:
+            fillet_basewire = basewire
+
+        (
+            rebar_shape_min_x,
+            rebar_shape_min_y,
+            rebar_shape_max_x,
+            rebar_shape_max_y,
+        ) = getVertexesMinMaxXY(fillet_basewire.Vertexes, view_plane)
+    else:
+        apply_rotation_to_make_shape_horizontal = False
+
+    # Check if stirrup will be having extended edges separated apart
+    if (
+        hasattr(rebar, "RebarShape")
+        and rebar.RebarShape == "Stirrup"
+        and hasattr(rebar, "BentAngle")
+        and rebar.BentAngle == 90
+    ):
+        apply_stirrup_extended_edge_offset = True
+    else:
+        apply_stirrup_extended_edge_offset = False
+
     # Apply max_height and max_width of rebar shape svg And calculate scaling
     # factor
     rebar_shape_height = (rebar_shape_max_y - rebar_shape_min_y) or 1
@@ -499,10 +540,7 @@ def getRebarShapeSVG(
             - 2 * rebar_stroke_width
             - (
                 stirrup_extended_edge_offset
-                if hasattr(rebar, "RebarShape")
-                and rebar.RebarShape == "Stirrup"
-                and hasattr(rebar, "BentAngle")
-                and rebar.BentAngle == 90
+                if apply_stirrup_extended_edge_offset
                 and (
                     round(
                         getProjectionToSVGPlane(
@@ -524,10 +562,7 @@ def getRebarShapeSVG(
             - 2 * rebar_stroke_width
             - (
                 stirrup_extended_edge_offset
-                if hasattr(rebar, "RebarShape")
-                and rebar.RebarShape == "Stirrup"
-                and hasattr(rebar, "BentAngle")
-                and rebar.BentAngle == 90
+                if apply_stirrup_extended_edge_offset
                 and (
                     round(
                         getProjectionToSVGPlane(
@@ -549,10 +584,7 @@ def getRebarShapeSVG(
         - 2 * rebar_stroke_width
         + (
             stirrup_extended_edge_offset
-            if hasattr(rebar, "RebarShape")
-            and rebar.RebarShape == "Stirrup"
-            and hasattr(rebar, "BentAngle")
-            and rebar.BentAngle == 90
+            if apply_stirrup_extended_edge_offset
             and (
                 round(
                     getProjectionToSVGPlane(
@@ -573,10 +605,7 @@ def getRebarShapeSVG(
         - 2 * rebar_stroke_width
         + (
             stirrup_extended_edge_offset
-            if hasattr(rebar, "RebarShape")
-            and rebar.RebarShape == "Stirrup"
-            and hasattr(rebar, "BentAngle")
-            and rebar.BentAngle == 90
+            if apply_stirrup_extended_edge_offset
             and (
                 round(
                     getProjectionToSVGPlane(
@@ -600,10 +629,7 @@ def getRebarShapeSVG(
             - (dimension_font_size + rebar_stroke_width) / scale
             - (
                 stirrup_extended_edge_offset / scale
-                if hasattr(rebar, "RebarShape")
-                and rebar.RebarShape == "Stirrup"
-                and hasattr(rebar, "BentAngle")
-                and rebar.BentAngle == 90
+                if apply_stirrup_extended_edge_offset
                 and (
                     round(
                         getProjectionToSVGPlane(
@@ -626,10 +652,7 @@ def getRebarShapeSVG(
             - rebar_stroke_width / scale
             - (
                 stirrup_extended_edge_offset / scale
-                if hasattr(rebar, "RebarShape")
-                and rebar.RebarShape == "Stirrup"
-                and hasattr(rebar, "BentAngle")
-                and rebar.BentAngle == 90
+                if apply_stirrup_extended_edge_offset
                 and (
                     round(
                         getProjectionToSVGPlane(
@@ -686,9 +709,21 @@ def getRebarShapeSVG(
             color=rebar_color,
         )
         if helical_rebar_shape_svg:
-            rebar_edges_svg.append(
-                ElementTree.fromstring(helical_rebar_shape_svg)
+            helical_rebar_shape_svg_element = ElementTree.fromstring(
+                "<g>{}</g>".format(helical_rebar_shape_svg)
             )
+            rebar_edges_svg.append(helical_rebar_shape_svg_element)
+            if apply_rotation_to_make_shape_horizontal:
+                helical_rebar_center = getProjectionToSVGPlane(
+                    rebar.Base.Shape.CenterOfMass, view_plane
+                )
+                helical_rebar_shape_svg_element.set(
+                    "transform",
+                    "rotate(-90 {} {})".format(
+                        helical_rebar_center.x, helical_rebar_center.y
+                    ),
+                )
+
         # Create rebar dimension svg
         top_mid_point = FreeCAD.Vector(
             (rebar_shape_min_x + rebar_shape_max_x) / 2, rebar_shape_min_y
@@ -740,16 +775,14 @@ def getRebarShapeSVG(
             )
         )
     else:
-        if (
-            stirrup_extended_edge_offset
-            and hasattr(rebar, "RebarShape")
-            and rebar.RebarShape == "Stirrup"
-            and hasattr(rebar, "BentAngle")
-            and rebar.BentAngle == 90
-        ):
+        if stirrup_extended_edge_offset and apply_stirrup_extended_edge_offset:
             basewire = getBasewireOfStirrupWithExtendedEdges(
                 rebar, view_plane, stirrup_extended_edge_offset / scale
             )
+
+            if apply_rotation_to_make_shape_horizontal:
+                basewire.rotate(basewire.CenterOfMass, view_plane.axis, -90)
+
             fillet_radius = rebar.Rounding * rebar.Diameter.Value
             if fillet_radius:
                 fillet_basewire = DraftGeomUtils.filletWire(
@@ -897,13 +930,18 @@ def getRebarShapeCutList(
     helical_rebar_dimension_label_format: str = "%L,r=%R,pitch=%P",
     row_height: float = 40,
     width: float = 60,
+    horizontal_rebar_shape: bool = True,
 ) -> ElementTree.Element:
     """Generate and return rebar shape cut list svg.
 
     Parameters
     ----------
-    base_rebars_list: list of <ArchRebar._Rebar> or <rebar2.BaseRebar>
+    base_rebars_list: list of <ArchRebar._Rebar> or <rebar2.BaseRebar>, optional
         Rebars list to generate RebarShape cut list.
+        If None, then all ArchRebars and rebar2.BaseRebar objects with unique
+        Mark from ActiveDocument will be selected and rebars with no Mark
+        assigned will be ignored.
+        Default is None.
     view_directions: list of FreeCAD.Vector or WorkingPlane.Plane, optional
         The view point directions for each rebar shape.
         Default is FreeCAD.Vector(0, 0, 0) to automatically choose
@@ -954,6 +992,12 @@ def getRebarShapeCutList(
     width: float, optional
         The width of rebar shape cut list.
         Default is 60
+    horizontal_rebar_shape: bool, optional
+        If True, then rebar shape will be made horizontal by rotating -90
+        degree if shape height is more than its width.
+        If False, then rebar shape svg will be returned as viewed from
+        view_direction.
+        Default is True.
 
     Returns
     -------
@@ -1002,6 +1046,7 @@ def getRebarShapeCutList(
             helical_rebar_dimension_label_format,
             max_height=rebar_shape_max_height,
             max_width=width,
+            horizontal_shape=horizontal_rebar_shape,
         )
         # Center align rebar shape svg horizontally and vertically in row cell
         rebar_shape_svg_width = float(rebar_svg.get("width").rstrip("mm"))
