@@ -25,7 +25,7 @@ __title__ = "Bill Of Material Helper Functions"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-
+from typing import Dict
 from PySide2 import QtGui
 
 import FreeCAD
@@ -201,6 +201,34 @@ def getRebarSharpEdgedLength(rebar):
             "Cannot calculate rebar length from its base object\n"
         )
         return FreeCAD.Units.Quantity("0 mm")
+
+
+def fixColumnUnits(column_units: Dict[str, str]) -> Dict[str, str]:
+    """Add missing units data to column_units dictionary.
+
+    Parameters
+    ----------
+    column_units: dict of (str, str)
+        The dictionary having keys "Diameter", "RebarLength" or
+        "RebarsTotalLength" and their corresponding unit as value.
+
+    Returns
+    -------
+    dict of (str, str)
+        The dictionary after adding missing units data:
+            {
+                "Diameter": "mm",
+                "RebarLength": "m",
+                "RebarsTotalLength": "m",
+            }
+    """
+    if "Diameter" not in column_units:
+        column_units["Diameter"] = "mm"
+    if "RebarLength" not in column_units:
+        column_units["RebarLength"] = "m"
+    if "RebarsTotalLength" not in column_units:
+        column_units["RebarsTotalLength"] = "m"
+    return column_units
 
 
 def getStringWidth(

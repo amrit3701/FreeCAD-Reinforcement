@@ -25,9 +25,8 @@ __title__ = "RebarShape Cut List Functions"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-
 import math
-from typing import Union, List, Tuple
+from typing import Union, List, Tuple, Optional
 from xml.etree import ElementTree
 
 import Draft
@@ -53,10 +52,17 @@ from SVGfunc import (
 )
 
 
-def getBaseRebarsList(one_rebar_per_mark: bool = True) -> list:
+def getBaseRebarsList(
+    objects_filter_list: Optional[List] = None, one_rebar_per_mark: bool = True,
+) -> List:
     """
     Parameters
     ----------
+    objects_filter_list: list, optional
+        The list of FreeCAD objects containing ArchRebar and rebar2 objects.
+        If it is empty or None, then ArchRebar and rebar2 objects will be
+        selected from FreeCAD.ActiveDocument.Objects
+        Default is None.
     one_rebar_per_mark: bool, optional
         If it is set to True, then only single rebar will be returned per mark.
         Otherwise all ArchRebar and rebar2.BaseRebar objects will be returned
@@ -68,15 +74,15 @@ def getBaseRebarsList(one_rebar_per_mark: bool = True) -> list:
     list of <ArchRebar> and <rebar2.BaseRebar>
         The list of ArchRebar and rebar2.BaseRebar objects from active document.
     """
-    if not FreeCAD.ActiveDocument:
-        return []
+    if not objects_filter_list:
+        if not FreeCAD.ActiveDocument:
+            return []
+        objects_filter_list = FreeCAD.ActiveDocument.Objects
 
     rebars = []
     mark_list = []
 
-    arch_rebars = Draft.get_objects_of_type(
-        FreeCAD.ActiveDocument.Objects, "Rebar"
-    )
+    arch_rebars = Draft.get_objects_of_type(objects_filter_list, "Rebar")
     if one_rebar_per_mark:
         for rebar in arch_rebars:
             if rebar.Mark and rebar.Mark not in mark_list:
@@ -85,9 +91,25 @@ def getBaseRebarsList(one_rebar_per_mark: bool = True) -> list:
     else:
         rebars.extend(arch_rebars)
 
-    base_rebars = Draft.get_objects_of_type(
-        FreeCAD.ActiveDocument.Objects, "RebarShape"
-    )
+    base_rebars = Draft.get_objects_of_type(objects_filter_list, "RebarShape")
+    rebar_distribution_obj_types = [
+        "ReinforcementGeneric",
+        "ReinforcementLattice",
+        "ReinforcementCustom",
+        "ReinforcementIndividual",
+        "ReinforcementLinear",
+    ]
+    for reinforcement_type in rebar_distribution_obj_types:
+        base_rebars.extend(
+            {
+                x.BaseRebar
+                for x in Draft.get_objects_of_type(
+                    objects_filter_list, reinforcement_type
+                )
+                if x.BaseRebar not in base_rebars
+            }
+        )
+
     if base_rebars and isinstance(base_rebars[0].MarkNumber, int):
         base_rebars = sorted(base_rebars, key=lambda x: x.MarkNumber)
     if one_rebar_per_mark:
@@ -109,7 +131,7 @@ def getVertexesMinMaxXY(
 
     Parameters
     ----------
-    vertex_list: list of <Part.Vertex>
+    vertex_list: list of Part.Vertex
         Input vertex list.
     view_plane: WorkingPlane.Plane
         view plane to project vertexes on it.
@@ -255,7 +277,7 @@ def getEdgesAngleSVG(
     view_plane: WorkingPlane.Plane,
     font_family: str,
     font_size: Union[float, str],
-    bent_angle_exclude_list: List[float] = (90, 180),
+    bent_angle_exclude_list: Tuple[float, ...] = (90, 180),
     stroke_width: Union[float, str] = 0.2,
     stroke_color: str = "black",
 ) -> ElementTree.Element:
@@ -277,8 +299,8 @@ def getEdgesAngleSVG(
         The font-family of angle dimension.
     font_size: float or str
         The font-size of angle dimension.
-    bent_angle_exclude_list: list of float, optional
-        If angle between two edges if present in bent_angle_exclude_list,
+    bent_angle_exclude_list: tuple of float, optional
+        If angle between two edges is present in bent_angle_exclude_list,
         then empty svg element will be returned.
         Default is (90, 180)
     stroke_width: float or str, optional
@@ -350,16 +372,18 @@ def getRebarShapeSVG(
     stirrup_extended_edge_offset: float = 2,
     rebar_stroke_width: float = 0.35,
     rebar_color_style: str = "shape color",
-    rebar_length_dimension_precision: int = 0,
+    include_dimensions: bool = True,
     rebar_dimension_units: str = "mm",
+    rebar_length_dimension_precision: int = 0,
     include_units_in_dimension_label: bool = False,
-    bent_angle_dimension_exclude_list: List[float] = (45, 90, 180),
+    bent_angle_dimension_exclude_list: Tuple[float, ...] = (45, 90, 180),
     dimension_font_family: str = "DejaVu Sans",
     dimension_font_size: float = 2,
     helical_rebar_dimension_label_format: str = "%L,r=%R,pitch=%P",
     scale: float = 1,
     max_height: float = 0,
     max_width: float = 0,
+    side_padding: float = 1,
     horizontal_shape: bool = False,
 ) -> ElementTree.Element:
     """Generate and return rebar shape svg.
@@ -373,8 +397,7 @@ def getRebarShapeSVG(
         Default is FreeCAD.Vector(0, 0, 0) to automatically choose
         view_direction.
     include_mark: bool, optional
-        If it is set to True, then rebar.Mark will be included in rebar shape
-        svg.
+        If True, then rebar.Mark will be included in rebar shape svg.
         Default is True.
     stirrup_extended_edge_offset: float, optional
         The offset of extended end edges of stirrup, so that end edges of
@@ -386,19 +409,22 @@ def getRebarShapeSVG(
     rebar_color_style: {"shape color", "color_name", "hex_value_of_color"}
         The color style of rebar.
         "shape color" means select color of rebar shape.
+    include_dimensions: bool, optional
+        If True, then each rebar edge dimensions and bent angle dimensions will
+        be included in rebar shape svg.
+    rebar_dimension_units: str, optional
+        The units to be used for rebar length dimensions.
+        Default is "mm".
     rebar_length_dimension_precision: int, optional
         The number of decimals that should be shown for rebar length as
         dimension label. Set it to None to use user preferred unit precision
         from FreeCAD unit preferences.
         Default is 0
-    rebar_dimension_units: str, optional
-        The units to be used for rebar length dimensions.
-        Default is "mm".
     include_units_in_dimension_label: bool, optional
         If it is True, then rebar length units will be shown in dimension label.
         Default is False.
-    bent_angle_dimension_exclude_list: list of float, optional
-        The list of bent angles to not include their dimensions.
+    bent_angle_dimension_exclude_list: tuple of float, optional
+        The tuple of bent angles to not include their dimensions.
         Default is (45, 90, 180).
     dimension_font_family: str, optional
         The font-family of dimension text.
@@ -425,6 +451,9 @@ def getRebarShapeSVG(
     max_width: float, optional
         The maximum width of rebar shape svg.
         Default is 0 to set rebar shape svg width based on scale parameter.
+    side_padding: float, optional
+        The padding on each side of rebar shape.
+        Default is 1.
     horizontal_shape: bool, optional
         If True, then rebar shape will be made horizontal by rotating -90
         degree if shape height is more than its width.
@@ -471,9 +500,10 @@ def getRebarShapeSVG(
     else:
         precision = abs(int(rebar_length_dimension_precision))
 
+    rebar_color = getRebarColor(rebar, rebar_color_style)
+
     # Create required svg elements
     svg = getSVGRootElement()
-    rebar_color = getRebarColor(rebar, rebar_color_style)
     rebar_shape_svg = ElementTree.Element("g", attrib={"id": str(rebar.Name)})
     svg.append(rebar_shape_svg)
     rebar_edges_svg = ElementTree.Element("g")
@@ -536,8 +566,9 @@ def getRebarShapeSVG(
     if max_height:
         v_scaling_factor = (
             max_height
-            - dimension_font_size * (4 if include_mark else 2)
-            - 2 * rebar_stroke_width
+            - dimension_font_size
+            * ((2 if include_mark else 0) + (2 if include_dimensions else 0))
+            - 2 * side_padding
             - (
                 stirrup_extended_edge_offset
                 if apply_stirrup_extended_edge_offset
@@ -558,8 +589,8 @@ def getRebarShapeSVG(
     if max_width:
         h_scaling_factor = (
             max_width
-            - 2 * dimension_font_size
-            - 2 * rebar_stroke_width
+            - dimension_font_size * (2 if include_dimensions else 0)
+            - 2 * side_padding
             - (
                 stirrup_extended_edge_offset
                 if apply_stirrup_extended_edge_offset
@@ -580,8 +611,9 @@ def getRebarShapeSVG(
     scale = min(h_scaling_factor, v_scaling_factor)
     svg_height = (
         rebar_shape_height * scale
-        + dimension_font_size * (4 if include_mark else 2)
-        - 2 * rebar_stroke_width
+        + dimension_font_size
+        * ((2 if include_mark else 0) + (2 if include_dimensions else 0))
+        + 2 * side_padding
         + (
             stirrup_extended_edge_offset
             if apply_stirrup_extended_edge_offset
@@ -601,8 +633,8 @@ def getRebarShapeSVG(
     )
     svg_width = (
         rebar_shape_width * scale
-        + 2 * dimension_font_size
-        - 2 * rebar_stroke_width
+        + dimension_font_size * (2 if include_dimensions else 0)
+        + 2 * side_padding
         + (
             stirrup_extended_edge_offset
             if apply_stirrup_extended_edge_offset
@@ -626,7 +658,8 @@ def getRebarShapeSVG(
     translate_x = round(
         -(
             rebar_shape_min_x
-            - (dimension_font_size + rebar_stroke_width) / scale
+            - (dimension_font_size if include_dimensions else 0) / scale
+            - side_padding / scale
             - (
                 stirrup_extended_edge_offset / scale
                 if apply_stirrup_extended_edge_offset
@@ -648,8 +681,10 @@ def getRebarShapeSVG(
     translate_y = round(
         -(
             rebar_shape_min_y
-            - (3 if include_mark else 1) * dimension_font_size / scale
-            - rebar_stroke_width / scale
+            - ((2 if include_mark else 0) + (1 if include_dimensions else 0))
+            * dimension_font_size
+            / scale
+            - side_padding / scale
             - (
                 stirrup_extended_edge_offset / scale
                 if apply_stirrup_extended_edge_offset
@@ -694,7 +729,8 @@ def getRebarShapeSVG(
             getSVGTextElement(
                 mark,
                 rebar_shape_min_x,
-                rebar_shape_min_y - 1.5 * dimension_font_size,
+                rebar_shape_min_y
+                - (0.5 + bool(include_dimensions)) * dimension_font_size,
                 dimension_font_family,
                 1.5 * dimension_font_size,
             )
@@ -724,56 +760,59 @@ def getRebarShapeSVG(
                     ),
                 )
 
-        # Create rebar dimension svg
-        top_mid_point = FreeCAD.Vector(
-            (rebar_shape_min_x + rebar_shape_max_x) / 2, rebar_shape_min_y
-        )
-        helical_rebar_length = str(
-            round(
-                FreeCAD.Units.Quantity(
-                    "{}mm".format(rebar.Base.Shape.Wires[0].Length)
+        if include_dimensions:
+            # Create rebar dimension svg
+            top_mid_point = FreeCAD.Vector(
+                (rebar_shape_min_x + rebar_shape_max_x) / 2, rebar_shape_min_y
+            )
+            helical_rebar_length = str(
+                round(
+                    FreeCAD.Units.Quantity(
+                        "{}mm".format(rebar.Base.Shape.Wires[0].Length)
+                    )
+                    .getValueAs(rebar_dimension_units)
+                    .Value,
+                    precision,
                 )
-                .getValueAs(rebar_dimension_units)
-                .Value,
-                precision,
             )
-        )
-        helix_radius = str(
-            round(
-                rebar.Base.Radius.getValueAs(rebar_dimension_units).Value,
-                precision,
-            )
-        )
-        helix_pitch = str(
-            round(
-                rebar.Base.Pitch.getValueAs(rebar_dimension_units).Value,
-                precision,
-            )
-        )
-        if "." in helical_rebar_length:
-            helical_rebar_length = helical_rebar_length.rstrip("0").rstrip(".")
-        if "." in helix_radius:
-            helix_radius = helix_radius.rstrip("0").rstrip(".")
-        if "." in helix_pitch:
-            helix_pitch = helix_pitch.rstrip("0").rstrip(".")
-        if include_units_in_dimension_label:
-            helical_rebar_length += rebar_dimension_units
-            helix_radius += rebar_dimension_units
-            helix_pitch += rebar_dimension_units
-        edge_dimension_svg.append(
-            getSVGTextElement(
-                helical_rebar_dimension_label_format.replace(
-                    "%L", helical_rebar_length
+            helix_radius = str(
+                round(
+                    rebar.Base.Radius.getValueAs(rebar_dimension_units).Value,
+                    precision,
                 )
-                .replace("%R", helix_radius)
-                .replace("%P", helix_pitch),
-                top_mid_point.x,
-                top_mid_point.y - rebar_stroke_width * 2,
-                dimension_font_family,
-                dimension_font_size,
-                "middle",
             )
-        )
+            helix_pitch = str(
+                round(
+                    rebar.Base.Pitch.getValueAs(rebar_dimension_units).Value,
+                    precision,
+                )
+            )
+            if "." in helical_rebar_length:
+                helical_rebar_length = helical_rebar_length.rstrip("0").rstrip(
+                    "."
+                )
+            if "." in helix_radius:
+                helix_radius = helix_radius.rstrip("0").rstrip(".")
+            if "." in helix_pitch:
+                helix_pitch = helix_pitch.rstrip("0").rstrip(".")
+            if include_units_in_dimension_label:
+                helical_rebar_length += rebar_dimension_units
+                helix_radius += rebar_dimension_units
+                helix_pitch += rebar_dimension_units
+            edge_dimension_svg.append(
+                getSVGTextElement(
+                    helical_rebar_dimension_label_format.replace(
+                        "%L", helical_rebar_length
+                    )
+                    .replace("%R", helix_radius)
+                    .replace("%P", helix_pitch),
+                    top_mid_point.x,
+                    top_mid_point.y - rebar_stroke_width * 2,
+                    dimension_font_family,
+                    dimension_font_size,
+                    "middle",
+                )
+            )
     else:
         if stirrup_extended_edge_offset and apply_stirrup_extended_edge_offset:
             basewire = getBasewireOfStirrupWithExtendedEdges(
@@ -811,66 +850,71 @@ def getRebarShapeSVG(
                     edge_svg = getLineSVG(
                         p1, p2, rebar_stroke_width, rebar_color
                     )
-                # Create edge dimension svg
-                mid_point = FreeCAD.Vector((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
-                dimension_rotation = (
-                    math.degrees(math.atan((p2.y - p1.y) / (p2.x - p1.x)))
-                    if round(p2.x) != round(p1.x)
-                    else -90
-                )
-                edge_length = str(
-                    round(
-                        FreeCAD.Units.Quantity(
-                            "{}mm".format(
-                                straight_edges[
-                                    current_straight_edge_index
-                                ].Length
+
+                if include_dimensions:
+                    # Create edge dimension svg
+                    mid_point = FreeCAD.Vector(
+                        (p1.x + p2.x) / 2, (p1.y + p2.y) / 2
+                    )
+                    dimension_rotation = (
+                        math.degrees(math.atan((p2.y - p1.y) / (p2.x - p1.x)))
+                        if round(p2.x) != round(p1.x)
+                        else -90
+                    )
+                    edge_length = str(
+                        round(
+                            FreeCAD.Units.Quantity(
+                                "{}mm".format(
+                                    straight_edges[
+                                        current_straight_edge_index
+                                    ].Length
+                                )
                             )
+                            .getValueAs(rebar_dimension_units)
+                            .Value,
+                            precision,
                         )
-                        .getValueAs(rebar_dimension_units)
-                        .Value,
-                        precision,
                     )
-                )
-                if "." in edge_length:
-                    edge_length = edge_length.rstrip("0").rstrip(".")
-                if include_units_in_dimension_label:
-                    edge_length += rebar_dimension_units
-                edge_dimension_svg.append(
-                    getSVGTextElement(
-                        edge_length,
-                        mid_point.x,
-                        mid_point.y - rebar_stroke_width * 2,
-                        dimension_font_family,
-                        dimension_font_size,
-                        "middle",
+                    if "." in edge_length:
+                        edge_length = edge_length.rstrip("0").rstrip(".")
+                    if include_units_in_dimension_label:
+                        edge_length += rebar_dimension_units
+                    edge_dimension_svg.append(
+                        getSVGTextElement(
+                            edge_length,
+                            mid_point.x,
+                            mid_point.y - rebar_stroke_width * 2,
+                            dimension_font_family,
+                            dimension_font_size,
+                            "middle",
+                        )
                     )
-                )
-                edge_dimension_svg[-1].set(
-                    "transform",
-                    "rotate({} {} {})".format(
-                        dimension_rotation,
-                        round(mid_point.x),
-                        round(mid_point.y),
-                    ),
-                )
-                current_straight_edge_index += 1
-                if (
-                    0 <= edge_index - 1
-                    and DraftGeomUtils.geomType(edges[edge_index - 1]) == "Line"
-                ):
-                    radius = max(fillet_radius, dimension_font_size * 0.8)
-                    bent_angle_svg = getEdgesAngleSVG(
-                        edges[edge_index - 1],
-                        edge,
-                        radius,
-                        view_plane,
-                        dimension_font_family,
-                        dimension_font_size * 0.8,
-                        bent_angle_dimension_exclude_list,
-                        0.2 / scale,
+                    edge_dimension_svg[-1].set(
+                        "transform",
+                        "rotate({} {} {})".format(
+                            dimension_rotation,
+                            round(mid_point.x),
+                            round(mid_point.y),
+                        ),
                     )
-                    edge_dimension_svg.append(bent_angle_svg)
+                    current_straight_edge_index += 1
+                    if (
+                        0 <= edge_index - 1
+                        and DraftGeomUtils.geomType(edges[edge_index - 1])
+                        == "Line"
+                    ):
+                        radius = max(fillet_radius, dimension_font_size * 0.8)
+                        bent_angle_svg = getEdgesAngleSVG(
+                            edges[edge_index - 1],
+                            edge,
+                            radius,
+                            view_plane,
+                            dimension_font_family,
+                            dimension_font_size * 0.8,
+                            bent_angle_dimension_exclude_list,
+                            0.2 / scale,
+                        )
+                        edge_dimension_svg.append(bent_angle_svg)
             elif DraftGeomUtils.geomType(edge) == "Circle":
                 p1 = getProjectionToSVGPlane(edge.Vertexes[0].Point, view_plane)
                 p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
@@ -882,29 +926,30 @@ def getRebarShapeSVG(
                     edge_svg = getRoundEdgeSVG(
                         edge, view_plane, rebar_stroke_width, rebar_color
                     )
-                    # Create bent angle svg
-                    if 0 <= edge_index - 1 and edge_index + 1 < len(edges):
-                        prev_edge = edges[edge_index - 1]
-                        next_edge = edges[edge_index + 1]
-                        if (
-                            DraftGeomUtils.geomType(prev_edge)
-                            == DraftGeomUtils.geomType(next_edge)
-                            == "Line"
-                        ):
-                            radius = max(
-                                fillet_radius, dimension_font_size * 0.8
-                            )
-                            bent_angle_svg = getEdgesAngleSVG(
-                                prev_edge,
-                                next_edge,
-                                radius,
-                                view_plane,
-                                dimension_font_family,
-                                dimension_font_size * 0.8,
-                                bent_angle_dimension_exclude_list,
-                                0.2 / scale,
-                            )
-                            edge_dimension_svg.append(bent_angle_svg)
+                    if include_dimensions:
+                        # Create bent angle svg
+                        if 0 <= edge_index - 1 and edge_index + 1 < len(edges):
+                            prev_edge = edges[edge_index - 1]
+                            next_edge = edges[edge_index + 1]
+                            if (
+                                DraftGeomUtils.geomType(prev_edge)
+                                == DraftGeomUtils.geomType(next_edge)
+                                == "Line"
+                            ):
+                                radius = max(
+                                    fillet_radius, dimension_font_size * 0.8
+                                )
+                                bent_angle_svg = getEdgesAngleSVG(
+                                    prev_edge,
+                                    next_edge,
+                                    radius,
+                                    view_plane,
+                                    dimension_font_family,
+                                    dimension_font_size * 0.8,
+                                    bent_angle_dimension_exclude_list,
+                                    0.2 / scale,
+                                )
+                                edge_dimension_svg.append(bent_angle_svg)
             else:
                 edge_svg = ElementTree.Element("g")
             rebar_edges_svg.append(edge_svg)
@@ -913,23 +958,26 @@ def getRebarShapeSVG(
 
 
 def getRebarShapeCutList(
-    base_rebars_list=None,
-    view_directions: List[
-        Union[FreeCAD.Vector, WorkingPlane.Plane]
+    base_rebars_list: Optional[List] = None,
+    view_directions: Union[
+        Union[FreeCAD.Vector, WorkingPlane.Plane],
+        List[Union[FreeCAD.Vector, WorkingPlane.Plane]],
     ] = FreeCAD.Vector(0, 0, 0),
     include_mark: bool = True,
     stirrup_extended_edge_offset: float = 2,
     rebars_stroke_width: float = 0.35,
     rebars_color_style: str = "shape color",
-    rebar_length_dimension_precision: int = 0,
+    include_dimensions: bool = True,
     rebar_dimension_units: str = "mm",
+    rebar_length_dimension_precision: int = 0,
     include_units_in_dimension_label: bool = False,
-    bent_angle_dimension_exclude_list: List[float] = (45, 90, 180),
+    bent_angle_dimension_exclude_list: Tuple[float, ...] = (45, 90, 180),
     dimension_font_family: str = "DejaVu Sans",
     dimension_font_size: float = 2,
     helical_rebar_dimension_label_format: str = "%L,r=%R,pitch=%P",
     row_height: float = 40,
     width: float = 60,
+    side_padding: float = 1,
     horizontal_rebar_shape: bool = True,
 ) -> ElementTree.Element:
     """Generate and return rebar shape cut list svg.
@@ -942,7 +990,7 @@ def getRebarShapeCutList(
         Mark from ActiveDocument will be selected and rebars with no Mark
         assigned will be ignored.
         Default is None.
-    view_directions: list of FreeCAD.Vector or WorkingPlane.Plane, optional
+    view_directions: FreeCAD.Vector or WorkingPlane.Plane OR their list,optional
         The view point directions for each rebar shape.
         Default is FreeCAD.Vector(0, 0, 0) to automatically choose
         view_directions.
@@ -960,19 +1008,22 @@ def getRebarShapeCutList(
     rebars_color_style: {"shape color", "color_name", "hex_value_of_color"}
         The color style of rebars.
         "shape color" means select color of rebar shape.
+    include_dimensions: bool, optional
+        If True, then each rebar edge dimensions and bent angle dimensions will
+        be included in rebar shape cut list.
+    rebar_dimension_units: str, optional
+        The units to be used for rebar length dimensions.
+        Default is "mm".
     rebar_length_dimension_precision: int, optional
         The number of decimals that should be shown for rebar length as
         dimension label. Set it to None to use user preferred unit precision
         from FreeCAD unit preferences.
         Default is 0
-    rebar_dimension_units: str, optional
-        The units to be used for rebar length dimensions.
-        Default is "mm".
     include_units_in_dimension_label: bool, optional
         If it is True, then rebar length units will be shown in dimension label.
         Default is False.
-    bent_angle_dimension_exclude_list: list of float, optional
-        The list of bent angles to not include their dimensions.
+    bent_angle_dimension_exclude_list: tuple of float, optional
+        The tuple of bent angles to not include their dimensions.
         Default is (45, 90, 180).
     dimension_font_family: str, optional
         The font-family of dimension text.
@@ -992,6 +1043,9 @@ def getRebarShapeCutList(
     width: float, optional
         The width of rebar shape cut list.
         Default is 60
+    side_padding: float, optional
+        The padding on each side of rebar shape.
+        Default is 1.
     horizontal_rebar_shape: bool, optional
         If True, then rebar shape will be made horizontal by rotating -90
         degree if shape height is more than its width.
@@ -1015,7 +1069,9 @@ def getRebarShapeCutList(
             viewBox="0 0 {} {}".format(width, row_height),
         )
 
-    if isinstance(view_directions, FreeCAD.Vector):
+    if isinstance(view_directions, FreeCAD.Vector) or isinstance(
+        view_directions, WorkingPlane.Plane
+    ):
         view_directions = len(base_rebars_list) * [view_directions]
     elif isinstance(view_directions, list):
         if len(view_directions) < len(base_rebars_list):
@@ -1023,12 +1079,19 @@ def getRebarShapeCutList(
                 (len(base_rebars_list) - len(view_directions))
                 * FreeCAD.Vector(0, 0, 0)
             )
+        else:
+            view_directions = view_directions[len(base_rebars_list) :]
 
     rebar_shape_max_height = row_height
     if include_mark:
         rebar_shape_max_height -= 2 * dimension_font_size
 
     svg = getSVGRootElement()
+    rebar_shape_cut_list = ElementTree.Element(
+        "g", attrib={"id": "RebarShapeCutList"}
+    )
+    svg.append(rebar_shape_cut_list)
+
     for i, rebar in enumerate(base_rebars_list):
         rebar_svg = getRebarShapeSVG(
             rebar,
@@ -1037,8 +1100,9 @@ def getRebarShapeCutList(
             stirrup_extended_edge_offset,
             rebars_stroke_width,
             rebars_color_style,
-            rebar_length_dimension_precision,
+            include_dimensions,
             rebar_dimension_units,
+            rebar_length_dimension_precision,
             include_units_in_dimension_label,
             bent_angle_dimension_exclude_list,
             dimension_font_family,
@@ -1046,6 +1110,7 @@ def getRebarShapeCutList(
             helical_rebar_dimension_label_format,
             max_height=rebar_shape_max_height,
             max_width=width,
+            side_padding=side_padding,
             horizontal_shape=horizontal_rebar_shape,
         )
         # Center align rebar shape svg horizontally and vertically in row cell
@@ -1088,7 +1153,7 @@ def getRebarShapeCutList(
                     1.5 * dimension_font_size,
                 )
             )
-        svg.append(row_svg)
+        rebar_shape_cut_list.append(row_svg)
 
     svg.set("width", "{}mm".format(width))
     svg.set("height", "{}mm".format(row_height * len(base_rebars_list)))

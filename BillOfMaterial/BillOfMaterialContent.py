@@ -36,7 +36,7 @@ from SVGfunc import getTechdrawViewScalingFactor
 
 
 class BOMContent:
-    "A Rebars Bill of Material SVG Content object."
+    """A Rebars Bill of Material SVG Content object."""
 
     def __init__(self, obj_name):
         """Initialize BOMContent object."""
@@ -201,7 +201,7 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The preffered column width of table of Bill of Material "
+                    "The preferred column width of table of Bill of Material "
                     "content.",
                 ),
             )
@@ -227,7 +227,7 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The preffered row height of table of Bill of Material "
+                    "The preferred row height of table of Bill of Material "
                     "content.",
                 ),
             )
@@ -295,7 +295,8 @@ class BOMContent:
         if FreeCAD.GuiUp:
             obj.ViewObject.update()
 
-    def getColumnWidth(self, bom_content_obj):
+    @staticmethod
+    def getColumnWidth(bom_content_obj):
         font_size = bom_content_obj.FontSize.Value
         font_family = bom_content_obj.Font
         font_filename = bom_content_obj.FontFilename
@@ -431,7 +432,8 @@ class BOMContent:
             bom_content, encoding="unicode"
         )
 
-    def getRowHeight(self, bom_content_obj):
+    @staticmethod
+    def getRowHeight(bom_content_obj):
         return max(
             bom_content_obj.PrefRowHeight.Value,
             bom_content_obj.FontSize.Value * 1.618,

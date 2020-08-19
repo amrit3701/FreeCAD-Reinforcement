@@ -41,6 +41,7 @@ from .BOMfunc import (
     getMarkReinforcementsDict,
     getUniqueDiameterList,
     getRebarSharpEdgedLength,
+    fixColumnUnits,
 )
 from .BillOfMaterialContent import makeBOMObject
 from .BOMPreferences import BOMPreferences
@@ -181,12 +182,13 @@ def makeBillOfMaterialSVG(
     template_file=None,
     output_file=None,
     rebar_objects=None,
+    return_svg_only=False,
 ):
-    """makeBillOfMaterialSVG(ColumnHeaders, ColumnUnits, DiaWeightMap,
+    """makeBillOfMaterialSVG([ColumnHeaders, ColumnUnits, DiaWeightMap,
     RebarLengthType, FontFamily, FontSize, FontFilename, ColumnWidth, RowHeight,
     BOMLeftOffset, BOMTopOffset, BOMMinRightOffset, BOMMinBottomOffset,
     BOMTableSVGMaxWidth, BOMTableSVGMaxHeight, TemplateFile, OutputFile,
-    RebarObjects):
+    RebarObjects, ReturnSVGOnly]):
     Generates the Rebars Material Bill SVG.
 
     column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
@@ -225,6 +227,10 @@ def makeBillOfMaterialSVG(
     any gui.
 
     rebar_objects is the list of ArchRebar and/or rebar2 objects.
+
+    If return_svg_only is True, then neither BOMContent object is created nor
+    svg is written to output_file. And it returns svg element.
+    Default is False.
 
     Returns Bill Of Material svg code.
     """
@@ -281,12 +287,7 @@ def makeBillOfMaterialSVG(
     }
 
     # Fix column units
-    if "Diameter" not in column_units:
-        column_units["Diameter"] = "mm"
-    if "RebarLength" not in column_units:
-        column_units["RebarLength"] = "m"
-    if "RebarsTotalLength" not in column_units:
-        column_units["RebarsTotalLength"] = "m"
+    column_units = fixColumnUnits(column_units)
 
     # Get unique diameter list
     diameter_list = getUniqueDiameterList(mark_reinforcements_dict)
@@ -839,6 +840,9 @@ def makeBillOfMaterialSVG(
     svg.set("width", str(bom_width) + "mm")
     svg.set("height", str(bom_height) + "mm")
     svg.set("viewBox", "0 0 {} {}".format(bom_width, bom_height))
+    if return_svg_only:
+        return svg
+
     svg_output = minidom.parseString(
         ElementTree.tostring(svg, encoding="unicode")
     ).toprettyxml(indent="  ")
