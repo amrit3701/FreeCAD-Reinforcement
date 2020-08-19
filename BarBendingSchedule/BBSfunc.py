@@ -50,11 +50,10 @@ def getBarBendingSchedule(
         Literal["RealLength", "LengthWithSharpEdges"]
     ] = None,
     font_family: Optional[str] = None,
-    font_filename: Optional[str] = None,
     font_size: Optional[float] = None,
     column_width: float = 60,
     row_height: float = 30,
-    rebar_shape_column_header: str = "Rebar Shape",
+    rebar_shape_column_header: str = "Rebar Shape (mm)",
     rebar_shape_view_directions: Union[
         Union[FreeCAD.Vector, WorkingPlane.Plane],
         List[Union[FreeCAD.Vector, WorkingPlane.Plane]],
@@ -122,10 +121,6 @@ def getBarBendingSchedule(
     font_family : str, optional
         The font-family of text.
         Default is None, to select from FreeCAD preferences.
-    font_filename : str, optional
-        The font filename/full_path corresponding to font_family. This is
-        required if you are working in pure console mode, without any gui.
-        Default is None, to select from FreeCAD preferences.
     font_size : float, optional
         The font-size of text.
         Default is None, to select from FreeCAD preferences.
@@ -137,7 +132,7 @@ def getBarBendingSchedule(
         Default is 30
     rebar_shape_column_header : str, optional
         The column header for rebar shape column.
-        Default is "Rebar Shape"
+        Default is "Rebar Shape (mm)"
     rebar_shape_view_directions : FreeCAD.Vector or WorkingPlane.Plane
                                   OR their list, optional
         The view point directions for each rebar shape.
@@ -200,6 +195,8 @@ def getBarBendingSchedule(
         font_size = svg_pref.GetFloat("FontSize")
 
     svg = getSVGRootElement()
+    bbs_svg = ElementTree.Element("g", attrib={"id": "BBS"})
+    svg.append(bbs_svg)
 
     bom_svg = makeBillOfMaterialSVG(
         column_headers,
@@ -207,15 +204,14 @@ def getBarBendingSchedule(
         dia_weight_map,
         rebar_length_type,
         font_family,
-        font_filename,
-        font_size,
-        column_width,
-        row_height,
+        font_size=font_size,
+        column_width=column_width,
+        row_height=row_height,
         rebar_objects=rebar_objects,
         return_svg_only=True,
     )
     bom_table_svg = bom_svg.find("./g[@id='BOM_table']")
-    svg.append(bom_table_svg)
+    bbs_svg.append(bom_table_svg)
 
     bom_width = float(bom_svg.get("width").replace("mm", ""))
     column_header_height = row_height * (
@@ -231,7 +227,7 @@ def getBarBendingSchedule(
         font_family,
         font_size,
     )
-    svg.append(rebar_shape_cut_list_header)
+    bbs_svg.append(rebar_shape_cut_list_header)
 
     bar_cut_list_svg = getRebarShapeCutList(
         getBaseRebarsList(rebar_objects),
@@ -254,7 +250,7 @@ def getBarBendingSchedule(
         column_width,
         horizontal_rebar_shape=True,
     ).find("./g[@id='RebarShapeCutList']")
-    svg.append(bar_cut_list_svg)
+    bbs_svg.append(bar_cut_list_svg)
 
     # Translate rebar shape cut list to last column and set top offset =
     # height of column headers
@@ -270,7 +266,7 @@ def getBarBendingSchedule(
     total_separator_y = float(total_separator.get("y"))
     total_separator_height = float(total_separator.get("height"))
     for x in range(0, 3):
-        svg.append(
+        bbs_svg.append(
             getSVGRectangle(
                 bom_width,
                 total_separator_y + total_separator_height + x * row_height,
