@@ -542,11 +542,32 @@ def getRebarShapeSVG(
 
     # If rebar shape should be horizontal and its width is less than its
     # height, then we should rotate basewire to make rebar shape horizontal
-    if horizontal_shape and (rebar_shape_max_x - rebar_shape_min_x) < (
-        rebar_shape_max_y - rebar_shape_min_y
-    ):
-        apply_rotation_to_make_shape_horizontal = True
-        basewire.rotate(basewire.CenterOfMass, view_plane.axis, -90)
+    rebar_shape_rotation_angle = 0
+    if horizontal_shape:
+        line_type_edges = [
+            edge
+            for edge in basewire.Edges
+            if DraftGeomUtils.geomType(edge) == "Line"
+        ]
+        if line_type_edges:
+            max_length_edge = max(line_type_edges, key=lambda x: x.Length)
+            rebar_shape_rotation_angle = math.degrees(
+                DraftVecUtils.angle(
+                    max_length_edge.lastVertex().Point.sub(
+                        max_length_edge.firstVertex().Point
+                    ),
+                    view_plane.u,
+                    view_plane.axis,
+                )
+            )
+        elif (rebar_shape_max_x - rebar_shape_min_x) < (
+            rebar_shape_max_y - rebar_shape_min_y
+        ):
+            rebar_shape_rotation_angle = -90
+        basewire.rotate(
+            basewire.CenterOfMass, view_plane.axis, rebar_shape_rotation_angle
+        )
+
         fillet_radius = rebar.Rounding * rebar.Diameter.Value
         if fillet_radius:
             fillet_basewire = DraftGeomUtils.filletWire(basewire, fillet_radius)
@@ -559,8 +580,6 @@ def getRebarShapeSVG(
             rebar_shape_max_x,
             rebar_shape_max_y,
         ) = getVertexesMinMaxXY(fillet_basewire.Vertexes, view_plane)
-    else:
-        apply_rotation_to_make_shape_horizontal = False
 
     # Check if stirrup will be having extended edges separated apart
     if (
@@ -764,16 +783,17 @@ def getRebarShapeSVG(
                 "<g>{}</g>".format(helical_rebar_shape_svg)
             )
             rebar_edges_svg.append(helical_rebar_shape_svg_element)
-            if apply_rotation_to_make_shape_horizontal:
-                helical_rebar_center = getProjectionToSVGPlane(
-                    rebar.Base.Shape.CenterOfMass, view_plane
-                )
-                helical_rebar_shape_svg_element.set(
-                    "transform",
-                    "rotate(-90 {} {})".format(
-                        helical_rebar_center.x, helical_rebar_center.y
-                    ),
-                )
+            helical_rebar_center = getProjectionToSVGPlane(
+                rebar.Base.Shape.CenterOfMass, view_plane
+            )
+            helical_rebar_shape_svg_element.set(
+                "transform",
+                "rotate({} {} {})".format(
+                    rebar_shape_rotation_angle,
+                    helical_rebar_center.x,
+                    helical_rebar_center.y,
+                ),
+            )
 
         if include_dimensions:
             # Create rebar dimension svg
@@ -833,9 +853,11 @@ def getRebarShapeSVG(
             basewire = getBasewireOfStirrupWithExtendedEdges(
                 rebar, view_plane, stirrup_extended_edge_offset / scale
             )
-
-            if apply_rotation_to_make_shape_horizontal:
-                basewire.rotate(basewire.CenterOfMass, view_plane.axis, -90)
+            basewire.rotate(
+                basewire.CenterOfMass,
+                view_plane.axis,
+                rebar_shape_rotation_angle,
+            )
 
             fillet_radius = rebar.Rounding * rebar.Diameter.Value
             if fillet_radius:
