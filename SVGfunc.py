@@ -276,16 +276,17 @@ def getLinePathElement(
 
 def getSVGTextElement(
     data,
-    x_offset,
-    y_offset,
-    font_family,
-    font_size,
-    text_anchor="start",
-    dominant_baseline="baseline",
-    preserve_space=True,
+    x_offset: Union[float, str],
+    y_offset: Union[float, str],
+    font_family: str,
+    font_size: Union[float, str],
+    text_anchor: str = "start",
+    dominant_baseline: str = "baseline",
+    preserve_space: bool = True,
+    font_weight: Union[str, float] = "",
 ):
     """getSVGTextElement(Data, XOffset, YOffset, FontFamily, FontSize,
-    [TextAnchor, DominantBaseline, PreserveSpace]):
+    [TextAnchor, DominantBaseline, PreserveSpace, FontWeight]):
     Returns text element with filled data and required placement.
     """
     text = ElementTree.Element(
@@ -302,6 +303,8 @@ def getSVGTextElement(
     if preserve_space:
         text.set("style", "white-space:pre;")
         text.set("xml:space", "preserve")
+    if font_weight:
+        text.set("font-weight", str(font_weight))
     text.text = str(data)
     return text
 
@@ -333,9 +336,10 @@ def getSVGDataCell(
     font_family,
     font_size,
     element_id="",
+    font_weight="",
 ):
     """getSVGDataCell(Data, XOffset, YOffset, CellWidth, CellHeight, FontFamily,
-    FontSize, ElementId):
+    FontSize, ElementId, FontWeight):
     Returns element with rectangular cell with filled data and required
     placement of cell.
     """
@@ -351,6 +355,7 @@ def getSVGDataCell(
             font_size,
             text_anchor="middle",
             dominant_baseline="central",
+            font_weight=font_weight,
         )
     )
     return cell_svg

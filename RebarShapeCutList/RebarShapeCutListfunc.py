@@ -110,8 +110,6 @@ def getBaseRebarsList(
             }
         )
 
-    if base_rebars and isinstance(base_rebars[0].MarkNumber, int):
-        base_rebars = sorted(base_rebars, key=lambda x: x.MarkNumber)
     if one_rebar_per_mark:
         for rebar in base_rebars:
             if str(rebar.MarkNumber) and str(rebar.MarkNumber) not in mark_list:
@@ -119,6 +117,11 @@ def getBaseRebarsList(
                 mark_list.append(str(rebar.MarkNumber))
     else:
         rebars.extend(base_rebars)
+
+    rebars = sorted(
+        rebars,
+        key=lambda x: x.MarkNumber if hasattr(x, "MarkNumber") else x.Mark,
+    )
 
     return rebars
 
@@ -342,20 +345,32 @@ def getEdgesAngleSVG(
     arc_edge = DraftGeomUtils.arcFrom2Pts(arc_p1, arc_p2, intersection)
     arc_svg = getRoundEdgeSVG(arc_edge, view_plane, stroke_width, stroke_color)
 
-    proj_p1 = getProjectionToSVGPlane(arc_p1, view_plane)
-    proj_p2 = getProjectionToSVGPlane(arc_p2, view_plane)
-    proj_p3 = getProjectionToSVGPlane(intersection, view_plane)
-    min_x = min(proj_p1.x, proj_p2.x, proj_p3.x)
-    min_y = min(proj_p1.y, proj_p2.y, proj_p3.y)
-    max_x = max(proj_p1.x, proj_p2.x, proj_p3.x)
-    max_y = max(proj_p1.y, proj_p2.y, proj_p3.y)
+    arc_mid_point = DraftGeomUtils.findMidpoint(arc_edge)
+
+    proj_intersection = getProjectionToSVGPlane(intersection, view_plane)
+    proj_mid_point = getProjectionToSVGPlane(arc_mid_point, view_plane)
+
+    if round(proj_intersection.x) < round(proj_mid_point.x):
+        text_anchor = "start"
+    elif round(proj_intersection.x) > round(proj_mid_point.x):
+        text_anchor = "end"
+    else:
+        text_anchor = "middle"
+
+    if round(proj_intersection.y) < round(proj_mid_point.y):
+        text_y = proj_mid_point.y + font_size
+    elif round(proj_intersection.y) > round(proj_mid_point.y):
+        text_y = proj_mid_point.y
+    else:
+        text_y = proj_mid_point.y + font_size / 2
+
     angle_text_svg = getSVGTextElement(
         "{}°".format(angle),
-        (min_x + max_x) / 2,
-        min((min_y + max_y + font_size) / 2, max_y),
+        proj_mid_point.x,
+        text_y,
         font_family,
         font_size,
-        "middle",
+        text_anchor,
     )
 
     bent_angle_svg = ElementTree.Element("g")

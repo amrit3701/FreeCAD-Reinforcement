@@ -121,6 +121,7 @@ def getColumnHeadersSVG(
                     font_family,
                     font_size,
                     "bom_table_cell_column_{}".format(column_seq),
+                    "bold",
                 )
             )
             column_offset += column_width
@@ -136,6 +137,7 @@ def getColumnHeadersSVG(
                     font_family,
                     font_size,
                     "bom_table_cell_column_multi_column",
+                    "bold",
                 )
             )
             dia_headers_svg = ElementTree.Element("g")
@@ -154,6 +156,7 @@ def getColumnHeadersSVG(
                         font_family,
                         font_size,
                         "bom_table_cell_column_{}".format(column_seq),
+                        "bold",
                     )
                 )
                 column_offset += column_width
@@ -541,6 +544,7 @@ def makeBillOfMaterialSVG(
                     font_family,
                     font_size,
                     "bom_table_cell_column_multi_column",
+                    "bold",
                 )
             )
             bom_data_total_svg.append(
@@ -553,6 +557,7 @@ def makeBillOfMaterialSVG(
                     font_family,
                     font_size,
                     "bom_table_cell_column_multi_column",
+                    "bold",
                 )
             )
             bom_data_total_svg.append(
@@ -565,6 +570,7 @@ def makeBillOfMaterialSVG(
                     font_family,
                     font_size,
                     "bom_table_cell_column_multi_column",
+                    "bold",
                 )
             )
 
@@ -800,6 +806,7 @@ def makeBillOfMaterialSVG(
                     font_family,
                     font_size,
                     "bom_table_cell_column_{}".format(first_txt_column_offset),
+                    "bold",
                 )
             )
             bom_data_total_svg.append(
@@ -812,6 +819,7 @@ def makeBillOfMaterialSVG(
                     font_family,
                     font_size,
                     "bom_table_cell_column_{}".format(first_txt_column_offset),
+                    "bold",
                 )
             )
             bom_data_total_svg.append(
@@ -824,6 +832,7 @@ def makeBillOfMaterialSVG(
                     font_family,
                     font_size,
                     "bom_table_cell_column_multi_column",
+                    "bold",
                 )
             )
         y_offset += 3 * row_height

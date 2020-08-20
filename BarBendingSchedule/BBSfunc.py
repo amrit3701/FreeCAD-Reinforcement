@@ -50,7 +50,7 @@ def getBarBendingSchedule(
         Literal["RealLength", "LengthWithSharpEdges"]
     ] = None,
     font_family: Optional[str] = None,
-    font_size: Optional[float] = None,
+    font_size: Optional[float] = 5,
     column_width: float = 60,
     row_height: float = 30,
     rebar_shape_column_header: str = "Rebar Shape (mm)",
@@ -62,12 +62,15 @@ def getBarBendingSchedule(
     rebar_shape_color_style: str = "shape color",
     rebar_shape_stroke_width: float = 0.35,
     rebar_shape_include_dimensions: bool = True,
+    rebar_shape_dimension_font_size: float = 3,
     rebar_shape_edge_dimension_units: str = "mm",
     rebar_shape_edge_dimension_precision: int = 0,
     include_edge_dimension_units_in_dimension_label: bool = False,
-    rebar_shape_bent_angle_dimension_exclude_list: Union[
-        List[float], Tuple[float, ...]
-    ] = (45, 90, 180),
+    rebar_shape_bent_angle_dimension_exclude_list: Tuple[float, ...] = (
+        45,
+        90,
+        180,
+    ),
     helical_rebar_dimension_label_format: str = "%L,r=%R,pitch=%P",
 ) -> ElementTree.Element:
     """Generate Bar Bending Schedule svg.
@@ -92,7 +95,7 @@ def getBarBendingSchedule(
                     "RebarsTotalLength": ("Total Length in m", 5),
                 }
             set column sequence number to 0 to hide column.
-        Default is None, to select from FreeCAD preferences.
+        Default is None, to select from FreeCAD Reinforcement BOM preferences.
     column_units : Dict[str, str], optional
         column_units is a dictionary with keys: "Diameter", "RebarLength",
         "RebarsTotalLength" and their corresponding units as value.
@@ -101,7 +104,7 @@ def getBarBendingSchedule(
                     "RebarLength": "m",
                     "RebarsTotalLength": "m",
                 }
-        Default is None, to select from FreeCAD preferences.
+        Default is None, to select from FreeCAD Reinforcement BOM preferences.
     dia_weight_map : Dict[float, FreeCAD.Units.Quantity], optional
         A dictionary with diameter as key and corresponding weight (kg/m) as
         value.
@@ -112,18 +115,18 @@ def getBarBendingSchedule(
                     12: FreeCAD.Units.Quantity("0.888 kg/m"),
                     ...,
                 }
-        Default is None, to select from FreeCAD preferences.
+        Default is None, to select from FreeCAD Reinforcement BOM preferences.
     rebar_length_type : {"RealLength", "LengthWithSharpEdges"}, optional
         The rebar length calculations type.
         "RealLength": length of rebar considering rounded edges.
         "LengthWithSharpEdges": length of rebar assuming sharp edges of rebar.
-        Default is None, to select from FreeCAD preferences.
+        Default is None, to select from FreeCAD Reinforcement BOM preferences.
     font_family : str, optional
         The font-family of text.
-        Default is None, to select from FreeCAD preferences.
+        Default is None, to select from FreeCAD Reinforcement BOM preferences.
     font_size : float, optional
         The font-size of text.
-        Default is None, to select from FreeCAD preferences.
+        Default is 5
     column_width : float, optional
         The width of each column in bar shape cut list.
         Default is 60
@@ -153,6 +156,9 @@ def getBarBendingSchedule(
         If True, then each rebar edge dimensions and bent angle dimensions will
         be included in rebar shape svg.
         Default is True.
+    rebar_shape_dimension_font_size: float, optional
+        The font size of dimension text in rebar shape svg.
+        Default is 3
     rebar_shape_edge_dimension_units : str, optional
         The units to be used for rebar length dimensions in rebar shape svg.
         Default is "mm".
@@ -165,8 +171,8 @@ def getBarBendingSchedule(
         If it is True, then rebar length units will be shown in dimension label
         in rebar shape svg.
         Default is False.
-    rebar_shape_bent_angle_dimension_exclude_list : list of float, optional
-        The list of bent angles to not include their dimensions in rebar shape.
+    rebar_shape_bent_angle_dimension_exclude_list : tuple of float, optional
+        The tuple of bent angles to not include their dimensions in rebar shape.
         Default is (45, 90, 180).
     helical_rebar_dimension_label_format : str, optional
         The format of helical rebar dimension label in rebar shape svg.
@@ -226,6 +232,7 @@ def getBarBendingSchedule(
         column_header_height,
         font_family,
         font_size,
+        font_weight="bold",
     )
     bbs_svg.append(rebar_shape_cut_list_header)
 
@@ -244,7 +251,7 @@ def getBarBendingSchedule(
         include_edge_dimension_units_in_dimension_label,
         rebar_shape_bent_angle_dimension_exclude_list,
         font_family,
-        font_size,
+        rebar_shape_dimension_font_size,
         helical_rebar_dimension_label_format,
         row_height,
         column_width,

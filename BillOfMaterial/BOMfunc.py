@@ -137,6 +137,10 @@ def getMarkReinforcementsDict(objects_list=None):
                 mark_reinforcements_dict[rebar.BaseRebar.MarkNumber] = []
             mark_reinforcements_dict[rebar.BaseRebar.MarkNumber].append(rebar)
 
+    mark_reinforcements_dict = dict(
+        sorted(mark_reinforcements_dict.items(), key=lambda item: item[0])
+    )
+
     return mark_reinforcements_dict
 
 
