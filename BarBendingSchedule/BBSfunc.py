@@ -32,7 +32,11 @@ import FreeCAD
 import WorkingPlane
 
 from BillOfMaterial.BOMPreferences import BOMPreferences
-from BillOfMaterial.BOMfunc import getReinforcementRebarObjects, fixColumnUnits
+from BillOfMaterial.BOMfunc import (
+    getReinforcementRebarObjects,
+    getHostReinforcementsDict,
+    fixColumnUnits,
+)
 from BillOfMaterial.BillOfMaterial_SVG import makeBillOfMaterialSVG
 from RebarShapeCutList.RebarShapeCutListfunc import (
     getBaseRebarsList,
@@ -49,8 +53,9 @@ def getBarBendingSchedule(
     rebar_length_type: Optional[
         Literal["RealLength", "LengthWithSharpEdges"]
     ] = None,
+    reinforcement_group_by: Literal["Mark", "Host"] = "Mark",
     font_family: Optional[str] = None,
-    font_size: Optional[float] = 5,
+    font_size: float = 5,
     column_width: float = 60,
     row_height: float = 30,
     rebar_shape_column_header: str = "Rebar Shape (mm)",
@@ -121,60 +126,61 @@ def getBarBendingSchedule(
         "RealLength": length of rebar considering rounded edges.
         "LengthWithSharpEdges": length of rebar assuming sharp edges of rebar.
         Default is None, to select from FreeCAD Reinforcement BOM preferences.
+    reinforcement_group_by: {"Mark", "Host"}
+        Specifies how reinforcement objects should be grouped.
     font_family : str, optional
         The font-family of text.
         Default is None, to select from FreeCAD Reinforcement BOM preferences.
-    font_size : float, optional
+    font_size : float
         The font-size of text.
         Default is 5
-    column_width : float, optional
+    column_width : float
         The width of each column in bar shape cut list.
         Default is 60
-    row_height : float, optional
+    row_height : float
         The height of each row in bar shape cut list.
         Default is 30
-    rebar_shape_column_header : str, optional
+    rebar_shape_column_header : str
         The column header for rebar shape column.
         Default is "Rebar Shape (mm)"
     rebar_shape_view_directions : FreeCAD.Vector or WorkingPlane.Plane
-                                  OR their list, optional
+                                  OR their list
         The view point directions for each rebar shape.
         Default is FreeCAD.Vector(0, 0, 0) to automatically choose
         view_directions.
-    rebar_shape_stirrup_extended_edge_offset : float, optional
+    rebar_shape_stirrup_extended_edge_offset : float
         The offset of extended end edges of stirrup, so that end edges of
         stirrup with 90 degree bent angle do not overlap with stirrup edges.
         Default is 2
-    rebar_shape_color_style : {"shape color", "color_name",
-                               "hex_value_of_color"}, optional
+    rebar_shape_color_style : {"shape color", "color_name","hex_value_of_color"}
         The color style of rebars in rebar shape svg.
         "shape color" means select color of rebar shape.
-    rebar_shape_stroke_width : float, optional
+    rebar_shape_stroke_width : float
         The stroke-width of rebars in rebar shape svg.
         Default is 0.35
-    rebar_shape_include_dimensions : bool, optional
+    rebar_shape_include_dimensions : bool
         If True, then each rebar edge dimensions and bent angle dimensions will
         be included in rebar shape svg.
         Default is True.
-    rebar_shape_dimension_font_size: float, optional
+    rebar_shape_dimension_font_size: float
         The font size of dimension text in rebar shape svg.
         Default is 3
-    rebar_shape_edge_dimension_units : str, optional
+    rebar_shape_edge_dimension_units : str
         The units to be used for rebar length dimensions in rebar shape svg.
         Default is "mm".
-    rebar_shape_edge_dimension_precision : int, optional
+    rebar_shape_edge_dimension_precision : int
         The number of decimals that should be shown for rebar length as
         dimension label in rebar shape svg. Set it to None to use user preferred
         unit precision from FreeCAD unit preferences.
         Default is 0
-    include_edge_dimension_units_in_dimension_label : bool, optional
+    include_edge_dimension_units_in_dimension_label : bool
         If it is True, then rebar length units will be shown in dimension label
         in rebar shape svg.
         Default is False.
-    rebar_shape_bent_angle_dimension_exclude_list : tuple of float, optional
+    rebar_shape_bent_angle_dimension_exclude_list : tuple of float
         The tuple of bent angles to not include their dimensions in rebar shape.
         Default is (45, 90, 180).
-    helical_rebar_dimension_label_format : str, optional
+    helical_rebar_dimension_label_format : str
         The format of helical rebar dimension label in rebar shape svg.
             %L -> Length of helical rebar
             %R -> Helix radius of helical rebar
@@ -214,6 +220,7 @@ def getBarBendingSchedule(
         column_width=column_width,
         row_height=row_height,
         rebar_objects=rebar_objects,
+        reinforcement_group_by=reinforcement_group_by,
         return_svg_only=True,
     )
     bom_table_svg = bom_svg.find("./g[@id='BOM_table']")
@@ -236,8 +243,18 @@ def getBarBendingSchedule(
     )
     bbs_svg.append(rebar_shape_cut_list_header)
 
+    base_rebars_list = []
+    if reinforcement_group_by == "Mark":
+        base_rebars_list = getBaseRebarsList(
+            getReinforcementRebarObjects(rebar_objects)
+        )
+    else:
+        host_reinforcement_dict = getHostReinforcementsDict(rebar_objects)
+        for reinforcement_list in host_reinforcement_dict.values():
+            base_rebars_list.extend(getBaseRebarsList(reinforcement_list))
+
     bar_cut_list_svg = getRebarShapeCutList(
-        getBaseRebarsList(rebar_objects),
+        base_rebars_list,
         rebar_shape_view_directions,
         False
         if "Mark" in column_headers and column_headers["Mark"][1] != 0

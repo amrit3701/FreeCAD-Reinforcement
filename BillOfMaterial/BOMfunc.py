@@ -25,7 +25,7 @@ __title__ = "Bill Of Material Helper Functions"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-from typing import Dict
+from typing import Dict, Optional, List
 from PySide2 import QtGui
 
 import FreeCAD
@@ -109,7 +109,7 @@ def getReinforcementRebarObjects(objects_list=None):
     return rebars_list
 
 
-def getMarkReinforcementsDict(objects_list=None):
+def getMarkReinforcementsDict(objects_list: List = None) -> Dict[str, List]:
     """getMarkReinforcementsDict(ObjectsList):
     objects_list is the list of ArchRebar, rebar2 and/or structural objects.
 
@@ -125,17 +125,18 @@ def getMarkReinforcementsDict(objects_list=None):
         # If object is ArchRebar object
         if Draft.get_type(rebar) == "Rebar":
             if hasattr(rebar, "Mark"):
-                mark = rebar.Mark
+                mark = str(rebar.Mark)
             else:
-                mark = rebar.Label
+                mark = str(rebar.Label)
             if mark not in mark_reinforcements_dict:
                 mark_reinforcements_dict[mark] = []
             mark_reinforcements_dict[mark].append(rebar)
         # Otherwise object is Rebar2 reinforcement object
         else:
-            if rebar.BaseRebar.MarkNumber not in mark_reinforcements_dict:
-                mark_reinforcements_dict[rebar.BaseRebar.MarkNumber] = []
-            mark_reinforcements_dict[rebar.BaseRebar.MarkNumber].append(rebar)
+            mark = str(rebar.BaseRebar.MarkNumber)
+            if mark not in mark_reinforcements_dict:
+                mark_reinforcements_dict[mark] = []
+            mark_reinforcements_dict[mark].append(rebar)
 
     mark_reinforcements_dict = dict(
         sorted(mark_reinforcements_dict.items(), key=lambda item: item[0])
@@ -144,24 +145,68 @@ def getMarkReinforcementsDict(objects_list=None):
     return mark_reinforcements_dict
 
 
-def getUniqueDiameterList(mark_reinforcements_dict):
-    """getUniqueDiameterList(MarkReinforcementDict):
-    mark_reinforcements_dict is a dictionary with mark as key and corresponding
-    reinforcement objects list as value.
+def getHostReinforcementsDict(
+    objects_list: Optional[List] = None,
+) -> Dict[object, List]:
+    """Returns dictionary with rebar host as key and corresponding reinforcement
+    objects list as value from objects_list, if provided, else from active
+    document.
 
-    Returns list of unique diameters of reinforcement objects.
+    Parameters
+    ----------
+    objects_list: list of <ArchRebar._Rebar, rebar2 and rebar.Host>, optional
+        The list of ArchRebar, rebar2 and/or structural objects.
+
+    Returns
+    -------
+    Dict(<rebar.Host>, list of <ArchRebar._Rebar, rebar2.Reinforcement>)
+    """
+    rebar_objects = getReinforcementRebarObjects(objects_list)
+
+    # Create dictionary with rebar host as key with corresponding reinforcement
+    # objects list as value
+    host_reinforcements_dict = {}
+
+    for rebar in rebar_objects:
+        rebar_host = rebar.Host or "None"
+        if rebar_host not in host_reinforcements_dict:
+            host_reinforcements_dict[rebar_host] = []
+        host_reinforcements_dict[rebar_host].append(rebar)
+
+    host_reinforcements_dict = dict(
+        sorted(
+            host_reinforcements_dict.items(),
+            key=lambda item: item[0].Label
+            if hasattr(item[0], "Label")
+            else item[0],
+        ),
+    )
+
+    return host_reinforcements_dict
+
+
+def getUniqueDiameterList(rebar_objects: List) -> List[FreeCAD.Units.Quantity]:
+    """Returns list of unique rebar diameters.
+
+    Parameters
+    ----------
+    rebar_objects: List of <ArchRebar._Rebar and rebar2.Reinforcement>
+
+    Returns
+    -------
+    list of FreeCAD.Units.Quantity
+        The list of unique rebar diameters.
     """
     diameter_list = []
-    for _, reinforcement_list in mark_reinforcements_dict.items():
-        if hasattr(reinforcement_list[0], "BaseRebar"):
-            diameter = reinforcement_list[0].BaseRebar.Diameter
+    for rebar in rebar_objects:
+        if hasattr(rebar, "Diameter"):
+            diameter = rebar.Diameter
             if diameter not in diameter_list:
                 diameter_list.append(diameter)
-        elif hasattr(reinforcement_list[0], "Diameter"):
-            for rebar in reinforcement_list:
-                diameter = rebar.Diameter
-                if diameter not in diameter_list:
-                    diameter_list.append(diameter)
+        elif hasattr(rebar, "BaseRebar"):
+            diameter = rebar.BaseRebar.Diameter
+            if diameter not in diameter_list:
+                diameter_list.append(diameter)
     diameter_list.sort()
     return diameter_list
 

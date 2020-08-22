@@ -522,8 +522,7 @@ def getFacenameforRebar(hook_extend_along, facename, structure):
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
     normal1 = face.normalAt(0, 0)
     faces = structure.Shape.Faces
-    index = 1
-    for face in faces:
+    for index, face in enumerate(faces, start=1):
         normal2 = face.normalAt(0, 0)
         if hook_extend_along == "x-axis":
             if (
@@ -539,7 +538,6 @@ def getFacenameforRebar(hook_extend_along, facename, structure):
             ):
                 facename_for_rebars = "Face" + str(index)
                 break
-        index += 1
     return facename_for_rebars
 
 

@@ -120,7 +120,9 @@ def getBaseRebarsList(
 
     rebars = sorted(
         rebars,
-        key=lambda x: x.MarkNumber if hasattr(x, "MarkNumber") else x.Mark,
+        key=lambda x: str(x.MarkNumber)
+        if hasattr(x, "MarkNumber")
+        else str(x.Mark),
     )
 
     return rebars

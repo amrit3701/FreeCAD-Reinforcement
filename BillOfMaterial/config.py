@@ -55,13 +55,14 @@ COLUMN_UNITS = {
 # Note: You must take care that no two columns get same placement number. And
 #       must not delete/modify values in LHS of ":" (colon).
 COLUMN_HEADERS = {
-    "Mark": ("Mark", 1),
-    "RebarsCount": ("No. of Rebars", 2),
-    "Diameter": ("Diameter in " + COLUMN_UNITS["Diameter"], 3),
-    "RebarLength": ("Length in " + COLUMN_UNITS["RebarLength"] + "/piece", 4),
+    "Host": ("Member", 1),
+    "Mark": ("Mark", 2),
+    "RebarsCount": ("No. of Rebars", 3),
+    "Diameter": ("Diameter in " + COLUMN_UNITS["Diameter"], 4),
+    "RebarLength": ("Length in " + COLUMN_UNITS["RebarLength"] + "/piece", 5),
     "RebarsTotalLength": (
         "Total Length in " + COLUMN_UNITS["RebarsTotalLength"],
-        5,
+        6,
     ),
 }
 

@@ -25,9 +25,9 @@ __title__ = "Bill Of Material SVG"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-
-from xml.etree import ElementTree
+from typing import Optional, Dict, Tuple, Literal, List, Union
 from xml.dom import minidom
+from xml.etree import ElementTree
 
 import FreeCAD
 
@@ -37,14 +37,16 @@ from SVGfunc import (
     getSVGDataCell,
     getTechdrawViewScalingFactor,
 )
+from .BOMPreferences import BOMPreferences
 from .BOMfunc import (
     getMarkReinforcementsDict,
     getUniqueDiameterList,
     getRebarSharpEdgedLength,
     fixColumnUnits,
+    getReinforcementRebarObjects,
+    getHostReinforcementsDict,
 )
 from .BillOfMaterialContent import makeBOMObject
-from .BOMPreferences import BOMPreferences
 
 
 def getColumnNumber(column_headers, diameter_list, column_header):
@@ -167,31 +169,34 @@ def getColumnHeadersSVG(
 
 
 def makeBillOfMaterialSVG(
-    column_headers=None,
-    column_units=None,
-    dia_weight_map=None,
-    rebar_length_type=None,
-    font_family=None,
+    column_headers: Optional[Dict[str, Tuple[str, int]]] = None,
+    column_units: Optional[Dict[str, str]] = None,
+    dia_weight_map: Optional[Dict[float, FreeCAD.Units.Quantity]] = None,
+    rebar_length_type: Optional[
+        Literal["RealLength", "LengthWithSharpEdges"]
+    ] = None,
+    font_family: Optional[str] = None,
     font_filename=None,
-    font_size=None,
-    column_width=None,
-    row_height=None,
-    bom_left_offset=None,
-    bom_top_offset=None,
-    bom_min_right_offset=None,
-    bom_min_bottom_offset=None,
-    bom_table_svg_max_width=None,
-    bom_table_svg_max_height=None,
-    template_file=None,
-    output_file=None,
-    rebar_objects=None,
-    return_svg_only=False,
+    font_size: Optional[float] = None,
+    column_width: Optional[float] = None,
+    row_height: Optional[float] = None,
+    bom_left_offset: Optional[float] = None,
+    bom_top_offset: Optional[float] = None,
+    bom_min_right_offset: Optional[float] = None,
+    bom_min_bottom_offset: Optional[float] = None,
+    bom_table_svg_max_width: Optional[float] = None,
+    bom_table_svg_max_height: Optional[float] = None,
+    template_file: Optional[str] = None,
+    output_file: Optional[str] = None,
+    rebar_objects: Optional[List] = None,
+    reinforcement_group_by: Literal["Mark", "Host"] = "Mark",
+    return_svg_only: bool = False,
 ):
     """makeBillOfMaterialSVG([ColumnHeaders, ColumnUnits, DiaWeightMap,
     RebarLengthType, FontFamily, FontSize, FontFilename, ColumnWidth, RowHeight,
     BOMLeftOffset, BOMTopOffset, BOMMinRightOffset, BOMMinBottomOffset,
     BOMTableSVGMaxWidth, BOMTableSVGMaxHeight, TemplateFile, OutputFile,
-    RebarObjects, ReturnSVGOnly]):
+    RebarObjects, ReinforcementGroupBy, ReturnSVGOnly]):
     Generates the Rebars Material Bill SVG.
 
     column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
@@ -235,11 +240,13 @@ def makeBillOfMaterialSVG(
     svg is written to output_file. And it returns svg element.
     Default is False.
 
+    reinforcement_group_by can be "Mark" or "Host".
+    Default is "Mark".
+
     Returns Bill Of Material svg code.
     """
-    # Get mark reinforcement dictionary
-    mark_reinforcements_dict = getMarkReinforcementsDict(rebar_objects)
-    if not mark_reinforcements_dict:
+    reinforcement_objects = getReinforcementRebarObjects(rebar_objects)
+    if not reinforcement_objects:
         FreeCAD.Console.PrintWarning(
             "No rebar object in current selection/document. "
             "Returning without BillOfMaterial SVG.\n"
@@ -292,9 +299,6 @@ def makeBillOfMaterialSVG(
     # Fix column units
     column_units = fixColumnUnits(column_units)
 
-    # Get unique diameter list
-    diameter_list = getUniqueDiameterList(mark_reinforcements_dict)
-
     svg = getSVGRootElement()
 
     # Get user preferred unit precision
@@ -304,6 +308,9 @@ def makeBillOfMaterialSVG(
 
     bom_table_svg = ElementTree.Element("g")
     bom_table_svg.set("id", "BOM_table")
+
+    # Get unique diameter list
+    diameter_list = getUniqueDiameterList(reinforcement_objects)
 
     y_offset = 0
     column_headers_svg = getColumnHeadersSVG(
@@ -332,183 +339,302 @@ def makeBillOfMaterialSVG(
         current_row = 2
         y_offset += row_height
 
-    for mark_number in mark_reinforcements_dict:
-        if hasattr(mark_reinforcements_dict[mark_number][0], "BaseRebar"):
-            base_rebar = mark_reinforcements_dict[mark_number][0].BaseRebar
+    def getBaseRebar(reinforcement_obj):
+        if hasattr(reinforcement_obj, "BaseRebar"):
+            return reinforcement_obj.BaseRebar
         else:
-            base_rebar = mark_reinforcements_dict[mark_number][0]
+            return reinforcement_obj
 
-        bom_row_svg = ElementTree.Element("g")
-        # TODO: Modify logic of str(current_row - first_row + 1)
-        # first_row variable maybe eliminated
-        bom_row_svg.set(
-            "id", "BOM_table_row" + str(current_row - first_row + 1)
+    def getHostCellSVG(_host_label: str) -> ElementTree.Element:
+        host_column_number = getColumnNumber(
+            column_headers, diameter_list, "Host"
+        )
+        host_column_offset = column_width * (host_column_number - 1)
+        return getSVGDataCell(
+            _host_label,
+            host_column_offset,
+            y_offset,
+            column_width,
+            row_height,
+            font_family,
+            font_size,
+            "bom_table_cell_column_{}".format(host_column_number),
         )
 
-        if "Mark" in column_headers:
-            column_number = getColumnNumber(
-                column_headers, diameter_list, "Mark"
-            )
-            column_offset = column_width * (column_number - 1)
-            bom_row_svg.append(
-                getSVGDataCell(
-                    mark_number,
-                    column_offset,
-                    y_offset,
-                    column_width,
-                    row_height,
-                    font_family,
-                    font_size,
-                    "bom_table_cell_column_{}".format(column_number),
-                )
-            )
+    def getMarkCellSVG(rebar_mark: Union[str, float]) -> ElementTree.Element:
+        mark_column_number = getColumnNumber(
+            column_headers, diameter_list, "Mark"
+        )
+        mark_column_offset = column_width * (mark_column_number - 1)
+        return getSVGDataCell(
+            rebar_mark,
+            mark_column_offset,
+            y_offset,
+            column_width,
+            row_height,
+            font_family,
+            font_size,
+            "bom_table_cell_column_{}".format(mark_column_number),
+        )
 
-        rebars_count = 0
-        for reinforcement in mark_reinforcements_dict[mark_number]:
-            rebars_count += reinforcement.Amount
+    def getDiameterCellSVG(
+        rebar_diameter: FreeCAD.Units.Quantity,
+    ) -> ElementTree.Element:
+        disp_diameter = str(
+            round(
+                rebar_diameter.getValueAs(column_units["Diameter"]).Value,
+                precision,
+            )
+        )
+        if "." in disp_diameter:
+            disp_diameter = disp_diameter.rstrip("0").rstrip(".")
+        disp_diameter += " " + column_units["Diameter"]
+        diameter_column_number = getColumnNumber(
+            column_headers, diameter_list, "Diameter"
+        )
+        diameter_column_offset = column_width * (diameter_column_number - 1)
+        return getSVGDataCell(
+            disp_diameter,
+            diameter_column_offset,
+            y_offset,
+            column_width,
+            row_height,
+            font_family,
+            font_size,
+            "bom_table_cell_column_{}".format(diameter_column_number),
+        )
 
-        if "RebarsCount" in column_headers:
-            column_number = getColumnNumber(
-                column_headers, diameter_list, "RebarsCount"
-            )
-            column_offset = column_width * (column_number - 1)
-            bom_row_svg.append(
-                getSVGDataCell(
-                    rebars_count,
-                    column_offset,
-                    y_offset,
-                    column_width,
-                    row_height,
-                    font_family,
-                    font_size,
-                    "bom_table_cell_column_{}".format(column_number),
-                )
-            )
+    def getRebarsCountCellSVG(reinforcement_objs: List) -> ElementTree.Element:
+        rebars_count_column_number = getColumnNumber(
+            column_headers, diameter_list, "RebarsCount"
+        )
+        rebars_count_column_offset = column_width * (
+            rebars_count_column_number - 1
+        )
+        return getSVGDataCell(
+            sum(map(lambda x: x.Amount, reinforcement_objs)),
+            rebars_count_column_offset,
+            y_offset,
+            column_width,
+            row_height,
+            font_family,
+            font_size,
+            "bom_table_cell_column_{}".format(rebars_count_column_number),
+        )
 
-        if "Diameter" in column_headers:
-            disp_diameter = str(
-                round(
-                    base_rebar.Diameter.getValueAs(
-                        column_units["Diameter"]
-                    ).Value,
-                    precision,
-                )
+    def getRebarLengthCellSVG(
+        rebar_length: FreeCAD.Units.Quantity,
+    ) -> ElementTree.Element:
+        disp_base_rebar_length = str(
+            round(
+                rebar_length.getValueAs(column_units["RebarLength"]).Value,
+                precision,
             )
-            if "." in disp_diameter:
-                disp_diameter = disp_diameter.rstrip("0").rstrip(".")
-            disp_diameter += " " + column_units["Diameter"]
-            column_number = getColumnNumber(
-                column_headers, diameter_list, "Diameter"
+        )
+        if "." in disp_base_rebar_length:
+            disp_base_rebar_length = disp_base_rebar_length.rstrip("0").rstrip(
+                "."
             )
-            column_offset = column_width * (column_number - 1)
-            bom_row_svg.append(
-                getSVGDataCell(
-                    disp_diameter,
-                    column_offset,
-                    y_offset,
-                    column_width,
-                    row_height,
-                    font_family,
-                    font_size,
-                    "bom_table_cell_column_{}".format(column_number),
-                )
-            )
+        disp_base_rebar_length += " " + column_units["RebarLength"]
 
-        base_rebar_length = FreeCAD.Units.Quantity("0 mm")
-        if "RebarLength" in column_headers:
-            if rebar_length_type == "RealLength":
-                base_rebar_length = base_rebar.Length
+        rebar_length_column_number = getColumnNumber(
+            column_headers, diameter_list, "RebarLength"
+        )
+        rebar_length_column_offset = column_width * (
+            rebar_length_column_number - 1
+        )
+        return getSVGDataCell(
+            disp_base_rebar_length,
+            rebar_length_column_offset,
+            y_offset,
+            column_width,
+            row_height,
+            font_family,
+            font_size,
+            "bom_table_cell_column_{}".format(rebar_length_column_number),
+        )
+
+    def getRebarTotalLengthCellsSVG(
+        _rebar_total_length: FreeCAD.Units.Quantity,
+    ) -> List[ElementTree.Element]:
+        disp_rebar_total_length = str(
+            round(
+                _rebar_total_length.getValueAs(
+                    column_units["RebarsTotalLength"]
+                ).Value,
+                precision,
+            )
+        )
+        if "." in disp_rebar_total_length:
+            disp_rebar_total_length = disp_rebar_total_length.rstrip(
+                "0"
+            ).rstrip(".")
+        disp_rebar_total_length += " " + column_units["RebarsTotalLength"]
+
+        rebar_total_length_column_number = getColumnNumber(
+            column_headers, diameter_list, "RebarsTotalLength"
+        )
+        rebar_total_length_column_offset = column_width * (
+            rebar_total_length_column_number - 1
+        )
+        rebar_total_length_cells_svg = []
+        for dia_index, dia in enumerate(diameter_list):
+            if dia == base_rebar.Diameter:
+                rebar_total_length_cells_svg.append(
+                    getSVGDataCell(
+                        disp_rebar_total_length,
+                        rebar_total_length_column_offset
+                        + (diameter_list.index(dia)) * column_width,
+                        y_offset,
+                        column_width,
+                        row_height,
+                        font_family,
+                        font_size,
+                        "bom_table_cell_column_{}".format(
+                            rebar_total_length_column_number + dia_index
+                        ),
+                    )
+                )
             else:
-                base_rebar_length = getRebarSharpEdgedLength(base_rebar)
-            disp_base_rebar_length = str(
-                round(
-                    base_rebar_length.getValueAs(
-                        column_units["RebarLength"]
-                    ).Value,
-                    precision,
-                )
-            )
-            if "." in disp_base_rebar_length:
-                disp_base_rebar_length = disp_base_rebar_length.rstrip(
-                    "0"
-                ).rstrip(".")
-            disp_base_rebar_length += " " + column_units["RebarLength"]
-
-            column_number = getColumnNumber(
-                column_headers, diameter_list, "RebarLength"
-            )
-            column_offset = column_width * (column_number - 1)
-            bom_row_svg.append(
-                getSVGDataCell(
-                    disp_base_rebar_length,
-                    column_offset,
-                    y_offset,
-                    column_width,
-                    row_height,
-                    font_family,
-                    font_size,
-                    "bom_table_cell_column_{}".format(column_number),
-                )
-            )
-
-        rebar_total_length = FreeCAD.Units.Quantity("0 mm")
-        for reinforcement in mark_reinforcements_dict[mark_number]:
-            rebar_total_length += reinforcement.Amount * base_rebar_length
-        dia_total_length_dict[base_rebar.Diameter.Value] += rebar_total_length
-
-        if "RebarsTotalLength" in column_headers:
-            disp_rebar_total_length = str(
-                round(
-                    rebar_total_length.getValueAs(
-                        column_units["RebarsTotalLength"]
-                    ).Value,
-                    precision,
-                )
-            )
-            if "." in disp_rebar_total_length:
-                disp_rebar_total_length = disp_rebar_total_length.rstrip(
-                    "0"
-                ).rstrip(".")
-            disp_rebar_total_length += " " + column_units["RebarsTotalLength"]
-
-            column_number = getColumnNumber(
-                column_headers, diameter_list, "RebarsTotalLength"
-            )
-            column_offset = column_width * (column_number - 1)
-            for i, dia in enumerate(diameter_list):
-                if dia == base_rebar.Diameter:
-                    bom_row_svg.append(
-                        getSVGDataCell(
-                            disp_rebar_total_length,
-                            column_offset
-                            + (diameter_list.index(dia)) * column_width,
-                            y_offset,
-                            column_width,
-                            row_height,
-                            font_family,
-                            font_size,
-                            "bom_table_cell_column_{}".format(
-                                column_number + i
-                            ),
-                        )
+                rebar_total_length_cells_svg.append(
+                    getSVGRectangle(
+                        rebar_total_length_column_offset
+                        + diameter_list.index(dia) * column_width,
+                        y_offset,
+                        column_width,
+                        row_height,
+                        "bom_table_cell_column_{}".format(
+                            rebar_total_length_column_number + dia_index
+                        ),
                     )
+                )
+        return rebar_total_length_cells_svg
+
+    if reinforcement_group_by == "Mark":
+        mark_reinforcements_dict = getMarkReinforcementsDict(rebar_objects)
+        for mark_number in mark_reinforcements_dict:
+            base_rebar = getBaseRebar(mark_reinforcements_dict[mark_number][0])
+
+            bom_row_svg = ElementTree.Element("g")
+            # TODO: Modify logic of str(current_row - first_row + 1)
+            # first_row variable maybe eliminated
+            bom_row_svg.set(
+                "id", "BOM_table_row" + str(current_row - first_row + 1)
+            )
+
+            if "Host" in column_headers:
+                host_label = []
+                for reinforcement in mark_reinforcements_dict[mark_number]:
+                    if (
+                        reinforcement.Host
+                        and reinforcement.Host.Label not in host_label
+                    ):
+                        host_label.append(reinforcement.Host.Label)
+                bom_row_svg.append(getHostCellSVG(",".join(sorted(host_label))))
+
+            if "Mark" in column_headers:
+                bom_row_svg.append(getMarkCellSVG(mark_number))
+
+            if "RebarsCount" in column_headers:
+                bom_row_svg.append(
+                    getRebarsCountCellSVG(mark_reinforcements_dict[mark_number])
+                )
+
+            if "Diameter" in column_headers:
+                bom_row_svg.append(getDiameterCellSVG(base_rebar.Diameter))
+
+            base_rebar_length = FreeCAD.Units.Quantity("0 mm")
+            if "RebarLength" in column_headers:
+                if rebar_length_type == "RealLength":
+                    base_rebar_length = base_rebar.Length
                 else:
+                    base_rebar_length = getRebarSharpEdgedLength(base_rebar)
+                bom_row_svg.append(getRebarLengthCellSVG(base_rebar_length))
+
+            rebar_total_length = FreeCAD.Units.Quantity("0 mm")
+            for reinforcement in mark_reinforcements_dict[mark_number]:
+                rebar_total_length += reinforcement.Amount * base_rebar_length
+            dia_total_length_dict[
+                base_rebar.Diameter.Value
+            ] += rebar_total_length
+
+            if "RebarsTotalLength" in column_headers:
+                bom_row_svg.extend(
+                    getRebarTotalLengthCellsSVG(rebar_total_length)
+                )
+
+            bom_table_svg.append(bom_row_svg)
+            y_offset += row_height
+            current_row += 1
+    else:
+        host_reinforcements_dict = getHostReinforcementsDict(rebar_objects)
+        for rebar_host, reinforcement_list in host_reinforcements_dict.items():
+            mark_reinforcements_dict = getMarkReinforcementsDict(
+                reinforcement_list
+            )
+            add_host_in_column = True
+            for mark_number in mark_reinforcements_dict:
+                base_rebar = getBaseRebar(
+                    mark_reinforcements_dict[mark_number][0]
+                )
+
+                bom_row_svg = ElementTree.Element("g")
+                # TODO: Modify logic of str(current_row - first_row + 1)
+                # first_row variable maybe eliminated
+                bom_row_svg.set(
+                    "id", "BOM_table_row" + str(current_row - first_row + 1)
+                )
+
+                if "Host" in column_headers:
+                    if add_host_in_column:
+                        add_host_in_column = False
+                        host_label = (
+                            rebar_host.Label
+                            if hasattr(rebar_host, "Label")
+                            else str(rebar_host)
+                        )
+                    else:
+                        host_label = ""
+                    bom_row_svg.append(getHostCellSVG(host_label))
+
+                if "Mark" in column_headers:
+                    bom_row_svg.append(getMarkCellSVG(mark_number))
+
+                if "RebarsCount" in column_headers:
                     bom_row_svg.append(
-                        getSVGRectangle(
-                            column_offset
-                            + diameter_list.index(dia) * column_width,
-                            y_offset,
-                            column_width,
-                            row_height,
-                            "bom_table_cell_column_{}".format(
-                                column_number + i
-                            ),
+                        getRebarsCountCellSVG(
+                            mark_reinforcements_dict[mark_number]
                         )
                     )
 
-        bom_table_svg.append(bom_row_svg)
-        y_offset += row_height
-        current_row += 1
+                if "Diameter" in column_headers:
+                    bom_row_svg.append(getDiameterCellSVG(base_rebar.Diameter))
+
+                base_rebar_length = FreeCAD.Units.Quantity("0 mm")
+                if "RebarLength" in column_headers:
+                    if rebar_length_type == "RealLength":
+                        base_rebar_length = base_rebar.Length
+                    else:
+                        base_rebar_length = getRebarSharpEdgedLength(base_rebar)
+                    bom_row_svg.append(getRebarLengthCellSVG(base_rebar_length))
+
+                rebar_total_length = FreeCAD.Units.Quantity("0 mm")
+                for reinforcement in mark_reinforcements_dict[mark_number]:
+                    rebar_total_length += (
+                        reinforcement.Amount * base_rebar_length
+                    )
+                dia_total_length_dict[
+                    base_rebar.Diameter.Value
+                ] += rebar_total_length
+
+                if "RebarsTotalLength" in column_headers:
+                    bom_row_svg.extend(
+                        getRebarTotalLengthCellsSVG(rebar_total_length)
+                    )
+
+                bom_table_svg.append(bom_row_svg)
+                y_offset += row_height
+                current_row += 1
 
     if "RebarsTotalLength" in column_headers:
         bom_table_svg.append(
