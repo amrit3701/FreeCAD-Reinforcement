@@ -49,49 +49,6 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_35">
-         <item>
-          <widget class="QLabel" name="rebarLengthTypeLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>199</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>RebarLengthType</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="Gui::PrefComboBox" name="rebarLengthType">
-           <property name="prefEntry" stdset="0">
-            <cstring>RebarLengthType</cstring>
-           </property>
-           <property name="prefPath" stdset="0">
-            <cstring>Mod/RebarTools/BOM</cstring>
-           </property>
-           <item>
-            <property name="text">
-             <string>RealLength</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>LengthWithSharpEdges</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_12">
          <property name="spacing">
           <number>6</number>
@@ -131,6 +88,49 @@
            <item>
             <property name="text">
              <string>Host</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_35">
+         <item>
+          <widget class="QLabel" name="rebarLengthTypeLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>199</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>RebarLengthType</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Gui::PrefComboBox" name="rebarLengthType">
+           <property name="prefEntry" stdset="0">
+            <cstring>RebarLengthType</cstring>
+           </property>
+           <property name="prefPath" stdset="0">
+            <cstring>Mod/RebarTools/BOM</cstring>
+           </property>
+           <item>
+            <property name="text">
+             <string>RealLength</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>LengthWithSharpEdges</string>
             </property>
            </item>
           </widget>

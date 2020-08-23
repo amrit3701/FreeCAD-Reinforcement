@@ -116,7 +116,7 @@ class _BillOfMaterialDialog:
             h_layout.setSpacing(60)
             h_layout.addWidget(column_name)
             h_layout.addWidget(column_unit)
-            main_layout.insertLayout(1, h_layout)
+            main_layout.insertLayout(2, h_layout)
             column_units_layouts.insert(0, h_layout)
         self.column_units_layouts = column_units_layouts
 
