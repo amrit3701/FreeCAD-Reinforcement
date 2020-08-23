@@ -45,6 +45,7 @@ from .BOMfunc import (
     fixColumnUnits,
     getReinforcementRebarObjects,
     getHostReinforcementsDict,
+    getBaseRebar,
 )
 from .BillOfMaterialContent import makeBOMObject
 
@@ -55,11 +56,12 @@ def getColumnNumber(column_headers, diameter_list, column_header):
     "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
     its sequence number.
     e.g. {
-            "Mark": ("Mark", 1),
-            "RebarsCount": ("No. of Rebars", 2),
-            "Diameter": ("Diameter in mm", 3),
-            "RebarLength": ("Length in m/piece", 4),
-            "RebarsTotalLength": ("Total Length in m", 5),
+            "Host": ("Member", 1),
+            "Mark": ("Mark", 2),
+            "RebarsCount": ("No. of Rebars", 3),
+            "Diameter": ("Diameter in mm", 4),
+            "RebarLength": ("Length in m/piece", 5),
+            "RebarsTotalLength": ("Total Length in m", 6),
         }
 
     column_header is the key from dictionary column_headers for which we need to
@@ -91,11 +93,12 @@ def getColumnHeadersSVG(
     "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
     its sequence number.
     e.g. {
-            "Mark": ("Mark", 1),
-            "RebarsCount": ("No. of Rebars", 2),
-            "Diameter": ("Diameter in mm", 3),
-            "RebarLength": ("Length in m/piece", 4),
-            "RebarsTotalLength": ("Total Length in m", 5),
+            "Host": ("Member", 1),
+            "Mark": ("Mark", 2),
+            "RebarsCount": ("No. of Rebars", 3),
+            "Diameter": ("Diameter in mm", 4),
+            "RebarLength": ("Length in m/piece", 5),
+            "RebarsTotalLength": ("Total Length in m", 6),
         }
 
     Returns svg code for column headers.
@@ -203,11 +206,12 @@ def makeBillOfMaterialSVG(
     "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
     its sequence number.
     e.g. {
-            "Mark": ("Mark", 1),
-            "RebarsCount": ("No. of Rebars", 2),
-            "Diameter": ("Diameter in mm", 3),
-            "RebarLength": ("Length in m/piece", 4),
-            "RebarsTotalLength": ("Total Length in m", 5),
+            "Host": ("Member", 1),
+            "Mark": ("Mark", 2),
+            "RebarsCount": ("No. of Rebars", 3),
+            "Diameter": ("Diameter in mm", 4),
+            "RebarLength": ("Length in m/piece", 5),
+            "RebarsTotalLength": ("Total Length in m", 6),
         }
     set column sequence number to 0 to hide column.
 
@@ -338,12 +342,6 @@ def makeBillOfMaterialSVG(
         first_row = 2
         current_row = 2
         y_offset += row_height
-
-    def getBaseRebar(reinforcement_obj):
-        if hasattr(reinforcement_obj, "BaseRebar"):
-            return reinforcement_obj.BaseRebar
-        else:
-            return reinforcement_obj
 
     def getHostCellSVG(_host_label: str) -> ElementTree.Element:
         host_column_number = getColumnNumber(
@@ -551,14 +549,16 @@ def makeBillOfMaterialSVG(
                     base_rebar_length = getRebarSharpEdgedLength(base_rebar)
                 bom_row_svg.append(getRebarLengthCellSVG(base_rebar_length))
 
-            rebar_total_length = FreeCAD.Units.Quantity("0 mm")
-            for reinforcement in mark_reinforcements_dict[mark_number]:
-                rebar_total_length += reinforcement.Amount * base_rebar_length
-            dia_total_length_dict[
-                base_rebar.Diameter.Value
-            ] += rebar_total_length
-
             if "RebarsTotalLength" in column_headers:
+                rebar_total_length = FreeCAD.Units.Quantity("0 mm")
+                for reinforcement in mark_reinforcements_dict[mark_number]:
+                    rebar_total_length += (
+                        reinforcement.Amount * base_rebar_length
+                    )
+                dia_total_length_dict[
+                    base_rebar.Diameter.Value
+                ] += rebar_total_length
+
                 bom_row_svg.extend(
                     getRebarTotalLengthCellsSVG(rebar_total_length)
                 )

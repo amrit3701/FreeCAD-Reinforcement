@@ -25,24 +25,30 @@ __title__ = "Bill Of Material Spreadsheet"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
+from typing import Optional, Dict, Tuple, Literal, List, Union
 
 import FreeCAD
 
-from .BOMfunc import getMarkReinforcementsDict, getRebarSharpEdgedLength
+from .BOMfunc import (
+    getMarkReinforcementsDict,
+    getRebarSharpEdgedLength,
+    getReinforcementRebarObjects,
+    getUniqueDiameterList,
+    fixColumnUnits,
+    getBaseRebar,
+    getHostReinforcementsDict,
+)
 from .BOMPreferences import BOMPreferences
 
 
-def addSheetHeaders(column_headers, spreadsheet):
+def addSheetHeaders(
+    column_headers: Dict[str, Tuple[str, int]],
+    diameter_list: List[FreeCAD.Units.Quantity],
+    spreadsheet,
+) -> None:
     """addSheetHeaders(ColumnHeaders, Spreadsheet):
     Add headers to columns in spreadsheet object.
     """
-    # Delete hidden headers
-    column_headers = {
-        column_header: column_header_tuple
-        for column_header, column_header_tuple in column_headers.items()
-        if column_header_tuple[1] != 0
-    }
-
     # Format cells and insert headers if column "RebarsTotalLength" is to be
     # shown in BOM, only insert headers otherwise
     if "RebarsTotalLength" in column_headers:
@@ -52,54 +58,24 @@ def addSheetHeaders(column_headers, spreadsheet):
                 spreadsheet.mergeCells(column + "1:" + column + "2")
                 spreadsheet.set(column + "1", column_headers[column_header][0])
             elif column_header == "RebarsTotalLength":
+                last_dia_column = chr(ord(column) + len(diameter_list) - 1)
+                spreadsheet.mergeCells(column + "1:" + last_dia_column + "1")
+                spreadsheet.setAlignment(
+                    column + "1:" + last_dia_column + "1", "center|vcenter"
+                )
+                spreadsheet.setAlignment(
+                    column + "2:" + last_dia_column + "2", "center|vcenter"
+                )
                 spreadsheet.set(column + "1", column_headers[column_header][0])
+                for dia_index, dia in enumerate(diameter_list):
+                    spreadsheet.set(
+                        chr(ord(column) + dia_index) + "2",
+                        "#" + str(dia.Value).rstrip("0").rstrip("."),
+                    )
     else:
         for column_header in column_headers:
             column = chr(ord("A") + column_headers[column_header][1] - 1)
             spreadsheet.set(column + "1", column_headers[column_header][0])
-
-    return column_headers
-
-
-def addDiameterHeader(dia, diameter_list, column_headers, spreadsheet):
-    """addDiameterHeader(Diameter, DiameterList, ColumnHeaders, Spreadsheet):
-    Add diameter header under total rebar length column header.
-    """
-    # Split previously merged main header cells
-    first_dia_column = chr(
-        ord("A") + column_headers["RebarsTotalLength"][1] - 1
-    )
-    spreadsheet.splitCell(first_dia_column + "1")
-
-    # Create new column to insert dia
-    loc = column_headers["RebarsTotalLength"][1] - 1 + diameter_list.index(dia)
-    new_column = chr(ord("A") + loc)
-    if len(diameter_list) != 1:
-        spreadsheet.insertColumns(new_column, 1)
-
-    # Merge main header cells and set alignment
-    last_dia_column = chr(
-        ord("A")
-        + column_headers["RebarsTotalLength"][1]
-        - 1
-        + len(diameter_list)
-        - 1
-    )
-    spreadsheet.mergeCells(first_dia_column + "1:" + last_dia_column + "1")
-    spreadsheet.setAlignment(
-        first_dia_column + "1:" + last_dia_column + "1", "center|vcenter"
-    )
-    spreadsheet.setAlignment(
-        first_dia_column + "2:" + last_dia_column + "2", "center|vcenter"
-    )
-
-    # Insert dia column header
-    spreadsheet.set(
-        first_dia_column + "1", column_headers["RebarsTotalLength"][0]
-    )
-    spreadsheet.set(
-        new_column + "2", "#" + str(dia.Value).rstrip("0").rstrip(".")
-    )
 
 
 def getHeaderColumn(column_headers, diameter_list, column_header):
@@ -108,11 +84,12 @@ def getHeaderColumn(column_headers, diameter_list, column_header):
     "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
     its sequence number.
     e.g. {
-            "Mark": ("Mark", 1),
-            "RebarsCount": ("No. of Rebars", 2),
-            "Diameter": ("Diameter in mm", 3),
-            "RebarLength": ("Length in m/piece", 4),
-            "RebarsTotalLength": ("Total Length in m", 5),
+            "Host": ("Member", 1),
+            "Mark": ("Mark", 2),
+            "RebarsCount": ("No. of Rebars", 3),
+            "Diameter": ("Diameter in mm", 4),
+            "RebarLength": ("Length in m/piece", 5),
+            "RebarsTotalLength": ("Total Length in m", 6),
         }
 
     column_header is the key from dictionary column_headers for which we need to
@@ -132,26 +109,30 @@ def getHeaderColumn(column_headers, diameter_list, column_header):
 
 
 def makeBillOfMaterial(
-    column_headers=None,
-    column_units=None,
-    dia_weight_map=None,
-    rebar_length_type=None,
-    rebar_objects=None,
-    obj_name="RebarBillOfMaterial",
+    column_headers: Optional[Dict[str, Tuple[str, int]]] = None,
+    column_units: Optional[Dict[str, str]] = None,
+    dia_weight_map: Optional[Dict[float, FreeCAD.Units.Quantity]] = None,
+    rebar_length_type: Optional[
+        Literal["RealLength", "LengthWithSharpEdges"]
+    ] = None,
+    rebar_objects: Optional[List] = None,
+    reinforcement_group_by: Literal["Mark", "Host"] = "Mark",
+    obj_name: str = "RebarBillOfMaterial",
 ):
     """makeBillOfMaterial(ColumnHeadersConfig, ColumnUnitsDict, DiaWeightMap,
-    RebarLengthType, RebarObjects, ObjectName):
+    RebarLengthType, RebarObjects, ReinforcementGroupBy, ObjectName):
     Generates the Rebars Material Bill.
 
     column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
     "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
     its sequence number.
     e.g. {
-            "Mark": ("Mark", 1),
-            "RebarsCount": ("No. of Rebars", 2),
-            "Diameter": ("Diameter in mm", 3),
-            "RebarLength": ("Length in m/piece", 4),
-            "RebarsTotalLength": ("Total Length in m", 5),
+            "Host": ("Member", 1),
+            "Mark": ("Mark", 2),
+            "RebarsCount": ("No. of Rebars", 3),
+            "Diameter": ("Diameter in mm", 4),
+            "RebarLength": ("Length in m/piece", 5),
+            "RebarsTotalLength": ("Total Length in m", 6),
         }
     set column sequence number to 0 to hide column.
 
@@ -176,11 +157,13 @@ def makeBillOfMaterial(
     rebar_length_type can be "RealLength" or "LengthWithSharpEdges".
     rebar_objects is the list of ArchRebar and/or rebar2 objects.
 
+    reinforcement_group_by can be "Mark" or "Host".
+    Default is "Mark".
+
     Returns Bill Of Material spreadsheet object.
     """
-    # Get mark reinforcement dictionary
-    mark_reinforcements_dict = getMarkReinforcementsDict(rebar_objects)
-    if not mark_reinforcements_dict:
+    reinforcement_objects = getReinforcementRebarObjects(rebar_objects)
+    if not reinforcement_objects:
         FreeCAD.Console.PrintWarning(
             "No rebar object in current selection/document. "
             "Returning without BillOfMaterial Spreadsheet.\n"
@@ -197,16 +180,30 @@ def makeBillOfMaterial(
     if not rebar_length_type:
         rebar_length_type = bom_preferences.getRebarLengthType()
 
+    # Delete hidden headers
+    column_headers = {
+        column_header: column_header_tuple
+        for column_header, column_header_tuple in column_headers.items()
+        if column_header_tuple[1] != 0
+    }
+    # Fix column units
+    column_units = fixColumnUnits(column_units)
+
     # Create new spreadsheet object
     bill_of_material = FreeCAD.ActiveDocument.addObject(
         "Spreadsheet::Sheet", obj_name
     )
 
+    # Get unique diameter list
+    diameter_list = getUniqueDiameterList(reinforcement_objects)
+
     # Add column headers
-    column_headers = addSheetHeaders(column_headers, bill_of_material)
+    addSheetHeaders(column_headers, diameter_list, bill_of_material)
 
     # Dictionary to store total length of rebars corresponding to its dia
-    dia_total_length_dict = {}
+    dia_total_length_dict = {
+        dia.Value: FreeCAD.Units.Quantity("0 mm") for dia in diameter_list
+    }
 
     # Add data to spreadsheet
     if "RebarsTotalLength" in column_headers:
@@ -215,95 +212,159 @@ def makeBillOfMaterial(
     else:
         first_row = 2
         current_row = 2
-    diameter_list = []
-    for mark_number in mark_reinforcements_dict:
-        if hasattr(mark_reinforcements_dict[mark_number][0], "BaseRebar"):
-            base_rebar = mark_reinforcements_dict[mark_number][0].BaseRebar
-        else:
-            base_rebar = mark_reinforcements_dict[mark_number][0]
 
-        if "Mark" in column_headers:
-            bill_of_material.set(
-                getHeaderColumn(column_headers, diameter_list, "Mark")
-                + str(current_row),
-                "'" + str(mark_number),
-            )
+    def addHostCellData(_host_label: str) -> None:
+        bill_of_material.set(
+            getHeaderColumn(column_headers, diameter_list, "Host")
+            + str(current_row),
+            "'" + _host_label,
+        )
 
-        rebars_count = 0
-        for reinforcement in mark_reinforcements_dict[mark_number]:
-            rebars_count += reinforcement.Amount
+    def addMarkCellData(rebar_mark: Union[str, float]) -> None:
+        bill_of_material.set(
+            getHeaderColumn(column_headers, diameter_list, "Mark")
+            + str(current_row),
+            "'" + str(rebar_mark),
+        )
 
-        if "RebarsCount" in column_headers:
-            bill_of_material.set(
-                getHeaderColumn(column_headers, diameter_list, "RebarsCount")
-                + str(current_row),
-                "'" + str(rebars_count),
-            )
+    def addRebarsCountCellData(reinforcement_objs: List) -> None:
+        bill_of_material.set(
+            getHeaderColumn(column_headers, diameter_list, "RebarsCount")
+            + str(current_row),
+            "'" + str(sum(map(lambda x: x.Amount, reinforcement_objs))),
+        )
 
-        if "Diameter" in column_headers:
-            bill_of_material.set(
-                getHeaderColumn(column_headers, diameter_list, "Diameter")
-                + str(current_row),
-                str(base_rebar.Diameter),
-            )
+    def addDiameterCellData(rebar_diameter: FreeCAD.Units.Quantity) -> None:
+        bill_of_material.set(
+            getHeaderColumn(column_headers, diameter_list, "Diameter")
+            + str(current_row),
+            str(rebar_diameter),
+        )
 
-        if base_rebar.Diameter not in diameter_list:
-            diameter_list.append(base_rebar.Diameter)
-            diameter_list.sort()
-            if "RebarsTotalLength" in column_headers:
-                addDiameterHeader(
-                    base_rebar.Diameter,
-                    diameter_list,
-                    column_headers,
-                    bill_of_material,
+    def addRebarLengthCellData(rebar_length: FreeCAD.Units.Quantity) -> None:
+        bill_of_material.set(
+            getHeaderColumn(column_headers, diameter_list, "RebarLength")
+            + str(current_row),
+            str(rebar_length),
+        )
+
+    def addRebarTotalLengthCellData(
+        _rebar_total_length: FreeCAD.Units.Quantity,
+    ) -> None:
+        bill_of_material.set(
+            chr(
+                ord(
+                    getHeaderColumn(
+                        column_headers, diameter_list, "RebarsTotalLength"
+                    )
                 )
+                + diameter_list.index(base_rebar.Diameter)
+            )
+            + str(current_row),
+            str(_rebar_total_length),
+        )
+
+    if reinforcement_group_by == "Mark":
+        mark_reinforcements_dict = getMarkReinforcementsDict(rebar_objects)
+        for mark_number in mark_reinforcements_dict:
+            base_rebar = getBaseRebar(mark_reinforcements_dict[mark_number][0])
+
+            if "Host" in column_headers:
+                host_label = []
+                for reinforcement in mark_reinforcements_dict[mark_number]:
+                    if (
+                        reinforcement.Host
+                        and reinforcement.Host.Label not in host_label
+                    ):
+                        host_label.append(reinforcement.Host.Label)
+                addHostCellData(",".join(sorted(host_label)))
+
+            if "Mark" in column_headers:
+                addMarkCellData(mark_number)
+
+            if "RebarsCount" in column_headers:
+                addRebarsCountCellData(mark_reinforcements_dict[mark_number])
+
+            if "Diameter" in column_headers:
+                addDiameterCellData(base_rebar.Diameter)
+
+            base_rebar_length = FreeCAD.Units.Quantity("0 mm")
+            if "RebarLength" in column_headers:
+                if rebar_length_type == "RealLength":
+                    base_rebar_length = base_rebar.Length
+                else:
+                    base_rebar_length = getRebarSharpEdgedLength(base_rebar)
+                addRebarLengthCellData(base_rebar_length)
+
+            if "RebarsTotalLength" in column_headers:
+                rebar_total_length = FreeCAD.Units.Quantity("0 mm")
+                for reinforcement in mark_reinforcements_dict[mark_number]:
+                    rebar_total_length += (
+                        reinforcement.Amount * base_rebar_length
+                    )
                 dia_total_length_dict[
                     base_rebar.Diameter.Value
-                ] = FreeCAD.Units.Quantity("0 mm")
+                ] += rebar_total_length
 
-        base_rebar_length = FreeCAD.Units.Quantity("0 mm")
-        if "RebarLength" in column_headers:
-            if rebar_length_type == "RealLength":
-                base_rebar_length = base_rebar.Length
-                bill_of_material.set(
-                    getHeaderColumn(
-                        column_headers, diameter_list, "RebarLength"
-                    )
-                    + str(current_row),
-                    str(base_rebar_length),
-                )
-            else:
-                base_rebar_length = getRebarSharpEdgedLength(base_rebar)
-                bill_of_material.set(
-                    getHeaderColumn(
-                        column_headers, diameter_list, "RebarLength"
-                    )
-                    + str(current_row),
-                    str(base_rebar_length),
-                )
+                addRebarTotalLengthCellData(rebar_total_length)
 
-        if "RebarsTotalLength" in column_headers:
-            rebar_total_length = FreeCAD.Units.Quantity("0 mm")
-            for reinforcement in mark_reinforcements_dict[mark_number]:
-                rebar_total_length += reinforcement.Amount * base_rebar_length
-            dia_total_length_dict[
-                base_rebar.Diameter.Value
-            ] += rebar_total_length
-
-            bill_of_material.set(
-                chr(
-                    ord(
-                        getHeaderColumn(
-                            column_headers, diameter_list, "RebarsTotalLength"
-                        )
-                    )
-                    + diameter_list.index(base_rebar.Diameter)
-                )
-                + str(current_row),
-                str(rebar_total_length),
+            current_row += 1
+    else:
+        host_reinforcements_dict = getHostReinforcementsDict(rebar_objects)
+        for rebar_host, reinforcement_list in host_reinforcements_dict.items():
+            mark_reinforcements_dict = getMarkReinforcementsDict(
+                reinforcement_list
             )
+            add_host_in_column = True
+            for mark_number in mark_reinforcements_dict:
+                base_rebar = getBaseRebar(
+                    mark_reinforcements_dict[mark_number][0]
+                )
 
-        current_row += 1
+                if "Host" in column_headers:
+                    if add_host_in_column:
+                        add_host_in_column = False
+                        host_label = (
+                            rebar_host.Label
+                            if hasattr(rebar_host, "Label")
+                            else str(rebar_host)
+                        )
+                    else:
+                        host_label = ""
+                    addHostCellData(host_label)
+
+                if "Mark" in column_headers:
+                    addMarkCellData(mark_number)
+
+                if "RebarsCount" in column_headers:
+                    addRebarsCountCellData(
+                        mark_reinforcements_dict[mark_number]
+                    )
+
+                if "Diameter" in column_headers:
+                    addDiameterCellData(base_rebar.Diameter)
+
+                base_rebar_length = FreeCAD.Units.Quantity("0 mm")
+                if "RebarLength" in column_headers:
+                    if rebar_length_type == "RealLength":
+                        base_rebar_length = base_rebar.Length
+                    else:
+                        base_rebar_length = getRebarSharpEdgedLength(base_rebar)
+                    addRebarLengthCellData(base_rebar_length)
+
+                if "RebarsTotalLength" in column_headers:
+                    rebar_total_length = FreeCAD.Units.Quantity("0 mm")
+                    for reinforcement in mark_reinforcements_dict[mark_number]:
+                        rebar_total_length += (
+                            reinforcement.Amount * base_rebar_length
+                        )
+                    dia_total_length_dict[
+                        base_rebar.Diameter.Value
+                    ] += rebar_total_length
+
+                    addRebarTotalLengthCellData(rebar_total_length)
+
+                current_row += 1
 
     # Set display units
     if "Diameter" in column_headers:
@@ -466,5 +527,4 @@ def makeBillOfMaterial(
             )
 
     FreeCAD.ActiveDocument.recompute()
-    print("WIP")
     return bill_of_material

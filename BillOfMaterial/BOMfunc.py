@@ -32,6 +32,13 @@ import FreeCAD
 import Draft
 
 
+def getBaseRebar(reinforcement_obj):
+    if hasattr(reinforcement_obj, "BaseRebar"):
+        return reinforcement_obj.BaseRebar
+    else:
+        return reinforcement_obj
+
+
 def getReinforcementRebarObjects(objects_list=None):
     """getReinforcementRebarObjects(ObjectsList):
     objects_list is the list of ArchRebar, rebar2 and/or structural objects.

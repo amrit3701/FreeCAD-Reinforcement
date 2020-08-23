@@ -93,11 +93,12 @@ def getBarBendingSchedule(
         "RebarLength", "RebarsTotalLength" and values are tuple of column_header
         and its sequence number.
             e.g. {
-                    "Mark": ("Mark", 1),
-                    "RebarsCount": ("No. of Rebars", 2),
-                    "Diameter": ("Diameter in mm", 3),
-                    "RebarLength": ("Length in m/piece", 4),
-                    "RebarsTotalLength": ("Total Length in m", 5),
+                    "Host": ("Member", 1),
+                    "Mark": ("Mark", 2),
+                    "RebarsCount": ("No. of Rebars", 3),
+                    "Diameter": ("Diameter in mm", 4),
+                    "RebarLength": ("Length in m/piece", 5),
+                    "RebarsTotalLength": ("Total Length in m", 6),
                 }
             set column sequence number to 0 to hide column.
         Default is None, to select from FreeCAD Reinforcement BOM preferences.
