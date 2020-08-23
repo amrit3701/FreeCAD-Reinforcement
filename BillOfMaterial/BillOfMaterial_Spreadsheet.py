@@ -116,7 +116,7 @@ def makeBillOfMaterial(
         Literal["RealLength", "LengthWithSharpEdges"]
     ] = None,
     rebar_objects: Optional[List] = None,
-    reinforcement_group_by: Literal["Mark", "Host"] = "Mark",
+    reinforcement_group_by: Optional[Literal["Mark", "Host"]] = None,
     obj_name: str = "RebarBillOfMaterial",
 ):
     """makeBillOfMaterial(ColumnHeadersConfig, ColumnUnitsDict, DiaWeightMap,
@@ -158,7 +158,6 @@ def makeBillOfMaterial(
     rebar_objects is the list of ArchRebar and/or rebar2 objects.
 
     reinforcement_group_by can be "Mark" or "Host".
-    Default is "Mark".
 
     Returns Bill Of Material spreadsheet object.
     """
@@ -179,6 +178,8 @@ def makeBillOfMaterial(
         dia_weight_map = bom_preferences.getDiaWeightMap()
     if not rebar_length_type:
         rebar_length_type = bom_preferences.getRebarLengthType()
+    if not reinforcement_group_by:
+        reinforcement_group_by = bom_preferences.getReinforcementGroupBy()
 
     # Delete hidden headers
     column_headers = {

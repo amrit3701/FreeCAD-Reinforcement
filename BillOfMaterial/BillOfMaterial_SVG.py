@@ -192,7 +192,7 @@ def makeBillOfMaterialSVG(
     template_file: Optional[str] = None,
     output_file: Optional[str] = None,
     rebar_objects: Optional[List] = None,
-    reinforcement_group_by: Literal["Mark", "Host"] = "Mark",
+    reinforcement_group_by: Optional[Literal["Mark", "Host"]] = None,
     return_svg_only: bool = False,
 ):
     """makeBillOfMaterialSVG([ColumnHeaders, ColumnUnits, DiaWeightMap,
@@ -245,7 +245,6 @@ def makeBillOfMaterialSVG(
     Default is False.
 
     reinforcement_group_by can be "Mark" or "Host".
-    Default is "Mark".
 
     Returns Bill Of Material svg code.
     """
@@ -266,6 +265,8 @@ def makeBillOfMaterialSVG(
         dia_weight_map = bom_preferences.getDiaWeightMap()
     if not rebar_length_type:
         rebar_length_type = bom_preferences.getRebarLengthType()
+    if not reinforcement_group_by:
+        reinforcement_group_by = bom_preferences.getReinforcementGroupBy()
 
     svg_pref = bom_preferences.getSVGPrefGroup()
     if not font_family:

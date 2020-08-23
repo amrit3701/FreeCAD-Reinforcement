@@ -92,6 +92,10 @@ DIA_WEIGHT_MAP = {
 # It can be "RealLength" or "LengthWithSharpEdges"
 REBAR_LENGTH_TYPE = "RealLength"
 
+# Specifies how reinforcement objects should be grouped
+# It can be "Mark" or "Host"
+REINFORCEMENT_GROUP_BY = "Mark"
+
 
 # ---------------------------------SVG Config---------------------------------
 

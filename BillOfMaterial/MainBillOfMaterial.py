@@ -32,10 +32,10 @@ from PySide2 import QtWidgets
 import FreeCAD
 import FreeCADGui
 
-from .UnitLineEdit import UnitLineEdit
-from .BillOfMaterial_Spreadsheet import makeBillOfMaterial
-from .BillOfMaterial_SVG import makeBillOfMaterialSVG
 from .BOMPreferences import BOMPreferences
+from .BillOfMaterial_SVG import makeBillOfMaterialSVG
+from .BillOfMaterial_Spreadsheet import makeBillOfMaterial
+from .UnitLineEdit import UnitLineEdit
 
 
 class _BillOfMaterialDialog:
@@ -46,6 +46,7 @@ class _BillOfMaterialDialog:
         column_headers,
         column_units,
         rebar_length_type,
+        reinforcement_group_by,
         font_family,
         font_size,
         column_width,
@@ -63,6 +64,8 @@ class _BillOfMaterialDialog:
         self.column_units = column_units
         self.rebar_length_type = rebar_length_type
         self.allowed_rebar_length_types = ["RealLength", "LengthWithSharpEdges"]
+        self.reinforcement_group_by = reinforcement_group_by
+        self.allowed_reinforcement_group_by = ["Mark", "Host"]
         self.font_family = font_family
         self.font_size = font_size
         self.column_width = column_width
@@ -93,6 +96,10 @@ class _BillOfMaterialDialog:
         self.form.rebarLengthType.setCurrentIndex(
             self.form.rebarLengthType.findText(self.rebar_length_type)
         )
+        # Set reinforcement group by in ui
+        self.form.reinforcementGroupBy.setCurrentIndex(
+            self.form.reinforcementGroupBy.findText(self.reinforcement_group_by)
+        )
 
         # Connect signal and slots in ui
         self.connectSignalSlots()
@@ -103,7 +110,7 @@ class _BillOfMaterialDialog:
         column_units_layouts = []
         for column, unit in reversed(list(self.column_units.items())):
             column_name = QtWidgets.QLabel(column + " unit")
-            column_name.setMinimumWidth(190)
+            column_name.setMinimumWidth(200)
             column_unit = UnitLineEdit(unit)
             h_layout = QtWidgets.QHBoxLayout()
             h_layout.setSpacing(60)
@@ -151,6 +158,9 @@ class _BillOfMaterialDialog:
     def addDropdownMenuItems(self):
         """This function add dropdown items to each Gui::PrefComboBox."""
         self.form.rebarLengthType.addItems(self.allowed_rebar_length_types)
+        self.form.reinforcementGroupBy.addItems(
+            self.allowed_reinforcement_group_by
+        )
 
     def connectSignalSlots(self):
         """This function is used to connect different slots in UI to appropriate
@@ -212,6 +222,7 @@ class _BillOfMaterialDialog:
         column_units = self.getColumnUnits()
         column_headers = self.getColumnConfigData()
         rebar_length_type = self.form.rebarLengthType.currentText()
+        reinforcement_group_by = self.form.reinforcementGroupBy.currentText()
         create_spreadsheet = self.form.createSpreadsheet.isChecked()
 
         if create_spreadsheet:
@@ -220,6 +231,7 @@ class _BillOfMaterialDialog:
                 column_units=column_units,
                 rebar_length_type=rebar_length_type,
                 rebar_objects=selected_objects,
+                reinforcement_group_by=reinforcement_group_by,
             )
         create_svg = self.form.createSVG.isChecked()
 
@@ -242,6 +254,7 @@ class _BillOfMaterialDialog:
                 template_file=self.template_file,
                 output_file=output_file,
                 rebar_objects=selected_objects,
+                reinforcement_group_by=reinforcement_group_by,
             )
 
         if self.form.savePreferences.isChecked():
@@ -249,6 +262,7 @@ class _BillOfMaterialDialog:
                 conf_column_units=column_units,
                 conf_column_headers=column_headers,
                 conf_rebar_length_type=rebar_length_type,
+                conf_reinforcement_group_by=reinforcement_group_by,
                 conf_column_width=self.column_width,
                 conf_row_height=self.row_height,
                 conf_font_family=self.font_family,
@@ -275,9 +289,9 @@ class _BillOfMaterialDialog:
 
     def getColumnConfigData(self):
         """This function get data from UI and return a dictionary with column
-        data as key and values are tuple of column_header and sequnce number.
+        data as key and values are tuple of column_header and sequence number.
         e.g. {
-                "Member": ("Member", 1),
+                "Host": ("Member", 1),
                 "Mark": ("Mark", 2),
                 ...,
             }
@@ -308,6 +322,7 @@ def CommandBillOfMaterial(
     column_headers=None,
     column_units=None,
     rebar_length_type=None,
+    reinforcement_group_by=None,
     font_family=None,
     font_size=None,
     column_width=None,
@@ -329,6 +344,8 @@ def CommandBillOfMaterial(
         column_units = bom_preferences.getColumnUnits()
     if not rebar_length_type:
         rebar_length_type = bom_preferences.getRebarLengthType()
+    if not reinforcement_group_by:
+        reinforcement_group_by = bom_preferences.getReinforcementGroupBy()
 
     svg_pref = bom_preferences.getSVGPrefGroup()
     if not font_family:
@@ -358,6 +375,7 @@ def CommandBillOfMaterial(
         column_headers,
         column_units,
         rebar_length_type,
+        reinforcement_group_by,
         font_family,
         font_size,
         column_width,

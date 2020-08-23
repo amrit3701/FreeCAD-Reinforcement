@@ -33,6 +33,7 @@ from .config import (
     COLUMN_HEADERS,
     DIA_WEIGHT_MAP,
     REBAR_LENGTH_TYPE,
+    REINFORCEMENT_GROUP_BY,
     COLUMN_WIDTH,
     ROW_HEIGHT,
     FONT_FAMILY,
@@ -55,6 +56,7 @@ class BOMPreferences:
         conf_column_headers=COLUMN_HEADERS,
         conf_dia_weight_map=DIA_WEIGHT_MAP,
         conf_rebar_length_type=REBAR_LENGTH_TYPE,
+        conf_reinforcement_group_by=REINFORCEMENT_GROUP_BY,
         conf_column_width=COLUMN_WIDTH,
         conf_row_height=ROW_HEIGHT,
         conf_font_family=FONT_FAMILY,
@@ -80,6 +82,8 @@ class BOMPreferences:
             "RealLength",
             "LengthWithSharpEdges",
         ]
+        self.conf_reinforcement_group_by = conf_reinforcement_group_by
+        self.available_reinforcement_group_by = ["Mark", "Host"]
         self.conf_column_width = conf_column_width
         self.conf_row_height = conf_row_height
         self.conf_font_family = conf_font_family
@@ -97,6 +101,7 @@ class BOMPreferences:
         self.setColumnHeaders()
         self.setDiaWeightMap()
         self.setRebarLengthType()
+        self.setReinforcementGroupBy()
         self.setSVGPref()
 
     def setColumnUnits(self):
@@ -161,6 +166,26 @@ class BOMPreferences:
             if not self.overwrite
             else self.available_rebar_length_types.index(
                 self.conf_rebar_length_type
+            ),
+        )
+
+    def setReinforcementGroupBy(self):
+        self.reinforcement_group_by = self.available_reinforcement_group_by[
+            self.bom_pref.GetInt(
+                "ReinforcementGroupBy",
+                self.available_reinforcement_group_by.index(
+                    self.conf_reinforcement_group_by
+                ),
+            )
+        ]
+        self.bom_pref.SetInt(
+            "ReinforcementGroupBy",
+            self.available_reinforcement_group_by.index(
+                self.reinforcement_group_by
+            )
+            if not self.overwrite
+            else self.available_reinforcement_group_by.index(
+                self.conf_reinforcement_group_by
             ),
         )
 
@@ -288,6 +313,9 @@ class BOMPreferences:
 
     def getRebarLengthType(self):
         return self.rebar_length_type
+
+    def getReinforcementGroupBy(self):
+        return self.reinforcement_group_by
 
     def getSVGPrefGroup(self):
         return self.svg_pref

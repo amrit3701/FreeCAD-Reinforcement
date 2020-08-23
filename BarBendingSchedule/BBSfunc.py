@@ -53,7 +53,7 @@ def getBarBendingSchedule(
     rebar_length_type: Optional[
         Literal["RealLength", "LengthWithSharpEdges"]
     ] = None,
-    reinforcement_group_by: Literal["Mark", "Host"] = "Mark",
+    reinforcement_group_by: Optional[Literal["Mark", "Host"]] = None,
     font_family: Optional[str] = None,
     font_size: float = 5,
     column_width: float = 60,
@@ -127,8 +127,9 @@ def getBarBendingSchedule(
         "RealLength": length of rebar considering rounded edges.
         "LengthWithSharpEdges": length of rebar assuming sharp edges of rebar.
         Default is None, to select from FreeCAD Reinforcement BOM preferences.
-    reinforcement_group_by: {"Mark", "Host"}
+    reinforcement_group_by: {"Mark", "Host"}, optional
         Specifies how reinforcement objects should be grouped.
+        Default is None, to select from FreeCAD Reinforcement BOM preferences.
     font_family : str, optional
         The font-family of text.
         Default is None, to select from FreeCAD Reinforcement BOM preferences.
@@ -200,6 +201,8 @@ def getBarBendingSchedule(
     if not column_units:
         column_units = bom_preferences.getColumnUnits()
     column_units = fixColumnUnits(column_units or {})
+    if not reinforcement_group_by:
+        reinforcement_group_by = bom_preferences.getReinforcementGroupBy()
 
     svg_pref = bom_preferences.getSVGPrefGroup()
     if not font_family:
