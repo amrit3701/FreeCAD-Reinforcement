@@ -1212,7 +1212,7 @@ def getRebarShapeCutList(
             ElementTree.tostring(svg, encoding="unicode")
         ).toprettyxml(indent="  ")
         try:
-            with open(output_file, "w") as svg_output_file:
+            with open(output_file, "w", encoding="utf-8") as svg_output_file:
                 svg_output_file.write(svg_sheet)
         except OSError:
             FreeCAD.Console.PrintError(

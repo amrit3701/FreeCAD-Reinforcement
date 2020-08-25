@@ -1054,7 +1054,7 @@ def makeBillOfMaterialSVG(
             svg_sheet = template_svg.replace("<!-- DrawingContent -->", bom_svg)
 
         try:
-            with open(output_file, "w") as svg_output_file:
+            with open(output_file, "w", encoding="utf-8") as svg_output_file:
                 svg_output_file.write(svg_sheet)
         except OSError:
             FreeCAD.Console.PrintError(

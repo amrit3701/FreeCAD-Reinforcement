@@ -26,6 +26,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 from typing import Dict, Union, Tuple, List, Optional, Literal
+from xml.dom import minidom
 from xml.etree import ElementTree
 
 import FreeCAD
@@ -77,6 +78,7 @@ def getBarBendingSchedule(
         180,
     ),
     helical_rebar_dimension_label_format: str = "%L,r=%R,pitch=%P",
+    output_file: Optional[str] = None,
 ) -> ElementTree.Element:
     """Generate Bar Bending Schedule svg.
 
@@ -188,6 +190,8 @@ def getBarBendingSchedule(
             %R -> Helix radius of helical rebar
             %P -> Helix pitch of helical rebar
         Default is "%L,r=%R,pitch=%P".
+    output_file: str, optional
+        The output file to write generated svg.
 
     Returns
     -------
@@ -306,5 +310,17 @@ def getBarBendingSchedule(
     svg.set("width", str(svg_width) + "mm")
     svg.set("height", str(bom_height) + "mm")
     svg.set("viewBox", "0 0 {} {}".format(svg_width, bom_height))
+
+    if output_file:
+        svg_sheet = minidom.parseString(
+            ElementTree.tostring(svg, encoding="unicode")
+        ).toprettyxml(indent="  ")
+        try:
+            with open(output_file, "w", encoding="utf-8") as svg_output_file:
+                svg_output_file.write(svg_sheet)
+        except OSError:
+            FreeCAD.Console.PrintError(
+                "Error writing svg to file " + str(svg_output_file) + "\n"
+            )
 
     return svg
