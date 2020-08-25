@@ -43,10 +43,10 @@ def getReinforcementRebarObjects(objects_list=None):
     """getReinforcementRebarObjects(ObjectsList):
     objects_list is the list of ArchRebar, rebar2 and/or structural objects.
 
-    Returns list of ArchRebar objects that belongs to passed structural elements
-    and reinforcement objects that are derived from passed base rebar2 objects,
-    if objects_list is provided. Otherwise returns list of ArchRebar and
-    reinforcement objects from active document.
+    Returns list of ArchRebar and reinforcement objects that belongs to passed
+    structural elements and reinforcement objects that are derived from
+    passed base rebar2 objects, if objects_list is provided. Otherwise
+    returns list of ArchRebar and reinforcement objects from active document.
     """
     if not objects_list:
         # Get all objects in active document
@@ -69,45 +69,41 @@ def getReinforcementRebarObjects(objects_list=None):
                 rebars_list.append(arch_rebar_object)
 
     # Get Rebar2 objects
-    reinforcement_list = Draft.get_objects_of_type(
-        objects_list, "ReinforcementGeneric"
-    )
-    reinforcement_list.extend(
-        Draft.get_objects_of_type(objects_list, "ReinforcementLattice")
-    )
-    reinforcement_list.extend(
-        Draft.get_objects_of_type(objects_list, "ReinforcementCustom")
-    )
-    reinforcement_list.extend(
-        Draft.get_objects_of_type(objects_list, "ReinforcementIndividual")
-    )
-    reinforcement_list.extend(
-        Draft.get_objects_of_type(objects_list, "ReinforcementLinear")
-    )
+    reinforcement_obj_types = [
+        "ReinforcementGeneric",
+        "ReinforcementLattice",
+        "ReinforcementCustom",
+        "ReinforcementIndividual",
+        "ReinforcementLinear",
+    ]
+    reinforcement_list = []
+    for reinforcement_obj_type in reinforcement_obj_types:
+        reinforcement_list.extend(
+            Draft.get_objects_of_type(objects_list, reinforcement_obj_type)
+        )
 
     # Add all reinforcement elements present in active document derived from
     # base rebar objects in objects_list
-    base_rebar_objects = Draft.get_objects_of_type(objects_list, "RebarShape")
-    if objects_list != FreeCAD.ActiveDocument.Objects and base_rebar_objects:
+    # And all reinforcement elements present in active document having Host
+    # present in objects_list
+    if objects_list != FreeCAD.ActiveDocument.Objects:
         all_objects = FreeCAD.ActiveDocument.Objects
-        all_reinforcement_obj = Draft.get_objects_of_type(
-            all_objects, "ReinforcementGeneric"
-        )
-        all_reinforcement_obj.extend(
-            Draft.get_objects_of_type(all_objects, "ReinforcementLattice")
-        )
-        all_reinforcement_obj.extend(
-            Draft.get_objects_of_type(all_objects, "ReinforcementCustom")
-        )
-        all_reinforcement_obj.extend(
-            Draft.get_objects_of_type(all_objects, "ReinforcementIndividual")
-        )
-        all_reinforcement_obj.extend(
-            Draft.get_objects_of_type(all_objects, "ReinforcementLinear")
+        all_reinforcement_obj = []
+        for reinforcement_obj_type in reinforcement_obj_types:
+            all_reinforcement_obj.extend(
+                Draft.get_objects_of_type(all_objects, reinforcement_obj_type)
+            )
+        base_rebar_objects = Draft.get_objects_of_type(
+            objects_list, "RebarShape"
         )
         for reinforcement in all_reinforcement_obj:
             if (
                 reinforcement.BaseRebar in base_rebar_objects
+                and reinforcement not in reinforcement_list
+            ):
+                reinforcement_list.append(reinforcement)
+            elif (
+                reinforcement.Host in objects_list
                 and reinforcement not in reinforcement_list
             ):
                 reinforcement_list.append(reinforcement)

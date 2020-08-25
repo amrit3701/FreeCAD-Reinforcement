@@ -27,6 +27,7 @@ __url__ = "https://www.freecadweb.org"
 
 import math
 from typing import Union, List, Tuple, Optional
+from xml.dom import minidom
 from xml.etree import ElementTree
 
 import Draft
@@ -1007,10 +1008,14 @@ def getRebarShapeCutList(
     rebars_stroke_width: float = 0.35,
     rebars_color_style: str = "shape color",
     include_dimensions: bool = True,
-    rebar_dimension_units: str = "mm",
-    rebar_length_dimension_precision: int = 0,
+    rebar_edge_dimension_units: str = "mm",
+    rebar_edge_dimension_precision: int = 0,
     include_units_in_dimension_label: bool = False,
-    bent_angle_dimension_exclude_list: Tuple[float, ...] = (45, 90, 180),
+    bent_angle_dimension_exclude_list: Union[Tuple[float, ...], List[float]] = (
+        45,
+        90,
+        180,
+    ),
     dimension_font_family: str = "DejaVu Sans",
     dimension_font_size: float = 2,
     helical_rebar_dimension_label_format: str = "%L,r=%R,pitch=%P",
@@ -1018,6 +1023,7 @@ def getRebarShapeCutList(
     width: float = 60,
     side_padding: float = 1,
     horizontal_rebar_shape: bool = True,
+    output_file: Optional[str] = None,
 ) -> ElementTree.Element:
     """Generate and return rebar shape cut list svg.
 
@@ -1050,16 +1056,17 @@ def getRebarShapeCutList(
     include_dimensions: bool, optional
         If True, then each rebar edge dimensions and bent angle dimensions will
         be included in rebar shape cut list.
-    rebar_dimension_units: str, optional
-        The units to be used for rebar length dimensions.
+    rebar_edge_dimension_units: str, optional
+        The units to be used for rebar edge length dimensions.
         Default is "mm".
-    rebar_length_dimension_precision: int, optional
-        The number of decimals that should be shown for rebar length as
+    rebar_edge_dimension_precision: int, optional
+        The number of decimals that should be shown for rebar edge length as
         dimension label. Set it to None to use user preferred unit precision
         from FreeCAD unit preferences.
         Default is 0
     include_units_in_dimension_label: bool, optional
-        If it is True, then rebar length units will be shown in dimension label.
+        If it is True, then rebar edge length units will be shown in dimension
+        label.
         Default is False.
     bent_angle_dimension_exclude_list: tuple of float, optional
         The tuple of bent angles to not include their dimensions.
@@ -1086,11 +1093,11 @@ def getRebarShapeCutList(
         The padding on each side of rebar shape.
         Default is 1.
     horizontal_rebar_shape: bool, optional
-        If True, then rebar shape will be made horizontal by rotating -90
-        degree if shape height is more than its width.
-        If False, then rebar shape svg will be returned as viewed from
-        view_direction.
+        If True, then rebar shape will be made horizontal by rotating max
+        length edge of rebar shape.
         Default is True.
+    output_file: str, optional
+        The output file to write generated svg.
 
     Returns
     -------
@@ -1140,8 +1147,8 @@ def getRebarShapeCutList(
             rebars_stroke_width,
             rebars_color_style,
             include_dimensions,
-            rebar_dimension_units,
-            rebar_length_dimension_precision,
+            rebar_edge_dimension_units,
+            rebar_edge_dimension_precision,
             include_units_in_dimension_label,
             bent_angle_dimension_exclude_list,
             dimension_font_family,
@@ -1199,5 +1206,17 @@ def getRebarShapeCutList(
     svg.set(
         "viewBox", "0 0 {} {}".format(width, row_height * len(base_rebars_list))
     )
+
+    if output_file:
+        svg_sheet = minidom.parseString(
+            ElementTree.tostring(svg, encoding="unicode")
+        ).toprettyxml(indent="  ")
+        try:
+            with open(output_file, "w") as svg_output_file:
+                svg_output_file.write(svg_sheet)
+        except OSError:
+            FreeCAD.Console.PrintError(
+                "Error writing svg to file " + str(svg_output_file) + "\n"
+            )
 
     return svg

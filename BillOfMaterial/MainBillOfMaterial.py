@@ -33,6 +33,7 @@ import FreeCAD
 import FreeCADGui
 
 from .BOMPreferences import BOMPreferences
+from .BOMfunc import getReinforcementRebarObjects
 from .BillOfMaterial_SVG import makeBillOfMaterialSVG
 from .BillOfMaterial_Spreadsheet import makeBillOfMaterial
 from .UnitLineEdit import UnitLineEdit
@@ -208,7 +209,14 @@ class _BillOfMaterialDialog:
             unit_field = unit_h_layout.itemAt(1).widget()
             if not unit_field.isValidUnit():
                 unit_text = unit_field.text()
-                unit_field.setText(unit_text + " (Invalid Unit)")
+                unit_field.setText(
+                    unit_text
+                    + (
+                        " (Invalid Unit)"
+                        if " (Invalid Unit)" not in unit_text
+                        else ""
+                    )
+                )
                 units_valid_flag = False
         if not units_valid_flag:
             return
@@ -218,6 +226,11 @@ class _BillOfMaterialDialog:
             selection.Object
             for selection in FreeCADGui.Selection.getSelectionEx()
         ]
+        reinforcement_objs = getReinforcementRebarObjects(selected_objects)
+        if not reinforcement_objs:
+            reinforcement_objs = getReinforcementRebarObjects(
+                FreeCAD.ActiveDocument.Objects
+            )
 
         column_units = self.getColumnUnits()
         column_headers = self.getColumnConfigData()
@@ -230,7 +243,7 @@ class _BillOfMaterialDialog:
                 column_headers=column_headers,
                 column_units=column_units,
                 rebar_length_type=rebar_length_type,
-                rebar_objects=selected_objects,
+                rebar_objects=reinforcement_objs,
                 reinforcement_group_by=reinforcement_group_by,
             )
         create_svg = self.form.createSVG.isChecked()
@@ -253,7 +266,7 @@ class _BillOfMaterialDialog:
                 bom_table_svg_max_height=self.bom_table_svg_max_height,
                 template_file=self.template_file,
                 output_file=output_file,
-                rebar_objects=selected_objects,
+                rebar_objects=reinforcement_objs,
                 reinforcement_group_by=reinforcement_group_by,
             )
 

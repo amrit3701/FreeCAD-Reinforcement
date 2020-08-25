@@ -249,9 +249,7 @@ def getBarBendingSchedule(
 
     base_rebars_list = []
     if reinforcement_group_by == "Mark":
-        base_rebars_list = getBaseRebarsList(
-            getReinforcementRebarObjects(rebar_objects)
-        )
+        base_rebars_list = getBaseRebarsList(rebar_objects)
     else:
         host_reinforcement_dict = getHostReinforcementsDict(rebar_objects)
         for reinforcement_list in host_reinforcement_dict.values():

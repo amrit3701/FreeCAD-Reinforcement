@@ -287,6 +287,7 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>reinforcementGroupBy</tabstop>
   <tabstop>rebarLengthType</tabstop>
   <tabstop>columnHeaderListWidget</tabstop>
   <tabstop>noteText</tabstop>
@@ -295,6 +296,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>editSVGConfigButton</tabstop>
   <tabstop>svgOutputFile</tabstop>
   <tabstop>chooseSVGOutputFile</tabstop>
+  <tabstop>savePreferences</tabstop>
  </tabstops>
  <resources/>
  <connections/>

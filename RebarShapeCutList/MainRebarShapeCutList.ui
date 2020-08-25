@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>710</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>RebarShapeCutList</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="stirrupExtendedEdgeOffsetLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Stirrup Extended Edge Offset</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Gui::InputField" name="stirrupExtendedEdgeOffset">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The offset of extended end edges of stirrup, so that end edges of stirrup with 90 degree bent angle do not overlap with stirrup edges&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>2 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true">mm</string>
+       </property>
+       <property name="quantity" stdset="0">
+        <double>2.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="rebarsStrokeWidthLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Rebars Stroke Width</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Gui::InputField" name="rebarsStrokeWidth">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>The stroke-width of rebars in rebar shape cut list svg</string>
+       </property>
+       <property name="text">
+        <string>0.35 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true">mm</string>
+       </property>
+       <property name="quantity" stdset="0">
+        <double>0.350000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="rebarsColorStyleLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>The color style of rebars</string>
+       </property>
+       <property name="text">
+        <string>Rebars Color Style</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Gui::PrefRadioButton" name="shapeColorRadio">
+       <property name="toolTip">
+        <string>Select color of rebar shape</string>
+       </property>
+       <property name="text">
+        <string>shape color</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Gui::PrefRadioButton" name="customColorRadio">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>Custom color</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Gui::PrefColorButton" name="rebarsColor">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>Custom color</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <item>
+      <widget class="QLabel" name="rowHeightLabel">
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Row Height</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Gui::InputField" name="rowHeight">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>The height of each row of rebar shape in rebar shape cut list</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true">mm</string>
+       </property>
+       <property name="quantity" stdset="0">
+        <double>40.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_10">
+     <item>
+      <widget class="QLabel" name="widthLabel">
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Width</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Gui::InputField" name="columnWidth">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>The width of rebar shape cut list</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true">mm</string>
+       </property>
+       <property name="quantity" stdset="0">
+        <double>60.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_11">
+     <item>
+      <widget class="QLabel" name="sidePaddingLabel">
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Side Padding</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Gui::InputField" name="sidePadding">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>The padding on each side of rebar shape</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true">mm</string>
+       </property>
+       <property name="quantity" stdset="0">
+        <double>1.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_13">
+     <item>
+      <widget class="Gui::PrefCheckBox" name="horizontalRebarShape">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then max length edge of rebar shape will be rotated to make it horizontal&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Horizontal Rebar Shape</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Gui::PrefCheckBox" name="includeMark">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then rebar.Mark will be included for each rebar shape in rebar shape cut list svg&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Include Mark</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_12">
+     <item>
+      <widget class="Gui::PrefCheckBox" name="includeDimensions">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then each rebar edge dimensions and bent angle dimensions will be included in rebar shape cut list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Include Dimensions</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Gui::PrefCheckBox" name="includeUnitsInDimensionLabel">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then rebar edge length units will be shown in dimension label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Include Units in Dimension Label</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QWidget" name="dimensionDataWidget" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="leftMargin">
+       <number>2</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <layout class="QHBoxLayout" name="rebarEdgeDimensionUnitsHLayout">
+        <item>
+         <widget class="QLabel" name="rebarEdgeDimensionUnitsLabel">
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>The units to be used for rebar edge length dimensions</string>
+          </property>
+          <property name="text">
+           <string>Rebar Edge Dimension Units</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="rebarEdgeDimensionPrecisionLabel">
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Rebar Edge Dimension Precision</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Gui::PrefSpinBox" name="rebarEdgeDimensionPrecision">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The number of decimals that should be shown for rebar edge length as dimension label. Set it to -1 to use user preferred unit precision from FreeCAD unit preferences&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="minimum">
+           <number>-1</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="dimensionFontFamilyLabel">
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Dimension Font Family</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFontComboBox" name="dimensionFontFamily">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>The font-family of dimension text</string>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="currentFont">
+           <font/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QLabel" name="dimensionFontSizeLabel">
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Dimension Font Size</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Gui::PrefSpinBox" name="dimensionFontSize">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>The font-size of dimension text</string>
+          </property>
+          <property name="value">
+           <number>2</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="bentAngleDimensionExcludeListLabel">
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Bent Angle Dimension Exclude List</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Gui::PrefLineEdit" name="bentAngleDimensionExcludeList">
+          <property name="toolTip">
+           <string>The list of bent angles to not include their dimensions</string>
+          </property>
+          <property name="placeholderText">
+           <string>45, 90, 180</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <item>
+         <widget class="QLabel" name="helicalRebarDimensionLabelFormatLabel">
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Helical Rebar Dimension Label Format</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Gui::PrefLineEdit" name="helicalRebarDimensionLabelFormat">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The format of helical rebar dimension label.&lt;/p&gt;&lt;p&gt;%L -&amp;gt; Length of helical rebar&lt;/p&gt;&lt;p&gt;%R -&amp;gt; Helix radius of helical rebar&lt;/p&gt;&lt;p&gt;%P -&amp;gt; Helix pitch of helical rebar&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>%L,r=%R,pitch=%P</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_14">
+     <item>
+      <widget class="QLabel" name="svgOutputFileLabel">
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>SVG Output File</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Gui::PrefFileChooser" name="svgOutputfFleChooser">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>The output file to write generated svg</string>
+       </property>
+       <property name="filter">
+        <string>*.svg</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::FileChooser</class>
+   <extends>QWidget</extends>
+   <header>Gui/FileDialog.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::InputField</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/InputField.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::ColorButton</class>
+   <extends>QPushButton</extends>
+   <header>Gui/Widgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefFileChooser</class>
+   <extends>Gui::FileChooser</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefColorButton</class>
+   <extends>Gui::ColorButton</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefRadioButton</class>
+   <extends>QRadioButton</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefCheckBox</class>
+   <extends>QCheckBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>includeDimensions</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>dimensionDataWidget</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>195</x>
+     <y>128</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>383</x>
+     <y>243</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>includeDimensions</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>includeUnitsInDimensionLabel</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>195</x>
+     <y>128</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>572</x>
+     <y>128</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>customColorRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rebarsColor</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>541</x>
+     <y>93</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>656</x>
+     <y>93</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

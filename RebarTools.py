@@ -247,6 +247,30 @@ class BillOfMaterialTool:
         MainBillOfMaterial.CommandBillOfMaterial()
 
 
+class RebarShapeCutListTool:
+    @staticmethod
+    def GetResources():
+        return {
+            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
+            + "/icons/dropdown_list/RebarShapeCutList.svg",
+            "MenuText": QT_TRANSLATE_NOOP("RebarAddon", "Rebar Shape Cut List"),
+            "ToolTip": QT_TRANSLATE_NOOP(
+                "RebarAddon", "Generate Rebar Shape Cut List",
+            ),
+        }
+
+    @staticmethod
+    def IsActive():
+        return True if FreeCADGui.activeDocument() else False
+
+    @staticmethod
+    def Activated():
+        from RebarShapeCutList import MainRebarShapeCutList
+
+        # Call to CommandRebarShapeCutList() function
+        MainRebarShapeCutList.CommandRebarShapeCutList()
+
+
 def updateLocale():
     FreeCADGui.addLanguagePath(
         os.path.join(os.path.dirname(__file__), "translations")
@@ -263,6 +287,7 @@ FreeCADGui.addCommand("Arch_Rebar_Helical", HelicalRebarTool())
 FreeCADGui.addCommand("Arch_Column_Reinforcement", ColumnReinforcementTool())
 FreeCADGui.addCommand("Arch_Beam_Reinforcement", BeamReinforcementTool())
 FreeCADGui.addCommand("Arch_Rebar_BOM", BillOfMaterialTool())
+FreeCADGui.addCommand("Arch_Rebar_Shape_Cut_List", RebarShapeCutListTool())
 
 
 # List of all rebar commands
@@ -276,4 +301,5 @@ RebarCommands = [
     "Arch_Column_Reinforcement",
     "Arch_Beam_Reinforcement",
     "Arch_Rebar_BOM",
+    "Arch_Rebar_Shape_Cut_List",
 ]
