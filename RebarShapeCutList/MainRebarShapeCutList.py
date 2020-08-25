@@ -146,9 +146,6 @@ class _RebarShapeCutListDialog:
         self.form.helicalRebarDimensionLabelFormat.setText(
             self.helical_rebar_dimension_label_format
         )
-        self.form.svgOutputfFleChooser.children()[1].setPlaceholderText(
-            "required"
-        )
 
         self.connectSignalSlots()
 
@@ -165,8 +162,23 @@ class _RebarShapeCutListDialog:
     def connectSignalSlots(self):
         """This function is used to connect different slots in UI to appropriate
         functions."""
+        self.form.chooseSVGOutputFile.clicked.connect(
+            self.choose_svg_output_file_clicked
+        )
         self.form.buttonBox.accepted.connect(self.accept)
         self.form.buttonBox.rejected.connect(lambda: self.form.close())
+
+    def choose_svg_output_file_clicked(self):
+        """This function is executed when Choose button clicked in ui to execute
+        QFileDialog to select svg output file."""
+        path = FreeCAD.ConfigGet("UserAppData")
+        output_file, Filter = QtWidgets.QFileDialog.getSaveFileName(
+            None, "Choose output file for Bill of Material", path, "*.svg"
+        )
+        if output_file:
+            self.form.svgOutputFile.setText(
+                os.path.splitext(str(output_file))[0] + ".svg"
+            )
 
     def accept(self):
         """This function is executed when 'OK' button is clicked from UI. It
@@ -184,11 +196,9 @@ class _RebarShapeCutListDialog:
             )
             return
         # Check if output file is selected or not
-        output_file = self.form.svgOutputfFleChooser.children()[1].text()
+        output_file = self.form.svgOutputFile.text()
         if not output_file:
-            self.form.svgOutputfFleChooser.children()[1].setStyleSheet(
-                "border: 1px solid red;"
-            )
+            self.form.svgOutputFile.setStyleSheet("border: 1px solid red;")
             return
 
         # Get selected objects list

@@ -198,7 +198,9 @@ class _BillOfMaterialDialog:
             None, "Choose output file for Bill of Material", path, "*.svg"
         )
         if output_file:
-            self.form.svgOutputFile.setText(str(output_file))
+            self.form.svgOutputFile.setText(
+                os.path.splitext(str(output_file))[0] + ".svg"
+            )
 
     def accept(self):
         """This function is executed when 'OK' button is clicked from UI. It

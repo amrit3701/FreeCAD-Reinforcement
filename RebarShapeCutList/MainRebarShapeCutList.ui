@@ -550,23 +550,25 @@
       </widget>
      </item>
      <item>
-      <widget class="Gui::PrefFileChooser" name="svgOutputfFleChooser">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>The output file to write generated svg</string>
-       </property>
-       <property name="filter">
-        <string>*.svg</string>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout_15">
+       <item>
+        <widget class="Gui::PrefLineEdit" name="svgOutputFile">
+         <property name="placeholderText">
+          <string>required</string>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="chooseSVGOutputFile">
+         <property name="text">
+          <string>Choose</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
@@ -581,11 +583,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Gui::FileChooser</class>
-   <extends>QWidget</extends>
-   <header>Gui/FileDialog.h</header>
-  </customwidget>
-  <customwidget>
    <class>Gui::InputField</class>
    <extends>QLineEdit</extends>
    <header>Gui/InputField.h</header>
@@ -594,11 +591,6 @@
    <class>Gui::ColorButton</class>
    <extends>QPushButton</extends>
    <header>Gui/Widgets.h</header>
-  </customwidget>
-  <customwidget>
-   <class>Gui::PrefFileChooser</class>
-   <extends>Gui::FileChooser</extends>
-   <header>Gui/PrefWidgets.h</header>
   </customwidget>
   <customwidget>
    <class>Gui::PrefSpinBox</class>
