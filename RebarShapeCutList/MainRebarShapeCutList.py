@@ -173,7 +173,7 @@ class _RebarShapeCutListDialog:
         QFileDialog to select svg output file."""
         path = FreeCAD.ConfigGet("UserAppData")
         output_file, Filter = QtWidgets.QFileDialog.getSaveFileName(
-            None, "Choose output file for Bill of Material", path, "*.svg"
+            None, "Choose output file for Rebar Shape Cut List", path, "*.svg"
         )
         if output_file:
             self.form.svgOutputFile.setText(

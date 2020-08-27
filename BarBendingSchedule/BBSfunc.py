@@ -72,11 +72,9 @@ def getBarBendingSchedule(
     rebar_shape_edge_dimension_units: str = "mm",
     rebar_shape_edge_dimension_precision: int = 0,
     include_edge_dimension_units_in_dimension_label: bool = False,
-    rebar_shape_bent_angle_dimension_exclude_list: Tuple[float, ...] = (
-        45,
-        90,
-        180,
-    ),
+    rebar_shape_bent_angle_dimension_exclude_list: Union[
+        List[float], Tuple[float, ...]
+    ] = (45, 90, 180),
     helical_rebar_dimension_label_format: str = "%L,r=%R,pitch=%P",
     output_file: Optional[str] = None,
 ) -> ElementTree.Element:

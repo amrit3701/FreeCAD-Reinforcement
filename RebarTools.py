@@ -271,6 +271,30 @@ class RebarShapeCutListTool:
         MainRebarShapeCutList.CommandRebarShapeCutList()
 
 
+class BarBendingScheduleTool:
+    @staticmethod
+    def GetResources():
+        return {
+            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
+            + "/icons/dropdown_list/BarBendingSchedule.svg",
+            "MenuText": QT_TRANSLATE_NOOP("RebarAddon", "Bar Bending Schedule"),
+            "ToolTip": QT_TRANSLATE_NOOP(
+                "RebarAddon", "Generate Bar Bending Schedule",
+            ),
+        }
+
+    @staticmethod
+    def IsActive():
+        return True if FreeCADGui.activeDocument() else False
+
+    @staticmethod
+    def Activated():
+        from BarBendingSchedule import MainBarBendingSchedule
+
+        # Call to CommandBarBendingSchedule() function
+        MainBarBendingSchedule.CommandBarBendingSchedule()
+
+
 def updateLocale():
     FreeCADGui.addLanguagePath(
         os.path.join(os.path.dirname(__file__), "translations")
@@ -288,6 +312,9 @@ FreeCADGui.addCommand("Arch_Column_Reinforcement", ColumnReinforcementTool())
 FreeCADGui.addCommand("Arch_Beam_Reinforcement", BeamReinforcementTool())
 FreeCADGui.addCommand("Arch_Rebar_BOM", BillOfMaterialTool())
 FreeCADGui.addCommand("Arch_Rebar_Shape_Cut_List", RebarShapeCutListTool())
+FreeCADGui.addCommand(
+    "Arch_Rebar_Bar_Bending_Schedule", BarBendingScheduleTool()
+)
 
 
 # List of all rebar commands
@@ -302,4 +329,5 @@ RebarCommands = [
     "Arch_Beam_Reinforcement",
     "Arch_Rebar_BOM",
     "Arch_Rebar_Shape_Cut_List",
+    "Arch_Rebar_Bar_Bending_Schedule",
 ]
