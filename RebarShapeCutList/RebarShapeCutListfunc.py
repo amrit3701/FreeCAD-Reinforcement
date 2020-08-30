@@ -26,7 +26,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 import math
-from typing import Union, List, Tuple, Optional
+from typing import Union, List, Tuple, Optional, Literal
 from xml.dom import minidom
 from xml.etree import ElementTree
 
@@ -1020,7 +1020,8 @@ def getRebarShapeCutList(
     dimension_font_size: float = 2,
     helical_rebar_dimension_label_format: str = "%L,r=%R,pitch=%P",
     row_height: float = 40,
-    width: float = 60,
+    column_width: float = 60,
+    column_count: Union[int, Literal["row_count"]] = "row_count",
     side_padding: float = 1,
     horizontal_rebar_shape: bool = True,
     output_file: Optional[str] = None,
@@ -1035,64 +1036,68 @@ def getRebarShapeCutList(
         Mark from ActiveDocument will be selected and rebars with no Mark
         assigned will be ignored.
         Default is None.
-    view_directions: FreeCAD.Vector or WorkingPlane.Plane OR their list,optional
+    view_directions: FreeCAD.Vector or WorkingPlane.Plane OR their list
         The view point directions for each rebar shape.
         Default is FreeCAD.Vector(0, 0, 0) to automatically choose
         view_directions.
-    include_mark: bool, optional
+    include_mark: bool
         If it is set to True, then rebar.Mark will be included for each rebar
         shape in rebar shape cut list svg.
         Default is True.
-    stirrup_extended_edge_offset: float, optional
+    stirrup_extended_edge_offset: float
         The offset of extended end edges of stirrup, so that end edges of
         stirrup with 90 degree bent angle do not overlap with stirrup edges.
         Default is 2.
-    rebars_stroke_width: float, optional
+    rebars_stroke_width: float
         The stroke-width of rebars in rebar shape cut list svg.
         Default is 0.35
     rebars_color_style: {"shape color", "color_name", "hex_value_of_color"}
         The color style of rebars.
         "shape color" means select color of rebar shape.
-    include_dimensions: bool, optional
+    include_dimensions: bool
         If True, then each rebar edge dimensions and bent angle dimensions will
         be included in rebar shape cut list.
-    rebar_edge_dimension_units: str, optional
+    rebar_edge_dimension_units: str
         The units to be used for rebar edge length dimensions.
         Default is "mm".
-    rebar_edge_dimension_precision: int, optional
+    rebar_edge_dimension_precision: int
         The number of decimals that should be shown for rebar edge length as
         dimension label. Set it to None to use user preferred unit precision
         from FreeCAD unit preferences.
         Default is 0
-    include_units_in_dimension_label: bool, optional
+    include_units_in_dimension_label: bool
         If it is True, then rebar edge length units will be shown in dimension
         label.
         Default is False.
-    bent_angle_dimension_exclude_list: tuple of float, optional
+    bent_angle_dimension_exclude_list: tuple of float
         The tuple of bent angles to not include their dimensions.
         Default is (45, 90, 180).
-    dimension_font_family: str, optional
+    dimension_font_family: str
         The font-family of dimension text.
         Default is "DejaVu Sans".
-    dimension_font_size: float, optional
+    dimension_font_size: float
         The font-size of dimension text.
         Default is 2
-    helical_rebar_dimension_label_format: str, optional
+    helical_rebar_dimension_label_format: str
         The format of helical rebar dimension label.
             %L -> Length of helical rebar
             %R -> Helix radius of helical rebar
             %P -> Helix pitch of helical rebar
         Default is "%L,r=%R,pitch=%P".
-    row_height: float, optional
+    row_height: float
         The height of each row of rebar shape in rebar shape cut list.
         Default is 40
-    width: float, optional
-        The width of rebar shape cut list.
+    column_width: float
+        The width of each column of rebar shape in rebar shape cut list.
         Default is 60
-    side_padding: float, optional
+    column_count: int, {"row_count"}
+        The number of columns in rebar shape cut list.
+        "row_count" means column_count <= row_count
+        Default is "row_count".
+    side_padding: float
         The padding on each side of rebar shape.
         Default is 1.
-    horizontal_rebar_shape: bool, optional
+    horizontal_rebar_shape: bool
         If True, then rebar shape will be made horizontal by rotating max
         length edge of rebar shape.
         Default is True.
@@ -1111,8 +1116,8 @@ def getRebarShapeCutList(
         return ElementTree.Element(
             "svg",
             height="{}mm".format(row_height),
-            width="{}mm".format(width),
-            viewBox="0 0 {} {}".format(width, row_height),
+            width="{}mm".format(column_width),
+            viewBox="0 0 {} {}".format(column_width, row_height),
         )
 
     if isinstance(view_directions, FreeCAD.Vector) or isinstance(
@@ -1138,7 +1143,19 @@ def getRebarShapeCutList(
     )
     svg.append(rebar_shape_cut_list)
 
+    if column_count == "row_count":
+        column_count = max(
+            x
+            for x in list(range(1, len(base_rebars_list) + 1))
+            if x ** 2 <= len(base_rebars_list)
+        )
+    else:
+        column_count = min(column_count, len(base_rebars_list))
+
+    row = 1
     for i, rebar in enumerate(base_rebars_list):
+        column = (i % column_count) + 1
+        row = int(i / column_count) + 1
         rebar_svg = getRebarShapeSVG(
             rebar,
             view_directions[i],
@@ -1155,7 +1172,7 @@ def getRebarShapeCutList(
             dimension_font_size,
             helical_rebar_dimension_label_format,
             max_height=rebar_shape_max_height,
-            max_width=width,
+            max_width=column_width,
             side_padding=side_padding,
             horizontal_shape=horizontal_rebar_shape,
         )
@@ -1165,7 +1182,7 @@ def getRebarShapeCutList(
         rebar_shape_svg = ElementTree.Element(
             "g",
             transform="translate({} {})".format(
-                (width - rebar_shape_svg_width) / 2,
+                (column_width - rebar_shape_svg_width) / 2,
                 (rebar_shape_max_height - rebar_shape_svg_height) / 2
                 + (2 * dimension_font_size if include_mark else 0),
             ),
@@ -1173,15 +1190,23 @@ def getRebarShapeCutList(
         rebar_shape_svg.append(
             rebar_svg.find("./g[@id='{}']".format(rebar.Name))
         )
-        # Create row border svg
-        row_border_svg = getSVGRectangle(
-            0, 0, width, row_height, element_id="row_{}".format(i)
+        # Create cell border svg
+        cell_border_svg = getSVGRectangle(
+            0,
+            0,
+            column_width,
+            row_height,
+            element_id="row_{}_column_{}".format(row, column),
         )
-        # Create row svg and translate it vertically to it position
-        row_svg = ElementTree.Element(
-            "g", transform="translate({} {})".format(0, i * row_height),
+        # Create row svg and translate it horizontally and vertically to its
+        # position
+        cell_svg = ElementTree.Element(
+            "g",
+            transform="translate({} {})".format(
+                (column - 1) * column_width, (row - 1) * row_height
+            ),
         )
-        row_svg.extend([row_border_svg, rebar_shape_svg])
+        cell_svg.extend([cell_border_svg, rebar_shape_svg])
         # Include mark label in each row
         if include_mark:
             if hasattr(rebar, "Mark"):
@@ -1190,7 +1215,7 @@ def getRebarShapeCutList(
                 mark = rebar.MarkNumber
             else:
                 mark = ""
-            row_svg.append(
+            cell_svg.append(
                 getSVGTextElement(
                     mark,
                     2,
@@ -1199,12 +1224,33 @@ def getRebarShapeCutList(
                     1.5 * dimension_font_size,
                 )
             )
-        rebar_shape_cut_list.append(row_svg)
+        rebar_shape_cut_list.append(cell_svg)
+        # Add rectangular cells to last row for unfilled columns
+        if i == len(base_rebars_list) - 1:
+            for rem_col_index in range(column + 1, column_count + 1):
+                cell_border_svg = getSVGRectangle(
+                    0,
+                    0,
+                    column_width,
+                    row_height,
+                    element_id="row_{}_column_{}".format(row, rem_col_index),
+                )
+                cell_svg = ElementTree.Element(
+                    "g",
+                    transform="translate({} {})".format(
+                        (rem_col_index - 1) * column_width,
+                        (row - 1) * row_height,
+                    ),
+                )
+                cell_svg.append(cell_border_svg)
+                rebar_shape_cut_list.append(cell_svg)
 
-    svg.set("width", "{}mm".format(width))
-    svg.set("height", "{}mm".format(row_height * len(base_rebars_list)))
+    svg_width = column_count * column_width
+    svg_height = row * row_height
+    svg.set("width", "{}mm".format(svg_width))
+    svg.set("height", "{}mm".format(svg_height))
     svg.set(
-        "viewBox", "0 0 {} {}".format(width, row_height * len(base_rebars_list))
+        "viewBox", "0 0 {} {}".format(svg_width, svg_height),
     )
 
     if output_file:

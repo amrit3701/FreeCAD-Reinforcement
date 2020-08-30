@@ -276,6 +276,7 @@ def getBarBendingSchedule(
         helical_rebar_dimension_label_format,
         row_height,
         column_width,
+        column_count=1,
         horizontal_rebar_shape=True,
     ).find("./g[@id='RebarShapeCutList']")
     bbs_svg.append(bar_cut_list_svg)
