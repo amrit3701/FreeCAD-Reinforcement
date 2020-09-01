@@ -872,9 +872,9 @@ def getRebarShapeSVG(
 
         edges = Part.__sortEdges__(fillet_basewire.Edges)
         straight_edges = Part.__sortEdges__(rebar.Base.Shape.Wires[0].Edges)
-        for i, edge in enumerate(reversed(straight_edges)):
+        for edge in list(straight_edges):
             if DraftGeomUtils.geomType(edge) != "Line":
-                straight_edges.pop(i)
+                straight_edges.remove(edge)
 
         current_straight_edge_index = 0
         for edge_index, edge in enumerate(edges):
