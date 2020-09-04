@@ -123,9 +123,9 @@ def makeBillOfMaterial(
     RebarLengthType, RebarObjects, ReinforcementGroupBy, ObjectName):
     Generates the Rebars Material Bill.
 
-    column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
-    "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
-    its sequence number.
+    column_headers is a dictionary with keys: "Host", "Mark", "RebarsCount",
+    "Diameter", "RebarLength", "RebarsTotalLength" and values are tuple of
+    column_header and its sequence number.
     e.g. {
             "Host": ("Member", 1),
             "Mark": ("Mark", 2),

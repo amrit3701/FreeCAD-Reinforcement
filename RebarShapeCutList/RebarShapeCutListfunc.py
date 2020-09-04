@@ -394,7 +394,11 @@ def getRebarShapeSVG(
     rebar_dimension_units: str = "mm",
     rebar_length_dimension_precision: int = 0,
     include_units_in_dimension_label: bool = False,
-    bent_angle_dimension_exclude_list: Tuple[float, ...] = (45, 90, 180),
+    bent_angle_dimension_exclude_list: Union[Tuple[float, ...], List[float]] = (
+        45,
+        90,
+        180,
+    ),
     dimension_font_family: str = "DejaVu Sans",
     dimension_font_size: float = 2,
     helical_rebar_dimension_label_format: str = "%L,r=%R,pitch=%P",
@@ -441,8 +445,8 @@ def getRebarShapeSVG(
     include_units_in_dimension_label: bool, optional
         If it is True, then rebar length units will be shown in dimension label.
         Default is False.
-    bent_angle_dimension_exclude_list: tuple of float, optional
-        The tuple of bent angles to not include their dimensions.
+    bent_angle_dimension_exclude_list: list or tuple of float, optional
+        The list of bent angles to not include their dimensions.
         Default is (45, 90, 180).
     dimension_font_family: str, optional
         The font-family of dimension text.
@@ -460,7 +464,7 @@ def getRebarShapeSVG(
         The scale value to scale rebar svg. The scale parameter helps to
         scale down rebar_stroke_width and dimension_font_size to make them
         resolution independent.
-        if max_height or max_width is set to non-zero value, then scale
+        If max_height or max_width is set to non-zero value, then scale
         parameter will be ignored.
         Default is 1
     max_height: float, optional
@@ -473,10 +477,8 @@ def getRebarShapeSVG(
         The padding on each side of rebar shape.
         Default is 1.
     horizontal_shape: bool, optional
-        If True, then rebar shape will be made horizontal by rotating -90
-        degree if shape height is more than its width.
-        If False, then rebar shape svg will be returned as viewed from
-        view_direction.
+        If True, then rebar shape will be made horizontal by rotating max
+        length edge of rebar shape.
         Default is False.
 
     Returns
@@ -1069,8 +1071,8 @@ def getRebarShapeCutList(
         If it is True, then rebar edge length units will be shown in dimension
         label.
         Default is False.
-    bent_angle_dimension_exclude_list: tuple of float
-        The tuple of bent angles to not include their dimensions.
+    bent_angle_dimension_exclude_list: list or tuple of float
+        The list of bent angles to not include their dimensions.
         Default is (45, 90, 180).
     dimension_font_family: str
         The font-family of dimension text.
@@ -1095,14 +1097,14 @@ def getRebarShapeCutList(
         "row_count" means column_count <= row_count
         Default is "row_count".
     side_padding: float
-        The padding on each side of rebar shape.
+        The padding on each side of rebar shape in rebar shape cut list.
         Default is 1.
     horizontal_rebar_shape: bool
         If True, then rebar shape will be made horizontal by rotating max
         length edge of rebar shape.
         Default is True.
     output_file: str, optional
-        The output file to write generated svg.
+        The output file to write generated rebar shape cut list svg.
 
     Returns
     -------

@@ -58,7 +58,7 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The font family of Bill of Material content.",
+                    "The font family of Bill of Material content",
                 ),
             )
             obj.Font = "DejaVu Sans"
@@ -70,8 +70,8 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The font filename for font of Bill of Material content. It"
-                    " is required for working in pure console mode.",
+                    "The font filename for font of Bill of Material content and"
+                    " is required for working in pure console mode",
                 ),
             )
             obj.FontFilename = "DejaVuSans.ttf"
@@ -84,7 +84,7 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The font size of Bill of Material content.",
+                    "The font size of Bill of Material content",
                 ),
             )
             obj.FontSize = 3
@@ -96,7 +96,7 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The template for Bill of Material content.",
+                    "The template for Bill of Material content",
                 ),
             )
 
@@ -106,7 +106,7 @@ class BOMContent:
                 "Width",
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The width of Bill of Material content.",
+                    "App::Property", "The width of Bill of Material content",
                 ),
             )
         obj.setEditorMode("Width", 2)
@@ -117,7 +117,7 @@ class BOMContent:
                 "Height",
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The height of Bill of Material content.",
+                    "App::Property", "The height of Bill of Material content",
                 ),
             )
         obj.setEditorMode("Height", 2)
@@ -129,7 +129,7 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The left offset of Bill of Material content.",
+                    "The left offset of Bill of Material content",
                 ),
             )
             obj.LeftOffset = 6
@@ -141,7 +141,7 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The top offset of Bill of Material content.",
+                    "The top offset of Bill of Material content",
                 ),
             )
             obj.TopOffset = 6
@@ -153,7 +153,7 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The minimum right offset of Bill of Material content.",
+                    "The minimum right offset of Bill of Material content",
                 ),
             )
             obj.MinRightOffset = 6
@@ -165,7 +165,7 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The minimum bottom offset of Bill of Material content.",
+                    "The minimum bottom offset of Bill of Material content",
                 ),
             )
             obj.MinBottomOffset = 6
@@ -177,7 +177,7 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The maximum width of Bill of Material content.",
+                    "The maximum width of Bill of Material content",
                 ),
             )
             obj.MaxWidth = 190
@@ -189,7 +189,7 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The maximum height of Bill of Material content.",
+                    "The maximum height of Bill of Material content",
                 ),
             )
             obj.MaxHeight = 250
@@ -202,7 +202,7 @@ class BOMContent:
                 QT_TRANSLATE_NOOP(
                     "App::Property",
                     "The preferred column width of table of Bill of Material "
-                    "content.",
+                    "content",
                 ),
             )
             obj.PrefColumnWidth = 30
@@ -214,7 +214,7 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The column width of table of Bill of Material content.",
+                    "The column width of table of Bill of Material content",
                 ),
             )
             obj.ColumnWidth = 30
@@ -228,7 +228,7 @@ class BOMContent:
                 QT_TRANSLATE_NOOP(
                     "App::Property",
                     "The preferred row height of table of Bill of Material "
-                    "content.",
+                    "content",
                 ),
             )
             obj.PrefRowHeight = 10
@@ -240,7 +240,7 @@ class BOMContent:
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
-                    "The row height of table of Bill of Material content.",
+                    "The row height of table of Bill of Material content",
                 ),
             )
             obj.RowHeight = 10

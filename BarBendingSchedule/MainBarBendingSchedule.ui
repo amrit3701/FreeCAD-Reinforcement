@@ -55,6 +55,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>It specifies how reinforcement objects should be grouped</string>
+       </property>
       </widget>
      </item>
     </layout>
@@ -87,6 +90,9 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The rebar length calculations type.&lt;/p&gt;&lt;p&gt;- &amp;quot;RealLength&amp;quot;: length of rebar considering rounded edges.&lt;/p&gt;&lt;p&gt;- &amp;quot;LengthWithSharpEdges&amp;quot;: length of rebar assuming sharp edges of rebar.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -153,7 +159,7 @@
    <item>
     <widget class="QListWidget" name="columnHeaderListWidget">
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;You can set sequence of column by dragging and dropping items in list.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;You can set sequence of column by dragging and dropping items in list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="dragDropMode">
       <enum>QAbstractItemView::InternalMove</enum>
@@ -182,6 +188,9 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>The font-family of text</string>
        </property>
        <property name="editable">
         <bool>false</bool>
@@ -216,6 +225,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>The font-size of text</string>
+       </property>
        <property name="value">
         <number>3</number>
        </property>
@@ -245,6 +257,9 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>The width of each column in bar shape cut list</string>
        </property>
        <property name="unit" stdset="0">
         <string notr="true">mm</string>
@@ -279,6 +294,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>The height of each row in bar shape cut list</string>
+       </property>
        <property name="unit" stdset="0">
         <string notr="true">mm</string>
        </property>
@@ -295,6 +313,9 @@
       <font>
        <family>DejaVu Sans</family>
       </font>
+     </property>
+     <property name="toolTip">
+      <string>The data related to Rebar Shape column</string>
      </property>
      <property name="title">
       <string>Rebar Shape column data</string>
@@ -322,6 +343,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>The column header for rebar shape column</string>
           </property>
           <property name="text">
            <string>Rebar Shape</string>
@@ -405,7 +429,7 @@
            </sizepolicy>
           </property>
           <property name="toolTip">
-           <string>The stroke-width of rebars in rebar shape cut list svg</string>
+           <string>The stroke-width of rebars</string>
           </property>
           <property name="text">
            <string>0.35 mm</string>
@@ -495,6 +519,9 @@
       </item>
       <item>
        <widget class="QGroupBox" name="includeDimensions">
+        <property name="toolTip">
+         <string>The data related to rebar shape dimensions</string>
+        </property>
         <property name="title">
          <string>Include Dimensions</string>
         </property>
@@ -689,6 +716,9 @@
       <layout class="QHBoxLayout" name="horizontalLayout_21">
        <item>
         <widget class="Gui::PrefLineEdit" name="svgOutputFile">
+         <property name="toolTip">
+          <string>The output file to write bar bending schedule svg</string>
+         </property>
          <property name="placeholderText">
           <string>required</string>
          </property>

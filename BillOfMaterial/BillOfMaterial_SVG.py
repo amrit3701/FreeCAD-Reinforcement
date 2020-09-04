@@ -179,7 +179,7 @@ def makeBillOfMaterialSVG(
         Literal["RealLength", "LengthWithSharpEdges"]
     ] = None,
     font_family: Optional[str] = None,
-    font_filename=None,
+    font_filename: Optional[str] = None,
     font_size: Optional[float] = None,
     column_width: Optional[float] = None,
     row_height: Optional[float] = None,
@@ -202,9 +202,9 @@ def makeBillOfMaterialSVG(
     RebarObjects, ReinforcementGroupBy, ReturnSVGOnly]):
     Generates the Rebars Material Bill SVG.
 
-    column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
-    "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
-    its sequence number.
+    column_headers is a dictionary with keys: "Host", "Mark", "RebarsCount",
+    "Diameter", "RebarLength", "RebarsTotalLength" and values are tuple of
+    column_header and its sequence number.
     e.g. {
             "Host": ("Member", 1),
             "Mark": ("Mark", 2),
@@ -240,11 +240,11 @@ def makeBillOfMaterialSVG(
 
     rebar_objects is the list of ArchRebar and/or rebar2 objects.
 
+    reinforcement_group_by can be "Mark" or "Host".
+
     If return_svg_only is True, then neither BOMContent object is created nor
     svg is written to output_file. And it returns svg element.
     Default is False.
-
-    reinforcement_group_by can be "Mark" or "Host".
 
     Returns Bill Of Material svg code.
     """

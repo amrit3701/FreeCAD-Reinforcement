@@ -25,13 +25,15 @@ __title__ = "RebarCommands"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
-from PySide.QtCore import QT_TRANSLATE_NOOP
-import FreeCADGui
 import os
+
+import FreeCADGui
+from PySide.QtCore import QT_TRANSLATE_NOOP
 
 
 class StraightRebarTool:
-    def GetResources(self):
+    @staticmethod
+    def GetResources():
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/StraightRebar.svg",
@@ -40,15 +42,17 @@ class StraightRebarTool:
             ),
             "ToolTip": QT_TRANSLATE_NOOP(
                 "Arch_Rebar_Straight",
-                "Creates a Striaght bar reinforcement from the selected face of"
+                "Creates a Straight bar reinforcement from the selected face of"
                 " the Structural element.",
             ),
         }
 
-    def IsActive(self):
+    @staticmethod
+    def IsActive():
         return True if FreeCADGui.activeDocument() else False
 
-    def Activated(self):
+    @staticmethod
+    def Activated():
         import StraightRebar
 
         # Call to CommandStraightRebar() function
@@ -56,7 +60,8 @@ class StraightRebarTool:
 
 
 class UShapeRebarTool:
-    def GetResources(self):
+    @staticmethod
+    def GetResources():
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/UShapeRebar.svg",
@@ -68,18 +73,21 @@ class UShapeRebarTool:
             ),
         }
 
-    def IsActive(self):
+    @staticmethod
+    def IsActive():
         return True if FreeCADGui.activeDocument() else False
 
-    def Activated(self):
+    @staticmethod
+    def Activated():
         import UShapeRebar
 
-        # Call to CommandUShaepRebar() function
+        # Call to CommandUShapeRebar() function
         UShapeRebar.CommandUShapeRebar()
 
 
 class LShapeRebarTool:
-    def GetResources(self):
+    @staticmethod
+    def GetResources():
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/LShapeRebar.svg",
@@ -91,18 +99,21 @@ class LShapeRebarTool:
             ),
         }
 
-    def IsActive(self):
+    @staticmethod
+    def IsActive():
         return True if FreeCADGui.activeDocument() else False
 
-    def Activated(self):
+    @staticmethod
+    def Activated():
         import LShapeRebar
 
-        # Call to CommandUShaepRebar() function
+        # Call to CommandUShapeRebar() function
         LShapeRebar.CommandLShapeRebar()
 
 
 class StirrupTool:
-    def GetResources(self):
+    @staticmethod
+    def GetResources():
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/StirrupRebar.svg",
@@ -114,10 +125,12 @@ class StirrupTool:
             ),
         }
 
-    def IsActive(self):
+    @staticmethod
+    def IsActive():
         return True if FreeCADGui.activeDocument() else False
 
-    def Activated(self):
+    @staticmethod
+    def Activated():
         import Stirrup
 
         # Call to CommandStirrup() function
@@ -125,7 +138,8 @@ class StirrupTool:
 
 
 class BentShapeRebarTool:
-    def GetResources(self):
+    @staticmethod
+    def GetResources():
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/BentShapeRebar.svg",
@@ -139,18 +153,21 @@ class BentShapeRebarTool:
             ),
         }
 
-    def IsActive(self):
+    @staticmethod
+    def IsActive():
         return True if FreeCADGui.activeDocument() else False
 
-    def Activated(self):
+    @staticmethod
+    def Activated():
         import BentShapeRebar
 
-        # Call to CommandBentShaepRebar() function
+        # Call to CommandBentShapeRebar() function
         BentShapeRebar.CommandBentShapeRebar()
 
 
 class HelicalRebarTool:
-    def GetResources(self):
+    @staticmethod
+    def GetResources():
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/HelixShapeRebar.svg",
@@ -164,10 +181,12 @@ class HelicalRebarTool:
             ),
         }
 
-    def IsActive(self):
+    @staticmethod
+    def IsActive():
         return True if FreeCADGui.activeDocument() else False
 
-    def Activated(self):
+    @staticmethod
+    def Activated():
         import HelicalRebar
 
         # Call to CommandHelicalRebar() function
@@ -175,7 +194,8 @@ class HelicalRebarTool:
 
 
 class ColumnReinforcementTool:
-    def GetResources(self):
+    @staticmethod
+    def GetResources():
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/Column.svg",
@@ -189,10 +209,12 @@ class ColumnReinforcementTool:
             ),
         }
 
-    def IsActive(self):
+    @staticmethod
+    def IsActive():
         return True if FreeCADGui.activeDocument() else False
 
-    def Activated(self):
+    @staticmethod
+    def Activated():
         from ColumnReinforcement import MainColumnReinforcement
 
         # Call to CommandColumnReinforcement() function
@@ -200,7 +222,8 @@ class ColumnReinforcementTool:
 
 
 class BeamReinforcementTool:
-    def GetResources(self):
+    @staticmethod
+    def GetResources():
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/Beam.svg",
@@ -214,10 +237,12 @@ class BeamReinforcementTool:
             ),
         }
 
-    def IsActive(self):
+    @staticmethod
+    def IsActive():
         return True if FreeCADGui.activeDocument() else False
 
-    def Activated(self):
+    @staticmethod
+    def Activated():
         from BeamReinforcement import MainBeamReinforcement
 
         # Call to CommandBeamReinforcement() function
@@ -225,22 +250,25 @@ class BeamReinforcementTool:
 
 
 class BillOfMaterialTool:
-    def GetResources(self):
+    @staticmethod
+    def GetResources():
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/BOM.svg",
             "MenuText": QT_TRANSLATE_NOOP(
-                "RebarAddon", "Rebar Bill Of Material"
+                "Arch_Rebar_BOM", "Rebar Bill Of Material"
             ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "RebarAddon", "Generate Rebars Bill Of Material",
+                "Arch_Rebar_BOM", "Generate Rebars Bill Of Material",
             ),
         }
 
-    def IsActive(self):
+    @staticmethod
+    def IsActive():
         return True if FreeCADGui.activeDocument() else False
 
-    def Activated(self):
+    @staticmethod
+    def Activated():
         from BillOfMaterial import MainBillOfMaterial
 
         # Call to CommandBillOfMaterial() function
@@ -253,9 +281,12 @@ class RebarShapeCutListTool:
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/RebarShapeCutList.svg",
-            "MenuText": QT_TRANSLATE_NOOP("RebarAddon", "Rebar Shape Cut List"),
+            "MenuText": QT_TRANSLATE_NOOP(
+                "Reinforcement_Bar_Shape_Cut_List", "Rebar Shape Cut List"
+            ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "RebarAddon", "Generate Rebar Shape Cut List",
+                "Reinforcement_Bar_Shape_Cut_List",
+                "Generate Rebar Shape Cut List",
             ),
         }
 
@@ -277,9 +308,12 @@ class BarBendingScheduleTool:
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/BarBendingSchedule.svg",
-            "MenuText": QT_TRANSLATE_NOOP("RebarAddon", "Bar Bending Schedule"),
+            "MenuText": QT_TRANSLATE_NOOP(
+                "Reinforcement_Bar_Bending_Schedule", "Bar Bending " "Schedule"
+            ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "RebarAddon", "Generate Bar Bending Schedule",
+                "Reinforcement_Bar_Bending_Schedule",
+                "Generate Bar Bending Schedule",
             ),
         }
 
@@ -311,9 +345,11 @@ FreeCADGui.addCommand("Arch_Rebar_Helical", HelicalRebarTool())
 FreeCADGui.addCommand("Arch_Column_Reinforcement", ColumnReinforcementTool())
 FreeCADGui.addCommand("Arch_Beam_Reinforcement", BeamReinforcementTool())
 FreeCADGui.addCommand("Arch_Rebar_BOM", BillOfMaterialTool())
-FreeCADGui.addCommand("Arch_Rebar_Shape_Cut_List", RebarShapeCutListTool())
 FreeCADGui.addCommand(
-    "Arch_Rebar_Bar_Bending_Schedule", BarBendingScheduleTool()
+    "Reinforcement_Bar_Shape_Cut_List", RebarShapeCutListTool()
+)
+FreeCADGui.addCommand(
+    "Reinforcement_Bar_Bending_Schedule", BarBendingScheduleTool()
 )
 
 
@@ -328,6 +364,6 @@ RebarCommands = [
     "Arch_Column_Reinforcement",
     "Arch_Beam_Reinforcement",
     "Arch_Rebar_BOM",
-    "Arch_Rebar_Shape_Cut_List",
-    "Arch_Rebar_Bar_Bending_Schedule",
+    "Reinforcement_Bar_Shape_Cut_List",
+    "Reinforcement_Bar_Bending_Schedule",
 ]
