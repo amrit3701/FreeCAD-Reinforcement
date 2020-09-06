@@ -373,6 +373,7 @@ def getFilledArrowSVG(stroke_width=0.35, fill="black"):
             color=fill, stroke_width=str(stroke_width)
         ),
     )
+    arrow_svg.set("class", "arrow")
     return arrow_svg
 
 
