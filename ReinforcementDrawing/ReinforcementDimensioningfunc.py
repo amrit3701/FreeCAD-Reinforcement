@@ -92,11 +92,13 @@ def getDimensionLineSVG(
     line_start_symbol,
     line_mid_points_symbol,
     line_end_symbol,
+    label_offset_from_mid_of_line=None,
 ):
     """getDimensionLineSVG(PointsList, DimensionLabel, FontFamily, FontSize,
     DimensionLabelColor, DimensionLabelPositionType, DimensionLineStrokeWidth,
     DimensionLineStyle, DimensionLineColor, DimensionLineStartSymbol,
-    DimensionLineMidPointsSymbol, DimensionLineEndSymbol):
+    DimensionLineMidPointsSymbol, DimensionLineEndSymbol,
+    LabelOffsetFromMidOfLine):
     Return dimension line and label svg.
 
     points_list is a list of points (x, y) defining line path.
@@ -110,7 +112,12 @@ def getDimensionLineSVG(
     "None".
 
     line_mid_points_symbol can be "Tick", "Dot" or "None".
+
+    label_offset_from_mid_of_line is the offset of label from dimension line,
+    when label_position_type is "MidOfLine".
     """
+    if label_offset_from_mid_of_line is None:
+        label_offset_from_mid_of_line = line_stroke_width * 2
     dimension_svg = ElementTree.Element("g")
     line_svg = getLinePathElement(
         points_list,
@@ -130,7 +137,7 @@ def getDimensionLineSVG(
         label_svg = getSVGTextElement(
             label,
             mid_point[0],
-            mid_point[1] - line_stroke_width * 2,
+            mid_point[1] - label_offset_from_mid_of_line,
             font_family,
             font_size,
             "middle",
