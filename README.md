@@ -13,11 +13,11 @@
 This project aims to facilitate flexible implementation and usage of Rebaring in FreeCAD. The Reinforcement workbench provides tools for Reinforcement Generation and Detailing. This workbench provides an interface and presets for the creation of common rebar types. And tools to generate rebars bill of material, rebar shape cut list, bar bending schedule, and rebars drawing and dimension.
 
 
-![screenshot](https://i.imgur.com/r9b5l7K.jpg)
+![screenshot](icons/wiki/ReinforcementWorkbenchWindow.png)
 
 ---
 
-_Contents:_ **[Installation](#installation)** | **[Features](#features-of-reinforcement-workbench)** | **[Documentation](#documentation)** | **[Contributing](#contributing)** | **[Gallery](#gallery)** | **[Extras](#extras)**
+_Contents:_ **[Installation](#installation)** | **[Features](#features-of-reinforcement-workbench)** | **[Documentation](#documentation)** | **[Contributing](#contributing)** | **[Showcase](#showcase)** | **[Extras](#extras)**
 
 ---
 
@@ -39,44 +39,27 @@ Like any other FreeCAD [workbench](https://www.freecadweb.org/wiki/Workbench_Con
 ## Features of Reinforcement workbench
 
 ### Reinforcement Generation
-- ![icon](icons/wiki/StraightRebar.svg) **Straight Rebar**: Creates a Straight reinforcement bar in a selected structural element
-
-- ![icon](icons/wiki/UShapeRebar.svg) **UShape Rebar**: Creates a UShape reinforcement bar in a selected structural element 
-
-- ![icon](icons/wiki/LShapeRebar.svg) **LShape Rebar**: Creates a LShape reinforcement bar in a selected structural element
-
-- ![icon](icons/wiki/BentShapeRebar.svg) **BentShape Rebar**: Creates a Bent Shape reinforcement bar in a selected structural element
-
-- ![icon](icons/wiki/StirrupRebar.svg) **Stirrup Rebar**: Creates a Stirrup reinforcement bar in a selected structural element
-
-- ![icon](icons/wiki/HelicalRebar.svg) **Helical Rebar**: Creates a Helical reinforcement bar in a selected structural element
-
-- ![icon](icons/wiki/ColumnReinforcement.svg) **Circular ColumnReinforcement**: Creates reinforcing bars in a selected circular column structural element
-
-- ![icon](icons/wiki/ColumnReinforcement.svg) **ColumnReinforcement**: Creates reinforcing bars in a selected rectangular column structural element
-
-- ![icon](icons/wiki/ColumnReinforcement.svg) **ColumnReinforcement TwoTiesSixRebars**: Creates reinforcing bars in a selected rectangular column structural element
-
-- ![icon](icons/wiki/BeamReinforcement.svg) **BeamReinforcement**: Creates reinforcing bars in a selected beam structural element
+- [![icon](icons/wiki/StraightRebar.svg) **Straight Rebar**](https://wiki.freecadweb.org/Arch_Rebar_Straight): Creates a Straight reinforcement bar in a selected structural element
+- [![icon](icons/wiki/UShapeRebar.svg) **UShape Rebar**](https://wiki.freecadweb.org/Arch_Rebar_UShape): Creates a UShape reinforcement bar in a selected structural element 
+- [![icon](icons/wiki/LShapeRebar.svg) **LShape Rebar**](https://wiki.freecadweb.org/Arch_Rebar_LShape): Creates a LShape reinforcement bar in a selected structural element
+- [![icon](icons/wiki/BentShapeRebar.svg) **BentShape Rebar**](https://wiki.freecadweb.org/Arch_Rebar_BentShape): Creates a Bent Shape reinforcement bar in a selected structural element
+- [![icon](icons/wiki/StirrupRebar.svg) **Stirrup Rebar**](https://wiki.freecadweb.org/Arch_Rebar_Stirrup): Creates a Stirrup reinforcement bar in a selected structural element
+- [![icon](icons/wiki/HelicalRebar.svg) **Helical Rebar**](https://wiki.freecadweb.org/Arch_Rebar_Helical): Creates a Helical reinforcement bar in a selected structural element
+- [![icon](icons/wiki/ColumnReinforcement.svg) **Circular ColumnReinforcement**](https://wiki.freecadweb.org/Arch_Rebar_Circular_ColumnReinforcement): Creates reinforcing bars in a selected circular column structural element
+- [![icon](icons/wiki/ColumnReinforcement.svg) **ColumnReinforcement**](https://wiki.freecadweb.org/Arch_Rebar_ColumnReinforcement): Creates reinforcing bars in a selected rectangular column structural element
+- [![icon](icons/wiki/ColumnReinforcement.svg) **ColumnReinforcement TwoTiesSixRebars**](https://wiki.freecadweb.org/Arch_Rebar_ColumnReinforcement_TwoTiesSixRebars): Creates reinforcing bars in a selected rectangular column structural element
+- [![icon](icons/wiki/BeamReinforcement.svg) **BeamReinforcement**](https://wiki.freecadweb.org/Arch_Rebar_BeamReinforcement): Creates reinforcing bars in a selected beam structural element
 
 ### Reinforcement Detailing
 
-- ![icon](icons/wiki/BillOfMaterial.svg) **Bill Of Material**: Creates bill of material of reinforcing bars
-
-- ![icon](icons/wiki/RebarShapeCutList.svg) **Rebar Shape Cut List**: Creates rebar shape cut list of reinforcing bars
-
-- ![icon](icons/wiki/BarBendingSchedule.svg) **Reinforcement Bar Bending Schedule**: Creates bar bending schedule of reinforcing bars
-
-- ![icon](icons/wiki/ReinforcementDrawingDimensioning.svg) **Reinforcement Drawing Dimensioning**: Creates drawing and dimensioning of reinforcing bars
+- [![icon](icons/wiki/BillOfMaterial.svg) **Bill Of Material**](https://wiki.freecadweb.org/Arch_Rebar_BeamReinforcement): Creates bill of material of reinforcing bars
+- [![icon](icons/wiki/RebarShapeCutList.svg) **Rebar Shape Cut List**](https://wiki.freecadweb.org/Arch_Rebar_BeamReinforcement): Creates rebar shape cut list of reinforcing bars
+- [![icon](icons/wiki/BarBendingSchedule.svg) **Reinforcement Bar Bending Schedule**](https://wiki.freecadweb.org/Arch_Rebar_BeamReinforcement): Creates bar bending schedule of reinforcing bars
+- [![icon](icons/wiki/ReinforcementDrawingDimensioning.svg) **Reinforcement Drawing Dimensioning**](https://wiki.freecadweb.org/Arch_Rebar_Drawing_Dimensioning): Creates drawing and dimensioning of reinforcing bars
 
 
 ## Documentation
-### Developer
-* [Web](https://amrit3701.github.io/FreeCAD-Reinforcement/html/index.html)
-* [PDF](https://amrit3701.github.io/FreeCAD-Reinforcement/latex/refman.pdf)
-
-### User
-* [Web](https://wiki.freecadweb.org/Reinforcement_Workbench)
+The documentation of this workbench is hosted on FreeCAD wiki pages and can be found here: https://wiki.freecadweb.org/Reinforcement_Workbench
 
 [![IMAGE ALT TEXT HERE](https://i.imgur.com/ZQGCQoe.png)](https://www.youtube.com/watch?v=BYQQjEKmx5E&t=1435s)
 
@@ -94,7 +77,7 @@ Within the `StraightRebar.py` file we find the `_StraightRebarTaskPanel` class p
 We love contributions! We have collected notes on how to contribute to this project in [CONTRIBUTING.md](https://github.com/amrit3701/FreeCAD-Reinforcement/blob/master/CHANGELOG.md)
 
 
-## Gallery
+## Showcase
 
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
