@@ -291,7 +291,9 @@ def makeHelicalRebar(
         FacePRM, s_cover, b_cover, t_cover, pitch, size, normal, diameter
     )
     helix.Support = [(structure, facename)]
-    rebar = Arch.makeRebar(structure, helix, diameter, 1, diameter / 2)
+    rebar = Arch.makeRebar(
+        structure, helix, diameter, 1, diameter / 2, name="HelicalRebar"
+    )
     rebar.OffsetStart = diameter / 2
     rebar.OffsetEnd = diameter / 2
     FreeCAD.ActiveDocument.recompute()
@@ -332,7 +334,6 @@ def makeHelicalRebar(
         QT_TRANSLATE_NOOP("App::Property", "Top cover of rebar"),
     ).TopCover = t_cover
     rebar.setEditorMode("TopCover", 2)
-    rebar.Label = "HelicalRebar"
     FreeCAD.ActiveDocument.recompute()
     return rebar
 

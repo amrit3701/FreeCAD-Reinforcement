@@ -1,0 +1,1536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>787</width>
+    <height>1024</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>BillOfMaterial</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_8">
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>BOM Preferences</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab1">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_12">
+         <property name="spacing">
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="reinforcementGroupByLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Reinforcement Group By</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Gui::PrefComboBox" name="reinforcementGroupBy">
+           <property name="prefEntry" stdset="0">
+            <cstring>ReinforcementGroupBy</cstring>
+           </property>
+           <property name="prefPath" stdset="0">
+            <cstring>Mod/RebarTools/BOM</cstring>
+           </property>
+           <item>
+            <property name="text">
+             <string>Mark</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Host</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_35">
+         <item>
+          <widget class="QLabel" name="rebarLengthTypeLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>199</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>RebarLengthType</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Gui::PrefComboBox" name="rebarLengthType">
+           <property name="prefEntry" stdset="0">
+            <cstring>RebarLengthType</cstring>
+           </property>
+           <property name="prefPath" stdset="0">
+            <cstring>Mod/RebarTools/BOM</cstring>
+           </property>
+           <item>
+            <property name="text">
+             <string>RealLength</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>LengthWithSharpEdges</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="columnHeaders">
+         <property name="title">
+          <string>Column Headers</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QLabel" name="columnDataLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>190</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Column Data</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="columnHeaderLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Column Header</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="columnSequenceLabel">
+              <property name="text">
+               <string>Sequence</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_13">
+            <item>
+             <widget class="QLabel" name="host">
+              <property name="minimumSize">
+               <size>
+                <width>190</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Host</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefLineEdit" name="hostHeader">
+              <property name="prefEntry" stdset="0">
+               <cstring>display</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnHeaders/Host</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefSpinBox" name="hostSequence">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Set sequence to 0 to hide column</string>
+              </property>
+              <property name="value">
+               <number>1</number>
+              </property>
+              <property name="prefEntry" stdset="0">
+               <cstring>sequence</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnHeaders/Host</cstring>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="mark">
+              <property name="minimumSize">
+               <size>
+                <width>190</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Mark</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefLineEdit" name="markHeader">
+              <property name="prefEntry" stdset="0">
+               <cstring>display</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnHeaders/Mark</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefSpinBox" name="markSequence">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Set sequence to 0 to hide column</string>
+              </property>
+              <property name="value">
+               <number>2</number>
+              </property>
+              <property name="prefEntry" stdset="0">
+               <cstring>sequence</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnHeaders/Mark</cstring>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="rebarsCount">
+              <property name="minimumSize">
+               <size>
+                <width>190</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>RebarsCount</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefLineEdit" name="rebarsCountHeader">
+              <property name="prefEntry" stdset="0">
+               <cstring>display</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnHeaders/RebarsCount</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefSpinBox" name="rebarsCountSequence">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Set sequence to 0 to hide column</string>
+              </property>
+              <property name="value">
+               <number>3</number>
+              </property>
+              <property name="prefEntry" stdset="0">
+               <cstring>sequence</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnHeaders/RebarsCount</cstring>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QLabel" name="diameter">
+              <property name="minimumSize">
+               <size>
+                <width>190</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Diameter</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefLineEdit" name="diameterHeader">
+              <property name="prefEntry" stdset="0">
+               <cstring>display</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnHeaders/Diameter</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefSpinBox" name="diameterSequence">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Set sequence to 0 to hide column</string>
+              </property>
+              <property name="value">
+               <number>4</number>
+              </property>
+              <property name="prefEntry" stdset="0">
+               <cstring>sequence</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnHeaders/Diameter</cstring>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QLabel" name="rebarLength">
+              <property name="minimumSize">
+               <size>
+                <width>190</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>RebarLength</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefLineEdit" name="rebarLengthHeader">
+              <property name="prefEntry" stdset="0">
+               <cstring>display</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnHeaders/RebarLength</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefSpinBox" name="rebarLengthSequence">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Set sequence to 0 to hide column</string>
+              </property>
+              <property name="value">
+               <number>5</number>
+              </property>
+              <property name="prefEntry" stdset="0">
+               <cstring>sequence</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnHeaders/RebarLength</cstring>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QLabel" name="rebarTotalLength">
+              <property name="minimumSize">
+               <size>
+                <width>190</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>RebarsTotalLength</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefLineEdit" name="rebarTotalLengthHeader">
+              <property name="prefEntry" stdset="0">
+               <cstring>display</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnHeaders/RebarsTotalLength</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefSpinBox" name="rebarTotalLengthSequence">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Set sequence to 0 to hide column</string>
+              </property>
+              <property name="value">
+               <number>6</number>
+              </property>
+              <property name="prefEntry" stdset="0">
+               <cstring>sequence</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnHeaders/RebarsTotalLength</cstring>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="columnUnits">
+         <property name="title">
+          <string>Column Units</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QLabel" name="diameterUnitLabel">
+              <property name="minimumSize">
+               <size>
+                <width>190</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Diameter unit</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefLineEdit" name="diameterUnit">
+              <property name="prefEntry" stdset="0">
+               <cstring>Diameter</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnUnits</cstring>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QLabel" name="rebarLengthUnitLabel">
+              <property name="minimumSize">
+               <size>
+                <width>190</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>RebarLength unit</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefLineEdit" name="rebarLengthUnit">
+              <property name="prefEntry" stdset="0">
+               <cstring>RebarLength</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnUnits</cstring>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
+             <widget class="QLabel" name="rebarTotalLengthUnitLabel">
+              <property name="minimumSize">
+               <size>
+                <width>190</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>RebarsTotalLength unit</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::PrefLineEdit" name="rebarTotalLengthUnit">
+              <property name="prefEntry" stdset="0">
+               <cstring>RebarsTotalLength</cstring>
+              </property>
+              <property name="prefPath" stdset="0">
+               <cstring>Mod/RebarTools/BOM/ColumnUnits</cstring>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="rebarDiameterWeightMap">
+         <property name="title">
+          <string>Rebar Diameter Weight Map</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QScrollArea" name="scrollArea">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollAreaWidgetContents">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>707</width>
+               <height>588</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_7">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_24">
+                <item>
+                 <widget class="QLabel" name="dia_6">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>6</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_6_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>6</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_10">
+                <item>
+                 <widget class="QLabel" name="dia_8">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>8</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_8_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>8</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_11">
+                <item>
+                 <widget class="QLabel" name="dia_10">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>10</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_10_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>10</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_19" stretch="0,0">
+                <item>
+                 <widget class="QLabel" name="dia_12">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>12</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_12_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>12</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_20">
+                <item>
+                 <widget class="QLabel" name="dia_14">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>14</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_14_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>14</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_21">
+                <item>
+                 <widget class="QLabel" name="dia_16">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>16</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_16_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>16</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_23">
+                <item>
+                 <widget class="QLabel" name="dia_18">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>18</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_18_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>18</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_22">
+                <item>
+                 <widget class="QLabel" name="dia_20">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>20</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_20_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>20</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_26">
+                <item>
+                 <widget class="QLabel" name="dia_22">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>22</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_22_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>22</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_28">
+                <item>
+                 <widget class="QLabel" name="dia_25">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>25</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_25_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>25</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_29">
+                <item>
+                 <widget class="QLabel" name="dia_28">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>28</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_28_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>28</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_27">
+                <item>
+                 <widget class="QLabel" name="dia_32">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>32</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_32_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>32</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_25">
+                <item>
+                 <widget class="QLabel" name="dia_36">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>36</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_36_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>36</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_30">
+                <item>
+                 <widget class="QLabel" name="dia_40">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>40</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_40_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>40</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_32">
+                <item>
+                 <widget class="QLabel" name="dia_45">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>45</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_45_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>45</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_33">
+                <item>
+                 <widget class="QLabel" name="dia_50">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>190</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>50</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="dia_50_weight">
+                  <property name="suffix">
+                   <string> kg/mm</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <cstring>50</cstring>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <cstring>Mod/RebarTools/BOM/DiaWeightMap</cstring>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>SVG</string>
+      </attribute>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="fontFamilyLabel">
+         <property name="text">
+          <string>Font Family</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="Gui::PrefFontBox" name="fontFamily">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+         <property name="prefEntry" stdset="0">
+          <cstring>FontFamily</cstring>
+         </property>
+         <property name="prefPath" stdset="0">
+          <cstring>Mod/RebarTools/BOM/SVG</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="fontSizeLabel">
+         <property name="text">
+          <string>Font Size</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="Gui::PrefDoubleSpinBox" name="fontSize">
+         <property name="prefEntry" stdset="0">
+          <cstring>FontSize</cstring>
+         </property>
+         <property name="prefPath" stdset="0">
+          <cstring>Mod/RebarTools/BOM/SVG</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="columnWidthLabel">
+         <property name="text">
+          <string>Column Width</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="Gui::PrefDoubleSpinBox" name="columnWidth">
+         <property name="maximum">
+          <double>5000.000000000000000</double>
+         </property>
+         <property name="prefEntry" stdset="0">
+          <cstring>ColumnWidth</cstring>
+         </property>
+         <property name="prefPath" stdset="0">
+          <cstring>Mod/RebarTools/BOM/SVG</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="rowHeightLabel">
+         <property name="text">
+          <string>Row Height</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="Gui::PrefDoubleSpinBox" name="rowHeight">
+         <property name="maximum">
+          <double>5000.000000000000000</double>
+         </property>
+         <property name="prefEntry" stdset="0">
+          <cstring>RowHeight</cstring>
+         </property>
+         <property name="prefPath" stdset="0">
+          <cstring>Mod/RebarTools/BOM/SVG</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="bomLeftOffsetLabel">
+         <property name="text">
+          <string>BOM Left Offset</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="Gui::PrefDoubleSpinBox" name="bomLeftOffset">
+         <property name="maximum">
+          <double>5000.000000000000000</double>
+         </property>
+         <property name="prefEntry" stdset="0">
+          <cstring>LeftOffset</cstring>
+         </property>
+         <property name="prefPath" stdset="0">
+          <cstring>Mod/RebarTools/BOM/SVG</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="bomTopOffsetLabel">
+         <property name="text">
+          <string>BOM Top Offset</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="Gui::PrefDoubleSpinBox" name="bomTopOffset">
+         <property name="maximum">
+          <double>5000.000000000000000</double>
+         </property>
+         <property name="prefEntry" stdset="0">
+          <cstring>TopOffset</cstring>
+         </property>
+         <property name="prefPath" stdset="0">
+          <cstring>Mod/RebarTools/BOM/SVG</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="bomMinRightOffsetLabel">
+         <property name="text">
+          <string>BOM Min Right Offset</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="Gui::PrefDoubleSpinBox" name="bomMinRightOffset">
+         <property name="maximum">
+          <double>5000.000000000000000</double>
+         </property>
+         <property name="prefEntry" stdset="0">
+          <cstring>MinRightOffset</cstring>
+         </property>
+         <property name="prefPath" stdset="0">
+          <cstring>Mod/RebarTools/BOM/SVG</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="bomMinBottomOffsetLabel">
+         <property name="text">
+          <string>BOM Min Bottom Offset</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="Gui::PrefDoubleSpinBox" name="bomMinBottomOffset">
+         <property name="maximum">
+          <double>5000.000000000000000</double>
+         </property>
+         <property name="prefEntry" stdset="0">
+          <cstring>MinBottomOffset</cstring>
+         </property>
+         <property name="prefPath" stdset="0">
+          <cstring>Mod/RebarTools/BOM/SVG</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="bomMaxWidthLabel">
+         <property name="text">
+          <string>BOM Max Width</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="Gui::PrefDoubleSpinBox" name="bomMaxWidth">
+         <property name="maximum">
+          <double>5000.000000000000000</double>
+         </property>
+         <property name="prefEntry" stdset="0">
+          <cstring>MaxWidth</cstring>
+         </property>
+         <property name="prefPath" stdset="0">
+          <cstring>Mod/RebarTools/BOM/SVG</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="bomMaxHeightLabel">
+         <property name="text">
+          <string>BOM Max Height</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="Gui::PrefDoubleSpinBox" name="bomMaxHeight">
+         <property name="maximum">
+          <double>5000.000000000000000</double>
+         </property>
+         <property name="prefEntry" stdset="0">
+          <cstring>MaxHeight</cstring>
+         </property>
+         <property name="prefPath" stdset="0">
+          <cstring>Mod/RebarTools/BOM/SVG</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="templateLabel">
+         <property name="text">
+          <string>Template</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1">
+        <widget class="Gui::PrefFileChooser" name="templateFile">
+         <property name="prefEntry" stdset="0">
+          <cstring>TemplateFile</cstring>
+         </property>
+         <property name="prefPath" stdset="0">
+          <cstring>Mod/RebarTools/BOM/SVG</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="fontFilenameLabel">
+         <property name="text">
+          <string>Font Filename</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="1">
+        <widget class="Gui::PrefFileChooser" name="fontFilename">
+         <property name="prefEntry" stdset="0">
+          <cstring>FontFilename</cstring>
+         </property>
+         <property name="prefPath" stdset="0">
+          <cstring>Mod/RebarTools/BOM/SVG</cstring>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::FileChooser</class>
+   <extends>QWidget</extends>
+   <header>Gui/FileDialog.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefFileChooser</class>
+   <extends>Gui::FileChooser</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefComboBox</class>
+   <extends>QComboBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefFontBox</class>
+   <extends>QFontComboBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
