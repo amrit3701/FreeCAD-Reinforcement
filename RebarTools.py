@@ -38,10 +38,10 @@ class StraightRebarTool:
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/StraightRebar.svg",
             "MenuText": QT_TRANSLATE_NOOP(
-                "Arch_Rebar_Straight", "Straight Rebar"
+                "Reinforcement_StraightRebar", "Straight Rebar"
             ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "Arch_Rebar_Straight",
+                "Reinforcement_StraightRebar",
                 "Creates a Straight bar reinforcement from the selected face of"
                 " the Structural element.",
             ),
@@ -65,9 +65,11 @@ class UShapeRebarTool:
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/UShapeRebar.svg",
-            "MenuText": QT_TRANSLATE_NOOP("Arch_Rebar_UShape", "U-Shape Rebar"),
+            "MenuText": QT_TRANSLATE_NOOP(
+                "Reinforcement_UShapeRebar", "U-Shape Rebar"
+            ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "Arch_Rebar_UShape",
+                "Reinforcement_UShapeRebar",
                 "Creates a U-Shape bar reinforcement from the selected face of "
                 "the Structural element.",
             ),
@@ -91,9 +93,11 @@ class LShapeRebarTool:
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/LShapeRebar.svg",
-            "MenuText": QT_TRANSLATE_NOOP("Arch_Rebar_LShape", "L-Shape Rebar"),
+            "MenuText": QT_TRANSLATE_NOOP(
+                "Reinforcement_LShapeRebar", "L-Shape Rebar"
+            ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "Arch_Rebar_LShape",
+                "Reinforcement_LShapeRebar",
                 "Creates a L-Shape bar reinforcement from the selected face of "
                 "the Structural element.",
             ),
@@ -117,9 +121,11 @@ class StirrupTool:
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/StirrupRebar.svg",
-            "MenuText": QT_TRANSLATE_NOOP("Arch_Rebar_Stirrup", "Stirrup"),
+            "MenuText": QT_TRANSLATE_NOOP(
+                "Reinforcement_StirrupRebar", "Stirrup"
+            ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "Arch_Rebar_Stirrup",
+                "Reinforcement_StirrupRebar",
                 "Creates a Stirrup bar reinforcement from the selected face of "
                 "the Structural element.",
             ),
@@ -144,10 +150,10 @@ class BentShapeRebarTool:
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/BentShapeRebar.svg",
             "MenuText": QT_TRANSLATE_NOOP(
-                "Arch_Rebar_BentShape", "Bent-Shape Rebar"
+                "Reinforcement_BentShapeRebar", "Bent-Shape Rebar"
             ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "Arch_Rebar_BentShape",
+                "Reinforcement_BentShapeRebar",
                 "Creates a BentShape bar reinforcement from the selected face "
                 "of the Structural element.",
             ),
@@ -172,10 +178,10 @@ class HelicalRebarTool:
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/HelixShapeRebar.svg",
             "MenuText": QT_TRANSLATE_NOOP(
-                "Arch_Rebar_Helical", "Helical Rebar"
+                "Reinforcement_HelicalRebar", "Helical Rebar"
             ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "Arch_Rebar_Helical",
+                "Reinforcement_HelicalRebar",
                 "Creates a Helical bar reinforcement from the selected face of "
                 "the Structural element.",
             ),
@@ -200,10 +206,10 @@ class ColumnReinforcementTool:
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/Column.svg",
             "MenuText": QT_TRANSLATE_NOOP(
-                "Arch_Column_Reinforcement", "Column Reinforcement"
+                "Reinforcement_ColumnRebars", "Column Reinforcement"
             ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "Arch_Column_Reinforcement",
+                "Reinforcement_ColumnRebars",
                 "Creates a Column Reinforcement from the selected face of the "
                 "Structural element.",
             ),
@@ -228,10 +234,10 @@ class BeamReinforcementTool:
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/Beam.svg",
             "MenuText": QT_TRANSLATE_NOOP(
-                "Arch_Beam_Reinforcement", "Beam Reinforcement"
+                "Reinforcement_BeamRebars", "Beam Reinforcement"
             ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "Arch_Beam_Reinforcement",
+                "Reinforcement_BeamRebars",
                 "Creates a Beam Reinforcement from the selected face of the "
                 "Structural element.",
             ),
@@ -256,10 +262,11 @@ class BillOfMaterialTool:
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/BOM.svg",
             "MenuText": QT_TRANSLATE_NOOP(
-                "Arch_Rebar_BOM", "Rebar Bill Of Material"
+                "Reinforcement_BillOfMaterial", "Rebar Bill Of Material"
             ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "Arch_Rebar_BOM", "Generate Rebars Bill Of Material",
+                "Reinforcement_BillOfMaterial",
+                "Generate Rebars Bill Of Material",
             ),
         }
 
@@ -282,10 +289,10 @@ class RebarShapeCutListTool:
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/RebarShapeCutList.svg",
             "MenuText": QT_TRANSLATE_NOOP(
-                "Reinforcement_Bar_Shape_Cut_List", "Rebar Shape Cut List"
+                "Reinforcement_BarShapeCutList", "Rebar Shape Cut List"
             ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "Reinforcement_Bar_Shape_Cut_List",
+                "Reinforcement_BarShapeCutList",
                 "Generate Rebar Shape Cut List",
             ),
         }
@@ -309,10 +316,10 @@ class BarBendingScheduleTool:
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/BarBendingSchedule.svg",
             "MenuText": QT_TRANSLATE_NOOP(
-                "Reinforcement_Bar_Bending_Schedule", "Bar Bending " "Schedule"
+                "Reinforcement_BarBendingSchedule", "Bar Bending " "Schedule"
             ),
             "ToolTip": QT_TRANSLATE_NOOP(
-                "Reinforcement_Bar_Bending_Schedule",
+                "Reinforcement_BarBendingSchedule",
                 "Generate Bar Bending Schedule",
             ),
         }
@@ -336,34 +343,51 @@ def updateLocale():
     FreeCADGui.updateLocale()
 
 
-FreeCADGui.addCommand("Arch_Rebar_Straight", StraightRebarTool())
-FreeCADGui.addCommand("Arch_Rebar_UShape", UShapeRebarTool())
-FreeCADGui.addCommand("Arch_Rebar_LShape", LShapeRebarTool())
-FreeCADGui.addCommand("Arch_Rebar_Stirrup", StirrupTool())
-FreeCADGui.addCommand("Arch_Rebar_BentShape", BentShapeRebarTool())
-FreeCADGui.addCommand("Arch_Rebar_Helical", HelicalRebarTool())
-FreeCADGui.addCommand("Arch_Column_Reinforcement", ColumnReinforcementTool())
-FreeCADGui.addCommand("Arch_Beam_Reinforcement", BeamReinforcementTool())
-FreeCADGui.addCommand("Arch_Rebar_BOM", BillOfMaterialTool())
+FreeCADGui.addCommand("Reinforcement_StraightRebar", StraightRebarTool())
+FreeCADGui.addCommand("Reinforcement_UShapeRebar", UShapeRebarTool())
+FreeCADGui.addCommand("Reinforcement_LShapeRebar", LShapeRebarTool())
+FreeCADGui.addCommand("Reinforcement_StirrupRebar", StirrupTool())
+FreeCADGui.addCommand("Reinforcement_BentShapeRebar", BentShapeRebarTool())
+FreeCADGui.addCommand("Reinforcement_HelicalRebar", HelicalRebarTool())
+FreeCADGui.addCommand("Reinforcement_ColumnRebars", ColumnReinforcementTool())
+FreeCADGui.addCommand("Reinforcement_BeamRebars", BeamReinforcementTool())
+FreeCADGui.addCommand("Reinforcement_BillOfMaterial", BillOfMaterialTool())
+FreeCADGui.addCommand("Reinforcement_BarShapeCutList", RebarShapeCutListTool())
 FreeCADGui.addCommand(
-    "Reinforcement_Bar_Shape_Cut_List", RebarShapeCutListTool()
-)
-FreeCADGui.addCommand(
-    "Reinforcement_Bar_Bending_Schedule", BarBendingScheduleTool()
+    "Reinforcement_BarBendingSchedule", BarBendingScheduleTool()
 )
 
 
 # List of all rebar commands
 RebarCommands = [
-    "Arch_Rebar_Straight",
-    "Arch_Rebar_UShape",
-    "Arch_Rebar_LShape",
-    "Arch_Rebar_Stirrup",
-    "Arch_Rebar_BentShape",
-    "Arch_Rebar_Helical",
-    "Arch_Column_Reinforcement",
-    "Arch_Beam_Reinforcement",
-    "Arch_Rebar_BOM",
-    "Reinforcement_Bar_Shape_Cut_List",
-    "Reinforcement_Bar_Bending_Schedule",
+    "Reinforcement_StraightRebar",
+    "Reinforcement_UShapeRebar",
+    "Reinforcement_LShapeRebar",
+    "Reinforcement_StirrupRebar",
+    "Reinforcement_BentShapeRebar",
+    "Reinforcement_HelicalRebar",
+    "Reinforcement_ColumnRebars",
+    "Reinforcement_BeamRebars",
+]
+
+# Initialize "Arch_Rebar" command
+if "Arch_Rebar" not in FreeCADGui.listCommands():
+    from ArchRebar import _CommandRebar
+
+    FreeCADGui.addCommand("Arch_Rebar", _CommandRebar())
+
+# List of all rebar commands to show in Reinforcement workbench tool bar
+ReinforcementCommands = [
+    "Reinforcement_StraightRebar",
+    "Reinforcement_UShapeRebar",
+    "Reinforcement_LShapeRebar",
+    "Reinforcement_StirrupRebar",
+    "Reinforcement_BentShapeRebar",
+    "Reinforcement_HelicalRebar",
+    "Reinforcement_ColumnRebars",
+    "Reinforcement_BeamRebars",
+    "Arch_Rebar",
+    "Reinforcement_BillOfMaterial",
+    "Reinforcement_BarShapeCutList",
+    "Reinforcement_BarBendingSchedule",
 ]

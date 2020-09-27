@@ -40,7 +40,7 @@
     <!-- DrawingContent -->
     <g id="BOM_footer">
       <text dominant-baseline="baseline" fill="#000000" font-family="DejaVu Sans" font-size="3" freecad:editable="BOM_footer" style="" text-anchor="start" x="135.54" y="295">
-        <tspan>Proudly generated using FreeCAD - Rebar Addon</tspan>
+        <tspan>Proudly generated using FreeCAD - Reinforcement workbench</tspan>
       </text>
     </g>
   </g>
