@@ -26,7 +26,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 import os
-from typing import Tuple, Union, List
+from typing import Tuple, Union, List, Literal
 
 import Draft
 import FreeCAD
@@ -51,7 +51,8 @@ class _RebarShapeCutListDialog:
         rebars_stroke_width: float,
         rebars_color_style: str,
         row_height: float,
-        width: float,
+        column_width: float,
+        column_count: Union[int, Literal["row_count"]],
         side_padding: float,
         horizontal_rebar_shape: bool,
         include_mark: bool,
@@ -69,7 +70,8 @@ class _RebarShapeCutListDialog:
         self.rebars_stroke_width = rebars_stroke_width
         self.rebars_color_style = rebars_color_style
         self.row_height = row_height
-        self.width = width
+        self.column_width = column_width
+        self.column_count = column_count
         self.side_padding = side_padding
         self.horizontal_rebar_shape = horizontal_rebar_shape
         self.include_mark = include_mark
@@ -116,7 +118,13 @@ class _RebarShapeCutListDialog:
             )
             self.form.rebarsColor.setProperty("color", color)
         self.form.rowHeight.setText(str(self.row_height))
-        self.form.columnWidth.setText(str(self.width))
+        self.form.columnWidth.setText(str(self.column_width))
+        if self.column_count == "row_count":
+            self.form.rowCountCheckBox.setChecked(True)
+            self.form.columnCount.setEnabled(False)
+        else:
+            self.form.rowCountCheckBox.setChecked(False)
+            self.form.columnCount.setEnabled(True)
         self.form.sidePadding.setText(str(self.side_padding))
         self.form.horizontalRebarShape.setChecked(self.horizontal_rebar_shape)
         self.form.includeMark.setChecked(self.include_mark)
@@ -213,76 +221,83 @@ class _RebarShapeCutListDialog:
             )
         base_rebars_list = getBaseRebarsList(reinforcement_objs)
 
-        self.stirrup_extended_edge_offset = FreeCAD.Units.Quantity(
+        stirrup_extended_edge_offset = FreeCAD.Units.Quantity(
             self.form.stirrupExtendedEdgeOffset.text()
         ).Value
-        self.rebars_stroke_width = FreeCAD.Units.Quantity(
+        rebars_stroke_width = FreeCAD.Units.Quantity(
             self.form.rebarsStrokeWidth.text()
         ).Value
         if self.form.shapeColorRadio.isChecked():
-            self.rebars_color_style = "shape color"
+            rebars_color_style = "shape color"
         else:
-            self.rebars_color_style = Draft.getrgb(
-                self.form.rebarsColor.property("color").getRgb()
+            color_rgb_tuple = self.form.rebarsColor.property("color").getRgb()
+            rebars_color_style = Draft.getrgb(
+                [
+                    color_rgb_tuple[0] / 255,
+                    color_rgb_tuple[1] / 255,
+                    color_rgb_tuple[2] / 255,
+                    color_rgb_tuple[3] / 255,
+                ]
             )
-        self.row_height = FreeCAD.Units.Quantity(
-            self.form.rowHeight.text()
+        row_height = FreeCAD.Units.Quantity(self.form.rowHeight.text()).Value
+        column_width = FreeCAD.Units.Quantity(
+            self.form.columnWidth.text()
         ).Value
-        self.width = FreeCAD.Units.Quantity(self.form.columnWidth.text()).Value
+        if self.form.rowCountCheckBox.isChecked():
+            column_count = "row_count"
+        else:
+            column_count = self.form.columnCount.value()
         self.side_padding = FreeCAD.Units.Quantity(
             self.form.sidePadding.text()
         ).Value
         self.horizontal_rebar_shape = self.form.horizontalRebarShape.isChecked()
-        self.include_mark = self.form.includeMark.isChecked()
-        self.include_dimensions = self.form.includeDimensions.isChecked()
-        self.include_units_in_dimension_label = (
+        include_mark = self.form.includeMark.isChecked()
+        include_dimensions = self.form.includeDimensions.isChecked()
+        include_units_in_dimension_label = (
             self.form.includeUnitsInDimensionLabel.isChecked()
         )
-        self.rebar_edge_dimension_units = FreeCAD.Units.Quantity(
+        rebar_edge_dimension_units = FreeCAD.Units.Quantity(
             self.rebar_edge_dimension_units_widget.text()
         ).Value
-        self.rebar_edge_dimension_precision = (
+        rebar_edge_dimension_precision = (
             self.form.rebarEdgeDimensionPrecision.value()
         )
-        self.dimension_font_family = self.form.dimensionFontFamily.currentText()
-        self.dimension_font_size = self.form.dimensionFontSize.value()
+        dimension_font_family = self.form.dimensionFontFamily.currentText()
+        dimension_font_size = self.form.dimensionFontSize.value()
         bent_angle_dimension_exclude_list_str = (
             self.form.bentAngleDimensionExcludeList.text()
         )
-        self.bent_angle_dimension_exclude_list = []
+        bent_angle_dimension_exclude_list = []
         for angle in bent_angle_dimension_exclude_list_str.split(","):
             try:
-                self.bent_angle_dimension_exclude_list.append(
-                    float(angle.strip())
-                )
+                bent_angle_dimension_exclude_list.append(float(angle.strip()))
             except ValueError:
                 pass
-        self.helical_rebar_dimension_label_format = (
+        helical_rebar_dimension_label_format = (
             self.form.helicalRebarDimensionLabelFormat.text()
         )
 
         getRebarShapeCutList(
             base_rebars_list=base_rebars_list,
-            include_mark=self.include_mark,
-            stirrup_extended_edge_offset=self.stirrup_extended_edge_offset,
-            rebars_stroke_width=self.rebars_stroke_width,
-            rebars_color_style=self.rebars_color_style,
-            include_dimensions=self.include_dimensions,
-            rebar_edge_dimension_units=self.rebar_edge_dimension_units,
-            rebar_edge_dimension_precision=self.rebar_edge_dimension_precision,
-            include_units_in_dimension_label=(
-                self.include_units_in_dimension_label
-            ),
+            include_mark=include_mark,
+            stirrup_extended_edge_offset=stirrup_extended_edge_offset,
+            rebars_stroke_width=rebars_stroke_width,
+            rebars_color_style=rebars_color_style,
+            include_dimensions=include_dimensions,
+            rebar_edge_dimension_units=rebar_edge_dimension_units,
+            rebar_edge_dimension_precision=rebar_edge_dimension_precision,
+            include_units_in_dimension_label=include_units_in_dimension_label,
             bent_angle_dimension_exclude_list=(
-                self.bent_angle_dimension_exclude_list
+                bent_angle_dimension_exclude_list
             ),
-            dimension_font_family=self.dimension_font_family,
-            dimension_font_size=self.dimension_font_size,
+            dimension_font_family=dimension_font_family,
+            dimension_font_size=dimension_font_size,
             helical_rebar_dimension_label_format=(
-                self.helical_rebar_dimension_label_format
+                helical_rebar_dimension_label_format
             ),
-            row_height=self.row_height,
-            width=self.width,
+            row_height=row_height,
+            column_width=column_width,
+            column_count=column_count,
             side_padding=self.side_padding,
             horizontal_rebar_shape=self.horizontal_rebar_shape,
             output_file=output_file,
@@ -296,7 +311,8 @@ def CommandRebarShapeCutList(
     rebars_stroke_width: float = 0.35,
     rebars_color_style: str = "shape color",
     row_height: float = 40,
-    width: float = 60,
+    column_width: float = 60,
+    column_count: Union[int, Literal["row_count"]] = "row_count",
     side_padding: float = 1,
     horizontal_rebar_shape: bool = True,
     include_mark: bool = True,
@@ -319,7 +335,8 @@ def CommandRebarShapeCutList(
         rebars_stroke_width,
         rebars_color_style,
         row_height,
-        width,
+        column_width,
+        column_count,
         side_padding,
         horizontal_rebar_shape,
         include_mark,
