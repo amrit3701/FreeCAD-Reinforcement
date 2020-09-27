@@ -48,7 +48,7 @@ class ReinforcementWorkbench(FreeCADGui.Workbench):
         from BillOfMaterial.BOMPreferences import BOMPreferences
         from pathlib import Path
 
-        self.rebar_commands = RebarTools.RebarCommands
+        self.rebar_commands = RebarTools.ReinforcementCommands
         self.appendToolbar("RebarCommands", self.rebar_commands)
 
         BOMPreferences()

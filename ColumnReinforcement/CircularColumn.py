@@ -117,7 +117,9 @@ def makeReinforcement(
             structure = selected_obj.Object
             facename = selected_obj.SubElementNames[0]
         else:
-            print("Error: Pass structure and facename arguments")
+            FreeCAD.Console.PrintError(
+                "Error: Pass structure and facename arguments"
+            )
             return
     FacePRM = getParametersOfFace(structure, facename, sketch=False)
     if not FacePRM:
