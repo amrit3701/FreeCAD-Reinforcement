@@ -509,11 +509,13 @@ def makeReinforcement(
         )
 
     # Calculate parameters for Stirrup
-    top_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
-        top_reinforcement_number_diameter_offset
+    top_reinforcement_number_diameter_offset_dict = (
+        getdictofNumberDiameterOffset(top_reinforcement_number_diameter_offset)
     )
-    bottom_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
-        bottom_reinforcement_number_diameter_offset
+    bottom_reinforcement_number_diameter_offset_dict = (
+        getdictofNumberDiameterOffset(
+            bottom_reinforcement_number_diameter_offset
+        )
     )
 
     max_dia_of_main_rebars = max(
@@ -661,8 +663,8 @@ def makeTopReinforcement(
 
     top_reinforcement_layers = len(top_reinforcement_number_diameter_offset)
 
-    top_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
-        top_reinforcement_number_diameter_offset
+    top_reinforcement_number_diameter_offset_dict = (
+        getdictofNumberDiameterOffset(top_reinforcement_number_diameter_offset)
     )
 
     top_reinforcement_layer_spacing = getLayerSpacing(
@@ -674,22 +676,28 @@ def makeTopReinforcement(
         top_reinforcement_rebar_type,
     )
 
-    top_reinforcement_l_rebar_rounding_list = getLRebarRoundingofTopBottomRebars(
-        top_reinforcement_number_diameter_offset_dict,
-        top_reinforcement_rebar_type_list,
-        top_reinforcement_l_rebar_rounding,
+    top_reinforcement_l_rebar_rounding_list = (
+        getLRebarRoundingofTopBottomRebars(
+            top_reinforcement_number_diameter_offset_dict,
+            top_reinforcement_rebar_type_list,
+            top_reinforcement_l_rebar_rounding,
+        )
     )
 
-    top_reinforcement_hook_extension_list = getHookExtensionListofTopBottomRebars(
-        top_reinforcement_number_diameter_offset_dict,
-        top_reinforcement_rebar_type_list,
-        top_reinforcement_hook_extension,
+    top_reinforcement_hook_extension_list = (
+        getHookExtensionListofTopBottomRebars(
+            top_reinforcement_number_diameter_offset_dict,
+            top_reinforcement_rebar_type_list,
+            top_reinforcement_hook_extension,
+        )
     )
 
-    top_reinforcement_hook_orientation_list = getHookOrientationListofTopBottomRebars(
-        top_reinforcement_number_diameter_offset_dict,
-        top_reinforcement_rebar_type_list,
-        top_reinforcement_hook_orientation,
+    top_reinforcement_hook_orientation_list = (
+        getHookOrientationListofTopBottomRebars(
+            top_reinforcement_number_diameter_offset_dict,
+            top_reinforcement_rebar_type_list,
+            top_reinforcement_hook_orientation,
+        )
     )
 
     FacePRM = getParametersOfFace(structure, facename)
@@ -710,9 +718,9 @@ def makeTopReinforcement(
     top_reinforcement_rebars = []
     layer = 1
     while layer <= top_reinforcement_layers:
-        top_reinforcement_number_diameter_offset_list = top_reinforcement_number_diameter_offset_dict[
-            "layer" + str(layer)
-        ]
+        top_reinforcement_number_diameter_offset_list = (
+            top_reinforcement_number_diameter_offset_dict["layer" + str(layer)]
+        )
         if layer == 1:
             t_cover = t_cover_of_stirrup + dia_of_stirrup
         else:
@@ -861,8 +869,10 @@ def makeBottomReinforcement(
         bottom_reinforcement_number_diameter_offset
     )
 
-    bottom_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
-        bottom_reinforcement_number_diameter_offset
+    bottom_reinforcement_number_diameter_offset_dict = (
+        getdictofNumberDiameterOffset(
+            bottom_reinforcement_number_diameter_offset
+        )
     )
 
     bottom_reinforcement_layer_spacing = getLayerSpacing(
@@ -874,49 +884,59 @@ def makeBottomReinforcement(
         bottom_reinforcement_rebar_type,
     )
 
-    bottom_reinforcement_l_rebar_rounding_list = getLRebarRoundingofTopBottomRebars(
-        bottom_reinforcement_number_diameter_offset_dict,
-        bottom_reinforcement_rebar_type_list,
-        bottom_reinforcement_l_rebar_rounding,
+    bottom_reinforcement_l_rebar_rounding_list = (
+        getLRebarRoundingofTopBottomRebars(
+            bottom_reinforcement_number_diameter_offset_dict,
+            bottom_reinforcement_rebar_type_list,
+            bottom_reinforcement_l_rebar_rounding,
+        )
     )
 
-    bottom_reinforcement_hook_extension_list = getHookExtensionListofTopBottomRebars(
-        bottom_reinforcement_number_diameter_offset_dict,
-        bottom_reinforcement_rebar_type_list,
-        bottom_reinforcement_hook_extension,
+    bottom_reinforcement_hook_extension_list = (
+        getHookExtensionListofTopBottomRebars(
+            bottom_reinforcement_number_diameter_offset_dict,
+            bottom_reinforcement_rebar_type_list,
+            bottom_reinforcement_hook_extension,
+        )
     )
 
-    bottom_reinforcement_hook_orientation_list = getHookOrientationListofTopBottomRebars(
-        bottom_reinforcement_number_diameter_offset_dict,
-        bottom_reinforcement_rebar_type_list,
-        bottom_reinforcement_hook_orientation,
+    bottom_reinforcement_hook_orientation_list = (
+        getHookOrientationListofTopBottomRebars(
+            bottom_reinforcement_number_diameter_offset_dict,
+            bottom_reinforcement_rebar_type_list,
+            bottom_reinforcement_hook_orientation,
+        )
     )
 
     FacePRM = getParametersOfFace(structure, facename)
     face_length = FacePRM[0][0]
     face_width = FacePRM[0][1]
 
-    bottom_reinforcement_rebars_number_spacing = getNumberSpacingofTopBottomRebars(
-        l_cover_of_stirrup,
-        r_cover_of_stirrup,
-        dia_of_stirrup,
-        bottom_reinforcement_number_diameter_offset_dict,
-        face_length,
+    bottom_reinforcement_rebars_number_spacing = (
+        getNumberSpacingofTopBottomRebars(
+            l_cover_of_stirrup,
+            r_cover_of_stirrup,
+            dia_of_stirrup,
+            bottom_reinforcement_number_diameter_offset_dict,
+            face_length,
+        )
     )
-    bottom_reinforcement_rebars_number = bottom_reinforcement_rebars_number_spacing[
-        0
-    ]
-    spacing_in_bottom_reinforcement = bottom_reinforcement_rebars_number_spacing[
-        1
-    ]
+    bottom_reinforcement_rebars_number = (
+        bottom_reinforcement_rebars_number_spacing[0]
+    )
+    spacing_in_bottom_reinforcement = (
+        bottom_reinforcement_rebars_number_spacing[1]
+    )
 
     coverAlong = "Bottom Side"
     bottom_reinforcement_rebars = []
     layer = 1
     while layer <= bottom_reinforcement_layers:
-        bottom_reinforcement_number_diameter_offset_list = bottom_reinforcement_number_diameter_offset_dict[
-            "layer" + str(layer)
-        ]
+        bottom_reinforcement_number_diameter_offset_list = (
+            bottom_reinforcement_number_diameter_offset_dict[
+                "layer" + str(layer)
+            ]
+        )
         if layer == 1:
             b_cover = b_cover_of_stirrup + dia_of_stirrup
         else:
@@ -1537,11 +1557,13 @@ def editReinforcement(
         facename = Stirrup.Base.Support[0][1][0]
 
     # Calculate parameters for Stirrup
-    top_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
-        top_reinforcement_number_diameter_offset
+    top_reinforcement_number_diameter_offset_dict = (
+        getdictofNumberDiameterOffset(top_reinforcement_number_diameter_offset)
     )
-    bottom_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
-        bottom_reinforcement_number_diameter_offset
+    bottom_reinforcement_number_diameter_offset_dict = (
+        getdictofNumberDiameterOffset(
+            bottom_reinforcement_number_diameter_offset
+        )
     )
 
     max_dia_of_main_rebars = max(
@@ -1734,8 +1756,8 @@ def editReinforcement(
         setGroupProperties(properties, shear_reinforcement_group)
         FreeCAD.ActiveDocument.recompute()
     if left_rebars_group and left_rebars_number_diameter_offset:
-        left_rebars_number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
-            left_rebars_number_diameter_offset
+        left_rebars_number_diameter_offset_tuple = (
+            gettupleOfNumberDiameterOffset(left_rebars_number_diameter_offset)
         )
         prev_left_rebars_type = left_rebars_group.RebarType
         if prev_left_rebars_type != getRebarTypeListofShearRebars(
@@ -1806,8 +1828,8 @@ def editReinforcement(
         )
 
     if right_rebars_group and right_rebars_number_diameter_offset:
-        right_rebars_number_diameter_offset_tuple = gettupleOfNumberDiameterOffset(
-            right_rebars_number_diameter_offset
+        right_rebars_number_diameter_offset_tuple = (
+            gettupleOfNumberDiameterOffset(right_rebars_number_diameter_offset)
         )
         prev_right_rebars_type = right_rebars_group.RebarType
         if prev_right_rebars_type != getRebarTypeListofShearRebars(
@@ -1913,8 +1935,8 @@ def editTopReinforcement(
 
     top_reinforcement_layers = len(top_reinforcement_number_diameter_offset)
 
-    top_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
-        top_reinforcement_number_diameter_offset
+    top_reinforcement_number_diameter_offset_dict = (
+        getdictofNumberDiameterOffset(top_reinforcement_number_diameter_offset)
     )
 
     top_reinforcement_layer_spacing = getLayerSpacing(
@@ -1926,22 +1948,28 @@ def editTopReinforcement(
         top_reinforcement_rebar_type,
     )
 
-    top_reinforcement_l_rebar_rounding_list = getLRebarRoundingofTopBottomRebars(
-        top_reinforcement_number_diameter_offset_dict,
-        top_reinforcement_rebar_type_list,
-        top_reinforcement_l_rebar_rounding,
+    top_reinforcement_l_rebar_rounding_list = (
+        getLRebarRoundingofTopBottomRebars(
+            top_reinforcement_number_diameter_offset_dict,
+            top_reinforcement_rebar_type_list,
+            top_reinforcement_l_rebar_rounding,
+        )
     )
 
-    top_reinforcement_hook_extension_list = getHookExtensionListofTopBottomRebars(
-        top_reinforcement_number_diameter_offset_dict,
-        top_reinforcement_rebar_type_list,
-        top_reinforcement_hook_extension,
+    top_reinforcement_hook_extension_list = (
+        getHookExtensionListofTopBottomRebars(
+            top_reinforcement_number_diameter_offset_dict,
+            top_reinforcement_rebar_type_list,
+            top_reinforcement_hook_extension,
+        )
     )
 
-    top_reinforcement_hook_orientation_list = getHookOrientationListofTopBottomRebars(
-        top_reinforcement_number_diameter_offset_dict,
-        top_reinforcement_rebar_type_list,
-        top_reinforcement_hook_orientation,
+    top_reinforcement_hook_orientation_list = (
+        getHookOrientationListofTopBottomRebars(
+            top_reinforcement_number_diameter_offset_dict,
+            top_reinforcement_rebar_type_list,
+            top_reinforcement_hook_orientation,
+        )
     )
 
     FacePRM = getParametersOfFace(structure, facename)
@@ -1963,9 +1991,9 @@ def editTopReinforcement(
     layer = 1
     index = 0
     while layer <= top_reinforcement_layers:
-        top_reinforcement_number_diameter_offset_list = top_reinforcement_number_diameter_offset_dict[
-            "layer" + str(layer)
-        ]
+        top_reinforcement_number_diameter_offset_list = (
+            top_reinforcement_number_diameter_offset_dict["layer" + str(layer)]
+        )
         if layer == 1:
             t_cover = t_cover_of_stirrup + dia_of_stirrup
         else:
@@ -2114,8 +2142,10 @@ def editBottomReinforcement(
         bottom_reinforcement_number_diameter_offset
     )
 
-    bottom_reinforcement_number_diameter_offset_dict = getdictofNumberDiameterOffset(
-        bottom_reinforcement_number_diameter_offset
+    bottom_reinforcement_number_diameter_offset_dict = (
+        getdictofNumberDiameterOffset(
+            bottom_reinforcement_number_diameter_offset
+        )
     )
 
     bottom_reinforcement_layer_spacing = getLayerSpacing(
@@ -2127,50 +2157,60 @@ def editBottomReinforcement(
         bottom_reinforcement_rebar_type,
     )
 
-    bottom_reinforcement_l_rebar_rounding_list = getLRebarRoundingofTopBottomRebars(
-        bottom_reinforcement_number_diameter_offset_dict,
-        bottom_reinforcement_rebar_type_list,
-        bottom_reinforcement_l_rebar_rounding,
+    bottom_reinforcement_l_rebar_rounding_list = (
+        getLRebarRoundingofTopBottomRebars(
+            bottom_reinforcement_number_diameter_offset_dict,
+            bottom_reinforcement_rebar_type_list,
+            bottom_reinforcement_l_rebar_rounding,
+        )
     )
 
-    bottom_reinforcement_hook_extension_list = getHookExtensionListofTopBottomRebars(
-        bottom_reinforcement_number_diameter_offset_dict,
-        bottom_reinforcement_rebar_type_list,
-        bottom_reinforcement_hook_extension,
+    bottom_reinforcement_hook_extension_list = (
+        getHookExtensionListofTopBottomRebars(
+            bottom_reinforcement_number_diameter_offset_dict,
+            bottom_reinforcement_rebar_type_list,
+            bottom_reinforcement_hook_extension,
+        )
     )
 
-    bottom_reinforcement_hook_orientation_list = getHookOrientationListofTopBottomRebars(
-        bottom_reinforcement_number_diameter_offset_dict,
-        bottom_reinforcement_rebar_type_list,
-        bottom_reinforcement_hook_orientation,
+    bottom_reinforcement_hook_orientation_list = (
+        getHookOrientationListofTopBottomRebars(
+            bottom_reinforcement_number_diameter_offset_dict,
+            bottom_reinforcement_rebar_type_list,
+            bottom_reinforcement_hook_orientation,
+        )
     )
 
     FacePRM = getParametersOfFace(structure, facename)
     face_length = FacePRM[0][0]
     face_width = FacePRM[0][1]
 
-    bottom_reinforcement_rebars_number_spacing = getNumberSpacingofTopBottomRebars(
-        l_cover_of_stirrup,
-        r_cover_of_stirrup,
-        dia_of_stirrup,
-        bottom_reinforcement_number_diameter_offset_dict,
-        face_length,
+    bottom_reinforcement_rebars_number_spacing = (
+        getNumberSpacingofTopBottomRebars(
+            l_cover_of_stirrup,
+            r_cover_of_stirrup,
+            dia_of_stirrup,
+            bottom_reinforcement_number_diameter_offset_dict,
+            face_length,
+        )
     )
-    bottom_reinforcement_rebars_number = bottom_reinforcement_rebars_number_spacing[
-        0
-    ]
-    spacing_in_bottom_reinforcement = bottom_reinforcement_rebars_number_spacing[
-        1
-    ]
+    bottom_reinforcement_rebars_number = (
+        bottom_reinforcement_rebars_number_spacing[0]
+    )
+    spacing_in_bottom_reinforcement = (
+        bottom_reinforcement_rebars_number_spacing[1]
+    )
 
     coverAlong = "Bottom Side"
     bottom_reinforcement_rebars = bottom_reinforcement_group.BottomRebars
     layer = 1
     index = 0
     while layer <= bottom_reinforcement_layers:
-        bottom_reinforcement_number_diameter_offset_list = bottom_reinforcement_number_diameter_offset_dict[
-            "layer" + str(layer)
-        ]
+        bottom_reinforcement_number_diameter_offset_list = (
+            bottom_reinforcement_number_diameter_offset_dict[
+                "layer" + str(layer)
+            ]
+        )
         if layer == 1:
             b_cover = b_cover_of_stirrup + dia_of_stirrup
         else:

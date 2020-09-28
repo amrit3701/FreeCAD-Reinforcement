@@ -146,7 +146,8 @@ class ReinforcementDimensioning:
                 "WayPointsType",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The way points type of dimension line",
+                    "App::Property",
+                    "The way points type of dimension line",
                 ),
             ).WayPointsType = ["Automatic", "Custom"]
 
@@ -156,7 +157,8 @@ class ReinforcementDimensioning:
                 "WayPoints",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The way points of dimension line",
+                    "App::Property",
+                    "The way points of dimension line",
                 ),
             )
             obj.WayPoints = [(0.00, 0.00, 0.00), (50.00, 0.00, 0.00)]
@@ -167,7 +169,8 @@ class ReinforcementDimensioning:
                 "TextPositionType",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The position type of dimension text",
+                    "App::Property",
+                    "The position type of dimension text",
                 ),
             ).TextPositionType = [
                 "MidOfLine",
@@ -181,7 +184,8 @@ class ReinforcementDimensioning:
                 "DimensionFormat",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The dimension label format",
+                    "App::Property",
+                    "The dimension label format",
                 ),
             )
             obj.DimensionFormat = DIMENSION_LABEL_FORMAT
@@ -192,7 +196,8 @@ class ReinforcementDimensioning:
                 "Font",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The font family of dimension text",
+                    "App::Property",
+                    "The font family of dimension text",
                 ),
             )
             obj.Font = DIMENSION_FONT_FAMILY
@@ -203,7 +208,8 @@ class ReinforcementDimensioning:
                 "FontSize",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The font size of dimension text",
+                    "App::Property",
+                    "The font size of dimension text",
                 ),
             )
             obj.FontSize = DIMENSION_FONT_SIZE
@@ -214,7 +220,8 @@ class ReinforcementDimensioning:
                 "StrokeWidth",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The stroke width of dimension line",
+                    "App::Property",
+                    "The stroke width of dimension line",
                 ),
             )
             obj.StrokeWidth = DIMENSION_STROKE_WIDTH
@@ -225,7 +232,8 @@ class ReinforcementDimensioning:
                 "LineStyle",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The stroke style of dimension line",
+                    "App::Property",
+                    "The stroke style of dimension line",
                 ),
             ).LineStyle = [
                 "Continuous",
@@ -242,7 +250,8 @@ class ReinforcementDimensioning:
                 "LineColor",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The color of dimension line",
+                    "App::Property",
+                    "The color of dimension line",
                 ),
             )
             obj.LineColor = DIMENSION_LINE_COLOR
@@ -253,7 +262,8 @@ class ReinforcementDimensioning:
                 "TextColor",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The color of dimension text",
+                    "App::Property",
+                    "The color of dimension text",
                 ),
             )
             obj.TextColor = DIMENSION_TEXT_COLOR
@@ -264,7 +274,8 @@ class ReinforcementDimensioning:
                 "LineStartSymbol",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The start symbol of dimension line",
+                    "App::Property",
+                    "The start symbol of dimension line",
                 ),
             ).LineStartSymbol = [
                 "FilledArrow",
@@ -281,7 +292,8 @@ class ReinforcementDimensioning:
                 "LineEndSymbol",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The end symbol of dimension line",
+                    "App::Property",
+                    "The end symbol of dimension line",
                 ),
             ).LineEndSymbol = [
                 "FilledArrow",
@@ -298,7 +310,8 @@ class ReinforcementDimensioning:
                 "LineMidPointSymbol",
                 "ReinforcementDimensioning",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The mid points symbol of dimension line",
+                    "App::Property",
+                    "The mid points symbol of dimension line",
                 ),
             ).LineMidPointSymbol = [
                 "Tick",
@@ -640,7 +653,8 @@ class ReinforcementDimensioning:
                 # Apply translation so that (0,0) in dimensioning corresponds to
                 # (0,0) in ParentDrawingView
                 dimensions_svg.set(
-                    "transform", "translate({}, {})".format(-min_x, -min_y),
+                    "transform",
+                    "translate({}, {})".format(-min_x, -min_y),
                 )
                 root_svg.append(dimensions_svg)
         else:
@@ -667,7 +681,8 @@ class ReinforcementDimensioning:
             # Apply translation so that (0,0) in dimensioning corresponds to
             # (0,0) in ParentDrawingView
             dimensions_svg.set(
-                "transform", "translate({}, {})".format(-min_x, -min_y),
+                "transform",
+                "translate({}, {})".format(-min_x, -min_y),
             )
             root_svg.append(dimensions_svg)
 

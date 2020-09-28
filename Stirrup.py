@@ -58,7 +58,7 @@ def getpointsOfStirrup(
     rounding,
     facenormal,
 ):
-    """ getpointsOfStirrup(FacePRM, LeftCover, RightCover, TopCover,
+    """getpointsOfStirrup(FacePRM, LeftCover, RightCover, TopCover,
     BottomCover, BentAngle, BentFactor, Diameter, Rounding, FaceNormal):
     Return the coordinates points of the Stirrup in the form of array."""
     l_cover += diameter / 2
@@ -364,7 +364,7 @@ def makeStirrup(
     structure=None,
     facename=None,
 ):
-    """ makeStirrup(LeftCover, RightCover, TopCover, BottomCover, FrontCover,
+    """makeStirrup(LeftCover, RightCover, TopCover, BottomCover, FrontCover,
     BentAngle, BentFactor, Diameter, Rounding, AmountSpacingCheck,
     AmountSpacingValue, Structure, Facename):
     Adds the Stirrup reinforcement bar to the selected structural object."""

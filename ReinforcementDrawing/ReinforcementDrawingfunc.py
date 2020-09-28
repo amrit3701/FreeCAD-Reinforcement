@@ -51,12 +51,11 @@ def getRebarsSpanAxis(rebar):
     Returns span axis of rebars.
     """
     if (
-        (
-            Draft.getType(rebar.Base) == "Wire"
-            or rebar.Base.Shape.ShapeType == "Wire"
-        )
-        and len(rebar.Base.Shape.Wires[0].Edges) != 1
-    ):  # Draft Wires can have "wrong" placement
+        Draft.getType(rebar.Base) == "Wire"
+        or rebar.Base.Shape.ShapeType == "Wire"
+    ) and len(
+        rebar.Base.Shape.Wires[0].Edges
+    ) != 1:  # Draft Wires can have "wrong" placement
         # This works fine instead for straight rebars i.e. for rebars having
         # base wire with only one edge
         axis = DraftGeomUtils.getNormal(rebar.Base.Shape)
@@ -358,7 +357,8 @@ def getStirrupSVGData(
         basewire.Placement = rebar.PlacementList[0].multiply(basewire.Placement)
         edges = Part.__sortEdges__(
             DraftGeomUtils.filletWire(
-                basewire, rebar.Rounding * rebar.Diameter.Value,
+                basewire,
+                rebar.Rounding * rebar.Diameter.Value,
             ).Edges
         )
         for edge in edges:
@@ -432,7 +432,8 @@ def getUShapeRebarSVGData(
         basewire.Placement = rebar.PlacementList[0].multiply(basewire.Placement)
         edges = Part.__sortEdges__(
             DraftGeomUtils.filletWire(
-                basewire, rebar.Rounding * rebar.Diameter.Value,
+                basewire,
+                rebar.Rounding * rebar.Diameter.Value,
             ).Edges
         )
         for edge in edges:
@@ -482,7 +483,8 @@ def getUShapeRebarSVGData(
 
             edges = Part.__sortEdges__(
                 DraftGeomUtils.filletWire(
-                    wire, rebar.Rounding * rebar.Diameter.Value,
+                    wire,
+                    rebar.Rounding * rebar.Diameter.Value,
                 ).Edges
             )
             for edge in edges:
@@ -543,7 +545,11 @@ def getUShapeRebarSVGData(
 
 
 def getStraightRebarSVGData(
-    rebar, view_plane, rebars_svg, rebars_stroke_width, rebars_color_style,
+    rebar,
+    view_plane,
+    rebars_svg,
+    rebars_stroke_width,
+    rebars_color_style,
 ):
     """getStraightRebarSVGData(StraightRebar, ViewPlane, RebarsSVG,
     RebarsStrokeWidth, RebarsColorStyle):
@@ -831,7 +837,8 @@ def getReinforcementDrawingSVGData(
     structure_svg = ElementTree.fromstring(_structure_svg)
     reinforcement_drawing.append(structure_svg)
     reinforcement_drawing.set(
-        "transform", "translate({}, {})".format(round(-min_x), round(-min_y)),
+        "transform",
+        "translate({}, {})".format(round(-min_x), round(-min_y)),
     )
 
     svg_width = round(max_x - min_x)

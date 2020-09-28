@@ -90,7 +90,8 @@ class ReinforcementDrawingView:
                 "View",
                 "ReinforcementDrawingView",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The reinforcement drawing view",
+                    "App::Property",
+                    "The reinforcement drawing view",
                 ),
             ).View = ["Front", "Rear", "Left", "Right", "Top", "Bottom"]
 
