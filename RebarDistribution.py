@@ -115,7 +115,7 @@ def getCustomSpacingString(
 
 
 def getupleOfCustomSpacing(span_string):
-    """ gettupleOfCustomSpacing(span_string): This function take input
+    """gettupleOfCustomSpacing(span_string): This function take input
     in specific syntax and return output in the form of list. For eg.
     Input: "3@100+2@200+3@100"
     Output: [(3, 100), (2, 200), (3, 100)]"""

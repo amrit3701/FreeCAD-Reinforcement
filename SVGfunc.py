@@ -416,16 +416,10 @@ def getTechdrawViewScalingFactor(
     """
     scale = False
     if (
-        (template_width - view_width - view_left_offset - view_min_right_offset)
-        < 0
-        or (
-            template_height
-            - view_height
-            - view_top_offset
-            - view_min_bottom_offset
-        )
-        < 0
-    ):
+        template_width - view_width - view_left_offset - view_min_right_offset
+    ) < 0 or (
+        template_height - view_height - view_top_offset - view_min_bottom_offset
+    ) < 0:
         scale = True
 
     if view_table_max_width:

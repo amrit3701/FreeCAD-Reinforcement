@@ -350,8 +350,7 @@ def CommandBillOfMaterial(
     bom_table_svg_max_height=None,
     template_file=None,
 ):
-    """This function is used to invoke dialog box for rebars bill of material.
-    """
+    """This function is used to invoke dialog box for rebars bill of material."""
     bom_preferences = BOMPreferences()
     if not column_headers:
         column_headers = bom_preferences.getColumnHeaders()

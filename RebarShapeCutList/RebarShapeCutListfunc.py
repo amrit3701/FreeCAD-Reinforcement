@@ -54,7 +54,8 @@ from SVGfunc import (
 
 
 def getBaseRebarsList(
-    objects_filter_list: Optional[List] = None, one_rebar_per_mark: bool = True,
+    objects_filter_list: Optional[List] = None,
+    one_rebar_per_mark: bool = True,
 ) -> List:
     """
     Parameters
@@ -1133,7 +1134,9 @@ def getRebarShapeCutList(
                 * FreeCAD.Vector(0, 0, 0)
             )
         else:
-            view_directions = view_directions[len(base_rebars_list) :]
+            view_directions = view_directions[
+                len(base_rebars_list) :  # noqa: E203
+            ]
 
     rebar_shape_max_height = row_height
     if include_mark:
@@ -1252,7 +1255,8 @@ def getRebarShapeCutList(
     svg.set("width", "{}mm".format(svg_width))
     svg.set("height", "{}mm".format(svg_height))
     svg.set(
-        "viewBox", "0 0 {} {}".format(svg_width, svg_height),
+        "viewBox",
+        "0 0 {} {}".format(svg_width, svg_height),
     )
 
     if output_file:

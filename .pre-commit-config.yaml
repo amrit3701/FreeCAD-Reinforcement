@@ -9,10 +9,9 @@ exclude: >
 minimum_pre_commit_version: 1.13.0
 repos:
   - repo: https://github.com/ambv/black
-    rev: 19.10b0
+    rev: 20.8b1
     hooks:
       - id: black
-        args: [--line-length=80]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.2.1
     hooks:

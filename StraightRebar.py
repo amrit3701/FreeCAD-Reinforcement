@@ -299,7 +299,7 @@ def makeStraightRebar(
     structure=None,
     facename=None,
 ):
-    """ Adds the straight reinforcement bar to the selected structural object.
+    """Adds the straight reinforcement bar to the selected structural object.
 
     Case I: When orientation of straight rebar is 'Horizontal':
         makeStraightRebar(FrontCover, CoverAlong, RightCover, LeftCover,

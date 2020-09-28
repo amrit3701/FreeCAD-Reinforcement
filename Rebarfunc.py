@@ -47,7 +47,7 @@ def getEdgesAngle(edge1, edge2):
 
 
 def checkRectangle(edges):
-    """ checkRectangle(edges=[]): This function checks whether the given form
+    """checkRectangle(edges=[]): This function checks whether the given form
     rectangle or not. It will return True when edges form rectangular shape or
     return False when edges not form a rectangular shape."""
     angles = [
@@ -64,8 +64,8 @@ def checkRectangle(edges):
 
 
 def getBaseStructuralObject(obj):
-    """ getBaseStructuralObject(obj): This function will return last base
-        structural object."""
+    """getBaseStructuralObject(obj): This function will return last base
+    structural object."""
     if not obj.Base:
         return obj
     else:
@@ -81,12 +81,12 @@ def getBaseObject(obj):
 
 
 def getFaceNumber(s):
-    """ getFaceNumber(facename): This will return a face number from face name.
+    """getFaceNumber(facename): This will return a face number from face name.
     For eg.:
         Input: "Face12"
         Output: 12"""
     head = s.rstrip("0123456789")
-    tail = s[len(head) :]
+    tail = s[len(head) :]  # noqa: E203
     return int(tail)
 
 
@@ -126,7 +126,7 @@ def gettupleOfNumberDiameter(diameter_string):
 
 
 def getTrueParametersOfStructure(obj):
-    """ getTrueParametersOfStructure(obj): This function return actual length,
+    """getTrueParametersOfStructure(obj): This function return actual length,
     width and height of the structural element in the form of array like
     [Length, Width, Height]"""
     baseObject = getBaseObject(obj)
@@ -277,7 +277,7 @@ def getParametersOfFace(structure, facename, sketch=True):
 
 
 def extendedTangentPartLength(rounding, diameter, angle):
-    """ extendedTangentPartLength(rounding, diameter, angle): Get a extended
+    """extendedTangentPartLength(rounding, diameter, angle): Get a extended
     length of rounding on corners."""
     radius = rounding * diameter
     x1 = radius / math.tan(math.radians(angle))
@@ -286,7 +286,7 @@ def extendedTangentPartLength(rounding, diameter, angle):
 
 
 def extendedTangentLength(rounding, diameter, angle):
-    """ extendedTangentLength(rounding, diameter, angle): Get a extended
+    """extendedTangentLength(rounding, diameter, angle): Get a extended
     length of rounding at the end of Stirrup for bent."""
     radius = rounding * diameter
     x1 = radius / math.sin(math.radians(angle))
@@ -803,8 +803,8 @@ class _ViewProviderBeamReinforcementGroup:
 
 
 def check_selected_face():
-    """ check_selected_face(): This function checks whether user have selected
-        any face or not."""
+    """check_selected_face(): This function checks whether user have selected
+    any face or not."""
     selected_objs = FreeCADGui.Selection.getSelectionEx()
     if not selected_objs:
         showWarning("Select any face of the structural element.")
@@ -848,7 +848,7 @@ def getSelectedFace(self):
 
 
 def showWarning(message):
-    """ showWarning(message): This function is used to produce warning
+    """showWarning(message): This function is used to produce warning
     message for the user."""
     msg = QtGui.QMessageBox()
     msg.setIcon(QtGui.QMessageBox.Warning)

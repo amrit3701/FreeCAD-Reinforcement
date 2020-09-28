@@ -55,7 +55,7 @@ def getpointsOfBentShapeRebar(
     orientation,
     diameter,
 ):
-    """ getpointsOfBentShapeRebar(FacePRM, LeftCover, RightCover, BottomCover,
+    """getpointsOfBentShapeRebar(FacePRM, LeftCover, RightCover, BottomCover,
     TopCover, BentLength, BentAngle, Orientation, Diameter):
     Return points of the LShape rebar in the form of array for sketch.
     It takes four different orientations input i.e. 'Bottom', 'Top', 'Left',
@@ -367,7 +367,7 @@ def makeBentShapeRebar(
     structure=None,
     facename=None,
 ):
-    """ makeBentShapeRebar(FrontCover, BottomCover, LeftCover, RightCover,
+    """makeBentShapeRebar(FrontCover, BottomCover, LeftCover, RightCover,
     Diameter, TopCover, BentLength, BentAngle, Rounding, AmountSpacingCheck,
     AmountSpacingValue, Orientation, Structure, Facename):
     Adds the Bent-Shape reinforcement bar to the selected structural object.

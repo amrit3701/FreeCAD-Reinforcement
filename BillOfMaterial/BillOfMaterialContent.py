@@ -106,7 +106,8 @@ class BOMContent:
                 "Width",
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The width of Bill of Material content",
+                    "App::Property",
+                    "The width of Bill of Material content",
                 ),
             )
         obj.setEditorMode("Width", 2)
@@ -117,7 +118,8 @@ class BOMContent:
                 "Height",
                 "BOMContent",
                 QT_TRANSLATE_NOOP(
-                    "App::Property", "The height of Bill of Material content",
+                    "App::Property",
+                    "The height of Bill of Material content",
                 ),
             )
         obj.setEditorMode("Height", 2)

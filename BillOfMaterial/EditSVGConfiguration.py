@@ -51,8 +51,7 @@ class _EditSVGConfigurationDialog:
         bom_table_svg_max_height,
         template_file,
     ):
-        """This function set initial data in SVG Configuration edit dialog box.
-        """
+        """This function set initial data in SVG Configuration edit dialog box."""
         self.font_family = font_family
         self.font_size = font_size
         self.column_width = column_width
@@ -75,8 +74,7 @@ class _EditSVGConfigurationDialog:
         )
 
     def setupUi(self):
-        """This function is used to setup ui by calling appropriate functions.
-        """
+        """This function is used to setup ui by calling appropriate functions."""
         self.setDefaultValues()
         self.connectSignalSlots()
 

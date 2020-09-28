@@ -46,7 +46,7 @@ import os
 def getpointsOfLShapeRebar(
     FacePRM, l_cover, r_cover, b_cover, t_cover, orientation, diameter
 ):
-    """ getpointsOfLShapeRebar(FacePRM, LeftCover, RightCover, BottomCover,
+    """getpointsOfLShapeRebar(FacePRM, LeftCover, RightCover, BottomCover,
     TopCover, Orientation, Diameter):
     Return points of the LShape rebar in the form of array for sketch.
 
@@ -309,7 +309,7 @@ def makeLShapeRebar(
     structure=None,
     facename=None,
 ):
-    """ makeLShapeRebar(FrontCover, BottomCover, LeftCover, RightCover,
+    """makeLShapeRebar(FrontCover, BottomCover, LeftCover, RightCover,
     Diameter, TopCover, Rounding, AmountSpacingCheck, AmountSpacingValue,
     Orientation, Structure, Facename):
     Adds the L-Shape reinforcement bar to the selected structural object.

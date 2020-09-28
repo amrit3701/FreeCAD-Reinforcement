@@ -48,7 +48,7 @@ import math
 def getpointsOfHelicalRebar(
     FacePRM, s_cover, b_cover, t_cover, pitch, edges, diameter, size, direction
 ):
-    """ getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover):
+    """getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover):
     Return points of the LShape rebar in the form of array for sketch."""
     dx = s_cover + diameter / 2
     dz = float(pitch) / edges
@@ -94,7 +94,7 @@ def createHelicalWire(
     diameter,
     helix=None,
 ):
-    """ createHelicalWire(FacePRM, SideCover, BottomCover, TopCover, Pitch,
+    """createHelicalWire(FacePRM, SideCover, BottomCover, TopCover, Pitch,
     Size, Direction, Diameter, Helix = None):
     It creates a helical wire."""
     b_cover += diameter / 2
@@ -262,7 +262,7 @@ class _HelicalRebarTaskPanel:
 def makeHelicalRebar(
     s_cover, b_cover, diameter, t_cover, pitch, structure=None, facename=None
 ):
-    """ makeHelicalRebar(SideCover, BottomCover, Diameter, TopCover, Pitch,
+    """makeHelicalRebar(SideCover, BottomCover, Diameter, TopCover, Pitch,
     Structure, Facename):
     Adds the Helical reinforcement bar to the selected structural object."""
     if not structure and not facename:

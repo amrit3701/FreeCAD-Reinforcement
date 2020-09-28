@@ -177,7 +177,12 @@ def getDimensionLineSVG(
             if p2[1] - p1[1] < 0:
                 # Line is from downward to upward
                 label_svg = getSVGTextElement(
-                    label, p2[0], p2[1], font_family, font_size, "middle",
+                    label,
+                    p2[0],
+                    p2[1],
+                    font_family,
+                    font_size,
+                    "middle",
                 )
             else:
                 # Line is from upward to downward
@@ -330,7 +335,10 @@ def getStirrupDimensionData(
 
                 rebar_mid_points.append([])
                 for placement in rebar.PlacementList[
-                    start_rebar_index + 1 : start_rebar_index + rebars_count - 1
+                    start_rebar_index
+                    + 1 : start_rebar_index  # noqa: E203
+                    + rebars_count
+                    - 1
                 ]:
                     mid_wire = basewire.copy()
                     mid_wire.Placement = placement.multiply(basewire.Placement)
@@ -469,7 +477,8 @@ def getStirrupDimensionData(
                         dimension_points_start = [
                             FreeCAD.Vector(start_p2.x, start_p2.y + 5),
                             FreeCAD.Vector(
-                                start_p2.x, dimension_bottom_point_y,
+                                start_p2.x,
+                                dimension_bottom_point_y,
                             ),
                         ]
                         dimension_points_end = [
@@ -553,7 +562,8 @@ def getStirrupDimensionData(
                                 dimension_right_point_x - 5 / scale, start_p2.y
                             ),
                             FreeCAD.Vector(
-                                dimension_right_point_x, start_p2.y,
+                                dimension_right_point_x,
+                                start_p2.y,
                             ),
                         ]
                         dimension_points_end = [
@@ -566,7 +576,8 @@ def getStirrupDimensionData(
                         dimension_points_start = [
                             FreeCAD.Vector(start_p2.x + 5, start_p2.y),
                             FreeCAD.Vector(
-                                dimension_right_point_x, start_p2.y,
+                                dimension_right_point_x,
+                                start_p2.y,
                             ),
                         ]
                         dimension_points_end = [
@@ -731,7 +742,10 @@ def getStraightRebarDimensionData(
 
                 rebar_mid_points.append([])
                 for placement in rebar.PlacementList[
-                    start_rebar_index + 1 : start_rebar_index + rebars_count - 1
+                    start_rebar_index
+                    + 1 : start_rebar_index  # noqa: E203
+                    + rebars_count
+                    - 1
                 ]:
                     mid_wire = basewire.copy()
                     mid_wire.Placement = placement.multiply(basewire.Placement)
@@ -1112,7 +1126,10 @@ def getLShapeRebarDimensionData(
 
                 rebar_mid_points.append([])
                 for placement in rebar.PlacementList[
-                    start_rebar_index + 1 : start_rebar_index + rebars_count - 1
+                    start_rebar_index
+                    + 1 : start_rebar_index  # noqa: E203
+                    + rebars_count
+                    - 1
                 ]:
                     mid_wire = basewire.copy()
                     mid_wire.Placement = placement.multiply(basewire.Placement)
@@ -1525,7 +1542,10 @@ def getUShapeRebarDimensionData(
 
                 rebar_mid_points.append([])
                 for placement in rebar.PlacementList[
-                    start_rebar_index + 1 : start_rebar_index + rebars_count - 1
+                    start_rebar_index
+                    + 1 : start_rebar_index  # noqa: E203
+                    + rebars_count
+                    - 1
                 ]:
                     mid_wire = basewire.copy()
                     mid_wire.Placement = placement.multiply(basewire.Placement)
@@ -1948,7 +1968,10 @@ def getBentRebarDimensionData(
 
                 rebar_mid_points.append([])
                 for placement in rebar.PlacementList[
-                    start_rebar_index + 1 : start_rebar_index + rebars_count - 1
+                    start_rebar_index
+                    + 1 : start_rebar_index  # noqa: E203
+                    + rebars_count
+                    - 1
                 ]:
                     mid_wire = basewire.copy()
                     mid_wire.Placement = placement.multiply(basewire.Placement)
