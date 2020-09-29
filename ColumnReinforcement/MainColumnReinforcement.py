@@ -25,7 +25,7 @@ __title__ = "Column Reinforcement"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-import os
+from pathlib import Path
 from PySide2 import QtGui, QtWidgets
 
 import FreeCAD
@@ -73,7 +73,7 @@ class _ColumnReinforcementDialog:
                         break
         # Load ui from file MainColumnReinforcement.ui
         self.form = FreeCADGui.PySideUic.loadUi(
-            os.path.splitext(__file__)[0] + ".ui"
+            str(Path(__file__).with_suffix(".ui").absolute())
         )
         self.form.setWindowTitle(
             QtWidgets.QApplication.translate(
@@ -84,72 +84,41 @@ class _ColumnReinforcementDialog:
 
     def setupUi(self):
         """This function is used to add components to ui."""
-        # Add items into rebars_listWidget
-        self.form.rebars_listWidget.addItem("Ties")
-        self.form.rebars_listWidget.addItem("Main Rebars")
-        self.form.rebars_listWidget.addItem("XDir Secondary Rebars")
-        self.form.rebars_listWidget.addItem("YDir Secondary Rebars")
-        self.form.rebars_listWidget.setCurrentRow(0)
         # Load and add widgets into stacked widget
         self.ties_widget = FreeCADGui.PySideUic.loadUi(
-            os.path.split(os.path.abspath(__file__))[0] + "/Ties.ui"
+            str(Path(__file__).parent.absolute() / "Ties.ui")
         )
         self.form.rebars_stackedWidget.addWidget(self.ties_widget)
         self.main_rebars_widget = FreeCADGui.PySideUic.loadUi(
-            os.path.split(os.path.abspath(__file__))[0] + "/MainRebars.ui"
+            str(Path(__file__).parent.absolute() / "MainRebars.ui")
         )
         self.form.rebars_stackedWidget.addWidget(self.main_rebars_widget)
         self.sec_xdir_rebars_widget = FreeCADGui.PySideUic.loadUi(
-            os.path.split(os.path.abspath(__file__))[0] + "/SecXDirRebars.ui"
+            str(Path(__file__).parent.absolute() / "SecXDirRebars.ui")
         )
         self.form.rebars_stackedWidget.addWidget(self.sec_xdir_rebars_widget)
         self.sec_ydir_rebars_widget = FreeCADGui.PySideUic.loadUi(
-            os.path.split(os.path.abspath(__file__))[0] + "/SecYDirRebars.ui"
+            str(Path(__file__).parent.absolute() / "SecYDirRebars.ui")
         )
         self.form.rebars_stackedWidget.addWidget(self.sec_ydir_rebars_widget)
         self.circular_column_widget = FreeCADGui.PySideUic.loadUi(
-            os.path.split(os.path.abspath(__file__))[0] + "/CircularColumn.ui"
+            str(Path(__file__).parent.absolute() / "CircularColumn.ui")
         )
         self.form.rebars_stackedWidget.addWidget(self.circular_column_widget)
-        # Set Ties data Widget in Scroll Area
-        self.ties_widget.ties_scrollArea.setWidget(
-            self.ties_widget.ties_dataWidget
-        )
         # Add dropdown menu items
         self.addDropdownMenuItems()
         # Add image of Single Tie
-        self.ties_widget.ties_configurationImage.setPixmap(
+        self.form.image.setPixmap(
             QtGui.QPixmap(
-                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/Column_SingleTieMultipleRebars.png"
-            )
-        )
-        self.main_rebars_widget.ties_configurationImage.setPixmap(
-            QtGui.QPixmap(
-                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/Column_SingleTieMultipleRebars.png"
-            )
-        )
-        self.sec_xdir_rebars_widget.ties_configurationImage.setPixmap(
-            QtGui.QPixmap(
-                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/Column_SingleTieMultipleRebars.png"
-            )
-        )
-        self.sec_ydir_rebars_widget.ties_configurationImage.setPixmap(
-            QtGui.QPixmap(
-                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/Column_SingleTieMultipleRebars.png"
-            )
-        )
-        self.circular_column_widget.columReinforcementImage.setPixmap(
-            QtGui.QPixmap(
-                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/CircularColumnReinforcement.png"
+                str(
+                    Path(__file__).parent.parent.absolute()
+                    / "icons"
+                    / "Column_SingleTieMultipleRebars.png"
+                )
             )
         )
         if self.RebarGroup:
-            self.ties_widget.ties_configuration.setEnabled(False)
+            self.form.ties_configuration.setEnabled(False)
         # Set default values in UI
         self.setDefaultValues()
         # Connect signals and slots
@@ -159,17 +128,8 @@ class _ColumnReinforcementDialog:
         self.CustomSpacing = None
         # Set default values in UI
         # Set Ties data
-        self.ties_widget.ties_configuration.setCurrentIndex(
-            self.ties_widget.ties_configuration.findText("SingleTie")
-        )
-        self.main_rebars_widget.ties_configuration.setCurrentIndex(
-            self.main_rebars_widget.ties_configuration.findText("SingleTie")
-        )
-        self.sec_xdir_rebars_widget.ties_configuration.setCurrentIndex(
-            self.sec_xdir_rebars_widget.ties_configuration.findText("SingleTie")
-        )
-        self.sec_ydir_rebars_widget.ties_configuration.setCurrentIndex(
-            self.sec_ydir_rebars_widget.ties_configuration.findText("SingleTie")
+        self.form.ties_configuration.setCurrentIndex(
+            self.form.ties_configuration.findText("SingleTie")
         )
         self.ties_widget.ties_leftCover.setText("40.00 mm")
         self.ties_widget.ties_rightCover.setText("40.00 mm")
@@ -269,18 +229,7 @@ class _ColumnReinforcementDialog:
     def addDropdownMenuItems(self):
         """This function add dropdown items to each Gui::PrefComboBox."""
         # Add ties configurations
-        self.ties_widget.ties_configuration.addItems(
-            ["SingleTie", "TwoTiesSixRebars"]
-        )
-        self.main_rebars_widget.ties_configuration.addItems(
-            ["SingleTie", "TwoTiesSixRebars"]
-        )
-        self.sec_xdir_rebars_widget.ties_configuration.addItems(
-            ["SingleTie", "TwoTiesSixRebars"]
-        )
-        self.sec_ydir_rebars_widget.ties_configuration.addItems(
-            ["SingleTie", "TwoTiesSixRebars"]
-        )
+        self.form.ties_configuration.addItems(["SingleTie", "TwoTiesSixRebars"])
         # Add bent angle of ties
         self.ties_widget.ties_bentAngle.addItems(["90", "135"])
         # Add rebar_type to all rebars widgets
@@ -331,7 +280,7 @@ class _ColumnReinforcementDialog:
         self.form.rebars_listWidget.currentRowChanged.connect(
             self.changeRebarsListWidget
         )
-        self.ties_widget.ties_configuration.currentIndexChanged.connect(
+        self.form.ties_configuration.currentIndexChanged.connect(
             self.changeTiesConfiguration
         )
         self.ties_widget.ties_leftCover.textChanged.connect(
@@ -393,17 +342,33 @@ class _ColumnReinforcementDialog:
     def circularColumnRadioClicked(self):
         self.column_type = "CircularColumn"
         self.form.rebars_listWidget.hide()
+        self.form.ties_configuration.hide()
+        self.form.ties_sequenceLabel.hide()
+        self.form.ties_sequenceListWidget.hide()
         self.form.rebars_stackedWidget.setCurrentIndex(4)
         self.form.back_button.hide()
+        self.form.image.setPixmap(
+            QtGui.QPixmap(
+                str(
+                    Path(__file__).parent.parent.absolute()
+                    / "icons"
+                    / "CircularColumnReinforcement.png"
+                )
+            )
+        )
         self.form.next_button.setText("Finish")
 
     def rectangularColumnRadioClicked(self):
         self.column_type = "RectangularColumn"
         self.form.rebars_listWidget.show()
+        self.form.ties_configuration.show()
+        self.form.ties_sequenceLabel.show()
+        self.form.ties_sequenceListWidget.show()
         self.form.rebars_stackedWidget.setCurrentIndex(
             self.form.rebars_listWidget.currentRow()
         )
         self.form.back_button.show()
+        self.changeTiesConfiguration()
         self.form.next_button.setText("Next")
 
     def changeRebarsListWidget(self, index):
@@ -417,98 +382,35 @@ class _ColumnReinforcementDialog:
     def changeTiesConfiguration(self):
         """This function is used to find selected ties configuration from UI
         and update UI accordingly."""
-        self.ties_configuration = (
-            self.ties_widget.ties_configuration.currentText()
-        )
-        self.main_rebars_widget.ties_configuration.setCurrentIndex(
-            self.main_rebars_widget.ties_configuration.findText(
-                str(self.ties_configuration)
-            )
-        )
-        self.sec_xdir_rebars_widget.ties_configuration.setCurrentIndex(
-            self.sec_xdir_rebars_widget.ties_configuration.findText(
-                str(self.ties_configuration)
-            )
-        )
-        self.sec_ydir_rebars_widget.ties_configuration.setCurrentIndex(
-            self.sec_ydir_rebars_widget.ties_configuration.findText(
-                str(self.ties_configuration)
-            )
-        )
+        self.ties_configuration = self.form.ties_configuration.currentText()
         if self.ties_configuration == "SingleTie":
-            self.ties_widget.ties_configurationImage.setPixmap(
+            self.form.image.setPixmap(
                 QtGui.QPixmap(
-                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
-                        0
-                    ]
-                    + "/icons/Column_SingleTieMultipleRebars.png"
-                )
-            )
-            self.main_rebars_widget.ties_configurationImage.setPixmap(
-                QtGui.QPixmap(
-                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
-                        0
-                    ]
-                    + "/icons/Column_SingleTieMultipleRebars.png"
-                )
-            )
-            self.sec_xdir_rebars_widget.ties_configurationImage.setPixmap(
-                QtGui.QPixmap(
-                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
-                        0
-                    ]
-                    + "/icons/Column_SingleTieMultipleRebars.png"
-                )
-            )
-            self.sec_ydir_rebars_widget.ties_configurationImage.setPixmap(
-                QtGui.QPixmap(
-                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
-                        0
-                    ]
-                    + "/icons/Column_SingleTieMultipleRebars.png"
+                    str(
+                        Path(__file__).parent.parent.absolute()
+                        / "icons"
+                        / "Column_SingleTieMultipleRebars.png"
+                    )
                 )
             )
             self.sec_xdir_rebars_widget.setEnabled(True)
             self.sec_ydir_rebars_widget.setEnabled(True)
-            self.ties_widget.ties_sequenceLabel.setEnabled(False)
-            self.ties_widget.ties_sequenceListWidget.setEnabled(False)
+            self.form.ties_sequenceLabel.setEnabled(False)
+            self.form.ties_sequenceListWidget.setEnabled(False)
         elif self.ties_configuration == "TwoTiesSixRebars":
-            self.ties_widget.ties_configurationImage.setPixmap(
+            self.form.image.setPixmap(
                 QtGui.QPixmap(
-                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
-                        0
-                    ]
-                    + "/icons/Column_TwoTiesSixRebars.png"
-                )
-            )
-            self.main_rebars_widget.ties_configurationImage.setPixmap(
-                QtGui.QPixmap(
-                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
-                        0
-                    ]
-                    + "/icons/Column_TwoTiesSixRebars.png"
-                )
-            )
-            self.sec_xdir_rebars_widget.ties_configurationImage.setPixmap(
-                QtGui.QPixmap(
-                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
-                        0
-                    ]
-                    + "/icons/Column_TwoTiesSixRebars.png"
-                )
-            )
-            self.sec_ydir_rebars_widget.ties_configurationImage.setPixmap(
-                QtGui.QPixmap(
-                    os.path.split(os.path.split(os.path.abspath(__file__))[0])[
-                        0
-                    ]
-                    + "/icons/Column_TwoTiesSixRebars.png"
+                    str(
+                        Path(__file__).parent.parent.absolute()
+                        / "icons"
+                        / "Column_TwoTiesSixRebars.png"
+                    )
                 )
             )
             self.sec_xdir_rebars_widget.setEnabled(False)
             self.sec_ydir_rebars_widget.setEnabled(False)
-            self.ties_widget.ties_sequenceLabel.setEnabled(True)
-            self.ties_widget.ties_sequenceListWidget.setEnabled(True)
+            self.form.ties_sequenceLabel.setEnabled(True)
+            self.form.ties_sequenceListWidget.setEnabled(True)
 
     def tiesLeftCoverChanged(self):
         if self.ties_widget.ties_allCoversEqual.isChecked():
@@ -670,9 +572,7 @@ class _ColumnReinforcementDialog:
     def accept(self, button=None):
         """This function is executed when 'OK' button is clicked from UI. It
         execute a function to create column reinforcement."""
-        self.ties_configuration = (
-            self.ties_widget.ties_configuration.currentText()
-        )
+        self.ties_configuration = self.form.ties_configuration.currentText()
         if not self.RebarGroup:
             if self.column_type == "RectangularColumn":
                 if self.ties_configuration == "SingleTie":
@@ -898,8 +798,8 @@ class _ColumnReinforcementDialog:
                 self.ties_number_spacing_value
             ).Value
         if self.ties_configuration == "TwoTiesSixRebars":
-            item1 = self.ties_widget.ties_sequenceListWidget.item(0).text()
-            item2 = self.ties_widget.ties_sequenceListWidget.item(1).text()
+            item1 = self.form.ties_sequenceListWidget.item(0).text()
+            item2 = self.form.ties_sequenceListWidget.item(1).text()
             self.ties_sequence = (item1, item2)
 
     def getMainRebarsData(self):
@@ -1116,23 +1016,8 @@ def editDialog(vobj):
     if ties_group:
         obj.form.rectangular_column_radio.setChecked(True)
         obj.rectangularColumnRadioClicked()
-        obj.ties_widget.ties_configuration.setCurrentIndex(
-            obj.ties_widget.ties_configuration.findText(
-                str(ties_group.TiesConfiguration)
-            )
-        )
-        obj.main_rebars_widget.ties_configuration.setCurrentIndex(
-            obj.ties_widget.ties_configuration.findText(
-                str(ties_group.TiesConfiguration)
-            )
-        )
-        obj.sec_xdir_rebars_widget.ties_configuration.setCurrentIndex(
-            obj.ties_widget.ties_configuration.findText(
-                str(ties_group.TiesConfiguration)
-            )
-        )
-        obj.sec_ydir_rebars_widget.ties_configuration.setCurrentIndex(
-            obj.ties_widget.ties_configuration.findText(
+        obj.form.ties_configuration.setCurrentIndex(
+            obj.form.ties_configuration.findText(
                 str(ties_group.TiesConfiguration)
             )
         )
@@ -1212,8 +1097,8 @@ def setTiesData(obj, vobj):
     if Ties.TiesConfiguration == "TwoTiesSixRebars":
         item1 = Ties.TiesSequence[0]
         item2 = Ties.TiesSequence[1]
-        obj.ties_widget.ties_sequenceListWidget.item(0).setText(item1)
-        obj.ties_widget.ties_sequenceListWidget.item(1).setText(item2)
+        obj.form.ties_sequenceListWidget.item(0).setText(item1)
+        obj.form.ties_sequenceListWidget.item(1).setText(item2)
 
 
 def setMainRebarsData(obj, vobj):

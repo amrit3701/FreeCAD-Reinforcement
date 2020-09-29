@@ -7,303 +7,290 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>437</height>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" columnstretch="1,0">
-   <item row="0" column="0" rowspan="2">
-    <widget class="QWidget" name="helical_rebars_dataWidget" native="true">
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="helical_rebars_heading">
-        <property name="font">
-         <font>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Helical Rebars</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="sideCoverLabel">
-        <property name="text">
-         <string>Side Cover</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="Gui::InputField" name="sideCover">
-        <property name="text">
-         <string>20 mm</string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true">mm</string>
-        </property>
-        <property name="quantity" stdset="0">
-         <double>20.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="helical_rebars_topOffsetLabel">
-        <property name="text">
-         <string>Top Offset</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="Gui::InputField" name="helical_rebars_topOffset">
-        <property name="text">
-         <string>40 mm</string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true">mm</string>
-        </property>
-        <property name="quantity" stdset="0">
-         <double>40.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="helical_rebars_bottomOffsetLabel">
-        <property name="text">
-         <string>Bottom Offset</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="Gui::InputField" name="helical_rebars_bottomOffset">
-        <property name="text">
-         <string>40 mm</string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true">mm</string>
-        </property>
-        <property name="quantity" stdset="0">
-         <double>40.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="pitchLabel">
-        <property name="text">
-         <string>Pitch</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="Gui::InputField" name="pitch">
-        <property name="text">
-         <string>50 mm</string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true">mm</string>
-        </property>
-        <property name="quantity" stdset="0">
-         <double>50.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="helical_rebars_diameterLabel">
-        <property name="text">
-         <string>Diameter</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="Gui::InputField" name="helical_rebars_diameter">
-        <property name="text">
-         <string>8 mm</string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true">mm</string>
-        </property>
-        <property name="quantity" stdset="0">
-         <double>8.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-     </layout>
+  <layout class="QGridLayout" name="gridLayout" columnstretch="0,0">
+   <item row="4" column="1">
+    <widget class="Gui::InputField" name="pitch">
+     <property name="text">
+      <string>50 mm</string>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>50.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="1">
+    <widget class="Gui::PrefSpinBox" name="main_rebars_angle">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="suffix">
+      <string> °</string>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>360</number>
+     </property>
+     <property name="value">
+      <number>60</number>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="Gui::InputField" name="main_rebars_topOffset">
+     <property name="text">
+      <string>20 mm</string>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>20.000000000000000</double>
+     </property>
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QWidget" name="main_rebars_dataWidget" native="true">
-     <layout class="QFormLayout" name="formLayout_2">
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="main_rebars_heading">
-        <property name="font">
-         <font>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Main Rebars</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="main_rebars_topOffsetLabel">
-        <property name="text">
-         <string>Top Offset</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="Gui::InputField" name="main_rebars_topOffset">
-        <property name="text">
-         <string>20 mm</string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true">mm</string>
-        </property>
-        <property name="quantity" stdset="0">
-         <double>20.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="main_rebars_bottomOffsetLabel">
-        <property name="text">
-         <string>Bottom Offset</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="Gui::InputField" name="main_rebars_bottomOffset">
-        <property name="text">
-         <string>20 mm</string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true">mm</string>
-        </property>
-        <property name="quantity" stdset="0">
-         <double>20.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="main_rebars_diameterLabel">
-        <property name="text">
-         <string>Diameter</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="Gui::InputField" name="main_rebars_diameter">
-        <property name="text">
-         <string>16 mm</string>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true">mm</string>
-        </property>
-        <property name="quantity" stdset="0">
-         <double>16.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="2">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="Gui::PrefRadioButton" name="main_rebars_number_radio">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="acceptDrops">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Number</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="Gui::PrefRadioButton" name="main_rebars_angle_radio">
-          <property name="text">
-           <string>Angle</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="main_rebars_numberLabel">
-        <property name="text">
-         <string>Number</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="Gui::PrefSpinBox" name="main_rebars_number">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="value">
-         <number>6</number>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="main_rebars_angleLabel">
-        <property name="text">
-         <string>Angle</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="Gui::PrefSpinBox" name="main_rebars_angle">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="suffix">
-         <string> °</string>
-        </property>
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>360</number>
-        </property>
-        <property name="value">
-         <number>60</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
+    <widget class="QLabel" name="helical_rebars_topOffsetLabel">
+     <property name="text">
+      <string>Top Offset</string>
+     </property>
     </widget>
    </item>
-   <item row="0" column="1" rowspan="3">
-    <widget class="QLabel" name="columReinforcementImage">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+   <item row="3" column="1">
+    <widget class="Gui::InputField" name="helical_rebars_bottomOffset">
      <property name="text">
-      <string>image</string>
+      <string>40 mm</string>
      </property>
-     <property name="scaledContents">
-      <bool>false</bool>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignHCenter|Qt::AlignTop</set>
+     <property name="quantity" stdset="0">
+      <double>40.000000000000000</double>
      </property>
     </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="helical_rebars_diameterLabel">
+     <property name="text">
+      <string>Diameter</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="helical_rebars_heading">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Helical Rebars</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="pitchLabel">
+     <property name="text">
+      <string>Pitch</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="main_rebars_diameterLabel">
+     <property name="text">
+      <string>Diameter</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="Gui::InputField" name="helical_rebars_topOffset">
+     <property name="text">
+      <string>40 mm</string>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>40.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="2">
+    <widget class="QLabel" name="main_rebars_heading">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Main Rebars</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="Gui::InputField" name="helical_rebars_diameter">
+     <property name="text">
+      <string>8 mm</string>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>8.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1">
+    <widget class="Gui::InputField" name="main_rebars_diameter">
+     <property name="text">
+      <string>16 mm</string>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>16.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="helical_rebars_bottomOffsetLabel">
+     <property name="text">
+      <string>Bottom Offset</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="sideCoverLabel">
+     <property name="text">
+      <string>Side Cover</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="main_rebars_topOffsetLabel">
+     <property name="text">
+      <string>Top Offset</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="0">
+    <widget class="QLabel" name="main_rebars_angleLabel">
+     <property name="text">
+      <string>Angle</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="Gui::InputField" name="sideCover">
+     <property name="text">
+      <string>20 mm</string>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>20.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="Gui::PrefRadioButton" name="main_rebars_number_radio">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Number</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Gui::PrefRadioButton" name="main_rebars_angle_radio">
+       <property name="text">
+        <string>Angle</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="main_rebars_bottomOffsetLabel">
+     <property name="text">
+      <string>Bottom Offset</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="0">
+    <widget class="QLabel" name="main_rebars_numberLabel">
+     <property name="text">
+      <string>Number</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1">
+    <widget class="Gui::PrefSpinBox" name="main_rebars_number">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="value">
+      <number>6</number>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="Gui::InputField" name="main_rebars_bottomOffset">
+     <property name="text">
+      <string>20 mm</string>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>20.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>Gui::PrefRadioButton</class>
+   <extends>QRadioButton</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
   <customwidget>
    <class>Gui::InputField</class>
    <extends>QLineEdit</extends>
@@ -314,12 +301,21 @@
    <extends>QSpinBox</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
-  <customwidget>
-   <class>Gui::PrefRadioButton</class>
-   <extends>QRadioButton</extends>
-   <header>Gui/PrefWidgets.h</header>
-  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>sideCover</tabstop>
+  <tabstop>helical_rebars_topOffset</tabstop>
+  <tabstop>helical_rebars_bottomOffset</tabstop>
+  <tabstop>pitch</tabstop>
+  <tabstop>helical_rebars_diameter</tabstop>
+  <tabstop>main_rebars_topOffset</tabstop>
+  <tabstop>main_rebars_bottomOffset</tabstop>
+  <tabstop>main_rebars_diameter</tabstop>
+  <tabstop>main_rebars_number_radio</tabstop>
+  <tabstop>main_rebars_angle_radio</tabstop>
+  <tabstop>main_rebars_number</tabstop>
+  <tabstop>main_rebars_angle</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
