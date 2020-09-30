@@ -10,12 +10,6 @@
     <height>414</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -310,6 +304,16 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>Gui::PrefSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefComboBox</class>
+   <extends>QComboBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
    <class>Gui::InputField</class>
    <extends>QLineEdit</extends>
    <header>Gui/InputField.h</header>
@@ -319,17 +323,25 @@
    <extends>QRadioButton</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
-  <customwidget>
-   <class>Gui::PrefComboBox</class>
-   <extends>QComboBox</extends>
-   <header>Gui/PrefWidgets.h</header>
-  </customwidget>
-  <customwidget>
-   <class>Gui::PrefSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>Gui/PrefWidgets.h</header>
-  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>ties_scrollArea</tabstop>
+  <tabstop>ties_leftCover</tabstop>
+  <tabstop>ties_allCoversEqual</tabstop>
+  <tabstop>ties_rightCover</tabstop>
+  <tabstop>ties_topCover</tabstop>
+  <tabstop>ties_bottomCover</tabstop>
+  <tabstop>ties_offset</tabstop>
+  <tabstop>ties_diameter</tabstop>
+  <tabstop>ties_bentAngle</tabstop>
+  <tabstop>ties_extensionFactor</tabstop>
+  <tabstop>ties_number_radio</tabstop>
+  <tabstop>ties_spacing_radio</tabstop>
+  <tabstop>ties_number</tabstop>
+  <tabstop>ties_spacing</tabstop>
+  <tabstop>ties_customSpacing</tabstop>
+  <tabstop>ties_removeCustomSpacing</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

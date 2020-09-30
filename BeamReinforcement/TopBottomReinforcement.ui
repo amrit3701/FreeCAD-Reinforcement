@@ -6,261 +6,244 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>636</width>
-    <height>610</height>
+    <width>480</width>
+    <height>600</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>450</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="numberDiameterOffsetLabel">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Number#Diameter@Offset</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="QPushButton" name="numberDiameterOffsetEditButton">
-     <property name="text">
-      <string>Edit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="3">
-    <widget class="QPlainTextEdit" name="numberDiameterOffset">
-     <property name="enabled">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0" colspan="2">
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
       <bool>true</bool>
      </property>
-     <property name="minimumSize">
-      <size>
-       <width>490</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-     <property name="plainText">
-      <string>('1#20@-60+2#16@-60+1#20@-60', '3#16@-100')</string>
-     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>478</width>
+        <height>598</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="numberDiameterOffsetLabel">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Number#Diameter@Offset</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="numberDiameterOffsetEditButton">
+         <property name="text">
+          <string>Edit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="3">
+        <widget class="QPlainTextEdit" name="numberDiameterOffset">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="plainText">
+          <string>('1#20@-60+2#16@-60+1#20@-60', '3#16@-100')</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="rebarTypeLabel">
+         <property name="text">
+          <string>Rebar Type</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QPushButton" name="rebarTypeEditButton">
+         <property name="text">
+          <string>Edit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QPlainTextEdit" name="rebarType">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="plainText">
+          <string>(('LShapeRebar', 'LShapeRebar', 'LShapeRebar'), ('LShapeRebar',))</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="hookOrientationLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>127</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Hook Orientation</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QPushButton" name="hookOrientationEditButton">
+         <property name="text">
+          <string>Edit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="3">
+        <widget class="QPlainTextEdit" name="hookOrientation">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="plainText">
+          <string>(('Rear Outside', 'Rear Outside', 'Rear Outside'), ('Rear Outside',))</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="hookExtensionLabel">
+         <property name="text">
+          <string>Hook Extension</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <widget class="QPushButton" name="hookExtensionEditButton">
+         <property name="text">
+          <string>Edit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="3">
+        <widget class="QPlainTextEdit" name="hookExtension">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="plainText">
+          <string>((100.0, 100.0, 100.0), (100.0,))</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="LRebarRoundingLabel">
+         <property name="text">
+          <string>Rounding</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="2">
+        <widget class="QPushButton" name="LRebarRoundingEditButton">
+         <property name="text">
+          <string>Edit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0" colspan="3">
+        <widget class="QPlainTextEdit" name="LRebarRounding">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="plainText">
+          <string>((2, 2, 2), (2,))</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="layersLabel">
+         <property name="text">
+          <string>Layers</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1">
+        <widget class="Gui::PrefSpinBox" name="layers">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="layerSpacingLabel">
+         <property name="text">
+          <string>Layer Spacing</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="1">
+        <widget class="Gui::PrefLineEdit" name="layerSpacing">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
+         <property name="text">
+          <string>(30.0, 30.0)</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="2">
+        <widget class="QPushButton" name="layerSpacingEditButton">
+         <property name="text">
+          <string>Edit</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="rebarTypeLabel">
-     <property name="text">
-      <string>Rebar Type</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QPushButton" name="rebarTypeEditButton">
-     <property name="text">
-      <string>Edit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="3">
-    <widget class="QPlainTextEdit" name="rebarType">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-     <property name="plainText">
-      <string>(('LShapeRebar', 'LShapeRebar', 'LShapeRebar'), ('LShapeRebar',))</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="hookOrientationLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>127</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Hook Orientation</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="2" rowspan="2">
-    <widget class="QPushButton" name="hookOrientationEditButton">
-     <property name="text">
-      <string>Edit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="3">
-    <widget class="QPlainTextEdit" name="hookOrientation">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-     <property name="plainText">
-      <string>(('Rear Outside', 'Rear Outside', 'Rear Outside'), ('Rear Outside',))</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="hookExtensionLabel">
-     <property name="text">
-      <string>Hook Extension</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="2">
-    <widget class="QPushButton" name="hookExtensionEditButton">
-     <property name="text">
-      <string>Edit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0" colspan="3">
-    <widget class="QPlainTextEdit" name="hookExtension">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-     <property name="plainText">
-      <string>((100.0, 100.0, 100.0), (100.0,))</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0">
-    <widget class="QLabel" name="LRebarRoundingLabel">
-     <property name="text">
-      <string>Rounding</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="2">
-    <widget class="QPushButton" name="LRebarRoundingEditButton">
-     <property name="text">
-      <string>Edit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0" colspan="3">
-    <widget class="QPlainTextEdit" name="LRebarRounding">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-     <property name="plainText">
-      <string>((2, 2, 2), (2,))</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="0">
-    <widget class="QLabel" name="layersLabel">
-     <property name="text">
-      <string>Layers</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="1">
-    <widget class="Gui::PrefSpinBox" name="layers">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="minimum">
-      <number>1</number>
-     </property>
-     <property name="value">
-      <number>2</number>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="0">
-    <widget class="QLabel" name="layerSpacingLabel">
-     <property name="text">
-      <string>Layer Spacing</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="1">
-    <widget class="Gui::PrefLineEdit" name="layerSpacing">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>175</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::StrongFocus</enum>
-     </property>
-     <property name="text">
-      <string>(30.0, 30.0)</string>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="2">
-    <widget class="QPushButton" name="layerSpacingEditButton">
-     <property name="text">
-      <string>Edit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3" rowspan="13">
-    <layout class="QVBoxLayout" name="ties_configurationLayout">
-     <item>
-      <widget class="Gui::PrefComboBox" name="stirrups_configuration">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="prefEntry" stdset="0">
-        <cstring></cstring>
-       </property>
-       <property name="prefPath" stdset="0">
-        <cstring></cstring>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="stirrups_configurationImage">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>image</string>
-       </property>
-       <property name="scaledContents">
-        <bool>false</bool>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignHCenter|Qt::AlignTop</set>
-       </property>
-      </widget>
-     </item>
-    </layout>
    </item>
   </layout>
  </widget>
@@ -271,16 +254,27 @@
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
   <customwidget>
-   <class>Gui::PrefComboBox</class>
-   <extends>QComboBox</extends>
-   <header>Gui/PrefWidgets.h</header>
-  </customwidget>
-  <customwidget>
    <class>Gui::PrefLineEdit</class>
    <extends>QLineEdit</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>numberDiameterOffsetEditButton</tabstop>
+  <tabstop>numberDiameterOffset</tabstop>
+  <tabstop>rebarTypeEditButton</tabstop>
+  <tabstop>rebarType</tabstop>
+  <tabstop>hookOrientationEditButton</tabstop>
+  <tabstop>hookOrientation</tabstop>
+  <tabstop>hookExtensionEditButton</tabstop>
+  <tabstop>hookExtension</tabstop>
+  <tabstop>LRebarRoundingEditButton</tabstop>
+  <tabstop>LRebarRounding</tabstop>
+  <tabstop>layers</tabstop>
+  <tabstop>layerSpacing</tabstop>
+  <tabstop>layerSpacingEditButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

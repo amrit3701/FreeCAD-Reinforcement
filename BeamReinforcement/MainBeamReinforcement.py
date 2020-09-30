@@ -25,20 +25,24 @@ __title__ = "Beam Reinforcement Dialog Box"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-import os
 import ast
+from pathlib import Path
 from PySide2 import QtWidgets, QtGui
 
 import FreeCAD
 import FreeCADGui
 
 from Rebarfunc import check_selected_face, showWarning
-from BeamReinforcement.NumberDiameterOffset import runNumberDiameterOffsetDialog
+from BeamReinforcement.NumberDiameterOffset import (
+    runNumberDiameterOffsetDialog,
+)
 from BeamReinforcement.RebarTypeEditDialog import runRebarTypeEditDialog
 from BeamReinforcement.HookOrientationEditDialog import (
     runHookOrientationEditDialog,
 )
-from BeamReinforcement.HookExtensionEditDialog import runHookExtensionEditDialog
+from BeamReinforcement.HookExtensionEditDialog import (
+    runHookExtensionEditDialog,
+)
 from BeamReinforcement.RoundingEditDialog import runRoundingEditDialog
 from BeamReinforcement.LayerSpacingEditDialog import runLayerSpacingEditDialog
 from BeamReinforcement import (
@@ -73,7 +77,7 @@ class _BeamReinforcementDialog:
 
         # Load ui from file MainBeamReinforcement.ui
         self.form = FreeCADGui.PySideUic.loadUi(
-            os.path.splitext(__file__)[0] + ".ui"
+            str(Path(__file__).with_suffix(".ui").absolute())
         )
         self.form.setWindowTitle(
             QtWidgets.QApplication.translate(
@@ -84,38 +88,27 @@ class _BeamReinforcementDialog:
 
     def setupUi(self):
         """This function is used to add components to ui."""
-        # Add items into rebars_listWidget
-        self.form.rebars_listWidget.addItem("Stirrups")
-        self.form.rebars_listWidget.addItem("Top Reinforcement")
-        self.form.rebars_listWidget.addItem("Bottom Reinforcement")
-        self.form.rebars_listWidget.addItem("Left Reinforcement")
-        self.form.rebars_listWidget.addItem("Right Reinforcement")
-        self.form.rebars_listWidget.setCurrentRow(0)
         # Load and add widgets into stacked widget
         self.stirrups_widget = FreeCADGui.PySideUic.loadUi(
-            os.path.split(os.path.abspath(__file__))[0] + "/Stirrups.ui"
+            str(Path(__file__).parent.absolute() / "Stirrups.ui")
         )
         self.form.rebars_stackedWidget.addWidget(self.stirrups_widget)
         self.top_reinforcement_widget = FreeCADGui.PySideUic.loadUi(
-            os.path.split(os.path.abspath(__file__))[0]
-            + "/TopBottomReinforcement.ui"
+            str(Path(__file__).parent.absolute() / "TopBottomReinforcement.ui")
         )
         self.form.rebars_stackedWidget.addWidget(self.top_reinforcement_widget)
         self.bottom_reinforcement_widget = FreeCADGui.PySideUic.loadUi(
-            os.path.split(os.path.abspath(__file__))[0]
-            + "/TopBottomReinforcement.ui"
+            str(Path(__file__).parent.absolute() / "TopBottomReinforcement.ui")
         )
         self.form.rebars_stackedWidget.addWidget(
             self.bottom_reinforcement_widget
         )
         self.left_reinforcement_widget = FreeCADGui.PySideUic.loadUi(
-            os.path.split(os.path.abspath(__file__))[0]
-            + "/LeftRightReinforcement.ui"
+            str(Path(__file__).parent.absolute() / "LeftRightReinforcement.ui")
         )
         self.form.rebars_stackedWidget.addWidget(self.left_reinforcement_widget)
         self.right_reinforcement_widget = FreeCADGui.PySideUic.loadUi(
-            os.path.split(os.path.abspath(__file__))[0]
-            + "/LeftRightReinforcement.ui"
+            str(Path(__file__).parent.absolute() / "LeftRightReinforcement.ui")
         )
         self.form.rebars_stackedWidget.addWidget(
             self.right_reinforcement_widget
@@ -123,39 +116,14 @@ class _BeamReinforcementDialog:
         # Add dropdown menu items
         self.addDropdownMenuItems()
         # Add image of Two Legged Stirrup
-        self.stirrups_widget.stirrups_configurationImage.setPixmap(
+        self.form.stirrups_configurationImage.setPixmap(
             QtGui.QPixmap(
-                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/Beam_TwoLeggedStirrups.png"
+                str(
+                    Path(__file__).parent.parent.absolute()
+                    / "icons"
+                    / "Beam_TwoLeggedStirrups.png"
+                )
             )
-        )
-        self.top_reinforcement_widget.stirrups_configurationImage.setPixmap(
-            QtGui.QPixmap(
-                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/Beam_TwoLeggedStirrups.png"
-            )
-        )
-        self.bottom_reinforcement_widget.stirrups_configurationImage.setPixmap(
-            QtGui.QPixmap(
-                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/Beam_TwoLeggedStirrups.png"
-            )
-        )
-        self.left_reinforcement_widget.stirrups_configurationImage.setPixmap(
-            QtGui.QPixmap(
-                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/Beam_TwoLeggedStirrups.png"
-            )
-        )
-        self.right_reinforcement_widget.stirrups_configurationImage.setPixmap(
-            QtGui.QPixmap(
-                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
-                + "/icons/Beam_TwoLeggedStirrups.png"
-            )
-        )
-        # Set Stirrups data Widget in Scroll Area
-        self.stirrups_widget.stirrups_scrollArea.setWidget(
-            self.stirrups_widget.stirrups_dataWidget
         )
         # Set default values in UI
         self.setDefaultValues()
@@ -165,30 +133,8 @@ class _BeamReinforcementDialog:
     def setDefaultValues(self):
         self.CustomSpacing = None
         # Set stirrups data
-        self.stirrups_widget.stirrups_configuration.setCurrentIndex(
-            self.stirrups_widget.stirrups_configuration.findText(
-                "Two Legged Stirrups"
-            )
-        )
-        self.top_reinforcement_widget.stirrups_configuration.setCurrentIndex(
-            self.top_reinforcement_widget.stirrups_configuration.findText(
-                "Two Legged Stirrups"
-            )
-        )
-        self.bottom_reinforcement_widget.stirrups_configuration.setCurrentIndex(
-            self.bottom_reinforcement_widget.stirrups_configuration.findText(
-                "Two Legged Stirrups"
-            )
-        )
-        self.left_reinforcement_widget.stirrups_configuration.setCurrentIndex(
-            self.left_reinforcement_widget.stirrups_configuration.findText(
-                "Two Legged Stirrups"
-            )
-        )
-        self.right_reinforcement_widget.stirrups_configuration.setCurrentIndex(
-            self.right_reinforcement_widget.stirrups_configuration.findText(
-                "Two Legged Stirrups"
-            )
+        self.form.stirrups_configuration.setCurrentIndex(
+            self.form.stirrups_configuration.findText("Two Legged Stirrups")
         )
         self.stirrups_widget.stirrups_leftCover.setText("20 mm")
         self.stirrups_widget.stirrups_rightCover.setText("20 mm")
@@ -293,21 +239,7 @@ class _BeamReinforcementDialog:
 
     def addDropdownMenuItems(self):
         """This function add dropdown items to each Gui::PrefComboBox."""
-        self.stirrups_widget.stirrups_configuration.addItems(
-            ["Two Legged Stirrups"]
-        )
-        self.top_reinforcement_widget.stirrups_configuration.addItems(
-            ["Two Legged Stirrups"]
-        )
-        self.bottom_reinforcement_widget.stirrups_configuration.addItems(
-            ["Two Legged Stirrups"]
-        )
-        self.left_reinforcement_widget.stirrups_configuration.addItems(
-            ["Two Legged Stirrups"]
-        )
-        self.right_reinforcement_widget.stirrups_configuration.addItems(
-            ["Two Legged Stirrups"]
-        )
+        self.form.stirrups_configuration.addItems(["Two Legged Stirrups"])
         self.stirrups_widget.stirrups_bentAngle.addItems(["90", "135"])
 
     def connectSignalSlots(self):
@@ -1409,14 +1341,12 @@ class _BeamReinforcementDialog:
         index = self.form.rebars_listWidget.currentRow()
         index += 1
         max_index = self.form.rebars_listWidget.count() - 1
-        if index <= max_index:
-            self.form.rebars_listWidget.setCurrentRow(index)
+        self.form.rebars_listWidget.setCurrentRow(min(index, max_index))
 
     def backButtonCilcked(self):
         index = self.form.rebars_listWidget.currentRow()
         index -= 1
-        if index >= 0:
-            self.form.rebars_listWidget.setCurrentRow(index)
+        self.form.rebars_listWidget.setCurrentRow(max(index, 0))
 
     def clicked(self, button):
         """This function is executed when 'Apply' button is clicked from UI."""
@@ -1441,7 +1371,7 @@ class _BeamReinforcementDialog:
         """This function is executed when 'OK' button is clicked from UI. It
         execute a function to create column reinforcement."""
         self.stirrups_configuration = (
-            self.stirrups_widget.stirrups_configuration.currentText()
+            self.form.stirrups_configuration.currentText()
         )
         self.getStirrupsData()
         self.getTopReinforcementData()
@@ -1744,28 +1674,8 @@ def editDialog(vobj):
             return
     obj = _BeamReinforcementDialog(vobj.Object)
     obj.setupUi()
-    obj.stirrups_widget.stirrups_configuration.setCurrentIndex(
-        obj.stirrups_widget.stirrups_configuration.findText(
-            str(stirrups_group.StirrupsConfiguration)
-        )
-    )
-    obj.top_reinforcement_widget.stirrups_configuration.setCurrentIndex(
-        obj.top_reinforcement_widget.stirrups_configuration.findText(
-            str(stirrups_group.StirrupsConfiguration)
-        )
-    )
-    obj.bottom_reinforcement_widget.stirrups_configuration.setCurrentIndex(
-        obj.bottom_reinforcement_widget.stirrups_configuration.findText(
-            str(stirrups_group.StirrupsConfiguration)
-        )
-    )
-    obj.left_reinforcement_widget.stirrups_configuration.setCurrentIndex(
-        obj.left_reinforcement_widget.stirrups_configuration.findText(
-            str(stirrups_group.StirrupsConfiguration)
-        )
-    )
-    obj.right_reinforcement_widget.stirrups_configuration.setCurrentIndex(
-        obj.right_reinforcement_widget.stirrups_configuration.findText(
+    obj.form.stirrups_configuration.setCurrentIndex(
+        obj.form.stirrups_configuration.findText(
             str(stirrups_group.StirrupsConfiguration)
         )
     )

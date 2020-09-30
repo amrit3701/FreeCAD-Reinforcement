@@ -6,92 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>353</height>
+    <width>380</width>
+    <height>380</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>900</width>
-    <height>0</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" columnstretch="1,1,1,0">
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="numberDiameterOffsetLabel">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Number#Diameter@Offset</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="QPushButton" name="numberDiameterOffsetEditButton">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Edit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="3">
-    <widget class="Gui::PrefLineEdit" name="numberDiameterOffset">
-     <property name="minimumSize">
-      <size>
-       <width>490</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>1#16@-100+1#16@-100+1#16@-100</string>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="rebarTypeLabel">
-     <property name="text">
-      <string>Rebar Type</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QPushButton" name="rebarTypeEditButton">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Edit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="3">
-    <widget class="Gui::PrefLineEdit" name="rebarType">
-     <property name="text">
-      <string>('LShapeRebar', 'LShapeRebar', 'LShapeRebar')</string>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
+  <layout class="QGridLayout" name="gridLayout" columnstretch="1,0,0">
    <item row="4" column="0" colspan="2">
     <widget class="QLabel" name="hookOrientationLabel">
      <property name="sizePolicy">
@@ -111,8 +33,117 @@
      </property>
     </widget>
    </item>
+   <item row="10" column="1" colspan="2">
+    <widget class="Gui::InputField" name="rebarSpacing">
+     <property name="minimum" stdset="0">
+      <double>10.000000000000000</double>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+     <property name="quantity" stdset="0">
+      <double>30.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QPushButton" name="rebarTypeEditButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Edit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="numberDiameterOffsetLabel">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Number#Diameter@Offset</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="2">
+    <widget class="QPushButton" name="LRebarRoundingEditButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Edit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="rebarTypeLabel">
+     <property name="text">
+      <string>Rebar Type</string>
+     </property>
+    </widget>
+   </item>
    <item row="4" column="2">
     <widget class="QPushButton" name="hookOrientationEditButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Edit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="hookExtensionLabel">
+     <property name="text">
+      <string>Hook Extension</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="LRebarRoundingLabel">
+     <property name="text">
+      <string>Rounding</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="3">
+    <widget class="Gui::PrefLineEdit" name="rebarType">
+     <property name="text">
+      <string>('LShapeRebar', 'LShapeRebar', 'LShapeRebar')</string>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="rebarSpacingLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Rebar Spacing</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QPushButton" name="numberDiameterOffsetEditButton">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -134,45 +165,8 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="hookExtensionLabel">
-     <property name="text">
-      <string>Hook Extension</string>
-     </property>
-    </widget>
-   </item>
    <item row="6" column="2">
     <widget class="QPushButton" name="hookExtensionEditButton">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Edit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0" colspan="3">
-    <widget class="Gui::PrefLineEdit" name="hookExtension">
-     <property name="text">
-      <string>(80.0, 80.0, 80.0)</string>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="QLabel" name="LRebarRoundingLabel">
-     <property name="text">
-      <string>Rounding</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="2">
-    <widget class="QPushButton" name="LRebarRoundingEditButton">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -194,105 +188,66 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="0">
-    <widget class="QLabel" name="rebarSpacingLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+   <item row="1" column="0" colspan="3">
+    <widget class="Gui::PrefLineEdit" name="numberDiameterOffset">
      <property name="text">
-      <string>Rebar Spacing</string>
+      <string>1#16@-100+1#16@-100+1#16@-100</string>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="10" column="1" colspan="2">
-    <widget class="Gui::InputField" name="rebarSpacing">
-     <property name="minimum">
-      <double>10.000000000000000</double>
+   <item row="7" column="0" colspan="3">
+    <widget class="Gui::PrefLineEdit" name="hookExtension">
+     <property name="text">
+      <string>(80.0, 80.0, 80.0)</string>
      </property>
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-     <property name="quantity" stdset="0">
-      <double>30.000000000000000</double>
+     <property name="readOnly">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="0" column="3" rowspan="11">
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="Gui::PrefComboBox" name="stirrups_configuration">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="prefEntry" stdset="0">
-        <cstring></cstring>
-       </property>
-       <property name="prefPath" stdset="0">
-        <cstring></cstring>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="stirrups_configurationImage">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>410</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>image</string>
-       </property>
-       <property name="scaledContents">
-        <bool>false</bool>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignHCenter|Qt::AlignTop</set>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   <item row="11" column="0" colspan="3">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Gui::InputField</class>
-   <extends>QLineEdit</extends>
-   <header>Gui/InputField.h</header>
-  </customwidget>
-  <customwidget>
-   <class>Gui::PrefComboBox</class>
-   <extends>QComboBox</extends>
-   <header>Gui/PrefWidgets.h</header>
-  </customwidget>
-  <customwidget>
    <class>Gui::PrefLineEdit</class>
    <extends>QLineEdit</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
+  <customwidget>
+   <class>Gui::InputField</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/InputField.h</header>
+  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>numberDiameterOffsetEditButton</tabstop>
+  <tabstop>numberDiameterOffset</tabstop>
+  <tabstop>rebarTypeEditButton</tabstop>
+  <tabstop>rebarType</tabstop>
+  <tabstop>hookOrientationEditButton</tabstop>
+  <tabstop>hookOrientation</tabstop>
+  <tabstop>hookExtensionEditButton</tabstop>
+  <tabstop>hookExtension</tabstop>
+  <tabstop>LRebarRoundingEditButton</tabstop>
+  <tabstop>LRebarRounding</tabstop>
+  <tabstop>rebarSpacing</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
