@@ -78,6 +78,8 @@ Within the `StraightRebar.py` file we find the `_StraightRebarTaskPanel` class p
 ## Contributing
 We love contributions! We have collected notes on how to contribute to this project in [CONTRIBUTING.md](https://github.com/amrit3701/FreeCAD-Reinforcement/blob/master/CHANGELOG.md)
 
+[![](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/images/0)](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/links/0)[![](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/images/1)](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/links/1)[![](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/images/2)](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/links/2)[![](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/images/3)](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/links/3)[![](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/images/4)](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/links/4)[![](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/images/5)](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/links/5)[![](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/images/6)](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/links/6)[![](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/images/7)](https://sourcerer.io/fame/SurajDadral/amrit3701/FreeCAD-Reinforcement/links/7)
+
 
 ## Showcase
 
