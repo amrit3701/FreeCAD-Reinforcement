@@ -183,12 +183,13 @@ def getpointsOfStirrup(
 
 class _StirrupTaskPanel:
     def __init__(self, Rebar=None):
-        self.CustomSpacing = None
         if not Rebar:
+            self.CustomSpacing = None
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
             self.SelectedObj = selected_obj.Object
             self.FaceName = selected_obj.SubElementNames[0]
         else:
+            self.CustomSpacing = Rebar.CustomSpacing
             self.FaceName = Rebar.Base.Support[0][1][0]
             self.SelectedObj = Rebar.Base.Support[0][0]
         self.form = FreeCADGui.PySideUic.loadUi(

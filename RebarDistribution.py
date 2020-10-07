@@ -72,10 +72,32 @@ class _RebarDistributionDialog:
             self.ExpandingLength,
         )
 
-    def setupUi(self):
+    def setupUi(self, CustomSpacing):
         # Connect Signals and Slots
         self.form.buttonBox.accepted.connect(self.accept)
-        pass
+        self.form.buttonBox.rejected.connect(lambda: self.form.close())
+        if CustomSpacing:
+            spacingList = getupleOfCustomSpacing(CustomSpacing)
+            if len(spacingList) >= 1:
+                self.form.amount1.setValue(spacingList[0][0])
+                self.form.spacing1.setText(f"{spacingList[0][1]} mm")
+            else:
+                self.form.amount1.setValue(0)
+                self.form.spacing1.setText("0 mm")
+
+            if len(spacingList) >= 2:
+                self.form.amount2.setValue(spacingList[1][0])
+                self.form.spacing2.setText(f"{spacingList[1][1]} mm")
+            else:
+                self.form.amount2.setValue(0)
+                self.form.spacing2.setText("0 mm")
+
+            if len(spacingList) == 3:
+                self.form.amount3.setValue(spacingList[2][0])
+                self.form.spacing3.setText(f"{spacingList[2][1]} mm")
+            else:
+                self.form.amount3.setValue(0)
+                self.form.spacing3.setText("0 mm")
 
 
 def getCustomSpacingString(
@@ -119,15 +141,14 @@ def getupleOfCustomSpacing(span_string):
     in specific syntax and return output in the form of list. For eg.
     Input: "3@100+2@200+3@100"
     Output: [(3, 100), (2, 200), (3, 100)]"""
-    import string
 
-    span_st = string.strip(span_string)
-    span_sp = string.split(span_st, "+")
+    span_st = span_string.strip()
+    span_sp = span_st.split("+")
     index = 0
     spacinglist = []
     while index < len(span_sp):
         # Find "@" recursively in span_sp array.
-        in_sp = string.split(span_sp[index], "@")
+        in_sp = span_sp[index].split("@")
         spacinglist.append((int(in_sp[0]), float(in_sp[1])))
         index += 1
     return spacinglist
@@ -144,9 +165,12 @@ def runRebarDistribution(self, frontCover=None):
         )
     ).Length
     dialog = _RebarDistributionDialog(frontCover, size)
-    dialog.setupUi()
+    dialog.setupUi(self.CustomSpacing)
     dialog.form.exec_()
-    self.CustomSpacing = dialog.CustomSpacing
+    try:
+        self.CustomSpacing = dialog.CustomSpacing
+    except AttributeError:
+        pass
 
 
 def removeRebarDistribution(self):

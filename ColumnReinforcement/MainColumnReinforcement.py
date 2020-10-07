@@ -47,7 +47,6 @@ from ColumnReinforcement.TwoTiesSixRebars import (
 class _ColumnReinforcementDialog:
     def __init__(self, RebarGroup=None):
         """This function set initial data in Column Reinforcement dialog box."""
-        self.CustomSpacing = None
         self.column_type = "RectangularColumn"
         if not RebarGroup:
             # If column reinforcement is not created yet, then get SelectedObj
@@ -55,6 +54,7 @@ class _ColumnReinforcementDialog:
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
             self.SelectedObj = selected_obj.Object
             self.FaceName = selected_obj.SubElementNames[0]
+            self.CustomSpacing = None
         else:
             # If column reinforcement is already created, then get selectedObj
             # from data stored in created Tie
@@ -64,12 +64,14 @@ class _ColumnReinforcementDialog:
                         Tie = rebar_group.Ties[0]
                         self.FaceName = Tie.Base.Support[0][1][0]
                         self.SelectedObj = Tie.Base.Support[0][0]
+                        self.CustomSpacing = Tie.CustomSpacing
                         break
                 else:
                     if hasattr(rebar_group, "HelicalRebars"):
                         helical_rebar = rebar_group.HelicalRebars[0]
                         self.FaceName = helical_rebar.Base.Support[0][1][0]
                         self.SelectedObj = helical_rebar.Base.Support[0][0]
+                        self.CustomSpacing = helical_rebar.CustomSpacing
                         break
         # Load ui from file MainColumnReinforcement.ui
         self.form = FreeCADGui.PySideUic.loadUi(
@@ -125,7 +127,6 @@ class _ColumnReinforcementDialog:
         self.connectSignalSlots()
 
     def setDefaultValues(self):
-        self.CustomSpacing = None
         # Set default values in UI
         # Set Ties data
         self.form.ties_configuration.setCurrentIndex(

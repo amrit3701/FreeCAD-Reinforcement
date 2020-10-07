@@ -58,13 +58,13 @@ from BeamReinforcement import TwoLeggedBeam
 class _BeamReinforcementDialog:
     def __init__(self, RebarGroup=None):
         """This function set initial data in Beam Reinforcement dialog box."""
-        self.CustomSpacing = None
         if not RebarGroup:
             # If beam reinforcement is not created yet, then get SelectedObj
             # from FreeCAD Gui selection
             selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
             self.SelectedObj = selected_obj.Object
             self.FaceName = selected_obj.SubElementNames[0]
+            self.CustomSpacing = None
         else:
             # If beam reinforcement is already created, then get selectedObj
             # from data stored in created Stirrup
@@ -73,6 +73,7 @@ class _BeamReinforcementDialog:
                     Stirrup = rebar_group.Stirrups[0]
                     self.FaceName = Stirrup.Base.Support[0][1][0]
                     self.SelectedObj = Stirrup.Base.Support[0][0]
+                    self.CustomSpacing = Stirrup.CustomSpacing
                     break
 
         # Load ui from file MainBeamReinforcement.ui
@@ -131,7 +132,6 @@ class _BeamReinforcementDialog:
         self.connectSignalSlots()
 
     def setDefaultValues(self):
-        self.CustomSpacing = None
         # Set stirrups data
         self.form.stirrups_configuration.setCurrentIndex(
             self.form.stirrups_configuration.findText("Two Legged Stirrups")
