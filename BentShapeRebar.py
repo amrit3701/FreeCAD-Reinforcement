@@ -341,7 +341,7 @@ class _BentShapeRebarTaskPanel:
         if signal == int(QtGui.QDialogButtonBox.Apply):
             pass
         else:
-            FreeCADGui.Control.closeDialog(self)
+            FreeCADGui.Control.closeDialog()
 
     def amount_radio_clicked(self):
         self.form.spacing.setEnabled(False)
