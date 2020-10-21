@@ -25,29 +25,41 @@ __title__ = "StraightRebar"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
+import os
+from typing import Literal, Tuple, List
+
+import ArchCommands
+import FreeCAD
+import FreeCADGui
 from PySide import QtGui
+from PySide.QtCore import QT_TRANSLATE_NOOP
+
+from PopUpImage import showPopUpImageDialog
+from RebarData import RebarTypes
+from RebarDistribution import runRebarDistribution, removeRebarDistribution
 from Rebarfunc import (
     getSelectedFace,
     getFaceNumber,
     getParametersOfFace,
     showWarning,
     check_selected_face,
+    facenormalDirection,
 )
-from RebarData import RebarTypes
-from PySide.QtCore import QT_TRANSLATE_NOOP
-from RebarDistribution import runRebarDistribution, removeRebarDistribution
-from PopUpImage import showPopUpImageDialog
-import FreeCAD
-import FreeCADGui
-import ArchCommands
-import os
 
 
 def getpointsOfStraightRebar(
-    FacePRM, rt_cover, lb_cover, coverAlong, orientation, diameter
-):
+    FacePRM: Tuple[Tuple[float, float], Tuple[float, float]],
+    rt_cover: float,
+    lb_cover: float,
+    coverAlong: Tuple[
+        Literal["Bottom Side", "Top Side", "Left Side", "Right Side"], float
+    ],
+    orientation: Literal["Horizontal", "Vertical"],
+    diameter: float,
+    face_normal: FreeCAD.Vector,
+) -> List[FreeCAD.Vector]:
     """getpointsOfStraightRebar(FacePRM, RightTopcover, LeftBottomcover,
-    CoverAlong, Orientation, Diameter):
+    CoverAlong, Orientation, Diameter, FaceNormal):
     Return points of the Straight rebar in the form of array for sketch.
 
     Case I: When Orientation is 'Horizontal':
@@ -55,32 +67,40 @@ def getpointsOfStraightRebar(
     Case II: When Orientation is 'Vertical':
         We have two option in CoverAlong i.e. 'Left Side' or 'Right Side'
     """
+    center_x = FacePRM[1][0]
+    center_y = FacePRM[1][1]
+    # When Left/Rear Face of structure is selected
+    if round(face_normal[0]) == -1 or round(face_normal[1]) == 1:
+        center_x = -center_x
+    # When Bottom Face of structure is selected
+    elif round(face_normal[2]) == -1:
+        center_y = -center_y
     if orientation == "Horizontal":
         if coverAlong[0] == "Bottom Side":
             cover = coverAlong[1] + diameter / 2
-            x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + lb_cover
-            y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + cover
-            x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - rt_cover
-            y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + cover
+            x1 = center_x - FacePRM[0][0] / 2 + lb_cover
+            y1 = center_y - FacePRM[0][1] / 2 + cover
+            x2 = center_x + FacePRM[0][0] / 2 - rt_cover
+            y2 = center_y - FacePRM[0][1] / 2 + cover
         elif coverAlong[0] == "Top Side":
             cover = FacePRM[0][1] - coverAlong[1] - diameter / 2
-            x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + lb_cover
-            y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + cover
-            x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - rt_cover
-            y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + cover
+            x1 = center_x - FacePRM[0][0] / 2 + lb_cover
+            y1 = center_y - FacePRM[0][1] / 2 + cover
+            x2 = center_x + FacePRM[0][0] / 2 - rt_cover
+            y2 = center_y - FacePRM[0][1] / 2 + cover
     elif orientation == "Vertical":
         if coverAlong[0] == "Left Side":
             cover = coverAlong[1] + diameter / 2
-            x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + cover
-            y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + lb_cover
-            x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + cover
-            y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + FacePRM[0][1] - rt_cover
+            x1 = center_x - FacePRM[0][0] / 2 + cover
+            y1 = center_y - FacePRM[0][1] / 2 + lb_cover
+            x2 = center_x - FacePRM[0][0] / 2 + cover
+            y2 = center_y + FacePRM[0][1] / 2 - rt_cover
         elif coverAlong[0] == "Right Side":
             cover = FacePRM[0][0] - coverAlong[1] - diameter / 2
-            x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + cover
-            y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + lb_cover
-            x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + cover
-            y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + FacePRM[0][1] - rt_cover
+            x1 = center_x - FacePRM[0][0] / 2 + cover
+            y1 = center_y - FacePRM[0][1] / 2 + lb_cover
+            x2 = center_x - FacePRM[0][0] / 2 + cover
+            y2 = center_y + FacePRM[0][1] / 2 - rt_cover
     return [FreeCAD.Vector(x1, y1, 0), FreeCAD.Vector(x2, y2, 0)]
 
 
@@ -335,7 +355,13 @@ def makeStraightRebar(
         return
     # Get points of Striaght rebar
     points = getpointsOfStraightRebar(
-        FacePRM, rt_cover, lb_cover, coverAlong, orientation, diameter
+        FacePRM,
+        rt_cover,
+        lb_cover,
+        coverAlong,
+        orientation,
+        diameter,
+        facenormalDirection(structure, facename),
     )
     import Part
     import Arch
@@ -480,7 +506,13 @@ def editStraightRebar(
     FacePRM = getParametersOfFace(structure, facename)
     # Get points of Striaght rebar
     points = getpointsOfStraightRebar(
-        FacePRM, rt_cover, lb_cover, coverAlong, orientation, diameter
+        FacePRM,
+        rt_cover,
+        lb_cover,
+        coverAlong,
+        orientation,
+        diameter,
+        facenormalDirection(structure, facename),
     )
     sketch.movePoint(0, 1, points[0], 0)
     FreeCAD.ActiveDocument.recompute()

@@ -25,55 +25,68 @@ __title__ = "BentShapeRebar"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
+import math
+import os
+from typing import Literal, Tuple, List
+
+import ArchCommands
+import FreeCAD
+import FreeCADGui
 from PySide import QtGui
+from PySide.QtCore import QT_TRANSLATE_NOOP
+
+from PopUpImage import showPopUpImageDialog
+from RebarData import RebarTypes
+from RebarDistribution import runRebarDistribution, removeRebarDistribution
 from Rebarfunc import (
     getSelectedFace,
     getFaceNumber,
     getParametersOfFace,
     showWarning,
     check_selected_face,
+    facenormalDirection,
 )
-from RebarData import RebarTypes
-from PySide.QtCore import QT_TRANSLATE_NOOP
-from RebarDistribution import runRebarDistribution, removeRebarDistribution
-from PopUpImage import showPopUpImageDialog
-import FreeCAD
-import FreeCADGui
-import ArchCommands
-import os
-import math
 
 
 def getpointsOfBentShapeRebar(
-    FacePRM,
-    l_cover,
-    r_cover,
-    b_cover,
-    t_cover,
-    bentLength,
-    bentAngle,
-    orientation,
-    diameter,
-):
+    FacePRM: Tuple[Tuple[float, float], Tuple[float, float]],
+    l_cover: float,
+    r_cover: float,
+    b_cover: float,
+    t_cover: float,
+    bentLength: float,
+    bentAngle: float,
+    orientation: Literal["Bottom", "Top", "Left", "Right"],
+    diameter: float,
+    face_normal: FreeCAD.Vector,
+) -> List[FreeCAD.Vector]:
     """getpointsOfBentShapeRebar(FacePRM, LeftCover, RightCover, BottomCover,
-    TopCover, BentLength, BentAngle, Orientation, Diameter):
+    TopCover, BentLength, BentAngle, Orientation, Diameter, FaceNormal):
     Return points of the LShape rebar in the form of array for sketch.
     It takes four different orientations input i.e. 'Bottom', 'Top', 'Left',
     'Right'.
     """
+    center_x = FacePRM[1][0]
+    center_y = FacePRM[1][1]
+    # When Left/Rear Face of structure is selected
+    if round(face_normal[0]) == -1 or round(face_normal[1]) == 1:
+        center_x = -center_x
+    # When Bottom Face of structure is selected
+    elif round(face_normal[2]) == -1:
+        center_y = -center_y
     if orientation == "Bottom":
         t_cover += diameter / 2
         b_cover += diameter / 2
-        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
-        y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x1 = center_x - FacePRM[0][0] / 2 + l_cover
+        y1 = center_y + FacePRM[0][1] / 2 - t_cover
         x2 = x1 + bentLength
         y2 = y1
         dis = (FacePRM[0][1] - t_cover - b_cover) * math.tan(
             math.radians(bentAngle - 90)
         )
         x3 = x2 + dis
-        y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
-        x4 = FacePRM[1][0] + FacePRM[0][0] / 2 - r_cover - bentLength - dis
+        y3 = center_y - FacePRM[0][1] / 2 + b_cover
+        x4 = center_x + FacePRM[0][0] / 2 - r_cover - bentLength - dis
         y4 = y3
         x5 = x4 + dis
         y5 = y2
@@ -82,16 +95,16 @@ def getpointsOfBentShapeRebar(
     elif orientation == "Top":
         t_cover += diameter / 2
         b_cover += diameter / 2
-        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
-        y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x1 = center_x - FacePRM[0][0] / 2 + l_cover
+        y1 = center_y - FacePRM[0][1] / 2 + b_cover
         x2 = x1 + bentLength
         y2 = y1
         dis = (FacePRM[0][1] - t_cover - b_cover) * math.tan(
             math.radians(bentAngle - 90)
         )
         x3 = x2 + dis
-        y3 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
-        x4 = FacePRM[1][0] + FacePRM[0][0] / 2 - r_cover - bentLength - dis
+        y3 = center_y + FacePRM[0][1] / 2 - t_cover
+        x4 = center_x + FacePRM[0][0] / 2 - r_cover - bentLength - dis
         y4 = y3
         x5 = x4 + dis
         y5 = y2
@@ -100,17 +113,17 @@ def getpointsOfBentShapeRebar(
     elif orientation == "Left":
         l_cover += diameter / 2
         r_cover += diameter / 2
-        x1 = FacePRM[1][0] + FacePRM[0][0] / 2 - r_cover
-        y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x1 = center_x + FacePRM[0][0] / 2 - r_cover
+        y1 = center_y + FacePRM[0][1] / 2 - t_cover
         x2 = x1
         y2 = y1 - bentLength
         dis = (FacePRM[0][0] - r_cover - l_cover) * math.tan(
             math.radians(bentAngle - 90)
         )
-        x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
+        x3 = center_x - FacePRM[0][0] / 2 + l_cover
         y3 = y2 - dis
         x4 = x3
-        y4 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover + bentLength + dis
+        y4 = center_y - FacePRM[0][1] / 2 + b_cover + bentLength + dis
         x5 = x2
         y5 = y4 - dis
         x6 = x5
@@ -118,21 +131,24 @@ def getpointsOfBentShapeRebar(
     elif orientation == "Right":
         l_cover += diameter / 2
         r_cover += diameter / 2
-        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
-        y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x1 = center_x - FacePRM[0][0] / 2 + l_cover
+        y1 = center_y + FacePRM[0][1] / 2 - t_cover
         x2 = x1
         y2 = y1 - bentLength
         dis = (FacePRM[0][0] - r_cover - l_cover) * math.tan(
             math.radians(bentAngle - 90)
         )
-        x3 = FacePRM[1][0] + FacePRM[0][0] / 2 - r_cover
+        x3 = center_x + FacePRM[0][0] / 2 - r_cover
         y3 = y2 - dis
         x4 = x3
-        y4 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover + bentLength + dis
+        y4 = center_y - FacePRM[0][1] / 2 + b_cover + bentLength + dis
         x5 = x2
         y5 = y4 - dis
         x6 = x5
         y6 = y5 - bentLength
+    else:
+        FreeCAD.Console.PrintError(f"Invalid orientation: {orientation}\n")
+        return []
     return [
         FreeCAD.Vector(x1, y1, 0),
         FreeCAD.Vector(x2, y2, 0),
@@ -400,6 +416,7 @@ def makeBentShapeRebar(
         bentAngle,
         orientation,
         diameter,
+        facenormalDirection(structure, facename),
     )
     import Part
     import Arch
@@ -575,6 +592,7 @@ def editBentShapeRebar(
         bentAngle,
         orientation,
         diameter,
+        facenormalDirection(structure, facename),
     )
     sketch.movePoint(0, 1, points[0], 0)
     FreeCAD.ActiveDocument.recompute()
