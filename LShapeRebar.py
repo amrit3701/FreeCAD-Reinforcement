@@ -25,70 +25,94 @@ __title__ = "LShapeRebar"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
+import os
+from typing import Tuple, Literal, List
+
+import ArchCommands
+import FreeCAD
+import FreeCADGui
 from PySide import QtGui
+from PySide.QtCore import QT_TRANSLATE_NOOP
+
+from PopUpImage import showPopUpImageDialog
+from RebarData import RebarTypes
+from RebarDistribution import runRebarDistribution, removeRebarDistribution
 from Rebarfunc import (
     getSelectedFace,
     getFaceNumber,
     getParametersOfFace,
     showWarning,
     check_selected_face,
+    facenormalDirection,
 )
-from RebarData import RebarTypes
-from PySide.QtCore import QT_TRANSLATE_NOOP
-from RebarDistribution import runRebarDistribution, removeRebarDistribution
-from PopUpImage import showPopUpImageDialog
-import FreeCAD
-import FreeCADGui
-import ArchCommands
-import os
 
 
 def getpointsOfLShapeRebar(
-    FacePRM, l_cover, r_cover, b_cover, t_cover, orientation, diameter
-):
+    FacePRM: Tuple[Tuple[float, float], Tuple[float, float]],
+    l_cover: float,
+    r_cover: float,
+    b_cover: float,
+    t_cover: float,
+    orientation: Literal[
+        "Bottom Left", "Bottom Right", "Top Left", "Top Right"
+    ],
+    diameter: float,
+    face_normal: FreeCAD.Vector,
+) -> List[FreeCAD.Vector]:
     """getpointsOfLShapeRebar(FacePRM, LeftCover, RightCover, BottomCover,
-    TopCover, Orientation, Diameter):
+    TopCover, Orientation, Diameter, FaceNormal):
     Return points of the LShape rebar in the form of array for sketch.
 
     It takes four different orientations input i.e. 'Bottom Left', 'Bottom Right
     ', 'Top Left', 'Top Right'.
     """
+    center_x = FacePRM[1][0]
+    center_y = FacePRM[1][1]
+    # When Left/Rear Face of structure is selected
+    if round(face_normal[0]) == -1 or round(face_normal[1]) == 1:
+        center_x = -center_x
+    # When Bottom Face of structure is selected
+    elif round(face_normal[2]) == -1:
+        center_y = -center_y
     if orientation == "Bottom Left":
         b_cover += diameter / 2
         l_cover += diameter / 2
-        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
-        y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
-        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
-        y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
-        x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
-        y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x1 = center_x - FacePRM[0][0] / 2 + l_cover
+        y1 = center_y + FacePRM[0][1] / 2 - t_cover
+        x2 = center_x - FacePRM[0][0] / 2 + l_cover
+        y2 = center_y - FacePRM[0][1] / 2 + b_cover
+        x3 = center_x + FacePRM[0][0] / 2 - r_cover
+        y3 = center_y - FacePRM[0][1] / 2 + b_cover
     elif orientation == "Bottom Right":
         b_cover += diameter / 2
         r_cover += diameter / 2
-        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
-        y1 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
-        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
-        y2 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
-        x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
-        y3 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
+        x1 = center_x + FacePRM[0][0] / 2 - r_cover
+        y1 = center_y + FacePRM[0][1] / 2 - t_cover
+        x2 = center_x + FacePRM[0][0] / 2 - r_cover
+        y2 = center_y - FacePRM[0][1] / 2 + b_cover
+        x3 = center_x - FacePRM[0][0] / 2 + l_cover
+        y3 = center_y - FacePRM[0][1] / 2 + b_cover
     elif orientation == "Top Left":
         t_cover += diameter / 2
         l_cover += diameter / 2
-        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
-        y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
-        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
-        y2 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
-        x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
-        y3 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x1 = center_x - FacePRM[0][0] / 2 + l_cover
+        y1 = center_y - FacePRM[0][1] / 2 + b_cover
+        x2 = center_x - FacePRM[0][0] / 2 + l_cover
+        y2 = center_y + FacePRM[0][1] / 2 - t_cover
+        x3 = center_x + FacePRM[0][0] / 2 - r_cover
+        y3 = center_y + FacePRM[0][1] / 2 - t_cover
     elif orientation == "Top Right":
         t_cover += diameter / 2
         r_cover += diameter / 2
-        x1 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
-        y1 = FacePRM[1][1] - FacePRM[0][1] / 2 + b_cover
-        x2 = FacePRM[1][0] - FacePRM[0][0] / 2 + FacePRM[0][0] - r_cover
-        y2 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
-        x3 = FacePRM[1][0] - FacePRM[0][0] / 2 + l_cover
-        y3 = FacePRM[1][1] + FacePRM[0][1] / 2 - t_cover
+        x1 = center_x + FacePRM[0][0] / 2 - r_cover
+        y1 = center_y - FacePRM[0][1] / 2 + b_cover
+        x2 = center_x + FacePRM[0][0] / 2 - r_cover
+        y2 = center_y + FacePRM[0][1] / 2 - t_cover
+        x3 = center_x - FacePRM[0][0] / 2 + l_cover
+        y3 = center_y + FacePRM[0][1] / 2 - t_cover
+    else:
+        FreeCAD.Console.PrintError(f"Invalid orientation: {orientation}\n")
+        return []
     return [
         FreeCAD.Vector(x1, y1, 0),
         FreeCAD.Vector(x2, y2, 0),
@@ -333,7 +357,14 @@ def makeLShapeRebar(
         return
     # Get points of L-Shape rebar
     points = getpointsOfLShapeRebar(
-        FacePRM, l_cover, r_cover, b_cover, t_cover, orientation, diameter
+        FacePRM,
+        l_cover,
+        r_cover,
+        b_cover,
+        t_cover,
+        orientation,
+        diameter,
+        facenormalDirection(structure, facename),
     )
     import Part
     import Arch
@@ -483,7 +514,14 @@ def editLShapeRebar(
     FacePRM = getParametersOfFace(structure, facename)
     # Get points of L-Shape rebar
     points = getpointsOfLShapeRebar(
-        FacePRM, l_cover, r_cover, b_cover, t_cover, orientation, diameter
+        FacePRM,
+        l_cover,
+        r_cover,
+        b_cover,
+        t_cover,
+        orientation,
+        diameter,
+        facenormalDirection(structure, facename),
     )
     sketch.movePoint(0, 1, points[0], 0)
     FreeCAD.ActiveDocument.recompute()
