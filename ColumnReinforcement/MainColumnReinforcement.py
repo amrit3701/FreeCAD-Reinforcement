@@ -323,8 +323,8 @@ class _ColumnReinforcementDialog:
         self.circular_column_widget.main_rebars_angle_radio.clicked.connect(
             self.mainRebarsAngleRadioClicked
         )
-        self.form.next_button.clicked.connect(self.nextButtonCilcked)
-        self.form.back_button.clicked.connect(self.backButtonCilcked)
+        self.form.next_button.clicked.connect(self.nextButtonClicked)
+        self.form.back_button.clicked.connect(self.backButtonClicked)
         self.form.standardButtonBox.clicked.connect(self.clicked)
 
     def reset(self):
@@ -536,7 +536,7 @@ class _ColumnReinforcementDialog:
         self.circular_column_widget.main_rebars_number.setEnabled(False)
         self.circular_column_widget.main_rebars_angle.setEnabled(True)
 
-    def nextButtonCilcked(self):
+    def nextButtonClicked(self):
         if self.form.next_button.text() == "Finish":
             self.accept()
         index = self.form.rebars_listWidget.currentRow()
@@ -545,7 +545,7 @@ class _ColumnReinforcementDialog:
         if index <= max_index:
             self.form.rebars_listWidget.setCurrentRow(index)
 
-    def backButtonCilcked(self):
+    def backButtonClicked(self):
         index = self.form.rebars_listWidget.currentRow()
         index -= 1
         if index >= 0:

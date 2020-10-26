@@ -229,7 +229,8 @@ class _StirrupTaskPanel:
         )
         self.Rebar = Rebar
 
-    def getStandardButtons(self):
+    @staticmethod
+    def getStandardButtons():
         return (
             int(QtGui.QDialogButtonBox.Ok)
             | int(QtGui.QDialogButtonBox.Apply)

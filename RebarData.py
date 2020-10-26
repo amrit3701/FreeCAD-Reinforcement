@@ -30,7 +30,8 @@ import enum
 
 
 class RebarTypes(enum.Enum):
-    "A primitive rebar types enumeration object."
+    """A primitive rebar types enumeration object."""
+
     straight = "StraightRebar"
     ushape = "UShapeRebar"
     lshape = "LShapeRebar"

@@ -202,7 +202,8 @@ class _StraightRebarTaskPanel:
         else:
             self.form.bottomCoverLabel.setText("Left Cover")
 
-    def getStandardButtons(self):
+    @staticmethod
+    def getStandardButtons():
         return (
             int(QtGui.QDialogButtonBox.Ok)
             | int(QtGui.QDialogButtonBox.Apply)

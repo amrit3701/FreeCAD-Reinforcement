@@ -101,7 +101,7 @@ def makeSingleTieMultipleRebars(
 
     Note: Type of sec_rebars_t_offset, sec_rebars_b_offset,
     sec_rebars_number_diameter, sec_rebars_type, sec_hook_orientation,
-    l_sec_rebar_rounding and sec_hook_extension argumants is a tuple.
+    l_sec_rebar_rounding and sec_hook_extension arguments is a tuple.
     Syntax: (<value_for_xdir_rebars>, <value_for_ydir_rebars>).
 
     In sec_hook_orientation(<xdir_rebars_orientation>,
@@ -300,7 +300,6 @@ def makeXDirRebars(
     xdir_rebars_number_diameter_list.reverse()
 
     # Calculate spacing between xdir-rebars
-    face_length = FacePRM[0][0]
     xdir_span_length = (
         FacePRM[0][0]
         - l_cover_of_tie
@@ -654,7 +653,7 @@ def editSingleTieMultipleRebars(
 
     Note: Type of sec_rebars_t_offset, sec_rebars_b_offset,
     sec_rebars_number_diameter, sec_rebars_type, sec_hook_orientation,
-    l_sec_rebar_rounding and sec_hook_extension argumants is a tuple.
+    l_sec_rebar_rounding and sec_hook_extension arguments is a tuple.
     Syntax: (<value_for_xdir_rebars>, <value_for_ydir_rebars>).
 
     In sec_hook_orientation(<xdir_rebars_orientation>,
@@ -715,48 +714,33 @@ def editSingleTieMultipleRebars(
         facename,
     )
 
-    if len(rebar_group.RebarGroups) == 3:
-        # Set parameters for xdir and ydir rebars
-        xdir_rebars_group = rebar_group.RebarGroups[2].SecondaryRebars[0]
-        ydir_rebars_group = rebar_group.RebarGroups[2].SecondaryRebars[1]
-        if not sec_rebars_t_offset:
-            xdir_rebars_t_offset = xdir_rebars_group.TopOffset
-            ydir_rebars_t_offset = ydir_rebars_group.TopOffset
-        else:
-            xdir_rebars_t_offset = sec_rebars_t_offset[0]
-            ydir_rebars_t_offset = sec_rebars_t_offset[1]
-        if not sec_rebars_b_offset:
-            xdir_rebars_b_offset = xdir_rebars_group.BottomOffset
-            ydir_rebars_b_offset = ydir_rebars_group.BottomOffset
-        else:
-            xdir_rebars_b_offset = sec_rebars_b_offset[0]
-            ydir_rebars_b_offset = sec_rebars_b_offset[1]
-        if not sec_rebars_number_diameter:
-            xdir_rebars_number_diameter = xdir_rebars_group.NumberDiameter
-            ydir_rebars_number_diameter = ydir_rebars_group.NumberDiameter
-        else:
-            xdir_rebars_number_diameter = sec_rebars_number_diameter[0]
-            ydir_rebars_number_diameter = sec_rebars_number_diameter[1]
+    # If secondary rebars doesn't exists, return
+    if len(rebar_group.RebarGroups) < 3:
+        FreeCAD.ActiveDocument.recompute()
+        return rebar_group
+
+    # Set parameters for xdir and ydir rebars
+    xdir_rebars_group = rebar_group.RebarGroups[2].SecondaryRebars[0]
+    ydir_rebars_group = rebar_group.RebarGroups[2].SecondaryRebars[1]
+    if not sec_rebars_t_offset:
+        xdir_rebars_t_offset = xdir_rebars_group.TopOffset
+        ydir_rebars_t_offset = ydir_rebars_group.TopOffset
     else:
-        # Set parameters for xdir and ydir rebars
-        if not sec_rebars_t_offset:
-            xdir_rebars_t_offset = "0.00 mm"
-            ydir_rebars_t_offset = "0.00 mm"
-        else:
-            xdir_rebars_t_offset = sec_rebars_t_offset[0]
-            ydir_rebars_t_offset = sec_rebars_t_offset[1]
-        if not sec_rebars_b_offset:
-            xdir_rebars_b_offset = "0.00 mm"
-            ydir_rebars_b_offset = "0.00 mm"
-        else:
-            xdir_rebars_b_offset = sec_rebars_b_offset[0]
-            ydir_rebars_b_offset = sec_rebars_b_offset[1]
-        if not sec_rebars_number_diameter:
-            xdir_rebars_number_diameter = "2#20mm+1#16mm+2#20mm"
-            ydir_rebars_number_diameter = "1#20mm+1#16mm+1#20mm"
-        else:
-            xdir_rebars_number_diameter = sec_rebars_number_diameter[0]
-            ydir_rebars_number_diameter = sec_rebars_number_diameter[1]
+        xdir_rebars_t_offset = sec_rebars_t_offset[0]
+        ydir_rebars_t_offset = sec_rebars_t_offset[1]
+    if not sec_rebars_b_offset:
+        xdir_rebars_b_offset = xdir_rebars_group.BottomOffset
+        ydir_rebars_b_offset = ydir_rebars_group.BottomOffset
+    else:
+        xdir_rebars_b_offset = sec_rebars_b_offset[0]
+        ydir_rebars_b_offset = sec_rebars_b_offset[1]
+    if not sec_rebars_number_diameter:
+        xdir_rebars_number_diameter = xdir_rebars_group.NumberDiameter
+        ydir_rebars_number_diameter = ydir_rebars_group.NumberDiameter
+    else:
+        xdir_rebars_number_diameter = sec_rebars_number_diameter[0]
+        ydir_rebars_number_diameter = sec_rebars_number_diameter[1]
+
     xdir_rebars_type = sec_rebars_type[0]
     ydir_rebars_type = sec_rebars_type[1]
     xdir_hook_orientation = sec_hook_orientation[0]
@@ -773,8 +757,6 @@ def editSingleTieMultipleRebars(
     ydir_rebars = ydir_rebars_group.YDirRebars
 
     # Check if there is need to recreate rebars
-    recreate_xdir_rebars = False
-    recreate_ydir_rebars = False
     prev_xdir_rebars_type = xdir_rebars_group.RebarType
     prev_xdir_rebars_number_diameter = xdir_rebars_group.NumberDiameter
     prev_ydir_rebars_type = ydir_rebars_group.RebarType
@@ -944,7 +926,6 @@ def editXDirRebars(
     xdir_rebars_number_diameter_list.reverse()
 
     # Calculate spacing between xdir-rebars
-    face_length = FacePRM[0][0]
     xdir_span_length = (
         FacePRM[0][0]
         - l_cover_of_tie
@@ -1269,107 +1250,80 @@ class _SingleTieMultipleRebars:
         prev_rebar_groups.append(self.sec_rebars_group)
         obj.rebar_group.RebarGroups = prev_rebar_groups
         # Add and set properties for secondary rebars group object
-        properties = []
-        properties.append(
+        properties = [
             (
                 "App::PropertyLinkList",
                 "SecondaryRebars",
                 "List of secondary rebars",
                 1,
             )
-        )
+        ]
         setGroupProperties(properties, self.sec_rebars_group)
         self.sec_rebars_group.SecondaryRebars = [
             self.xdir_rebars_group,
             self.ydir_rebars_group,
         ]
         # Add properties to xdir rebars group object
-        properties = []
-        properties.append(
-            ("App::PropertyLinkList", "XDirRebars", "List of xdir rebars", 1)
-        )
-        properties.append(
-            ("App::PropertyString", "RebarType", "Type of xdir rebars", 1)
-        )
-        properties.append(
+        properties = [
+            ("App::PropertyLinkList", "XDirRebars", "List of xdir rebars", 1),
+            ("App::PropertyString", "RebarType", "Type of xdir rebars", 1),
             (
                 "App::PropertyString",
                 "HookOrientation",
                 "Orientation of LShaped Rebar Hook",
                 1,
-            )
-        )
-        properties.append(
-            ("App::PropertyDistance", "HookExtension", "Length of hook", 1)
-        )
-        properties.append(
+            ),
+            ("App::PropertyDistance", "HookExtension", "Length of hook", 1),
             (
                 "App::PropertyDistance",
                 "TopOffset",
                 "Top offset of xdir rebars",
                 1,
-            )
-        )
-        properties.append(
+            ),
             (
                 "App::PropertyDistance",
                 "BottomOffset",
                 "Bottom offset of xdir rebars",
                 1,
-            )
-        )
-        properties.append(
+            ),
             (
                 "App::PropertyString",
                 "NumberDiameter",
                 "Number Diameter list of rebars",
                 1,
-            )
-        )
+            ),
+        ]
         setGroupProperties(properties, self.xdir_rebars_group)
         # Add properties to ydir rebars group object
-        properties = []
-        properties.append(
-            ("App::PropertyLinkList", "YDirRebars", "List of ydir rebars", 1)
-        )
-        properties.append(
-            ("App::PropertyString", "RebarType", "Type of ydir rebars", 1)
-        )
-        properties.append(
+        properties = [
+            ("App::PropertyLinkList", "YDirRebars", "List of ydir rebars", 1),
+            ("App::PropertyString", "RebarType", "Type of ydir rebars", 1),
             (
                 "App::PropertyString",
                 "HookOrientation",
                 "Orientation of LShaped Rebar Hook",
                 1,
-            )
-        )
-        properties.append(
-            ("App::PropertyDistance", "HookExtension", "Length of hook", 1)
-        )
-        properties.append(
+            ),
+            ("App::PropertyDistance", "HookExtension", "Length of hook", 1),
             (
                 "App::PropertyDistance",
                 "TopOffset",
                 "Top offset of ydir rebars",
                 1,
-            )
-        )
-        properties.append(
+            ),
             (
                 "App::PropertyDistance",
                 "BottomOffset",
                 "Bottom offset of ydir rebars",
                 1,
-            )
-        )
-        properties.append(
+            ),
             (
                 "App::PropertyString",
                 "NumberDiameter",
                 "Number Diameter list of rebars",
                 1,
-            )
-        )
+            ),
+        ]
         setGroupProperties(properties, self.ydir_rebars_group)
 
     def addXDirRebars(self, xdir_rebars_list):

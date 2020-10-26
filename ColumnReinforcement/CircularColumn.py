@@ -160,11 +160,12 @@ def makeReinforcement(
     CircularColumnReinforcementRebarGroup.addHelicalRebars(helical_rebar)
     CircularColumnReinforcementRebarGroup.addMainRebars(main_rebars_list)
 
-    properties_values = []
-    properties_values.append(("TopOffset", main_rebars_t_offset))
-    properties_values.append(("BottomOffset", main_rebars_b_offset))
-    properties_values.append(("Diameter", dia_of_main_rebars))
-    properties_values.append(("NumberAngleCheck", number_angle_check))
+    properties_values = [
+        ("TopOffset", main_rebars_t_offset),
+        ("BottomOffset", main_rebars_b_offset),
+        ("Diameter", dia_of_main_rebars),
+        ("NumberAngleCheck", number_angle_check),
+    ]
     if number_angle_check:
         properties_values.append(("Number", number_angle_value))
         properties_values.append(("Angle", 360.00 / number_angle_value))
@@ -291,7 +292,7 @@ def editReinforcement(
     structure = line.Support[0][0]
     facename = line.Support[0][1][0]
 
-    helical_rebar = editHelicalRebar(
+    editHelicalRebar(
         helical_rebar,
         s_cover,
         helical_rebar_b_offset,
@@ -358,18 +359,15 @@ class _CircularColumnReinforcementRebarGroup:
         )
 
         # Add properties to rebar_group object
-        properties = []
-        properties.append(
+        properties = [
             (
                 "App::PropertyString",
                 "ColumnType",
                 "Type of column reinforcement",
                 1,
-            )
-        )
-        properties.append(
-            ("App::PropertyLinkList", "RebarGroups", "List of rebar groups", 1)
-        )
+            ),
+            ("App::PropertyLinkList", "RebarGroups", "List of rebar groups", 1),
+        ]
         setGroupProperties(properties, self.rebar_group)
         self.rebar_group.ColumnType = "CircularColumn"
         self.rebar_group.RebarGroups = [
@@ -378,60 +376,46 @@ class _CircularColumnReinforcementRebarGroup:
         ]
 
         # Add properties to helical_rebar_group object
-        properties = []
-        properties.append(
+        properties = [
             (
                 "App::PropertyLinkList",
                 "HelicalRebars",
                 "List of helical rebars",
                 1,
             )
-        )
+        ]
         setGroupProperties(properties, self.helical_rebar_group)
 
         # Add properties to main_rebars_group object
-        properties = []
-        properties.append(
-            ("App::PropertyLinkList", "MainRebars", "List of main rebars", 1)
-        )
-        properties.append(
+        properties = [
+            ("App::PropertyLinkList", "MainRebars", "List of main rebars", 1),
             (
                 "App::PropertyDistance",
                 "TopOffset",
                 "Top offset of main rebars",
                 1,
-            )
-        )
-        properties.append(
+            ),
             (
                 "App::PropertyDistance",
                 "BottomOffset",
                 "Bottom offset of main rebars",
                 1,
-            )
-        )
-        properties.append(
-            ("App::PropertyDistance", "Diameter", "Diameter of main rebars", 1)
-        )
-        properties.append(
+            ),
+            ("App::PropertyDistance", "Diameter", "Diameter of main rebars", 1),
             (
                 "App::PropertyBool",
                 "NumberAngleCheck",
                 "Number radio button is checked",
                 1,
-            )
-        )
-        properties.append(
-            ("App::PropertyQuantity", "Number", "Number of main rebars", 1)
-        )
-        properties.append(
+            ),
+            ("App::PropertyQuantity", "Number", "Number of main rebars", 1),
             (
                 "App::PropertyAngle",
                 "Angle",
                 "Angle between consecutive main rebars",
                 1,
-            )
-        )
+            ),
+        ]
         setGroupProperties(properties, self.main_rebars_group)
 
         self.Object = self.rebar_group

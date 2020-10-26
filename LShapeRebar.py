@@ -204,7 +204,8 @@ class _LShapeRebarTaskPanel:
                 )
             )
 
-    def getStandardButtons(self):
+    @staticmethod
+    def getStandardButtons():
         return (
             int(QtGui.QDialogButtonBox.Ok)
             | int(QtGui.QDialogButtonBox.Apply)

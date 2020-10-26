@@ -376,8 +376,8 @@ class _BeamReinforcementDialog:
                 self.right_reinforcement_widget.LRebarRoundingEditButton
             )
         )
-        self.form.next_button.clicked.connect(self.nextButtonCilcked)
-        self.form.back_button.clicked.connect(self.backButtonCilcked)
+        self.form.next_button.clicked.connect(self.nextButtonClicked)
+        self.form.back_button.clicked.connect(self.backButtonClicked)
         self.form.standardButtonBox.clicked.connect(self.clicked)
 
     def changeRebarsListWidget(self, index):
@@ -575,7 +575,8 @@ class _BeamReinforcementDialog:
                 )
             )
 
-    def getRebarType(self, number_diameter_offset_tuple, rebar_type_tuple):
+    @staticmethod
+    def getRebarType(number_diameter_offset_tuple, rebar_type_tuple):
         layers = len(number_diameter_offset_tuple)
         rebar_type_list = []
         for layer in range(1, layers + 1):
@@ -595,8 +596,8 @@ class _BeamReinforcementDialog:
             rebar_type_list[-1] = tuple(rebar_type_list[-1])
         return tuple(rebar_type_list)
 
+    @staticmethod
     def getHookOrientation(
-        self,
         number_diameter_offset_tuple,
         rebar_type_tuple,
         hook_orientation_tuple,
@@ -632,8 +633,8 @@ class _BeamReinforcementDialog:
             hook_orientation_list[-1] = tuple(hook_orientation_list[-1])
         return tuple(hook_orientation_list)
 
+    @staticmethod
     def getHookExtension(
-        self,
         number_diameter_offset_tuple,
         rebar_type_tuple,
         hook_extension_tuple,
@@ -669,8 +670,9 @@ class _BeamReinforcementDialog:
             hook_extension_list[-1] = tuple(hook_extension_list[-1])
         return tuple(hook_extension_list)
 
+    @staticmethod
     def getLRebarRounding(
-        self, number_diameter_offset_tuple, rebar_type_tuple, rounding_tuple
+        number_diameter_offset_tuple, rebar_type_tuple, rounding_tuple
     ):
         layers = len(number_diameter_offset_tuple)
         rounding_list = []
@@ -703,9 +705,8 @@ class _BeamReinforcementDialog:
             rounding_list[-1] = tuple(rounding_list[-1])
         return tuple(rounding_list)
 
-    def getLayerSpacing(
-        self, number_diameter_offset_tuple, layer_spacing_tuple
-    ):
+    @staticmethod
+    def getLayerSpacing(number_diameter_offset_tuple, layer_spacing_tuple):
         layers = len(number_diameter_offset_tuple)
         layer_spacing_list = []
         for layer in range(1, layers + 1):
@@ -1335,7 +1336,7 @@ class _BeamReinforcementDialog:
                 rounding_list.append(None)
         return tuple(rounding_list)
 
-    def nextButtonCilcked(self):
+    def nextButtonClicked(self):
         if self.form.next_button.text() == "Finish":
             self.accept()
         index = self.form.rebars_listWidget.currentRow()
@@ -1343,7 +1344,7 @@ class _BeamReinforcementDialog:
         max_index = self.form.rebars_listWidget.count() - 1
         self.form.rebars_listWidget.setCurrentRow(min(index, max_index))
 
-    def backButtonCilcked(self):
+    def backButtonClicked(self):
         index = self.form.rebars_listWidget.currentRow()
         index -= 1
         self.form.rebars_listWidget.setCurrentRow(max(index, 0))

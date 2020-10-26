@@ -678,8 +678,7 @@ class _TwoTiesSixRebars:
         """Add properties to object obj."""
         self.Object = obj.rebar_group
         self.ties_group = obj.ties_group
-        properties = []
-        properties.append(
+        properties = [
             ("App::PropertyStringList", "TiesSequence", "Sequence of ties", 1)
-        )
+        ]
         setGroupProperties(properties, obj.ties_group)
