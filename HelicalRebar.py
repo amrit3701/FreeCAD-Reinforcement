@@ -50,9 +50,7 @@ def getpointsOfHelicalRebar(
 ):
     """getpointsOfHelicalRebar(FacePRM, s_cover, b_cover, t_cover):
     Return points of the LShape rebar in the form of array for sketch."""
-    dx = s_cover + diameter / 2
     dz = float(pitch) / edges
-    R = diameter / 2 - dx
     R = FacePRM[0][0] / 2 - s_cover
     points = []
     if direction[2] in {-1, 1}:
@@ -191,7 +189,8 @@ class _HelicalRebarTaskPanel:
         self.SelectedObj = None
         self.FaceName = None
 
-    def getStandardButtons(self):
+    @staticmethod
+    def getStandardButtons():
         return (
             int(QtGui.QDialogButtonBox.Ok)
             | int(QtGui.QDialogButtonBox.Apply)

@@ -225,21 +225,23 @@ def makeSingleTieFourRebars(
     SingleTieFourRebars.addMainRebars(main_rebars)
 
     # Set properties values for ties in Ties group object
-    properties_values = []
-    properties_values.append(("TiesConfiguration", "SingleTie"))
-    properties_values.append(("LeftCover", l_cover_of_tie))
-    properties_values.append(("RightCover", r_cover_of_tie))
-    properties_values.append(("TopCover", t_cover_of_tie))
-    properties_values.append(("BottomCover", b_cover_of_tie))
+    properties_values = [
+        ("TiesConfiguration", "SingleTie"),
+        ("LeftCover", l_cover_of_tie),
+        ("RightCover", r_cover_of_tie),
+        ("TopCover", t_cover_of_tie),
+        ("BottomCover", b_cover_of_tie),
+    ]
     setGroupPropertiesValues(properties_values, SingleTieFourRebars.ties_group)
 
     # Set properties values for rebars in MainRebars group object
-    properties_values = []
-    properties_values.append(("RebarType", rebar_type))
-    properties_values.append(("TopOffset", t_offset_of_rebars))
-    properties_values.append(("BottomOffset", b_offset_of_rebars))
-    properties_values.append(("HookOrientation", hook_orientation))
-    properties_values.append(("HookExtendAlong", hook_extend_along))
+    properties_values = [
+        ("RebarType", rebar_type),
+        ("TopOffset", t_offset_of_rebars),
+        ("BottomOffset", b_offset_of_rebars),
+        ("HookOrientation", hook_orientation),
+        ("HookExtendAlong", hook_extend_along),
+    ]
     if not hook_extension:
         hook_extension = "0.00 mm"
     properties_values.append(("HookExtension", hook_extension))
@@ -328,7 +330,7 @@ def editSingleTieFourRebars(
 
     # Create/Edit Straight Rebars
     if rebar_type == "StraightRebar":
-        hook_extend_along == "x-axis"
+        hook_extend_along = "x-axis"
         facename_for_rebars = getFacenameforRebar(
             hook_extend_along, facename, structure
         )
@@ -511,7 +513,7 @@ def editSingleTieFourRebars(
 
 
 class _SingleTieFourRebars(_RebarGroup):
-    "A SingleTieFourRebars group object."
+    """A SingleTieFourRebars group object."""
 
     def __init__(self):
         """Create Group object and add properties to it."""
@@ -532,79 +534,56 @@ class _SingleTieFourRebars(_RebarGroup):
         # 1 -- read-only mode
         # 2 -- hidden mode
 
-        properties = []
-        properties.append(
+        properties = [
             (
                 "App::PropertyString",
                 "ColumnType",
                 "Type of column reinforcement",
                 1,
             )
-        )
+        ]
         setGroupProperties(properties, self.rebar_group)
         self.rebar_group.ColumnType = "RectangularColumn"
 
         # Add properties to ties group object
-        properties = []
-        properties.append(
+        properties = [
             (
                 "App::PropertyString",
                 "TiesConfiguration",
                 "Configuration of Ties in Column Reinforcement",
                 1,
-            )
-        )
-        properties.append(("App::PropertyLinkList", "Ties", "List of ties", 1))
-        properties.append(
-            ("App::PropertyDistance", "LeftCover", "Left cover of ties", 1)
-        )
-        properties.append(
-            ("App::PropertyDistance", "RightCover", "Right cover of ties", 1)
-        )
-        properties.append(
-            ("App::PropertyDistance", "TopCover", "Top cover of ties", 1)
-        )
-        properties.append(
-            ("App::PropertyDistance", "BottomCover", "Bottom cover of ties", 1)
-        )
+            ),
+            ("App::PropertyLinkList", "Ties", "List of ties", 1),
+            ("App::PropertyDistance", "LeftCover", "Left cover of ties", 1),
+            ("App::PropertyDistance", "RightCover", "Right cover of ties", 1),
+            ("App::PropertyDistance", "TopCover", "Top cover of ties", 1),
+            ("App::PropertyDistance", "BottomCover", "Bottom cover of ties", 1),
+        ]
         setGroupProperties(properties, self.ties_group)
 
         # Add properties to main rebars group object
-        properties = []
-        properties.append(
-            ("App::PropertyString", "RebarType", "Type of main rebars", 1)
-        )
-        properties.append(
-            ("App::PropertyLinkList", "MainRebars", "List of main rebars", 1)
-        )
-        properties.append(
-            ("App::PropertyDistance", "TopOffset", "Top offset of rebars", 1)
-        )
-        properties.append(
+        properties = [
+            ("App::PropertyString", "RebarType", "Type of main rebars", 1),
+            ("App::PropertyLinkList", "MainRebars", "List of main rebars", 1),
+            ("App::PropertyDistance", "TopOffset", "Top offset of rebars", 1),
             (
                 "App::PropertyDistance",
                 "BottomOffset",
                 "Bottom offset of rebars",
                 1,
-            )
-        )
-        properties.append(
+            ),
             (
                 "App::PropertyString",
                 "HookOrientation",
                 "Orientation of LShaped Rebar Hook",
                 1,
-            )
-        )
-        properties.append(
+            ),
             (
                 "App::PropertyString",
                 "HookExtendAlong",
                 "Direction of hook extension",
                 1,
-            )
-        )
-        properties.append(
-            ("App::PropertyDistance", "HookExtension", "Length of hook", 1)
-        )
+            ),
+            ("App::PropertyDistance", "HookExtension", "Length of hook", 1),
+        ]
         setGroupProperties(properties, self.main_rebars_group)

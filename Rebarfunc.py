@@ -21,7 +21,7 @@
 # *                                                                         *
 # ***************************************************************************
 
-__title__ = "GenericRebarFuctions"
+__title__ = "GenericRebarFunctions"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
@@ -323,7 +323,7 @@ def setGroupPropertiesValues(properties_values, group_obj):
 
 
 class _RebarGroup:
-    "A Rebar Group object."
+    """A Rebar Group object."""
 
     def __init__(self, obj_name):
         self.Type = "RebarGroup"
@@ -337,10 +337,9 @@ class _RebarGroup:
             "App::DocumentObjectGroupPython", "MainRebars"
         )
         # Add properties to rebar_group object
-        properties = []
-        properties.append(
+        properties = [
             ("App::PropertyLinkList", "RebarGroups", "List of rebar groups", 1)
-        )
+        ]
         setGroupProperties(properties, self.rebar_group)
         self.rebar_group.RebarGroups = [self.ties_group, self.main_rebars_group]
         self.Object = self.rebar_group
@@ -368,7 +367,7 @@ class _RebarGroup:
 
 
 class _ViewProviderRebarGroup:
-    "A View Provider for the Rebar Group object."
+    """A View Provider for the Rebar Group object."""
 
     def __init__(self, vobj):
         vobj.Proxy = self
@@ -507,10 +506,11 @@ def getLRebarOrientationLeftRightCover(
         )
 
     r_cover.append(r_cover_of_tie + dia_of_tie)
-    l_rebar_orientation_cover = {}
-    l_rebar_orientation_cover["list_orientation"] = list_orientation
-    l_rebar_orientation_cover["l_cover"] = l_cover
-    l_rebar_orientation_cover["r_cover"] = r_cover
+    l_rebar_orientation_cover = {
+        "list_orientation": list_orientation,
+        "l_cover": l_cover,
+        "r_cover": r_cover,
+    }
     return l_rebar_orientation_cover
 
 
@@ -547,7 +547,7 @@ def getFacenameforRebar(hook_extend_along, facename, structure):
 
 
 class _BeamReinforcementGroup:
-    "A Beam Reinforcement Group object."
+    """A Beam Reinforcement Group object."""
 
     def __init__(self):
         self.Type = "BeamReinforcementGroup"
@@ -573,15 +573,14 @@ class _BeamReinforcementGroup:
             "App::DocumentObjectGroupPython", "RightRebars"
         )
         # Add properties to rebar_group object
-        properties = []
-        properties.append(
+        properties = [
             (
                 "App::PropertyLinkList",
                 "ReinforcementGroups",
                 "List of reinforcement groups",
                 1,
             )
-        )
+        ]
         setGroupProperties(properties, self.rebar_group)
         self.rebar_group.ReinforcementGroups = [
             self.stirrups_group,
@@ -590,77 +589,69 @@ class _BeamReinforcementGroup:
             self.shear_reinforcement_group,
         ]
         # Add properties to stirrups_group object
-        properties = []
-        properties.append(
-            ("App::PropertyLinkList", "Stirrups", "List of Stirrups", 1)
-        )
-        properties.append(
+        properties = [
+            ("App::PropertyLinkList", "Stirrups", "List of Stirrups", 1),
             (
                 "App::PropertyString",
                 "StirrupsConfiguration",
                 "Configuration of Stirrups in Beam Reinforcement",
                 1,
-            )
-        )
+            ),
+        ]
         setGroupProperties(properties, self.stirrups_group)
         # Add properties to top_reinforcement_group object
-        properties = []
-        properties.append(
+        properties = [
             (
                 "App::PropertyLinkList",
                 "TopRebars",
                 "List of top reinforcement rebars",
                 1,
             )
-        )
+        ]
         setGroupProperties(properties, self.top_reinforcement_group)
         # Add properties to bottom_reinforcement_group object
-        properties = []
-        properties.append(
+        properties = [
             (
                 "App::PropertyLinkList",
                 "BottomRebars",
                 "List of bottom reinforcement rebars",
                 1,
             )
-        )
+        ]
         setGroupProperties(properties, self.bottom_reinforcement_group)
         # Add properties to shear_reinforcement_group object
-        properties = []
-        properties.append(
+        properties = [
             (
                 "App::PropertyLinkList",
                 "ShearReinforcementGroups",
                 "List of shear reinforcement groups",
                 1,
             )
-        )
+        ]
         setGroupProperties(properties, self.shear_reinforcement_group)
         self.shear_reinforcement_group.ShearReinforcementGroups = [
             self.left_rebars_group,
             self.right_rebars_group,
         ]
         # Add properties to left_rebars_group object
-        properties = []
-        properties.append(
+        properties = [
             (
                 "App::PropertyLinkList",
                 "LeftRebars",
                 "List of shear reinforcement left rebars",
                 1,
             )
-        )
+        ]
         setGroupProperties(properties, self.left_rebars_group)
         # Add properties to right_rebars_group object
-        properties = []
-        properties.append(
+        properties = [
             (
                 "App::PropertyLinkList",
                 "RightRebars",
                 "List of shear reinforcement right rebars",
                 1,
             )
-        )
+        ]
         setGroupProperties(properties, self.right_rebars_group)
         self.Object = self.rebar_group
 
@@ -728,7 +719,7 @@ def getFacenamesforBeamReinforcement(facename, structure):
         if normal2.z == -1:
             facename_for_s_rebars = "Face" + str(index)
         index += 1
-    return (facename_for_tb_rebars, facename_for_s_rebars)
+    return facename_for_tb_rebars, facename_for_s_rebars
 
 
 def getdictofNumberDiameterOffset(number_diameter_offset_tuple):
@@ -779,7 +770,7 @@ def gettupleOfNumberDiameterOffset(number_diameter_offset_string):
 
 
 class _ViewProviderBeamReinforcementGroup:
-    "A View Provider for the Beam Reinforcement Group object."
+    """A View Provider for the Beam Reinforcement Group object."""
 
     def __init__(self, vobj):
         vobj.Proxy = self

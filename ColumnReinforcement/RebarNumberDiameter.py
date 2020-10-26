@@ -48,19 +48,19 @@ class _NumberDiameterDialog:
 
     def setupUi(self):
         """This function is used to set values in ui."""
-        try:
-            # Try to set values of number and diameter from rebars_widget
-            self.NumberDiameter = self.rebars_widget.numberDiameter.text()
-            number_diameter_list = gettupleOfNumberDiameter(self.NumberDiameter)
-            self.form.number1.setValue(number_diameter_list[0][0])
-            self.form.diameter1.setText(str(number_diameter_list[0][1]) + " mm")
-            self.form.number2.setValue(number_diameter_list[1][0])
-            self.form.diameter2.setText(str(number_diameter_list[1][1]) + " mm")
-            self.form.number3.setValue(number_diameter_list[2][0])
-            self.form.diameter3.setText(str(number_diameter_list[2][1]) + " mm")
-            self.form.numberDiameter.setText(self.NumberDiameter)
-        except:
-            pass
+        # Set values of number and diameter from rebars_widget
+        self.NumberDiameter = self.rebars_widget.numberDiameter.text()
+        number_diameter_list = gettupleOfNumberDiameter(self.NumberDiameter)
+        number_diameter_list.extend(
+            [(0, 0) for _ in range(3 - len(number_diameter_list))]
+        )
+        self.form.number1.setValue(number_diameter_list[0][0])
+        self.form.diameter1.setText(str(number_diameter_list[0][1]) + " mm")
+        self.form.number2.setValue(number_diameter_list[1][0])
+        self.form.diameter2.setText(str(number_diameter_list[1][1]) + " mm")
+        self.form.number3.setValue(number_diameter_list[2][0])
+        self.form.diameter3.setText(str(number_diameter_list[2][1]) + " mm")
+        self.form.numberDiameter.setText(self.NumberDiameter)
         self.connectSignalSlots()
 
     def connectSignalSlots(self):

@@ -115,9 +115,9 @@ def getLRebarRoundingofTopBottomRebars(
                     number_diameter_offset_dict["layer" + str(layer)]
                 ):
                     if rebar_type_list[layer - 1][i] == "StraightRebar":
-                        l_rebar_rounding_list(-1).append(None)
+                        l_rebar_rounding_list[-1].append(None)
                     else:
-                        l_rebar_rounding_list(-1).append(
+                        l_rebar_rounding_list[-1].append(
                             l_rebar_rounding[layer - 1]
                         )
                     i += 1
@@ -445,7 +445,7 @@ def makeReinforcement(
            ...,
        ]
        each element of list is a tuple, which specifies rebar type of each
-       layer. And each element of tuple represents rabar_type for each set of
+       layer. And each element of tuple represents rebar_type for each set of
        rebars.
     4. [
            <rebar_type>,
@@ -475,7 +475,7 @@ def makeReinforcement(
     Possible values for left_rebars_type and right_rebars_type:
     1. 'StraightRebar' or 'LShapeRebar'
     2. ('<rebar_type>', '<rebar_type>', ...) and each element of tuple
-    represents rabar_type for each set of rebars.
+    represents rebar_type for each set of rebars.
 
     Possible values for left_l_rebar_rounding, right_l_rebar_rounding
     left_rebars_hook_extension, right_rebars_hook_extension,
@@ -1492,7 +1492,7 @@ def editReinforcement(
            ...,
        ]
        each element of list is a tuple, which specifies rebar type of each
-       layer. And each element of tuple represents rabar_type for each set of
+       layer. And each element of tuple represents rebar_type for each set of
        rebars.
     4. [
            <rebar_type>,
@@ -1522,7 +1522,7 @@ def editReinforcement(
     Possible values for left_rebars_type and right_rebars_type:
     1. 'StraightRebar' or 'LShapeRebar'
     2. ('<rebar_type>', '<rebar_type>', ...) and each element of tuple
-    represents rabar_type for each set of rebars.
+    represents rebar_type for each set of rebars.
 
     Possible values for left_l_rebar_rounding, right_l_rebar_rounding
     left_rebars_hook_extension, right_rebars_hook_extension,
@@ -1744,15 +1744,20 @@ def editReinforcement(
         reinforcement_groups = rebar_group.ReinforcementGroups
         reinforcement_groups.append(shear_reinforcement_group)
         rebar_group.ReinforcementGroups = reinforcement_groups
-        properties = []
-        properties.append(
+        properties = [
             (
                 "App::PropertyLinkList",
                 "ShearReinforcementGroups",
                 "List of shear reinforcement groups",
                 1,
-            )
-        )
+            ),
+            (
+                "App::PropertyLinkList",
+                "ShearReinforcementGroups",
+                "List of shear reinforcement groups",
+                1,
+            ),
+        ]
         setGroupProperties(properties, shear_reinforcement_group)
         FreeCAD.ActiveDocument.recompute()
     if left_rebars_group and left_rebars_number_diameter_offset:
@@ -1787,15 +1792,14 @@ def editReinforcement(
             shear_reinforcement_group.ShearReinforcementGroups = (
                 shear_rebar_groups
             )
-            properties = []
-            properties.append(
+            properties = [
                 (
                     "App::PropertyLinkList",
                     "LeftRebars",
                     "List of shear reinforcement left rebars",
                     1,
                 )
-            )
+            ]
             setGroupProperties(properties, left_rebars_group)
             addLeftRightRebarGroupsProperties(left_rebars_group)
 
@@ -1859,15 +1863,14 @@ def editReinforcement(
             shear_reinforcement_group.ShearReinforcementGroups = (
                 shear_rebar_groups
             )
-            properties = []
-            properties.append(
+            properties = [
                 (
                     "App::PropertyLinkList",
                     "RightRebars",
                     "List of shear reinforcement right rebars",
                     1,
                 )
-            )
+            ]
             setGroupProperties(properties, right_rebars_group)
             addLeftRightRebarGroupsProperties(right_rebars_group)
 
@@ -2672,7 +2675,7 @@ def editRightReinforcement(
 
 
 class _TwoLeggedBeam(_BeamReinforcementGroup):
-    "A TwoLeggedBeam group object."
+    """A TwoLeggedBeam group object."""
 
     def __init__(self):
         """Create Group object and add properties to it."""
@@ -2680,55 +2683,44 @@ class _TwoLeggedBeam(_BeamReinforcementGroup):
         # Set stirrups configuration
         self.stirrups_group.StirrupsConfiguration = "Two Legged Stirrups"
         # Add properties to top/bottom reinforcement rebar groups
-        properties = []
-        properties.append(
+        properties = [
             (
                 "App::PropertyStringList",
                 "NumberDiameterOffset",
                 "List of Number Diameter Offset string",
                 1,
-            )
-        )
-        properties.append(
+            ),
             (
                 "App::PropertyString",
                 "RebarType",
                 "String representation of list of tuples of type of rebars",
                 1,
-            )
-        )
-        properties.append(
+            ),
             (
                 "App::PropertyString",
                 "LRebarRounding",
                 "Rounding of L-Shaped rebars",
                 1,
-            )
-        )
-        properties.append(
+            ),
             (
                 "App::PropertyFloatList",
                 "LayerSpacing",
                 "List of spacing between adjacent reinforcement layers",
                 1,
-            )
-        )
-        properties.append(
+            ),
             (
                 "App::PropertyString",
                 "HookExtension",
                 "String representation of list of tuples of hook extension",
                 1,
-            )
-        )
-        properties.append(
+            ),
             (
                 "App::PropertyString",
                 "HookOrientation",
                 "String representation of list of tuples of hook orientation",
                 1,
-            )
-        )
+            ),
+        ]
         setGroupProperties(properties, self.top_reinforcement_group)
         setGroupProperties(properties, self.bottom_reinforcement_group)
         addLeftRightRebarGroupsProperties(
@@ -2738,50 +2730,39 @@ class _TwoLeggedBeam(_BeamReinforcementGroup):
 
 def addLeftRightRebarGroupsProperties(rebar_groups):
     """Add properties to left/right rebar groups."""
-    properties = []
-    properties.append(
+    properties = [
         (
             "App::PropertyString",
             "NumberDiameterOffset",
             "Number Diameter Offset string",
             1,
-        )
-    )
-    properties.append(
-        ("App::PropertyStringList", "RebarType", "List of type of rebars", 1)
-    )
-    properties.append(
+        ),
+        ("App::PropertyStringList", "RebarType", "List of type of rebars", 1),
         (
             "App::PropertyIntegerList",
             "LRebarRounding",
             "Rounding of L-Shaped rebars",
             1,
-        )
-    )
-    properties.append(
+        ),
         (
             "App::PropertyDistance",
             "RebarSpacing",
             "Clear spacing between rebars",
             1,
-        )
-    )
-    properties.append(
+        ),
         (
             "App::PropertyFloatList",
             "HookExtension",
             "List of hook extension of lshape rebars",
             1,
-        )
-    )
-    properties.append(
+        ),
         (
             "App::PropertyStringList",
             "HookOrientation",
             "List of hook orientation of lshape rebars",
             1,
-        )
-    )
+        ),
+    ]
     if isinstance(rebar_groups, list) or isinstance(rebar_groups, tuple):
         for rebar_group in rebar_groups:
             setGroupProperties(properties, rebar_group)
