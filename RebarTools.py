@@ -316,7 +316,7 @@ class BarBendingScheduleTool:
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
             + "/icons/dropdown_list/BarBendingSchedule.svg",
             "MenuText": QT_TRANSLATE_NOOP(
-                "Reinforcement_BarBendingSchedule", "Bar Bending " "Schedule"
+                "Reinforcement_BarBendingSchedule", "Bar Bending Schedule"
             ),
             "ToolTip": QT_TRANSLATE_NOOP(
                 "Reinforcement_BarBendingSchedule",
@@ -334,6 +334,35 @@ class BarBendingScheduleTool:
 
         # Call to CommandBarBendingSchedule() function
         MainBarBendingSchedule.CommandBarBendingSchedule()
+
+
+class ReinforcementDrawingDimensioningTool:
+    @staticmethod
+    def GetResources():
+        return {
+            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
+            + "/icons/dropdown_list/Drawing.svg",
+            "MenuText": QT_TRANSLATE_NOOP(
+                "Reinforcement_DrawingDimensioning",
+                "Reinforcement Drawing Dimensioning",
+            ),
+            "ToolTip": QT_TRANSLATE_NOOP(
+                "Reinforcement_DrawingDimensioning",
+                "Generate Reinforcement Drawing Dimensioning",
+            ),
+        }
+
+    @staticmethod
+    def IsActive():
+        return True if FreeCADGui.activeDocument() else False
+
+    @staticmethod
+    def Activated():
+        from ReinforcementDrawing.MainReinforcementDrawingDimensioning import (
+            CommandReinforcementDrawingDimensioning,
+        )
+
+        CommandReinforcementDrawingDimensioning()
 
 
 def updateLocale():
@@ -355,6 +384,9 @@ FreeCADGui.addCommand("Reinforcement_BillOfMaterial", BillOfMaterialTool())
 FreeCADGui.addCommand("Reinforcement_BarShapeCutList", RebarShapeCutListTool())
 FreeCADGui.addCommand(
     "Reinforcement_BarBendingSchedule", BarBendingScheduleTool()
+)
+FreeCADGui.addCommand(
+    "Reinforcement_DrawingDimensioning", ReinforcementDrawingDimensioningTool()
 )
 
 
@@ -390,4 +422,5 @@ ReinforcementCommands = [
     "Reinforcement_BillOfMaterial",
     "Reinforcement_BarShapeCutList",
     "Reinforcement_BarBendingSchedule",
+    "Reinforcement_DrawingDimensioning",
 ]
