@@ -341,7 +341,7 @@ class ReinforcementDrawingDimensioningTool:
     def GetResources():
         return {
             "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/Drawing.svg",
+            + "/icons/dropdown_list/DrawingDimensioning.svg",
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_DrawingDimensioning",
                 "Reinforcement Drawing Dimensioning",
