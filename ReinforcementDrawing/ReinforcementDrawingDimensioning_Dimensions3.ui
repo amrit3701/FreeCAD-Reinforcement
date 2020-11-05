@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ReinforcementDrawingAndDimensioning_Dimensions3</class>
+ <widget class="QDialog" name="ReinforcementDrawingAndDimensioning_Dimensions3">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>623</width>
+    <height>452</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_4">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_20">
+     <item>
+      <widget class="QScrollArea" name="scrollArea">
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="scrollAreaWidgetContents">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>601</width>
+          <height>430</height>
+         </rect>
+        </property>
+        <widget class="QGroupBox" name="dimensionOffsetGroupBox">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>581</width>
+           <height>201</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>DejaVu Sans</family>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Dimension Offset&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="title">
+          <string>Dimension Offset</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_14">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_37">
+            <item>
+             <widget class="QLabel" name="dimensionLeftOffsetLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>260</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Left Offset</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::InputField" name="dimensionLeftOffset">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The left offset of the dimension from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>10 mm</string>
+              </property>
+              <property name="unit" stdset="0">
+               <string notr="true">mm</string>
+              </property>
+              <property name="quantity" stdset="0">
+               <double>0.350000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_39">
+            <item>
+             <widget class="QLabel" name="dimensionRightOffsetLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>260</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Right Offset</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::InputField" name="dimensionRightOffset">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The right offset of the dimension from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>10 mm</string>
+              </property>
+              <property name="unit" stdset="0">
+               <string notr="true">mm</string>
+              </property>
+              <property name="quantity" stdset="0">
+               <double>0.350000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_40">
+            <item>
+             <widget class="QLabel" name="dimensionTopOffsetLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>260</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Top Offset</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::InputField" name="dimensionTopOffset">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The top offset of the dimension from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>10 mm</string>
+              </property>
+              <property name="unit" stdset="0">
+               <string notr="true">mm</string>
+              </property>
+              <property name="quantity" stdset="0">
+               <double>0.350000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_41">
+            <item>
+             <widget class="QLabel" name="dimensionBottomOffsetLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>260</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Bottom Offset</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::InputField" name="dimensionBottomOffset">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The bottom offset of the dimension from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>10 mm</string>
+              </property>
+              <property name="unit" stdset="0">
+               <string notr="true">mm</string>
+              </property>
+              <property name="quantity" stdset="0">
+               <double>0.350000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QGroupBox" name="dimensionOffsetIncrementGroupBox">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>220</y>
+           <width>581</width>
+           <height>201</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>DejaVu Sans</family>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Dimension Offset&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="title">
+          <string>Dimension Offset Increment</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_15">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_51">
+            <item>
+             <widget class="QLabel" name="dimensionLeftOffsetIncrementLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>260</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Left Offset Increment</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::InputField" name="dimensionLeftOffsetIncrement">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The increment in the left offset to move each new dimension label away from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>6 mm</string>
+              </property>
+              <property name="unit" stdset="0">
+               <string notr="true">mm</string>
+              </property>
+              <property name="quantity" stdset="0">
+               <double>0.350000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_52">
+            <item>
+             <widget class="QLabel" name="dimensionRightOffsetIncrementLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>260</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Right Offset Increment</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::InputField" name="dimensionRightOffsetIncrement">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The increment in the right offset to move each new dimension label away from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>6 mm</string>
+              </property>
+              <property name="unit" stdset="0">
+               <string notr="true">mm</string>
+              </property>
+              <property name="quantity" stdset="0">
+               <double>0.350000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_53">
+            <item>
+             <widget class="QLabel" name="dimensionTopOffsetIncrementLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>260</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Top Offset Increment</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::InputField" name="dimensionTopOffsetIncrement">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The increment in the top offset to move each new dimension label away from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>6 mm</string>
+              </property>
+              <property name="unit" stdset="0">
+               <string notr="true">mm</string>
+              </property>
+              <property name="quantity" stdset="0">
+               <double>0.350000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_54">
+            <item>
+             <widget class="QLabel" name="dimensionBottomOffsetIncrementLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>260</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Bottom Offset Increment</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Gui::InputField" name="dimensionBottomOffsetIncrement">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The increment in the bottom offset to move each new dimension label away from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>6 mm</string>
+              </property>
+              <property name="unit" stdset="0">
+               <string notr="true">mm</string>
+              </property>
+              <property name="quantity" stdset="0">
+               <double>0.350000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::InputField</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/InputField.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
