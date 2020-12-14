@@ -1,265 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ReinforcementDrawingAndDimensioning_Dimensions2</class>
- <widget class="QDialog" name="ReinforcementDrawingAndDimensioning_Dimensions2">
+ <widget class="QWidget" name="ReinforcementDrawingAndDimensioning_Dimensions2">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>621</width>
-    <height>454</height>
+    <width>620</width>
+    <height>386</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_20">
-     <item>
-      <widget class="QScrollArea" name="scrollArea">
-       <property name="widgetResizable">
-        <bool>true</bool>
-       </property>
-       <widget class="QWidget" name="scrollAreaWidgetContents">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>599</width>
-          <height>432</height>
-         </rect>
-        </property>
-        <widget class="QGroupBox" name="multiRebarDimensionGroupBox">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>220</y>
-           <width>581</width>
-           <height>201</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <family>DejaVu Sans</family>
-          </font>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Multi Rebar Dimension&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="title">
-          <string>Multi Rebar Dimension</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_12">
-          <property name="leftMargin">
-           <number>6</number>
-          </property>
-          <property name="rightMargin">
-           <number>6</number>
-          </property>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_34">
-            <item>
-             <widget class="QLabel" name="dimensionMultiRebarLineStartSymbolLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>260</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Dimension Line Start Symbol</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="Gui::PrefComboBox" name="dimensionMultiRebarLineStartSymbol">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line start symbol, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="prefEntry" stdset="0">
-               <cstring></cstring>
-              </property>
-              <property name="prefPath" stdset="0">
-               <cstring></cstring>
-              </property>
-              <item>
-               <property name="text">
-                <string>FilledArrow</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Thick</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Dot</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>None</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_35">
-            <item>
-             <widget class="QLabel" name="dimensionMultiRebarLineEndSymbolLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>260</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Dimension Line End Symbol</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="Gui::PrefComboBox" name="dimensionMultiRebarLineEndSymbol">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line end symbol, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="prefEntry" stdset="0">
-               <cstring></cstring>
-              </property>
-              <property name="prefPath" stdset="0">
-               <cstring></cstring>
-              </property>
-              <item>
-               <property name="text">
-                <string>FilledArrow</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Thick</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Dot</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>None</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_48">
-            <item>
-             <widget class="QLabel" name="dimensionMultiRebarTextOositionTypeLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>260</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Text Position Type</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="Gui::PrefComboBox" name="dimensionMultiRebarTextOositionType">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension label position type, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="prefEntry" stdset="0">
-               <cstring></cstring>
-              </property>
-              <property name="prefPath" stdset="0">
-               <cstring></cstring>
-              </property>
-              <item>
-               <property name="text">
-                <string>StartOfLine</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>MidOfLine</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>EndOfLine</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_49">
-            <item>
-             <widget class="Gui::PrefCheckBox" name="dimensionMultiRebarOuterDim">
-              <property name="minimumSize">
-               <size>
-                <width>260</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then dimension lines are to be outside of reinforcement drawing, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>Outer Dimension</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QGroupBox" name="singleRebarDimensionGroupBox">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>581</width>
-           <height>201</height>
-          </rect>
-         </property>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>618</width>
+        <height>384</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QGroupBox" name="single_rebar_dimension_group_box">
          <property name="font">
           <font>
            <family>DejaVu Sans</family>
@@ -271,202 +54,367 @@
          <property name="title">
           <string>Single Rebar Dimension</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_13">
-          <property name="leftMargin">
-           <number>6</number>
-          </property>
-          <property name="rightMargin">
-           <number>6</number>
-          </property>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_56">
-            <item>
-             <widget class="QLabel" name="dimensionSingleRebarLineStartSymbolLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>260</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Dimension Line Start Symbol</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="Gui::PrefComboBox" name="dimensionSingleRebarLineStartSymbol">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line start symbol, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="prefEntry" stdset="0">
-               <cstring></cstring>
-              </property>
-              <property name="prefPath" stdset="0">
-               <cstring></cstring>
-              </property>
-              <item>
-               <property name="text">
-                <string>FilledArrow</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Thick</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Dot</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>None</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="single_rebar_dimension_line_start_symbol_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Dimension Line Start Symbol</string>
+            </property>
+           </widget>
           </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_57">
+          <item row="0" column="1">
+           <widget class="Gui::PrefComboBox" name="single_rebar_dimension_line_start_symbol">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line start symbol, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="prefEntry" stdset="0">
+             <cstring></cstring>
+            </property>
+            <property name="prefPath" stdset="0">
+             <cstring></cstring>
+            </property>
             <item>
-             <widget class="QLabel" name="dimensionSingleRebarLineEndSymbolLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>260</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Dimension Line End Symbol</string>
-              </property>
-             </widget>
+             <property name="text">
+              <string>FilledArrow</string>
+             </property>
             </item>
             <item>
-             <widget class="Gui::PrefComboBox" name="dimensionSingleRebarLineEndSymbol">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line end symbol, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="prefEntry" stdset="0">
-               <cstring></cstring>
-              </property>
-              <property name="prefPath" stdset="0">
-               <cstring></cstring>
-              </property>
-              <item>
-               <property name="text">
-                <string>FilledArrow</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Thick</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Dot</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>None</string>
-               </property>
-              </item>
-             </widget>
+             <property name="text">
+              <string>Thick</string>
+             </property>
             </item>
-           </layout>
+            <item>
+             <property name="text">
+              <string>Dot</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>None</string>
+             </property>
+            </item>
+           </widget>
           </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_47">
-            <item>
-             <widget class="QLabel" name="dimensionSingleRebarTextPositionTypeLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>260</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Text Position Type</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="Gui::PrefComboBox" name="dimensionSingleRebarTextPositionType">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension label position type, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="prefEntry" stdset="0">
-               <cstring></cstring>
-              </property>
-              <property name="prefPath" stdset="0">
-               <cstring></cstring>
-              </property>
-              <item>
-               <property name="text">
-                <string>StartOfLine</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>MidOfLine</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>EndOfLine</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
+          <item row="1" column="0">
+           <widget class="QLabel" name="single_rebar_dimension_line_end_symbol_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Dimension Line End Symbol</string>
+            </property>
+           </widget>
           </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_50">
+          <item row="1" column="1">
+           <widget class="Gui::PrefComboBox" name="single_rebar_dimension_line_end_symbol">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line end symbol, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="prefEntry" stdset="0">
+             <cstring></cstring>
+            </property>
+            <property name="prefPath" stdset="0">
+             <cstring></cstring>
+            </property>
             <item>
-             <widget class="Gui::PrefCheckBox" name="dimensionSingleRebarOuterDim">
-              <property name="minimumSize">
-               <size>
-                <width>260</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then dimension lines are to be outside of reinforcement drawing, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>Outer Dimension</string>
-              </property>
-             </widget>
+             <property name="text">
+              <string>FilledArrow</string>
+             </property>
             </item>
-           </layout>
+            <item>
+             <property name="text">
+              <string>Thick</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Dot</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>None</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="single_rebar_text_position_type_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Text Position Type</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="Gui::PrefComboBox" name="single_rebar_text_position_type">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension label position type, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="prefEntry" stdset="0">
+             <cstring></cstring>
+            </property>
+            <property name="prefPath" stdset="0">
+             <cstring></cstring>
+            </property>
+            <item>
+             <property name="text">
+              <string>StartOfLine</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>MidOfLine</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>EndOfLine</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="2">
+           <widget class="Gui::PrefCheckBox" name="single_rebar_outer_dimension">
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then dimension lines are to be outside of reinforcement drawing, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Outer Dimension</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
-       </widget>
-      </widget>
-     </item>
-    </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="multi_rebar_dimension_group_box">
+         <property name="font">
+          <font>
+           <family>DejaVu Sans</family>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Multi Rebar Dimension&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="title">
+          <string>Multi Rebar Dimension</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="multi_rebar_dimension_line_start_symbol_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Dimension Line Start Symbol</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="Gui::PrefComboBox" name="multi_rebar_dimension_line_start_symbol">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line start symbol, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="prefEntry" stdset="0">
+             <cstring></cstring>
+            </property>
+            <property name="prefPath" stdset="0">
+             <cstring></cstring>
+            </property>
+            <item>
+             <property name="text">
+              <string>FilledArrow</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Thick</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Dot</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>None</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="multi_rebar_dimension_line_end_symbol_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Dimension Line End Symbol</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="Gui::PrefComboBox" name="multi_rebar_dimension_line_end_symbol">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line end symbol, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="prefEntry" stdset="0">
+             <cstring></cstring>
+            </property>
+            <property name="prefPath" stdset="0">
+             <cstring></cstring>
+            </property>
+            <item>
+             <property name="text">
+              <string>FilledArrow</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Thick</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Dot</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>None</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="multi_rebar_text_position_type_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Text Position Type</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="Gui::PrefComboBox" name="multi_rebar_text_position_type">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension label position type, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="prefEntry" stdset="0">
+             <cstring></cstring>
+            </property>
+            <property name="prefPath" stdset="0">
+             <cstring></cstring>
+            </property>
+            <item>
+             <property name="text">
+              <string>StartOfLine</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>MidOfLine</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>EndOfLine</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="2">
+           <widget class="Gui::PrefCheckBox" name="multi_rebar_outer_dimension">
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then dimension lines are to be outside of reinforcement drawing, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Outer Dimension</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -482,6 +430,17 @@
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>single_rebar_dimension_line_start_symbol</tabstop>
+  <tabstop>single_rebar_dimension_line_end_symbol</tabstop>
+  <tabstop>single_rebar_text_position_type</tabstop>
+  <tabstop>single_rebar_outer_dimension</tabstop>
+  <tabstop>multi_rebar_dimension_line_start_symbol</tabstop>
+  <tabstop>multi_rebar_dimension_line_end_symbol</tabstop>
+  <tabstop>multi_rebar_text_position_type</tabstop>
+  <tabstop>multi_rebar_outer_dimension</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
