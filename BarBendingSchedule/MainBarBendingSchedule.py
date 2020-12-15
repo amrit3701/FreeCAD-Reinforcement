@@ -332,14 +332,8 @@ class _BarBendingScheduleDialog:
         if self.form.shapeColorRadio.isChecked():
             rebars_color_style = "shape color"
         else:
-            color_rgb_tuple = self.form.rebarsColor.property("color").getRgb()
             rebars_color_style = Draft.getrgb(
-                [
-                    color_rgb_tuple[0] / 255,
-                    color_rgb_tuple[1] / 255,
-                    color_rgb_tuple[2] / 255,
-                    color_rgb_tuple[3] / 255,
-                ]
+                self.form.rebarsColor.property("color").getRgbF()
             )
         include_dimensions = self.form.includeDimensions.isChecked()
         include_units_in_dimension_label = (

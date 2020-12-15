@@ -783,7 +783,7 @@ def getReinforcementDrawingSVGData(
     for rebar in helical_rebars:
         rebars_color = getRebarColor(rebar, rebars_color_style)
         rebars_color = getcolor(rebars_color)
-        rebar_svg_draft = Draft.getSVG(
+        rebar_svg_draft = Draft.get_svg(
             rebar,
             direction=view_plane,
             linewidth=rebars_stroke_width,
@@ -799,7 +799,7 @@ def getReinforcementDrawingSVGData(
     for rebar in custom_rebars:
         rebars_color = getRebarColor(rebar, rebars_color_style)
         rebars_color = getcolor(rebars_color)
-        rebar_svg_draft = Draft.getSVG(
+        rebar_svg_draft = Draft.get_svg(
             rebar,
             direction=view_plane,
             linewidth=rebars_stroke_width,
@@ -811,7 +811,7 @@ def getReinforcementDrawingSVGData(
 
     # Create Structure SVG
     _structure_svg = '<g id="structure">{}</g>'.format(
-        Draft.getSVG(
+        Draft.get_svg(
             structure,
             direction=view_plane,
             linewidth=structure_stroke_width,

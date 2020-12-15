@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>945</width>
-    <height>577</height>
+    <width>900</width>
+    <height>520</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -41,7 +41,7 @@
    <item row="0" column="0">
     <widget class="QDialogButtonBox" name="standard_button_box">
      <property name="standardButtons">
-      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
      </property>
      <property name="centerButtons">
       <bool>true</bool>
@@ -98,7 +98,7 @@
        </item>
        <item>
         <property name="text">
-         <string>Dimensions - Offsets &amp; Increments </string>
+         <string>Dimensions - Offsets &amp; Increments</string>
         </property>
        </item>
       </widget>
