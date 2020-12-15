@@ -7,54 +7,57 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>392</height>
+    <height>395</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
    <item>
-    <widget class="QScrollArea" name="scrollArea">
-     <property name="widgetResizable">
-      <bool>true</bool>
+    <widget class="QGroupBox" name="dimension_label_group_box">
+     <property name="font">
+      <font>
+       <family>DejaVu Sans</family>
+      </font>
      </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>698</width>
-        <height>390</height>
-       </rect>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Dimension Label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="title">
+      <string>Dimension Label</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="leftMargin">
+       <number>0</number>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QGroupBox" name="dimension_label_group_box">
-         <property name="font">
-          <font>
-           <family>DejaVu Sans</family>
-          </font>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item row="0" column="0" colspan="2">
+       <widget class="QScrollArea" name="scrollArea">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>676</width>
+           <height>156</height>
+          </rect>
          </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Dimension Label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="title">
-          <string>Dimension Label</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout">
+         <layout class="QFormLayout" name="formLayout_3">
           <item row="0" column="0">
            <widget class="QLabel" name="dimension_label_format_label">
             <property name="minimumSize">
@@ -67,6 +70,9 @@
              <string>Dimension Label Format</string>
             </property>
            </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="Gui::PrefLineEdit" name="dimension_label_format"/>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="dimension_font_family_label">
@@ -137,26 +143,57 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="Gui::PrefLineEdit" name="dimension_label_format"/>
-          </item>
          </layout>
         </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="dimension_line_group_box">
-         <property name="font">
-          <font>
-           <family>DejaVu Sans</family>
-          </font>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="dimension_line_group_box">
+     <property name="font">
+      <font>
+       <family>DejaVu Sans</family>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Dimension Line&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="title">
+      <string>Dimension Line</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_2">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item row="0" column="0" colspan="2">
+       <widget class="QScrollArea" name="scrollArea_2">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents_2">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>676</width>
+           <height>155</height>
+          </rect>
          </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Dimension Line&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="title">
-          <string>Dimension Line</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout_2">
+         <layout class="QFormLayout" name="formLayout_4">
           <item row="0" column="0">
            <widget class="QLabel" name="dimension_stroke_width_label">
             <property name="minimumSize">
@@ -300,9 +337,9 @@
           </item>
          </layout>
         </widget>
-       </item>
-      </layout>
-     </widget>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
@@ -345,6 +382,7 @@
   <tabstop>dimension_font_family</tabstop>
   <tabstop>dimension_font_size</tabstop>
   <tabstop>dimension_text_color</tabstop>
+  <tabstop>scrollArea_2</tabstop>
   <tabstop>dimension_stroke_width</tabstop>
   <tabstop>dimension_line_style</tabstop>
   <tabstop>dimension_line_color</tabstop>

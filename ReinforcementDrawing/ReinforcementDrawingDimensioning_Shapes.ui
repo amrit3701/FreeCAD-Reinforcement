@@ -6,55 +6,58 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>620</width>
+    <width>750</width>
     <height>260</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QScrollArea" name="scrollArea">
-     <property name="widgetResizable">
-      <bool>true</bool>
+    <widget class="QGroupBox" name="rebar_shape_data_group_box">
+     <property name="font">
+      <font>
+       <family>DejaVu Sans</family>
+      </font>
      </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>618</width>
-        <height>258</height>
-       </rect>
+     <property name="toolTip">
+      <string>The data related to Rebar Shape</string>
+     </property>
+     <property name="title">
+      <string>Rebar Shape</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_2">
+      <property name="leftMargin">
+       <number>0</number>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QGroupBox" name="rebar_shape_data_group_box">
-         <property name="font">
-          <font>
-           <family>DejaVu Sans</family>
-          </font>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item row="0" column="0" colspan="2">
+       <widget class="QScrollArea" name="scrollArea">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>726</width>
+           <height>88</height>
+          </rect>
          </property>
-         <property name="toolTip">
-          <string>The data related to Rebar Shape</string>
-         </property>
-         <property name="title">
-          <string>Rebar Shape</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout_2">
+         <layout class="QFormLayout" name="formLayout_4">
           <item row="0" column="0">
            <widget class="QLabel" name="rebars_stroke_width_label">
             <property name="sizePolicy">
@@ -137,7 +140,7 @@
              </widget>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <layout class="QHBoxLayout" name="horizontalLayout">
               <item>
                <widget class="Gui::PrefRadioButton" name="rebars_custom_color_radio">
                 <property name="sizePolicy">
@@ -173,21 +176,55 @@
           </item>
          </layout>
         </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="structure_shape_data_group_box">
-         <property name="font">
-          <font>
-           <family>DejaVu Sans</family>
-          </font>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="structure_shape_data_group_box">
+     <property name="font">
+      <font>
+       <family>DejaVu Sans</family>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string>The data related to Structure Shape</string>
+     </property>
+     <property name="title">
+      <string>Structure Shape</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item row="0" column="0" colspan="2">
+       <widget class="QScrollArea" name="scrollArea_2">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents_2">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>726</width>
+           <height>88</height>
+          </rect>
          </property>
-         <property name="toolTip">
-          <string>The data related to Structure Shape</string>
-         </property>
-         <property name="title">
-          <string>Structure Shape</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout">
+         <layout class="QFormLayout" name="formLayout_5">
           <item row="0" column="0">
            <widget class="QLabel" name="structure_stroke_width_label">
             <property name="sizePolicy">
@@ -270,7 +307,17 @@
              </widget>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <widget class="Gui::PrefRadioButton" name="structure_color_none">
+              <property name="text">
+               <string>no color</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">structure_color_style_button_group</string>
+              </attribute>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
                <widget class="Gui::PrefRadioButton" name="structure_custom_color_radio">
                 <property name="sizePolicy">
@@ -306,9 +353,9 @@
           </item>
          </layout>
         </widget>
-       </item>
-      </layout>
-     </widget>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
@@ -341,8 +388,10 @@
   <tabstop>rebars_shape_color_radio</tabstop>
   <tabstop>rebars_custom_color_radio</tabstop>
   <tabstop>rebars_color</tabstop>
+  <tabstop>scrollArea_2</tabstop>
   <tabstop>structure_stroke_width</tabstop>
   <tabstop>structure_shape_color_radio</tabstop>
+  <tabstop>structure_color_none</tabstop>
   <tabstop>structure_custom_color_radio</tabstop>
   <tabstop>structure_color</tabstop>
  </tabstops>
@@ -382,7 +431,7 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="rebars_color_style_button_group"/>
   <buttongroup name="structure_color_style_button_group"/>
+  <buttongroup name="rebars_color_style_button_group"/>
  </buttongroups>
 </ui>
