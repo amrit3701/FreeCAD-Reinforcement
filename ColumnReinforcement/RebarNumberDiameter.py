@@ -25,11 +25,12 @@ __title__ = "Number Diameter Dialog"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-import os
-from PySide2 import QtWidgets
+from pathlib import Path
 
 import FreeCAD
 import FreeCADGui
+from PySide2 import QtWidgets
+
 from Rebarfunc import gettupleOfNumberDiameter
 
 
@@ -38,7 +39,7 @@ class _NumberDiameterDialog:
         """This function set initial data in Rebar Number Dialog dialog box."""
         self.rebars_widget = rebars_widget
         self.form = FreeCADGui.PySideUic.loadUi(
-            os.path.splitext(__file__)[0] + ".ui"
+            str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
             QtWidgets.QApplication.translate(

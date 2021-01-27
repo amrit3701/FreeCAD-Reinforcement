@@ -25,10 +25,10 @@ __title__ = "Hook Orientation Edit Dialog"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-import os
-from PySide2 import QtWidgets, QtGui
+from pathlib import Path
 
 import FreeCADGui
+from PySide2 import QtWidgets, QtGui
 
 
 class _HookOrientationEditDialog:
@@ -37,7 +37,7 @@ class _HookOrientationEditDialog:
         self.Layers = []
         self.HookOrientationComboBoxList = []
         self.form = FreeCADGui.PySideUic.loadUi(
-            os.path.splitext(__file__)[0] + ".ui"
+            str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
             QtWidgets.QApplication.translate(

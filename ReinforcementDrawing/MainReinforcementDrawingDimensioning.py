@@ -21,7 +21,7 @@
 # *                                                                         *
 # ***************************************************************************
 
-__title__ = "Reinforcement Drawing Dimensioning Command"
+__title__ = "Reinforcement Drawing Dimensioning Gui"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 

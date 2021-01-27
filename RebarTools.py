@@ -25,7 +25,7 @@ __title__ = "RebarCommands"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
-import os
+from pathlib import Path
 
 import FreeCADGui
 from PySide.QtCore import QT_TRANSLATE_NOOP
@@ -35,8 +35,12 @@ class StraightRebarTool:
     @staticmethod
     def GetResources():
         return {
-            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/StraightRebar.svg",
+            "Pixmap": str(
+                Path(__file__).parent
+                / "icons"
+                / "dropdown_list"
+                / "StraightRebar.svg"
+            ),
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_StraightRebar", "Straight Rebar"
             ),
@@ -63,8 +67,12 @@ class UShapeRebarTool:
     @staticmethod
     def GetResources():
         return {
-            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/UShapeRebar.svg",
+            "Pixmap": str(
+                Path(__file__).parent
+                / "icons"
+                / "dropdown_list"
+                / "UShapeRebar.svg"
+            ),
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_UShapeRebar", "U-Shape Rebar"
             ),
@@ -91,8 +99,12 @@ class LShapeRebarTool:
     @staticmethod
     def GetResources():
         return {
-            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/LShapeRebar.svg",
+            "Pixmap": str(
+                Path(__file__).parent
+                / "icons"
+                / "dropdown_list"
+                / "LShapeRebar.svg"
+            ),
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_LShapeRebar", "L-Shape Rebar"
             ),
@@ -119,8 +131,12 @@ class StirrupTool:
     @staticmethod
     def GetResources():
         return {
-            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/StirrupRebar.svg",
+            "Pixmap": str(
+                Path(__file__).parent
+                / "icons"
+                / "dropdown_list"
+                / "StirrupRebar.svg"
+            ),
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_StirrupRebar", "Stirrup"
             ),
@@ -147,8 +163,12 @@ class BentShapeRebarTool:
     @staticmethod
     def GetResources():
         return {
-            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/BentShapeRebar.svg",
+            "Pixmap": str(
+                Path(__file__).parent
+                / "icons"
+                / "dropdown_list"
+                / "BentShapeRebar.svg"
+            ),
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_BentShapeRebar", "Bent-Shape Rebar"
             ),
@@ -175,8 +195,12 @@ class HelicalRebarTool:
     @staticmethod
     def GetResources():
         return {
-            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/HelixShapeRebar.svg",
+            "Pixmap": str(
+                Path(__file__).parent
+                / "icons"
+                / "dropdown_list"
+                / "HelixShapeRebar.svg"
+            ),
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_HelicalRebar", "Helical Rebar"
             ),
@@ -203,8 +227,9 @@ class ColumnReinforcementTool:
     @staticmethod
     def GetResources():
         return {
-            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/Column.svg",
+            "Pixmap": str(
+                Path(__file__).parent / "icons" / "dropdown_list" / "Column.svg"
+            ),
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_ColumnRebars", "Column Reinforcement"
             ),
@@ -231,8 +256,9 @@ class BeamReinforcementTool:
     @staticmethod
     def GetResources():
         return {
-            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/Beam.svg",
+            "Pixmap": str(
+                Path(__file__).parent / "icons" / "dropdown_list" / "Beam.svg"
+            ),
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_BeamRebars", "Beam Reinforcement"
             ),
@@ -259,8 +285,9 @@ class BillOfMaterialTool:
     @staticmethod
     def GetResources():
         return {
-            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/BOM.svg",
+            "Pixmap": str(
+                Path(__file__).parent / "icons" / "dropdown_list" / "BOM.svg"
+            ),
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_BillOfMaterial", "Rebar Bill Of Material"
             ),
@@ -286,8 +313,12 @@ class RebarShapeCutListTool:
     @staticmethod
     def GetResources():
         return {
-            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/RebarShapeCutList.svg",
+            "Pixmap": str(
+                Path(__file__).parent
+                / "icons"
+                / "dropdown_list"
+                / "RebarShapeCutList.svg"
+            ),
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_BarShapeCutList", "Rebar Shape Cut List"
             ),
@@ -313,8 +344,12 @@ class BarBendingScheduleTool:
     @staticmethod
     def GetResources():
         return {
-            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/BarBendingSchedule.svg",
+            "Pixmap": str(
+                Path(__file__).parent
+                / "icons"
+                / "dropdown_list"
+                / "BarBendingSchedule.svg"
+            ),
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_BarBendingSchedule", "Bar Bending Schedule"
             ),
@@ -340,8 +375,12 @@ class ReinforcementDrawingDimensioningTool:
     @staticmethod
     def GetResources():
         return {
-            "Pixmap": os.path.split(os.path.abspath(__file__))[0]
-            + "/icons/dropdown_list/DrawingDimensioning.svg",
+            "Pixmap": str(
+                Path(__file__).parent
+                / "icons"
+                / "dropdown_list"
+                / "DrawingDimensioning.svg"
+            ),
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_DrawingDimensioning",
                 "Reinforcement Drawing Dimensioning",
@@ -366,9 +405,7 @@ class ReinforcementDrawingDimensioningTool:
 
 
 def updateLocale():
-    FreeCADGui.addLanguagePath(
-        os.path.join(os.path.dirname(__file__), "translations")
-    )
+    FreeCADGui.addLanguagePath(Path(__file__).parent / "translations")
     FreeCADGui.updateLocale()
 
 

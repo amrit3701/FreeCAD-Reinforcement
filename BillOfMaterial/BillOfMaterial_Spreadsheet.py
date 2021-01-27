@@ -25,10 +25,18 @@ __title__ = "Bill Of Material Spreadsheet"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-from typing import Optional, Dict, Tuple, Literal, List, Union
+from typing import (
+    Optional,
+    Dict,
+    Literal,
+    List,
+    OrderedDict as OrderedDictType,
+    Union,
+)
 
 import FreeCAD
 
+from .BOMPreferences import BOMPreferences
 from .BOMfunc import (
     getMarkReinforcementsDict,
     getRebarSharpEdgedLength,
@@ -38,11 +46,20 @@ from .BOMfunc import (
     getBaseRebar,
     getHostReinforcementsDict,
 )
-from .BOMPreferences import BOMPreferences
 
 
 def addSheetHeaders(
-    column_headers: Dict[str, Tuple[str, int]],
+    column_headers: OrderedDictType[
+        Literal[
+            "Host",
+            "Mark",
+            "RebarsCount",
+            "Diameter",
+            "RebarLength",
+            "RebarsTotalLength",
+        ],
+        str,
+    ],
     diameter_list: List[FreeCAD.Units.Quantity],
     spreadsheet,
 ) -> None:
@@ -52,12 +69,12 @@ def addSheetHeaders(
     # Format cells and insert headers if column "RebarsTotalLength" is to be
     # shown in BOM, only insert headers otherwise
     if "RebarsTotalLength" in column_headers:
-        for column_header in column_headers:
-            column = chr(ord("A") + column_headers[column_header][1] - 1)
-            if column_header != "RebarsTotalLength":
+        for column_seq, column_header in enumerate(column_headers.items()):
+            column = chr(ord("A") + column_seq)
+            if column_header[0] != "RebarsTotalLength":
                 spreadsheet.mergeCells(column + "1:" + column + "2")
-                spreadsheet.set(column + "1", column_headers[column_header][0])
-            elif column_header == "RebarsTotalLength":
+                spreadsheet.set(column + "1", column_header[1])
+            elif column_header[0] == "RebarsTotalLength":
                 last_dia_column = chr(ord(column) + len(diameter_list) - 1)
                 spreadsheet.mergeCells(column + "1:" + last_dia_column + "1")
                 spreadsheet.setAlignment(
@@ -66,30 +83,30 @@ def addSheetHeaders(
                 spreadsheet.setAlignment(
                     column + "2:" + last_dia_column + "2", "center|vcenter"
                 )
-                spreadsheet.set(column + "1", column_headers[column_header][0])
+                spreadsheet.set(column + "1", column_header[1])
                 for dia_index, dia in enumerate(diameter_list):
                     spreadsheet.set(
                         chr(ord(column) + dia_index) + "2",
                         "#" + str(dia.Value).rstrip("0").rstrip("."),
                     )
     else:
-        for column_header in column_headers:
-            column = chr(ord("A") + column_headers[column_header][1] - 1)
-            spreadsheet.set(column + "1", column_headers[column_header][0])
+        for column_seq, column_header in enumerate(column_headers.items()):
+            column = chr(ord("A") + column_seq)
+            spreadsheet.set(column + "1", column_header[1])
 
 
 def getHeaderColumn(column_headers, diameter_list, column_header):
     """getHeaderColumn(ColumnHeadersConfig, DiameterList, ColumnHeader):
-    column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
-    "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
-    its sequence number.
+    column_headers is an ordered dictionary with keys: "Host", "Mark",
+    "RebarsCount", "Diameter", "RebarLength", "RebarsTotalLength" and values are
+    column display header.
     e.g. {
-            "Host": ("Member", 1),
-            "Mark": ("Mark", 2),
-            "RebarsCount": ("No. of Rebars", 3),
-            "Diameter": ("Diameter in mm", 4),
-            "RebarLength": ("Length in m/piece", 5),
-            "RebarsTotalLength": ("Total Length in m", 6),
+            "Host": "Member",
+            "Mark": "Mark",
+            "RebarsCount": "No. of Rebars",
+            "Diameter": "Diameter in mm",
+            "RebarLength": "Length in m/piece",
+            "RebarsTotalLength": "Total Length in m",
         }
 
     column_header is the key from dictionary column_headers for which we need to
@@ -97,20 +114,32 @@ def getHeaderColumn(column_headers, diameter_list, column_header):
 
     Returns column corresponding to column_header.
     """
-    seq = column_headers[column_header][1]
+    seq = list(column_headers.keys()).index(column_header)
     if "RebarsTotalLength" in column_headers:
-        if column_headers["RebarsTotalLength"][1] < seq:
-            if len(diameter_list) == 0:
-                seq += len(diameter_list)
-            else:
+        if list(column_headers.keys()).index("RebarsTotalLength") < seq:
+            if len(diameter_list) != 0:
                 seq += len(diameter_list) - 1
-    column = chr(ord("A") + seq - 1)
+    column = chr(ord("A") + seq)
     return column
 
 
 def makeBillOfMaterial(
-    column_headers: Optional[Dict[str, Tuple[str, int]]] = None,
-    column_units: Optional[Dict[str, str]] = None,
+    column_headers: Optional[
+        OrderedDictType[
+            Literal[
+                "Host",
+                "Mark",
+                "RebarsCount",
+                "Diameter",
+                "RebarLength",
+                "RebarsTotalLength",
+            ],
+            str,
+        ]
+    ] = None,
+    column_units: Optional[
+        Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]
+    ] = None,
     dia_weight_map: Optional[Dict[float, FreeCAD.Units.Quantity]] = None,
     rebar_length_type: Optional[
         Literal["RealLength", "LengthWithSharpEdges"]
@@ -123,18 +152,17 @@ def makeBillOfMaterial(
     RebarLengthType, RebarObjects, ReinforcementGroupBy, ObjectName):
     Generates the Rebars Material Bill.
 
-    column_headers is a dictionary with keys: "Host", "Mark", "RebarsCount",
-    "Diameter", "RebarLength", "RebarsTotalLength" and values are tuple of
-    column_header and its sequence number.
+    column_headers is an ordered dictionary with keys: "Host", "Mark",
+    "RebarsCount", "Diameter", "RebarLength", "RebarsTotalLength" and values are
+    column display header.
     e.g. {
-            "Host": ("Member", 1),
-            "Mark": ("Mark", 2),
-            "RebarsCount": ("No. of Rebars", 3),
-            "Diameter": ("Diameter in mm", 4),
-            "RebarLength": ("Length in m/piece", 5),
-            "RebarsTotalLength": ("Total Length in m", 6),
+            "Host": "Member",
+            "Mark": "Mark",
+            "RebarsCount": "No. of Rebars",
+            "Diameter": "Diameter in mm",
+            "RebarLength": "Length in m/piece",
+            "RebarsTotalLength": "Total Length in m",
         }
-    set column sequence number to 0 to hide column.
 
     column_units is a dictionary with keys: "Diameter", "RebarLength",
     "RebarsTotalLength" and their corresponding units as value.
@@ -181,12 +209,6 @@ def makeBillOfMaterial(
     if not reinforcement_group_by:
         reinforcement_group_by = bom_preferences.getReinforcementGroupBy()
 
-    # Delete hidden headers
-    column_headers = {
-        column_header: column_header_tuple
-        for column_header, column_header_tuple in column_headers.items()
-        if column_header_tuple[1] != 0
-    }
     # Fix column units
     column_units = fixColumnUnits(column_units)
 
@@ -393,7 +415,7 @@ def makeBillOfMaterial(
     current_row += 3
     # Display total length, weight/m and total weight of all rebars
     if "RebarsTotalLength" in column_headers:
-        if column_headers["RebarsTotalLength"][1] != 1:
+        if list(column_headers.keys()).index("RebarsTotalLength") != 0:
             first_dia_column = getHeaderColumn(
                 column_headers, diameter_list, "RebarsTotalLength"
             )

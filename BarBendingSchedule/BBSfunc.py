@@ -25,7 +25,15 @@ __title__ = "Bar Bending Schedule Functions"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-from typing import Dict, Union, Tuple, List, Optional, Literal
+from typing import (
+    Dict,
+    List,
+    Literal,
+    Optional,
+    OrderedDict as OrderedDictType,
+    Tuple,
+    Union,
+)
 from xml.dom import minidom
 from xml.etree import ElementTree
 
@@ -48,8 +56,22 @@ from SVGfunc import getSVGRootElement, getSVGRectangle, getSVGDataCell
 
 def getBarBendingSchedule(
     rebar_objects: Optional[List] = None,
-    column_headers: Optional[Dict[str, Tuple[str, int]]] = None,
-    column_units: Optional[Dict[str, str]] = None,
+    column_headers: Optional[
+        OrderedDictType[
+            Literal[
+                "Host",
+                "Mark",
+                "RebarsCount",
+                "Diameter",
+                "RebarLength",
+                "RebarsTotalLength",
+            ],
+            str,
+        ]
+    ] = None,
+    column_units: Optional[
+        Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]
+    ] = None,
     dia_weight_map: Optional[Dict[float, FreeCAD.Units.Quantity]] = None,
     rebar_length_type: Optional[
         Literal["RealLength", "LengthWithSharpEdges"]
@@ -88,21 +110,21 @@ def getBarBendingSchedule(
         Mark from ActiveDocument will be selected and rebars with no Mark
         assigned will be ignored.
         Default is None.
-    column_headers : Dict[str, Tuple[str, int]], optional
-        A dictionary with keys: "Mark", "RebarsCount", "Diameter",
-        "RebarLength", "RebarsTotalLength" and values are tuple of column_header
-        and its sequence number.
+    column_headers : OrderedDict[{"Host", "Mark", "RebarsCount", "Diameter",
+                        "RebarLength", "RebarsTotalLength"}, str], optional
+        An ordered dictionary with keys: "Mark", "RebarsCount", "Diameter",
+        "RebarLength", "RebarsTotalLength" and values column display headers.
             e.g. {
-                    "Host": ("Member", 1),
-                    "Mark": ("Mark", 2),
-                    "RebarsCount": ("No. of Rebars", 3),
-                    "Diameter": ("Diameter in mm", 4),
-                    "RebarLength": ("Length in m/piece", 5),
-                    "RebarsTotalLength": ("Total Length in m", 6),
+                    "Host": "Member",
+                    "Mark": "Mark",
+                    "RebarsCount": "No. of Rebars",
+                    "Diameter": "Diameter in mm",
+                    "RebarLength": "Length in m/piece",
+                    "RebarsTotalLength": "Total Length in m",
                 }
-            set column sequence number to 0 to hide column.
         Default is None, to select from FreeCAD Reinforcement BOM preferences.
-    column_units : Dict[str, str], optional
+    column_units : dict of ({"Diameter", "RebarLength", "RebarsTotalLength"},
+                    str), optional
         column_units is a dictionary with keys: "Diameter", "RebarLength",
         "RebarsTotalLength" and their corresponding units as value.
             e.g. {
@@ -111,7 +133,7 @@ def getBarBendingSchedule(
                     "RebarsTotalLength": "m",
                 }
         Default is None, to select from FreeCAD Reinforcement BOM preferences.
-    dia_weight_map : Dict[float, FreeCAD.Units.Quantity], optional
+    dia_weight_map : dict of (float, FreeCAD.Units.Quantity), optional
         A dictionary with diameter as key and corresponding weight (kg/m) as
         value.
             e.g. {
@@ -198,19 +220,16 @@ def getBarBendingSchedule(
     """
     rebar_objects = getReinforcementRebarObjects(rebar_objects)
     bom_preferences = BOMPreferences()
-    if not column_headers:
-        column_headers = bom_preferences.getColumnHeaders()
-    if not column_units:
-        column_units = bom_preferences.getColumnUnits()
-    column_units = fixColumnUnits(column_units or {})
-    if not reinforcement_group_by:
-        reinforcement_group_by = bom_preferences.getReinforcementGroupBy()
+    column_headers = column_headers or bom_preferences.getColumnHeaders()
+    column_units = column_units or bom_preferences.getColumnUnits()
+    column_units = fixColumnUnits(column_units)
+    reinforcement_group_by = (
+        reinforcement_group_by or bom_preferences.getReinforcementGroupBy()
+    )
 
     svg_pref = bom_preferences.getSVGPrefGroup()
-    if not font_family:
-        font_family = svg_pref.GetString("FontFamily")
-    if not font_size:
-        font_size = svg_pref.GetFloat("FontSize")
+    font_family = font_family or svg_pref.GetString("FontFamily")
+    font_size = font_size or svg_pref.GetFloat("FontSize")
 
     svg = getSVGRootElement()
     bbs_svg = ElementTree.Element("g", attrib={"id": "BBS"})
@@ -260,9 +279,7 @@ def getBarBendingSchedule(
     bar_cut_list_svg = getRebarShapeCutList(
         base_rebars_list,
         rebar_shape_view_directions,
-        False
-        if "Mark" in column_headers and column_headers["Mark"][1] != 0
-        else True,
+        False if "Mark" in column_headers else True,
         rebar_shape_stirrup_extended_edge_offset,
         rebar_shape_stroke_width,
         rebar_shape_color_style,

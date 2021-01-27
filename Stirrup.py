@@ -25,7 +25,18 @@ __title__ = "StirrupRebar"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
+import math
+from pathlib import Path
+
+import ArchCommands
+import FreeCAD
+import FreeCADGui
 from PySide import QtGui
+from PySide.QtCore import QT_TRANSLATE_NOOP
+
+from PopUpImage import showPopUpImageDialog
+from RebarData import RebarTypes
+from RebarDistribution import runRebarDistribution, removeRebarDistribution
 from Rebarfunc import (
     getSelectedFace,
     getFaceNumber,
@@ -35,15 +46,6 @@ from Rebarfunc import (
     extendedTangentLength,
     extendedTangentPartLength,
 )
-from RebarData import RebarTypes
-from PySide.QtCore import QT_TRANSLATE_NOOP
-from RebarDistribution import runRebarDistribution, removeRebarDistribution
-from PopUpImage import showPopUpImageDialog
-import FreeCAD
-import FreeCADGui
-import ArchCommands
-import os
-import math
 
 
 def getpointsOfStirrup(
@@ -193,7 +195,7 @@ class _StirrupTaskPanel:
             self.FaceName = Rebar.Base.Support[0][1][0]
             self.SelectedObj = Rebar.Base.Support[0][0]
         self.form = FreeCADGui.PySideUic.loadUi(
-            os.path.splitext(__file__)[0] + ".ui"
+            str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
             QtGui.QApplication.translate("RebarAddon", "Stirrup Rebar", None)
@@ -202,10 +204,7 @@ class _StirrupTaskPanel:
         self.form.amount_radio.clicked.connect(self.amount_radio_clicked)
         self.form.spacing_radio.clicked.connect(self.spacing_radio_clicked)
         self.form.image.setPixmap(
-            QtGui.QPixmap(
-                os.path.split(os.path.abspath(__file__))[0]
-                + "/icons/Stirrup.svg"
-            )
+            QtGui.QPixmap(str(Path(__file__).parent / "icons" / "Stirrup.svg"))
         )
         self.form.customSpacing.clicked.connect(
             lambda: runRebarDistribution(self)
@@ -223,8 +222,7 @@ class _StirrupTaskPanel:
         # )
         self.form.toolButton.clicked.connect(
             lambda: showPopUpImageDialog(
-                os.path.split(os.path.abspath(__file__))[0]
-                + "/icons/StirrupDetailed.svg"
+                str(Path(__file__).parent / "icons" / "StirrupDetailed.svg")
             )
         )
         self.Rebar = Rebar

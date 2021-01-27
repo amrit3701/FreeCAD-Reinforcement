@@ -25,7 +25,14 @@ __title__ = "Bill Of Material SVG"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-from typing import Optional, Dict, Tuple, Literal, List, Union
+from typing import (
+    Optional,
+    Dict,
+    Literal,
+    List,
+    OrderedDict as OrderedDictType,
+    Union,
+)
 from xml.dom import minidom
 from xml.etree import ElementTree
 
@@ -52,16 +59,16 @@ from .BillOfMaterialContent import makeBOMObject
 
 def getColumnNumber(column_headers, diameter_list, column_header):
     """getColumnNumber(ColumnHeadersConfig, DiameterList, ColumnHeader):
-    column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
-    "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
-    its sequence number.
+    column_headers is an ordered dictionary with keys: "Host", "Mark",
+    "RebarsCount", "Diameter", "RebarLength", "RebarsTotalLength" and values are
+    column display header.
     e.g. {
-            "Host": ("Member", 1),
-            "Mark": ("Mark", 2),
-            "RebarsCount": ("No. of Rebars", 3),
-            "Diameter": ("Diameter in mm", 4),
-            "RebarLength": ("Length in m/piece", 5),
-            "RebarsTotalLength": ("Total Length in m", 6),
+            "Host": "Member",
+            "Mark": "Mark",
+            "RebarsCount": "No. of Rebars",
+            "Diameter": "Diameter in mm",
+            "RebarLength": "Length in m/piece",
+            "RebarsTotalLength": "Total Length in m",
         }
 
     column_header is the key from dictionary column_headers for which we need to
@@ -69,9 +76,9 @@ def getColumnNumber(column_headers, diameter_list, column_header):
 
     Returns position number of column in svg.
     """
-    seq = column_headers[column_header][1]
+    seq = list(column_headers.keys()).index(column_header) + 1
     if "RebarsTotalLength" in column_headers:
-        if column_headers["RebarsTotalLength"][1] < seq:
+        if list(column_headers.keys()).index("RebarsTotalLength") + 1 < seq:
             if len(diameter_list) != 0:
                 seq += len(diameter_list) - 1
     return seq
@@ -89,16 +96,16 @@ def getColumnHeadersSVG(
 ):
     """getColumnHeadersSVG(ColumnHeaders, DiameterList, DiameterPrecision,
     YOffset, ColumnWidth, RowHeight, FontFamily, FontSize):
-    column_headers is a dictionary with keys: "Mark", "RebarsCount", "Diameter",
-    "RebarLength", "RebarsTotalLength" and values are tuple of column_header and
-    its sequence number.
+    column_headers is an ordered dictionary with keys: "Host", "Mark",
+    "RebarsCount", "Diameter", "RebarLength", "RebarsTotalLength" and values are
+    column display header.
     e.g. {
-            "Host": ("Member", 1),
-            "Mark": ("Mark", 2),
-            "RebarsCount": ("No. of Rebars", 3),
-            "Diameter": ("Diameter in mm", 4),
-            "RebarLength": ("Length in m/piece", 5),
-            "RebarsTotalLength": ("Total Length in m", 6),
+            "Host": "Member",
+            "Mark": "Mark",
+            "RebarsCount": "No. of Rebars",
+            "Diameter": "Diameter in mm",
+            "RebarLength": "Length in m/piece",
+            "RebarsTotalLength": "Total Length in m",
         }
 
     Returns svg code for column headers.
@@ -112,13 +119,11 @@ def getColumnHeadersSVG(
         height = row_height
 
     column_seq = 1
-    for column_header in sorted(
-        column_headers, key=lambda x: column_headers[x][1]
-    ):
+    for column_header in column_headers:
         if column_header != "RebarsTotalLength":
             column_headers_svg.append(
                 getSVGDataCell(
-                    column_headers[column_header][0],
+                    column_headers[column_header],
                     column_offset,
                     y_offset,
                     column_width,
@@ -134,7 +139,7 @@ def getColumnHeadersSVG(
         elif column_header == "RebarsTotalLength":
             column_headers_svg.append(
                 getSVGDataCell(
-                    column_headers[column_header][0],
+                    column_headers[column_header],
                     column_offset,
                     y_offset,
                     column_width * len(diameter_list),
@@ -172,8 +177,22 @@ def getColumnHeadersSVG(
 
 
 def makeBillOfMaterialSVG(
-    column_headers: Optional[Dict[str, Tuple[str, int]]] = None,
-    column_units: Optional[Dict[str, str]] = None,
+    column_headers: Optional[
+        OrderedDictType[
+            Literal[
+                "Host",
+                "Mark",
+                "RebarsCount",
+                "Diameter",
+                "RebarLength",
+                "RebarsTotalLength",
+            ],
+            str,
+        ]
+    ] = None,
+    column_units: Optional[
+        Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]
+    ] = None,
     dia_weight_map: Optional[Dict[float, FreeCAD.Units.Quantity]] = None,
     rebar_length_type: Optional[
         Literal["RealLength", "LengthWithSharpEdges"]
@@ -202,18 +221,17 @@ def makeBillOfMaterialSVG(
     RebarObjects, ReinforcementGroupBy, ReturnSVGOnly]):
     Generates the Rebars Material Bill SVG.
 
-    column_headers is a dictionary with keys: "Host", "Mark", "RebarsCount",
-    "Diameter", "RebarLength", "RebarsTotalLength" and values are tuple of
-    column_header and its sequence number.
+    column_headers is an ordered dictionary with keys: "Host", "Mark",
+    "RebarsCount", "Diameter", "RebarLength", "RebarsTotalLength" and values are
+    column display header.
     e.g. {
-            "Host": ("Member", 1),
-            "Mark": ("Mark", 2),
-            "RebarsCount": ("No. of Rebars", 3),
-            "Diameter": ("Diameter in mm", 4),
-            "RebarLength": ("Length in m/piece", 5),
-            "RebarsTotalLength": ("Total Length in m", 6),
+            "Host": "Member",
+            "Mark": "Mark",
+            "RebarsCount": "No. of Rebars",
+            "Diameter": "Diameter in mm",
+            "RebarLength": "Length in m/piece",
+            "RebarsTotalLength": "Total Length in m",
         }
-    set column sequence number to 0 to hide column.
 
     column_units is a dictionary with keys: "Diameter", "RebarLength",
     "RebarsTotalLength" and their corresponding units as value.
@@ -257,49 +275,38 @@ def makeBillOfMaterialSVG(
         return
 
     bom_preferences = BOMPreferences()
-    if not column_headers:
-        column_headers = bom_preferences.getColumnHeaders()
-    if not column_units:
-        column_units = bom_preferences.getColumnUnits()
-    if not dia_weight_map:
-        dia_weight_map = bom_preferences.getDiaWeightMap()
-    if not rebar_length_type:
-        rebar_length_type = bom_preferences.getRebarLengthType()
-    if not reinforcement_group_by:
-        reinforcement_group_by = bom_preferences.getReinforcementGroupBy()
+    column_headers = column_headers or bom_preferences.getColumnHeaders()
+    column_units = column_units or bom_preferences.getColumnUnits()
+    dia_weight_map = dia_weight_map or bom_preferences.getDiaWeightMap()
+    rebar_length_type = (
+        rebar_length_type or bom_preferences.getRebarLengthType()
+    )
+    reinforcement_group_by = (
+        reinforcement_group_by or bom_preferences.getReinforcementGroupBy()
+    )
 
     svg_pref = bom_preferences.getSVGPrefGroup()
-    if not font_family:
-        font_family = svg_pref.GetString("FontFamily")
-    if not font_filename:
-        font_filename = svg_pref.GetString("FontFilename")
-    if not font_size:
-        font_size = svg_pref.GetFloat("FontSize")
-    if not column_width:
-        column_width = svg_pref.GetFloat("ColumnWidth")
-    if not row_height:
-        row_height = svg_pref.GetFloat("RowHeight")
-    if not bom_left_offset:
+    font_family = font_family or svg_pref.GetString("FontFamily")
+    font_filename = font_filename or svg_pref.GetString("FontFilename")
+    font_size = font_size or svg_pref.GetFloat("FontSize")
+    column_width = column_width or svg_pref.GetFloat("ColumnWidth")
+    row_height = row_height or svg_pref.GetFloat("RowHeight")
+    if bom_left_offset is None:
         bom_left_offset = svg_pref.GetFloat("LeftOffset")
-    if not bom_top_offset:
+    if bom_top_offset is None:
         bom_top_offset = svg_pref.GetFloat("TopOffset")
-    if not bom_min_right_offset:
+    if bom_min_right_offset is None:
         bom_min_right_offset = svg_pref.GetFloat("MinRightOffset")
-    if not bom_min_bottom_offset:
+    if bom_min_bottom_offset is None:
         bom_min_bottom_offset = svg_pref.GetFloat("MinBottomOffset")
-    if not bom_table_svg_max_width:
-        bom_table_svg_max_width = svg_pref.GetFloat("MaxWidth")
-    if not bom_table_svg_max_height:
-        bom_table_svg_max_height = svg_pref.GetFloat("MaxHeight")
-    if not template_file:
+    bom_table_svg_max_width = bom_table_svg_max_width or svg_pref.GetFloat(
+        "MaxWidth"
+    )
+    bom_table_svg_max_height = bom_table_svg_max_height or svg_pref.GetFloat(
+        "MaxHeight"
+    )
+    if template_file is None:
         template_file = svg_pref.GetString("TemplateFile")
-
-    # Delete hidden headers
-    column_headers = {
-        column_header: column_header_tuple
-        for column_header, column_header_tuple in column_headers.items()
-        if column_header_tuple[1] != 0
-    }
 
     # Fix column units
     column_units = fixColumnUnits(column_units)
@@ -653,7 +660,7 @@ def makeBillOfMaterialSVG(
     if "RebarsTotalLength" in column_headers:
         bom_data_total_svg = ElementTree.Element("g")
         bom_data_total_svg.set("id", "BOM_data_total")
-        if column_headers["RebarsTotalLength"][1] != 1:
+        if list(column_headers.keys()).index("RebarsTotalLength") != 0:
             column_number = getColumnNumber(
                 column_headers, diameter_list, "RebarsTotalLength"
             )
@@ -814,10 +821,13 @@ def makeBillOfMaterialSVG(
                     )
 
             for remColumn in range(
-                len(column_headers) - column_headers["RebarsTotalLength"][1]
+                len(column_headers)
+                - list(column_headers.keys()).index("RebarsTotalLength")
+                - 1
             ):
                 rem_column_number = (
-                    column_headers["RebarsTotalLength"][1]
+                    list(column_headers.keys()).index("RebarsTotalLength")
+                    + 1
                     + len(diameter_list)
                     + remColumn
                 )
