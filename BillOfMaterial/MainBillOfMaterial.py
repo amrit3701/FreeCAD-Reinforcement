@@ -25,18 +25,20 @@ __title__ = "Bill Of Material Gui"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-
-import os
-from PySide2 import QtWidgets
+from collections import OrderedDict
+from pathlib import Path
+from typing import OrderedDict as OrderedDictType, Literal
 
 import FreeCAD
 import FreeCADGui
+from PySide2 import QtWidgets
 
 from .BOMPreferences import BOMPreferences
 from .BOMfunc import getReinforcementRebarObjects
 from .BillOfMaterial_SVG import makeBillOfMaterialSVG
 from .BillOfMaterial_Spreadsheet import makeBillOfMaterial
 from .UnitLineEdit import UnitLineEdit
+from .config import COLUMN_HEADERS
 
 
 class _BillOfMaterialDialog:
@@ -79,7 +81,7 @@ class _BillOfMaterialDialog:
         self.bom_table_svg_max_height = bom_table_svg_max_height
         self.template_file = template_file
         self.form = FreeCADGui.PySideUic.loadUi(
-            os.path.splitext(__file__)[0] + ".ui"
+            str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
             QtWidgets.QApplication.translate(
@@ -127,34 +129,56 @@ class _BillOfMaterialDialog:
         column_header_list_widget = self.form.columnHeaderListWidget
 
         ui = FreeCADGui.UiLoader()
-        sorted_column_header_data = dict(
-            sorted(self.column_headers_data.items(), key=lambda x: x[1][1])
-        )
         for (
             column_header,
-            column_header_tuple,
-        ) in sorted_column_header_data.items():
+            column_header_disp,
+        ) in self.column_headers_data.items():
             row_widget = QtWidgets.QWidget()
             row_widget_item = QtWidgets.QListWidgetItem()
 
             show_hide_checkbox = ui.createWidget("Gui::PrefCheckBox")
-            if column_header_tuple[1] != 0:
-                show_hide_checkbox.setChecked(True)
+            show_hide_checkbox.setChecked(True)
             column_name = QtWidgets.QLabel(column_header)
             column_name.setMinimumWidth(160)
-            spreadsheet_column_header = ui.createWidget("Gui::PrefLineEdit")
-            spreadsheet_column_header.setText(column_header_tuple[0])
+            column_header_disp_widget = ui.createWidget("Gui::PrefLineEdit")
+            column_header_disp_widget.setText(column_header_disp)
 
             h_layout = QtWidgets.QHBoxLayout()
             h_layout.addWidget(show_hide_checkbox)
             h_layout.addWidget(column_name)
-            h_layout.addWidget(spreadsheet_column_header)
+            h_layout.addWidget(column_header_disp_widget)
 
             row_widget.setLayout(h_layout)
             row_widget_item.setSizeHint(row_widget.sizeHint())
 
             column_header_list_widget.addItem(row_widget_item)
             column_header_list_widget.setItemWidget(row_widget_item, row_widget)
+
+        # Add hidden columns in UI
+        for column_header, column_header_disp in COLUMN_HEADERS.items():
+            if column_header not in self.column_headers_data:
+                row_widget = QtWidgets.QWidget()
+                row_widget_item = QtWidgets.QListWidgetItem()
+
+                show_hide_checkbox = ui.createWidget("Gui::PrefCheckBox")
+                show_hide_checkbox.setChecked(False)
+                column_name = QtWidgets.QLabel(column_header)
+                column_name.setMinimumWidth(160)
+                column_header_disp_widget = ui.createWidget("Gui::PrefLineEdit")
+                column_header_disp_widget.setText(column_header_disp)
+
+                h_layout = QtWidgets.QHBoxLayout()
+                h_layout.addWidget(show_hide_checkbox)
+                h_layout.addWidget(column_name)
+                h_layout.addWidget(column_header_disp_widget)
+
+                row_widget.setLayout(h_layout)
+                row_widget_item.setSizeHint(row_widget.sizeHint())
+
+                column_header_list_widget.addItem(row_widget_item)
+                column_header_list_widget.setItemWidget(
+                    row_widget_item, row_widget
+                )
 
     def addDropdownMenuItems(self):
         """This function add dropdown items to each Gui::PrefComboBox."""
@@ -194,12 +218,12 @@ class _BillOfMaterialDialog:
         """This function is executed when Choose button clicked in ui to execute
         QFileDialog to select svg output file."""
         path = FreeCAD.ConfigGet("UserAppData")
-        output_file, Filter = QtWidgets.QFileDialog.getSaveFileName(
+        output_file, file_filter = QtWidgets.QFileDialog.getSaveFileName(
             None, "Choose output file for Bill of Material", path, "*.svg"
         )
         if output_file:
             self.form.svgOutputFile.setText(
-                os.path.splitext(str(output_file))[0] + ".svg"
+                str(Path(output_file).with_suffix(".svg"))
             )
 
     def accept(self):
@@ -302,34 +326,45 @@ class _BillOfMaterialDialog:
             column_units[column_name] = units
         return column_units
 
-    def getColumnConfigData(self):
-        """This function get data from UI and return a dictionary with column
-        data as key and values are tuple of column_header and sequence number.
+    def getColumnConfigData(
+        self,
+    ) -> OrderedDictType[
+        Literal[
+            "Host",
+            "Mark",
+            "RebarsCount",
+            "Diameter",
+            "RebarLength",
+            "RebarsTotalLength",
+        ],
+        str,
+    ]:
+        """This function get data from UI and return an ordered dictionary with
+        column data as key and column display header as value.
         e.g. {
-                "Host": ("Member", 1),
-                "Mark": ("Mark", 2),
+                "Host": "Member",
+                "Mark": "Mark",
                 ...,
             }
         """
         column_header_list_widget = self.form.columnHeaderListWidget
-        column_headers_config = {}
+        columns = []
         current_column = 1
         for index in range(column_header_list_widget.count()):
             row_widget_item = column_header_list_widget.item(index)
             row_widget = column_header_list_widget.itemWidget(row_widget_item)
             h_layout = row_widget.layout()
             show_hide_checkbox = h_layout.itemAt(0).widget()
-            if not show_hide_checkbox.isChecked():
-                sequence = 0
-            else:
-                sequence = current_column
+            if show_hide_checkbox.isChecked():
+                column_name = h_layout.itemAt(1).widget().text()
+                disp_column_header = h_layout.itemAt(2).widget().text()
+                columns.append(
+                    (column_name, disp_column_header, current_column)
+                )
                 current_column += 1
-            column_name = h_layout.itemAt(1).widget().text()
-            spreadsheet_column_header = h_layout.itemAt(2).widget().text()
-            column_headers_config[column_name] = (
-                spreadsheet_column_header,
-                sequence,
-            )
+        column_headers_config = OrderedDict()
+        for column in sorted(columns, key=lambda x: x[2]):
+            column_headers_config[column[0]] = column[1]
         return column_headers_config
 
 
@@ -350,39 +385,37 @@ def CommandBillOfMaterial(
     bom_table_svg_max_height=None,
     template_file=None,
 ):
-    """This function is used to invoke dialog box for rebars bill of material."""
+    """This function is used to invoke dialog box for rebars bill of material"""
     bom_preferences = BOMPreferences()
-    if not column_headers:
-        column_headers = bom_preferences.getColumnHeaders()
-    if not column_units:
-        column_units = bom_preferences.getColumnUnits()
-    if not rebar_length_type:
-        rebar_length_type = bom_preferences.getRebarLengthType()
-    if not reinforcement_group_by:
-        reinforcement_group_by = bom_preferences.getReinforcementGroupBy()
+    column_headers = column_headers or bom_preferences.getColumnHeaders()
+    column_units = column_units or bom_preferences.getColumnUnits()
+    rebar_length_type = (
+        rebar_length_type or bom_preferences.getRebarLengthType()
+    )
+    reinforcement_group_by = (
+        reinforcement_group_by or bom_preferences.getReinforcementGroupBy()
+    )
 
     svg_pref = bom_preferences.getSVGPrefGroup()
-    if not font_family:
-        font_family = svg_pref.GetString("FontFamily")
-    if not font_size:
-        font_size = svg_pref.GetFloat("FontSize")
-    if not column_width:
-        column_width = svg_pref.GetFloat("ColumnWidth")
-    if not row_height:
-        row_height = svg_pref.GetFloat("RowHeight")
-    if not bom_left_offset:
+    font_family = font_family or svg_pref.GetString("FontFamily")
+    font_size = font_size or svg_pref.GetFloat("FontSize")
+    column_width = column_width or svg_pref.GetFloat("ColumnWidth")
+    row_height = row_height or svg_pref.GetFloat("RowHeight")
+    if bom_left_offset is None:
         bom_left_offset = svg_pref.GetFloat("LeftOffset")
-    if not bom_top_offset:
+    if bom_top_offset is None:
         bom_top_offset = svg_pref.GetFloat("TopOffset")
-    if not bom_min_right_offset:
+    if bom_min_right_offset is None:
         bom_min_right_offset = svg_pref.GetFloat("MinRightOffset")
-    if not bom_min_bottom_offset:
+    if bom_min_bottom_offset is None:
         bom_min_bottom_offset = svg_pref.GetFloat("MinBottomOffset")
-    if not bom_table_svg_max_width:
-        bom_table_svg_max_width = svg_pref.GetFloat("MaxWidth")
-    if not bom_table_svg_max_height:
-        bom_table_svg_max_height = svg_pref.GetFloat("MaxHeight")
-    if not template_file:
+    bom_table_svg_max_width = bom_table_svg_max_width or svg_pref.GetFloat(
+        "MaxWidth"
+    )
+    bom_table_svg_max_height = bom_table_svg_max_height or svg_pref.GetFloat(
+        "MaxHeight"
+    )
+    if template_file is None:
         template_file = svg_pref.GetString("TemplateFile")
 
     dialog = _BillOfMaterialDialog(

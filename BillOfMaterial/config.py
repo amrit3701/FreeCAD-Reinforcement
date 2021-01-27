@@ -26,6 +26,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
+from collections import OrderedDict
 from pathlib import Path
 
 import FreeCAD
@@ -38,33 +39,20 @@ COLUMN_UNITS = {
     "RebarsTotalLength": "m",
 }
 
-# Column are configurable i.e. you can change Name of column header, change
-# their sequence and show/hide column.
-# 1. To change column headers, change first value in tuple in below dictionary.
-#    e.g. To change column header "Mark" to "Mark Number" replace ("Mark", 1)
-#    with ("Mark Number", 1))
-# 2. To modify sequence of column, change second value in tuple in below
-# dictionary.
-#    e.g. To place "Mark" column at third column in BOM, change ("Mark", 1)
-#    to ("Mark", 3)
-# 3. To hide column, set second value in tuple in below dictionary to 0. And to
-#    show column, set it to other than 0 which will be used used as placement
-#    sequence number for that column.
-#    e.g. to hide column "Mark", replace ("Mark", 1) with ("Mark", 0)
-#
-# Note: You must take care that no two columns get same placement number. And
-#       must not delete/modify values in LHS of ":" (colon).
-COLUMN_HEADERS = {
-    "Host": ("Member", 1),
-    "Mark": ("Mark", 2),
-    "RebarsCount": ("No. of Rebars", 3),
-    "Diameter": ("Diameter in " + COLUMN_UNITS["Diameter"], 4),
-    "RebarLength": ("Length in " + COLUMN_UNITS["RebarLength"] + "/piece", 5),
-    "RebarsTotalLength": (
-        "Total Length in " + COLUMN_UNITS["RebarsTotalLength"],
-        6,
-    ),
-}
+# Column headers config in format -> ColumnData: ColumnDisplayName
+COLUMN_HEADERS = OrderedDict(
+    [
+        ("Host", "Member"),
+        ("Mark", "Mark"),
+        ("RebarsCount", "No. of Rebars"),
+        ("Diameter", "Diameter in " + COLUMN_UNITS["Diameter"]),
+        ("RebarLength", "Length in " + COLUMN_UNITS["RebarLength"] + "/piece"),
+        (
+            "RebarsTotalLength",
+            "Total Length in " + COLUMN_UNITS["RebarsTotalLength"],
+        ),
+    ]
+)
 
 # Map diameter (in mm) with weight (kg/m)
 # Default list is taken as per book SP34 from here:

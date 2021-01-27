@@ -25,11 +25,11 @@ __title__ = "Layer Spacing Edit Dialog"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-import os
-from PySide2 import QtWidgets
+from pathlib import Path
 
 import FreeCAD
 import FreeCADGui
+from PySide2 import QtWidgets
 
 
 class _LayerSpacingEditDialog:
@@ -38,7 +38,7 @@ class _LayerSpacingEditDialog:
         self.Layers = 0
         self.LayerSpacingInputFieldList = []
         self.form = FreeCADGui.PySideUic.loadUi(
-            os.path.splitext(__file__)[0] + ".ui"
+            str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
             QtWidgets.QApplication.translate(

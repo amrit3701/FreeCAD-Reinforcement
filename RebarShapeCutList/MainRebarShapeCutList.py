@@ -25,7 +25,7 @@ __title__ = "Rebar Shape Cut List Gui"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-import os
+from pathlib import Path
 from typing import Tuple, Union, List, Literal
 
 import Draft
@@ -88,7 +88,7 @@ class _RebarShapeCutListDialog:
             helical_rebar_dimension_label_format
         )
         self.form = FreeCADGui.PySideUic.loadUi(
-            os.path.splitext(__file__)[0] + ".ui"
+            str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
             QtWidgets.QApplication.translate(
@@ -185,7 +185,7 @@ class _RebarShapeCutListDialog:
         )
         if output_file:
             self.form.svgOutputFile.setText(
-                os.path.splitext(str(output_file))[0] + ".svg"
+                str(Path(output_file).with_suffix(".svg"))
             )
 
     def accept(self):

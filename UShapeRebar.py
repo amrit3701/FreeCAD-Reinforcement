@@ -25,7 +25,7 @@ __title__ = "UShapeRebar"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
-import os
+from pathlib import Path
 from typing import Tuple, Literal, List
 
 import ArchCommands
@@ -143,7 +143,7 @@ class _UShapeRebarTaskPanel:
             self.FaceName = Rebar.Base.Support[0][1][0]
             self.SelectedObj = Rebar.Base.Support[0][0]
         self.form = FreeCADGui.PySideUic.loadUi(
-            os.path.splitext(__file__)[0] + ".ui"
+            str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
             QtGui.QApplication.translate("RebarAddon", "U-Shape Rebar", None)
@@ -165,8 +165,7 @@ class _UShapeRebarTaskPanel:
         )
         self.form.image.setPixmap(
             QtGui.QPixmap(
-                os.path.split(os.path.abspath(__file__))[0]
-                + "/icons/UShapeRebarBottom.svg"
+                str(Path(__file__).parent / "icons" / "UShapeRebarBottom.svg")
             )
         )
         # self.form.toolButton.setIcon(
@@ -176,8 +175,7 @@ class _UShapeRebarTaskPanel:
         # )
         self.form.toolButton.clicked.connect(
             lambda: showPopUpImageDialog(
-                os.path.split(os.path.abspath(__file__))[0]
-                + "/icons/UShapeRebarDetailed.svg"
+                str(Path(__file__).parent / "icons" / "UShapeRebarDetailed.svg")
             )
         )
         self.Rebar = Rebar
@@ -187,29 +185,31 @@ class _UShapeRebarTaskPanel:
         if orientation == "Bottom":
             self.form.image.setPixmap(
                 QtGui.QPixmap(
-                    os.path.split(os.path.abspath(__file__))[0]
-                    + "/icons/UShapeRebarBottom.svg"
+                    str(
+                        Path(__file__).parent
+                        / "icons"
+                        / "UShapeRebarBottom.svg"
+                    )
                 )
             )
         elif orientation == "Top":
             self.form.image.setPixmap(
                 QtGui.QPixmap(
-                    os.path.split(os.path.abspath(__file__))[0]
-                    + "/icons/UShapeRebarTop.svg"
+                    str(Path(__file__).parent / "icons" / "UShapeRebarTop.svg")
                 )
             )
         elif orientation == "Right":
             self.form.image.setPixmap(
                 QtGui.QPixmap(
-                    os.path.split(os.path.abspath(__file__))[0]
-                    + "/icons/UShapeRebarRight.svg"
+                    str(
+                        Path(__file__).parent / "icons" / "UShapeRebarRight.svg"
+                    )
                 )
             )
         else:
             self.form.image.setPixmap(
                 QtGui.QPixmap(
-                    os.path.split(os.path.abspath(__file__))[0]
-                    + "/icons/UShapeRebarLeft.svg"
+                    str(Path(__file__).parent / "icons" / "UShapeRebarLeft.svg")
                 )
             )
 

@@ -26,6 +26,10 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
+from collections import OrderedDict
+from pathlib import Path
+from typing import Dict, Literal, OrderedDict as OrderedDictType, Union
+
 import FreeCAD
 
 from .config import (
@@ -52,24 +56,42 @@ from .config import (
 class BOMPreferences:
     def __init__(
         self,
-        conf_column_units=COLUMN_UNITS,
-        conf_column_headers=COLUMN_HEADERS,
-        conf_dia_weight_map=DIA_WEIGHT_MAP,
-        conf_rebar_length_type=REBAR_LENGTH_TYPE,
-        conf_reinforcement_group_by=REINFORCEMENT_GROUP_BY,
-        conf_column_width=COLUMN_WIDTH,
-        conf_row_height=ROW_HEIGHT,
-        conf_font_family=FONT_FAMILY,
-        conf_font_filename=FONT_FILENAME,
-        conf_font_size=FONT_SIZE,
-        conf_bom_svg_left_offset=BOM_SVG_LEFT_OFFSET,
-        conf_bom_svg_top_offset=BOM_SVG_TOP_OFFSET,
-        conf_bom_svg_min_right_offset=BOM_SVG_MIN_RIGHT_OFFSET,
-        conf_bom_svg_min_bottom_offset=BOM_SVG_MIN_BOTTOM_OFFSET,
-        conf_bom_table_svg_max_width=BOM_TABLE_SVG_MAX_WIDTH,
-        conf_bom_table_svg_max_height=BOM_TABLE_SVG_MAX_HEIGHT,
-        conf_template_file=TEMPLATE_FILE,
-        overwrite=False,
+        conf_column_units: Dict[
+            Literal["Diameter", "RebarLength", "RebarsTotalLength"], str
+        ] = COLUMN_UNITS,
+        conf_column_headers: OrderedDictType[
+            Literal[
+                "Host",
+                "Mark",
+                "RebarsCount",
+                "Diameter",
+                "RebarLength",
+                "RebarsTotalLength",
+            ],
+            str,
+        ] = COLUMN_HEADERS,
+        conf_dia_weight_map: Dict[
+            float, FreeCAD.Units.Quantity
+        ] = DIA_WEIGHT_MAP,
+        conf_rebar_length_type: Literal[
+            "RealLength", "LengthWithSharpEdges"
+        ] = REBAR_LENGTH_TYPE,
+        conf_reinforcement_group_by: Literal[
+            "Mark", "Host"
+        ] = REINFORCEMENT_GROUP_BY,
+        conf_column_width: float = COLUMN_WIDTH,
+        conf_row_height: float = ROW_HEIGHT,
+        conf_font_family: str = FONT_FAMILY,
+        conf_font_filename: str = FONT_FILENAME,
+        conf_font_size: float = FONT_SIZE,
+        conf_bom_svg_left_offset: float = BOM_SVG_LEFT_OFFSET,
+        conf_bom_svg_top_offset: float = BOM_SVG_TOP_OFFSET,
+        conf_bom_svg_min_right_offset: float = BOM_SVG_MIN_RIGHT_OFFSET,
+        conf_bom_svg_min_bottom_offset: float = BOM_SVG_MIN_BOTTOM_OFFSET,
+        conf_bom_table_svg_max_width: float = BOM_TABLE_SVG_MAX_WIDTH,
+        conf_bom_table_svg_max_height: float = BOM_TABLE_SVG_MAX_HEIGHT,
+        conf_template_file: Union[str, Path] = TEMPLATE_FILE,
+        overwrite: bool = False,
     ):
         self.bom_pref = FreeCAD.ParamGet(
             "User parameter:BaseApp/Preferences/Mod/RebarTools/BOM"
@@ -97,6 +119,26 @@ class BOMPreferences:
         self.conf_bom_table_svg_max_width = conf_bom_table_svg_max_width
         self.conf_bom_table_svg_max_height = conf_bom_table_svg_max_height
         self.overwrite = overwrite
+        self.column_units = self.bom_pref.GetGroup("ColumnUnits")
+        self.column_headers = self.bom_pref.GetGroup("ColumnHeaders")
+        self.dia_weight_map = self.bom_pref.GetGroup("DiaWeightMap")
+        self.rebar_length_type = self.available_rebar_length_types[
+            self.bom_pref.GetInt(
+                "RebarLengthType",
+                self.available_rebar_length_types.index(
+                    self.conf_rebar_length_type
+                ),
+            )
+        ]
+        self.reinforcement_group_by = self.available_reinforcement_group_by[
+            self.bom_pref.GetInt(
+                "ReinforcementGroupBy",
+                self.available_reinforcement_group_by.index(
+                    self.conf_reinforcement_group_by
+                ),
+            )
+        ]
+        self.svg_pref = self.bom_pref.GetGroup("SVG")
         self.setColumnUnits()
         self.setColumnHeaders()
         self.setDiaWeightMap()
@@ -105,7 +147,6 @@ class BOMPreferences:
         self.setSVGPref()
 
     def setColumnUnits(self):
-        self.column_units = self.bom_pref.GetGroup("ColumnUnits")
         for column in self.conf_column_units:
             units = self.column_units.GetString(
                 column, self.conf_column_units[column]
@@ -116,30 +157,24 @@ class BOMPreferences:
             )
 
     def setColumnHeaders(self):
-        self.column_headers = self.bom_pref.GetGroup("ColumnHeaders")
-        for column in self.conf_column_headers:
-            header = self.column_headers.GetGroup(column)
-            header_disp = header.GetString(
-                "display", self.conf_column_headers[column][0]
-            )
-            header_seq = header.GetInt(
-                "sequence", self.conf_column_headers[column][1]
-            )
+        for i, column in enumerate(self.conf_column_headers.items(), start=1):
+            header = self.column_headers.GetGroup(column[0])
+            header_disp = header.GetString("display", column[1])
+            header_seq = header.GetInt("sequence", i)
             header.SetString(
                 "display",
-                header_disp
-                if not self.overwrite
-                else self.conf_column_headers[column][0],
+                header_disp if not self.overwrite else column[1],
             )
             header.SetInt(
                 "sequence",
-                header_seq
-                if not self.overwrite
-                else self.conf_column_headers[column][1],
+                header_seq if not self.overwrite else i,
             )
+        # Hide headers which are not present in self.conf_column_headers
+        for column in self.column_headers.GetGroups():
+            if column not in self.conf_column_headers:
+                self.column_headers.GetGroup(column).SetInt("sequence", 0)
 
     def setDiaWeightMap(self):
-        self.dia_weight_map = self.bom_pref.GetGroup("DiaWeightMap")
         for dia in self.conf_dia_weight_map:
             weight = self.dia_weight_map.GetFloat(
                 str(dia), self.conf_dia_weight_map[dia].Value
@@ -152,14 +187,6 @@ class BOMPreferences:
             )
 
     def setRebarLengthType(self):
-        self.rebar_length_type = self.available_rebar_length_types[
-            self.bom_pref.GetInt(
-                "RebarLengthType",
-                self.available_rebar_length_types.index(
-                    self.conf_rebar_length_type
-                ),
-            )
-        ]
         self.bom_pref.SetInt(
             "RebarLengthType",
             self.available_rebar_length_types.index(self.rebar_length_type)
@@ -170,14 +197,6 @@ class BOMPreferences:
         )
 
     def setReinforcementGroupBy(self):
-        self.reinforcement_group_by = self.available_reinforcement_group_by[
-            self.bom_pref.GetInt(
-                "ReinforcementGroupBy",
-                self.available_reinforcement_group_by.index(
-                    self.conf_reinforcement_group_by
-                ),
-            )
-        ]
         self.bom_pref.SetInt(
             "ReinforcementGroupBy",
             self.available_reinforcement_group_by.index(
@@ -190,7 +209,6 @@ class BOMPreferences:
         )
 
     def setSVGPref(self):
-        self.svg_pref = self.bom_pref.GetGroup("SVG")
         column_width = self.svg_pref.GetFloat(
             "ColumnWidth", self.conf_column_width
         )
@@ -287,23 +305,41 @@ class BOMPreferences:
             else str(self.conf_template_file),
         )
 
-    def getColumnUnits(self):
+    def getColumnUnits(
+        self,
+    ) -> Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]:
         column_units = {}
         for column in self.column_units.GetStrings():
             units = self.column_units.GetString(column)
             column_units[column] = units
         return column_units
 
-    def getColumnHeaders(self):
-        column_headers = {}
+    def getColumnHeaders(
+        self,
+    ) -> OrderedDictType[
+        Literal[
+            "Host",
+            "Mark",
+            "RebarsCount",
+            "Diameter",
+            "RebarLength",
+            "RebarsTotalLength",
+        ],
+        str,
+    ]:
+        columns = []
         for column in self.column_headers.GetGroups():
             header = self.column_headers.GetGroup(column)
             header_disp = header.GetString("display")
             header_seq = header.GetInt("sequence")
-            column_headers[column] = (header_disp, header_seq)
+            if header_seq != 0:
+                columns.append((column, header_disp, header_seq))
+        column_headers = OrderedDict()
+        for column in sorted(columns, key=lambda x: x[2]):
+            column_headers[column[0]] = column[1]
         return column_headers
 
-    def getDiaWeightMap(self):
+    def getDiaWeightMap(self) -> Dict[float, FreeCAD.Units.Quantity]:
         dia_weight_map = {}
         for dia in self.dia_weight_map.GetFloats():
             weight = self.dia_weight_map.GetFloat(dia)
@@ -311,11 +347,29 @@ class BOMPreferences:
             dia_weight_map[int(dia)] = weight
         return dia_weight_map
 
-    def getRebarLengthType(self):
-        return self.rebar_length_type
+    def getRebarLengthType(
+        self,
+    ) -> Literal["RealLength", "LengthWithSharpEdges"]:
+        rebar_length_type = self.available_rebar_length_types[
+            self.bom_pref.GetInt(
+                "RebarLengthType",
+                self.available_rebar_length_types.index(
+                    self.conf_rebar_length_type
+                ),
+            )
+        ]
+        return rebar_length_type
 
-    def getReinforcementGroupBy(self):
-        return self.reinforcement_group_by
+    def getReinforcementGroupBy(self) -> Literal["Mark", "Host"]:
+        reinforcement_group_by = self.available_reinforcement_group_by[
+            self.bom_pref.GetInt(
+                "ReinforcementGroupBy",
+                self.available_reinforcement_group_by.index(
+                    self.conf_reinforcement_group_by
+                ),
+            )
+        ]
+        return reinforcement_group_by
 
     def getSVGPrefGroup(self):
         return self.svg_pref

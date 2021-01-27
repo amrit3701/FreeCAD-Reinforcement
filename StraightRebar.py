@@ -25,7 +25,7 @@ __title__ = "StraightRebar"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
-import os
+from pathlib import Path
 from typing import Literal, Tuple, List
 
 import ArchCommands
@@ -116,7 +116,7 @@ class _StraightRebarTaskPanel:
             self.FaceName = Rebar.Base.Support[0][1][0]
             self.SelectedObj = Rebar.Base.Support[0][0]
         self.form = FreeCADGui.PySideUic.loadUi(
-            os.path.splitext(__file__)[0] + ".ui"
+            str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
             QtGui.QApplication.translate("RebarAddon", "Straight Rebar", None)
@@ -138,8 +138,7 @@ class _StraightRebarTaskPanel:
         )
         self.form.image.setPixmap(
             QtGui.QPixmap(
-                os.path.split(os.path.abspath(__file__))[0]
-                + "/icons/StraightRebarH.svg"
+                str(Path(__file__).parent / "icons" / "StraightRebarH.svg")
             )
         )
         self.form.orientationValue.currentIndexChanged.connect(
@@ -160,8 +159,11 @@ class _StraightRebarTaskPanel:
         # )
         self.form.toolButton.clicked.connect(
             lambda: showPopUpImageDialog(
-                os.path.split(os.path.abspath(__file__))[0]
-                + "/icons/StraightRebarDetailed.svg"
+                str(
+                    Path(__file__).parent
+                    / "icons"
+                    / "StraightRebarDetailed.svg"
+                )
             )
         )
         self.Rebar = Rebar
@@ -171,8 +173,7 @@ class _StraightRebarTaskPanel:
         if orientation == "Horizontal":
             self.form.image.setPixmap(
                 QtGui.QPixmap(
-                    os.path.split(os.path.abspath(__file__))[0]
-                    + "/icons/StraightRebarH.svg"
+                    str(Path(__file__).parent / "icons" / "StraightRebarH.svg")
                 )
             )
             self.form.r_sideCoverLabel.setText("Right Side Cover")
@@ -182,8 +183,7 @@ class _StraightRebarTaskPanel:
         else:
             self.form.image.setPixmap(
                 QtGui.QPixmap(
-                    os.path.split(os.path.abspath(__file__))[0]
-                    + "/icons/StraightRebarV.svg"
+                    str(Path(__file__).parent / "icons" / "StraightRebarV.svg")
                 )
             )
             self.form.r_sideCoverLabel.setText("Top Side Cover")

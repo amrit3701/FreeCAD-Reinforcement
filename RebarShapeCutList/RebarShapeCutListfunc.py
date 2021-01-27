@@ -777,7 +777,7 @@ def getRebarShapeSVG(
         )
 
     if hasattr(rebar, "RebarShape") and rebar.RebarShape == "HelicalRebar":
-        helical_rebar_shape_svg = Draft.getSVG(
+        helical_rebar_shape_svg = Draft.get_svg(
             rebar,
             direction=view_plane,
             linewidth=rebar_stroke_width,

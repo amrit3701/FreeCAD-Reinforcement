@@ -25,7 +25,18 @@ __title__ = "HelicalRebar"
 __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
+import math
+from pathlib import Path
+
+import ArchCommands
+import FreeCAD
+import FreeCADGui
+from DraftTools import translate
 from PySide import QtGui
+from PySide.QtCore import QT_TRANSLATE_NOOP
+
+from PopUpImage import showPopUpImageDialog
+from RebarData import RebarTypes
 from Rebarfunc import (
     getSelectedFace,
     getFaceNumber,
@@ -34,15 +45,6 @@ from Rebarfunc import (
     check_selected_face,
     facenormalDirection,
 )
-from RebarData import RebarTypes
-from PySide.QtCore import QT_TRANSLATE_NOOP
-from PopUpImage import showPopUpImageDialog
-import FreeCAD
-import FreeCADGui
-import ArchCommands
-from DraftTools import translate
-import os
-import math
 
 
 def getpointsOfHelicalRebar(
@@ -149,7 +151,7 @@ def createHelicalWire(
 class _HelicalRebarTaskPanel:
     def __init__(self, Rebar=None):
         self.form = FreeCADGui.PySideUic.loadUi(
-            os.path.splitext(__file__)[0] + ".ui"
+            str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
             QtGui.QApplication.translate("Arch", "Helical Rebar", None)
@@ -170,14 +172,14 @@ class _HelicalRebarTaskPanel:
         self.form.PickSelectedFace.clicked.connect(self.getSelectedFace)
         self.form.image.setPixmap(
             QtGui.QPixmap(
-                os.path.split(os.path.abspath(__file__))[0]
-                + "/icons/HelicalRebar.svg"
+                str(Path(__file__).parent / "icons" / "HelicalRebar.svg")
             )
         )
         self.form.toolButton.clicked.connect(
             lambda: showPopUpImageDialog(
-                os.path.split(os.path.abspath(__file__))[0]
-                + "/icons/HelicalRebarDetailed.svg"
+                str(
+                    Path(__file__).parent / "icons" / "HelicalRebarDetailed.svg"
+                )
             )
         )
         # self.form.toolButton.setIcon(

@@ -26,7 +26,7 @@ __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
 import math
-import os
+from pathlib import Path
 from typing import Literal, Tuple, List
 
 import ArchCommands
@@ -171,7 +171,7 @@ class _BentShapeRebarTaskPanel:
             self.FaceName = Rebar.Base.Support[0][1][0]
             self.SelectedObj = Rebar.Base.Support[0][0]
         self.form = FreeCADGui.PySideUic.loadUi(
-            os.path.splitext(__file__)[0] + ".ui"
+            str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
             QtGui.QApplication.translate("RebarAddon", "Bent Shape Rebar", None)
@@ -193,8 +193,7 @@ class _BentShapeRebarTaskPanel:
         # )
         self.form.image.setPixmap(
             QtGui.QPixmap(
-                os.path.split(os.path.abspath(__file__))[0]
-                + "/icons/BentShapeRebar.svg"
+                str(Path(__file__).parent / "icons" / "BentShapeRebar.svg")
             )
         )
         # self.form.toolButton.setIcon(
@@ -204,8 +203,11 @@ class _BentShapeRebarTaskPanel:
         # )
         self.form.toolButton.clicked.connect(
             lambda: showPopUpImageDialog(
-                os.path.split(os.path.abspath(__file__))[0]
-                + "/icons/BentShapeRebarDetailed.svg"
+                str(
+                    Path(__file__).parent
+                    / "icons"
+                    / "BentShapeRebarDetailed.svg"
+                )
             )
         )
         self.Rebar = Rebar

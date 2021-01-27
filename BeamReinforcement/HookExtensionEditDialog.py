@@ -25,11 +25,11 @@ __title__ = "Hook Extension Edit Dialog"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-import os
-from PySide2 import QtWidgets, QtGui
+from pathlib import Path
 
 import FreeCAD
 import FreeCADGui
+from PySide2 import QtWidgets, QtGui
 
 
 class _HookExtensionEditDialog:
@@ -38,7 +38,7 @@ class _HookExtensionEditDialog:
         self.Layers = []
         self.HookExtensionInputFieldList = []
         self.form = FreeCADGui.PySideUic.loadUi(
-            os.path.splitext(__file__)[0] + ".ui"
+            str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
             QtWidgets.QApplication.translate(
