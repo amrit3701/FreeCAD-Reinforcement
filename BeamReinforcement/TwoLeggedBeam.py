@@ -25,13 +25,8 @@ __title__ = "Two Legged Stirrup Beam Reinforcement"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-
-import ast
-
 import FreeCAD
 
-from Stirrup import makeStirrup, editStirrup
-from StraightRebar import makeStraightRebar, editStraightRebar
 from LShapeRebar import makeLShapeRebar, editLShapeRebar
 from Rebarfunc import (
     showWarning,
@@ -44,6 +39,8 @@ from Rebarfunc import (
     _ViewProviderBeamReinforcementGroup,
     setGroupProperties,
 )
+from Stirrup import makeStirrup, editStirrup
+from StraightRebar import makeStraightRebar, editStraightRebar
 
 if FreeCAD.GuiUp:
     import FreeCADGui
@@ -835,11 +832,11 @@ def makeTopReinforcement(
     prev_top_reinforcement_rebars.extend(top_reinforcement_rebars)
     obj.TopRebars = prev_top_reinforcement_rebars
     obj.NumberDiameterOffset = top_reinforcement_number_diameter_offset
-    obj.RebarType = str(top_reinforcement_rebar_type_list)
-    obj.LRebarRounding = str(top_reinforcement_l_rebar_rounding_list)
+    obj.RebarType = top_reinforcement_rebar_type_list
+    obj.LRebarRounding = top_reinforcement_l_rebar_rounding_list
     obj.LayerSpacing = list(top_reinforcement_layer_spacing)
-    obj.HookExtension = str(top_reinforcement_hook_extension_list)
-    obj.HookOrientation = str(top_reinforcement_hook_orientation_list)
+    obj.HookExtension = top_reinforcement_hook_extension_list
+    obj.HookOrientation = top_reinforcement_hook_orientation_list
 
     return top_reinforcement_rebars
 
@@ -1058,11 +1055,11 @@ def makeBottomReinforcement(
     prev_bottom_reinforcement_rebars.extend(bottom_reinforcement_rebars)
     obj.BottomRebars = prev_bottom_reinforcement_rebars
     obj.NumberDiameterOffset = bottom_reinforcement_number_diameter_offset
-    obj.RebarType = str(bottom_reinforcement_rebar_type_list)
-    obj.LRebarRounding = str(bottom_reinforcement_l_rebar_rounding_list)
+    obj.RebarType = bottom_reinforcement_rebar_type_list
+    obj.LRebarRounding = bottom_reinforcement_l_rebar_rounding_list
     obj.LayerSpacing = list(bottom_reinforcement_layer_spacing)
-    obj.HookExtension = str(bottom_reinforcement_hook_extension_list)
-    obj.HookOrientation = str(bottom_reinforcement_hook_orientation_list)
+    obj.HookExtension = bottom_reinforcement_hook_extension_list
+    obj.HookOrientation = bottom_reinforcement_hook_orientation_list
 
     return bottom_reinforcement_rebars
 
@@ -1615,9 +1612,7 @@ def editReinforcement(
     prev_top_reinforcement_number_diameter_offset = (
         top_reinforcement_group.NumberDiameterOffset
     )
-    prev_top_reinforcement_rebar_type = ast.literal_eval(
-        top_reinforcement_group.RebarType
-    )
+    prev_top_reinforcement_rebar_type = top_reinforcement_group.RebarType
     if prev_top_reinforcement_number_diameter_offset != list(
         top_reinforcement_number_diameter_offset
     ):
@@ -1632,9 +1627,7 @@ def editReinforcement(
     prev_bottom_reinforcement_number_diameter_offset = (
         bottom_reinforcement_group.NumberDiameterOffset
     )
-    prev_bottom_reinforcement_rebar_type = ast.literal_eval(
-        bottom_reinforcement_group.RebarType
-    )
+    prev_bottom_reinforcement_rebar_type = bottom_reinforcement_group.RebarType
     if prev_bottom_reinforcement_number_diameter_offset != list(
         bottom_reinforcement_number_diameter_offset
     ):
@@ -2108,12 +2101,12 @@ def editTopReinforcement(
     top_reinforcement_group.NumberDiameterOffset = (
         top_reinforcement_number_diameter_offset
     )
-    top_reinforcement_group.RebarType = str(top_reinforcement_rebar_type_list)
+    top_reinforcement_group.RebarType = top_reinforcement_rebar_type_list
     top_reinforcement_group.LayerSpacing = list(top_reinforcement_layer_spacing)
-    top_reinforcement_group.HookExtension = str(
+    top_reinforcement_group.HookExtension = (
         top_reinforcement_hook_extension_list
     )
-    top_reinforcement_group.HookOrientation = str(
+    top_reinforcement_group.HookOrientation = (
         top_reinforcement_hook_orientation_list
     )
 
@@ -2330,16 +2323,14 @@ def editBottomReinforcement(
     bottom_reinforcement_group.NumberDiameterOffset = (
         bottom_reinforcement_number_diameter_offset
     )
-    bottom_reinforcement_group.RebarType = str(
-        bottom_reinforcement_rebar_type_list
-    )
+    bottom_reinforcement_group.RebarType = bottom_reinforcement_rebar_type_list
     bottom_reinforcement_group.LayerSpacing = list(
         bottom_reinforcement_layer_spacing
     )
-    bottom_reinforcement_group.HookExtension = str(
+    bottom_reinforcement_group.HookExtension = (
         bottom_reinforcement_hook_extension_list
     )
-    bottom_reinforcement_group.HookOrientation = str(
+    bottom_reinforcement_group.HookOrientation = (
         bottom_reinforcement_hook_orientation_list
     )
 
@@ -2691,13 +2682,13 @@ class _TwoLeggedBeam(_BeamReinforcementGroup):
                 1,
             ),
             (
-                "App::PropertyString",
+                "App::PropertyPythonObject",
                 "RebarType",
-                "String representation of list of tuples of type of rebars",
+                "List of tuples of rebars type",
                 1,
             ),
             (
-                "App::PropertyString",
+                "App::PropertyPythonObject",
                 "LRebarRounding",
                 "Rounding of L-Shaped rebars",
                 1,
@@ -2709,15 +2700,15 @@ class _TwoLeggedBeam(_BeamReinforcementGroup):
                 1,
             ),
             (
-                "App::PropertyString",
+                "App::PropertyPythonObject",
                 "HookExtension",
-                "String representation of list of tuples of hook extension",
+                "List of tuples of hook extension",
                 1,
             ),
             (
-                "App::PropertyString",
+                "App::PropertyPythonObject",
                 "HookOrientation",
-                "String representation of list of tuples of hook orientation",
+                "List of tuples of hook orientation",
                 1,
             ),
         ]

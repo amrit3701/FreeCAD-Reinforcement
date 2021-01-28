@@ -27,24 +27,11 @@ __url__ = "https://www.freecadweb.org"
 
 import ast
 from pathlib import Path
-from PySide2 import QtWidgets, QtGui
 
 import FreeCAD
 import FreeCADGui
+from PySide2 import QtWidgets, QtGui
 
-from Rebarfunc import check_selected_face, showWarning
-from BeamReinforcement.NumberDiameterOffset import (
-    runNumberDiameterOffsetDialog,
-)
-from BeamReinforcement.RebarTypeEditDialog import runRebarTypeEditDialog
-from BeamReinforcement.HookOrientationEditDialog import (
-    runHookOrientationEditDialog,
-)
-from BeamReinforcement.HookExtensionEditDialog import (
-    runHookExtensionEditDialog,
-)
-from BeamReinforcement.RoundingEditDialog import runRoundingEditDialog
-from BeamReinforcement.LayerSpacingEditDialog import runLayerSpacingEditDialog
 from BeamReinforcement import (
     ShearRebars_NumberDiameterOffset,
     ShearRebarTypeEditDialog,
@@ -53,6 +40,19 @@ from BeamReinforcement import (
     ShearRebars_RoundingEditDialog,
 )
 from BeamReinforcement import TwoLeggedBeam
+from BeamReinforcement.HookExtensionEditDialog import (
+    runHookExtensionEditDialog,
+)
+from BeamReinforcement.HookOrientationEditDialog import (
+    runHookOrientationEditDialog,
+)
+from BeamReinforcement.LayerSpacingEditDialog import runLayerSpacingEditDialog
+from BeamReinforcement.NumberDiameterOffset import (
+    runNumberDiameterOffsetDialog,
+)
+from BeamReinforcement.RebarTypeEditDialog import runRebarTypeEditDialog
+from BeamReinforcement.RoundingEditDialog import runRoundingEditDialog
+from Rebarfunc import check_selected_face, showWarning
 
 
 class _BeamReinforcementDialog:
@@ -1761,7 +1761,7 @@ def setTopReinforcementData(obj, vobj):
         str(TopReinforcementGroup.LRebarRounding)
     )
     obj.top_reinforcement_widget.layers.setValue(
-        len(ast.literal_eval(TopReinforcementGroup.RebarType))
+        len(TopReinforcementGroup.RebarType)
     )
     obj.top_reinforcement_widget.layerSpacing.setText(
         str(tuple(TopReinforcementGroup.LayerSpacing))
@@ -1795,7 +1795,7 @@ def setBottomReinforcementData(obj, vobj):
         str(BottomReinforcementGroup.LRebarRounding)
     )
     obj.bottom_reinforcement_widget.layers.setValue(
-        len(ast.literal_eval(BottomReinforcementGroup.RebarType))
+        len(BottomReinforcementGroup.RebarType)
     )
     obj.bottom_reinforcement_widget.layerSpacing.setText(
         str(tuple(BottomReinforcementGroup.LayerSpacing))
