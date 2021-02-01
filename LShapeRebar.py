@@ -26,7 +26,7 @@ __author__ = "Amritpal Singh"
 __url__ = "https://www.freecadweb.org"
 
 from pathlib import Path
-from typing import Tuple, Literal, List
+from typing import Tuple, List
 
 import ArchCommands
 import FreeCAD
@@ -47,15 +47,19 @@ from Rebarfunc import (
 )
 
 
+# TODO: Use(Uncomment) typing.Literal for minimum python3.8
+
+
 def getpointsOfLShapeRebar(
     FacePRM: Tuple[Tuple[float, float], Tuple[float, float]],
     l_cover: float,
     r_cover: float,
     b_cover: float,
     t_cover: float,
-    orientation: Literal[
-        "Bottom Left", "Bottom Right", "Top Left", "Top Right"
-    ],
+    # orientation: Literal[
+    #     "Bottom Left", "Bottom Right", "Top Left", "Top Right"
+    # ],
+    orientation: str,
     diameter: float,
     face_normal: FreeCAD.Vector,
 ) -> List[FreeCAD.Vector]:

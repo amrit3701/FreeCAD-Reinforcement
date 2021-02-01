@@ -26,7 +26,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 from pathlib import Path
-from typing import Union, Literal, List, Tuple, Optional
+from typing import List, Tuple, Optional
 
 import FreeCAD
 import FreeCADGui
@@ -75,17 +75,23 @@ from .config import (
 )
 
 
+# TODO: Use(Uncomment) typing.Literal for minimum python3.8
+
+
 class _ReinforcementDrawingDimensioningDialog:
     """This is a class for Reinforcement Drawing Dimensioning dialog box."""
 
     def __init__(
         self,
-        views: List[Literal["Front", "Rear", "Left", "Right", "Top", "Bottom"]],
+        # views: List[Literal["Front", "Rear", "Left", "Right", "Top", "Bottom"]],
+        views: List[str],
         rebars_stroke_width: float,
-        rebars_color_style: Literal["Automatic", "Custom"],
+        # rebars_color_style: Literal["Automatic", "Custom"],
+        rebars_color_style: str,
         rebars_color: Tuple[float, float, float],
         structure_stroke_width: float,
-        structure_color_style: Literal["Automatic", "Custom", "None"],
+        # structure_color_style: Literal["Automatic", "Custom", "None"],
+        structure_color_style: str,
         structure_color: Tuple[float, float, float],
         drawing_left_offset: float,
         drawing_top_offset: float,
@@ -100,44 +106,50 @@ class _ReinforcementDrawingDimensioningDialog:
         dimension_font_family: str,
         dimension_font_size: float,
         dimension_stroke_width: float,
-        dimension_line_style: Literal[
-            "Continuous",
-            "Dash",
-            "Dot",
-            "DashDot",
-            "DashDotDot",
-        ],
+        # dimension_line_style: Literal[
+        #     "Continuous",
+        #     "Dash",
+        #     "Dot",
+        #     "DashDot",
+        #     "DashDotDot",
+        # ],
+        dimension_line_style: str,
         dimension_line_color: Tuple[float, float, float],
         dimension_text_color: Tuple[float, float, float],
-        dimension_single_rebar_line_start_symbol: Literal[
-            "FilledArrow",
-            "Tick",
-            "Dot",
-            "None",
-        ],
-        dimension_single_rebar_line_end_symbol: Literal[
-            "FilledArrow",
-            "Tick",
-            "Dot",
-            "None",
-        ],
-        dimension_multi_rebar_line_start_symbol: Literal[
-            "FilledArrow",
-            "Tick",
-            "Dot",
-            "None",
-        ],
-        dimension_multi_rebar_line_end_symbol: Literal[
-            "FilledArrow",
-            "Tick",
-            "Dot",
-            "None",
-        ],
-        dimension_line_mid_point_symbol: Literal[
-            "Tick",
-            "Dot",
-            "None",
-        ],
+        # dimension_single_rebar_line_start_symbol: Literal[
+        #     "FilledArrow",
+        #     "Tick",
+        #     "Dot",
+        #     "None",
+        # ],
+        dimension_single_rebar_line_start_symbol: str,
+        # dimension_single_rebar_line_end_symbol: Literal[
+        #     "FilledArrow",
+        #     "Tick",
+        #     "Dot",
+        #     "None",
+        # ],
+        dimension_single_rebar_line_end_symbol: str,
+        # dimension_multi_rebar_line_start_symbol: Literal[
+        #     "FilledArrow",
+        #     "Tick",
+        #     "Dot",
+        #     "None",
+        # ],
+        dimension_multi_rebar_line_start_symbol: str,
+        # dimension_multi_rebar_line_end_symbol: Literal[
+        #     "FilledArrow",
+        #     "Tick",
+        #     "Dot",
+        #     "None",
+        # ],
+        dimension_multi_rebar_line_end_symbol: str,
+        # dimension_line_mid_point_symbol: Literal[
+        #     "Tick",
+        #     "Dot",
+        #     "None",
+        # ],
+        dimension_line_mid_point_symbol: str,
         dimension_left_offset: float,
         dimension_right_offset: float,
         dimension_top_offset: float,
@@ -148,16 +160,18 @@ class _ReinforcementDrawingDimensioningDialog:
         dimension_bottom_offset_increment: float,
         dimension_single_rebar_outer_dim: bool,
         dimension_multi_rebar_outer_dim: bool,
-        dimension_single_rebar_text_position_type: Literal[
-            "MidOfLine",
-            "StartOfLine",
-            "EndOfLine",
-        ],
-        dimension_multi_rebar_text_position_type: Literal[
-            "MidOfLine",
-            "StartOfLine",
-            "EndOfLine",
-        ],
+        # dimension_single_rebar_text_position_type: Literal[
+        #     "MidOfLine",
+        #     "StartOfLine",
+        #     "EndOfLine",
+        # ],
+        dimension_single_rebar_text_position_type: str,
+        # dimension_multi_rebar_text_position_type: Literal[
+        #     "MidOfLine",
+        #     "StartOfLine",
+        #     "EndOfLine",
+        # ],
+        dimension_multi_rebar_text_position_type: str,
     ):
         """This function set initial data in Reinforcement Drawing Dimensioning
         dialog box."""
@@ -741,7 +755,8 @@ class _ReinforcementDrawingDimensioningDialog:
 
         def getFreeCADObjectsList(
             objects: list,
-        ) -> Union[Literal["None"], str]:
+            # ) -> Union[Literal["None"], str]:
+        ) -> str:
             return (
                 "None"
                 if not objects

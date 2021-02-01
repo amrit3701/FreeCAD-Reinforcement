@@ -26,7 +26,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 import math
-from typing import Union, List, Tuple, Optional, Literal
+from typing import Union, List, Tuple, Optional
 from xml.dom import minidom
 from xml.etree import ElementTree
 
@@ -51,6 +51,9 @@ from SVGfunc import (
     getSVGTextElement,
     getSVGRectangle,
 )
+
+
+# TODO: Use(Uncomment) typing.Literal for minimum python3.8
 
 
 def getBaseRebarsList(
@@ -1024,7 +1027,8 @@ def getRebarShapeCutList(
     helical_rebar_dimension_label_format: str = "%L,r=%R,pitch=%P",
     row_height: float = 40,
     column_width: float = 60,
-    column_count: Union[int, Literal["row_count"]] = "row_count",
+    # column_count: Union[int, Literal["row_count"]] = "row_count",
+    column_count: Union[int, str] = "row_count",
     side_padding: float = 1,
     horizontal_rebar_shape: bool = True,
     output_file: Optional[str] = None,

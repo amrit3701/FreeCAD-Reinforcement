@@ -28,7 +28,6 @@ __url__ = "https://www.freecadweb.org"
 from typing import (
     Dict,
     List,
-    Literal,
     Optional,
     OrderedDict as OrderedDictType,
     Tuple,
@@ -54,29 +53,36 @@ from RebarShapeCutList.RebarShapeCutListfunc import (
 from SVGfunc import getSVGRootElement, getSVGRectangle, getSVGDataCell
 
 
+# TODO: Use(Uncomment) typing.Literal for minimum python3.8
+
+
 def getBarBendingSchedule(
     rebar_objects: Optional[List] = None,
-    column_headers: Optional[
-        OrderedDictType[
-            Literal[
-                "Host",
-                "Mark",
-                "RebarsCount",
-                "Diameter",
-                "RebarLength",
-                "RebarsTotalLength",
-            ],
-            str,
-        ]
-    ] = None,
-    column_units: Optional[
-        Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]
-    ] = None,
+    # column_headers: Optional[
+    #     OrderedDictType[
+    #         Literal[
+    #             "Host",
+    #             "Mark",
+    #             "RebarsCount",
+    #             "Diameter",
+    #             "RebarLength",
+    #             "RebarsTotalLength",
+    #         ],
+    #         str,
+    #     ]
+    # ] = None,
+    column_headers: Optional[OrderedDictType[str, str]] = None,
+    # column_units: Optional[
+    #     Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]
+    # ] = None,
+    column_units: Optional[Dict[str, str]] = None,
     dia_weight_map: Optional[Dict[float, FreeCAD.Units.Quantity]] = None,
-    rebar_length_type: Optional[
-        Literal["RealLength", "LengthWithSharpEdges"]
-    ] = None,
-    reinforcement_group_by: Optional[Literal["Mark", "Host"]] = None,
+    # rebar_length_type: Optional[
+    #     Literal["RealLength", "LengthWithSharpEdges"]
+    # ] = None,
+    rebar_length_type: Optional[str] = None,
+    # reinforcement_group_by: Optional[Literal["Mark", "Host"]] = None,
+    reinforcement_group_by: Optional[str] = None,
     font_family: Optional[str] = None,
     font_size: float = 5,
     column_width: float = 60,

@@ -29,7 +29,6 @@ from collections import OrderedDict
 from pathlib import Path
 from typing import (
     Dict,
-    Literal,
     Optional,
     OrderedDict as OrderedDictType,
     Tuple,
@@ -48,27 +47,34 @@ from BillOfMaterial.config import COLUMN_HEADERS
 from .BBSfunc import getBarBendingSchedule
 
 
+# TODO: Use(Uncomment) typing.Literal for minimum python3.8
+
+
 class _BarBendingScheduleDialog:
     """This is a class for Bar Bending Schedule dialog box."""
 
     def __init__(
         self,
-        column_headers: OrderedDictType[
-            Literal[
-                "Host",
-                "Mark",
-                "RebarsCount",
-                "Diameter",
-                "RebarLength",
-                "RebarsTotalLength",
-            ],
-            str,
-        ],
-        column_units: Dict[
-            Literal["Diameter", "RebarLength", "RebarsTotalLength"], str
-        ],
-        rebar_length_type: Literal["RealLength", "LengthWithSharpEdges"],
-        reinforcement_group_by: Literal["Mark", "Host"],
+        # column_headers: OrderedDictType[
+        #     Literal[
+        #         "Host",
+        #         "Mark",
+        #         "RebarsCount",
+        #         "Diameter",
+        #         "RebarLength",
+        #         "RebarsTotalLength",
+        #     ],
+        #     str,
+        # ],
+        column_headers: OrderedDictType[str, str],
+        # column_units: Dict[
+        #     Literal["Diameter", "RebarLength", "RebarsTotalLength"], str
+        # ],
+        column_units: Dict[str, str],
+        # rebar_length_type: Literal["RealLength", "LengthWithSharpEdges"],
+        rebar_length_type: str,
+        # reinforcement_group_by: Literal["Mark", "Host"],
+        reinforcement_group_by: str,
         font_family: str,
         font_size: float,
         column_width: float,
@@ -447,17 +453,18 @@ class _BarBendingScheduleDialog:
 
     def getColumnConfigData(
         self,
-    ) -> OrderedDictType[
-        Literal[
-            "Host",
-            "Mark",
-            "RebarsCount",
-            "Diameter",
-            "RebarLength",
-            "RebarsTotalLength",
-        ],
-        str,
-    ]:
+        # ) -> OrderedDictType[
+        #     Literal[
+        #         "Host",
+        #         "Mark",
+        #         "RebarsCount",
+        #         "Diameter",
+        #         "RebarLength",
+        #         "RebarsTotalLength",
+        #     ],
+        #     str,
+        # ]:
+    ) -> OrderedDictType[str, str]:
         """This function get data from UI and return an ordered dictionary with
         column data as key and column display header as value.
         e.g. {
@@ -488,26 +495,30 @@ class _BarBendingScheduleDialog:
 
 
 def CommandBarBendingSchedule(
-    column_headers: Optional[
-        OrderedDictType[
-            Literal[
-                "Host",
-                "Mark",
-                "RebarsCount",
-                "Diameter",
-                "RebarLength",
-                "RebarsTotalLength",
-            ],
-            str,
-        ]
-    ] = None,
-    column_units: Optional[
-        Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]
-    ] = None,
-    rebar_length_type: Optional[
-        Literal["RealLength", "LengthWithSharpEdges"]
-    ] = None,
-    reinforcement_group_by: Optional[Literal["Mark", "Host"]] = None,
+    # column_headers: Optional[
+    #     OrderedDictType[
+    #         Literal[
+    #             "Host",
+    #             "Mark",
+    #             "RebarsCount",
+    #             "Diameter",
+    #             "RebarLength",
+    #             "RebarsTotalLength",
+    #         ],
+    #         str,
+    #     ]
+    # ] = None,
+    column_headers: Optional[OrderedDictType[str, str]] = None,
+    # column_units: Optional[
+    #     Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]
+    # ] = None,
+    column_units: Optional[Dict[str, str]] = None,
+    # rebar_length_type: Optional[
+    #     Literal["RealLength", "LengthWithSharpEdges"]
+    # ] = None,
+    rebar_length_type: Optional[str] = None,
+    # reinforcement_group_by: Optional[Literal["Mark", "Host"]] = None,
+    reinforcement_group_by: Optional[str] = None,
     font_family: Optional[str] = None,
     font_size: float = 5,
     column_width: float = 60,

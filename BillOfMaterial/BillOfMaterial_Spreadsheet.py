@@ -28,7 +28,6 @@ __url__ = "https://www.freecadweb.org"
 from typing import (
     Optional,
     Dict,
-    Literal,
     List,
     OrderedDict as OrderedDictType,
     Union,
@@ -48,18 +47,22 @@ from .BOMfunc import (
 )
 
 
+# TODO: Use(Uncomment) typing.Literal for minimum python3.8
+
+
 def addSheetHeaders(
-    column_headers: OrderedDictType[
-        Literal[
-            "Host",
-            "Mark",
-            "RebarsCount",
-            "Diameter",
-            "RebarLength",
-            "RebarsTotalLength",
-        ],
-        str,
-    ],
+    # column_headers: OrderedDictType[
+    #     Literal[
+    #         "Host",
+    #         "Mark",
+    #         "RebarsCount",
+    #         "Diameter",
+    #         "RebarLength",
+    #         "RebarsTotalLength",
+    #     ],
+    #     str,
+    # ],
+    column_headers: OrderedDictType[str, str],
     diameter_list: List[FreeCAD.Units.Quantity],
     spreadsheet,
 ) -> None:
@@ -124,28 +127,32 @@ def getHeaderColumn(column_headers, diameter_list, column_header):
 
 
 def makeBillOfMaterial(
-    column_headers: Optional[
-        OrderedDictType[
-            Literal[
-                "Host",
-                "Mark",
-                "RebarsCount",
-                "Diameter",
-                "RebarLength",
-                "RebarsTotalLength",
-            ],
-            str,
-        ]
-    ] = None,
-    column_units: Optional[
-        Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]
-    ] = None,
+    # column_headers: Optional[
+    #     OrderedDictType[
+    #         Literal[
+    #             "Host",
+    #             "Mark",
+    #             "RebarsCount",
+    #             "Diameter",
+    #             "RebarLength",
+    #             "RebarsTotalLength",
+    #         ],
+    #         str,
+    #     ]
+    # ] = None,
+    column_headers: Optional[OrderedDictType[str, str]] = None,
+    # column_units: Optional[
+    #     Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]
+    # ] = None,
+    column_units: Optional[Dict[str, str]] = None,
     dia_weight_map: Optional[Dict[float, FreeCAD.Units.Quantity]] = None,
-    rebar_length_type: Optional[
-        Literal["RealLength", "LengthWithSharpEdges"]
-    ] = None,
+    # rebar_length_type: Optional[
+    #     Literal["RealLength", "LengthWithSharpEdges"]
+    # ] = None,
+    rebar_length_type: Optional[str] = None,
     rebar_objects: Optional[List] = None,
-    reinforcement_group_by: Optional[Literal["Mark", "Host"]] = None,
+    # reinforcement_group_by: Optional[Literal["Mark", "Host"]] = None,
+    reinforcement_group_by: Optional[str] = None,
     obj_name: str = "RebarBillOfMaterial",
 ):
     """makeBillOfMaterial(ColumnHeadersConfig, ColumnUnitsDict, DiaWeightMap,
