@@ -27,7 +27,7 @@ __url__ = "https://www.freecadweb.org"
 
 from collections import OrderedDict
 from pathlib import Path
-from typing import OrderedDict as OrderedDictType, Literal
+from typing import OrderedDict as OrderedDictType
 
 import FreeCAD
 import FreeCADGui
@@ -39,6 +39,9 @@ from .BillOfMaterial_SVG import makeBillOfMaterialSVG
 from .BillOfMaterial_Spreadsheet import makeBillOfMaterial
 from .UnitLineEdit import UnitLineEdit
 from .config import COLUMN_HEADERS
+
+
+# TODO: Use(Uncomment) typing.Literal for minimum python3.8
 
 
 class _BillOfMaterialDialog:
@@ -328,17 +331,18 @@ class _BillOfMaterialDialog:
 
     def getColumnConfigData(
         self,
-    ) -> OrderedDictType[
-        Literal[
-            "Host",
-            "Mark",
-            "RebarsCount",
-            "Diameter",
-            "RebarLength",
-            "RebarsTotalLength",
-        ],
-        str,
-    ]:
+        # ) -> OrderedDictType[
+        #     Literal[
+        #         "Host",
+        #         "Mark",
+        #         "RebarsCount",
+        #         "Diameter",
+        #         "RebarLength",
+        #         "RebarsTotalLength",
+        #     ],
+        #     str,
+        # ]:
+    ) -> OrderedDictType[str, str]:
         """This function get data from UI and return an ordered dictionary with
         column data as key and column display header as value.
         e.g. {

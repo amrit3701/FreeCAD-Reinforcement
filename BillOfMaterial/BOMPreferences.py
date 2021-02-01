@@ -28,7 +28,7 @@ __url__ = "https://www.freecadweb.org"
 
 from collections import OrderedDict
 from pathlib import Path
-from typing import Dict, Literal, OrderedDict as OrderedDictType, Union
+from typing import Dict, OrderedDict as OrderedDictType, Union
 
 import FreeCAD
 
@@ -53,32 +53,39 @@ from .config import (
 )
 
 
+# TODO: Use(Uncomment) typing.Literal for minimum python3.8
+
+
 class BOMPreferences:
     def __init__(
         self,
-        conf_column_units: Dict[
-            Literal["Diameter", "RebarLength", "RebarsTotalLength"], str
-        ] = COLUMN_UNITS,
-        conf_column_headers: OrderedDictType[
-            Literal[
-                "Host",
-                "Mark",
-                "RebarsCount",
-                "Diameter",
-                "RebarLength",
-                "RebarsTotalLength",
-            ],
-            str,
-        ] = COLUMN_HEADERS,
+        # conf_column_units: Dict[
+        #     Literal["Diameter", "RebarLength", "RebarsTotalLength"], str
+        # ] = COLUMN_UNITS,
+        conf_column_units: Dict[str, str] = COLUMN_UNITS,
+        # conf_column_headers: OrderedDictType[
+        #     Literal[
+        #         "Host",
+        #         "Mark",
+        #         "RebarsCount",
+        #         "Diameter",
+        #         "RebarLength",
+        #         "RebarsTotalLength",
+        #     ],
+        #     str,
+        # ] = COLUMN_HEADERS,
+        conf_column_headers: OrderedDictType[str, str] = COLUMN_HEADERS,
         conf_dia_weight_map: Dict[
             float, FreeCAD.Units.Quantity
         ] = DIA_WEIGHT_MAP,
-        conf_rebar_length_type: Literal[
-            "RealLength", "LengthWithSharpEdges"
-        ] = REBAR_LENGTH_TYPE,
-        conf_reinforcement_group_by: Literal[
-            "Mark", "Host"
-        ] = REINFORCEMENT_GROUP_BY,
+        # conf_rebar_length_type: Literal[
+        #     "RealLength", "LengthWithSharpEdges"
+        # ] = REBAR_LENGTH_TYPE,
+        conf_rebar_length_type: str = REBAR_LENGTH_TYPE,
+        # conf_reinforcement_group_by: Literal[
+        #     "Mark", "Host"
+        # ] = REINFORCEMENT_GROUP_BY,
+        conf_reinforcement_group_by: str = REINFORCEMENT_GROUP_BY,
         conf_column_width: float = COLUMN_WIDTH,
         conf_row_height: float = ROW_HEIGHT,
         conf_font_family: str = FONT_FAMILY,
@@ -307,7 +314,8 @@ class BOMPreferences:
 
     def getColumnUnits(
         self,
-    ) -> Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]:
+        # ) -> Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]:
+    ) -> Dict[str, str]:
         column_units = {}
         for column in self.column_units.GetStrings():
             units = self.column_units.GetString(column)
@@ -316,17 +324,18 @@ class BOMPreferences:
 
     def getColumnHeaders(
         self,
-    ) -> OrderedDictType[
-        Literal[
-            "Host",
-            "Mark",
-            "RebarsCount",
-            "Diameter",
-            "RebarLength",
-            "RebarsTotalLength",
-        ],
-        str,
-    ]:
+        # ) -> OrderedDictType[
+        #     Literal[
+        #         "Host",
+        #         "Mark",
+        #         "RebarsCount",
+        #         "Diameter",
+        #         "RebarLength",
+        #         "RebarsTotalLength",
+        #     ],
+        #     str,
+        # ]:
+    ) -> OrderedDictType[str, str]:
         columns = []
         for column in self.column_headers.GetGroups():
             header = self.column_headers.GetGroup(column)
@@ -349,7 +358,8 @@ class BOMPreferences:
 
     def getRebarLengthType(
         self,
-    ) -> Literal["RealLength", "LengthWithSharpEdges"]:
+        # ) -> Literal["RealLength", "LengthWithSharpEdges"]:
+    ) -> str:
         rebar_length_type = self.available_rebar_length_types[
             self.bom_pref.GetInt(
                 "RebarLengthType",
@@ -360,7 +370,8 @@ class BOMPreferences:
         ]
         return rebar_length_type
 
-    def getReinforcementGroupBy(self) -> Literal["Mark", "Host"]:
+    # def getReinforcementGroupBy(self) -> Literal["Mark", "Host"]:
+    def getReinforcementGroupBy(self) -> str:
         reinforcement_group_by = self.available_reinforcement_group_by[
             self.bom_pref.GetInt(
                 "ReinforcementGroupBy",

@@ -25,11 +25,14 @@ __title__ = "Bill Of Material Helper Functions"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-from typing import Dict, Optional, List, Literal
+from typing import Dict, Optional, List
+
+import Draft
+import FreeCAD
 from PySide2 import QtGui
 
-import FreeCAD
-import Draft
+
+# TODO: Use(Uncomment) typing.Literal for minimum python3.8
 
 
 def getBaseRebar(reinforcement_obj):
@@ -257,7 +260,8 @@ def getRebarSharpEdgedLength(rebar):
 
 def fixColumnUnits(
     column_units: Dict[str, str]
-) -> Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]:
+    # ) -> Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]:
+) -> Dict[str, str]:
     """Add missing units data to column_units dictionary.
 
     Parameters

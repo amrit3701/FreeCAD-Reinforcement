@@ -27,7 +27,7 @@ __url__ = "https://www.freecadweb.org"
 
 import math
 from pathlib import Path
-from typing import Literal, Tuple, List
+from typing import Tuple, List
 
 import ArchCommands
 import FreeCAD
@@ -48,6 +48,9 @@ from Rebarfunc import (
 )
 
 
+# TODO: Use(Uncomment) typing.Literal for minimum python3.8
+
+
 def getpointsOfBentShapeRebar(
     FacePRM: Tuple[Tuple[float, float], Tuple[float, float]],
     l_cover: float,
@@ -56,7 +59,8 @@ def getpointsOfBentShapeRebar(
     t_cover: float,
     bentLength: float,
     bentAngle: float,
-    orientation: Literal["Bottom", "Top", "Left", "Right"],
+    # orientation: Literal["Bottom", "Top", "Left", "Right"],
+    orientation: str,
     diameter: float,
     face_normal: FreeCAD.Vector,
 ) -> List[FreeCAD.Vector]:

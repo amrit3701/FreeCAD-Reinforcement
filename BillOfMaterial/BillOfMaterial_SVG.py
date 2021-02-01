@@ -28,7 +28,6 @@ __url__ = "https://www.freecadweb.org"
 from typing import (
     Optional,
     Dict,
-    Literal,
     List,
     OrderedDict as OrderedDictType,
     Union,
@@ -55,6 +54,9 @@ from .BOMfunc import (
     getBaseRebar,
 )
 from .BillOfMaterialContent import makeBOMObject
+
+
+# TODO: Use(Uncomment) typing.Literal for minimum python3.8
 
 
 def getColumnNumber(column_headers, diameter_list, column_header):
@@ -177,26 +179,29 @@ def getColumnHeadersSVG(
 
 
 def makeBillOfMaterialSVG(
-    column_headers: Optional[
-        OrderedDictType[
-            Literal[
-                "Host",
-                "Mark",
-                "RebarsCount",
-                "Diameter",
-                "RebarLength",
-                "RebarsTotalLength",
-            ],
-            str,
-        ]
-    ] = None,
-    column_units: Optional[
-        Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]
-    ] = None,
+    # column_headers: Optional[
+    #     OrderedDictType[
+    #         Literal[
+    #             "Host",
+    #             "Mark",
+    #             "RebarsCount",
+    #             "Diameter",
+    #             "RebarLength",
+    #             "RebarsTotalLength",
+    #         ],
+    #         str,
+    #     ]
+    # ] = None,
+    column_headers: Optional[OrderedDictType[str, str]] = None,
+    # column_units: Optional[
+    #     Dict[Literal["Diameter", "RebarLength", "RebarsTotalLength"], str]
+    # ] = None,
+    column_units: Optional[Dict[str, str]] = None,
     dia_weight_map: Optional[Dict[float, FreeCAD.Units.Quantity]] = None,
-    rebar_length_type: Optional[
-        Literal["RealLength", "LengthWithSharpEdges"]
-    ] = None,
+    # rebar_length_type: Optional[
+    #     Literal["RealLength", "LengthWithSharpEdges"]
+    # ] = None,
+    rebar_length_type: Optional[str] = None,
     font_family: Optional[str] = None,
     font_filename: Optional[str] = None,
     font_size: Optional[float] = None,
@@ -211,7 +216,8 @@ def makeBillOfMaterialSVG(
     template_file: Optional[str] = None,
     output_file: Optional[str] = None,
     rebar_objects: Optional[List] = None,
-    reinforcement_group_by: Optional[Literal["Mark", "Host"]] = None,
+    # reinforcement_group_by: Optional[Literal["Mark", "Host"]] = None,
+    reinforcement_group_by: Optional[str] = None,
     return_svg_only: bool = False,
 ):
     """makeBillOfMaterialSVG([ColumnHeaders, ColumnUnits, DiaWeightMap,

@@ -26,7 +26,7 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 from pathlib import Path
-from typing import Tuple, Union, List, Literal
+from typing import Tuple, Union, List
 
 import Draft
 import FreeCAD
@@ -42,6 +42,9 @@ from RebarShapeCutList.RebarShapeCutListfunc import (
 )
 
 
+# TODO: Use(Uncomment) typing.Literal for minimum python3.8
+
+
 class _RebarShapeCutListDialog:
     """A Rebar Shape Cut List dialog box"""
 
@@ -52,7 +55,8 @@ class _RebarShapeCutListDialog:
         rebars_color_style: str,
         row_height: float,
         column_width: float,
-        column_count: Union[int, Literal["row_count"]],
+        # column_count: Union[int, Literal["row_count"]],
+        column_count: Union[int, str],
         side_padding: float,
         horizontal_rebar_shape: bool,
         include_mark: bool,
@@ -306,7 +310,8 @@ def CommandRebarShapeCutList(
     rebars_color_style: str = "shape color",
     row_height: float = 40,
     column_width: float = 60,
-    column_count: Union[int, Literal["row_count"]] = "row_count",
+    # column_count: Union[int, Literal["row_count"]] = "row_count",
+    column_count: Union[int, str] = "row_count",
     side_padding: float = 1,
     horizontal_rebar_shape: bool = True,
     include_mark: bool = True,
