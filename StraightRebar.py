@@ -44,6 +44,7 @@ from Rebarfunc import (
     showWarning,
     check_selected_face,
     facenormalDirection,
+    get_rebar_amount_from_spacing,
 )
 
 
@@ -399,7 +400,7 @@ def makeStraightRebar(
             structure,
             sketch,
             diameter,
-            int((size - diameter) / amount_spacing_value),
+            get_rebar_amount_from_spacing(size, diameter, amount_spacing_value),
             f_cover + diameter / 2,
             name="StraightRebar",
         )
@@ -536,7 +537,9 @@ def editStraightRebar(
                 structure.Shape.copy(), face.normalAt(0, 0)
             )
         ).Length
-        Rebar.Amount = int((size - diameter) / amount_spacing_value)
+        Rebar.Amount = get_rebar_amount_from_spacing(
+            size, diameter, amount_spacing_value
+        )
         FreeCAD.ActiveDocument.recompute()
         Rebar.AmountCheck = False
     Rebar.FrontCover = f_cover

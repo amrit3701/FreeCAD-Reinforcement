@@ -838,6 +838,12 @@ def getSelectedFace(self):
         showWarning("Select any face of the structural element.")
 
 
+def get_rebar_amount_from_spacing(bar_distribution_len, bar_dia, spacing):
+    """get_rebar_amount_from_spacing(bar_distribution_len, bar_dia, spacing):
+    Return rebar amount from spacing."""
+    return math.ceil((bar_distribution_len - bar_dia) / spacing) + 1
+
+
 def showWarning(message):
     """showWarning(message): This function is used to produce warning
     message for the user."""
