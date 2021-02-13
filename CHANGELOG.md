@@ -1,7 +1,25 @@
 # Changelog
 
 ## [Unreleased](https://github.com/amrit3701/FreeCAD-Reinforcement/tree/HEAD)
-[Full Changelog](https://github.com/amrit3701/FreeCAD-Reinforcement/compare/v0.1...HEAD)
+[Full Changelog](https://github.com/amrit3701/FreeCAD-Reinforcement/compare/v0.2...HEAD)
+
+## [v0.2](https://github.com/amrit3701/FreeCAD-Reinforcement/tree/v0.2) (2021-02-13)
+
+[Full Changelog](https://github.com/amrit3701/FreeCAD-Reinforcement/compare/v0.1..v0.2)
+
+**Implemented features:**
+- Implemented reinforcement drawing dimension UI.
+
+**UI improvements:**
+- Fixed stylesheet issue in beam and column reinforcement dialog.
+- Updated helping image in beam reinforcement dialog box.
+- Update workbench wiki image (include drawing icon).
+
+**Refactoring and bug fixes:**
+- Fix type annotation issue `typing.Literal` bug (made code compatible Python `3.7` version).
+- Fixed bug in rebar distribution through spacing.
+- Fixed custom spacing issue (load custom spacing when editing column/beam Reinforcement).
+- Fixed rebar points calculations when left/rear/bottom face selected.
 
 ## [v0.1](https://github.com/amrit3701/FreeCAD-Reinforcement/tree/v0.1) (2020-09-28)
 
