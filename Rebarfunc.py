@@ -97,7 +97,7 @@ def facenormalDirection(structure=None, facename=None):
         facename = selected_obj.SubElementNames[0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
     normal = face.normalAt(0, 0)
-    normal = face.Placement.Rotation.inverted().multVec(normal)
+    normal = structure.Placement.Rotation.inverted().multVec(normal)
     return normal
 
 
