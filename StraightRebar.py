@@ -356,11 +356,11 @@ def makeStraightRebar(
     FacePRM = getParametersOfFace(structure, facename)
     if not FacePRM:
         FreeCAD.Console.PrintError(
-            "Cannot identified shape or from which base object sturctural "
+            "Cannot identified shape or from which base object structural "
             "element is derived\n"
         )
         return
-    # Get points of Striaght rebar
+    # Get points of Straight rebar
     points = getpointsOfStraightRebar(
         FacePRM,
         rt_cover,
@@ -511,7 +511,7 @@ def editStraightRebar(
     # StructurePRM = getTrueParametersOfStructure(structure)
     # Get parameters of the face where sketch of rebar is drawn
     FacePRM = getParametersOfFace(structure, facename)
-    # Get points of Striaght rebar
+    # Get points of Straight rebar
     points = getpointsOfStraightRebar(
         FacePRM,
         rt_cover,

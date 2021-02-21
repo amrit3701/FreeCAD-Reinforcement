@@ -125,7 +125,7 @@ def makeReinforcement(
     if not FacePRM:
         FreeCAD.Console.PrintError(
             "Cannot identified shape or from which base object"
-            "sturctural element is derived\n"
+            "structural element is derived\n"
         )
         return
     helical_rebar = makeHelicalRebar(

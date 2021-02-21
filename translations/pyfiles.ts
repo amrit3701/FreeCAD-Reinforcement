@@ -228,7 +228,7 @@
     </message>
     <message>
         <location filename="../RebarTools.py" line="38"/>
-        <source>Creates a Striaght bar reinforcement from the selected face of the Structural element.</source>
+        <source>Creates a Straight bar reinforcement from the selected face of the Structural element.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
