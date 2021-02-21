@@ -409,7 +409,7 @@ def makeBentShapeRebar(
     FacePRM = getParametersOfFace(structure, facename)
     if not FacePRM:
         FreeCAD.Console.PrintError(
-            "Cannot identified shape or from which base object sturctural "
+            "Cannot identified shape or from which base object structural "
             "element is derived\n"
         )
         return
