@@ -124,7 +124,7 @@ def makeReinforcement(
     FacePRM = getParametersOfFace(structure, facename, sketch=False)
     if not FacePRM:
         FreeCAD.Console.PrintError(
-            "Cannot identified shape or from which base object"
+            "Cannot identify shape or from which base object"
             "structural element is derived\n"
         )
         return

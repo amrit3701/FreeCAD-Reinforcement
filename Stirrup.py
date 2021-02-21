@@ -380,7 +380,7 @@ def makeStirrup(
     # FaceNormal = face.Placement.Rotation.inverted().multVec(FaceNormal)
     if not FacePRM:
         FreeCAD.Console.PrintError(
-            "Cannot identified shape or from which base object structural "
+            "Cannot identify shape or from which base object structural "
             "element is derived\n"
         )
         return
