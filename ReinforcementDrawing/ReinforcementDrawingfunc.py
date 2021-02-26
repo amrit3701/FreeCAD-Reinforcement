@@ -43,6 +43,7 @@ from SVGfunc import (
     isPointInSVG,
     getLineSVG,
     isLineInSVG,
+    isCircleInSVG,
 )
 
 
@@ -444,6 +445,10 @@ def getUShapeRebarSVGData(
                     edge_svg = getPointSVG(
                         p1, radius=2 * rebars_stroke_width, fill=rebars_color
                     )
+                    if not isCircleInSVG(
+                        p1.x, p1.y, 2 * rebars_stroke_width, rebars_svg
+                    ):
+                        is_rebar_visible = True
                 else:
                     edge_svg = getLineSVG(
                         p1, p2, rebars_stroke_width, rebars_color
@@ -503,6 +508,10 @@ def getUShapeRebarSVGData(
                             radius=2 * rebars_stroke_width,
                             fill=rebars_color,
                         )
+                        if not isCircleInSVG(
+                            p1.x, p1.y, 2 * rebars_stroke_width, rebars_svg
+                        ):
+                            is_rebar_visible = True
                     else:
                         edge_svg = getLineSVG(
                             p1, p2, rebars_stroke_width, rebars_color

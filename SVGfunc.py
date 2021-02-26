@@ -137,6 +137,20 @@ def isLineInSVG(p1, p2, svg):
         return False
 
 
+def isCircleInSVG(cx, cy, r, svg):
+
+    if (
+        svg.find(
+            './/circle[@cx="{}"][@cy="{}"][@r="{}"]'.format(
+                round(cx), round(cy), round(r)
+            ),
+        )
+        is not None
+    ):
+        return True
+    return False
+
+
 def getLinePathElement(
     points_list,
     stroke_width=0.35,
