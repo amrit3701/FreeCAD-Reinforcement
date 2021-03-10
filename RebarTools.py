@@ -405,7 +405,7 @@ class ReinforcementDrawingDimensioningTool:
 
 
 def updateLocale():
-    FreeCADGui.addLanguagePath(Path(__file__).parent / "translations")
+    FreeCADGui.addLanguagePath(str(Path(__file__).parent / "translations"))
     FreeCADGui.updateLocale()
 
 
