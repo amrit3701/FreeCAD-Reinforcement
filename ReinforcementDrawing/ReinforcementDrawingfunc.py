@@ -406,10 +406,15 @@ def getStirrupSVGData(
 
 
 def getUShapeRebarSVGData(
-    rebar, view_plane, rebars_svg, rebars_stroke_width, rebars_color_style
+    rebar,
+    view_plane,
+    rebars_svg,
+    rebars_stroke_width,
+    rebars_color_style,
+    longitudinal_line_dia=None,
 ):
     """getUShapeRebarSVGData(UShapeRebar, ViewPlane, RebarsSVG,
-    RebarsStrokeWidth, RebarsColorStyle):
+    RebarsStrokeWidth, RebarsColorStyle, longitudinal_line_dia):
     Returns dictionary containing UShape rebar svg data.
 
     rebars_color_style can be:
@@ -422,6 +427,9 @@ def getUShapeRebarSVGData(
         "visibility": is_rebar_visible,
     }
     """
+    if longitudinal_line_dia is None:
+        longitudinal_line_dia = 2 * 2 * rebars_stroke_width
+
     rebars_color = getRebarColor(rebar, rebars_color_style)
 
     u_rebar_svg = ElementTree.Element("g", attrib={"id": str(rebar.Name)})
@@ -442,7 +450,7 @@ def getUShapeRebarSVGData(
                 p2 = getProjectionToSVGPlane(edge.Vertexes[1].Point, view_plane)
                 if round(p1.x) == round(p2.x) and round(p1.y) == round(p2.y):
                     edge_svg = getPointSVG(
-                        p1, radius=2 * rebars_stroke_width, fill=rebars_color
+                        p1, radius=longitudinal_line_dia / 2, fill=rebars_color
                     )
                 else:
                     edge_svg = getLineSVG(
@@ -500,7 +508,7 @@ def getUShapeRebarSVGData(
                     ):
                         edge_svg = getPointSVG(
                             p1,
-                            radius=2 * rebars_stroke_width,
+                            radius=longitudinal_line_dia / 2,
                             fill=rebars_color,
                         )
                     else:
