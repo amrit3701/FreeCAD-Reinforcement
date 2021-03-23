@@ -25,8 +25,8 @@ __title__ = "Bill Of Material Helper Functions"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
-from typing import Dict, Optional, List
-
+from typing import Dict, Optional, List, Tuple
+import re
 import Draft
 import FreeCAD
 from PySide2 import QtGui
@@ -115,6 +115,20 @@ def getReinforcementRebarObjects(objects_list=None):
     return rebars_list
 
 
+def naturalKey(item: Tuple):
+    """naturalKeys(mark):
+    item is a Tuple repesenting dictionary item
+
+    Returns list of integer or text components of key
+    """
+    key = item[0]
+
+    def atoi(keyComponent):
+        return int(keyComponent) if keyComponent.isdigit() else keyComponent
+
+    return [atoi(keyComponent) for keyComponent in re.split(r"(\d+)", key)]
+
+
 def getMarkReinforcementsDict(objects_list: List = None) -> Dict[str, List]:
     """getMarkReinforcementsDict(ObjectsList):
     objects_list is the list of ArchRebar, rebar2 and/or structural objects.
@@ -145,7 +159,7 @@ def getMarkReinforcementsDict(objects_list: List = None) -> Dict[str, List]:
             mark_reinforcements_dict[mark].append(rebar)
 
     mark_reinforcements_dict = dict(
-        sorted(mark_reinforcements_dict.items(), key=lambda item: item[0])
+        sorted(mark_reinforcements_dict.items(), key=naturalKey)
     )
 
     return mark_reinforcements_dict
