@@ -25,6 +25,7 @@ __title__ = "RebarShape Cut List Functions"
 __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
+import re
 import math
 from typing import Union, List, Tuple, Optional
 from xml.dom import minidom
@@ -125,12 +126,26 @@ def getBaseRebarsList(
 
     rebars = sorted(
         rebars,
-        key=lambda x: str(x.MarkNumber)
-        if hasattr(x, "MarkNumber")
-        else str(x.Mark),
+        key=naturalKey,
     )
 
     return rebars
+
+
+def naturalKey(item):
+    """naturalKeys(item):
+    item is repersenting rebar item here
+
+    Returns list of integer or text components of key
+    """
+    key = (
+        str(item.MarkNumber) if hasattr(item, "MarkNumber") else str(item.Mark)
+    )
+
+    def atoi(keyComponent):
+        return int(keyComponent) if keyComponent.isdigit() else keyComponent
+
+    return [atoi(keyComponent) for keyComponent in re.split(r"(\d+)", key)]
 
 
 def getVertexesMinMaxXY(
