@@ -855,9 +855,9 @@ def getRebarShapeSVG(
             if "." in helix_pitch:
                 helix_pitch = helix_pitch.rstrip("0").rstrip(".")
             if include_units_in_dimension_label:
-                helical_rebar_length += rebar_dimension_units
-                helix_radius += rebar_dimension_units
-                helix_pitch += rebar_dimension_units
+                helical_rebar_length += " " + rebar_dimension_units
+                helix_radius += " " + rebar_dimension_units
+                helix_pitch += " " + rebar_dimension_units
             edge_dimension_svg.append(
                 getSVGTextElement(
                     helical_rebar_dimension_label_format.replace(
@@ -939,7 +939,7 @@ def getRebarShapeSVG(
                     if "." in edge_length:
                         edge_length = edge_length.rstrip("0").rstrip(".")
                     if include_units_in_dimension_label:
-                        edge_length += rebar_dimension_units
+                        edge_length += " " + rebar_dimension_units
                     edge_dimension_svg.append(
                         getSVGTextElement(
                             edge_length,

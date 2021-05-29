@@ -385,9 +385,13 @@ class _BarBendingScheduleDialog:
             self.form.includeUnitsInDimensionLabel.isChecked()
         )
         rebar_shape_dimension_font_size = self.form.dimensionFontSize.value()
-        rebar_edge_dimension_units = FreeCAD.Units.Quantity(
-            self.rebar_edge_dimension_units_widget.text()
-        ).Value
+        rebar_edge_dimension_units = (
+            FreeCAD.Units.Quantity(
+                self.rebar_edge_dimension_units_widget.text()
+            )
+            .toStr()
+            .split(" ")[-1]
+        )
         rebar_edge_dimension_precision = (
             self.form.rebarEdgeDimensionPrecision.value()
         )
