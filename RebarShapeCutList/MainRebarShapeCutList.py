@@ -254,9 +254,13 @@ class _RebarShapeCutListDialog:
         include_units_in_dimension_label = (
             self.form.includeUnitsInDimensionLabel.isChecked()
         )
-        rebar_edge_dimension_units = FreeCAD.Units.Quantity(
-            self.rebar_edge_dimension_units_widget.text()
-        ).Value
+        rebar_edge_dimension_units = (
+            FreeCAD.Units.Quantity(
+                self.rebar_edge_dimension_units_widget.text()
+            )
+            .toStr()
+            .split(" ")[-1]
+        )
         rebar_edge_dimension_precision = (
             self.form.rebarEdgeDimensionPrecision.value()
         )
