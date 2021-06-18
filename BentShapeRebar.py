@@ -388,7 +388,7 @@ def makeBentShapeRebar(
     rounding,
     amount_spacing_check,
     amount_spacing_value,
-    orientation="Bottom Left",
+    orientation="Bottom",
     structure=None,
     facename=None,
 ):
