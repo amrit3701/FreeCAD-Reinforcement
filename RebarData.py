@@ -29,7 +29,7 @@ __url__ = "https://www.freecadweb.org"
 import enum
 
 
-class RebarTypes(enum.Enum):
+class RebarTypes(str, enum.Enum):
     """A primitive rebar types enumeration object."""
 
     straight = "StraightRebar"
