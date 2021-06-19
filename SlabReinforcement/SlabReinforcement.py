@@ -26,6 +26,7 @@ __author__ = "Shiv Charan"
 __url__ = "https://www.freecadweb.org"
 
 import FreeCAD
+from typing import Union, Tuple, Optional
 from Rebarfunc import (
     getFacenamesforBeamReinforcement,
     getParametersOfFace,
@@ -39,22 +40,22 @@ from RebarData import RebarTypes
 
 
 def makeSlabReinforcement(
-    rebar_type,
-    front_cover,
-    rear_cover,
-    left_cover,
-    right_cover,
-    top_cover,
-    bottom_cover,
-    diameter,
-    amount_spacing_check,
-    amount_spacing_value,
-    rounding=2,
-    mesh_cover_along="Bottom",
-    structure=None,
-    facename=None,
-    bent_bar_length=50,
-    bent_bar_angle=135,
+    rebar_type: str,
+    front_cover: float,
+    rear_cover: float,
+    left_cover: float,
+    right_cover: float,
+    top_cover: float,
+    bottom_cover: float,
+    diameter: float,
+    amount_spacing_check: bool,
+    amount_spacing_value: Union[float, int],
+    rounding: Optional[int] = 2,
+    mesh_cover_along: str = "Bottom",
+    structure: Optional[Tuple] = None,
+    facename: Optional[str] = None,
+    bent_bar_length: Optional[int] = 50,
+    bent_bar_angle: Optional[int] = 135,
 ):
     """Generate Slab Reinforcement
 
