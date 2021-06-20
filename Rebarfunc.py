@@ -38,7 +38,7 @@ import math
 
 
 def getEdgesAngle(edge1, edge2):
-    """ getEdgesAngle(edge1, edge2): returns a angle between two edges."""
+    """getEdgesAngle(edge1, edge2): returns a angle between two edges."""
     vec1 = vec(edge1)
     vec2 = vec(edge2)
     angle = vec1.getAngle(vec2)
@@ -73,7 +73,7 @@ def getBaseStructuralObject(obj):
 
 
 def getBaseObject(obj):
-    """ getBaseObject(obj): This function will return last base object."""
+    """getBaseObject(obj): This function will return last base object."""
     if hasattr(obj, "Base"):
         return getBaseObject(obj.Base)
     else:
@@ -860,7 +860,7 @@ def translate(context, text, disambig=None):
 
 
 def print_in_freecad_console(*msg):
-    """ Print given arguments on FreeCAD console."""
+    """Print given arguments on FreeCAD console."""
     s = ""
     for m in msg:
         s += str(m) + ", "
