@@ -64,9 +64,11 @@ def makeSlabReinforcement(
     cross_rounding: Optional[int] = 2,
     cross_bent_bar_length: Optional[int] = 50,
     cross_bent_bar_angle: Optional[int] = 135,
+    cross_l_shape_hook_orintation: str = "Alternate",
     parallel_rounding: Optional[int] = 2,
     parallel_bent_bar_length: Optional[int] = 50,
     parallel_bent_bar_angle: Optional[int] = 135,
+    parallel_l_shape_hook_orintation: str = "Alternate",
     mesh_cover_along: str = "Bottom",
     structure: Optional[Tuple] = None,
     facename: Optional[str] = None,
@@ -138,6 +140,10 @@ def makeSlabReinforcement(
     cross_bent_bar_angle: int
         It represents angle for bent shape cross rebar when cross_rebar_type is
         BentShapeRebar
+    cross_l_shape_hook_orintation: str
+        It represents orintation of hook of cross L-Shape rebar if cross_rebar_type
+        is LShapeRebar.
+        It can have tree values "Left", "Right", "Alternate"
     parallel_rounding: int
         A rounding value to be applied to the corners of the bars, expressed
         in times the parallel_diameter.
@@ -147,6 +153,10 @@ def makeSlabReinforcement(
     parallel_bent_bar_angle: int
         It represents angle for bent shape parallel rebar when parallel_rebar_type is
         BentShapeRebar
+    parallel_l_shape_hook_orintation: str
+        It represents orintation of hook of parallel L-Shape rebar if parallel_rebar_type
+        is LShapeRebar.
+        It can have tree values "Left", "Right", "Alternate"
     mesh_cover_along: str
         It can have two values "Top" and "Bottom". It represent alignment of
         rebar mesh along top or bottom face of structure.
@@ -215,29 +225,94 @@ def makeSlabReinforcement(
         parallel_rebars.OffsetEnd = parallel_rear_cover + parallel_diameter / 2
 
     elif parallel_rebar_type == RebarTypes.lshape:
-        cross_face_length = getParametersOfFace(structure, cross_facename)[0][0]
-        if not parallel_amount_spacing_check:
-            parallel_rebars_amount = get_rebar_amount_from_spacing(
-                cross_face_length,
-                parallel_diameter,
-                parallel_amount_spacing_value,
-            )
-        else:
-            parallel_rebars_amount = parallel_amount_spacing_value
 
-        parallel_modified_amount_spacing_value_2 = parallel_rebars_amount // 2
-        parallel_modified_amount_spacing_value_1 = (
-            parallel_rebars_amount - parallel_modified_amount_spacing_value_2
-        )
-        if parallel_rebars_amount == 1:
-            parallel_interval = parallel_front_cover
+        if parallel_l_shape_hook_orintation == "Alternate":
+            cross_face_length = getParametersOfFace(structure, cross_facename)[
+                0
+            ][0]
+            if not parallel_amount_spacing_check:
+                parallel_rebars_amount = get_rebar_amount_from_spacing(
+                    cross_face_length,
+                    parallel_diameter,
+                    parallel_amount_spacing_value,
+                )
+            else:
+                parallel_rebars_amount = parallel_amount_spacing_value
+
+            parallel_modified_amount_spacing_value_2 = (
+                parallel_rebars_amount // 2
+            )
+            parallel_modified_amount_spacing_value_1 = (
+                parallel_rebars_amount
+                - parallel_modified_amount_spacing_value_2
+            )
+            if parallel_rebars_amount == 1:
+                parallel_interval = parallel_front_cover
+            else:
+                parallel_interval = (
+                    cross_face_length
+                    - parallel_front_cover
+                    - parallel_rear_cover
+                ) / (parallel_rebars_amount - 1)
+            parallel_modified_front_cover = (
+                parallel_front_cover + parallel_interval
+            )
+            if parallel_modified_amount_spacing_value_1:
+                parallel_left_rebars = makeLShapeRebar(
+                    parallel_front_cover,
+                    parallel_bottom_cover,
+                    parallel_left_cover,
+                    parallel_right_cover,
+                    parallel_diameter,
+                    parallel_top_cover,
+                    parallel_rounding,
+                    True,
+                    parallel_modified_amount_spacing_value_1,
+                    f"{mesh_cover_along} Left",
+                    structure,
+                    facename,
+                )
+                parallel_left_rebars.OffsetEnd = (
+                    parallel_rear_cover
+                    + parallel_diameter / 2
+                    + (
+                        parallel_interval
+                        if parallel_modified_amount_spacing_value_1
+                        == parallel_modified_amount_spacing_value_2
+                        else 0
+                    )
+                )
+
+            if parallel_modified_amount_spacing_value_2:
+                parallel_right_rebars = makeLShapeRebar(
+                    parallel_modified_front_cover,
+                    parallel_bottom_cover,
+                    parallel_left_cover,
+                    parallel_right_cover,
+                    parallel_diameter,
+                    parallel_top_cover,
+                    parallel_rounding,
+                    True,
+                    parallel_modified_amount_spacing_value_2,
+                    f"{mesh_cover_along} Right",
+                    structure,
+                    facename,
+                )
+                parallel_right_rebars.OffsetEnd = (
+                    parallel_rear_cover
+                    + parallel_diameter / 2
+                    + (
+                        parallel_interval
+                        if (
+                            parallel_modified_amount_spacing_value_1
+                            - parallel_modified_amount_spacing_value_2
+                        )
+                        == 1
+                        else 0
+                    )
+                )
         else:
-            parallel_interval = (
-                cross_face_length - parallel_front_cover - parallel_rear_cover
-            ) / (parallel_rebars_amount - 1)
-        parallel_modified_front_cover = parallel_front_cover + parallel_interval
-        if parallel_modified_amount_spacing_value_1:
-            parallel_left_rebars = makeLShapeRebar(
+            parallel_rebars = makeLShapeRebar(
                 parallel_front_cover,
                 parallel_bottom_cover,
                 parallel_left_cover,
@@ -246,49 +321,13 @@ def makeSlabReinforcement(
                 parallel_top_cover,
                 parallel_rounding,
                 True,
-                parallel_modified_amount_spacing_value_1,
-                f"{mesh_cover_along} Left",
+                parallel_amount_spacing_value,
+                f"{mesh_cover_along} {parallel_l_shape_hook_orintation}",
                 structure,
                 facename,
             )
-            parallel_left_rebars.OffsetEnd = (
-                parallel_rear_cover
-                + parallel_diameter / 2
-                + (
-                    parallel_interval
-                    if parallel_modified_amount_spacing_value_1
-                    == parallel_modified_amount_spacing_value_2
-                    else 0
-                )
-            )
-
-        if parallel_modified_amount_spacing_value_2:
-            parallel_right_rebars = makeLShapeRebar(
-                parallel_modified_front_cover,
-                parallel_bottom_cover,
-                parallel_left_cover,
-                parallel_right_cover,
-                parallel_diameter,
-                parallel_top_cover,
-                parallel_rounding,
-                True,
-                parallel_modified_amount_spacing_value_2,
-                f"{mesh_cover_along} Right",
-                structure,
-                facename,
-            )
-            parallel_right_rebars.OffsetEnd = (
-                parallel_rear_cover
-                + parallel_diameter / 2
-                + (
-                    parallel_interval
-                    if (
-                        parallel_modified_amount_spacing_value_1
-                        - parallel_modified_amount_spacing_value_2
-                    )
-                    == 1
-                    else 0
-                )
+            parallel_rebars.OffsetEnd = (
+                parallel_rear_cover + parallel_diameter / 2
             )
 
     if cross_rebar_type == RebarTypes.straight:
@@ -371,27 +410,95 @@ def makeSlabReinforcement(
         cross_rebars.OffsetEnd = cross_rear_cover + cross_diameter / 2
 
     elif cross_rebar_type == RebarTypes.lshape:
-        parallel_face_length = getParametersOfFace(structure, facename)[0][0]
-        if not cross_amount_spacing_check:
-            cross_rebars_amount = get_rebar_amount_from_spacing(
-                parallel_face_length, cross_diameter, cross_amount_spacing_value
-            )
-        else:
-            cross_rebars_amount = cross_amount_spacing_value
-        cross_modified_amount_spacing_value_2 = cross_rebars_amount // 2
-        cross_modified_amount_spacing_value_1 = (
-            cross_rebars_amount - cross_modified_amount_spacing_value_2
-        )
-        if cross_rebars_amount == 1:
-            cross_interval = cross_front_cover
-        else:
-            cross_interval = (
-                parallel_face_length - cross_front_cover - cross_rear_cover
-            ) / (cross_rebars_amount - 1)
-        cross_modified_front_cover = cross_front_cover + cross_interval
 
-        if cross_modified_amount_spacing_value_1:
-            cross_left_rebars = makeLShapeRebar(
+        if cross_l_shape_hook_orintation == "Alternate":
+            parallel_face_length = getParametersOfFace(structure, facename)[0][
+                0
+            ]
+            if not cross_amount_spacing_check:
+                cross_rebars_amount = get_rebar_amount_from_spacing(
+                    parallel_face_length,
+                    cross_diameter,
+                    cross_amount_spacing_value,
+                )
+            else:
+                cross_rebars_amount = cross_amount_spacing_value
+            cross_modified_amount_spacing_value_2 = cross_rebars_amount // 2
+            cross_modified_amount_spacing_value_1 = (
+                cross_rebars_amount - cross_modified_amount_spacing_value_2
+            )
+            if cross_rebars_amount == 1:
+                cross_interval = cross_front_cover
+            else:
+                cross_interval = (
+                    parallel_face_length - cross_front_cover - cross_rear_cover
+                ) / (cross_rebars_amount - 1)
+            cross_modified_front_cover = cross_front_cover + cross_interval
+
+            if cross_modified_amount_spacing_value_1:
+                cross_left_rebars = makeLShapeRebar(
+                    cross_front_cover,
+                    cross_bottom_cover
+                    + (
+                        parallel_diameter if mesh_cover_along == "Bottom" else 0
+                    ),
+                    cross_left_cover,
+                    cross_right_cover,
+                    cross_diameter,
+                    cross_top_cover
+                    - (parallel_diameter if mesh_cover_along == "Top" else 0),
+                    cross_rounding,
+                    True,
+                    cross_modified_amount_spacing_value_1,
+                    f"{mesh_cover_along} Left",
+                    structure,
+                    cross_facename,
+                )
+                cross_left_rebars.OffsetEnd = (
+                    cross_rear_cover
+                    + cross_diameter / 2
+                    + (
+                        cross_interval
+                        if cross_modified_amount_spacing_value_1
+                        == cross_modified_amount_spacing_value_2
+                        else 0
+                    )
+                )
+
+            if cross_modified_amount_spacing_value_2:
+                cross_right_rebars = makeLShapeRebar(
+                    cross_modified_front_cover,
+                    cross_bottom_cover
+                    + (
+                        parallel_diameter if mesh_cover_along == "Bottom" else 0
+                    ),
+                    cross_left_cover,
+                    cross_right_cover,
+                    cross_diameter,
+                    cross_top_cover
+                    - (parallel_diameter if mesh_cover_along == "Top" else 0),
+                    cross_rounding,
+                    True,
+                    cross_modified_amount_spacing_value_2,
+                    f"{mesh_cover_along} Right",
+                    structure,
+                    cross_facename,
+                )
+                cross_right_rebars.OffsetEnd = (
+                    cross_rear_cover
+                    + cross_diameter / 2
+                    + (
+                        cross_interval
+                        if (
+                            cross_modified_amount_spacing_value_1
+                            - cross_modified_amount_spacing_value_2
+                        )
+                        == 1
+                        else 0
+                    )
+                )
+        else:
+            cross_rebars = makeLShapeRebar(
                 cross_front_cover,
                 cross_bottom_cover
                 + (parallel_diameter if mesh_cover_along == "Bottom" else 0),
@@ -402,51 +509,12 @@ def makeSlabReinforcement(
                 - (parallel_diameter if mesh_cover_along == "Top" else 0),
                 cross_rounding,
                 True,
-                cross_modified_amount_spacing_value_1,
-                f"{mesh_cover_along} Left",
+                cross_amount_spacing_value,
+                f"{mesh_cover_along} {cross_l_shape_hook_orintation}",
                 structure,
                 cross_facename,
             )
-            cross_left_rebars.OffsetEnd = (
-                cross_rear_cover
-                + cross_diameter / 2
-                + (
-                    cross_interval
-                    if cross_modified_amount_spacing_value_1
-                    == cross_modified_amount_spacing_value_2
-                    else 0
-                )
-            )
-
-        if cross_modified_amount_spacing_value_2:
-            cross_right_rebars = makeLShapeRebar(
-                cross_modified_front_cover,
-                cross_bottom_cover
-                + (parallel_diameter if mesh_cover_along == "Bottom" else 0),
-                cross_left_cover,
-                cross_right_cover,
-                cross_diameter,
-                cross_top_cover
-                - (parallel_diameter if mesh_cover_along == "Top" else 0),
-                cross_rounding,
-                True,
-                cross_modified_amount_spacing_value_2,
-                f"{mesh_cover_along} Right",
-                structure,
-                cross_facename,
-            )
-            cross_right_rebars.OffsetEnd = (
-                cross_rear_cover
-                + cross_diameter / 2
-                + (
-                    cross_interval
-                    if (
-                        cross_modified_amount_spacing_value_1
-                        - cross_modified_amount_spacing_value_2
-                    )
-                    == 1
-                    else 0
-                )
-            )
+            cross_rebars.OffsetEnd = cross_rear_cover + cross_diameter / 2
+            print(cross_rebars.__dict__)
 
     FreeCAD.ActiveDocument.recompute()
