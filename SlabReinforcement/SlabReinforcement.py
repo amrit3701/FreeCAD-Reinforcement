@@ -282,7 +282,8 @@ def makeSlabReinforcement(
                         parallel_bent_bar_length
                         + parallel_left_cover
                         - cross_front_cover
-                        - cross_diameter,
+                        - cross_diameter
+                        - parallel_diameter,
                         parallel_distribution_rebars_diameter,
                         parallel_distribution_rebars_amount_spacing_value,
                     )
@@ -306,14 +307,15 @@ def makeSlabReinforcement(
                 parallel_face_length
                 - parallel_bent_bar_length
                 - parallel_left_cover
+                + parallel_diameter
                 + parallel_distribution_rebars_diameter / 2
             )
-
+            # calculate front cover for right side distribution rebars
             parallel_right_front_cover = (
                 parallel_face_length
                 - parallel_right_cover
                 - parallel_bent_bar_length
-                + parallel_distribution_rebars_diameter / 2
+                + parallel_diameter
             )
             parallel_right_distribution_rebars = makeStraightRebar(
                 parallel_right_front_cover,
@@ -572,7 +574,8 @@ def makeSlabReinforcement(
                         cross_bent_bar_length
                         + cross_left_cover
                         - parallel_front_cover
-                        - parallel_diameter,
+                        - parallel_diameter
+                        - cross_diameter,
                         cross_distribution_rebars_diameter,
                         cross_distribution_rebars_amount_spacing_value,
                     )
@@ -596,14 +599,15 @@ def makeSlabReinforcement(
                 cross_face_length
                 - cross_bent_bar_length
                 - cross_left_cover
+                + cross_diameter
                 + cross_distribution_rebars_diameter / 2
             )
-
+            # calculate front cover for right side distribution rebars
             cross_right_front_cover = (
                 cross_face_length
                 - cross_right_cover
                 - cross_bent_bar_length
-                + cross_distribution_rebars_diameter / 2
+                + cross_diameter
             )
             cross_right_distribution_rebars = makeStraightRebar(
                 cross_right_front_cover,
