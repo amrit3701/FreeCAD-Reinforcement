@@ -66,14 +66,16 @@ def makeSlabReinforcement(
     cross_l_shape_hook_orintation: Optional[str] = "Alternate",
     cross_distribution_rebars_check: Optional[bool] = False,
     cross_distribution_rebars_diameter: Optional[float] = 8,
-    cross_distribution_rebars_count: Optional[int] = 2,
+    cross_distribution_rebars_amount_spacing_check: Optional[bool] = True,
+    cross_distribution_rebars_amount_spacing_value: Optional[int] = 2,
     parallel_rounding: Optional[int] = 2,
     parallel_bent_bar_length: Optional[int] = 50,
     parallel_bent_bar_angle: Optional[int] = 135,
     parallel_l_shape_hook_orintation: Optional[str] = "Alternate",
     parallel_distribution_rebars_check: Optional[bool] = False,
     parallel_distribution_rebars_diameter: Optional[float] = 8,
-    parallel_distribution_rebars_count: Optional[int] = 2,
+    parallel_distribution_rebars_amount_spacing_check: Optional[bool] = True,
+    parallel_distribution_rebars_amount_spacing_value: Optional[int] = 2,
     mesh_cover_along: str = "Bottom",
     structure: Optional[Tuple] = None,
     facename: Optional[str] = None,
@@ -109,8 +111,6 @@ def makeSlabReinforcement(
     parallel_amount_spacing_value: float or int
         It contains count of rebars or spacing between parallel rebars based on
         value of amount_spacing_check.
-    parallel_distribution_rebars_diameter: float
-        Diameter of distribution rebars for parallel bent shape rebars
     cross_rebar_type: str
         Type of rebar for cross rebars for slab reinforcement.
         It can have four values 'StraightRebar','LShapeRebar', 'UShapeRebar',
@@ -138,8 +138,6 @@ def makeSlabReinforcement(
     cross_amount_spacing_value: float or int
         It contains count of rebars or spacing between rebars based on
         value of cross_amount_spacing_check.
-    cross_distribution_rebars_diameter: float
-        Diameter for distribution rebars for cross bent shape rebars
     cross_rounding: int
         A rounding value to be applied to the corners of the bars, expressed
         in times the cross_diameter.
@@ -153,11 +151,19 @@ def makeSlabReinforcement(
         It represents orintation of hook of cross L-Shape rebar if cross_rebar_type
         is LShapeRebar.
         It can have tree values "Left", "Right", "Alternate"
-    cross_distribution_rebars_check: bool = False,
+    cross_distribution_rebars_check: bool
         If True add distribution rebars for cross bent shape rebars.
         Default is False.
-    cross_distribution_rebars_count: int = 2,
-        Count of distribution rebars for one side of cross bent shape rebars.
+    cross_distribution_rebars_diameter: float
+        Diameter for distribution rebars for cross bent shape rebars.
+    cross_distribution_rebars_amount_spacing_check: bool
+        If is set to True, then value of cross_distribution_rebars_amount_spacing_value
+        is used as rebars count else cross_distribution_rebars_amount_spacing_value's
+        value is used as spacing in cross_distribution_rebars.
+        Default is True.
+    cross_distribution_rebars_amount_spacing_value: int or float
+        It contains count or spacing between distribution rebars for one side of cross
+        bent shape rebars based on value of cross_distribution_rebars_check.
         Default is 2.
     parallel_rounding: int
         A rounding value to be applied to the corners of the bars, expressed
@@ -172,11 +178,19 @@ def makeSlabReinforcement(
         It represents orintation of hook of parallel L-Shape rebar if parallel_rebar_type
         is LShapeRebar.
         It can have tree values "Left", "Right", "Alternate"
-    parallel_distribution_rebars_check: bool = False,
+    parallel_distribution_rebars_check: bool
         If True add distribution rebars for parallel bent shape rebars.
         Default is False.
-    parallel_distribution_rebars_count: int = 2,
-        Count of distribution rebars for one side of parallel bent shape rebars.
+    parallel_distribution_rebars_diameter: float
+        Diameter of distribution rebars for parallel bent shape rebars.
+    parallel_distribution_rebars_amount_spacing_check: bool
+        If is set to True, then value of parallel_distribution_rebars_amount_spacing_value
+        is used as rebars count else parallel_distribution_rebars_amount_spacing_value's
+        value is used as spacing in parallel_distribution_rebars.
+        Default is True.
+    parallel_distribution_rebars_amount_spacing_value: int or float
+        It contains count or spacing between distribution rebars for one side of parallel
+        bent shape rebars based on value of parallel_distribution_rebars_check.
         Default is 2.
     mesh_cover_along: str
         It can have two values "Top" and "Bottom". It represent alignment of
@@ -257,6 +271,22 @@ def makeSlabReinforcement(
             cover_along = (
                 "Top Side" if mesh_cover_along == "Bottom" else "Bottom Side"
             )
+            parallel_distribution_rebars_amount = (
+                parallel_distribution_rebars_amount_spacing_value
+            )
+            if not parallel_distribution_rebars_amount_spacing_check:
+                # calculate distribution rebars amount based on length of
+                # arm of bent shape rebar and covers for distribution rebars
+                parallel_distribution_rebars_amount = (
+                    get_rebar_amount_from_spacing(
+                        parallel_bent_bar_length
+                        + parallel_left_cover
+                        - cross_front_cover
+                        - cross_diameter,
+                        parallel_distribution_rebars_diameter,
+                        parallel_distribution_rebars_amount_spacing_value,
+                    )
+                )
             parallel_left_distribution_rebars = makeStraightRebar(
                 cross_front_cover + cross_diameter,
                 (
@@ -267,7 +297,7 @@ def makeSlabReinforcement(
                 cross_left_cover,
                 parallel_distribution_rebars_diameter,
                 True,
-                parallel_distribution_rebars_count,
+                parallel_distribution_rebars_amount,
                 "Horizontal",
                 structure,
                 cross_facename,
@@ -295,7 +325,7 @@ def makeSlabReinforcement(
                 cross_left_cover,
                 parallel_distribution_rebars_diameter,
                 True,
-                parallel_distribution_rebars_count,
+                parallel_distribution_rebars_amount,
                 "Horizontal",
                 structure,
                 cross_facename,
@@ -531,6 +561,22 @@ def makeSlabReinforcement(
             cover_along = (
                 "Top Side" if mesh_cover_along == "Bottom" else "Bottom Side"
             )
+            cross_distribution_rebars_amount = (
+                cross_distribution_rebars_amount_spacing_value
+            )
+            if not cross_distribution_rebars_amount_spacing_check:
+                # calculate distribution rebars amount based on length of
+                # arm of bent shape rebar and covers for distribution rebars
+                cross_distribution_rebars_amount = (
+                    get_rebar_amount_from_spacing(
+                        cross_bent_bar_length
+                        + cross_left_cover
+                        - parallel_front_cover
+                        - parallel_diameter,
+                        cross_distribution_rebars_diameter,
+                        cross_distribution_rebars_amount_spacing_value,
+                    )
+                )
             cross_left_distribution_rebars = makeStraightRebar(
                 parallel_front_cover + parallel_diameter,
                 (
@@ -541,7 +587,7 @@ def makeSlabReinforcement(
                 parallel_left_cover,
                 cross_distribution_rebars_diameter,
                 True,
-                cross_distribution_rebars_count,
+                cross_distribution_rebars_amount,
                 "Horizontal",
                 structure,
                 facename,
@@ -569,7 +615,7 @@ def makeSlabReinforcement(
                 parallel_left_cover,
                 cross_distribution_rebars_diameter,
                 True,
-                cross_distribution_rebars_count,
+                cross_distribution_rebars_amount,
                 "Horizontal",
                 structure,
                 facename,
