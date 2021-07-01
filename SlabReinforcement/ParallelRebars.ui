@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ParallelRebars</class>
+ <widget class="QDialog" name="ParallelRebars">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>313</width>
+    <height>587</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
+  <property name="modal">
+   <bool>false</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="0">
+    <layout class="QFormLayout" name="formLayout">
+     <property name="fieldGrowthPolicy">
+      <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+     </property>
+     <item row="2" column="0">
+      <widget class="QLabel" name="parallel_frontCoverLabel">
+       <property name="text">
+        <string>Front Cover</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="Gui::InputField" name="parallel_frontCover">
+       <property name="text">
+        <string>20 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="parallel_l_sideCoverLabel">
+       <property name="text">
+        <string>Left Cover</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="Gui::InputField" name="parallel_l_sideCover">
+       <property name="text">
+        <string>20 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="Gui::InputField" name="parallel_bottomCover">
+       <property name="text">
+        <string>20 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="parallel_topCoverLabel">
+       <property name="text">
+        <string>Top Cover</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="Gui::InputField" name="parallel_topCover">
+       <property name="text">
+        <string>20 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0">
+      <widget class="QLabel" name="parallel_roundingLabel">
+       <property name="text">
+        <string>Rounding</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="0">
+      <widget class="QLabel" name="parallel_diameterLabel">
+       <property name="text">
+        <string>Diameter</string>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="0" colspan="2">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="Gui::PrefRadioButton" name="parallel_amount_radio">
+         <property name="text">
+          <string>Amount</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Gui::PrefRadioButton" name="parallel_spacing_radio">
+         <property name="text">
+          <string>Spacing</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="14" column="0">
+      <widget class="QLabel" name="parallel_amountLabel">
+       <property name="text">
+        <string>Amount</string>
+       </property>
+      </widget>
+     </item>
+     <item row="14" column="1">
+      <widget class="Gui::PrefSpinBox" name="parallel_amount">
+       <property name="value">
+        <number>3</number>
+       </property>
+      </widget>
+     </item>
+     <item row="15" column="0">
+      <widget class="QLabel" name="parallel_spacingLabel">
+       <property name="text">
+        <string>Spacing</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="parallel_bottomCoverLabel">
+       <property name="text">
+        <string>Bottom Cover</string>
+       </property>
+      </widget>
+     </item>
+     <item row="15" column="1">
+      <widget class="Gui::InputField" name="parallel_spacing">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>50 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="1">
+      <widget class="Gui::InputField" name="parallel_diameter">
+       <property name="text">
+        <string>8 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="meshCoverAlongLabel">
+       <property name="text">
+        <string>Mesh Cover Along</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="Gui::PrefComboBox" name="meshCoverAlongValue"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="parallel_r_sideCoverLabel">
+       <property name="text">
+        <string>Right Cover</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="Gui::InputField" name="parallel_r_sideCover">
+       <property name="text">
+        <string>20 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="parallel_bentLengthLabel">
+       <property name="text">
+        <string>Anchor Length</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="Gui::InputField" name="parallel_bentLength">
+       <property name="text">
+        <string>50 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="parallel_bentAngleLabel">
+       <property name="text">
+        <string>Bent Angle</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="Gui::PrefSpinBox" name="parallel_rounding">
+       <property name="value">
+        <number>2</number>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="Gui::PrefSpinBox" name="parallel_bentAngle">
+       <property name="maximum">
+        <number>179</number>
+       </property>
+       <property name="value">
+        <number>135</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="parallel_rebars_typeLabel">
+       <property name="minimumSize">
+        <size>
+         <width>127</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Rebar Type</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="Gui::PrefComboBox" name="parallel_rebars_type">
+       <property name="prefEntry" stdset="0">
+        <cstring></cstring>
+       </property>
+       <property name="prefPath" stdset="0">
+        <cstring></cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="parallel_l_shapeHookOrientationLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>127</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Hook Orientation</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="Gui::PrefComboBox" name="parallel_l_shapeHookOrientation">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="16" column="0" colspan="2">
+      <widget class="QCheckBox" name="parallel_distribution_rebar_check">
+       <property name="text">
+        <string>Add Distribution Rebars</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="parallel_rearCoverLabel">
+       <property name="text">
+        <string>Rear Cover</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="Gui::InputField" name="parallel_rearCover">
+       <property name="text">
+        <string>20 mm</string>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::PrefRadioButton</class>
+   <extends>QRadioButton</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::InputField</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/InputField.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefComboBox</class>
+   <extends>QComboBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>meshCoverAlongValue</tabstop>
+  <tabstop>parallel_frontCover</tabstop>
+  <tabstop>parallel_l_sideCover</tabstop>
+  <tabstop>parallel_r_sideCover</tabstop>
+  <tabstop>parallel_bottomCover</tabstop>
+  <tabstop>parallel_topCover</tabstop>
+  <tabstop>parallel_bentLength</tabstop>
+  <tabstop>parallel_bentAngle</tabstop>
+  <tabstop>parallel_rounding</tabstop>
+  <tabstop>parallel_diameter</tabstop>
+  <tabstop>parallel_amount_radio</tabstop>
+  <tabstop>parallel_spacing_radio</tabstop>
+  <tabstop>parallel_amount</tabstop>
+  <tabstop>parallel_spacing</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
