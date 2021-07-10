@@ -61,27 +61,10 @@ class _SlabReinforcementDialog:
         )
         self.form.rebars_stackedWidget.addWidget(self.parallel_rebars_widget)
 
-        self.parallel_distribution_rebars_widget = FreeCADGui.PySideUic.loadUi(
-            str(
-                Path(__file__).parent.absolute()
-                / "ParallelDistributionRebars.ui"
-            )
-        )
-        self.form.rebars_stackedWidget.addWidget(
-            self.parallel_distribution_rebars_widget
-        )
-
         self.cross_rebars_widget = FreeCADGui.PySideUic.loadUi(
             str(Path(__file__).parent.absolute() / "CrossRebars.ui")
         )
         self.form.rebars_stackedWidget.addWidget(self.cross_rebars_widget)
-
-        self.cross_distribution_rebars_widget = FreeCADGui.PySideUic.loadUi(
-            str(Path(__file__).parent.absolute() / "CrossDistributionRebars.ui")
-        )
-        self.form.rebars_stackedWidget.addWidget(
-            self.cross_distribution_rebars_widget
-        )
 
         # Add dropdown menu items
         self.addDropdownMenuItems()
@@ -149,29 +132,19 @@ class _SlabReinforcementDialog:
         self.cross_rebars_widget.cross_distribution_rebar_check.setChecked(
             False
         )
-        self.cross_distribution_rebars_widget.cross_distribution_diameter.setText(
-            "8 mm"
-        )
-        self.cross_distribution_rebars_widget.cross_distributionAmountRadio.setChecked(
-            True
-        )
-        self.cross_distribution_rebars_widget.cross_distribution_amount.setValue(
-            3
-        )
-        self.cross_distribution_rebars_widget.cross_distribution_spacing.setText(
-            "20 mm"
-        )
+        self.cross_rebars_widget.cross_distribution_diameter.setText("8 mm")
+        self.cross_rebars_widget.cross_distributionAmountRadio.setChecked(True)
+        self.cross_rebars_widget.cross_distribution_amount.setValue(3)
+        self.cross_rebars_widget.cross_distribution_spacing.setText("20 mm")
 
-        self.parallel_distribution_rebars_widget.parallel_distribution_diameter.setText(
+        self.parallel_rebars_widget.parallel_distribution_diameter.setText(
             "8 mm"
         )
-        self.parallel_distribution_rebars_widget.parallel_distributionAmountRadio.setChecked(
+        self.parallel_rebars_widget.parallel_distributionAmountRadio.setChecked(
             True
         )
-        self.parallel_distribution_rebars_widget.parallel_distribution_amount.setValue(
-            3
-        )
-        self.parallel_distribution_rebars_widget.parallel_distribution_spacing.setText(
+        self.parallel_rebars_widget.parallel_distribution_amount.setValue(3)
+        self.parallel_rebars_widget.parallel_distribution_spacing.setText(
             "20 mm"
         )
 
@@ -221,16 +194,16 @@ class _SlabReinforcementDialog:
         self.cross_rebars_widget.cross_spacing_radio.clicked.connect(
             self.crossSpacingRadioClicked
         )
-        self.parallel_distribution_rebars_widget.parallel_distributionAmountRadio.clicked.connect(
+        self.parallel_rebars_widget.parallel_distributionAmountRadio.clicked.connect(
             self.parallelDistributionAmountRadio
         )
-        self.parallel_distribution_rebars_widget.parallel_distributionSpacingRadio.clicked.connect(
+        self.parallel_rebars_widget.parallel_distributionSpacingRadio.clicked.connect(
             self.parallelDistributionSpacingRadio
         )
-        self.cross_distribution_rebars_widget.cross_distributionAmountRadio.clicked.connect(
+        self.cross_rebars_widget.cross_distributionAmountRadio.clicked.connect(
             self.crossDistributionAmountRadio
         )
-        self.cross_distribution_rebars_widget.cross_distributionSpacingRadio.clicked.connect(
+        self.cross_rebars_widget.cross_distributionSpacingRadio.clicked.connect(
             self.crossDistributionSpacingRadio
         )
         self.cross_rebars_widget.cross_distribution_rebar_check.clicked.connect(
@@ -269,7 +242,19 @@ class _SlabReinforcementDialog:
         self.parallel_rebars_widget.parallel_bentLengthLabel.hide()
         self.parallel_rebars_widget.parallel_bentAngleLabel.hide()
         self.parallel_rebars_widget.parallel_roundingLabel.hide()
-        self.parallel_distribution_rebars_widget.setEnabled(False)
+
+        self.parallel_rebars_widget.parallel_distribution_diameterLabel.hide()
+        self.parallel_rebars_widget.parallel_distribution_amountLabel.hide()
+        self.parallel_rebars_widget.parallel_distribution_spacingLabel.hide()
+        self.parallel_rebars_widget.distributionValuesHeading.hide()
+        self.parallel_rebars_widget.parallel_distribution_diameter.hide()
+        self.parallel_rebars_widget.parallel_distributionAmountRadio.hide()
+        self.parallel_rebars_widget.parallel_distributionSpacingRadio.hide()
+        self.parallel_rebars_widget.parallel_distribution_amount.hide()
+        self.parallel_rebars_widget.parallel_distribution_spacing.hide()
+        self.parallel_rebars_widget.parallel_distribution_rebar_check.setChecked(
+            False
+        )
         if self.parallel_rebars_type == "StraightRebar":
             pass
         elif self.parallel_rebars_type == "LShapeRebar":
@@ -290,10 +275,6 @@ class _SlabReinforcementDialog:
             self.parallel_rebars_widget.parallel_bentLengthLabel.show()
             self.parallel_rebars_widget.parallel_bentAngleLabel.show()
             self.parallel_rebars_widget.parallel_roundingLabel.show()
-            if (
-                self.parallel_rebars_widget.parallel_distribution_rebar_check.isChecked()
-            ):
-                self.parallel_distribution_rebars_widget.setEnabled(True)
 
     def changeCrossRebarType(self):
         self.cross_rebars_type = (
@@ -309,7 +290,19 @@ class _SlabReinforcementDialog:
         self.cross_rebars_widget.cross_bentLengthLabel.hide()
         self.cross_rebars_widget.cross_bentAngleLabel.hide()
         self.cross_rebars_widget.cross_roundingLabel.hide()
-        self.cross_distribution_rebars_widget.setEnabled(False)
+
+        self.cross_rebars_widget.cross_distribution_diameterLabel.hide()
+        self.cross_rebars_widget.cross_distribution_amountLabel.hide()
+        self.cross_rebars_widget.cross_distribution_spacingLabel.hide()
+        self.cross_rebars_widget.distributionValuesHeading.hide()
+        self.cross_rebars_widget.cross_distribution_diameter.hide()
+        self.cross_rebars_widget.cross_distributionAmountRadio.hide()
+        self.cross_rebars_widget.cross_distributionSpacingRadio.hide()
+        self.cross_rebars_widget.cross_distribution_amount.hide()
+        self.cross_rebars_widget.cross_distribution_spacing.hide()
+        self.cross_rebars_widget.cross_distribution_rebar_check.setChecked(
+            False
+        )
         if self.cross_rebars_type == "StraightRebar":
             pass
         elif self.cross_rebars_type == "LShapeRebar":
@@ -330,10 +323,6 @@ class _SlabReinforcementDialog:
             self.cross_rebars_widget.cross_bentLengthLabel.show()
             self.cross_rebars_widget.cross_bentAngleLabel.show()
             self.cross_rebars_widget.cross_roundingLabel.show()
-            if (
-                self.cross_rebars_widget.cross_distribution_rebar_check.isChecked()
-            ):
-                self.cross_distribution_rebars_widget.setEnabled(True)
 
     def parallelAmountRadioClicked(self):
         self.parallel_rebars_widget.parallel_spacing.setEnabled(False)
@@ -352,50 +341,74 @@ class _SlabReinforcementDialog:
         self.cross_rebars_widget.cross_amount.setEnabled(False)
 
     def parallelDistributionAmountRadio(self):
-        self.parallel_distribution_rebars_widget.parallel_distribution_amount.setEnabled(
+        self.parallel_rebars_widget.parallel_distribution_amount.setEnabled(
             True
         )
-        self.parallel_distribution_rebars_widget.parallel_distribution_spacing.setEnabled(
+        self.parallel_rebars_widget.parallel_distribution_spacing.setEnabled(
             False
         )
 
     def parallelDistributionSpacingRadio(self):
-        self.parallel_distribution_rebars_widget.parallel_distribution_amount.setEnabled(
+        self.parallel_rebars_widget.parallel_distribution_amount.setEnabled(
             False
         )
-        self.parallel_distribution_rebars_widget.parallel_distribution_spacing.setEnabled(
+        self.parallel_rebars_widget.parallel_distribution_spacing.setEnabled(
             True
         )
 
     def crossDistributionAmountRadio(self):
-        self.cross_distribution_rebars_widget.cross_distribution_amount.setEnabled(
-            True
-        )
-        self.cross_distribution_rebars_widget.cross_distribution_spacing.setEnabled(
-            False
-        )
+        self.cross_rebars_widget.cross_distribution_amount.setEnabled(True)
+        self.cross_rebars_widget.cross_distribution_spacing.setEnabled(False)
 
     def crossDistributionSpacingRadio(self):
-        self.cross_distribution_rebars_widget.cross_distribution_amount.setEnabled(
-            False
-        )
-        self.cross_distribution_rebars_widget.cross_distribution_spacing.setEnabled(
-            True
-        )
+        self.cross_rebars_widget.cross_distribution_amount.setEnabled(False)
+        self.cross_rebars_widget.cross_distribution_spacing.setEnabled(True)
 
     def parallelDistributionRebarCheckClicked(self):
         if (
             self.parallel_rebars_widget.parallel_distribution_rebar_check.isChecked()
         ):
-            self.parallel_distribution_rebars_widget.setEnabled(True)
+            self.parallel_rebars_widget.distributionValuesHeading.show()
+            self.parallel_rebars_widget.parallel_distribution_diameterLabel.show()
+            self.parallel_rebars_widget.parallel_distribution_amountLabel.show()
+            self.parallel_rebars_widget.parallel_distribution_spacingLabel.show()
+            self.parallel_rebars_widget.parallel_distribution_diameter.show()
+            self.parallel_rebars_widget.parallel_distributionAmountRadio.show()
+            self.parallel_rebars_widget.parallel_distributionSpacingRadio.show()
+            self.parallel_rebars_widget.parallel_distribution_amount.show()
+            self.parallel_rebars_widget.parallel_distribution_spacing.show()
         else:
-            self.parallel_distribution_rebars_widget.setEnabled(False)
+            self.parallel_rebars_widget.parallel_distribution_diameterLabel.hide()
+            self.parallel_rebars_widget.parallel_distribution_amountLabel.hide()
+            self.parallel_rebars_widget.parallel_distribution_spacingLabel.hide()
+            self.parallel_rebars_widget.distributionValuesHeading.hide()
+            self.parallel_rebars_widget.parallel_distribution_diameter.hide()
+            self.parallel_rebars_widget.parallel_distributionAmountRadio.hide()
+            self.parallel_rebars_widget.parallel_distributionSpacingRadio.hide()
+            self.parallel_rebars_widget.parallel_distribution_amount.hide()
+            self.parallel_rebars_widget.parallel_distribution_spacing.hide()
 
     def crossDistributionRebarCheckClicked(self):
         if self.cross_rebars_widget.cross_distribution_rebar_check.isChecked():
-            self.cross_distribution_rebars_widget.setEnabled(True)
+            self.cross_rebars_widget.cross_distribution_diameterLabel.show()
+            self.cross_rebars_widget.cross_distribution_amountLabel.show()
+            self.cross_rebars_widget.cross_distribution_spacingLabel.show()
+            self.cross_rebars_widget.distributionValuesHeading.show()
+            self.cross_rebars_widget.cross_distribution_diameter.show()
+            self.cross_rebars_widget.cross_distributionAmountRadio.show()
+            self.cross_rebars_widget.cross_distributionSpacingRadio.show()
+            self.cross_rebars_widget.cross_distribution_amount.show()
+            self.cross_rebars_widget.cross_distribution_spacing.show()
         else:
-            self.cross_distribution_rebars_widget.setEnabled(False)
+            self.cross_rebars_widget.cross_distribution_diameterLabel.hide()
+            self.cross_rebars_widget.cross_distribution_amountLabel.hide()
+            self.cross_rebars_widget.cross_distribution_spacingLabel.hide()
+            self.cross_rebars_widget.distributionValuesHeading.hide()
+            self.cross_rebars_widget.cross_distribution_diameter.hide()
+            self.cross_rebars_widget.cross_distributionAmountRadio.hide()
+            self.cross_rebars_widget.cross_distributionSpacingRadio.hide()
+            self.cross_rebars_widget.cross_distribution_amount.hide()
+            self.cross_rebars_widget.cross_distribution_spacing.hide()
 
     def nextButtonClicked(self):
         if self.form.next_button.text() == "Finish":
@@ -499,21 +512,21 @@ class _SlabReinforcementDialog:
         )
         # if self.parallel_distribution_rebars_check:
         self.parallel_distribution_rebars_diameter = (
-            self.parallel_distribution_rebars_widget.parallel_distribution_diameter.text()
+            self.parallel_rebars_widget.parallel_distribution_diameter.text()
         )
         self.parallel_distribution_rebars_diameter = FreeCAD.Units.Quantity(
             self.parallel_distribution_rebars_diameter
         ).Value
         self.parallel_distribution_rebars_amount_spacing_check = (
-            self.parallel_distribution_rebars_widget.parallel_distributionAmountRadio.isChecked()
+            self.parallel_rebars_widget.parallel_distributionAmountRadio.isChecked()
         )
         if self.parallel_distribution_rebars_amount_spacing_check:
             self.parallel_distribution_rebars_amount_spacing_value = (
-                self.parallel_distribution_rebars_widget.parallel_distribution_amount.value()
+                self.parallel_rebars_widget.parallel_distribution_amount.value()
             )
         else:
             self.parallel_distribution_rebars_amount_spacing_value = (
-                self.parallel_distribution_rebars_widget.parallel_distribution_spacing.text()
+                self.parallel_rebars_widget.parallel_distribution_spacing.text()
             )
             self.parallel_distribution_rebars_amount_spacing_value = (
                 FreeCAD.Units.Quantity(
@@ -527,21 +540,21 @@ class _SlabReinforcementDialog:
         )
         # if self.cross_distribution_rebars_check:
         self.cross_distribution_rebars_diameter = (
-            self.cross_distribution_rebars_widget.cross_distribution_diameter.text()
+            self.cross_rebars_widget.cross_distribution_diameter.text()
         )
         self.cross_distribution_rebars_diameter = FreeCAD.Units.Quantity(
             self.cross_distribution_rebars_diameter
         ).Value
         self.cross_distribution_rebars_amount_spacing_check = (
-            self.cross_distribution_rebars_widget.cross_distributionAmountRadio.isChecked()
+            self.cross_rebars_widget.cross_distributionAmountRadio.isChecked()
         )
         if self.cross_distribution_rebars_amount_spacing_check:
             self.cross_distribution_rebars_amount_spacing_value = (
-                self.cross_distribution_rebars_widget.cross_distribution_amount.value()
+                self.cross_rebars_widget.cross_distribution_amount.value()
             )
         else:
             self.cross_distribution_rebars_amount_spacing_value = (
-                self.cross_distribution_rebars_widget.cross_distribution_spacing.text()
+                self.cross_rebars_widget.cross_distribution_spacing.text()
             )
             self.cross_distribution_rebars_amount_spacing_value = (
                 FreeCAD.Units.Quantity(
