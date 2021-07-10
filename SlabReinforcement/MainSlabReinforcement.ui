@@ -101,17 +101,7 @@
        </item>
        <item>
         <property name="text">
-         <string>Parallel Distribution Rebars</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
          <string>Cross Rebars</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Cross Distribution Rebars</string>
         </property>
        </item>
       </widget>
@@ -176,7 +166,7 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>150</width>
+           <width>230</width>
            <height>500</height>
           </size>
          </property>
