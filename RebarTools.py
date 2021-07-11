@@ -286,7 +286,7 @@ class SlabReinforcementTool:
     def GetResources():
         return {
             "Pixmap": str(
-                Path(__file__).parent / "icons" / "dropdown_list" / "Column.svg"
+                Path(__file__).parent / "icons" / "SlabReinforcement.png"
             ),
             "MenuText": QT_TRANSLATE_NOOP(
                 "Reinforcement_SlabRebars", "Slab Reinforcement"
