@@ -27,16 +27,7 @@ __url__ = "https://www.freecadweb.org"
 
 import FreeCAD
 from typing import Union, Tuple, Optional
-from Rebarfunc import (
-    getFacenamesforBeamReinforcement,
-    getParametersOfFace,
-    get_rebar_amount_from_spacing,
-)
-from StraightRebar import makeStraightRebar
-from UShapeRebar import makeUShapeRebar
-from BentShapeRebar import makeBentShapeRebar
-from LShapeRebar import makeLShapeRebar
-from RebarData import RebarTypes
+from SlabReinforcement.SlabReinforcementObject import SlabReinforcementGroup
 
 
 def makeSlabReinforcement(
@@ -202,554 +193,91 @@ def makeSlabReinforcement(
         selected face of structure.
         Default is None
     """
-    cross_facename = getFacenamesforBeamReinforcement(facename, structure)[0]
-    if parallel_rebar_type == RebarTypes.straight:
-        parallel_rebars = makeStraightRebar(
-            parallel_front_cover,
-            (
-                f"{mesh_cover_along} Side",
-                parallel_top_cover
-                if mesh_cover_along == "Top"
-                else parallel_bottom_cover,
-            ),
-            parallel_right_cover,
-            parallel_left_cover,
-            parallel_diameter,
-            parallel_amount_spacing_check,
-            parallel_amount_spacing_value,
-            "Horizontal",
-            structure,
-            facename,
+    # create instance of SlabReinforcementGroup
+    slabReinforcementGroup = SlabReinforcementGroup().Object
+    slabReinforcementGroup.MeshCoverAlong = mesh_cover_along
+    slabReinforcementGroup.Structure = structure
+    slabReinforcementGroup.Facename = facename
+    slabReinforcementGroup.ParallelRebarType = parallel_rebar_type
+    slabReinforcementGroup.ParallelFrontCover = parallel_front_cover
+    slabReinforcementGroup.ParallelRearCover = parallel_rear_cover
+    slabReinforcementGroup.ParallelLeftCover = parallel_left_cover
+    slabReinforcementGroup.ParallelRightCover = parallel_right_cover
+    slabReinforcementGroup.ParallelTopCover = parallel_top_cover
+    slabReinforcementGroup.ParallelBottomCover = parallel_bottom_cover
+    slabReinforcementGroup.ParallelDiameter = parallel_diameter
+    slabReinforcementGroup.ParallelAmountSpacingCheck = (
+        parallel_amount_spacing_check
+    )
+    if parallel_amount_spacing_check:
+        slabReinforcementGroup.ParallelAmountValue = (
+            parallel_amount_spacing_value
         )
-        parallel_rebars.OffsetEnd = parallel_rear_cover + parallel_diameter / 2
-
-    elif parallel_rebar_type == RebarTypes.ushape:
-        parallel_rebars = makeUShapeRebar(
-            parallel_front_cover,
-            parallel_bottom_cover,
-            parallel_right_cover,
-            parallel_left_cover,
-            parallel_diameter,
-            parallel_top_cover,
-            parallel_rounding,
-            parallel_amount_spacing_check,
-            parallel_amount_spacing_value,
-            mesh_cover_along,
-            structure,
-            facename,
+    else:
+        slabReinforcementGroup.ParallelSpacingValue = (
+            parallel_amount_spacing_value
         )
-        parallel_rebars.OffsetEnd = parallel_rear_cover + parallel_diameter / 2
-
-    elif parallel_rebar_type == RebarTypes.bentshape:
-        parallel_rebars = makeBentShapeRebar(
-            parallel_front_cover,
-            parallel_bottom_cover,
-            parallel_left_cover,
-            parallel_right_cover,
-            parallel_diameter,
-            parallel_top_cover,
-            parallel_bent_bar_length,
-            parallel_bent_bar_angle,
-            parallel_rounding,
-            parallel_amount_spacing_check,
-            parallel_amount_spacing_value,
-            mesh_cover_along,
-            structure,
-            facename,
+    slabReinforcementGroup.ParallelRounding = parallel_rounding
+    slabReinforcementGroup.ParallelBentBarLength = parallel_bent_bar_length
+    slabReinforcementGroup.ParallelBentBarAngle = parallel_bent_bar_angle
+    slabReinforcementGroup.ParallelLShapeHookOrintation = (
+        parallel_l_shape_hook_orintation
+    )
+    slabReinforcementGroup.ParallelDistributionRebarsCheck = (
+        parallel_distribution_rebars_check
+    )
+    slabReinforcementGroup.ParallelDistributionRebarsDiameter = (
+        parallel_distribution_rebars_diameter
+    )
+    slabReinforcementGroup.ParallelDistributionRebarsAmountSpacingCheck = (
+        parallel_distribution_rebars_amount_spacing_check
+    )
+    if parallel_distribution_rebars_amount_spacing_check:
+        slabReinforcementGroup.ParallelDistributionRebarsAmount = (
+            parallel_distribution_rebars_amount_spacing_value
         )
-        parallel_rebars.OffsetEnd = parallel_rear_cover + parallel_diameter / 2
-
-        if parallel_distribution_rebars_check:
-            parallel_face_length = getParametersOfFace(structure, facename)[0][
-                0
-            ]
-            cover_along_length = parallel_diameter + (
-                parallel_bottom_cover
-                if mesh_cover_along == "Top"
-                else parallel_top_cover
-            )
-            cover_along = (
-                "Top Side" if mesh_cover_along == "Bottom" else "Bottom Side"
-            )
-            parallel_distribution_rebars_amount = (
-                parallel_distribution_rebars_amount_spacing_value
-            )
-            if not parallel_distribution_rebars_amount_spacing_check:
-                # calculate distribution rebars amount based on length of
-                # arm of bent shape rebar and covers for distribution rebars
-                parallel_distribution_rebars_amount = (
-                    get_rebar_amount_from_spacing(
-                        parallel_bent_bar_length
-                        + parallel_left_cover
-                        - cross_front_cover
-                        - cross_diameter
-                        - parallel_diameter,
-                        parallel_distribution_rebars_diameter,
-                        parallel_distribution_rebars_amount_spacing_value,
-                    )
-                )
-            parallel_left_distribution_rebars = makeStraightRebar(
-                cross_front_cover + cross_diameter,
-                (
-                    cover_along,
-                    cover_along_length,
-                ),
-                cross_right_cover,
-                cross_left_cover,
-                parallel_distribution_rebars_diameter,
-                True,
-                parallel_distribution_rebars_amount,
-                "Horizontal",
-                structure,
-                cross_facename,
-            )
-            parallel_left_distribution_rebars.OffsetEnd = (
-                parallel_face_length
-                - parallel_bent_bar_length
-                - parallel_left_cover
-                + parallel_diameter
-                + parallel_distribution_rebars_diameter / 2
-            )
-            # calculate front cover for right side distribution rebars
-            parallel_right_front_cover = (
-                parallel_face_length
-                - parallel_right_cover
-                - parallel_bent_bar_length
-                + parallel_diameter
-            )
-            parallel_right_distribution_rebars = makeStraightRebar(
-                parallel_right_front_cover,
-                (
-                    cover_along,
-                    cover_along_length,
-                ),
-                cross_right_cover,
-                cross_left_cover,
-                parallel_distribution_rebars_diameter,
-                True,
-                parallel_distribution_rebars_amount,
-                "Horizontal",
-                structure,
-                cross_facename,
-            )
-            parallel_right_distribution_rebars.OffsetEnd = (
-                cross_rear_cover
-                + cross_diameter
-                + cross_distribution_rebars_diameter / 2
-            )
-
-    elif parallel_rebar_type == RebarTypes.lshape:
-
-        if parallel_l_shape_hook_orintation == "Alternate":
-            cross_face_length = getParametersOfFace(structure, cross_facename)[
-                0
-            ][0]
-            if not parallel_amount_spacing_check:
-                parallel_rebars_amount = get_rebar_amount_from_spacing(
-                    cross_face_length,
-                    parallel_diameter,
-                    parallel_amount_spacing_value,
-                )
-            else:
-                parallel_rebars_amount = parallel_amount_spacing_value
-
-            parallel_modified_amount_spacing_value_2 = (
-                parallel_rebars_amount // 2
-            )
-            parallel_modified_amount_spacing_value_1 = (
-                parallel_rebars_amount
-                - parallel_modified_amount_spacing_value_2
-            )
-            if parallel_rebars_amount == 1:
-                parallel_interval = parallel_front_cover
-            else:
-                parallel_interval = (
-                    cross_face_length
-                    - parallel_front_cover
-                    - parallel_rear_cover
-                ) / (parallel_rebars_amount - 1)
-            parallel_modified_front_cover = (
-                parallel_front_cover + parallel_interval
-            )
-            if parallel_modified_amount_spacing_value_1:
-                parallel_left_rebars = makeLShapeRebar(
-                    parallel_front_cover,
-                    parallel_bottom_cover,
-                    parallel_left_cover,
-                    parallel_right_cover,
-                    parallel_diameter,
-                    parallel_top_cover,
-                    parallel_rounding,
-                    True,
-                    parallel_modified_amount_spacing_value_1,
-                    f"{mesh_cover_along} Left",
-                    structure,
-                    facename,
-                )
-                parallel_left_rebars.OffsetEnd = (
-                    parallel_rear_cover
-                    + parallel_diameter / 2
-                    + (
-                        parallel_interval
-                        if parallel_modified_amount_spacing_value_1
-                        == parallel_modified_amount_spacing_value_2
-                        else 0
-                    )
-                )
-
-            if parallel_modified_amount_spacing_value_2:
-                parallel_right_rebars = makeLShapeRebar(
-                    parallel_modified_front_cover,
-                    parallel_bottom_cover,
-                    parallel_left_cover,
-                    parallel_right_cover,
-                    parallel_diameter,
-                    parallel_top_cover,
-                    parallel_rounding,
-                    True,
-                    parallel_modified_amount_spacing_value_2,
-                    f"{mesh_cover_along} Right",
-                    structure,
-                    facename,
-                )
-                parallel_right_rebars.OffsetEnd = (
-                    parallel_rear_cover
-                    + parallel_diameter / 2
-                    + (
-                        parallel_interval
-                        if (
-                            parallel_modified_amount_spacing_value_1
-                            - parallel_modified_amount_spacing_value_2
-                        )
-                        == 1
-                        else 0
-                    )
-                )
-        else:
-            parallel_rebars = makeLShapeRebar(
-                parallel_front_cover,
-                parallel_bottom_cover,
-                parallel_left_cover,
-                parallel_right_cover,
-                parallel_diameter,
-                parallel_top_cover,
-                parallel_rounding,
-                True,
-                parallel_amount_spacing_value,
-                f"{mesh_cover_along} {parallel_l_shape_hook_orintation}",
-                structure,
-                facename,
-            )
-            parallel_rebars.OffsetEnd = (
-                parallel_rear_cover + parallel_diameter / 2
-            )
-
-    if cross_rebar_type == RebarTypes.straight:
-        cross_rebars = makeStraightRebar(
-            cross_front_cover,
-            (
-                f"{mesh_cover_along} Side",
-                cross_top_cover - parallel_diameter
-                if mesh_cover_along == "Top"
-                else cross_bottom_cover + parallel_diameter,
-            ),
-            cross_right_cover,
-            cross_left_cover,
-            cross_diameter,
-            cross_amount_spacing_check,
-            cross_amount_spacing_value,
-            "Horizontal",
-            structure,
-            cross_facename,
+    else:
+        slabReinforcementGroup.ParallelDistributionRebarsSpacing = (
+            parallel_distribution_rebars_amount_spacing_value
         )
-        cross_rebars.OffsetEnd = cross_rear_cover + cross_diameter / 2
 
-    elif cross_rebar_type == RebarTypes.ushape:
-        cross_rebars = makeUShapeRebar(
-            cross_front_cover,
-            cross_bottom_cover
-            + (parallel_diameter if mesh_cover_along == "Bottom" else 0),
-            cross_right_cover,
-            cross_left_cover,
-            cross_diameter,
-            cross_top_cover
-            - (parallel_diameter if mesh_cover_along == "Top" else 0),
-            cross_rounding,
-            cross_amount_spacing_check,
-            cross_amount_spacing_value,
-            mesh_cover_along,
-            structure,
-            cross_facename,
+    slabReinforcementGroup.CrossRebarType = cross_rebar_type
+    slabReinforcementGroup.CrossFrontCover = cross_front_cover
+    slabReinforcementGroup.CrossLeftCover = cross_left_cover
+    slabReinforcementGroup.CrossRightCover = cross_right_cover
+    slabReinforcementGroup.CrossRearCover = cross_rear_cover
+    slabReinforcementGroup.CrossTopCover = cross_top_cover
+    slabReinforcementGroup.CrossBottomCover = cross_bottom_cover
+    slabReinforcementGroup.CrossDiameter = cross_diameter
+    slabReinforcementGroup.CrossAmountSpacingCheck = cross_amount_spacing_check
+    if cross_amount_spacing_check:
+        slabReinforcementGroup.CrossAmountValue = cross_amount_spacing_value
+    else:
+        slabReinforcementGroup.CrossSpacingValue = cross_amount_spacing_value
+    slabReinforcementGroup.CrossRounding = cross_rounding
+    slabReinforcementGroup.CrossBentBarLength = cross_bent_bar_length
+    slabReinforcementGroup.CrossBentBarAngle = cross_bent_bar_angle
+    slabReinforcementGroup.CrossLShapeHookOrintation = (
+        cross_l_shape_hook_orintation
+    )
+    slabReinforcementGroup.CrossDistributionRebarsCheck = (
+        cross_distribution_rebars_check
+    )
+    slabReinforcementGroup.CrossDistributionRebarsDiameter = (
+        cross_distribution_rebars_diameter
+    )
+    slabReinforcementGroup.CrossDistributionRebarsAmountSpacingCheck = (
+        cross_distribution_rebars_amount_spacing_check
+    )
+    slabReinforcementGroup.IsMakeOrEditRequired = True
+    if cross_distribution_rebars_amount_spacing_check:
+        slabReinforcementGroup.CrossDistributionRebarsAmount = (
+            cross_distribution_rebars_amount_spacing_value
         )
-        cross_rebars.OffsetEnd = cross_rear_cover + cross_diameter / 2
-
-    elif cross_rebar_type == RebarTypes.bentshape:
-        cross_bottom_cover = cross_bottom_cover + (
-            parallel_diameter if mesh_cover_along == "Bottom" else 0
+    else:
+        slabReinforcementGroup.CrossDistributionRebarsSpacing = (
+            cross_distribution_rebars_amount_spacing_value
         )
-        cross_top_cover = cross_top_cover - (
-            parallel_diameter if mesh_cover_along == "Top" else 0
-        )
-        # prevent overlaping of arms in BentShapeRebars
-        if parallel_rebar_type == RebarTypes.bentshape:
-            if mesh_cover_along == "Bottom":
-                required_rebar_axises_sepration = cross_diameter
-                if (
-                    cross_distribution_rebars_check
-                    and cross_top_cover < parallel_top_cover
-                ):
-                    required_rebar_axises_sepration = (
-                        required_rebar_axises_sepration
-                        + cross_distribution_rebars_diameter
-                    )
-                elif parallel_distribution_rebars_check:
-                    required_rebar_axises_sepration = (
-                        required_rebar_axises_sepration
-                        + parallel_distribution_rebars_diameter
-                    )
-                cross_top_cover = set_minimum_seperation_distance(
-                    cross_top_cover,
-                    parallel_top_cover,
-                    required_rebar_axises_sepration,
-                )
-            else:
-                required_rebar_axises_sepration = cross_diameter
-                if (
-                    cross_distribution_rebars_check
-                    and cross_bottom_cover < parallel_bottom_cover
-                ):
-                    required_rebar_axises_sepration = (
-                        required_rebar_axises_sepration
-                        + cross_distribution_rebars_diameter
-                    )
-                elif parallel_distribution_rebars_check:
-                    required_rebar_axises_sepration = (
-                        required_rebar_axises_sepration
-                        + parallel_distribution_rebars_diameter
-                    )
-                cross_bottom_cover = set_minimum_seperation_distance(
-                    cross_bottom_cover,
-                    parallel_bottom_cover,
-                    required_rebar_axises_sepration,
-                )
-
-        cross_rebars = makeBentShapeRebar(
-            cross_front_cover,
-            cross_bottom_cover,
-            cross_left_cover,
-            cross_right_cover,
-            cross_diameter,
-            cross_top_cover,
-            cross_bent_bar_length,
-            cross_bent_bar_angle,
-            cross_rounding,
-            cross_amount_spacing_check,
-            cross_amount_spacing_value,
-            mesh_cover_along,
-            structure,
-            cross_facename,
-        )
-        cross_rebars.OffsetEnd = cross_rear_cover + cross_diameter / 2
-
-        if cross_distribution_rebars_check:
-            cross_face_length = getParametersOfFace(structure, cross_facename)[
-                0
-            ][0]
-            cover_along_length = cross_diameter + (
-                cross_bottom_cover
-                if mesh_cover_along == "Top"
-                else cross_top_cover
-            )
-            cover_along = (
-                "Top Side" if mesh_cover_along == "Bottom" else "Bottom Side"
-            )
-            cross_distribution_rebars_amount = (
-                cross_distribution_rebars_amount_spacing_value
-            )
-            if not cross_distribution_rebars_amount_spacing_check:
-                # calculate distribution rebars amount based on length of
-                # arm of bent shape rebar and covers for distribution rebars
-                cross_distribution_rebars_amount = (
-                    get_rebar_amount_from_spacing(
-                        cross_bent_bar_length
-                        + cross_left_cover
-                        - parallel_front_cover
-                        - parallel_diameter
-                        - cross_diameter,
-                        cross_distribution_rebars_diameter,
-                        cross_distribution_rebars_amount_spacing_value,
-                    )
-                )
-            cross_left_distribution_rebars = makeStraightRebar(
-                parallel_front_cover + parallel_diameter,
-                (
-                    cover_along,
-                    cover_along_length,
-                ),
-                parallel_right_cover,
-                parallel_left_cover,
-                cross_distribution_rebars_diameter,
-                True,
-                cross_distribution_rebars_amount,
-                "Horizontal",
-                structure,
-                facename,
-            )
-            cross_left_distribution_rebars.OffsetEnd = (
-                cross_face_length
-                - cross_bent_bar_length
-                - cross_left_cover
-                + cross_diameter
-                + cross_distribution_rebars_diameter / 2
-            )
-            # calculate front cover for right side distribution rebars
-            cross_right_front_cover = (
-                cross_face_length
-                - cross_right_cover
-                - cross_bent_bar_length
-                + cross_diameter
-            )
-            cross_right_distribution_rebars = makeStraightRebar(
-                cross_right_front_cover,
-                (
-                    cover_along,
-                    cover_along_length,
-                ),
-                parallel_right_cover,
-                parallel_left_cover,
-                cross_distribution_rebars_diameter,
-                True,
-                cross_distribution_rebars_amount,
-                "Horizontal",
-                structure,
-                facename,
-            )
-            cross_right_distribution_rebars.OffsetEnd = (
-                parallel_rear_cover
-                + parallel_diameter
-                + cross_distribution_rebars_diameter / 2
-            )
-
-    elif cross_rebar_type == RebarTypes.lshape:
-        if cross_l_shape_hook_orintation == "Alternate":
-            parallel_face_length = getParametersOfFace(structure, facename)[0][
-                0
-            ]
-            if not cross_amount_spacing_check:
-                cross_rebars_amount = get_rebar_amount_from_spacing(
-                    parallel_face_length,
-                    cross_diameter,
-                    cross_amount_spacing_value,
-                )
-            else:
-                cross_rebars_amount = cross_amount_spacing_value
-            cross_modified_amount_spacing_value_2 = cross_rebars_amount // 2
-            cross_modified_amount_spacing_value_1 = (
-                cross_rebars_amount - cross_modified_amount_spacing_value_2
-            )
-            if cross_rebars_amount == 1:
-                cross_interval = cross_front_cover
-            else:
-                cross_interval = (
-                    parallel_face_length - cross_front_cover - cross_rear_cover
-                ) / (cross_rebars_amount - 1)
-            cross_modified_front_cover = cross_front_cover + cross_interval
-
-            if cross_modified_amount_spacing_value_1:
-                cross_left_rebars = makeLShapeRebar(
-                    cross_front_cover,
-                    cross_bottom_cover
-                    + (
-                        parallel_diameter if mesh_cover_along == "Bottom" else 0
-                    ),
-                    cross_left_cover,
-                    cross_right_cover,
-                    cross_diameter,
-                    cross_top_cover
-                    - (parallel_diameter if mesh_cover_along == "Top" else 0),
-                    cross_rounding,
-                    True,
-                    cross_modified_amount_spacing_value_1,
-                    f"{mesh_cover_along} Left",
-                    structure,
-                    cross_facename,
-                )
-                cross_left_rebars.OffsetEnd = (
-                    cross_rear_cover
-                    + cross_diameter / 2
-                    + (
-                        cross_interval
-                        if cross_modified_amount_spacing_value_1
-                        == cross_modified_amount_spacing_value_2
-                        else 0
-                    )
-                )
-
-            if cross_modified_amount_spacing_value_2:
-                cross_right_rebars = makeLShapeRebar(
-                    cross_modified_front_cover,
-                    cross_bottom_cover
-                    + (
-                        parallel_diameter if mesh_cover_along == "Bottom" else 0
-                    ),
-                    cross_left_cover,
-                    cross_right_cover,
-                    cross_diameter,
-                    cross_top_cover
-                    - (parallel_diameter if mesh_cover_along == "Top" else 0),
-                    cross_rounding,
-                    True,
-                    cross_modified_amount_spacing_value_2,
-                    f"{mesh_cover_along} Right",
-                    structure,
-                    cross_facename,
-                )
-                cross_right_rebars.OffsetEnd = (
-                    cross_rear_cover
-                    + cross_diameter / 2
-                    + (
-                        cross_interval
-                        if (
-                            cross_modified_amount_spacing_value_1
-                            - cross_modified_amount_spacing_value_2
-                        )
-                        == 1
-                        else 0
-                    )
-                )
-        else:
-            cross_rebars = makeLShapeRebar(
-                cross_front_cover,
-                cross_bottom_cover
-                + (parallel_diameter if mesh_cover_along == "Bottom" else 0),
-                cross_left_cover,
-                cross_right_cover,
-                cross_diameter,
-                cross_top_cover
-                - (parallel_diameter if mesh_cover_along == "Top" else 0),
-                cross_rounding,
-                True,
-                cross_amount_spacing_value,
-                f"{mesh_cover_along} {cross_l_shape_hook_orintation}",
-                structure,
-                cross_facename,
-            )
-            cross_rebars.OffsetEnd = cross_rear_cover + cross_diameter / 2
-
     FreeCAD.ActiveDocument.recompute()
 
-
-def set_minimum_seperation_distance(
-    relative_distance, absolute_distance, min_seperation_distance
-):
-    """
-    Get new relative distance having min_seperation_distance from
-    absolute_distance
-    """
-    sepration_distance = relative_distance - absolute_distance
-    if abs(sepration_distance) < min_seperation_distance:
-        if sepration_distance < 0:
-            relative_distance = absolute_distance - min_seperation_distance
-        else:
-            relative_distance = absolute_distance + min_seperation_distance
-    return relative_distance
+    return slabReinforcementGroup
