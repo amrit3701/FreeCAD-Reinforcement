@@ -1970,3 +1970,23 @@ class SlabReinforcementGroup:
 
     def __setstate__(self, state):
         return None
+
+
+class _SlabReinforcementViewProviderGroup:
+    """A View Provider for the Rebar Group object."""
+
+    def __init__(self, vobj):
+        vobj.Proxy = self
+        self.Object = vobj.Object
+
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self, state):
+        return None
+
+    def doubleClicked(self, vobj):
+        """Handle double click on Slab REinforcement object"""
+        from SlabReinforcement import MainSlabReinforcement
+
+        MainSlabReinforcement.editDialog(vobj)

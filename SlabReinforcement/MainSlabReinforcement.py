@@ -34,16 +34,22 @@ import FreeCADGui
 from Rebarfunc import check_selected_face
 from SlabReinforcement.SlabReinforcement import (
     makeSlabReinforcement,
+    editSlabReinforcement,
 )
 
 
 class _SlabReinforcementDialog:
-    def __init__(self):
+    def __init__(self, SlabReinforcementGroup=None):
         """This function set initial data in Slab Reinforcement dialog box."""
         # Load ui from file MainSlabReinforcement.ui
-        selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
-        self.SelectedObj = selected_obj.Object
-        self.FaceName = selected_obj.SubElementNames[0]
+        if not SlabReinforcementGroup:
+            selected_obj = FreeCADGui.Selection.getSelectionEx()[0]
+            self.SelectedObj = selected_obj.Object
+            self.FaceName = selected_obj.SubElementNames[0]
+        else:
+            self.SelectedObj = SlabReinforcementGroup.Structure
+            self.FaceName = SlabReinforcementGroup.Facename
+
         self.form = FreeCADGui.PySideUic.loadUi(
             str(Path(__file__).with_suffix(".ui").absolute())
         )
@@ -52,6 +58,7 @@ class _SlabReinforcementDialog:
                 "RebarWorkbench", "Slab Reinforcement", None
             )
         )
+        self.SlabReinforcementGroup = SlabReinforcementGroup
 
     def setupUi(self):
         """This function is used to add components to ui."""
@@ -218,9 +225,15 @@ class _SlabReinforcementDialog:
         self.form.standardButtonBox.clicked.connect(self.clicked)
 
     def reset(self):
-        self.setDefaultValues()
+        """Reset fields values"""
+        if not self.SlabReinforcementGroup:
+            self.setDefaultValues()
+        else:
+            setParallelRebarsData(self, self.SlabReinforcementGroup)
+            setCrossRebarsData(self, self.SlabReinforcementGroup)
 
     def changeRebarsListWidget(self, index):
+        """Handle change in rebar list widget"""
         max_index = self.form.rebars_listWidget.count() - 1
         if index == max_index:
             self.form.next_button.setText("Finish")
@@ -229,6 +242,7 @@ class _SlabReinforcementDialog:
         self.form.rebars_stackedWidget.setCurrentIndex(index)
 
     def changeParallelRebarType(self):
+        """Handle change in parallel rebar type"""
         self.parallel_rebars_type = (
             self.parallel_rebars_widget.parallel_rebars_type.currentText()
         )
@@ -277,6 +291,7 @@ class _SlabReinforcementDialog:
             self.parallel_rebars_widget.parallel_roundingLabel.show()
 
     def changeCrossRebarType(self):
+        """Handle change in cross rebar type"""
         self.cross_rebars_type = (
             self.cross_rebars_widget.cross_rebars_type.currentText()
         )
@@ -325,22 +340,27 @@ class _SlabReinforcementDialog:
             self.cross_rebars_widget.cross_roundingLabel.show()
 
     def parallelAmountRadioClicked(self):
+        """Handle parallel rebar amount radio click event"""
         self.parallel_rebars_widget.parallel_spacing.setEnabled(False)
         self.parallel_rebars_widget.parallel_amount.setEnabled(True)
 
     def crossAmountRadioClicked(self):
+        """Handle cross rebar amount radio click event"""
         self.cross_rebars_widget.cross_spacing.setEnabled(False)
         self.cross_rebars_widget.cross_amount.setEnabled(True)
 
     def parallelSpacingRadioClicked(self):
+        """Handle parallel rebar spacing radio click event"""
         self.parallel_rebars_widget.parallel_spacing.setEnabled(True)
         self.parallel_rebars_widget.parallel_amount.setEnabled(False)
 
     def crossSpacingRadioClicked(self):
+        """Handle cross rebar spacing radio click event"""
         self.cross_rebars_widget.cross_spacing.setEnabled(True)
         self.cross_rebars_widget.cross_amount.setEnabled(False)
 
     def parallelDistributionAmountRadio(self):
+        """Handle parallel distribution rebar amount radio click event"""
         self.parallel_rebars_widget.parallel_distribution_amount.setEnabled(
             True
         )
@@ -349,6 +369,7 @@ class _SlabReinforcementDialog:
         )
 
     def parallelDistributionSpacingRadio(self):
+        """Handle parallel distribution rebar spacing radio click event"""
         self.parallel_rebars_widget.parallel_distribution_amount.setEnabled(
             False
         )
@@ -357,14 +378,17 @@ class _SlabReinforcementDialog:
         )
 
     def crossDistributionAmountRadio(self):
+        """Handle cross distribution rebar amount radio click event"""
         self.cross_rebars_widget.cross_distribution_amount.setEnabled(True)
         self.cross_rebars_widget.cross_distribution_spacing.setEnabled(False)
 
     def crossDistributionSpacingRadio(self):
+        """Handle cross distribution rebar spacing radio click event"""
         self.cross_rebars_widget.cross_distribution_amount.setEnabled(False)
         self.cross_rebars_widget.cross_distribution_spacing.setEnabled(True)
 
     def parallelDistributionRebarCheckClicked(self):
+        """Handle parallel distribution rebar checkbox click event"""
         if (
             self.parallel_rebars_widget.parallel_distribution_rebar_check.isChecked()
         ):
@@ -389,6 +413,7 @@ class _SlabReinforcementDialog:
             self.parallel_rebars_widget.parallel_distribution_spacing.hide()
 
     def crossDistributionRebarCheckClicked(self):
+        """Handle cross distribution rebar checkbox click event"""
         if self.cross_rebars_widget.cross_distribution_rebar_check.isChecked():
             self.cross_rebars_widget.cross_distribution_diameterLabel.show()
             self.cross_rebars_widget.cross_distribution_amountLabel.show()
@@ -411,6 +436,7 @@ class _SlabReinforcementDialog:
             self.cross_rebars_widget.cross_distribution_spacing.hide()
 
     def nextButtonClicked(self):
+        """Handle next button click event"""
         if self.form.next_button.text() == "Finish":
             self.accept()
         index = self.form.rebars_listWidget.currentRow()
@@ -420,6 +446,7 @@ class _SlabReinforcementDialog:
             self.form.rebars_listWidget.setCurrentRow(index)
 
     def backButtonClicked(self):
+        """Handle back button click event"""
         index = self.form.rebars_listWidget.currentRow()
         index -= 1
         if index >= 0:
@@ -447,59 +474,112 @@ class _SlabReinforcementDialog:
     def accept(self, button=None):
         """This function is executed when 'OK' button is clicked from UI. It
         execute a function to create slab reinforcement."""
-        self.getParallelReabrsData()
+        self.getParallelRebarsData()
         self.getParallelDistributionRebarsData()
-        self.getCrossReabrsData()
+        self.getCrossRebarsData()
         self.getCrossDistributionRebarsData()
-        makeSlabReinforcement(
-            parallel_rebar_type=self.parallel_rebars_type,
-            parallel_front_cover=self.parallel_front_cover,
-            parallel_rear_cover=self.parallel_rear_cover,
-            parallel_left_cover=self.parallel_left_cover,
-            parallel_right_cover=self.parallel_right_cover,
-            parallel_top_cover=self.parallel_top_cover,
-            parallel_bottom_cover=self.parallel_bottom_cover,
-            parallel_diameter=self.parallel_diameter,
-            parallel_amount_spacing_check=self.parallel_amount_spacing_check,
-            parallel_amount_spacing_value=self.parallel_amount_spacing_value,
-            cross_rebar_type=self.cross_rebars_type,
-            cross_front_cover=self.cross_front_cover,
-            cross_rear_cover=self.cross_rear_cover,
-            cross_left_cover=self.cross_left_cover,
-            cross_right_cover=self.cross_right_cover,
-            cross_top_cover=self.cross_top_cover,
-            cross_bottom_cover=self.cross_bottom_cover,
-            cross_diameter=self.cross_diameter,
-            cross_amount_spacing_check=self.cross_amount_spacing_check,
-            cross_amount_spacing_value=self.cross_amount_spacing_value,
-            cross_rounding=self.cross_rounding,
-            cross_bent_bar_length=self.cross_bent_bar_length,
-            cross_bent_bar_angle=self.cross_bent_bar_angle,
-            cross_l_shape_hook_orintation=self.cross_l_shape_hook_orintation,
-            cross_distribution_rebars_check=self.cross_distribution_rebars_check,
-            cross_distribution_rebars_diameter=self.cross_distribution_rebars_diameter,
-            cross_distribution_rebars_amount_spacing_check=(
-                self.cross_distribution_rebars_amount_spacing_check
-            ),
-            cross_distribution_rebars_amount_spacing_value=(
-                self.cross_distribution_rebars_amount_spacing_value
-            ),
-            parallel_rounding=self.parallel_rounding,
-            parallel_bent_bar_length=self.parallel_bent_bar_length,
-            parallel_bent_bar_angle=self.parallel_bent_bar_angle,
-            parallel_l_shape_hook_orintation=self.parallel_l_shape_hook_orintation,
-            parallel_distribution_rebars_check=self.parallel_distribution_rebars_check,
-            parallel_distribution_rebars_diameter=self.parallel_distribution_rebars_diameter,
-            parallel_distribution_rebars_amount_spacing_check=(
-                self.parallel_distribution_rebars_amount_spacing_check
-            ),
-            parallel_distribution_rebars_amount_spacing_value=(
-                self.parallel_distribution_rebars_amount_spacing_value
-            ),
-            mesh_cover_along=self.mesh_cover_along,
-            structure=self.SelectedObj,
-            facename=self.FaceName,
-        )
+        if not self.SlabReinforcementGroup:
+            SlabReinforcementGroup = makeSlabReinforcement(
+                parallel_rebar_type=self.parallel_rebars_type,
+                parallel_front_cover=self.parallel_front_cover,
+                parallel_rear_cover=self.parallel_rear_cover,
+                parallel_left_cover=self.parallel_left_cover,
+                parallel_right_cover=self.parallel_right_cover,
+                parallel_top_cover=self.parallel_top_cover,
+                parallel_bottom_cover=self.parallel_bottom_cover,
+                parallel_diameter=self.parallel_diameter,
+                parallel_amount_spacing_check=self.parallel_amount_spacing_check,
+                parallel_amount_spacing_value=self.parallel_amount_spacing_value,
+                cross_rebar_type=self.cross_rebars_type,
+                cross_front_cover=self.cross_front_cover,
+                cross_rear_cover=self.cross_rear_cover,
+                cross_left_cover=self.cross_left_cover,
+                cross_right_cover=self.cross_right_cover,
+                cross_top_cover=self.cross_top_cover,
+                cross_bottom_cover=self.cross_bottom_cover,
+                cross_diameter=self.cross_diameter,
+                cross_amount_spacing_check=self.cross_amount_spacing_check,
+                cross_amount_spacing_value=self.cross_amount_spacing_value,
+                cross_rounding=self.cross_rounding,
+                cross_bent_bar_length=self.cross_bent_bar_length,
+                cross_bent_bar_angle=self.cross_bent_bar_angle,
+                cross_l_shape_hook_orintation=self.cross_l_shape_hook_orintation,
+                cross_distribution_rebars_check=self.cross_distribution_rebars_check,
+                cross_distribution_rebars_diameter=self.cross_distribution_rebars_diameter,
+                cross_distribution_rebars_amount_spacing_check=(
+                    self.cross_distribution_rebars_amount_spacing_check
+                ),
+                cross_distribution_rebars_amount_spacing_value=(
+                    self.cross_distribution_rebars_amount_spacing_value
+                ),
+                parallel_rounding=self.parallel_rounding,
+                parallel_bent_bar_length=self.parallel_bent_bar_length,
+                parallel_bent_bar_angle=self.parallel_bent_bar_angle,
+                parallel_l_shape_hook_orintation=self.parallel_l_shape_hook_orintation,
+                parallel_distribution_rebars_check=self.parallel_distribution_rebars_check,
+                parallel_distribution_rebars_diameter=self.parallel_distribution_rebars_diameter,
+                parallel_distribution_rebars_amount_spacing_check=(
+                    self.parallel_distribution_rebars_amount_spacing_check
+                ),
+                parallel_distribution_rebars_amount_spacing_value=(
+                    self.parallel_distribution_rebars_amount_spacing_value
+                ),
+                mesh_cover_along=self.mesh_cover_along,
+                structure=self.SelectedObj,
+                facename=self.FaceName,
+            )
+        else:
+            SlabReinforcementGroup = editSlabReinforcement(
+                self.SlabReinforcementGroup,
+                parallel_rebar_type=self.parallel_rebars_type,
+                parallel_front_cover=self.parallel_front_cover,
+                parallel_rear_cover=self.parallel_rear_cover,
+                parallel_left_cover=self.parallel_left_cover,
+                parallel_right_cover=self.parallel_right_cover,
+                parallel_top_cover=self.parallel_top_cover,
+                parallel_bottom_cover=self.parallel_bottom_cover,
+                parallel_diameter=self.parallel_diameter,
+                parallel_amount_spacing_check=self.parallel_amount_spacing_check,
+                parallel_amount_spacing_value=self.parallel_amount_spacing_value,
+                cross_rebar_type=self.cross_rebars_type,
+                cross_front_cover=self.cross_front_cover,
+                cross_rear_cover=self.cross_rear_cover,
+                cross_left_cover=self.cross_left_cover,
+                cross_right_cover=self.cross_right_cover,
+                cross_top_cover=self.cross_top_cover,
+                cross_bottom_cover=self.cross_bottom_cover,
+                cross_diameter=self.cross_diameter,
+                cross_amount_spacing_check=self.cross_amount_spacing_check,
+                cross_amount_spacing_value=self.cross_amount_spacing_value,
+                cross_rounding=self.cross_rounding,
+                cross_bent_bar_length=self.cross_bent_bar_length,
+                cross_bent_bar_angle=self.cross_bent_bar_angle,
+                cross_l_shape_hook_orintation=self.cross_l_shape_hook_orintation,
+                cross_distribution_rebars_check=self.cross_distribution_rebars_check,
+                cross_distribution_rebars_diameter=self.cross_distribution_rebars_diameter,
+                cross_distribution_rebars_amount_spacing_check=(
+                    self.cross_distribution_rebars_amount_spacing_check
+                ),
+                cross_distribution_rebars_amount_spacing_value=(
+                    self.cross_distribution_rebars_amount_spacing_value
+                ),
+                parallel_rounding=self.parallel_rounding,
+                parallel_bent_bar_length=self.parallel_bent_bar_length,
+                parallel_bent_bar_angle=self.parallel_bent_bar_angle,
+                parallel_l_shape_hook_orintation=self.parallel_l_shape_hook_orintation,
+                parallel_distribution_rebars_check=self.parallel_distribution_rebars_check,
+                parallel_distribution_rebars_diameter=self.parallel_distribution_rebars_diameter,
+                parallel_distribution_rebars_amount_spacing_check=(
+                    self.parallel_distribution_rebars_amount_spacing_check
+                ),
+                parallel_distribution_rebars_amount_spacing_value=(
+                    self.parallel_distribution_rebars_amount_spacing_value
+                ),
+                mesh_cover_along=self.mesh_cover_along,
+                structure=self.SelectedObj,
+                facename=self.FaceName,
+            )
+        self.SlabReinforcementGroup = SlabReinforcementGroup
         if (
             self.form.standardButtonBox.buttonRole(button)
             != QtWidgets.QDialogButtonBox.ApplyRole
@@ -507,6 +587,7 @@ class _SlabReinforcementDialog:
             self.form.close()
 
     def getParallelDistributionRebarsData(self):
+        """Get parallel distribution rebars data"""
         self.parallel_distribution_rebars_check = (
             self.parallel_rebars_widget.parallel_distribution_rebar_check.isChecked()
         )
@@ -535,6 +616,7 @@ class _SlabReinforcementDialog:
             )
 
     def getCrossDistributionRebarsData(self):
+        """Get cross distribution rebars data"""
         self.cross_distribution_rebars_check = (
             self.cross_rebars_widget.cross_distribution_rebar_check.isChecked()
         )
@@ -562,7 +644,8 @@ class _SlabReinforcementDialog:
                 ).Value
             )
 
-    def getParallelReabrsData(self):
+    def getParallelRebarsData(self):
+        """Get parallel rebars data"""
         self.mesh_cover_along = (
             self.parallel_rebars_widget.meshCoverAlongValue.currentText()
         )
@@ -639,7 +722,8 @@ class _SlabReinforcementDialog:
             self.parallel_rebars_widget.parallel_l_shapeHookOrientation.currentText()
         )
 
-    def getCrossReabrsData(self):
+    def getCrossRebarsData(self):
+        """Get cross rebars data"""
         self.cross_front_cover = (
             self.cross_rebars_widget.cross_frontCover.text()
         )
@@ -707,6 +791,193 @@ class _SlabReinforcementDialog:
         self.cross_l_shape_hook_orintation = (
             self.cross_rebars_widget.cross_l_shapeHookOrientation.currentText()
         )
+
+
+def editDialog(vobj):
+    """Edit Slab Reinforcement"""
+    obj = _SlabReinforcementDialog(vobj.Object)
+    obj.setupUi()
+    setParallelRebarsData(obj, vobj.Object)
+    setCrossRebarsData(obj, vobj.Object)
+    obj.form.exec_()
+
+
+def setParallelRebarsData(obj, SlabReinforcementGroup):
+    """Set values for parallel rebars of slab reinforcement"""
+    if not SlabReinforcementGroup:
+        return
+    obj.parallel_rebars_widget.meshCoverAlongValue.setCurrentIndex(
+        obj.parallel_rebars_widget.meshCoverAlongValue.findText(
+            SlabReinforcementGroup.MeshCoverAlong
+        )
+    )
+    obj.parallel_rebars_widget.parallel_l_shapeHookOrientation.setCurrentIndex(
+        obj.parallel_rebars_widget.parallel_l_shapeHookOrientation.findText(
+            SlabReinforcementGroup.ParallelLShapeHookOrintation
+        )
+    )
+    obj.parallel_rebars_widget.parallel_rebars_type.setCurrentIndex(
+        obj.parallel_rebars_widget.parallel_rebars_type.findText(
+            SlabReinforcementGroup.ParallelRebarType
+        )
+    )
+    obj.changeParallelRebarType()
+    obj.parallel_rebars_widget.parallel_frontCover.setText(
+        SlabReinforcementGroup.ParallelFrontCover.UserString
+    )
+    obj.parallel_rebars_widget.parallel_l_sideCover.setText(
+        SlabReinforcementGroup.ParallelLeftCover.UserString
+    )
+    obj.parallel_rebars_widget.parallel_r_sideCover.setText(
+        SlabReinforcementGroup.ParallelRightCover.UserString
+    )
+    obj.parallel_rebars_widget.parallel_bottomCover.setText(
+        SlabReinforcementGroup.ParallelBottomCover.UserString
+    )
+    obj.parallel_rebars_widget.parallel_topCover.setText(
+        SlabReinforcementGroup.ParallelTopCover.UserString
+    )
+    obj.parallel_rebars_widget.parallel_rearCover.setText(
+        SlabReinforcementGroup.ParallelRearCover.UserString
+    )
+    obj.parallel_rebars_widget.parallel_bentLength.setText(
+        SlabReinforcementGroup.ParallelBentBarLength.UserString
+    )
+    obj.parallel_rebars_widget.parallel_bentAngle.setValue(
+        SlabReinforcementGroup.ParallelBentBarAngle
+    )
+    obj.parallel_rebars_widget.parallel_rounding.setValue(
+        SlabReinforcementGroup.ParallelRounding
+    )
+    obj.parallel_rebars_widget.parallel_diameter.setText(
+        SlabReinforcementGroup.ParallelDiameter.UserString
+    )
+    obj.parallel_rebars_widget.parallel_amount_radio.setChecked(
+        SlabReinforcementGroup.ParallelAmountSpacingCheck
+    )
+    if SlabReinforcementGroup.ParallelAmountSpacingCheck:
+        obj.parallelAmountRadioClicked()
+    else:
+        obj.parallelSpacingRadioClicked()
+    obj.parallel_rebars_widget.parallel_spacing_radio.setChecked(
+        not SlabReinforcementGroup.ParallelAmountSpacingCheck
+    )
+    obj.parallel_rebars_widget.parallel_amount.setValue(
+        SlabReinforcementGroup.ParallelAmountValue
+    )
+    obj.parallel_rebars_widget.parallel_spacing.setText(
+        SlabReinforcementGroup.ParallelSpacingValue.UserString
+    )
+    obj.parallel_rebars_widget.parallel_distribution_rebar_check.setChecked(
+        SlabReinforcementGroup.ParallelDistributionRebarsCheck
+    )
+    obj.parallelDistributionRebarCheckClicked()
+    obj.parallel_rebars_widget.parallel_distribution_diameter.setText(
+        SlabReinforcementGroup.ParallelDistributionRebarsDiameter.UserString
+    )
+    obj.parallel_rebars_widget.parallel_distributionAmountRadio.setChecked(
+        SlabReinforcementGroup.ParallelDistributionRebarsAmountSpacingCheck
+    )
+    obj.parallel_rebars_widget.parallel_distributionSpacingRadio.setChecked(
+        not SlabReinforcementGroup.ParallelDistributionRebarsAmountSpacingCheck
+    )
+    if SlabReinforcementGroup.ParallelDistributionRebarsAmountSpacingCheck:
+        obj.parallelDistributionAmountRadio()
+    else:
+        obj.parallelDistributionSpacingRadio()
+    obj.parallel_rebars_widget.parallel_distribution_amount.setValue(
+        SlabReinforcementGroup.ParallelDistributionRebarsAmount
+    )
+    obj.parallel_rebars_widget.parallel_distribution_spacing.setText(
+        SlabReinforcementGroup.ParallelDistributionRebarsSpacing.UserString
+    )
+
+
+def setCrossRebarsData(obj, SlabReinforcementGroup):
+    """Set values for cross rebars of slab reinforcement"""
+    if not SlabReinforcementGroup:
+        return
+
+    obj.cross_rebars_widget.cross_l_shapeHookOrientation.setCurrentIndex(
+        obj.cross_rebars_widget.cross_l_shapeHookOrientation.findText(
+            SlabReinforcementGroup.CrossLShapeHookOrintation
+        )
+    )
+    obj.cross_rebars_widget.cross_rebars_type.setCurrentIndex(
+        obj.cross_rebars_widget.cross_rebars_type.findText(
+            SlabReinforcementGroup.CrossRebarType
+        )
+    )
+    obj.changeCrossRebarType()
+    obj.cross_rebars_widget.cross_frontCover.setText(
+        SlabReinforcementGroup.CrossFrontCover.UserString
+    )
+    obj.cross_rebars_widget.cross_l_sideCover.setText(
+        SlabReinforcementGroup.CrossLeftCover.UserString
+    )
+    obj.cross_rebars_widget.cross_r_sideCover.setText(
+        SlabReinforcementGroup.CrossRightCover.UserString
+    )
+    obj.cross_rebars_widget.cross_bottomCover.setText(
+        SlabReinforcementGroup.CrossBottomCover.UserString
+    )
+    obj.cross_rebars_widget.cross_topCover.setText(
+        SlabReinforcementGroup.CrossTopCover.UserString
+    )
+    obj.cross_rebars_widget.cross_rearCover.setText(
+        SlabReinforcementGroup.CrossRearCover.UserString
+    )
+    obj.cross_rebars_widget.cross_bentLength.setText(
+        SlabReinforcementGroup.CrossBentBarLength.UserString
+    )
+    obj.cross_rebars_widget.cross_bentAngle.setValue(
+        SlabReinforcementGroup.CrossBentBarAngle
+    )
+    obj.cross_rebars_widget.cross_rounding.setValue(
+        SlabReinforcementGroup.CrossRounding
+    )
+    obj.cross_rebars_widget.cross_diameter.setText(
+        SlabReinforcementGroup.CrossDiameter.UserString
+    )
+    obj.cross_rebars_widget.cross_amount_radio.setChecked(
+        SlabReinforcementGroup.CrossAmountSpacingCheck
+    )
+    obj.cross_rebars_widget.cross_spacing_radio.setChecked(
+        not SlabReinforcementGroup.CrossAmountSpacingCheck
+    )
+    if SlabReinforcementGroup.CrossAmountSpacingCheck:
+        obj.crossAmountRadioClicked()
+    else:
+        obj.crossSpacingRadioClicked()
+    obj.cross_rebars_widget.cross_amount.setValue(
+        SlabReinforcementGroup.CrossAmountValue
+    )
+    obj.cross_rebars_widget.cross_spacing.setText(
+        SlabReinforcementGroup.CrossSpacingValue.UserString
+    )
+    obj.cross_rebars_widget.cross_distribution_rebar_check.setChecked(
+        SlabReinforcementGroup.CrossDistributionRebarsCheck
+    )
+    obj.crossDistributionRebarCheckClicked()
+    obj.cross_rebars_widget.cross_distribution_diameter.setText(
+        SlabReinforcementGroup.CrossDistributionRebarsDiameter.UserString
+    )
+    obj.cross_rebars_widget.cross_distributionAmountRadio.setChecked(
+        SlabReinforcementGroup.CrossDistributionRebarsAmountSpacingCheck
+    )
+    obj.cross_rebars_widget.cross_distributionSpacingRadio.setChecked(
+        not SlabReinforcementGroup.CrossDistributionRebarsAmountSpacingCheck
+    )
+    if SlabReinforcementGroup.CrossDistributionRebarsAmountSpacingCheck:
+        obj.crossDistributionAmountRadio()
+    else:
+        obj.crossDistributionSpacingRadio()
+    obj.cross_rebars_widget.cross_distribution_amount.setValue(
+        SlabReinforcementGroup.CrossDistributionRebarsAmount
+    )
+    obj.cross_rebars_widget.cross_distribution_spacing.setText(
+        SlabReinforcementGroup.CrossDistributionRebarsSpacing.UserString
+    )
 
 
 def CommandSlabReinforcement():
