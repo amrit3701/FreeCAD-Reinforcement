@@ -143,7 +143,7 @@
        <item>
         <widget class="Gui::PrefComboBox" name="slabReinforcement_configuration">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -162,7 +162,7 @@
           <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeType">
-          <enum>QSizePolicy::Preferred</enum>
+          <enum>QSizePolicy::Expanding</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -187,7 +187,6 @@
  </customwidgets>
  <tabstops>
   <tabstop>rebars_listWidget</tabstop>
-  <tabstop>slabReinforcement_configuration</tabstop>
   <tabstop>back_button</tabstop>
   <tabstop>next_button</tabstop>
  </tabstops>

@@ -236,29 +236,43 @@ def makeSlabReinforcement(
         slabReinforcementGroup.ParallelSpacingValue = (
             parallel_amount_spacing_value
         )
-    slabReinforcementGroup.ParallelRounding = parallel_rounding
-    slabReinforcementGroup.ParallelBentBarLength = parallel_bent_bar_length
-    slabReinforcementGroup.ParallelBentBarAngle = parallel_bent_bar_angle
-    slabReinforcementGroup.ParallelLShapeHookOrintation = (
-        parallel_l_shape_hook_orintation
-    )
-    slabReinforcementGroup.ParallelDistributionRebarsCheck = (
-        parallel_distribution_rebars_check
-    )
-    slabReinforcementGroup.ParallelDistributionRebarsDiameter = (
-        parallel_distribution_rebars_diameter
-    )
-    slabReinforcementGroup.ParallelDistributionRebarsAmountSpacingCheck = (
-        parallel_distribution_rebars_amount_spacing_check
-    )
+
+    if parallel_rounding:
+        slabReinforcementGroup.ParallelRounding = parallel_rounding
+    if parallel_bent_bar_length:
+        slabReinforcementGroup.ParallelBentBarLength = parallel_bent_bar_length
+    if parallel_bent_bar_angle:
+        slabReinforcementGroup.ParallelBentBarAngle = parallel_bent_bar_angle
+    if parallel_l_shape_hook_orintation:
+        slabReinforcementGroup.ParallelLShapeHookOrintation = (
+            parallel_l_shape_hook_orintation
+        )
+
+    if parallel_distribution_rebars_check:
+        slabReinforcementGroup.ParallelDistributionRebarsCheck = (
+            parallel_distribution_rebars_check
+        )
+
+    if parallel_distribution_rebars_diameter:
+        slabReinforcementGroup.ParallelDistributionRebarsDiameter = (
+            parallel_distribution_rebars_diameter
+        )
+
     if parallel_distribution_rebars_amount_spacing_check:
-        slabReinforcementGroup.ParallelDistributionRebarsAmount = (
-            parallel_distribution_rebars_amount_spacing_value
+        slabReinforcementGroup.ParallelDistributionRebarsAmountSpacingCheck = (
+            parallel_distribution_rebars_amount_spacing_check
         )
+
+    if parallel_distribution_rebars_amount_spacing_check:
+        if parallel_distribution_rebars_amount_spacing_value:
+            slabReinforcementGroup.ParallelDistributionRebarsAmount = (
+                parallel_distribution_rebars_amount_spacing_value
+            )
     else:
-        slabReinforcementGroup.ParallelDistributionRebarsSpacing = (
-            parallel_distribution_rebars_amount_spacing_value
-        )
+        if parallel_distribution_rebars_amount_spacing_value:
+            slabReinforcementGroup.ParallelDistributionRebarsSpacing = (
+                parallel_distribution_rebars_amount_spacing_value
+            )
 
     slabReinforcementGroup.CrossRebarType = cross_rebar_type
     slabReinforcementGroup.CrossFrontCover = cross_front_cover
@@ -273,30 +287,40 @@ def makeSlabReinforcement(
         slabReinforcementGroup.CrossAmountValue = cross_amount_spacing_value
     else:
         slabReinforcementGroup.CrossSpacingValue = cross_amount_spacing_value
-    slabReinforcementGroup.CrossRounding = cross_rounding
-    slabReinforcementGroup.CrossBentBarLength = cross_bent_bar_length
-    slabReinforcementGroup.CrossBentBarAngle = cross_bent_bar_angle
-    slabReinforcementGroup.CrossLShapeHookOrintation = (
-        cross_l_shape_hook_orintation
-    )
-    slabReinforcementGroup.CrossDistributionRebarsCheck = (
-        cross_distribution_rebars_check
-    )
-    slabReinforcementGroup.CrossDistributionRebarsDiameter = (
-        cross_distribution_rebars_diameter
-    )
-    slabReinforcementGroup.CrossDistributionRebarsAmountSpacingCheck = (
-        cross_distribution_rebars_amount_spacing_check
-    )
+
+    if cross_rounding:
+        slabReinforcementGroup.CrossRounding = cross_rounding
+    if cross_bent_bar_length:
+        slabReinforcementGroup.CrossBentBarLength = cross_bent_bar_length
+    if cross_bent_bar_angle:
+        slabReinforcementGroup.CrossBentBarAngle = cross_bent_bar_angle
+    if cross_l_shape_hook_orintation:
+        slabReinforcementGroup.CrossLShapeHookOrintation = (
+            cross_l_shape_hook_orintation
+        )
+    if cross_distribution_rebars_check:
+        slabReinforcementGroup.CrossDistributionRebarsCheck = (
+            cross_distribution_rebars_check
+        )
+    if cross_distribution_rebars_diameter:
+        slabReinforcementGroup.CrossDistributionRebarsDiameter = (
+            cross_distribution_rebars_diameter
+        )
+    if cross_distribution_rebars_amount_spacing_check:
+        slabReinforcementGroup.CrossDistributionRebarsAmountSpacingCheck = (
+            cross_distribution_rebars_amount_spacing_check
+        )
     slabReinforcementGroup.IsMakeOrEditRequired = True
     if cross_distribution_rebars_amount_spacing_check:
-        slabReinforcementGroup.CrossDistributionRebarsAmount = (
-            cross_distribution_rebars_amount_spacing_value
-        )
+        if cross_distribution_rebars_amount_spacing_value:
+            slabReinforcementGroup.CrossDistributionRebarsAmount = (
+                cross_distribution_rebars_amount_spacing_value
+            )
     else:
-        slabReinforcementGroup.CrossDistributionRebarsSpacing = (
-            cross_distribution_rebars_amount_spacing_value
-        )
+        if cross_distribution_rebars_amount_spacing_value:
+            slabReinforcementGroup.CrossDistributionRebarsSpacing = (
+                cross_distribution_rebars_amount_spacing_value
+            )
     FreeCAD.ActiveDocument.recompute()
 
     return slabReinforcementGroup
@@ -471,8 +495,11 @@ def editSlabReinforcement(
     # Update value of SlabReinforcementGroup
     slabReinforcementGroup.IsMakeOrEditRequired = False
     slabReinforcementGroup.MeshCoverAlong = mesh_cover_along
-    slabReinforcementGroup.Structure = structure
-    slabReinforcementGroup.Facename = facename
+
+    if structure:
+        slabReinforcementGroup.Structure = structure
+    if facename:
+        slabReinforcementGroup.Facename = facename
     slabReinforcementGroup.ParallelRebarType = parallel_rebar_type
     slabReinforcementGroup.ParallelFrontCover = parallel_front_cover
     slabReinforcementGroup.ParallelRearCover = parallel_rear_cover
@@ -492,29 +519,39 @@ def editSlabReinforcement(
         slabReinforcementGroup.ParallelSpacingValue = (
             parallel_amount_spacing_value
         )
-    slabReinforcementGroup.ParallelRounding = parallel_rounding
-    slabReinforcementGroup.ParallelBentBarLength = parallel_bent_bar_length
-    slabReinforcementGroup.ParallelBentBarAngle = parallel_bent_bar_angle
-    slabReinforcementGroup.ParallelLShapeHookOrintation = (
-        parallel_l_shape_hook_orintation
-    )
-    slabReinforcementGroup.ParallelDistributionRebarsCheck = (
-        parallel_distribution_rebars_check
-    )
-    slabReinforcementGroup.ParallelDistributionRebarsDiameter = (
-        parallel_distribution_rebars_diameter
-    )
-    slabReinforcementGroup.ParallelDistributionRebarsAmountSpacingCheck = (
-        parallel_distribution_rebars_amount_spacing_check
-    )
+
+    if parallel_rounding:
+        slabReinforcementGroup.ParallelRounding = parallel_rounding
+    if parallel_bent_bar_length:
+        slabReinforcementGroup.ParallelBentBarLength = parallel_bent_bar_length
+    if parallel_bent_bar_angle:
+        slabReinforcementGroup.ParallelBentBarAngle = parallel_bent_bar_angle
+    if parallel_l_shape_hook_orintation:
+        slabReinforcementGroup.ParallelLShapeHookOrintation = (
+            parallel_l_shape_hook_orintation
+        )
+    if parallel_distribution_rebars_check:
+        slabReinforcementGroup.ParallelDistributionRebarsCheck = (
+            parallel_distribution_rebars_check
+        )
+    if parallel_distribution_rebars_diameter:
+        slabReinforcementGroup.ParallelDistributionRebarsDiameter = (
+            parallel_distribution_rebars_diameter
+        )
     if parallel_distribution_rebars_amount_spacing_check:
-        slabReinforcementGroup.ParallelDistributionRebarsAmount = (
-            parallel_distribution_rebars_amount_spacing_value
+        slabReinforcementGroup.ParallelDistributionRebarsAmountSpacingCheck = (
+            parallel_distribution_rebars_amount_spacing_check
         )
+    if parallel_distribution_rebars_amount_spacing_check:
+        if parallel_distribution_rebars_amount_spacing_value:
+            slabReinforcementGroup.ParallelDistributionRebarsAmount = (
+                parallel_distribution_rebars_amount_spacing_value
+            )
     else:
-        slabReinforcementGroup.ParallelDistributionRebarsSpacing = (
-            parallel_distribution_rebars_amount_spacing_value
-        )
+        if parallel_distribution_rebars_amount_spacing_value:
+            slabReinforcementGroup.ParallelDistributionRebarsSpacing = (
+                parallel_distribution_rebars_amount_spacing_value
+            )
 
     slabReinforcementGroup.CrossRebarType = cross_rebar_type
     slabReinforcementGroup.CrossFrontCover = cross_front_cover
@@ -529,28 +566,38 @@ def editSlabReinforcement(
         slabReinforcementGroup.CrossAmountValue = cross_amount_spacing_value
     else:
         slabReinforcementGroup.CrossSpacingValue = cross_amount_spacing_value
-    slabReinforcementGroup.CrossRounding = cross_rounding
-    slabReinforcementGroup.CrossBentBarLength = cross_bent_bar_length
-    slabReinforcementGroup.CrossBentBarAngle = cross_bent_bar_angle
-    slabReinforcementGroup.CrossLShapeHookOrintation = (
-        cross_l_shape_hook_orintation
-    )
-    slabReinforcementGroup.CrossDistributionRebarsCheck = (
-        cross_distribution_rebars_check
-    )
-    slabReinforcementGroup.CrossDistributionRebarsDiameter = (
-        cross_distribution_rebars_diameter
-    )
-    slabReinforcementGroup.CrossDistributionRebarsAmountSpacingCheck = (
-        cross_distribution_rebars_amount_spacing_check
-    )
+
+    if cross_rounding:
+        slabReinforcementGroup.CrossRounding = cross_rounding
+    if cross_bent_bar_length:
+        slabReinforcementGroup.CrossBentBarLength = cross_bent_bar_length
+    if cross_bent_bar_angle:
+        slabReinforcementGroup.CrossBentBarAngle = cross_bent_bar_angle
+    if cross_l_shape_hook_orintation:
+        slabReinforcementGroup.CrossLShapeHookOrintation = (
+            cross_l_shape_hook_orintation
+        )
+    if cross_distribution_rebars_check:
+        slabReinforcementGroup.CrossDistributionRebarsCheck = (
+            cross_distribution_rebars_check
+        )
+    if cross_distribution_rebars_diameter:
+        slabReinforcementGroup.CrossDistributionRebarsDiameter = (
+            cross_distribution_rebars_diameter
+        )
+    if cross_distribution_rebars_amount_spacing_check:
+        slabReinforcementGroup.CrossDistributionRebarsAmountSpacingCheck = (
+            cross_distribution_rebars_amount_spacing_check
+        )
     slabReinforcementGroup.IsMakeOrEditRequired = True
     if cross_distribution_rebars_amount_spacing_check:
-        slabReinforcementGroup.CrossDistributionRebarsAmount = (
-            cross_distribution_rebars_amount_spacing_value
-        )
+        if cross_distribution_rebars_amount_spacing_value:
+            slabReinforcementGroup.CrossDistributionRebarsAmount = (
+                cross_distribution_rebars_amount_spacing_value
+            )
     else:
-        slabReinforcementGroup.CrossDistributionRebarsSpacing = (
-            cross_distribution_rebars_amount_spacing_value
-        )
+        if cross_distribution_rebars_amount_spacing_value:
+            slabReinforcementGroup.CrossDistributionRebarsSpacing = (
+                cross_distribution_rebars_amount_spacing_value
+            )
     return slabReinforcementGroup
