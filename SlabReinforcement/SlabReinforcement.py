@@ -26,6 +26,7 @@ __author__ = "Shiv Charan"
 __url__ = "https://www.freecadweb.org"
 
 import FreeCAD
+import math
 from typing import Union, Tuple, Optional
 from Rebarfunc import (
     getFacenamesforBeamReinforcement,
@@ -63,17 +64,11 @@ def makeSlabReinforcement(
     cross_rounding: Optional[int] = 2,
     cross_bent_bar_length: Optional[int] = 50,
     cross_bent_bar_angle: Optional[int] = 135,
-    cross_l_shape_hook_orintation: Optional[str] = "Alternate",
-    cross_distribution_rebars_check: Optional[bool] = False,
-    cross_distribution_rebars_diameter: Optional[float] = 8,
-    cross_distribution_rebars_count: Optional[int] = 2,
+    cross_l_shape_hook_orintation: str = "Alternate",
     parallel_rounding: Optional[int] = 2,
     parallel_bent_bar_length: Optional[int] = 50,
     parallel_bent_bar_angle: Optional[int] = 135,
-    parallel_l_shape_hook_orintation: Optional[str] = "Alternate",
-    parallel_distribution_rebars_check: Optional[bool] = False,
-    parallel_distribution_rebars_diameter: Optional[float] = 8,
-    parallel_distribution_rebars_count: Optional[int] = 2,
+    parallel_l_shape_hook_orintation: str = "Alternate",
     mesh_cover_along: str = "Bottom",
     structure: Optional[Tuple] = None,
     facename: Optional[str] = None,
@@ -109,8 +104,6 @@ def makeSlabReinforcement(
     parallel_amount_spacing_value: float or int
         It contains count of rebars or spacing between parallel rebars based on
         value of amount_spacing_check.
-    parallel_distribution_rebars_diameter: float
-        Diameter of distribution rebars for parallel bent shape rebars
     cross_rebar_type: str
         Type of rebar for cross rebars for slab reinforcement.
         It can have four values 'StraightRebar','LShapeRebar', 'UShapeRebar',
@@ -138,8 +131,6 @@ def makeSlabReinforcement(
     cross_amount_spacing_value: float or int
         It contains count of rebars or spacing between rebars based on
         value of cross_amount_spacing_check.
-    cross_distribution_rebars_diameter: float
-        Diameter for distribution rebars for cross bent shape rebars
     cross_rounding: int
         A rounding value to be applied to the corners of the bars, expressed
         in times the cross_diameter.
@@ -153,12 +144,6 @@ def makeSlabReinforcement(
         It represents orintation of hook of cross L-Shape rebar if cross_rebar_type
         is LShapeRebar.
         It can have tree values "Left", "Right", "Alternate"
-    cross_distribution_rebars_check: bool = False,
-        If True add distribution rebars for cross bent shape rebars.
-        Default is False.
-    cross_distribution_rebars_count: int = 2,
-        Count of distribution rebars for one side of cross bent shape rebars.
-        Default is 2.
     parallel_rounding: int
         A rounding value to be applied to the corners of the bars, expressed
         in times the parallel_diameter.
@@ -172,12 +157,6 @@ def makeSlabReinforcement(
         It represents orintation of hook of parallel L-Shape rebar if parallel_rebar_type
         is LShapeRebar.
         It can have tree values "Left", "Right", "Alternate"
-    parallel_distribution_rebars_check: bool = False,
-        If True add distribution rebars for parallel bent shape rebars.
-        Default is False.
-    parallel_distribution_rebars_count: int = 2,
-        Count of distribution rebars for one side of parallel bent shape rebars.
-        Default is 2.
     mesh_cover_along: str
         It can have two values "Top" and "Bottom". It represent alignment of
         rebar mesh along top or bottom face of structure.
@@ -244,67 +223,6 @@ def makeSlabReinforcement(
             facename,
         )
         parallel_rebars.OffsetEnd = parallel_rear_cover + parallel_diameter / 2
-
-        if parallel_distribution_rebars_check:
-            parallel_face_length = getParametersOfFace(structure, facename)[0][
-                0
-            ]
-            cover_along_length = parallel_diameter + (
-                parallel_bottom_cover
-                if mesh_cover_along == "Top"
-                else parallel_top_cover
-            )
-            cover_along = (
-                "Top Side" if mesh_cover_along == "Bottom" else "Bottom Side"
-            )
-            parallel_left_distribution_rebars = makeStraightRebar(
-                cross_front_cover + cross_diameter,
-                (
-                    cover_along,
-                    cover_along_length,
-                ),
-                cross_right_cover,
-                cross_left_cover,
-                parallel_distribution_rebars_diameter,
-                True,
-                parallel_distribution_rebars_count,
-                "Horizontal",
-                structure,
-                cross_facename,
-            )
-            parallel_left_distribution_rebars.OffsetEnd = (
-                parallel_face_length
-                - parallel_bent_bar_length
-                - parallel_left_cover
-                + parallel_distribution_rebars_diameter / 2
-            )
-
-            parallel_right_front_cover = (
-                parallel_face_length
-                - parallel_right_cover
-                - parallel_bent_bar_length
-                + parallel_distribution_rebars_diameter / 2
-            )
-            parallel_right_distribution_rebars = makeStraightRebar(
-                parallel_right_front_cover,
-                (
-                    cover_along,
-                    cover_along_length,
-                ),
-                cross_right_cover,
-                cross_left_cover,
-                parallel_distribution_rebars_diameter,
-                True,
-                parallel_distribution_rebars_count,
-                "Horizontal",
-                structure,
-                cross_facename,
-            )
-            parallel_right_distribution_rebars.OffsetEnd = (
-                cross_rear_cover
-                + cross_diameter
-                + cross_distribution_rebars_diameter / 2
-            )
 
     elif parallel_rebar_type == RebarTypes.lshape:
 
@@ -461,45 +379,17 @@ def makeSlabReinforcement(
         # prevent overlaping of arms in BentShapeRebars
         if parallel_rebar_type == RebarTypes.bentshape:
             if mesh_cover_along == "Bottom":
-                required_rebar_axises_sepration = cross_diameter
-                if (
-                    cross_distribution_rebars_check
-                    and cross_top_cover < parallel_top_cover
-                ):
-                    required_rebar_axises_sepration = (
-                        required_rebar_axises_sepration
-                        + cross_distribution_rebars_diameter
+                cover_difference = parallel_top_cover - cross_top_cover
+                if abs(cover_difference) < cross_diameter:
+                    cross_top_cover = cross_top_cover - math.copysign(
+                        cross_diameter - abs(cover_difference), cover_difference
                     )
-                elif parallel_distribution_rebars_check:
-                    required_rebar_axises_sepration = (
-                        required_rebar_axises_sepration
-                        + parallel_distribution_rebars_diameter
-                    )
-                cross_top_cover = set_minimum_seperation_distance(
-                    cross_top_cover,
-                    parallel_top_cover,
-                    required_rebar_axises_sepration,
-                )
             else:
-                required_rebar_axises_sepration = cross_diameter
-                if (
-                    cross_distribution_rebars_check
-                    and cross_bottom_cover < parallel_bottom_cover
-                ):
-                    required_rebar_axises_sepration = (
-                        required_rebar_axises_sepration
-                        + cross_distribution_rebars_diameter
+                cover_difference = cross_bottom_cover - parallel_bottom_cover
+                if abs(cover_difference) < cross_diameter:
+                    cross_bottom_cover = cross_bottom_cover + math.copysign(
+                        cross_diameter - abs(cover_difference), cover_difference
                     )
-                elif parallel_distribution_rebars_check:
-                    required_rebar_axises_sepration = (
-                        required_rebar_axises_sepration
-                        + parallel_distribution_rebars_diameter
-                    )
-                cross_bottom_cover = set_minimum_seperation_distance(
-                    cross_bottom_cover,
-                    parallel_bottom_cover,
-                    required_rebar_axises_sepration,
-                )
 
         cross_rebars = makeBentShapeRebar(
             cross_front_cover,
@@ -519,68 +409,8 @@ def makeSlabReinforcement(
         )
         cross_rebars.OffsetEnd = cross_rear_cover + cross_diameter / 2
 
-        if cross_distribution_rebars_check:
-            cross_face_length = getParametersOfFace(structure, cross_facename)[
-                0
-            ][0]
-            cover_along_length = cross_diameter + (
-                cross_bottom_cover
-                if mesh_cover_along == "Top"
-                else cross_top_cover
-            )
-            cover_along = (
-                "Top Side" if mesh_cover_along == "Bottom" else "Bottom Side"
-            )
-            cross_left_distribution_rebars = makeStraightRebar(
-                parallel_front_cover + parallel_diameter,
-                (
-                    cover_along,
-                    cover_along_length,
-                ),
-                parallel_right_cover,
-                parallel_left_cover,
-                cross_distribution_rebars_diameter,
-                True,
-                cross_distribution_rebars_count,
-                "Horizontal",
-                structure,
-                facename,
-            )
-            cross_left_distribution_rebars.OffsetEnd = (
-                cross_face_length
-                - cross_bent_bar_length
-                - cross_left_cover
-                + cross_distribution_rebars_diameter / 2
-            )
-
-            cross_right_front_cover = (
-                cross_face_length
-                - cross_right_cover
-                - cross_bent_bar_length
-                + cross_distribution_rebars_diameter / 2
-            )
-            cross_right_distribution_rebars = makeStraightRebar(
-                cross_right_front_cover,
-                (
-                    cover_along,
-                    cover_along_length,
-                ),
-                parallel_right_cover,
-                parallel_left_cover,
-                cross_distribution_rebars_diameter,
-                True,
-                cross_distribution_rebars_count,
-                "Horizontal",
-                structure,
-                facename,
-            )
-            cross_right_distribution_rebars.OffsetEnd = (
-                parallel_rear_cover
-                + parallel_diameter
-                + cross_distribution_rebars_diameter / 2
-            )
-
     elif cross_rebar_type == RebarTypes.lshape:
+
         if cross_l_shape_hook_orintation == "Alternate":
             parallel_face_length = getParametersOfFace(structure, facename)[0][
                 0
@@ -685,21 +515,6 @@ def makeSlabReinforcement(
                 cross_facename,
             )
             cross_rebars.OffsetEnd = cross_rear_cover + cross_diameter / 2
+            print(cross_rebars.__dict__)
 
     FreeCAD.ActiveDocument.recompute()
-
-
-def set_minimum_seperation_distance(
-    relative_distance, absolute_distance, min_seperation_distance
-):
-    """
-    Get new relative distance having min_seperation_distance from
-    absolute_distance
-    """
-    sepration_distance = relative_distance - absolute_distance
-    if abs(sepration_distance) < min_seperation_distance:
-        if sepration_distance < 0:
-            relative_distance = absolute_distance - min_seperation_distance
-        else:
-            relative_distance = absolute_distance + min_seperation_distance
-    return relative_distance
