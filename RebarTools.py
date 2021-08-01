@@ -281,6 +281,35 @@ class BeamReinforcementTool:
         MainBeamReinforcement.CommandBeamReinforcement()
 
 
+class SlabReinforcementTool:
+    @staticmethod
+    def GetResources():
+        return {
+            "Pixmap": str(
+                Path(__file__).parent / "icons" / "SlabReinforcement.png"
+            ),
+            "MenuText": QT_TRANSLATE_NOOP(
+                "Reinforcement_SlabRebars", "Slab Reinforcement"
+            ),
+            "ToolTip": QT_TRANSLATE_NOOP(
+                "Reinforcement_SlabRebars",
+                "Creates a Slab Reinforcement from the selected face of the "
+                "Structural element.",
+            ),
+        }
+
+    @staticmethod
+    def IsActive():
+        return True if FreeCADGui.activeDocument() else False
+
+    @staticmethod
+    def Activated():
+        from SlabReinforcement import MainSlabReinforcement
+
+        # Call to CommandSlabReinforcement() function
+        MainSlabReinforcement.CommandSlabReinforcement()
+
+
 class BillOfMaterialTool:
     @staticmethod
     def GetResources():
@@ -417,6 +446,7 @@ FreeCADGui.addCommand("Reinforcement_BentShapeRebar", BentShapeRebarTool())
 FreeCADGui.addCommand("Reinforcement_HelicalRebar", HelicalRebarTool())
 FreeCADGui.addCommand("Reinforcement_ColumnRebars", ColumnReinforcementTool())
 FreeCADGui.addCommand("Reinforcement_BeamRebars", BeamReinforcementTool())
+FreeCADGui.addCommand("Reinforcement_SlabRebars", SlabReinforcementTool())
 FreeCADGui.addCommand("Reinforcement_BillOfMaterial", BillOfMaterialTool())
 FreeCADGui.addCommand("Reinforcement_BarShapeCutList", RebarShapeCutListTool())
 FreeCADGui.addCommand(
@@ -437,6 +467,7 @@ RebarCommands = [
     "Reinforcement_HelicalRebar",
     "Reinforcement_ColumnRebars",
     "Reinforcement_BeamRebars",
+    "Reinforcement_SlabRebars",
 ]
 
 # Initialize "Arch_Rebar" command
@@ -455,6 +486,7 @@ ReinforcementCommands = [
     "Reinforcement_HelicalRebar",
     "Reinforcement_ColumnRebars",
     "Reinforcement_BeamRebars",
+    "Reinforcement_SlabRebars",
     "Arch_Rebar",
     "Reinforcement_BillOfMaterial",
     "Reinforcement_BarShapeCutList",
