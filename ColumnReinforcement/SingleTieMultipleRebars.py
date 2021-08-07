@@ -563,7 +563,7 @@ def makeYDirRebars(
             for j, (number, dia) in enumerate(ydir_rebars_number_diameter_list):
                 if j == 0:
                     f_cover_of_ydir_rebars = (
-                        r_cover_of_tie
+                        b_cover_of_tie
                         + dia_of_tie
                         + dia_of_main_rebars
                         + spacing_in_ydir_rebars
@@ -1195,7 +1195,7 @@ def editYDirRebars(
             for j, (number, dia) in enumerate(ydir_rebars_number_diameter_list):
                 if j == 0:
                     f_cover_of_ydir_rebars = (
-                        r_cover_of_tie
+                        b_cover_of_tie
                         + dia_of_tie
                         + dia_of_main_rebars
                         + spacing_in_ydir_rebars
