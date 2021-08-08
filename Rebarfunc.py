@@ -722,6 +722,28 @@ def getFacenamesforBeamReinforcement(facename, structure):
     return facename_for_tb_rebars, facename_for_s_rebars
 
 
+def getFacenamesforFootingReinforcement(facename, structure):
+    """getFacenamesforFootingReinforcement(Facename, Structure):
+    Return tuple of facenames of faces normal to selected/provided face to
+    create mesh/column of rebars.
+    """
+    face = structure.Shape.Faces[getFaceNumber(facename) - 1]
+    normal1 = face.normalAt(0, 0)
+    faces = structure.Shape.Faces
+    index = 1
+    for face in faces:
+        normal2 = face.normalAt(0, 0)
+        if (
+            int(normal1.dot(normal2)) == 0
+            and int(normal1.cross(normal2).z) == -1
+        ):
+            facename_for_cross_rebars = "Face" + str(index)
+        if normal2.z == 1:
+            facename_for_column_rebars = "Face" + str(index)
+        index += 1
+    return facename_for_cross_rebars, facename_for_column_rebars
+
+
 def getdictofNumberDiameterOffset(number_diameter_offset_tuple):
     """getdictofNumberDiameterOffset(NumberDiameterOffsetTuple):
     This function take input in specific syntax and return output in the form of
