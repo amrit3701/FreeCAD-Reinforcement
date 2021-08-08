@@ -313,7 +313,6 @@ def makeFootingReinforcement(
                 "Error: Given X direction column amount is too large for given structure"
             )
             return None
-        empty_space_length = empty_space_length if empty_space_length > 0 else 0
         if xdir_column_amount_spacing_value > 1:
             xdir_column_spacing_value = empty_space_length / (
                 xdir_column_amount_spacing_value - 1
@@ -345,8 +344,7 @@ def makeFootingReinforcement(
                 "Error: Given Y direction column amount is too large for given structure"
             )
             return None
-        print(xdir_column_amount_spacing_value)
-        if xdir_column_amount_spacing_value > 1:
+        if ydir_column_amount_spacing_value > 1:
             ydir_column_spacing_value = empty_space_length / (
                 ydir_column_amount_spacing_value - 1
             )
