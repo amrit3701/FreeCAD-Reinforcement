@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>300</width>
+    <height>414</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QScrollArea" name="ties_scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>298</width>
+        <height>412</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="ties_heading">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Ties</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="ties_offsetLabel">
+         <property name="text">
+          <string>Top Offset</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="Gui::InputField" name="ties_offset">
+         <property name="text">
+          <string>0 </string>
+         </property>
+         <property name="unit" stdset="0">
+          <string notr="true"/>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="ties_bottomCoverLabel">
+         <property name="text">
+          <string>Bottom Cover</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="Gui::InputField" name="ties_bottomCover">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>0 </string>
+         </property>
+         <property name="unit" stdset="0">
+          <string notr="true"/>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="ties_diameterLabel">
+         <property name="text">
+          <string>Diameter</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="Gui::InputField" name="ties_diameter">
+         <property name="unit" stdset="0">
+          <string notr="true"/>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="ties_bentAngleLabel">
+         <property name="text">
+          <string>Bent Angle</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="Gui::PrefComboBox" name="ties_bentAngle"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="ties_extensionFactorLabel">
+         <property name="text">
+          <string>Extension Factor</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="Gui::PrefSpinBox" name="ties_extensionFactor">
+         <property name="value">
+          <number>4</number>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="Gui::PrefRadioButton" name="ties_number_radio">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="acceptDrops">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Number</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Gui::PrefRadioButton" name="ties_spacing_radio">
+           <property name="text">
+            <string>Spacing</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="ties_numberLabel">
+         <property name="text">
+          <string>Number</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="Gui::PrefSpinBox" name="ties_number">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="value">
+          <number>3</number>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="ties_spacingLabel">
+         <property name="text">
+          <string>Spacing</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="Gui::InputField" name="ties_spacing">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>0 </string>
+         </property>
+         <property name="unit" stdset="0">
+          <string notr="true"/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::PrefRadioButton</class>
+   <extends>QRadioButton</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::InputField</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/InputField.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefComboBox</class>
+   <extends>QComboBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>ties_scrollArea</tabstop>
+  <tabstop>ties_offset</tabstop>
+  <tabstop>ties_diameter</tabstop>
+  <tabstop>ties_bentAngle</tabstop>
+  <tabstop>ties_extensionFactor</tabstop>
+  <tabstop>ties_number_radio</tabstop>
+  <tabstop>ties_spacing_radio</tabstop>
+  <tabstop>ties_number</tabstop>
+  <tabstop>ties_spacing</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
