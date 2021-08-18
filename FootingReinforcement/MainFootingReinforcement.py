@@ -372,6 +372,13 @@ class _FootingReinforcementDialog:
         """Reset fields values"""
         if not self.FootingReinforcementGroup:
             self.setDefaultValues()
+        else:
+            setParallelRebarsData(self, self.FootingReinforcementGroup)
+            setCrossRebarsData(self, self.FootingReinforcementGroup)
+            setColumnsData(self, self.FootingReinforcementGroup)
+            setTiesData(self, self.FootingReinforcementGroup)
+            setMainRebarsData(self, self.FootingReinforcementGroup)
+            setSecRebarsData(self, self.FootingReinforcementGroup)
 
     def changeRebarsListWidget(self, index):
         """Handle change in rebar list widget"""
@@ -1046,6 +1053,318 @@ class _FootingReinforcementDialog:
         self.ydir_rebars_number_diameter = (
             self.sec_ydir_rebars_widget.numberDiameter.text()
         )
+
+
+def editDialog(vobj):
+    """Edit Footing Reinforcement"""
+    obj = _FootingReinforcementDialog(vobj.Object)
+    obj.setupUi()
+    setParallelRebarsData(obj, vobj.Object)
+    setCrossRebarsData(obj, vobj.Object)
+    setColumnsData(obj, vobj.Object)
+    setTiesData(obj, vobj.Object)
+    setMainRebarsData(obj, vobj.Object)
+    setSecRebarsData(obj, vobj.Object)
+    obj.form.exec_()
+
+
+def setParallelRebarsData(obj, FootingReinforcementGroup):
+    """Set values for parallel rebars of base of footing reinforcement"""
+    if not FootingReinforcementGroup:
+        return
+    obj.parallel_rebars_widget.meshCoverAlongValue.setCurrentIndex(
+        obj.parallel_rebars_widget.meshCoverAlongValue.findText(
+            FootingReinforcementGroup.MeshCoverAlong
+        )
+    )
+    obj.parallel_rebars_widget.parallel_l_shapeHookOrientation.setCurrentIndex(
+        obj.parallel_rebars_widget.parallel_l_shapeHookOrientation.findText(
+            FootingReinforcementGroup.ParallelLShapeHookOrintation
+        )
+    )
+    obj.parallel_rebars_widget.parallel_rebars_type.setCurrentIndex(
+        obj.parallel_rebars_widget.parallel_rebars_type.findText(
+            FootingReinforcementGroup.ParallelRebarType
+        )
+    )
+    obj.changeParallelRebarType()
+    obj.parallel_rebars_widget.parallel_frontCover.setText(
+        FootingReinforcementGroup.ParallelFrontCover.UserString
+    )
+    obj.parallel_rebars_widget.parallel_l_sideCover.setText(
+        FootingReinforcementGroup.ParallelLeftCover.UserString
+    )
+    obj.parallel_rebars_widget.parallel_r_sideCover.setText(
+        FootingReinforcementGroup.ParallelRightCover.UserString
+    )
+    obj.parallel_rebars_widget.parallel_bottomCover.setText(
+        FootingReinforcementGroup.ParallelBottomCover.UserString
+    )
+    obj.parallel_rebars_widget.parallel_topCover.setText(
+        FootingReinforcementGroup.ParallelTopCover.UserString
+    )
+    obj.parallel_rebars_widget.parallel_rearCover.setText(
+        FootingReinforcementGroup.ParallelRearCover.UserString
+    )
+    obj.parallel_rebars_widget.parallel_rounding.setValue(
+        FootingReinforcementGroup.ParallelRounding
+    )
+    obj.parallel_rebars_widget.parallel_diameter.setText(
+        FootingReinforcementGroup.ParallelDiameter.UserString
+    )
+    obj.parallel_rebars_widget.parallel_amount_radio.setChecked(
+        FootingReinforcementGroup.ParallelAmountSpacingCheck
+    )
+    if FootingReinforcementGroup.ParallelAmountSpacingCheck:
+        obj.parallelAmountRadioClicked()
+    else:
+        obj.parallelSpacingRadioClicked()
+    obj.parallel_rebars_widget.parallel_spacing_radio.setChecked(
+        not FootingReinforcementGroup.ParallelAmountSpacingCheck
+    )
+    obj.parallel_rebars_widget.parallel_amount.setValue(
+        FootingReinforcementGroup.ParallelAmountValue
+    )
+    obj.parallel_rebars_widget.parallel_spacing.setText(
+        FootingReinforcementGroup.ParallelSpacingValue.UserString
+    )
+
+
+def setCrossRebarsData(obj, FootingReinforcementGroup):
+    """Set values for cross rebars of base of footing reinforcement"""
+    if not FootingReinforcementGroup:
+        return
+
+    obj.cross_rebars_widget.cross_l_shapeHookOrientation.setCurrentIndex(
+        obj.cross_rebars_widget.cross_l_shapeHookOrientation.findText(
+            FootingReinforcementGroup.CrossLShapeHookOrintation
+        )
+    )
+    obj.cross_rebars_widget.cross_rebars_type.setCurrentIndex(
+        obj.cross_rebars_widget.cross_rebars_type.findText(
+            FootingReinforcementGroup.CrossRebarType
+        )
+    )
+    obj.changeCrossRebarType()
+    obj.cross_rebars_widget.cross_frontCover.setText(
+        FootingReinforcementGroup.CrossFrontCover.UserString
+    )
+    obj.cross_rebars_widget.cross_l_sideCover.setText(
+        FootingReinforcementGroup.CrossLeftCover.UserString
+    )
+    obj.cross_rebars_widget.cross_r_sideCover.setText(
+        FootingReinforcementGroup.CrossRightCover.UserString
+    )
+    obj.cross_rebars_widget.cross_bottomCover.setText(
+        FootingReinforcementGroup.CrossBottomCover.UserString
+    )
+    obj.cross_rebars_widget.cross_topCover.setText(
+        FootingReinforcementGroup.CrossTopCover.UserString
+    )
+    obj.cross_rebars_widget.cross_rearCover.setText(
+        FootingReinforcementGroup.CrossRearCover.UserString
+    )
+    obj.cross_rebars_widget.cross_rounding.setValue(
+        FootingReinforcementGroup.CrossRounding
+    )
+    obj.cross_rebars_widget.cross_diameter.setText(
+        FootingReinforcementGroup.CrossDiameter.UserString
+    )
+    obj.cross_rebars_widget.cross_amount_radio.setChecked(
+        FootingReinforcementGroup.CrossAmountSpacingCheck
+    )
+    obj.cross_rebars_widget.cross_spacing_radio.setChecked(
+        not FootingReinforcementGroup.CrossAmountSpacingCheck
+    )
+    if FootingReinforcementGroup.CrossAmountSpacingCheck:
+        obj.crossAmountRadioClicked()
+    else:
+        obj.crossSpacingRadioClicked()
+    obj.cross_rebars_widget.cross_amount.setValue(
+        FootingReinforcementGroup.CrossAmountValue
+    )
+    obj.cross_rebars_widget.cross_spacing.setText(
+        FootingReinforcementGroup.CrossSpacingValue.UserString
+    )
+
+
+def setColumnsData(obj, FootingReinforcementGroup):
+    """Set values for columns of footing reinforcement"""
+    obj.columns_widget.columns_frontCover.setText(
+        FootingReinforcementGroup.ColumnFrontCover.UserString
+    )
+    obj.columns_widget.columns_l_sideCover.setText(
+        FootingReinforcementGroup.ColumnLeftCover.UserString
+    )
+    obj.columns_widget.columns_r_sideCover.setText(
+        FootingReinforcementGroup.ColumnRightCover.UserString
+    )
+    obj.columns_widget.columns_rearCover.setText(
+        FootingReinforcementGroup.ColumnRearCover.UserString
+    )
+    obj.columns_widget.column_length.setText(
+        FootingReinforcementGroup.ColumnWidth.UserString
+    )
+    obj.columns_widget.column_width.setText(
+        FootingReinforcementGroup.ColumnLength.UserString
+    )
+    obj.columns_widget.column_xdir_amountRadio.setChecked(
+        FootingReinforcementGroup.XDirColumnNumberSpacingCheck
+    )
+    obj.columns_widget.column_xdir_spacingRadio.setChecked(
+        not FootingReinforcementGroup.XDirColumnNumberSpacingCheck
+    )
+    if FootingReinforcementGroup.XDirColumnNumberSpacingCheck:
+        obj.columnXdirAmountRadioClicked()
+    else:
+        obj.columnXdirSpacingRadioClicked()
+    obj.columns_widget.column_xdir_amount.setValue(
+        FootingReinforcementGroup.XDirColumnAmountValue
+    )
+    obj.columns_widget.column_xdir_spacing.setText(
+        FootingReinforcementGroup.XDirColumnSpacingValue.UserString
+    )
+    obj.columns_widget.column_ydir_amountRadio.setChecked(
+        FootingReinforcementGroup.YDirColumnNumberSpacingCheck
+    )
+    obj.columns_widget.column_ydir_spacingRadio.setChecked(
+        not FootingReinforcementGroup.YDirColumnNumberSpacingCheck
+    )
+    if FootingReinforcementGroup.YDirColumnNumberSpacingCheck:
+        obj.columnYdirAmountRadioClicked()
+    else:
+        obj.columnYdirSpacingRadioClicked()
+    obj.columns_widget.column_ydir_amount.setValue(
+        FootingReinforcementGroup.YDirColumnAmountValue
+    )
+    obj.columns_widget.column_ydir_spacing.setText(
+        FootingReinforcementGroup.YDirColumnSpacingValue.UserString
+    )
+    obj.columns_widget.column_secRebarCheck.setChecked(
+        FootingReinforcementGroup.ColumnSecRebarsCheck
+    )
+    obj.columnSecRebarCheckClicked()
+
+
+def setTiesData(obj, FootingReinforcementGroup):
+    """Set values for Ties of columns of  footing reinforcement"""
+    obj.ties_widget.ties_bottomCover.setText(
+        FootingReinforcementGroup.TieBottomCover.UserString
+    )
+    obj.ties_widget.ties_offset.setText(
+        FootingReinforcementGroup.TieTopCover.UserString
+    )
+    obj.ties_widget.ties_diameter.setText(
+        FootingReinforcementGroup.TieDiameter.UserString
+    )
+    obj.ties_widget.ties_bentAngle.setCurrentIndex(
+        obj.ties_widget.ties_bentAngle.findText(
+            str(FootingReinforcementGroup.TieBentAngle)
+        )
+    )
+    obj.ties_widget.ties_extensionFactor.setValue(
+        FootingReinforcementGroup.TieExtensionFactor
+    )
+    obj.ties_widget.ties_number_radio.setChecked(
+        FootingReinforcementGroup.TieNumberSpacingCheck
+    )
+    obj.ties_widget.ties_spacing_radio.setChecked(
+        not FootingReinforcementGroup.TieNumberSpacingCheck
+    )
+    if FootingReinforcementGroup.TieNumberSpacingCheck:
+        obj.tiesNumberRadioClicked()
+    else:
+        obj.tiesSpacingRadioClicked()
+    # obj.ties_widget.ties_number.setEnabled(True)
+    # obj.ties_widget.ties_spacing.setEnabled(False)
+    obj.ties_widget.ties_number.setValue(
+        FootingReinforcementGroup.TieAmountValue
+    )
+    obj.ties_widget.ties_spacing.setText(
+        FootingReinforcementGroup.TieSpacingValue.UserString
+    )
+
+
+def setMainRebarsData(obj, FootingReinforcementGroup):
+    """Set values for Main Rebars of columns of  footing reinforcement"""
+    obj.main_rebars_widget.main_rebars_type.setCurrentIndex(
+        obj.main_rebars_widget.main_rebars_type.findText(
+            FootingReinforcementGroup.ColumnMainRebarType
+        )
+    )
+    obj.main_rebars_widget.main_rebars_hookOrientation.setCurrentIndex(
+        obj.main_rebars_widget.main_rebars_hookOrientation.findText(
+            FootingReinforcementGroup.ColumnMainHookOrientation
+        )
+    )
+    obj.main_rebars_widget.main_rebars_hookExtendAlong.setCurrentIndex(
+        obj.main_rebars_widget.main_rebars_hookExtendAlong.findText(
+            FootingReinforcementGroup.ColumnMainHookExtendAlong
+        )
+    )
+    obj.main_rebars_widget.main_rebars_hookExtension.setText(
+        FootingReinforcementGroup.ColumnMainHookExtension.UserString
+    )
+    obj.main_rebars_widget.main_rebars_rounding.setValue(
+        FootingReinforcementGroup.ColumnMainLRebarRounding
+    )
+    obj.main_rebars_widget.main_rebars_topOffset.setText(
+        FootingReinforcementGroup.ColumnMainRebarsTopOffset.UserString
+    )
+    obj.main_rebars_widget.main_rebars_diameter.setText(
+        FootingReinforcementGroup.ColumnMainRebarsDiameter.UserString
+    )
+
+
+def setSecRebarsData(obj, FootingReinforcementGroup):
+    """Set values for Secondary Rebars of columns of  footing reinforcement"""
+    # set secondry xdir values
+    obj.sec_xdir_rebars_widget.xdir_rebars_type.setCurrentIndex(
+        obj.sec_xdir_rebars_widget.xdir_rebars_type.findText(
+            FootingReinforcementGroup.ColumnSecRebarsType[0]
+        )
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.setCurrentIndex(
+        obj.sec_xdir_rebars_widget.xdir_rebars_hookOrientation.findText(
+            FootingReinforcementGroup.ColumnSecHookOrientation[0]
+        )
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_hookExtension.setText(
+        str(FootingReinforcementGroup.ColumnSecHookExtension[0])
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_rounding.setValue(
+        FootingReinforcementGroup.ColumnSecLRebarRounding[0]
+    )
+    obj.sec_xdir_rebars_widget.xdir_rebars_topOffset.setText(
+        str(FootingReinforcementGroup.ColumnSecRebarsTopOffset[0])
+    )
+    obj.sec_xdir_rebars_widget.numberDiameter.setText(
+        FootingReinforcementGroup.ColumnSecRebarsNumberDiameter[0]
+    )
+
+    # set secondry ydir values
+    obj.sec_ydir_rebars_widget.ydir_rebars_type.setCurrentIndex(
+        obj.sec_ydir_rebars_widget.ydir_rebars_type.findText(
+            FootingReinforcementGroup.ColumnSecRebarsType[1]
+        )
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.setCurrentIndex(
+        obj.sec_ydir_rebars_widget.ydir_rebars_hookOrientation.findText(
+            FootingReinforcementGroup.ColumnSecHookOrientation[1]
+        )
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_hookExtension.setText(
+        str(FootingReinforcementGroup.ColumnSecHookExtension[1])
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_rounding.setValue(
+        FootingReinforcementGroup.ColumnSecLRebarRounding[1]
+    )
+    obj.sec_ydir_rebars_widget.ydir_rebars_topOffset.setText(
+        str(FootingReinforcementGroup.ColumnSecRebarsTopOffset[1])
+    )
+    obj.sec_ydir_rebars_widget.numberDiameter.setText(
+        FootingReinforcementGroup.ColumnSecRebarsNumberDiameter[1]
+    )
 
 
 def CommandFootingReinforcement():
