@@ -32,6 +32,7 @@ from typing import Union, Tuple, Optional
 
 from FootingReinforcement.FootingReinforcementObject import (
     FootingReinforcementGroup,
+    _FootingReinforcementViewProviderGroup,
 )
 
 if FreeCAD.GuiUp:
@@ -297,6 +298,10 @@ def makeFootingReinforcement(
             return None
 
     footingReinforcementGroup = FootingReinforcementGroup().Object
+    if FreeCAD.GuiUp:
+        _FootingReinforcementViewProviderGroup(
+            footingReinforcementGroup.ViewObject
+        )
 
     footingReinforcementGroup.IsMakeOrEditRequired = False
     footingReinforcementGroup.MeshCoverAlong = mesh_cover_along
