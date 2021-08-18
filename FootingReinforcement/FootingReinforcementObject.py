@@ -21,7 +21,7 @@
 # *                                                                         *
 # ***************************************************************************
 
-__title__ = "Slab Reinforcement Group"
+__title__ = "Footing Reinforcement Group"
 __author__ = "Shiv Charan"
 __url__ = "https://www.freecadweb.org"
 
@@ -1614,3 +1614,23 @@ class FootingReinforcementGroup:
             if len(row_obj.ColumnList) > 0:
                 column_matrix.append(row_obj.ColumnList)
         return column_matrix
+
+
+class _FootingReinforcementViewProviderGroup:
+    """A View Provider for the Rebar Group object."""
+
+    def __init__(self, vobj):
+        vobj.Proxy = self
+        self.Object = vobj.Object
+
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self, state):
+        return None
+
+    def doubleClicked(self, vobj):
+        """Handle double click on Footing Reinforcement object"""
+        from FootingReinforcement import MainFootingReinforcement
+
+        MainFootingReinforcement.editDialog(vobj)
