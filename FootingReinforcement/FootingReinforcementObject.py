@@ -1061,6 +1061,13 @@ class FootingReinforcementGroup:
             structure, top_facename
         )[0]
 
+        # Calculate tie offset as per main rebars length
+        calculated_tie_offset = (
+            column_main_rebars_t_offset
+            + selected_face_hight
+            - tie_diameter
+            - tie_top_cover
+        )
         # remove cover length from face lengths
         top_face_width = top_face_width - column_left_cover
         top_face_length = top_face_length - column_front_cover
@@ -1364,7 +1371,7 @@ class FootingReinforcementGroup:
                             r_cover_of_tie=modified_r_cover_of_tie,
                             t_cover_of_tie=modified_t_cover_of_tie,
                             b_cover_of_tie=modified_b_cover_of_tie,
-                            offset_of_tie=tie_top_cover,
+                            offset_of_tie=calculated_tie_offset,
                             bent_angle=tie_bent_angle,
                             extension_factor=tie_extension_factor,
                             dia_of_tie=tie_diameter,
@@ -1397,7 +1404,7 @@ class FootingReinforcementGroup:
                             0
                         ].OffsetStart = (
                             selected_face_hight
-                            - 2 * column_b_offset
+                            - column_b_offset
                             - tie_diameter
                             - tie_bottom_cover
                         )
@@ -1408,7 +1415,7 @@ class FootingReinforcementGroup:
                             r_cover_of_tie=modified_r_cover_of_tie,
                             t_cover_of_tie=modified_t_cover_of_tie,
                             b_cover_of_tie=modified_b_cover_of_tie,
-                            offset_of_tie=tie_top_cover,
+                            offset_of_tie=calculated_tie_offset,
                             bent_angle=tie_bent_angle,
                             extension_factor=tie_extension_factor,
                             dia_of_tie=tie_diameter,
@@ -1441,7 +1448,7 @@ class FootingReinforcementGroup:
                             0
                         ].OffsetStart = (
                             selected_face_hight
-                            - 2 * column_b_offset
+                            - column_b_offset
                             - tie_diameter
                             - tie_bottom_cover
                         )
@@ -1471,7 +1478,7 @@ class FootingReinforcementGroup:
                             r_cover_of_tie=modified_r_cover_of_tie,
                             t_cover_of_tie=modified_t_cover_of_tie,
                             b_cover_of_tie=modified_b_cover_of_tie,
-                            offset_of_tie=tie_top_cover,
+                            offset_of_tie=calculated_tie_offset,
                             bent_angle=tie_bent_angle,
                             extension_factor=tie_extension_factor,
                             dia_of_tie=tie_diameter,
@@ -1492,7 +1499,7 @@ class FootingReinforcementGroup:
                             0
                         ].OffsetStart = (
                             selected_face_hight
-                            - 2 * column_b_offset
+                            - column_b_offset
                             - tie_diameter
                             - tie_bottom_cover
                         )
@@ -1503,7 +1510,7 @@ class FootingReinforcementGroup:
                             r_cover_of_tie=modified_r_cover_of_tie,
                             t_cover_of_tie=modified_t_cover_of_tie,
                             b_cover_of_tie=modified_b_cover_of_tie,
-                            offset_of_tie=tie_top_cover,
+                            offset_of_tie=calculated_tie_offset,
                             bent_angle=tie_bent_angle,
                             extension_factor=tie_extension_factor,
                             dia_of_tie=tie_diameter,
@@ -1524,7 +1531,7 @@ class FootingReinforcementGroup:
                             0
                         ].OffsetStart = (
                             selected_face_hight
-                            - 2 * column_b_offset
+                            - column_b_offset
                             - tie_diameter
                             - tie_bottom_cover
                         )
