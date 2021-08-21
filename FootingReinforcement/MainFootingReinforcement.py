@@ -156,10 +156,10 @@ class _FootingReinforcementDialog:
 
         # For Column
 
-        self.columns_widget.columns_frontCover.setText("20.00 mm")
-        self.columns_widget.columns_l_sideCover.setText("20.00 mm")
-        self.columns_widget.columns_r_sideCover.setText("20.00 mm")
-        self.columns_widget.columns_rearCover.setText("20.00 mm")
+        self.columns_widget.columns_frontCover.setText("50.00 mm")
+        self.columns_widget.columns_l_sideCover.setText("50.00 mm")
+        self.columns_widget.columns_r_sideCover.setText("50.00 mm")
+        self.columns_widget.columns_rearCover.setText("50.00 mm")
         self.columns_widget.column_length.setText("200.00 mm")
         self.columns_widget.column_width.setText("200.00 mm")
         self.columns_widget.column_xdir_amountRadio.setChecked(True)
@@ -175,7 +175,7 @@ class _FootingReinforcementDialog:
 
         # Set Ties data
         self.ties_widget.ties_bottomCover.setText("40.00 mm")
-        self.ties_widget.ties_offset.setText("400.00 mm")
+        self.ties_widget.ties_topCover.setText("40.00 mm")
         self.ties_widget.ties_diameter.setText("8.00 mm")
         self.ties_widget.ties_bentAngle.setCurrentIndex(
             self.ties_widget.ties_bentAngle.findText("135")
@@ -919,7 +919,7 @@ class _FootingReinforcementDialog:
         self.tie_bottom_cover = FreeCAD.Units.Quantity(
             self.tie_bottom_cover
         ).Value
-        self.tie_top_cover = self.ties_widget.ties_offset.text()
+        self.tie_top_cover = self.ties_widget.ties_topCover.text()
         self.tie_top_cover = FreeCAD.Units.Quantity(self.tie_top_cover).Value
         self.tie_diameter = self.ties_widget.ties_diameter.text()
         self.tie_diameter = FreeCAD.Units.Quantity(self.tie_diameter).Value
@@ -1251,7 +1251,7 @@ def setTiesData(obj, FootingReinforcementGroup):
     obj.ties_widget.ties_bottomCover.setText(
         FootingReinforcementGroup.TieBottomCover.UserString
     )
-    obj.ties_widget.ties_offset.setText(
+    obj.ties_widget.ties_topCover.setText(
         FootingReinforcementGroup.TieTopCover.UserString
     )
     obj.ties_widget.ties_diameter.setText(

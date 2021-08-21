@@ -55,14 +55,14 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="ties_offsetLabel">
+        <widget class="QLabel" name="ties_topCoverLabel">
          <property name="text">
-          <string>Top Offset</string>
+          <string>Top Cover</string>
          </property>
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="Gui::InputField" name="ties_offset">
+        <widget class="Gui::InputField" name="ties_topCover">
          <property name="text">
           <string>0 </string>
          </property>
@@ -223,7 +223,7 @@
  </customwidgets>
  <tabstops>
   <tabstop>ties_scrollArea</tabstop>
-  <tabstop>ties_offset</tabstop>
+  <tabstop>ties_topCover</tabstop>
   <tabstop>ties_diameter</tabstop>
   <tabstop>ties_bentAngle</tabstop>
   <tabstop>ties_extensionFactor</tabstop>
