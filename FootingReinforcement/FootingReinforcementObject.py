@@ -509,53 +509,53 @@ class FootingReinforcementGroup:
             obj.CrossLShapeHookOrintation = "Left"
 
         # Properties for Columns
-        if not hasattr(obj, "ColumnFrontCover"):
+        if not hasattr(obj, "ColumnFrontSpacing"):
             obj.addProperty(
                 "App::PropertyDistance",
-                "ColumnFrontCover",
+                "ColumnFrontSpacing",
                 "ColumnReinforcements",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
                     "Column Front Cover",
                 ),
             )
-            obj.ColumnFrontCover = 400
+            obj.ColumnFrontSpacing = 400
 
-        if not hasattr(obj, "ColumnLeftCover"):
+        if not hasattr(obj, "ColumnLeftSpacing"):
             obj.addProperty(
                 "App::PropertyDistance",
-                "ColumnLeftCover",
+                "ColumnLeftSpacing",
                 "ColumnReinforcements",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
                     "Column Left Cover",
                 ),
             )
-            obj.ColumnLeftCover = 400
+            obj.ColumnLeftSpacing = 400
 
-        if not hasattr(obj, "ColumnRightCover"):
+        if not hasattr(obj, "ColumnRightSpacing"):
             obj.addProperty(
                 "App::PropertyDistance",
-                "ColumnRightCover",
+                "ColumnRightSpacing",
                 "ColumnReinforcements",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
                     "Column Right Cover",
                 ),
             )
-            obj.ColumnRightCover = 400
+            obj.ColumnRightSpacing = 400
 
-        if not hasattr(obj, "ColumnRearCover"):
+        if not hasattr(obj, "ColumnRearSpacing"):
             obj.addProperty(
                 "App::PropertyDistance",
-                "ColumnRearCover",
+                "ColumnRearSpacing",
                 "ColumnReinforcements",
                 QT_TRANSLATE_NOOP(
                     "App::Property",
                     "Column Rear Cover",
                 ),
             )
-            obj.ColumnRearCover = 400
+            obj.ColumnRearSpacing = 400
 
         if not hasattr(obj, "TieTopCover"):
             obj.addProperty(
@@ -997,10 +997,18 @@ class FootingReinforcementGroup:
             ).Value
         cross_rounding = obj.CrossRounding
         cross_l_shape_hook_orintation = obj.CrossLShapeHookOrintation
-        column_front_cover = FreeCAD.Units.Quantity(obj.ColumnFrontCover).Value
-        column_left_cover = FreeCAD.Units.Quantity(obj.ColumnLeftCover).Value
-        column_right_cover = FreeCAD.Units.Quantity(obj.ColumnRightCover).Value
-        column_rear_cover = FreeCAD.Units.Quantity(obj.ColumnRearCover).Value
+        column_front_spacing = FreeCAD.Units.Quantity(
+            obj.ColumnFrontSpacing
+        ).Value
+        column_left_spacing = FreeCAD.Units.Quantity(
+            obj.ColumnLeftSpacing
+        ).Value
+        column_right_spacing = FreeCAD.Units.Quantity(
+            obj.ColumnRightSpacing
+        ).Value
+        column_rear_spacing = FreeCAD.Units.Quantity(
+            obj.ColumnRearSpacing
+        ).Value
         tie_top_cover = FreeCAD.Units.Quantity(obj.TieTopCover).Value
         tie_bottom_cover = FreeCAD.Units.Quantity(obj.TieBottomCover).Value
         tie_bent_angle = obj.TieBentAngle
@@ -1068,15 +1076,15 @@ class FootingReinforcementGroup:
             - tie_diameter
             - tie_top_cover
         )
-        # remove cover length from face lengths
-        top_face_width = top_face_width - column_left_cover
-        top_face_length = top_face_length - column_front_cover
+        # remove columns spacing length from face lengths
+        top_face_width = top_face_width - column_left_spacing
+        top_face_length = top_face_length - column_front_spacing
         # Calculate spacing value from column amount in y-axis direction
         if ydir_column_amount_spacing_check:
             ydir_column_amount_value = ydir_column_amount_spacing_value
             empty_space_length = (
                 top_face_length
-                - column_rear_cover
+                - column_rear_spacing
                 - (ydir_column_amount_spacing_value) * column_length
             )
             if empty_space_length < 0:
@@ -1096,7 +1104,7 @@ class FootingReinforcementGroup:
             ydir_column_spacing_value = ydir_column_amount_spacing_value
             ydir_column_amount_value = 1
             empty_space_length = (
-                top_face_length - column_rear_cover - column_length
+                top_face_length - column_rear_spacing - column_length
             )
             while empty_space_length > 0:
                 empty_space_length = (
@@ -1110,7 +1118,7 @@ class FootingReinforcementGroup:
             xdir_column_amount_value = xdir_column_amount_spacing_value
             empty_space_length = (
                 top_face_width
-                - column_right_cover
+                - column_right_spacing
                 - (xdir_column_amount_spacing_value) * column_width
             )
             if empty_space_length < 0:
@@ -1129,7 +1137,7 @@ class FootingReinforcementGroup:
             xdir_column_spacing_value = xdir_column_amount_spacing_value
             xdir_column_amount_value = 1
             empty_space_length = (
-                top_face_width - column_right_cover - column_width
+                top_face_width - column_right_spacing - column_width
             )
             while empty_space_length > 0:
                 empty_space_length = (
@@ -1351,7 +1359,7 @@ class FootingReinforcementGroup:
         if column_sec_rebar_check:
             for row in range(xdir_column_amount_value):
                 for column in range(ydir_column_amount_value):
-                    modified_l_cover_of_tie = column_left_cover + (row) * (
+                    modified_l_cover_of_tie = column_left_spacing + (row) * (
                         column_width + xdir_column_spacing_value
                     )
                     modified_r_cover_of_tie = (
@@ -1364,9 +1372,9 @@ class FootingReinforcementGroup:
                         - (column + 1) * (column_length)
                         - (column) * (ydir_column_spacing_value)
                     )
-                    modified_b_cover_of_tie = column_front_cover + (column) * (
-                        column_length + ydir_column_spacing_value
-                    )
+                    modified_b_cover_of_tie = column_front_spacing + (
+                        column
+                    ) * (column_length + ydir_column_spacing_value)
                     if not columns_container[row][column]:
                         columnReinforcementGroup = makeSingleTieMultipleRebars(
                             l_cover_of_tie=modified_l_cover_of_tie,
@@ -1458,7 +1466,7 @@ class FootingReinforcementGroup:
         else:
             for row in range(xdir_column_amount_value):
                 for column in range(ydir_column_amount_value):
-                    modified_l_cover_of_tie = column_left_cover + (row) * (
+                    modified_l_cover_of_tie = column_left_spacing + (row) * (
                         column_width + xdir_column_spacing_value
                     )
                     modified_r_cover_of_tie = (
@@ -1471,9 +1479,9 @@ class FootingReinforcementGroup:
                         - (column + 1) * (column_length)
                         - (column) * (ydir_column_spacing_value)
                     )
-                    modified_b_cover_of_tie = column_front_cover + (column) * (
-                        column_length + ydir_column_spacing_value
-                    )
+                    modified_b_cover_of_tie = column_front_spacing + (
+                        column
+                    ) * (column_length + ydir_column_spacing_value)
                     if not columns_container[row][column]:
                         columnReinforcementGroup = makeSingleTieFourRebars(
                             l_cover_of_tie=modified_l_cover_of_tie,

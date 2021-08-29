@@ -157,10 +157,10 @@ class _FootingReinforcementDialog:
 
         # For Column
 
-        self.columns_widget.columns_frontCover.setText("50.00 mm")
-        self.columns_widget.columns_l_sideCover.setText("50.00 mm")
-        self.columns_widget.columns_r_sideCover.setText("50.00 mm")
-        self.columns_widget.columns_rearCover.setText("50.00 mm")
+        self.columns_widget.columns_frontSpacing.setText("50.00 mm")
+        self.columns_widget.columns_leftSpacing.setText("50.00 mm")
+        self.columns_widget.columns_rightSpacing.setText("50.00 mm")
+        self.columns_widget.columns_rearSpacing.setText("50.00 mm")
         self.columns_widget.column_length.setText("200.00 mm")
         self.columns_widget.column_width.setText("200.00 mm")
         self.columns_widget.column_xdir_amountRadio.setChecked(True)
@@ -635,10 +635,10 @@ class _FootingReinforcementDialog:
                 cross_bottom_cover=self.cross_bottom_cover,
                 cross_diameter=self.cross_diameter,
                 cross_amount_spacing_check=self.cross_amount_spacing_check,
-                column_front_cover=self.column_front_cover,
-                column_left_cover=self.column_left_cover,
-                column_right_cover=self.column_right_cover,
-                column_rear_cover=self.column_rear_cover,
+                column_front_spacing=self.column_front_spacing,
+                column_left_spacing=self.column_left_spacing,
+                column_right_spacing=self.column_right_spacing,
+                column_rear_spacing=self.column_rear_spacing,
                 tie_top_cover=self.tie_top_cover,
                 tie_bottom_cover=self.tie_bottom_cover,
                 tie_bent_angle=self.tie_bent_angle,
@@ -697,10 +697,10 @@ class _FootingReinforcementDialog:
                 cross_bottom_cover=self.cross_bottom_cover,
                 cross_diameter=self.cross_diameter,
                 cross_amount_spacing_check=self.cross_amount_spacing_check,
-                column_front_cover=self.column_front_cover,
-                column_left_cover=self.column_left_cover,
-                column_right_cover=self.column_right_cover,
-                column_rear_cover=self.column_rear_cover,
+                column_front_spacing=self.column_front_spacing,
+                column_left_spacing=self.column_left_spacing,
+                column_right_spacing=self.column_right_spacing,
+                column_rear_spacing=self.column_rear_spacing,
                 tie_top_cover=self.tie_top_cover,
                 tie_bottom_cover=self.tie_bottom_cover,
                 tie_bent_angle=self.tie_bent_angle,
@@ -875,17 +875,17 @@ class _FootingReinforcementDialog:
     # get data from column
     def getColumnsData(self):
         """This function is used to get data related to columns from UI."""
-        self.column_front_cover = FreeCAD.Units.Quantity(
-            self.columns_widget.columns_frontCover.text()
+        self.column_front_spacing = FreeCAD.Units.Quantity(
+            self.columns_widget.columns_frontSpacing.text()
         ).Value
-        self.column_left_cover = FreeCAD.Units.Quantity(
-            self.columns_widget.columns_l_sideCover.text()
+        self.column_left_spacing = FreeCAD.Units.Quantity(
+            self.columns_widget.columns_leftSpacing.text()
         ).Value
-        self.column_right_cover = FreeCAD.Units.Quantity(
-            self.columns_widget.columns_r_sideCover.text()
+        self.column_right_spacing = FreeCAD.Units.Quantity(
+            self.columns_widget.columns_rightSpacing.text()
         ).Value
-        self.column_rear_cover = FreeCAD.Units.Quantity(
-            self.columns_widget.columns_rearCover.text()
+        self.column_rear_spacing = FreeCAD.Units.Quantity(
+            self.columns_widget.columns_rearSpacing.text()
         ).Value
         self.column_width = FreeCAD.Units.Quantity(
             self.columns_widget.column_length.text()
@@ -1200,17 +1200,17 @@ def setCrossRebarsData(obj, FootingReinforcementGroup):
 
 def setColumnsData(obj, FootingReinforcementGroup):
     """Set values for columns of footing reinforcement"""
-    obj.columns_widget.columns_frontCover.setText(
-        FootingReinforcementGroup.ColumnFrontCover.UserString
+    obj.columns_widget.columns_frontSpacing.setText(
+        FootingReinforcementGroup.ColumnFrontSpacing.UserString
     )
-    obj.columns_widget.columns_l_sideCover.setText(
-        FootingReinforcementGroup.ColumnLeftCover.UserString
+    obj.columns_widget.columns_leftSpacing.setText(
+        FootingReinforcementGroup.ColumnLeftSpacing.UserString
     )
-    obj.columns_widget.columns_r_sideCover.setText(
-        FootingReinforcementGroup.ColumnRightCover.UserString
+    obj.columns_widget.columns_rightSpacing.setText(
+        FootingReinforcementGroup.ColumnRightSpacing.UserString
     )
-    obj.columns_widget.columns_rearCover.setText(
-        FootingReinforcementGroup.ColumnRearCover.UserString
+    obj.columns_widget.columns_rearSpacing.setText(
+        FootingReinforcementGroup.ColumnRearSpacing.UserString
     )
     obj.columns_widget.column_length.setText(
         FootingReinforcementGroup.ColumnWidth.UserString
