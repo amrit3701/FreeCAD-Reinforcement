@@ -36,6 +36,7 @@ from SlabReinforcement.SlabReinforcement import (
     makeSlabReinforcement,
     editSlabReinforcement,
 )
+from RebarData import ReinforcementHelpLinks
 
 
 class _SlabReinforcementDialog:
@@ -470,6 +471,13 @@ class _SlabReinforcementDialog:
             == QtWidgets.QDialogButtonBox.RejectRole
         ):
             self.form.close()
+        elif (
+            self.form.standardButtonBox.buttonRole(button)
+            == QtWidgets.QDialogButtonBox.HelpRole
+        ):
+            import webbrowser
+
+            webbrowser.open(ReinforcementHelpLinks.slab_reinforcement_help_link)
 
     def accept(self, button=None):
         """This function is executed when 'OK' button is clicked from UI. It
