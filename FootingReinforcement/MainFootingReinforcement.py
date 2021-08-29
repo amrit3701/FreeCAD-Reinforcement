@@ -37,6 +37,7 @@ from FootingReinforcement.FootingReinforcement import (
     makeFootingReinforcement,
     editFootingReinforcement,
 )
+from RebarData import ReinforcementHelpLinks
 
 
 class _FootingReinforcementDialog:
@@ -594,6 +595,15 @@ class _FootingReinforcementDialog:
             == QtWidgets.QDialogButtonBox.RejectRole
         ):
             self.form.close()
+        elif (
+            self.form.standardButtonBox.buttonRole(button)
+            == QtWidgets.QDialogButtonBox.HelpRole
+        ):
+            import webbrowser
+
+            webbrowser.open(
+                ReinforcementHelpLinks.footing_reinforcement_help_link
+            )
 
     def accept(self, button=None):
         """This function is executed when 'OK' button is clicked from UI. It
