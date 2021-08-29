@@ -59,10 +59,10 @@ def makeFootingReinforcement(
     cross_bottom_cover: float,
     cross_diameter: float,
     cross_amount_spacing_check: bool,
-    column_front_cover: float,
-    column_left_cover: float,
-    column_right_cover: float,
-    column_rear_cover: float,
+    column_front_spacing: float,
+    column_left_spacing: float,
+    column_right_spacing: float,
+    column_rear_spacing: float,
     tie_top_cover: float,
     tie_bottom_cover: float,
     tie_bent_angle: int,
@@ -178,13 +178,13 @@ def makeFootingReinforcement(
         It represents orintation of hook of parallel L-Shape rebar if parallel_rebar_type
         is LShapeRebar.
         It can have tree values "Left", "Right", "Alternate".
-    column_front_cover: float
+    column_front_spacing: float
         Distance between selected face and front columns.
-    column_left_cover: float,
+    column_left_spacing: float,
         Distance between left face and left columns.
-    column_right_cover: float
+    column_right_spacing: float
         Distance between right face and right columns.
-    column_rear_cover: float
+    column_rear_spacing: float
         Distance between rear face and rear columns.
     tie_top_cover: float
         Top cover for ties outside footing.
@@ -356,10 +356,10 @@ def makeFootingReinforcement(
             cross_l_shape_hook_orintation
         )
 
-    footingReinforcementGroup.ColumnFrontCover = column_front_cover
-    footingReinforcementGroup.ColumnLeftCover = column_left_cover
-    footingReinforcementGroup.ColumnRightCover = column_right_cover
-    footingReinforcementGroup.ColumnRearCover = column_rear_cover
+    footingReinforcementGroup.ColumnFrontSpacing = column_front_spacing
+    footingReinforcementGroup.ColumnLeftSpacing = column_left_spacing
+    footingReinforcementGroup.ColumnRightSpacing = column_right_spacing
+    footingReinforcementGroup.ColumnRearSpacing = column_rear_spacing
     footingReinforcementGroup.TieTopCover = tie_top_cover
     footingReinforcementGroup.TieBottomCover = tie_bottom_cover
     footingReinforcementGroup.TieBentAngle = tie_bent_angle
@@ -468,10 +468,10 @@ def editFootingReinforcement(
     cross_bottom_cover: float,
     cross_diameter: float,
     cross_amount_spacing_check: bool,
-    column_front_cover: float,
-    column_left_cover: float,
-    column_right_cover: float,
-    column_rear_cover: float,
+    column_front_spacing: float,
+    column_left_spacing: float,
+    column_right_spacing: float,
+    column_rear_spacing: float,
     tie_top_cover: float,
     tie_bottom_cover: float,
     tie_bent_angle: int,
@@ -589,13 +589,13 @@ def editFootingReinforcement(
         It represents orintation of hook of parallel L-Shape rebar if parallel_rebar_type
         is LShapeRebar.
         It can have tree values "Left", "Right", "Alternate".
-    column_front_cover: float
+    column_front_spacing: float
         Distance between selected face and front columns.
-    column_left_cover: float,
+    column_left_spacing: float,
         Distance between left face and left columns.
-    column_right_cover: float
+    column_right_spacing: float
         Distance between right face and right columns.
-    column_rear_cover: float
+    column_rear_spacing: float
         Distance between rear face and rear columns.
     tie_top_cover: float
         Top cover for ties outside footing.
@@ -754,10 +754,10 @@ def editFootingReinforcement(
             cross_l_shape_hook_orintation
         )
 
-    footingReinforcementGroup.ColumnFrontCover = column_front_cover
-    footingReinforcementGroup.ColumnLeftCover = column_left_cover
-    footingReinforcementGroup.ColumnRightCover = column_right_cover
-    footingReinforcementGroup.ColumnRearCover = column_rear_cover
+    footingReinforcementGroup.ColumnFrontSpacing = column_front_spacing
+    footingReinforcementGroup.ColumnLeftSpacing = column_left_spacing
+    footingReinforcementGroup.ColumnRightSpacing = column_right_spacing
+    footingReinforcementGroup.ColumnRearSpacing = column_rear_spacing
     footingReinforcementGroup.TieTopCover = tie_top_cover
     footingReinforcementGroup.TieBottomCover = tie_bottom_cover
     footingReinforcementGroup.TieBentAngle = tie_bent_angle

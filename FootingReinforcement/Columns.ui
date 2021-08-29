@@ -130,14 +130,14 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="columns_frontCoverLabel">
+         <widget class="QLabel" name="columns_frontSpacingLabel">
           <property name="text">
-           <string>Front Cover</string>
+           <string>Front Spacing</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="Gui::InputField" name="columns_frontCover">
+         <widget class="Gui::InputField" name="columns_frontSpacing">
           <property name="text">
            <string>20 mm</string>
           </property>
@@ -147,14 +147,14 @@
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="columns_l_sideCoverLabel">
+         <widget class="QLabel" name="columns_leftSpacingLabel">
           <property name="text">
-           <string>Left Cover</string>
+           <string>Left Spacing</string>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="Gui::InputField" name="columns_l_sideCover">
+         <widget class="Gui::InputField" name="columns_leftSpacing">
           <property name="text">
            <string>20 mm</string>
           </property>
@@ -164,14 +164,14 @@
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QLabel" name="columns_r_sideCoverLabel">
+         <widget class="QLabel" name="columns_rightSpacingLabel">
           <property name="text">
-           <string>Right Cover</string>
+           <string>Right Spacing</string>
           </property>
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="Gui::InputField" name="columns_r_sideCover">
+         <widget class="Gui::InputField" name="columns_rightSpacing">
           <property name="text">
            <string>20 mm</string>
           </property>
@@ -181,14 +181,14 @@
          </widget>
         </item>
         <item row="4" column="0">
-         <widget class="QLabel" name="columns_rearCoverLabel">
+         <widget class="QLabel" name="columns_rearSpacingLabel">
           <property name="text">
-           <string>Rear Cover</string>
+           <string>Rear Spacing</string>
           </property>
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="Gui::InputField" name="columns_rearCover">
+         <widget class="Gui::InputField" name="columns_rearSpacing">
           <property name="text">
            <string>20 mm</string>
           </property>
@@ -410,9 +410,9 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>columns_frontCover</tabstop>
-  <tabstop>columns_l_sideCover</tabstop>
-  <tabstop>columns_r_sideCover</tabstop>
+  <tabstop>columns_frontSpacing</tabstop>
+  <tabstop>columns_leftSpacing</tabstop>
+  <tabstop>columns_rightSpacing</tabstop>
   <tabstop>column_length</tabstop>
   <tabstop>column_xdir_amountRadio</tabstop>
   <tabstop>column_xdir_spacingRadio</tabstop>
