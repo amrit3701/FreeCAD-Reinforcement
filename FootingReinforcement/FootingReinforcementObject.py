@@ -28,6 +28,7 @@ __url__ = "https://www.freecadweb.org"
 
 import FreeCAD
 from DraftGui import todo
+from PySide2.QtCore import QT_TRANSLATE_NOOP
 from SlabReinforcement.SlabReinforcement import (
     makeSlabReinforcement,
     editSlabReinforcement,
@@ -43,7 +44,6 @@ from Rebarfunc import (
     getParametersOfFace,
     showWarning,
 )
-from PySide2.QtCore import QT_TRANSLATE_NOOP
 
 
 class FootingReinforcementGroup:
@@ -1071,52 +1071,18 @@ class FootingReinforcementGroup:
         # remove cover length from face lengths
         top_face_width = top_face_width - column_left_cover
         top_face_length = top_face_length - column_front_cover
-        # Calculate spacing value from column amount in x-axis direction
-        if xdir_column_amount_spacing_check:
-            xdir_column_amount_value = xdir_column_amount_spacing_value
+        # Calculate spacing value from column amount in y-axis direction
+        if ydir_column_amount_spacing_check:
+            ydir_column_amount_value = ydir_column_amount_spacing_value
             empty_space_length = (
                 top_face_length
                 - column_rear_cover
-                - (xdir_column_amount_spacing_value) * column_length
+                - (ydir_column_amount_spacing_value) * column_length
             )
             if empty_space_length < 0:
                 # Space between front and rear cover less to add given column amount
                 showWarning(
                     "Error: Space between front and rear cover less to add given column amount"
-                )
-                return None
-            if xdir_column_amount_spacing_value > 1:
-                xdir_column_spacing_value = empty_space_length / (
-                    xdir_column_amount_spacing_value - 1
-                )
-            else:
-                xdir_column_spacing_value = empty_space_length
-
-        else:
-            xdir_column_spacing_value = xdir_column_amount_spacing_value
-            xdir_column_amount_value = 1
-            empty_space_length = (
-                top_face_length - column_rear_cover - column_length
-            )
-            while empty_space_length > 0:
-                empty_space_length = (
-                    empty_space_length
-                    - column_length
-                    - xdir_column_spacing_value
-                )
-                xdir_column_amount_value = xdir_column_amount_value + 1
-        # Calculate spacing value from column amount in y-axis direction
-        if ydir_column_amount_spacing_check:
-            ydir_column_amount_value = ydir_column_amount_spacing_value
-            empty_space_length = (
-                top_face_width
-                - column_right_cover
-                - (ydir_column_amount_spacing_value) * column_width
-            )
-            if empty_space_length < 0:
-                # Space between left and rigth cover less to add given column amount
-                showWarning(
-                    "Error: Space between left and rigth cover less to add given column amount"
                 )
                 return None
             if ydir_column_amount_spacing_value > 1:
@@ -1125,9 +1091,43 @@ class FootingReinforcementGroup:
                 )
             else:
                 ydir_column_spacing_value = empty_space_length
+
         else:
             ydir_column_spacing_value = ydir_column_amount_spacing_value
             ydir_column_amount_value = 1
+            empty_space_length = (
+                top_face_length - column_rear_cover - column_length
+            )
+            while empty_space_length > 0:
+                empty_space_length = (
+                    empty_space_length
+                    - column_length
+                    - ydir_column_spacing_value
+                )
+                ydir_column_amount_value = ydir_column_amount_value + 1
+        # Calculate spacing value from column amount in x-axis direction
+        if xdir_column_amount_spacing_check:
+            xdir_column_amount_value = xdir_column_amount_spacing_value
+            empty_space_length = (
+                top_face_width
+                - column_right_cover
+                - (xdir_column_amount_spacing_value) * column_width
+            )
+            if empty_space_length < 0:
+                # Space between left and rigth cover less to add given column amount
+                showWarning(
+                    "Error: Space between left and rigth cover less to add given column amount"
+                )
+                return None
+            if xdir_column_amount_spacing_value > 1:
+                xdir_column_spacing_value = empty_space_length / (
+                    xdir_column_amount_spacing_value - 1
+                )
+            else:
+                xdir_column_spacing_value = empty_space_length
+        else:
+            xdir_column_spacing_value = xdir_column_amount_spacing_value
+            xdir_column_amount_value = 1
             empty_space_length = (
                 top_face_width - column_right_cover - column_width
             )
@@ -1135,9 +1135,9 @@ class FootingReinforcementGroup:
                 empty_space_length = (
                     empty_space_length
                     - column_width
-                    - ydir_column_spacing_value
+                    - xdir_column_spacing_value
                 )
-                ydir_column_amount_value = ydir_column_amount_value + 1
+                xdir_column_amount_value = xdir_column_amount_value + 1
 
         slabs_reinforcements = obj.ReinforcementGroups[0].SlabsReinforcementList
         if mesh_cover_along != "Both" and len(slabs_reinforcements) > 1:
@@ -1320,52 +1320,54 @@ class FootingReinforcementGroup:
             )
             <= 2
         ):
-            for cy in obj.ReinforcementGroups[1].RowObjectList:
-                for column in cy.ColumnList:
+            for cx in obj.ReinforcementGroups[1].RowObjectList:
+                for column in cx.ColumnList:
                     if column:
                         self.removeColumnReinforcement(column)
 
         columns_container = self.getColumnsMatrix(obj.ReinforcementGroups[1])
-        for cy in range(len(columns_container)):
-            if cy + 1 > ydir_column_amount_value:
-                for cx, column in enumerate(columns_container[cy]):
+        for cx in range(len(columns_container)):
+            if cx + 1 > xdir_column_amount_value:
+                for cy, column in enumerate(columns_container[cx]):
                     if column:
                         self.removeColumnReinforcement(column)
             else:
-                for cx in range(len(columns_container[cy])):
-                    if cx + 1 > xdir_column_amount_value:
-                        column = columns_container[cy][cx]
+                for cy in range(len(columns_container[cx])):
+                    if cy + 1 > ydir_column_amount_value:
+                        column = columns_container[cx][cy]
                         if column:
                             self.removeColumnReinforcement(column)
 
         columns_container = self.getColumnsMatrix(obj.ReinforcementGroups[1])
-        for y in range(ydir_column_amount_value):
-            if y + 1 > len(columns_container):
+
+        # Set given column metrix size based on input of x and y direction column count
+        for x in range(xdir_column_amount_value):
+            if x + 1 > len(columns_container):
                 columns_container.append([])
-            for x in range(xdir_column_amount_value):
-                if x + 1 > len(columns_container[y]):
-                    columns_container[y].append(None)
+            for y in range(ydir_column_amount_value):
+                if y + 1 > len(columns_container[x]):
+                    columns_container[x].append(None)
 
         if column_sec_rebar_check:
-            for column in range(ydir_column_amount_value):
-                for row in range(xdir_column_amount_value):
-                    modified_l_cover_of_tie = column_left_cover + (column) * (
-                        column_width + ydir_column_spacing_value
+            for row in range(xdir_column_amount_value):
+                for column in range(ydir_column_amount_value):
+                    modified_l_cover_of_tie = column_left_cover + (row) * (
+                        column_width + xdir_column_spacing_value
                     )
                     modified_r_cover_of_tie = (
                         top_face_width
-                        - (column + 1) * (column_width)
-                        - (column) * (ydir_column_spacing_value)
+                        - (row + 1) * (column_width)
+                        - (row) * (xdir_column_spacing_value)
                     )
                     modified_t_cover_of_tie = (
                         top_face_length
-                        - (row + 1) * (column_length)
-                        - (row) * (xdir_column_spacing_value)
+                        - (column + 1) * (column_length)
+                        - (column) * (ydir_column_spacing_value)
                     )
-                    modified_b_cover_of_tie = column_front_cover + (row) * (
-                        column_length + xdir_column_spacing_value
+                    modified_b_cover_of_tie = column_front_cover + (column) * (
+                        column_length + ydir_column_spacing_value
                     )
-                    if not columns_container[column][row]:
+                    if not columns_container[row][column]:
                         columnReinforcementGroup = makeSingleTieMultipleRebars(
                             l_cover_of_tie=modified_l_cover_of_tie,
                             r_cover_of_tie=modified_r_cover_of_tie,
@@ -1410,7 +1412,7 @@ class FootingReinforcementGroup:
                         )
                     else:
                         columnReinforcementGroup = editSingleTieMultipleRebars(
-                            rebar_group=columns_container[column][row],
+                            rebar_group=columns_container[row][column],
                             l_cover_of_tie=modified_l_cover_of_tie,
                             r_cover_of_tie=modified_r_cover_of_tie,
                             t_cover_of_tie=modified_t_cover_of_tie,
@@ -1452,27 +1454,27 @@ class FootingReinforcementGroup:
                             - tie_diameter
                             - tie_bottom_cover
                         )
-                    columns_container[column][row] = columnReinforcementGroup
+                    columns_container[row][column] = columnReinforcementGroup
         else:
-            for column in range(ydir_column_amount_value):
-                for row in range(xdir_column_amount_value):
-                    modified_l_cover_of_tie = column_left_cover + (column) * (
-                        column_width + ydir_column_spacing_value
+            for row in range(xdir_column_amount_value):
+                for column in range(ydir_column_amount_value):
+                    modified_l_cover_of_tie = column_left_cover + (row) * (
+                        column_width + xdir_column_spacing_value
                     )
                     modified_r_cover_of_tie = (
                         top_face_width
-                        - (column + 1) * (column_width)
-                        - (column) * (ydir_column_spacing_value)
+                        - (row + 1) * (column_width)
+                        - (row) * (xdir_column_spacing_value)
                     )
                     modified_t_cover_of_tie = (
                         top_face_length
-                        - (row + 1) * (column_length)
-                        - (row) * (xdir_column_spacing_value)
+                        - (column + 1) * (column_length)
+                        - (column) * (ydir_column_spacing_value)
                     )
-                    modified_b_cover_of_tie = column_front_cover + (row) * (
-                        column_length + xdir_column_spacing_value
+                    modified_b_cover_of_tie = column_front_cover + (column) * (
+                        column_length + ydir_column_spacing_value
                     )
-                    if not columns_container[column][row]:
+                    if not columns_container[row][column]:
                         columnReinforcementGroup = makeSingleTieFourRebars(
                             l_cover_of_tie=modified_l_cover_of_tie,
                             r_cover_of_tie=modified_r_cover_of_tie,
@@ -1505,7 +1507,7 @@ class FootingReinforcementGroup:
                         )
                     else:
                         columnReinforcementGroup = editSingleTieFourRebars(
-                            rebar_group=columns_container[column][row],
+                            rebar_group=columns_container[row][column],
                             l_cover_of_tie=modified_l_cover_of_tie,
                             r_cover_of_tie=modified_r_cover_of_tie,
                             t_cover_of_tie=modified_t_cover_of_tie,
@@ -1535,7 +1537,7 @@ class FootingReinforcementGroup:
                             - tie_diameter
                             - tie_bottom_cover
                         )
-                    columns_container[column][row] = columnReinforcementGroup
+                    columns_container[row][column] = columnReinforcementGroup
 
         self.addColumnsGroups(obj.ReinforcementGroups[1], columns_container)
         FreeCAD.ActiveDocument.recompute()

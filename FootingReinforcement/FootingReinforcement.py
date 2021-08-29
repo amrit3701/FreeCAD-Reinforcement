@@ -213,17 +213,17 @@ def makeFootingReinforcement(
         Length of columns.
     xdir_column_amount_spacing_check: bool
         If is set to True, then value of xdir_column_amount_spacing_value is used as
-        rebars count else xdir_column_amount_spacing_value's value is used as spacing
+        column count else xdir_column_amount_spacing_value's value is used as spacing
         between columns in x direction.
     xdir_column_amount_spacing_value: int
-        It contains count of rebars or spacing between  between columns in x direction based on
+        It contains count of columns or spacing between columns in x direction based on
         value of xdir_column_amount_spacing_check.
     ydir_column_amount_spacing_check: bool
         If is set to True, then value of ydir_column_amount_spacing_value is used as
-        rebars count else ydir_column_amount_spacing_value's value is used as spacing
+        columns count else ydir_column_amount_spacing_value's value is used as spacing
         between columns in y direction.
     ydir_column_amount_spacing_value: int
-        It contains count of rebars or spacing between  between columns in x direction based on
+        It contains count of columns or spacing between  between columns in y direction based on
         value of ydir_column_amount_spacing_check.
     column_main_rebars_type: Optional[str] ,
         Rebar type for main rebars of column. It takes two different inputs for 'StraightRebar',
