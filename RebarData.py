@@ -42,3 +42,14 @@ class RebarTypes(str, enum.Enum):
     @staticmethod
     def tolist():
         return list(map(lambda x: x.value, RebarTypes))
+
+
+class ReinforcementHelpLinks:
+    """A Reinforcement Help link object"""
+
+    footing_reinforcement_help_link = (
+        "https://wiki.freecadweb.org/Arch_Rebar_Footing_Reinforcement"
+    )
+    slab_reinforcement_help_link = (
+        "https://wiki.freecadweb.org/Arch_Rebar_Slab_Reinforcement"
+    )
