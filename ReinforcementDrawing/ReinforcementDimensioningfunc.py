@@ -58,6 +58,19 @@ def getPathMidPoint(points_list, return_left_right_points=False):
     ]
     path_length = sum(points_dist)
 
+    if len(points_list) == 2:
+        p1, p2 = points_list
+        segment_length = math.hypot(p2[0] - p1[0], p2[1] - p1[1])
+        rem_dist = path_length / 2
+        mid_point = (
+            p1[0] + (p2[0] - p1[0]) * rem_dist / segment_length,
+            p1[1] + (p2[1] - p1[1]) * rem_dist / segment_length,
+        )
+        if return_left_right_points:
+            return p1, mid_point, p2
+        else:
+            return mid_point
+
     for i, point in enumerate(points_list[1:], start=1):
         if int(sum(points_dist[:i])) == int(path_length / 2):
             if return_left_right_points:
