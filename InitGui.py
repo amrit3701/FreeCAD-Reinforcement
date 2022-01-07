@@ -67,6 +67,9 @@ class ReinforcementWorkbench(FreeCADGui.Workbench):
                 / "preferences"
             )
         )
+        FreeCADGui.addLanguagePath(
+            str(Path(RebarTools.__file__).parent.absolute() / "translations")
+        )
 
     def Activated(self):
         """This function is executed when the workbench is activated"""
