@@ -117,7 +117,7 @@ def getReinforcementRebarObjects(objects_list=None):
 
 def naturalKey(item: Tuple):
     """naturalKeys(mark):
-    item is a Tuple repesenting dictionary item
+    item is a Tuple representing dictionary item
 
     Returns list of integer or text components of key
     """

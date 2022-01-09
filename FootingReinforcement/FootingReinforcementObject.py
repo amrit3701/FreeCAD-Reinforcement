@@ -50,7 +50,7 @@ class FootingReinforcementGroup:
     """A Footing Reinforcement Group object."""
 
     def __init__(self, obj_name="FootingReinforcement"):
-        """intialize group for Footing Reinforcement Group object"""
+        """initialize group for Footing Reinforcement Group object"""
         rebar_group = FreeCAD.ActiveDocument.addObject(
             "App::DocumentObjectGroupPython", obj_name
         )
@@ -1122,9 +1122,9 @@ class FootingReinforcementGroup:
                 - (xdir_column_amount_spacing_value) * column_width
             )
             if empty_space_length < 0:
-                # Space between left and rigth cover less to add given column amount
+                # Space between left and right cover less to add given column amount
                 showWarning(
-                    "Error: Space between left and rigth cover less to add given column amount"
+                    "Error: Space between left and right cover less to add given column amount"
                 )
                 return None
             if xdir_column_amount_spacing_value > 1:

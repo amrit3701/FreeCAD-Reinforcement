@@ -134,7 +134,7 @@ def getBaseRebarsList(
 
 def naturalKey(item):
     """naturalKeys(item):
-    item is repersenting rebar item here
+    item is representing rebar item here
 
     Returns list of integer or text components of key
     """
