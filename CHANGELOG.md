@@ -1,7 +1,17 @@
 # Changelog
 
 ## [Unreleased](https://github.com/amrit3701/FreeCAD-Reinforcement/tree/HEAD)
-[Full Changelog](https://github.com/amrit3701/FreeCAD-Reinforcement/compare/v0.2...HEAD)
+[Full Changelog](https://github.com/amrit3701/FreeCAD-Reinforcement/compare/v0.3...HEAD)
+
+## [v0.3](https://github.com/amrit3701/FreeCAD-Reinforcement/tree/v0.3) (2022-01-09)
+
+[Full Changelog](https://github.com/amrit3701/FreeCAD-Reinforcement/compare/v0.2..v0.3)
+
+**Implemented features:**
+- Implemented Slab reinforcement.
+- Implemented Footing reinforcement.
+- Improved translations.
+- Sorted bar bending schedule wrt to bar mark.
 
 ## [v0.2](https://github.com/amrit3701/FreeCAD-Reinforcement/tree/v0.2) (2021-02-13)
 
