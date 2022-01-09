@@ -241,18 +241,18 @@ def makeFootingReinforcement(
     column_main_hook_extension: Optional[float],
         It specifies length of hook of main rebar (LShapeRebar).
     column_sec_rebar_check: Optional[bool]
-        If True add secoundary x and y direction rebars in columns.
+        If True add secondary x and y direction rebars in columns.
     column_sec_rebars_t_offset: Optional[Tuple[ float,float]],
         Top offset for secounday rebars of column.
         Syntax: (<value_for_sec_xdir_rebars>, <value_for_sec_ydir_rebars>)
     column_sec_rebars_number_diameter: Optional[Tuple[ float,float]],
-        Diameter of secoundary rebars of columns.
+        Diameter of secondary rebars of columns.
         Syntax: (<value_for_sec_xdir_rebars>, <value_for_sec_ydir_rebars>)
     column_sec_rebars_type: Optional[Tuple[ str,str]],
-        Rebar type of secoundary rebars of columns.
+        Rebar type of secondary rebars of columns.
         Syntax: (<value_for_sec_xdir_rebars>, <value_for_sec_ydir_rebars>)
     column_sec_hook_orientation: Optional[Tuple[ str,str]],
-        Hook Orientation of secoundary rebars of columns.
+        Hook Orientation of secondary rebars of columns.
         In column_sec_hook_orientation(<xdir_rebars_orientation>, <ydir_rebars_orientation>).
         Value of xdir_rebars_orientation can be: 'Top Inside', 'Top Outside',
         'Bottom Inside', 'Bottom Outside', 'Top Upward', 'Top Downward', 'Bottom
@@ -266,7 +266,7 @@ def makeFootingReinforcement(
         in times the column_sec_rebars_number_diameter.
         Syntax: (<value_for_sec_xdir_rebars>, <value_for_sec_ydir_rebars>)
     column_sec_hook_extension: Optional[Tuple[ float,float]],
-        Hook length of secoundary rebars (LShapeRebar) of columns.
+        Hook length of secondary rebars (LShapeRebar) of columns.
         Syntax: (<value_for_sec_xdir_rebars>, <value_for_sec_ydir_rebars>)
     mesh_cover_along: str
         It can have two values "Top", "Bottom" and "Both". It represent alignment of
@@ -652,18 +652,18 @@ def editFootingReinforcement(
     column_main_hook_extension: Optional[float],
         It specifies length of hook of main rebar (LShapeRebar).
     column_sec_rebar_check: Optional[bool]
-        If True add secoundary x and y direction rebars in columns.
+        If True add secondary x and y direction rebars in columns.
     column_sec_rebars_t_offset: Optional[Tuple[ float,float]],
         Top offset for secounday rebars of column.
         Syntax: (<value_for_sec_xdir_rebars>, <value_for_sec_ydir_rebars>)
     column_sec_rebars_number_diameter: Optional[Tuple[ float,float]],
-        Diameter of secoundary rebars of columns.
+        Diameter of secondary rebars of columns.
         Syntax: (<value_for_sec_xdir_rebars>, <value_for_sec_ydir_rebars>)
     column_sec_rebars_type: Optional[Tuple[ str,str]],
-        Rebar type of secoundary rebars of columns.
+        Rebar type of secondary rebars of columns.
         Syntax: (<value_for_sec_xdir_rebars>, <value_for_sec_ydir_rebars>)
     column_sec_hook_orientation: Optional[Tuple[ str,str]],
-        Hook Orientation of secoundary rebars of columns.
+        Hook Orientation of secondary rebars of columns.
         In column_sec_hook_orientation(<xdir_rebars_orientation>, <ydir_rebars_orientation>).
         Value of xdir_rebars_orientation can be: 'Top Inside', 'Top Outside',
         'Bottom Inside', 'Bottom Outside', 'Top Upward', 'Top Downward', 'Bottom
@@ -677,7 +677,7 @@ def editFootingReinforcement(
         in times the column_sec_rebars_number_diameter.
         Syntax: (<value_for_sec_xdir_rebars>, <value_for_sec_ydir_rebars>)
     column_sec_hook_extension: Optional[Tuple[ float,float]],
-        Hook length of secoundary rebars (LShapeRebar) of columns.
+        Hook length of secondary rebars (LShapeRebar) of columns.
         Syntax: (<value_for_sec_xdir_rebars>, <value_for_sec_ydir_rebars>)
     mesh_cover_along: str
         It can have two values "Top", "Bottom" and "Both". It represent alignment of

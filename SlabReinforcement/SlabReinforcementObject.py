@@ -1486,7 +1486,7 @@ class SlabReinforcementGroup:
             cross_top_cover = cross_top_cover - (
                 parallel_diameter if mesh_cover_along == "Top" else 0
             )
-            # prevent overlaping of arms in BentShapeRebars
+            # prevent overlapping of arms in BentShapeRebars
             if parallel_rebar_type == RebarTypes.bentshape:
                 if mesh_cover_along == "Bottom":
                     required_rebar_axises_sepration = cross_diameter
