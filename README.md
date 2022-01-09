@@ -51,6 +51,10 @@ Like any other FreeCAD [workbench](https://www.freecadweb.org/wiki/Workbench_Con
 - [![icon](icons/wiki/ColumnReinforcement.svg) **ColumnReinforcement**](https://wiki.freecadweb.org/Arch_Rebar_ColumnReinforcement): Creates reinforcing bars in a selected rectangular column structural element
 - [![icon](icons/wiki/ColumnReinforcement.svg) **ColumnReinforcement TwoTiesSixRebars**](https://wiki.freecadweb.org/Arch_Rebar_ColumnReinforcement_TwoTiesSixRebars): Creates reinforcing bars in a selected rectangular column structural element
 - [![icon](icons/wiki/BeamReinforcement.svg) **BeamReinforcement**](https://wiki.freecadweb.org/Arch_Rebar_BeamReinforcement): Creates reinforcing bars in a selected beam structural element
+- [![icon](icons/wiki/Arch_Rebar_Slab_Reinforcement.svg) **SlabReinforcement**](https://wiki.freecadweb.org/Arch_Rebar_Slab_Reinforcement): Creates reinforcing bars in a selected slab structural element
+- [![icon](icons/wiki/Arch_Rebar_Footing_Reinforcement.svg) **FootingReinforcement**](https://wiki.freecadweb.org/Arch_Rebar_Footing_Reinforcement): Creates reinforcing bars inside a Footing Arch Structure object
+- [![icon](icons/wiki/Arch_Rebar.svg) **Rebar**](https://wiki.freecadweb.org/Arch_Rebar): Creates a custom reinforcement bar in a selected structural element using a sketch
+
 
 ### Reinforcement Detailing
 
@@ -97,14 +101,22 @@ This endeavor started as a [Google Summer of Code](https://en.wikipedia.org/wiki
 
 ### GSoC 2017
 - [FreeCAD forum thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=22760)
-- [GSoC proposal](https://brlcad.org/wiki/User:Amritpal_singh/gsoc_proposal)
 - [Development logs](https://brlcad.org/wiki/User:Amritpal_singh/GSoC17/logs)
+- [GSoC proposal](https://brlcad.org/wiki/User:Amritpal_singh/gsoc_proposal)
+- [GSoC link](https://summerofcode.withgoogle.com/archive/2017/projects/6536382147198976)
 
 ### GSoC 2019
 - [FreeCAD forum thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=35077)
-- [GSoC proposal](https://www.freecadweb.org/wiki/User:Suraj_Dadral/gsoc_proposal)
 - [Development logs](https://www.freecadweb.org/wiki/User:Suraj_Dadral/GSoC19/logs)
+- [GSoC proposal](https://www.freecadweb.org/wiki/User:Suraj_Dadral/gsoc_proposal)
+- [GSoC link](https://summerofcode.withgoogle.com/archive/2019/projects/6553209726828544)
 
 ### GSoC 2020
 - [FreeCAD forum thread](https://forum.freecadweb.org/viewtopic.php?f=23&t=44580)
 - [GSoC proposal](https://wiki.freecadweb.org/User:Suraj_Dadral/GSoC20/proposal)
+- [GSoC link](https://summerofcode.withgoogle.com/archive/2020/projects/6207752898084864)
+
+### GSoC 2021
+- [FreeCAD forum thread](https://forum.freecadweb.org/viewtopic.php?f=23&t=57698)
+- [GSoC proposal](https://wiki.freecadweb.org/User:Shiv_Charan/gsoc_proposal)
+- [GSoC link](https://summerofcode.withgoogle.com/archive/2021/projects/4965033401909248)
