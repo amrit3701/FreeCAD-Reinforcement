@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<package format="1" xmlns="https://wiki.freecad.org/Package_Metadata">
+  <name>Reinforcement</name>
+  <description>A workbench that provides tools for Reinforcement Generation and its Detailing.</description>
+  <version>v0.3</version>
+  <maintainer email="amrit3701@gmail.com">Amritpal Singh (amrit3701)</maintainer>
+  <license>LGPLv2.1</license>
+  <url type="repository" branch="master">https://github.com/amrit3701/FreeCAD-Reinforcement</url>
+  <icon>icons/Reinforcement.svg</icon>
+
+  <content>
+    <workbench>
+      <classname>ReinforcementWorkbench</classname>
+      <subdirectory>./</subdirectory>
+      <url type="documentation">https://wiki.freecadweb.org/Reinforcement_Workbench</url>
+      <url type="website">https://www.patreon.com/amrit3701</url>
+      <tag>rebar</tag>
+      <tag>bar</tag>
+      <tag>reinforcement</tag>
+      <tag>detailing</tag>
+    </workbench>
+  </content>
+</package>
