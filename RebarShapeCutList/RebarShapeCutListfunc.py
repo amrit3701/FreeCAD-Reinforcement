@@ -305,6 +305,7 @@ def getEdgesAngleSVG(
     bent_angle_exclude_list: Tuple[float, ...] = (90, 180),
     stroke_width: Union[float, str] = 0.2,
     stroke_color: str = "black",
+    font_color: str = "black",
 ) -> ElementTree.Element:
     """Returns svg representation for angle between two edges by drawing an arc
     of given radius and adding angle text svg.
@@ -333,6 +334,9 @@ def getEdgesAngleSVG(
         Default is 0.2
     stroke_color: str, optional
         The stroke color of arc svg.
+        Default is "black".
+    font_color: str
+        The font-color of arc dimension.
         Default is "black".
 
     Returns
@@ -393,6 +397,7 @@ def getEdgesAngleSVG(
         font_family,
         font_size,
         text_anchor,
+        font_color=font_color,
     )
 
     bent_angle_svg = ElementTree.Element("g")
@@ -426,6 +431,7 @@ def getRebarShapeSVG(
     max_width: float = 0,
     side_padding: float = 1,
     horizontal_shape: bool = False,
+    dimension_font_color: str = "black",
 ) -> ElementTree.Element:
     """Generate and return rebar shape svg.
 
@@ -499,6 +505,9 @@ def getRebarShapeSVG(
         If True, then rebar shape will be made horizontal by rotating max
         length edge of rebar shape.
         Default is False.
+    dimension_font_color: str
+        The front-color of dimension text.
+        Default is "black".
 
     Returns
     -------
@@ -791,6 +800,7 @@ def getRebarShapeSVG(
                 - (0.5 + bool(include_dimensions)) * dimension_font_size,
                 dimension_font_family,
                 1.5 * dimension_font_size,
+                font_color=dimension_font_color,
             )
         )
 
@@ -870,6 +880,7 @@ def getRebarShapeSVG(
                     dimension_font_family,
                     dimension_font_size,
                     "middle",
+                    font_color=dimension_font_color,
                 )
             )
     else:
@@ -948,6 +959,7 @@ def getRebarShapeSVG(
                             dimension_font_family,
                             dimension_font_size,
                             "middle",
+                            font_color=dimension_font_color,
                         )
                     )
                     edge_dimension_svg[-1].set(
@@ -974,6 +986,8 @@ def getRebarShapeSVG(
                             dimension_font_size * 0.8,
                             bent_angle_dimension_exclude_list,
                             0.2 / scale,
+                            stroke_color=dimension_font_color,
+                            font_color=dimension_font_color,
                         )
                         edge_dimension_svg.append(bent_angle_svg)
             elif DraftGeomUtils.geomType(edge) == "Circle":
@@ -1009,6 +1023,8 @@ def getRebarShapeSVG(
                                     dimension_font_size * 0.8,
                                     bent_angle_dimension_exclude_list,
                                     0.2 / scale,
+                                    stroke_color=dimension_font_color,
+                                    font_color=dimension_font_color,
                                 )
                                 edge_dimension_svg.append(bent_angle_svg)
             else:
@@ -1047,6 +1063,8 @@ def getRebarShapeCutList(
     side_padding: float = 1,
     horizontal_rebar_shape: bool = True,
     output_file: Optional[str] = None,
+    cell_outerline_color: str = "black",
+    dimension_font_color: str = "black",
 ) -> ElementTree.Element:
     """Generate and return rebar shape cut list svg.
 
@@ -1125,6 +1143,12 @@ def getRebarShapeCutList(
         Default is True.
     output_file: str, optional
         The output file to write generated rebar shape cut list svg.
+    cell_outerline_color: str
+        The outerline color of svg cell.
+        Default is "black".
+    dimension_font_color: str
+        The font-color of rebar shape dimension.
+        Default is "black".
 
     Returns
     -------
@@ -1199,6 +1223,7 @@ def getRebarShapeCutList(
             max_width=column_width,
             side_padding=side_padding,
             horizontal_shape=horizontal_rebar_shape,
+            dimension_font_color=dimension_font_color,
         )
         # Center align rebar shape svg horizontally and vertically in row cell
         rebar_shape_svg_width = float(rebar_svg.get("width").rstrip("mm"))
@@ -1221,6 +1246,7 @@ def getRebarShapeCutList(
             column_width,
             row_height,
             element_id="row_{}_column_{}".format(row, column),
+            stroke_color=cell_outerline_color,
         )
         # Create row svg and translate it horizontally and vertically to its
         # position
@@ -1246,6 +1272,7 @@ def getRebarShapeCutList(
                     2 * dimension_font_size,
                     dimension_font_family,
                     1.5 * dimension_font_size,
+                    font_color=dimension_font_color,
                 )
             )
         rebar_shape_cut_list.append(cell_svg)
@@ -1258,6 +1285,7 @@ def getRebarShapeCutList(
                     column_width,
                     row_height,
                     element_id="row_{}_column_{}".format(row, rem_col_index),
+                    stroke_color=cell_outerline_color,
                 )
                 cell_svg = ElementTree.Element(
                     "g",

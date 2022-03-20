@@ -284,9 +284,10 @@ def getSVGTextElement(
     dominant_baseline: str = "baseline",
     preserve_space: bool = True,
     font_weight: Union[str, float] = "",
+    font_color: str = "black",
 ):
     """getSVGTextElement(Data, XOffset, YOffset, FontFamily, FontSize,
-    [TextAnchor, DominantBaseline, PreserveSpace, FontWeight]):
+    [TextAnchor, DominantBaseline, PreserveSpace, FontWeight, FontColor]):
     Returns text element with filled data and required placement.
     """
     text = ElementTree.Element(
@@ -294,7 +295,7 @@ def getSVGTextElement(
         x=str(round(x_offset)),
         y=str(round(y_offset)),
         style="",
-        fill="#000000",
+        fill=font_color,
     )
     text.set("font-family", font_family)
     text.set("font-size", str(font_size))
@@ -309,9 +310,16 @@ def getSVGTextElement(
     return text
 
 
-def getSVGRectangle(x_offset, y_offset, width, height, element_id=None):
+def getSVGRectangle(
+    x_offset,
+    y_offset,
+    width,
+    height,
+    element_id=None,
+    stroke_color: str = "black",
+):
     """getSVGRectangle(XOffset, YOffset, RectangleWidth, RectangleHeight,
-    ElementId):
+    ElementId, StrokeColor):
     Returns rectangle element with required placement and size of rectangle.
     """
     rectangle_svg = ElementTree.Element(
@@ -320,7 +328,7 @@ def getSVGRectangle(x_offset, y_offset, width, height, element_id=None):
         y=str(y_offset),
         width=str(width),
         height=str(height),
-        style="fill:none;stroke-width:0.35;stroke:#000000;",
+        style=f"fill:none;stroke-width:0.35;stroke:{stroke_color};",
     )
     if element_id:
         rectangle_svg.set("id", str(element_id))
@@ -337,15 +345,21 @@ def getSVGDataCell(
     font_size,
     element_id="",
     font_weight="",
+    line_color: str = "black",
+    font_color: str = "black",
 ):
     """getSVGDataCell(Data, XOffset, YOffset, CellWidth, CellHeight, FontFamily,
-    FontSize, ElementId, FontWeight):
+    FontSize, ElementId, FontWeight, LineColor, FontColor):
     Returns element with rectangular cell with filled data and required
     placement of cell.
     """
     cell_svg = ElementTree.Element("g")
     cell_svg.set("id", str(element_id))
-    cell_svg.append(getSVGRectangle(x_offset, y_offset, width, height))
+    cell_svg.append(
+        getSVGRectangle(
+            x_offset, y_offset, width, height, stroke_color=line_color
+        )
+    )
     cell_svg.append(
         getSVGTextElement(
             data,
@@ -356,6 +370,7 @@ def getSVGDataCell(
             text_anchor="middle",
             dominant_baseline="central",
             font_weight=font_weight,
+            font_color=font_color,
         )
     )
     return cell_svg
