@@ -531,3 +531,9 @@ ReinforcementCommands = [
     "Reinforcement_BarBendingSchedule",
     "Reinforcement_DrawingDimensioning",
 ]
+
+
+def load_translations():
+    FreeCADGui.addLanguagePath(
+        str(Path(__file__).parent.absolute() / "translations")
+    )
