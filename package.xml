@@ -4,7 +4,7 @@
   <description>A workbench that provides tools for Reinforcement Generation and its Detailing.</description>
   <version>v0.3</version>
   <maintainer email="amrit3701@gmail.com">Amritpal Singh (amrit3701)</maintainer>
-  <license>LGPLv2.1</license>
+  <license>LGPL-2.1-or-later</license>
   <url type="repository" branch="master">https://github.com/amrit3701/FreeCAD-Reinforcement</url>
   <icon>icons/Reinforcement.svg</icon>
 
