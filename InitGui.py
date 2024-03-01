@@ -33,12 +33,19 @@ import RebarTools
 wb_icon_path = str(
     Path(RebarTools.__file__).parent.absolute() / "icons" / "Reinforcement.svg"
 )
+FreeCADGui.addLanguagePath(
+    str(Path(RebarTools.__file__).parent.absolute() / "translations")
+)
+FreeCADGui.updateLocale()
 
 
 class ReinforcementWorkbench(FreeCADGui.Workbench):
+    from FreeCAD import Qt
+
     global wb_icon_path
-    MenuText = "Reinforcement"
-    ToolTip = "Create Building Reinforcement"
+
+    MenuText = Qt.translate("ReinforcementWorkbench", "Reinforcement")
+    ToolTip = Qt.translate("ReinforcementWorkbench", "Create Building Reinforcement")
     Icon = wb_icon_path
 
     def Initialize(self):
@@ -66,9 +73,6 @@ class ReinforcementWorkbench(FreeCADGui.Workbench):
                 / "icons"
                 / "preferences"
             )
-        )
-        FreeCADGui.addLanguagePath(
-            str(Path(RebarTools.__file__).parent.absolute() / "translations")
         )
 
     def Activated(self):
