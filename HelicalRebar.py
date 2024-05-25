@@ -291,7 +291,10 @@ def makeHelicalRebar(
     helix = createHelicalWire(
         FacePRM, s_cover, b_cover, t_cover, pitch, size, normal, diameter
     )
-    helix.Support = [(structure, facename)]
+    if hasattr(helix, "Support"):
+        helix.Support = [(structure, facename)]
+    else:
+        helix.AttachmentSupport = [(structure, facename)]
     rebar = Arch.makeRebar(
         structure, helix, diameter, 1, diameter / 2, name="HelicalRebar"
     )
