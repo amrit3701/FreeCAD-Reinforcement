@@ -373,7 +373,10 @@ def makeLShapeRebar(
         "Sketcher::SketchObject", "Sketch"
     )
     sketch.MapMode = "FlatFace"
-    sketch.Support = [(structure, facename)]
+    if hasattr(sketch, "Support"):
+        sketch.Support = [(structure, facename)]
+    else:
+        sketch.AttachmentSupport = [(structure, facename)]
     FreeCAD.ActiveDocument.recompute()
     sketch.addGeometry(Part.LineSegment(points[0], points[1]), False)
     sketch.addGeometry(Part.LineSegment(points[1], points[2]), False)
