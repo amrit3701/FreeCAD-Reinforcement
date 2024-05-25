@@ -402,7 +402,10 @@ def makeStirrup(
     line = Draft.makeWire(points, closed=False, face=True, support=None)
     import Arch
 
-    line.Support = [(structure, facename)]
+    if hasattr(line, "Support"):
+        line.Support = [(structure, facename)]
+    else:
+        line.AttachmentSupport = [(structure, facename)]
     if amount_spacing_check:
         rebar = Arch.makeRebar(
             structure,
