@@ -159,9 +159,14 @@ class _HelicalRebarTaskPanel:
         if not Rebar:
             normal = facenormalDirection()
         else:
-            normal = facenormalDirection(
-                Rebar.Base.Support[0][0], Rebar.Base.Support[0][1][0]
-            )
+            if hasattr(Rebar.Base, "Support"):
+                normal = facenormalDirection(
+                    Rebar.Base.Support[0][0], Rebar.Base.Support[0][1][0]
+                )
+            else:
+               normal = facenormalDirection(
+                    Rebar.Base.AttachmentSupport[0][0], Rebar.Base.AttachmentSupport[0][1][0]
+                ) 
         if not round(normal.z) in {1, -1}:
             self.form.topCoverLabel.setText(
                 translate("RebarAddon", "Left Cover")
@@ -354,17 +359,32 @@ def editHelicalRebar(
 ):
     sketch = Rebar.Base
     if structure and facename:
-        sketch.Support = [(structure, facename)]
+        if hasattr(sketch, "Support"):
+            sketch.Support = [(structure, facename)]
+        else:
+            sketch.AttachmentSupport = [(structure, facename)]
     # Check if sketch support is empty.
-    if not sketch.Support:
-        showWarning(
-            "You have checked: 'Remove external geometry of base sketches when "
-            "needed.'\nTo uncheck: Edit->Preferences->Arch."
-        )
-        return
+    if hasattr(sketch, "Support"):
+        if not sketch.Support:
+            showWarning(
+                "You have checked: 'Remove external geometry of base sketches when "
+                "needed.'\nTo uncheck: Edit->Preferences->Arch."
+            )
+            return
+    else:
+        if not sketch.AttachmentSupport:
+            showWarning(
+                "You have checked: 'Remove external geometry of base sketches when "
+                "needed.'\nTo uncheck: Edit->Preferences->BIM."
+            )
+            return
     # Assigned values
-    facename = sketch.Support[0][1][0]
-    structure = sketch.Support[0][0]
+    if hasattr(sketch, "Support"):
+        facename = sketch.Support[0][1][0]
+        structure = sketch.Support[0][0]
+    else:
+        facename = sketch.AttachmentSupport[0][1][0]
+        structure = sketch.AttachmentSupport[0][0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
     # StructurePRM = getTrueParametersOfStructure(structure)
     # Get parameters of the face where sketch of rebar is drawn
