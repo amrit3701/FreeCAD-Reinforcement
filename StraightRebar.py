@@ -579,11 +579,11 @@ def editStraightRebar(
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
     obj = _StraightRebarTaskPanel(vobj.Object)
-    obj.form.frontCover.setText(str(vobj.Object.FrontCover))
-    obj.form.r_sideCover.setText(str(vobj.Object.RightTopCover))
-    obj.form.l_sideCover.setText(str(vobj.Object.LeftBottomCover))
-    obj.form.bottomCover.setText(str(vobj.Object.Cover))
-    obj.form.diameter.setText(str(vobj.Object.Diameter))
+    obj.form.frontCover.setText(FreeCAD.Units.Quantity(vobj.Object.FrontCover, FreeCAD.Units.Length).UserString)
+    obj.form.r_sideCover.setText(FreeCAD.Units.Quantity(vobj.Object.RightTopCover, FreeCAD.Units.Length).UserString)
+    obj.form.l_sideCover.setText(FreeCAD.Units.Quantity(vobj.Object.LeftBottomCover, FreeCAD.Units.Length).UserString)
+    obj.form.bottomCover.setText(FreeCAD.Units.Quantity(vobj.Object.Cover, FreeCAD.Units.Length).UserString)
+    obj.form.diameter.setText(FreeCAD.Units.Quantity(vobj.Object.Diameter, FreeCAD.Units.Length).UserString)
     obj.form.orientationValue.setCurrentIndex(
         obj.form.orientationValue.findText(str(vobj.Object.Orientation))
     )
@@ -597,7 +597,7 @@ def editDialog(vobj):
         obj.form.spacing_radio.setChecked(True)
         obj.form.amount.setDisabled(True)
         obj.form.spacing.setEnabled(True)
-        obj.form.spacing.setText(str(vobj.Object.TrueSpacing))
+        obj.form.spacing.setText(FreeCAD.Units.Quantity(vobj.Object.TrueSpacing, FreeCAD.Units.Length).UserString)
     # obj.form.PickSelectedFace.setVisible(False)
     FreeCADGui.Control.showDialog(obj)
 
