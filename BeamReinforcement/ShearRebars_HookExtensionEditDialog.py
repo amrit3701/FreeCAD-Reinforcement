@@ -52,11 +52,11 @@ class _HookExtensionEditDialog:
         for i in range(0, sets):
             self.addSet()
             if self.HookExtensionTuple[i] is None:
-                self.HookExtensionInputFieldList[i].setText("40 mm")
+                self.HookExtensionInputFieldList[i].setText(FreeCAD.Units.Quantity(40.0, FreeCAD.Units.Length).UserString)
                 self.HookExtensionInputFieldList[i].setEnabled(False)
             else:
                 self.HookExtensionInputFieldList[i].setText(
-                    str(self.HookExtensionTuple[i])
+                    FreeCAD.Units.Quantity(self.HookExtensionTuple[i], FreeCAD.Units.Length).UserString
                 )
                 self.HookExtensionInputFieldList[i].setEnabled(True)
 
@@ -73,7 +73,7 @@ class _HookExtensionEditDialog:
         hook_extension = ui.createWidget("Gui::InputField")
         hook_extension.setProperty("unit", "mm")
         hook_extension.setProperty("minimum", 10)
-        hook_extension.setText("40 mm")
+        hook_extension.setText(FreeCAD.Units.Quantity(40.0, FreeCAD.Units.Length).UserString)
         form_layout = self.form.formLayout
         index = sets
         form_layout.insertRow(index, "Set " + str(sets + 1), hook_extension)
