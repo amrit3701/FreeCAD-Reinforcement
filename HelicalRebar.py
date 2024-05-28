@@ -420,11 +420,11 @@ def editHelicalRebar(
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
     obj = _HelicalRebarTaskPanel(vobj.Object)
-    obj.form.sideCover.setText(str(vobj.Object.SideCover))
-    obj.form.bottomCover.setText(str(vobj.Object.BottomCover))
-    obj.form.diameter.setText(str(vobj.Object.Diameter))
-    obj.form.topCover.setText(str(vobj.Object.TopCover))
-    obj.form.pitch.setText(str(vobj.Object.Pitch))
+    obj.form.sideCover.setText(FreeCAD.Units.Quantity(vobj.Object.SideCover, FreeCAD.Units.Length).UserString)
+    obj.form.bottomCover.setText(FreeCAD.Units.Quantity(vobj.Object.BottomCover, FreeCAD.Units.Length).UserString)
+    obj.form.diameter.setText(FreeCAD.Units.Quantity(vobj.Object.Diameter, FreeCAD.Units.Length).UserString)
+    obj.form.topCover.setText(FreeCAD.Units.Quantity(vobj.Object.TopCover, FreeCAD.Units.Length).UserString)
+    obj.form.pitch.setText(FreeCAD.Units.Quantity(vobj.Object.Pitch, FreeCAD.Units.Length).UserString)
     FreeCADGui.Control.showDialog(obj)
 
 
