@@ -74,20 +74,18 @@ class _NumberDiameterOffsetDialog:
                     ][0]
                 )
                 diameter.setText(
-                    str(
+                    FreeCAD.Units.Quantity(     
                         number_diameter_offset_dict["layer" + str(layer + 1)][
                             sets - 1
                         ][1]
-                    )
-                    + "mm"
+                    , FreeCAD.Units.Length).UserString
                 )
                 offset.setText(
-                    str(
+                    FreeCAD.Units.Quantity(
                         number_diameter_offset_dict["layer" + str(layer + 1)][
                             sets - 1
                         ][2]
-                    )
-                    + "mm"
+                    , FreeCAD.Units.Length).UserString
                 )
 
     def connectSignalSlots(self):
@@ -127,7 +125,7 @@ class _NumberDiameterOffsetDialog:
             )
         )
         diameter.setProperty("unit", "mm")
-        diameter.setText("16 mm")
+        diameter.setText(FreeCAD.Units.Quantity(16.0, FreeCAD.Units.Length).UserString)
         offset = ui.createWidget("Gui::InputField")
         offset.setSizePolicy(
             QtWidgets.QSizePolicy(
@@ -135,7 +133,7 @@ class _NumberDiameterOffsetDialog:
             )
         )
         offset.setProperty("unit", "mm")
-        offset.setText("20 mm")
+        offset.setText(FreeCAD.Units.Quantity(20.0, FreeCAD.Units.Length).UserString)
         h_layout.addWidget(set_label)
         h_layout.addWidget(number)
         h_layout.addWidget(diameter)
