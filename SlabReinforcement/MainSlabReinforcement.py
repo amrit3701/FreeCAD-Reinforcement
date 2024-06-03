@@ -31,7 +31,11 @@ from PySide2 import QtWidgets
 import FreeCAD
 import FreeCADGui
 
-from Rebarfunc import check_selected_face
+from Rebarfunc import (
+    check_selected_face,
+    facenormalDirection,
+    showWarning
+)
 from SlabReinforcement.SlabReinforcement import (
     makeSlabReinforcement,
     editSlabReinforcement,
@@ -992,6 +996,12 @@ def CommandSlabReinforcement():
     """This function is used to invoke dialog box for slab reinforcement."""
     selected_obj = check_selected_face()
     if selected_obj:
+        # check if selected face is horizontal. If so, later execution will fail with error
+        normal = facenormalDirection()
+        is_horizontal = FreeCAD.Vector(0, 0, 1).getAngle(normal) < 0.01
+        if is_horizontal:  
+            showWarning("Error: Select a vertical slab surface!")
+            return
         dialog = _SlabReinforcementDialog()
         dialog.setupUi()
         dialog.form.exec_()
