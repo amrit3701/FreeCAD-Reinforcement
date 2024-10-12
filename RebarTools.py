@@ -507,12 +507,6 @@ RebarCommands = [
     "Reinforcement_FootingRebars",
 ]
 
-# Initialize "Arch_Rebar" command
-if "Arch_Rebar" not in FreeCADGui.listCommands():
-    from ArchRebar import _CommandRebar
-
-    FreeCADGui.addCommand("Arch_Rebar", _CommandRebar())
-
 # List of all rebar commands to show in Reinforcement workbench tool bar
 ReinforcementCommands = [
     "Reinforcement_StraightRebar",
@@ -532,6 +526,12 @@ ReinforcementCommands = [
     "Reinforcement_DrawingDimensioning",
 ]
 
+if "Arch_Rebar" not in FreeCADGui.listCommands():
+    ReinforcementCommands.remove("Arch_Rebar")
+    # Cannot initiate Arch_Rebar here. See below issue:
+    # https://github.com/amrit3701/FreeCAD-Reinforcement/issues/220
+    # from ArchRebar import _CommandRebar
+    # FreeCADGui.addCommand("Arch_Rebar", _CommandRebar())
 
 def load_translations():
     FreeCADGui.addLanguagePath(
