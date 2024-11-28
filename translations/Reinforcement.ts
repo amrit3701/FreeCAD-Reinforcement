@@ -2,6 +2,933 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>App::Property</name>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="62"/>
+        <source>The font family of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="75"/>
+        <source>The font filename for font of Bill of Material content and is required for working in pure console mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="88"/>
+        <source>The font size of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="100"/>
+        <source>The template for Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="111"/>
+        <source>The width of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="123"/>
+        <source>The height of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="135"/>
+        <source>The left offset of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="147"/>
+        <source>The top offset of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="159"/>
+        <source>The minimum right offset of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="171"/>
+        <source>The minimum bottom offset of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="183"/>
+        <source>The maximum width of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="195"/>
+        <source>The maximum height of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="208"/>
+        <source>The preferred column width of table of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="220"/>
+        <source>The column width of table of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="234"/>
+        <source>The preferred row height of table of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="246"/>
+        <source>The row height of table of Bill of Material content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ColumnReinforcement/CircularColumn.py" line="250"/>
+        <location filename="../BentShapeRebar.py" line="481"/>
+        <location filename="../BentShapeRebar.py" line="537"/>
+        <location filename="../HelicalRebar.py" line="314"/>
+        <location filename="../LShapeRebar.py" line="418"/>
+        <location filename="../LShapeRebar.py" line="474"/>
+        <location filename="../Stirrup.py" line="443"/>
+        <location filename="../StraightRebar.py" line="419"/>
+        <location filename="../StraightRebar.py" line="478"/>
+        <location filename="../UShapeRebar.py" line="433"/>
+        <location filename="../UShapeRebar.py" line="490"/>
+        <source>Shape of rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="84"/>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="97"/>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="124"/>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="1620"/>
+        <source>List of reinforcement groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="111"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="643"/>
+        <source>Check if make or update required for slab reinforcement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="135"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="65"/>
+        <source>Mesh Cover Along for slab reinforcement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="147"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="77"/>
+        <source>Facename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="158"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="88"/>
+        <source>Structure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="169"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="99"/>
+        <source>Parallel Rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="182"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="138"/>
+        <source>Cross Rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="196"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="152"/>
+        <source>Rebar Type for parallel rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="213"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="169"/>
+        <source>Front Cover for parallel rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="225"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="181"/>
+        <source>Rear Cover for parallel rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="237"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="193"/>
+        <source>Left Cover for parallel rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="249"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="205"/>
+        <source>Right Cover for parallel rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="261"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="217"/>
+        <source>Top Cover for parallel rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="273"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="229"/>
+        <source>Bottom Cover for parallel rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="285"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="241"/>
+        <source>Diameter for parallel rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="297"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="253"/>
+        <source>Amount or Spacing Check for parallel rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="309"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="265"/>
+        <source>Rebar&apos;s Amount Value for parallel rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="321"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="277"/>
+        <source>Spacing Value for parallel rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="333"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="289"/>
+        <source>Rounding for parallel rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="345"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="325"/>
+        <source>L-Shape Hook Orintation for parallel L-Shape rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="358"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="398"/>
+        <source>Rebar Type for cross rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="375"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="415"/>
+        <source>Front Cover for cross rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="387"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="427"/>
+        <source>Rear Cover for cross rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="399"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="439"/>
+        <source>Left Cover for cross rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="411"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="451"/>
+        <source>Right Cover for cross rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="423"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="463"/>
+        <source>Top Cover for cross rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="435"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="475"/>
+        <source>Bottom Cover for cross rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="447"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="487"/>
+        <source>Diameter for cross rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="459"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="499"/>
+        <source>Amount or Spacing Check for cross rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="471"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="511"/>
+        <source>Rebar&apos;s Amount Value for cross rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="483"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="523"/>
+        <source>Spacing Value for cross rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="495"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="535"/>
+        <source>Rounding for cross rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="507"/>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="571"/>
+        <source>L-Shape Hook Orintation for cross L-Shape rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="520"/>
+        <source>Column Front Cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="532"/>
+        <source>Column Left Cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="544"/>
+        <source>Column Right Cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="556"/>
+        <source>Column Rear Cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="568"/>
+        <source>Tie Top Cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="580"/>
+        <source>Tie Bottom Cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="592"/>
+        <source>Tie Bent Angle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="604"/>
+        <source>Tie Extension Factor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="616"/>
+        <source>Tie Diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="628"/>
+        <source>Tie Number Spacing Check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="640"/>
+        <source>Tie Amount Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="652"/>
+        <source>Tie Spacing Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="664"/>
+        <source>Column Main Rebar&apos;s Diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="676"/>
+        <source>Column Main Rebars TopOffset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="688"/>
+        <source>Column Width</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="700"/>
+        <source>Column Length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="712"/>
+        <source>X Direction Column Number Spacing Check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="724"/>
+        <source>X Direction Column Amount Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="736"/>
+        <source>X Direction Column Spacing Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="748"/>
+        <source>Y Direction Column Number Spacing Check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="760"/>
+        <source>Y Direction Column Amount Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="772"/>
+        <source>Y Direction Column Spacing Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="784"/>
+        <source>Main Rebars Types</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="799"/>
+        <source>Main L-shape Rebars Hook Orientation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="820"/>
+        <source>Main L-shape Rebars Hook Extend Along</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="832"/>
+        <source>Main L-shape Rebars Rounding </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="844"/>
+        <source>Main L-shape Rebars Hook Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="856"/>
+        <source>Secoundery Rebars Check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="868"/>
+        <source>Secoundery Rebars Top Offset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="880"/>
+        <source>Secoundery Rebars Number Diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="895"/>
+        <source>Secoundery Rebars type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="910"/>
+        <source>Secoundery L-Shape Rebar Hook Orientation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="925"/>
+        <source>Secoundery L-Shape Rebar Hook Rounding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="937"/>
+        <source>Secoundery L-Shape Rebar Hook Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="129"/>
+        <source>The parent ReinforcementDrawingView object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="140"/>
+        <source>The ArchRebar object to generate dimensioning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="151"/>
+        <source>The way points type of dimension line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="162"/>
+        <source>The way points of dimension line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="174"/>
+        <source>The position type of dimension text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="189"/>
+        <source>The dimension label format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="201"/>
+        <source>The font family of dimension text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="213"/>
+        <source>The font size of dimension text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="225"/>
+        <source>The stroke width of dimension line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="237"/>
+        <source>The stroke style of dimension line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="255"/>
+        <source>The color of dimension line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="267"/>
+        <source>The color of dimension text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="279"/>
+        <source>The start symbol of dimension line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="297"/>
+        <source>The end symbol of dimension line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="315"/>
+        <source>The mid points symbol of dimension line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="332"/>
+        <source>The left offset for automated reinforcement dimensioning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="344"/>
+        <source>The right offset for automated reinforcement dimensioning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="355"/>
+        <source>The top offset for automated reinforcement dimensioning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="367"/>
+        <source>The bottom offset for automated reinforcement dimensioning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="379"/>
+        <source>The dimension line start symbol, in case of single rebar is visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="399"/>
+        <source>The dimension line end symbol, in case of single rebar is visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="419"/>
+        <source>The dimension line start symbol, in case of multiple rebars are visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="439"/>
+        <source>The dimension line end symbol, in case of multiple rebars are visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="458"/>
+        <source>True if dimension lines to be outside of reinforcement drawing for automated reinforcement dimensioning, in case of single rebar is visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="472"/>
+        <source>True if dimension lines to be outside of reinforcement drawing for automated reinforcement dimensioning, in case of multiple rebars are visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="485"/>
+        <source>The position type of dimension text, in case of single rebar is visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="504"/>
+        <source>The position type of dimension text, in case of multiple rebars are visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="73"/>
+        <source>The structure object acting as Host for rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="84"/>
+        <source>The list of rebar objects to be included in drawing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="95"/>
+        <source>The reinforcement drawing view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="106"/>
+        <source>The position type of Reinforcement Drawing on Template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="118"/>
+        <source>The stroke width of rebars in Reinforcement Drawing svg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="130"/>
+        <source>The color style of rebars in Reinforcement Drawing svg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="142"/>
+        <source>The color of rebars in Reinforcement Drawing svg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="155"/>
+        <source>The stroke width of structure in Reinforcement Drawing svg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="167"/>
+        <source>The color style of structure in Reinforcement Drawing svg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="179"/>
+        <source>The color of structure in Reinforcement Drawing svg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="191"/>
+        <source>The template for Reinforcement Drawing view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="202"/>
+        <source>The width of Reinforcement Drawing view svg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="215"/>
+        <source>The height of Reinforcement Drawing view svg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="228"/>
+        <source>The left offset of Reinforcement Drawing view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="240"/>
+        <source>The top offset of Reinforcement Drawing view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="252"/>
+        <source>The minimum right offset of Reinforcement Drawing view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="264"/>
+        <source>The minimum bottom offset of Reinforcement Drawing view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="276"/>
+        <source>The maximum width of Reinforcement Drawing view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="288"/>
+        <source>The maximum height of Reinforcement Drawing view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="300"/>
+        <source>The list of visible rebar objects in drawing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="317"/>
+        <source>The left offset for each new ReinforcementDimensioning object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="332"/>
+        <source>The right offset for each new ReinforcementDimensioning object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="347"/>
+        <source>The top offset for each new ReinforcementDimensioning object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="362"/>
+        <source>The bottom offset for each new ReinforcementDimensioning object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="112"/>
+        <source>Parallel Distribution Rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="125"/>
+        <source>Cross Distribution Rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="301"/>
+        <source>Bent Bar Length for parallel bent shape rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="313"/>
+        <source>Bent Bar Angle for parallel bent shape rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="337"/>
+        <source>Distribution Rebars Check for parallel distribution rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="349"/>
+        <source>Diameter for parallel distribution rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="361"/>
+        <source>Amount or Spacing Check for parallel distribution rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="373"/>
+        <source>Rebar&apos;s amount for parallel distribution rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="385"/>
+        <source>Rebars Spacing for parallel distribution rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="547"/>
+        <source>Bent Bar Length for cross bent shape rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="559"/>
+        <source>Bent Bar Angle for cross bent shape rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="583"/>
+        <source>Distribution Rebars check for cross distribution rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="595"/>
+        <source>Rebars Diameter for cross distribution rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="607"/>
+        <source>Amount or Spacing check for cross distribution rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="619"/>
+        <source>Rebars amount for cross distribution rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="631"/>
+        <source>Spacing value for cross distribution rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BentShapeRebar.py" line="489"/>
+        <location filename="../HelicalRebar.py" line="322"/>
+        <location filename="../LShapeRebar.py" line="426"/>
+        <location filename="../StraightRebar.py" line="427"/>
+        <location filename="../UShapeRebar.py" line="441"/>
+        <source>Front cover of rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BentShapeRebar.py" line="496"/>
+        <location filename="../HelicalRebar.py" line="329"/>
+        <location filename="../LShapeRebar.py" line="433"/>
+        <location filename="../Stirrup.py" line="451"/>
+        <location filename="../UShapeRebar.py" line="455"/>
+        <source>Left Side cover of rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BentShapeRebar.py" line="503"/>
+        <location filename="../LShapeRebar.py" line="440"/>
+        <location filename="../Stirrup.py" line="458"/>
+        <location filename="../UShapeRebar.py" line="448"/>
+        <source>Right Side cover of rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BentShapeRebar.py" line="510"/>
+        <location filename="../HelicalRebar.py" line="336"/>
+        <location filename="../LShapeRebar.py" line="447"/>
+        <location filename="../UShapeRebar.py" line="462"/>
+        <source>Bottom cover of rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BentShapeRebar.py" line="517"/>
+        <location filename="../LShapeRebar.py" line="454"/>
+        <location filename="../Stirrup.py" line="504"/>
+        <location filename="../StraightRebar.py" line="464"/>
+        <location filename="../UShapeRebar.py" line="469"/>
+        <source>Amount radio button is checked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BentShapeRebar.py" line="524"/>
+        <location filename="../HelicalRebar.py" line="343"/>
+        <location filename="../LShapeRebar.py" line="461"/>
+        <location filename="../Stirrup.py" line="479"/>
+        <location filename="../UShapeRebar.py" line="476"/>
+        <source>Top cover of rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BentShapeRebar.py" line="531"/>
+        <location filename="../LShapeRebar.py" line="468"/>
+        <location filename="../Stirrup.py" line="511"/>
+        <location filename="../StraightRebar.py" line="471"/>
+        <location filename="../UShapeRebar.py" line="483"/>
+        <source>Spacing between of rebars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BentShapeRebar.py" line="545"/>
+        <source>BentLength cover of rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BentShapeRebar.py" line="552"/>
+        <source>Bent Angle of rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Stirrup.py" line="465"/>
+        <source>Top Side cover of rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Stirrup.py" line="472"/>
+        <source>Bottom Side cover of rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Stirrup.py" line="488"/>
+        <source>Bent angle between at the end of rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Stirrup.py" line="497"/>
+        <source>Bent Length is the equal to BentFactor * Diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../StraightRebar.py" line="434"/>
+        <source>Right/Top Side cover of rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../StraightRebar.py" line="441"/>
+        <source>Left/Bottom Side cover of rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../StraightRebar.py" line="448"/>
+        <source>Cover along</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../StraightRebar.py" line="457"/>
+        <source>Cover of rebar along user selected side</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Arch</name>
+    <message>
+        <location filename="../HelicalRebar.py" line="158"/>
+        <source>Helical Rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarDistribution.py" line="48"/>
+        <source>Rebar Distribution</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BOMDialog</name>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="20"/>
@@ -1910,6 +2837,76 @@
     </message>
 </context>
 <context>
+    <name>RebarAddon</name>
+    <message>
+        <location filename="../BillOfMaterial/EditSVGConfiguration.py" line="73"/>
+        <source>BOM - Edit SVG Configurations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BillOfMaterial/MainBillOfMaterial.py" line="93"/>
+        <source>Rebars Bill Of Material</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ColumnReinforcement/MainColumnReinforcement.py" line="84"/>
+        <source>Column Reinforcement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ColumnReinforcement/RebarNumberDiameter.py" line="48"/>
+        <source>Rebar Number Diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../BentShapeRebar.py" line="187"/>
+        <source>Bent Shape Rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../HelicalRebar.py" line="173"/>
+        <location filename="../HelicalRebar.py" line="217"/>
+        <source>Left Cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../HelicalRebar.py" line="176"/>
+        <location filename="../HelicalRebar.py" line="220"/>
+        <source>Right Cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../HelicalRebar.py" line="224"/>
+        <source>Top Cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../HelicalRebar.py" line="227"/>
+        <source>Bottom Cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../LShapeRebar.py" line="148"/>
+        <source>L-Shape Rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Stirrup.py" line="207"/>
+        <source>Stirrup Rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../StraightRebar.py" line="133"/>
+        <source>Straight Rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UShapeRebar.py" line="159"/>
+        <source>U-Shape Rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RebarDistribution</name>
     <message>
         <location filename="../RebarDistribution.ui" line="14"/>
@@ -2019,6 +3016,27 @@
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="231"/>
         <source>Set 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RebarTool</name>
+    <message>
+        <location filename="../PopUpImage.py" line="41"/>
+        <source>Detailed description</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RebarWorkbench</name>
+    <message>
+        <location filename="../FootingReinforcement/MainFootingReinforcement.py" line="62"/>
+        <source>Footing Reinforcement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SlabReinforcement/MainSlabReinforcement.py" line="65"/>
+        <source>Slab Reinforcement</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2774,6 +3792,216 @@
     </message>
 </context>
 <context>
+    <name>ReinforcementWorkbench</name>
+    <message>
+        <location filename="../BarBendingSchedule/MainBarBendingSchedule.py" line="133"/>
+        <source>Bar Bending Schedule</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarShapeCutList/MainRebarShapeCutList.py" line="101"/>
+        <source>Rebar Shape Cut List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ReinforcementDrawing/MainReinforcementDrawingDimensioning.py" line="245"/>
+        <source>Reinforcement Drawing Dimensioning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../InitGui.py" line="48"/>
+        <source>Reinforcement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../InitGui.py" line="49"/>
+        <source>Create Building Reinforcement</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_BarBendingSchedule</name>
+    <message>
+        <location filename="../RebarTools.py" line="419"/>
+        <source>Bar Bending Schedule</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="423"/>
+        <source>Generate Bar Bending Schedule</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_BarShapeCutList</name>
+    <message>
+        <location filename="../RebarTools.py" line="388"/>
+        <source>Rebar Shape Cut List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="392"/>
+        <source>Generate Rebar Shape Cut List</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_BeamRebars</name>
+    <message>
+        <location filename="../RebarTools.py" line="264"/>
+        <source>Beam Reinforcement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="269"/>
+        <source>Creates a Beam Reinforcement from the selected face of the Structural element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_BentShapeRebar</name>
+    <message>
+        <location filename="../RebarTools.py" line="174"/>
+        <source>Bent-Shape Rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="179"/>
+        <source>Creates a BentShape bar reinforcement from the selected face of the Structural element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_BillOfMaterial</name>
+    <message>
+        <location filename="../RebarTools.py" line="357"/>
+        <source>Rebar Bill Of Material</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="361"/>
+        <source>Generate Rebars Bill Of Material</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_ColumnRebars</name>
+    <message>
+        <location filename="../RebarTools.py" line="235"/>
+        <source>Column Reinforcement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="240"/>
+        <source>Creates a Column Reinforcement from the selected face of the Structural element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_DrawingDimensioning</name>
+    <message>
+        <location filename="../RebarTools.py" line="451"/>
+        <source>Reinforcement Drawing Dimensioning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="455"/>
+        <source>Generate Reinforcement Drawing Dimensioning</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_FootingRebars</name>
+    <message>
+        <location filename="../RebarTools.py" line="328"/>
+        <source>Footing Reinforcement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="333"/>
+        <source>Creates a Footing Reinforcement from the selected face of the Structural element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_HelicalRebar</name>
+    <message>
+        <location filename="../RebarTools.py" line="206"/>
+        <source>Helical Rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="211"/>
+        <source>Creates a Helical bar reinforcement from the selected face of the Structural element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_LShapeRebar</name>
+    <message>
+        <location filename="../RebarTools.py" line="110"/>
+        <source>L-Shape Rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="115"/>
+        <source>Creates a L-Shape bar reinforcement from the selected face of the Structural element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_SlabRebars</name>
+    <message>
+        <location filename="../RebarTools.py" line="296"/>
+        <source>Slab Reinforcement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="301"/>
+        <source>Creates a Slab Reinforcement from the selected face of the Structural element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_StirrupRebar</name>
+    <message>
+        <location filename="../RebarTools.py" line="142"/>
+        <source>Stirrup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="147"/>
+        <source>Creates a Stirrup bar reinforcement from the selected face of the Structural element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_StraightRebar</name>
+    <message>
+        <location filename="../RebarTools.py" line="46"/>
+        <source>Straight Rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="51"/>
+        <source>Creates a Straight bar reinforcement from the selected face of the Structural element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Reinforcement_UShapeRebar</name>
+    <message>
+        <location filename="../RebarTools.py" line="78"/>
+        <source>U-Shape Rebar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../RebarTools.py" line="83"/>
+        <source>Creates a U-Shape bar reinforcement from the selected face of the Structural element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SecXDirRebarsWidget</name>
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="17"/>
@@ -3226,1196 +4454,6 @@
     <message>
         <location filename="../UShapeRebar.ui" line="292"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>App::Property</name>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="59"/>
-        <source>The font family of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="71"/>
-        <source>The font filename for font of Bill of Material content and is required for working in pure console mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="85"/>
-        <source>The font size of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="97"/>
-        <source>The template for Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="108"/>
-        <source>The width of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="120"/>
-        <source>The height of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="132"/>
-        <source>The left offset of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="144"/>
-        <source>The top offset of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="156"/>
-        <source>The minimum right offset of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="168"/>
-        <source>The minimum bottom offset of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="180"/>
-        <source>The maximum width of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="192"/>
-        <source>The maximum height of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="204"/>
-        <source>The preferred column width of table of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="217"/>
-        <source>The column width of table of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="230"/>
-        <source>The preferred row height of table of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="243"/>
-        <source>The row height of table of Bill of Material content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UShapeRebar.py" line="430"/>
-        <source>Front cover of rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UShapeRebar.py" line="437"/>
-        <source>Right Side cover of rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UShapeRebar.py" line="444"/>
-        <source>Left Side cover of rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UShapeRebar.py" line="451"/>
-        <source>Bottom cover of rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UShapeRebar.py" line="458"/>
-        <source>Amount radio button is checked</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UShapeRebar.py" line="465"/>
-        <source>Top cover of rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UShapeRebar.py" line="472"/>
-        <source>Spacing between of rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UShapeRebar.py" line="479"/>
-        <source>Shape of rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="517"/>
-        <source>Column Front Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="529"/>
-        <source>Column Left Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="541"/>
-        <source>Column Right Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="553"/>
-        <source>Column Rear Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="565"/>
-        <source>Tie Top Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="577"/>
-        <source>Tie Bottom Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="589"/>
-        <source>Tie Bent Angle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="601"/>
-        <source>Tie Extension Factor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="613"/>
-        <source>Tie Diameter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="625"/>
-        <source>Tie Number Spacing Check</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="637"/>
-        <source>Tie Amount Value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="649"/>
-        <source>Tie Spacing Value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="661"/>
-        <source>Column Main Rebar&apos;s Diameter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="673"/>
-        <source>Column Main Rebars TopOffset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="685"/>
-        <source>Column Width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="697"/>
-        <source>Column Length</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="709"/>
-        <source>X Direction Column Number Spacing Check</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="721"/>
-        <source>X Direction Column Amount Value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="733"/>
-        <source>X Direction Column Spacing Value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="745"/>
-        <source>Y Direction Column Number Spacing Check</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="757"/>
-        <source>Y Direction Column Amount Value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="769"/>
-        <source>Y Direction Column Spacing Value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="781"/>
-        <source>Main Rebars Types</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="796"/>
-        <source>Main L-shape Rebars Hook Orientation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="817"/>
-        <source>Main L-shape Rebars Hook Extend Along</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="829"/>
-        <source>Main L-shape Rebars Rounding </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="841"/>
-        <source>Main L-shape Rebars Hook Extension</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="853"/>
-        <source>Secoundery Rebars Check</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="865"/>
-        <source>Secoundery Rebars Top Offset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="877"/>
-        <source>Secoundery Rebars Number Diameter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="892"/>
-        <source>Secoundery Rebars type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="907"/>
-        <source>Secoundery L-Shape Rebar Hook Orientation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="922"/>
-        <source>Secoundery L-Shape Rebar Hook Rounding</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="934"/>
-        <source>Secoundery L-Shape Rebar Hook Extension</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="1617"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="121"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="94"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="81"/>
-        <source>List of reinforcement groups</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="62"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="132"/>
-        <source>Mesh Cover Along for slab reinforcement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="74"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="144"/>
-        <source>Facename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="85"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="155"/>
-        <source>Structure</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="96"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="166"/>
-        <source>Parallel Rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="109"/>
-        <source>Parallel Distribution Rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="122"/>
-        <source>Cross Distribution Rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="135"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="179"/>
-        <source>Cross Rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="149"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="193"/>
-        <source>Rebar Type for parallel rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="166"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="210"/>
-        <source>Front Cover for parallel rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="178"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="222"/>
-        <source>Rear Cover for parallel rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="190"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="234"/>
-        <source>Left Cover for parallel rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="202"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="246"/>
-        <source>Right Cover for parallel rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="214"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="258"/>
-        <source>Top Cover for parallel rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="226"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="270"/>
-        <source>Bottom Cover for parallel rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="238"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="282"/>
-        <source>Diameter for parallel rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="250"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="294"/>
-        <source>Amount or Spacing Check for parallel rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="262"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="306"/>
-        <source>Rebar&apos;s Amount Value for parallel rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="274"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="318"/>
-        <source>Spacing Value for parallel rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="286"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="330"/>
-        <source>Rounding for parallel rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="298"/>
-        <source>Bent Bar Length for parallel bent shape rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="310"/>
-        <source>Bent Bar Angle for parallel bent shape rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="322"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="342"/>
-        <source>L-Shape Hook Orintation for parallel L-Shape rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="334"/>
-        <source>Distribution Rebars Check for parallel distribution rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="346"/>
-        <source>Diameter for parallel distribution rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="358"/>
-        <source>Amount or Spacing Check for parallel distribution rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="370"/>
-        <source>Rebar&apos;s amount for parallel distribution rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="382"/>
-        <source>Rebars Spacing for parallel distribution rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="395"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="355"/>
-        <source>Rebar Type for cross rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="412"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="372"/>
-        <source>Front Cover for cross rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="424"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="384"/>
-        <source>Rear Cover for cross rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="436"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="396"/>
-        <source>Left Cover for cross rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="448"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="408"/>
-        <source>Right Cover for cross rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="460"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="420"/>
-        <source>Top Cover for cross rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="472"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="432"/>
-        <source>Bottom Cover for cross rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="484"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="444"/>
-        <source>Diameter for cross rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="496"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="456"/>
-        <source>Amount or Spacing Check for cross rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="508"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="468"/>
-        <source>Rebar&apos;s Amount Value for cross rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="520"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="480"/>
-        <source>Spacing Value for cross rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="532"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="492"/>
-        <source>Rounding for cross rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="544"/>
-        <source>Bent Bar Length for cross bent shape rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="556"/>
-        <source>Bent Bar Angle for cross bent shape rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="568"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="504"/>
-        <source>L-Shape Hook Orintation for cross L-Shape rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="580"/>
-        <source>Distribution Rebars check for cross distribution rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="592"/>
-        <source>Rebars Diameter for cross distribution rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="604"/>
-        <source>Amount or Spacing check for cross distribution rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="616"/>
-        <source>Rebars amount for cross distribution rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="628"/>
-        <source>Spacing value for cross distribution rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="640"/>
-        <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="108"/>
-        <source>Check if make or update required for slab reinforcement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="126"/>
-        <source>The parent ReinforcementDrawingView object</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="137"/>
-        <source>The ArchRebar object to generate dimensioning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="148"/>
-        <source>The way points type of dimension line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="159"/>
-        <source>The way points of dimension line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="171"/>
-        <source>The position type of dimension text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="186"/>
-        <source>The dimension label format</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="198"/>
-        <source>The font family of dimension text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="210"/>
-        <source>The font size of dimension text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="222"/>
-        <source>The stroke width of dimension line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="234"/>
-        <source>The stroke style of dimension line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="252"/>
-        <source>The color of dimension line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="264"/>
-        <source>The color of dimension text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="276"/>
-        <source>The start symbol of dimension line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="294"/>
-        <source>The end symbol of dimension line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="312"/>
-        <source>The mid points symbol of dimension line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="329"/>
-        <source>The left offset for automated reinforcement dimensioning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="340"/>
-        <source>The right offset for automated reinforcement dimensioning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="352"/>
-        <source>The top offset for automated reinforcement dimensioning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="363"/>
-        <source>The bottom offset for automated reinforcement dimensioning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="375"/>
-        <source>The dimension line start symbol, in case of single rebar is visible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="395"/>
-        <source>The dimension line end symbol, in case of single rebar is visible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="415"/>
-        <source>The dimension line start symbol, in case of multiple rebars are visible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="435"/>
-        <source>The dimension line end symbol, in case of multiple rebars are visible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="453"/>
-        <source>True if dimension lines to be outside of reinforcement drawing for automated reinforcement dimensioning, in case of single rebar is visible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="467"/>
-        <source>True if dimension lines to be outside of reinforcement drawing for automated reinforcement dimensioning, in case of multiple rebars are visible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="481"/>
-        <source>The position type of dimension text, in case of single rebar is visible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="500"/>
-        <source>The position type of dimension text, in case of multiple rebars are visible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="70"/>
-        <source>The structure object acting as Host for rebars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="81"/>
-        <source>The list of rebar objects to be included in drawing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="92"/>
-        <source>The reinforcement drawing view</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="103"/>
-        <source>The position type of Reinforcement Drawing on Template</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="115"/>
-        <source>The stroke width of rebars in Reinforcement Drawing svg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="127"/>
-        <source>The color style of rebars in Reinforcement Drawing svg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="139"/>
-        <source>The color of rebars in Reinforcement Drawing svg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="151"/>
-        <source>The stroke width of structure in Reinforcement Drawing svg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="164"/>
-        <source>The color style of structure in Reinforcement Drawing svg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="176"/>
-        <source>The color of structure in Reinforcement Drawing svg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="188"/>
-        <source>The template for Reinforcement Drawing view</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="199"/>
-        <source>The width of Reinforcement Drawing view svg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="212"/>
-        <source>The height of Reinforcement Drawing view svg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="225"/>
-        <source>The left offset of Reinforcement Drawing view</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="237"/>
-        <source>The top offset of Reinforcement Drawing view</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="249"/>
-        <source>The minimum right offset of Reinforcement Drawing view</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="261"/>
-        <source>The minimum bottom offset of Reinforcement Drawing view</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="273"/>
-        <source>The maximum width of Reinforcement Drawing view</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="285"/>
-        <source>The maximum height of Reinforcement Drawing view</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="297"/>
-        <source>The list of visible rebar objects in drawing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="313"/>
-        <source>The left offset for each new ReinforcementDimensioning object</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="328"/>
-        <source>The right offset for each new ReinforcementDimensioning object</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="343"/>
-        <source>The top offset for each new ReinforcementDimensioning object</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="358"/>
-        <source>The bottom offset for each new ReinforcementDimensioning object</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BentShapeRebar.py" line="534"/>
-        <source>BentLength cover of rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BentShapeRebar.py" line="541"/>
-        <source>Bent Angle of rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Stirrup.py" line="454"/>
-        <source>Top Side cover of rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Stirrup.py" line="461"/>
-        <source>Bottom Side cover of rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Stirrup.py" line="475"/>
-        <source>Bent angle between at the end of rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Stirrup.py" line="484"/>
-        <source>Bent Length is the equal to BentFactor * Diameter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../StraightRebar.py" line="423"/>
-        <source>Right/Top Side cover of rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../StraightRebar.py" line="430"/>
-        <source>Left/Bottom Side cover of rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../StraightRebar.py" line="437"/>
-        <source>Cover along</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../StraightRebar.py" line="444"/>
-        <source>Cover of rebar along user selected side</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Arch</name>
-    <message>
-        <location filename="../HelicalRebar.py" line="156"/>
-        <source>Helical Rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarDistribution.py" line="46"/>
-        <source>Rebar Distribution</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RebarAddon</name>
-    <message>
-        <location filename="../BillOfMaterial/EditSVGConfiguration.py" line="70"/>
-        <source>BOM - Edit SVG Configurations</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BillOfMaterial/MainBillOfMaterial.py" line="90"/>
-        <source>Rebars Bill Of Material</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ColumnReinforcement/MainColumnReinforcement.py" line="81"/>
-        <source>Column Reinforcement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ColumnReinforcement/RebarNumberDiameter.py" line="45"/>
-        <source>Rebar Number Diameter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../BentShapeRebar.py" line="181"/>
-        <source>Bent Shape Rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../HelicalRebar.py" line="210"/>
-        <source>Left Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../HelicalRebar.py" line="213"/>
-        <source>Right Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../HelicalRebar.py" line="217"/>
-        <source>Top Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../HelicalRebar.py" line="220"/>
-        <source>Bottom Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../LShapeRebar.py" line="142"/>
-        <source>L-Shape Rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Stirrup.py" line="201"/>
-        <source>Stirrup Rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../StraightRebar.py" line="127"/>
-        <source>Straight Rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UShapeRebar.py" line="153"/>
-        <source>U-Shape Rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RebarTool</name>
-    <message>
-        <location filename="../PopUpImage.py" line="37"/>
-        <source>Detailed description</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RebarWorkbench</name>
-    <message>
-        <location filename="../FootingReinforcement/MainFootingReinforcement.py" line="59"/>
-        <source>Footing Reinforcement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SlabReinforcement/MainSlabReinforcement.py" line="58"/>
-        <source>Slab Reinforcement</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ReinforcementWorkbench</name>
-    <message>
-        <location filename="../BarBendingSchedule/MainBarBendingSchedule.py" line="130"/>
-        <source>Bar Bending Schedule</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarShapeCutList/MainRebarShapeCutList.py" line="98"/>
-        <source>Rebar Shape Cut List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ReinforcementDrawing/MainReinforcementDrawingDimensioning.py" line="240"/>
-        <source>Reinforcement Drawing Dimensioning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../InitGui.py" line="41"/>
-        <source>Reinforcement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../InitGui.py" line="42"/>
-        <source>Create Building Reinforcement</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_BarBendingSchedule</name>
-    <message>
-        <location filename="../RebarTools.py" line="411"/>
-        <source>Bar Bending Schedule</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="420"/>
-        <source>Generate Bar Bending Schedule</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_BarShapeCutList</name>
-    <message>
-        <location filename="../RebarTools.py" line="380"/>
-        <source>Rebar Shape Cut List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="389"/>
-        <source>Generate Rebar Shape Cut List</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_BeamRebars</name>
-    <message>
-        <location filename="../RebarTools.py" line="262"/>
-        <source>Beam Reinforcement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="265"/>
-        <source>Creates a Beam Reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_BentShapeRebar</name>
-    <message>
-        <location filename="../RebarTools.py" line="172"/>
-        <source>Bent-Shape Rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="175"/>
-        <source>Creates a BentShape bar reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_BillOfMaterial</name>
-    <message>
-        <location filename="../RebarTools.py" line="349"/>
-        <source>Rebar Bill Of Material</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="358"/>
-        <source>Generate Rebars Bill Of Material</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_ColumnRebars</name>
-    <message>
-        <location filename="../RebarTools.py" line="233"/>
-        <source>Column Reinforcement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="236"/>
-        <source>Creates a Column Reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_DrawingDimensioning</name>
-    <message>
-        <location filename="../RebarTools.py" line="448"/>
-        <source>Reinforcement Drawing Dimensioning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="452"/>
-        <source>Generate Reinforcement Drawing Dimensioning</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_FootingRebars</name>
-    <message>
-        <location filename="../RebarTools.py" line="320"/>
-        <source>Footing Reinforcement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="329"/>
-        <source>Creates a Footing Reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_HelicalRebar</name>
-    <message>
-        <location filename="../RebarTools.py" line="204"/>
-        <source>Helical Rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="207"/>
-        <source>Creates a Helical bar reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_LShapeRebar</name>
-    <message>
-        <location filename="../RebarTools.py" line="108"/>
-        <source>L-Shape Rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="111"/>
-        <source>Creates a L-Shape bar reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_SlabRebars</name>
-    <message>
-        <location filename="../RebarTools.py" line="291"/>
-        <source>Slab Reinforcement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="297"/>
-        <source>Creates a Slab Reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_StirrupRebar</name>
-    <message>
-        <location filename="../RebarTools.py" line="140"/>
-        <source>Stirrup</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="143"/>
-        <source>Creates a Stirrup bar reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_StraightRebar</name>
-    <message>
-        <location filename="../RebarTools.py" line="44"/>
-        <source>Straight Rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="47"/>
-        <source>Creates a Straight bar reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Reinforcement_UShapeRebar</name>
-    <message>
-        <location filename="../RebarTools.py" line="76"/>
-        <source>U-Shape Rebar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../RebarTools.py" line="79"/>
-        <source>Creates a U-Shape bar reinforcement from the selected face of the Structural element.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
