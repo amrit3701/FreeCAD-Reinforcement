@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="lt" sourcelanguage="en_US">
+<TS version="2.1" language="bg" sourcelanguage="en_US">
 <context>
     <name>App::Property</name>
     <message>
@@ -1198,7 +1198,7 @@
     <message>
         <location filename="../BentShapeRebar.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="36"/>
@@ -1247,7 +1247,7 @@
     <message>
         <location filename="../BentShapeRebar.ui" line="140"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>Диаметър</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="149"/>
@@ -1381,7 +1381,7 @@
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="20"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="128"/>
@@ -1476,7 +1476,7 @@
         <location filename="../FootingReinforcement/CrossRebars.ui" line="14"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="80"/>
@@ -1553,7 +1553,7 @@
         <location filename="../SlabReinforcement/CrossRebars.ui" line="263"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="377"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>Диаметър</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="249"/>
@@ -1616,7 +1616,7 @@
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="20"/>
@@ -1996,7 +1996,7 @@
         <location filename="../FootingReinforcement/MainRebars.ui" line="178"/>
         <location filename="../FootingReinforcement/Ties.ui" line="97"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>Диаметър</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="402"/>
@@ -2421,7 +2421,7 @@
     <message>
         <location filename="../LShapeRebar.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="29"/>
@@ -2465,7 +2465,7 @@
     <message>
         <location filename="../LShapeRebar.ui" line="129"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>Диаметър</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="138"/>
@@ -2530,7 +2530,7 @@
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="26"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="63"/>
@@ -2603,7 +2603,7 @@
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="26"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="34"/>
@@ -2661,7 +2661,7 @@
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.ui" line="26"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.ui" line="78"/>
@@ -2695,7 +2695,7 @@
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="20"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="20"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="125"/>
@@ -2778,7 +2778,7 @@
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="334"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="432"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>Диаметър</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="307"/>
@@ -2911,7 +2911,7 @@
     <message>
         <location filename="../RebarDistribution.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../RebarDistribution.ui" line="34"/>
@@ -2965,7 +2965,7 @@
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="44"/>
@@ -3181,7 +3181,7 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="333"/>
         <source>None</source>
-        <translation>Joks</translation>
+        <translation>Няма</translation>
     </message>
 </context>
 <context>
@@ -3242,7 +3242,7 @@
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="326"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="378"/>
         <source>None</source>
-        <translation>Joks</translation>
+        <translation>Няма</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="128"/>
@@ -3648,7 +3648,7 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Main.ui" line="20"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Main.ui" line="28"/>
@@ -4178,7 +4178,7 @@
         <location filename="../Stirrup.ui" line="14"/>
         <location filename="../StraightRebar.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="35"/>
@@ -4245,7 +4245,7 @@
         <location filename="../Stirrup.ui" line="135"/>
         <location filename="../StraightRebar.ui" line="165"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>Диаметър</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="142"/>
@@ -4353,7 +4353,7 @@
     <message>
         <location filename="../UShapeRebar.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>Диалог</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="36"/>
@@ -4397,7 +4397,7 @@
     <message>
         <location filename="../UShapeRebar.ui" line="136"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>Диаметър</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="145"/>

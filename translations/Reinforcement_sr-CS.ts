@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="lt" sourcelanguage="en_US">
+<TS version="2.1" language="sr_CS" sourcelanguage="en_US">
 <context>
     <name>App::Property</name>
     <message>
@@ -1198,7 +1198,7 @@
     <message>
         <location filename="../BentShapeRebar.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="36"/>
@@ -1381,7 +1381,7 @@
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="20"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="128"/>
@@ -1476,7 +1476,7 @@
         <location filename="../FootingReinforcement/CrossRebars.ui" line="14"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="80"/>
@@ -1616,7 +1616,7 @@
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="20"/>
@@ -2421,7 +2421,7 @@
     <message>
         <location filename="../LShapeRebar.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="29"/>
@@ -2530,7 +2530,7 @@
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="26"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="63"/>
@@ -2603,7 +2603,7 @@
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="26"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="34"/>
@@ -2661,7 +2661,7 @@
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.ui" line="26"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.ui" line="78"/>
@@ -2695,7 +2695,7 @@
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="20"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="20"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="125"/>
@@ -2851,7 +2851,7 @@
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.py" line="84"/>
         <source>Column Reinforcement</source>
-        <translation type="unfinished">Column Reinforcement</translation>
+        <translation>Armiranje stuba</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.py" line="48"/>
@@ -2888,7 +2888,7 @@
     <message>
         <location filename="../LShapeRebar.py" line="148"/>
         <source>L-Shape Rebar</source>
-        <translation type="unfinished">L-Shape Rebar</translation>
+        <translation>L-oblik armature</translation>
     </message>
     <message>
         <location filename="../Stirrup.py" line="207"/>
@@ -2898,12 +2898,12 @@
     <message>
         <location filename="../StraightRebar.py" line="133"/>
         <source>Straight Rebar</source>
-        <translation type="unfinished">Straight Rebar</translation>
+        <translation>Prava armatura</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.py" line="159"/>
         <source>U-Shape Rebar</source>
-        <translation type="unfinished">U-Shape Rebar</translation>
+        <translation>U-oblik armature</translation>
     </message>
 </context>
 <context>
@@ -2911,7 +2911,7 @@
     <message>
         <location filename="../RebarDistribution.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../RebarDistribution.ui" line="34"/>
@@ -2965,7 +2965,7 @@
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="44"/>
@@ -3032,12 +3032,12 @@
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.py" line="62"/>
         <source>Footing Reinforcement</source>
-        <translation type="unfinished">Footing Reinforcement</translation>
+        <translation>Armiranje stope</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.py" line="65"/>
         <source>Slab Reinforcement</source>
-        <translation type="unfinished">Slab Reinforcement</translation>
+        <translation>Armiranje ploče</translation>
     </message>
 </context>
 <context>
@@ -3181,7 +3181,7 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="333"/>
         <source>None</source>
-        <translation>Joks</translation>
+        <translation type="unfinished">None</translation>
     </message>
 </context>
 <context>
@@ -3242,7 +3242,7 @@
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="326"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="378"/>
         <source>None</source>
-        <translation>Joks</translation>
+        <translation type="unfinished">None</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="128"/>
@@ -3648,7 +3648,7 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Main.ui" line="20"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Main.ui" line="28"/>
@@ -3850,7 +3850,7 @@
     <message>
         <location filename="../RebarTools.py" line="264"/>
         <source>Beam Reinforcement</source>
-        <translation type="unfinished">Beam Reinforcement</translation>
+        <translation>Armiranje grede</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="269"/>
@@ -3863,7 +3863,7 @@
     <message>
         <location filename="../RebarTools.py" line="174"/>
         <source>Bent-Shape Rebar</source>
-        <translation type="unfinished">Bent-Shape Rebar</translation>
+        <translation>Savijena armatura</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="179"/>
@@ -3889,7 +3889,7 @@
     <message>
         <location filename="../RebarTools.py" line="235"/>
         <source>Column Reinforcement</source>
-        <translation type="unfinished">Column Reinforcement</translation>
+        <translation>Armiranje stuba</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="240"/>
@@ -3915,7 +3915,7 @@
     <message>
         <location filename="../RebarTools.py" line="328"/>
         <source>Footing Reinforcement</source>
-        <translation type="unfinished">Footing Reinforcement</translation>
+        <translation>Armiranje stope</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="333"/>
@@ -3928,7 +3928,7 @@
     <message>
         <location filename="../RebarTools.py" line="206"/>
         <source>Helical Rebar</source>
-        <translation type="unfinished">Helical Rebar</translation>
+        <translation>Spiralni oblik armature</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="211"/>
@@ -3941,7 +3941,7 @@
     <message>
         <location filename="../RebarTools.py" line="110"/>
         <source>L-Shape Rebar</source>
-        <translation type="unfinished">L-Shape Rebar</translation>
+        <translation>L-oblik armature</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="115"/>
@@ -3954,7 +3954,7 @@
     <message>
         <location filename="../RebarTools.py" line="296"/>
         <source>Slab Reinforcement</source>
-        <translation type="unfinished">Slab Reinforcement</translation>
+        <translation>Armiranje ploče</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="301"/>
@@ -3967,7 +3967,7 @@
     <message>
         <location filename="../RebarTools.py" line="142"/>
         <source>Stirrup</source>
-        <translation type="unfinished">Stirrup</translation>
+        <translation>Uzengija</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="147"/>
@@ -3980,7 +3980,7 @@
     <message>
         <location filename="../RebarTools.py" line="46"/>
         <source>Straight Rebar</source>
-        <translation type="unfinished">Straight Rebar</translation>
+        <translation>Prava armatura</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="51"/>
@@ -3993,7 +3993,7 @@
     <message>
         <location filename="../RebarTools.py" line="78"/>
         <source>U-Shape Rebar</source>
-        <translation type="unfinished">U-Shape Rebar</translation>
+        <translation>U-oblik armature</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="83"/>
@@ -4178,7 +4178,7 @@
         <location filename="../Stirrup.ui" line="14"/>
         <location filename="../StraightRebar.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="35"/>
@@ -4353,7 +4353,7 @@
     <message>
         <location filename="../UShapeRebar.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="36"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="lt" sourcelanguage="en_US">
+<TS version="2.1" language="ka" sourcelanguage="en_US">
 <context>
     <name>App::Property</name>
     <message>
@@ -96,7 +96,7 @@
         <location filename="../UShapeRebar.py" line="433"/>
         <location filename="../UShapeRebar.py" line="490"/>
         <source>Shape of rebar</source>
-        <translation type="unfinished">Shape of rebar</translation>
+        <translation>არმატურის ფორმა</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="84"/>
@@ -810,7 +810,7 @@
         <location filename="../StraightRebar.py" line="427"/>
         <location filename="../UShapeRebar.py" line="441"/>
         <source>Front cover of rebar</source>
-        <translation type="unfinished">Front cover of rebar</translation>
+        <translation>არმატურის წინა საფარი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.py" line="496"/>
@@ -819,7 +819,7 @@
         <location filename="../Stirrup.py" line="451"/>
         <location filename="../UShapeRebar.py" line="455"/>
         <source>Left Side cover of rebar</source>
-        <translation type="unfinished">Left Side cover of rebar</translation>
+        <translation>არმატურის მარცხენა მხრის საფარი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.py" line="503"/>
@@ -827,7 +827,7 @@
         <location filename="../Stirrup.py" line="458"/>
         <location filename="../UShapeRebar.py" line="448"/>
         <source>Right Side cover of rebar</source>
-        <translation type="unfinished">Right Side cover of rebar</translation>
+        <translation>არმატურის მარჯვენა მხრის საფარი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.py" line="510"/>
@@ -835,7 +835,7 @@
         <location filename="../LShapeRebar.py" line="447"/>
         <location filename="../UShapeRebar.py" line="462"/>
         <source>Bottom cover of rebar</source>
-        <translation type="unfinished">Bottom cover of rebar</translation>
+        <translation>არმატურის ქვედა საფარი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.py" line="517"/>
@@ -844,7 +844,7 @@
         <location filename="../StraightRebar.py" line="464"/>
         <location filename="../UShapeRebar.py" line="469"/>
         <source>Amount radio button is checked</source>
-        <translation type="unfinished">Amount radio button is checked</translation>
+        <translation>რაოდენობის რადიო ღილაკი გააქტიურებულია</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.py" line="524"/>
@@ -853,7 +853,7 @@
         <location filename="../Stirrup.py" line="479"/>
         <location filename="../UShapeRebar.py" line="476"/>
         <source>Top cover of rebar</source>
-        <translation type="unfinished">Top cover of rebar</translation>
+        <translation>არმატურის ზედა საფარი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.py" line="531"/>
@@ -862,7 +862,7 @@
         <location filename="../StraightRebar.py" line="471"/>
         <location filename="../UShapeRebar.py" line="483"/>
         <source>Spacing between of rebars</source>
-        <translation type="unfinished">Spacing between of rebars</translation>
+        <translation>მანძილი არმატურებს შორის</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.py" line="545"/>
@@ -872,22 +872,22 @@
     <message>
         <location filename="../BentShapeRebar.py" line="552"/>
         <source>Bent Angle of rebar</source>
-        <translation type="unfinished">Bent Angle of rebar</translation>
+        <translation>არმატურის მოღუნვის კუთხე</translation>
     </message>
     <message>
         <location filename="../Stirrup.py" line="465"/>
         <source>Top Side cover of rebar</source>
-        <translation type="unfinished">Top Side cover of rebar</translation>
+        <translation>არმატურის ზედა მხრის საფარი</translation>
     </message>
     <message>
         <location filename="../Stirrup.py" line="472"/>
         <source>Bottom Side cover of rebar</source>
-        <translation type="unfinished">Bottom Side cover of rebar</translation>
+        <translation>არმატურის ქვედა მხრის საფარი</translation>
     </message>
     <message>
         <location filename="../Stirrup.py" line="488"/>
         <source>Bent angle between at the end of rebar</source>
-        <translation type="unfinished">Bent angle between at the end of rebar</translation>
+        <translation>მოხრის კუთხე არმატურის ბოლოში</translation>
     </message>
     <message>
         <location filename="../Stirrup.py" line="497"/>
@@ -897,17 +897,17 @@
     <message>
         <location filename="../StraightRebar.py" line="434"/>
         <source>Right/Top Side cover of rebar</source>
-        <translation type="unfinished">Right/Top Side cover of rebar</translation>
+        <translation>არმატურის მარჯვენა/ზედა მხრის საფარი</translation>
     </message>
     <message>
         <location filename="../StraightRebar.py" line="441"/>
         <source>Left/Bottom Side cover of rebar</source>
-        <translation type="unfinished">Left/Bottom Side cover of rebar</translation>
+        <translation>არმატურის მარცხენა/ქვედა მხრის საფარი</translation>
     </message>
     <message>
         <location filename="../StraightRebar.py" line="448"/>
         <source>Cover along</source>
-        <translation type="unfinished">Cover along</translation>
+        <translation>საფარი რამის გასწვრივ</translation>
     </message>
     <message>
         <location filename="../StraightRebar.py" line="457"/>
@@ -920,12 +920,12 @@
     <message>
         <location filename="../HelicalRebar.py" line="158"/>
         <source>Helical Rebar</source>
-        <translation type="unfinished">Helical Rebar</translation>
+        <translation>სპირალური არმატურა</translation>
     </message>
     <message>
         <location filename="../RebarDistribution.py" line="48"/>
         <source>Rebar Distribution</source>
-        <translation type="unfinished">Rebar Distribution</translation>
+        <translation>არმატურის განაწილება</translation>
     </message>
 </context>
 <context>
@@ -1198,27 +1198,27 @@
     <message>
         <location filename="../BentShapeRebar.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="36"/>
         <source>Pick Selected Face</source>
-        <translation type="unfinished">Pick Selected Face</translation>
+        <translation>აირჩიეთ მონიშნული ზედაპირი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="48"/>
         <source>Custom Spacing</source>
-        <translation type="unfinished">Custom Spacing</translation>
+        <translation>მორგებული ინტერვალი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="58"/>
         <source>Remove Spacing</source>
-        <translation type="unfinished">Remove Spacing</translation>
+        <translation>ინტერვალის მოცილება</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="72"/>
         <source>Front Cover</source>
-        <translation type="unfinished">Front Cover</translation>
+        <translation>წინა საფარი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="79"/>
@@ -1227,90 +1227,90 @@
         <location filename="../BentShapeRebar.ui" line="123"/>
         <location filename="../BentShapeRebar.ui" line="236"/>
         <source>20 mm</source>
-        <translation type="unfinished">20 mm</translation>
+        <translation>20 მმ</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="89"/>
         <source>Left Cover</source>
-        <translation type="unfinished">Left Cover</translation>
+        <translation>მარცხენა საფარი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="116"/>
         <source>Top Cover</source>
-        <translation type="unfinished">Top Cover</translation>
+        <translation>ზედა საფარი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="133"/>
         <source>Rounding</source>
-        <translation type="unfinished">Rounding</translation>
+        <translation>მომრგვალება</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="140"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>დიამეტრი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="149"/>
         <location filename="../BentShapeRebar.ui" line="168"/>
         <source>Amount</source>
-        <translation type="unfinished">Amount</translation>
+        <translation>რაოდენობა</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="159"/>
         <location filename="../BentShapeRebar.ui" line="182"/>
         <source>Spacing</source>
-        <translation type="unfinished">Spacing</translation>
+        <translation>შორისი მანძილი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="189"/>
         <source>Bottom Cover</source>
-        <translation type="unfinished">Bottom Cover</translation>
+        <translation>ძირის საფარი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="199"/>
         <location filename="../BentShapeRebar.ui" line="253"/>
         <source>50 mm</source>
-        <translation type="unfinished">50 mm</translation>
+        <translation>50 მმ</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="209"/>
         <source>8 mm</source>
-        <translation type="unfinished">8 mm</translation>
+        <translation>8 მმ</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="219"/>
         <source>Orientation</source>
-        <translation type="unfinished">Orientation</translation>
+        <translation>ორიენტაცია</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="229"/>
         <source>Right Cover</source>
-        <translation type="unfinished">Right Cover</translation>
+        <translation>მარჯვენა საფარი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="246"/>
         <source>Anchor Length</source>
-        <translation type="unfinished">Anchor Length</translation>
+        <translation>სამაგრის სიგრძე</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="263"/>
         <source>Bent Angle</source>
-        <translation type="unfinished">Bent Angle</translation>
+        <translation>მოღუნვის კუთხე</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="295"/>
         <source>Fill all the values</source>
-        <translation type="unfinished">Fill all the values</translation>
+        <translation>შეავსეთ ყველა ველი</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="304"/>
         <source>image</source>
-        <translation type="unfinished">image</translation>
+        <translation>გამოსახულება</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.ui" line="326"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -1381,7 +1381,7 @@
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="20"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="128"/>
@@ -1399,7 +1399,7 @@
         <location filename="../FootingReinforcement/Columns.ui" line="176"/>
         <location filename="../FootingReinforcement/Columns.ui" line="193"/>
         <source>20 mm</source>
-        <translation type="unfinished">20 mm</translation>
+        <translation>20 მმ</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="152"/>
@@ -1425,7 +1425,7 @@
         <location filename="../FootingReinforcement/Columns.ui" line="210"/>
         <location filename="../FootingReinforcement/Columns.ui" line="227"/>
         <source>200 mm</source>
-        <translation type="unfinished">200 mm</translation>
+        <translation>200 მმ</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="220"/>
@@ -1443,7 +1443,7 @@
         <location filename="../FootingReinforcement/Columns.ui" line="321"/>
         <location filename="../FootingReinforcement/Columns.ui" line="344"/>
         <source>Amount</source>
-        <translation type="unfinished">Amount</translation>
+        <translation>რაოდენობა</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="265"/>
@@ -1451,13 +1451,13 @@
         <location filename="../FootingReinforcement/Columns.ui" line="334"/>
         <location filename="../FootingReinforcement/Columns.ui" line="358"/>
         <source>Spacing</source>
-        <translation type="unfinished">Spacing</translation>
+        <translation>შორისი მანძილი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="298"/>
         <location filename="../FootingReinforcement/Columns.ui" line="368"/>
         <source>50 mm</source>
-        <translation type="unfinished">50 mm</translation>
+        <translation>50 მმ</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="314"/>
@@ -1476,7 +1476,7 @@
         <location filename="../FootingReinforcement/CrossRebars.ui" line="14"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="80"/>
@@ -1488,7 +1488,7 @@
         <location filename="../FootingReinforcement/CrossRebars.ui" line="97"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="84"/>
         <source>Front Cover</source>
-        <translation type="unfinished">Front Cover</translation>
+        <translation>წინა საფარი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="104"/>
@@ -1504,31 +1504,31 @@
         <location filename="../SlabReinforcement/CrossRebars.ui" line="159"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="176"/>
         <source>20 mm</source>
-        <translation type="unfinished">20 mm</translation>
+        <translation>20 მმ</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="114"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="101"/>
         <source>Left Cover</source>
-        <translation type="unfinished">Left Cover</translation>
+        <translation>მარცხენა საფარი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="131"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="118"/>
         <source>Right Cover</source>
-        <translation type="unfinished">Right Cover</translation>
+        <translation>მარჯვენა საფარი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="148"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="135"/>
         <source>Bottom Cover</source>
-        <translation type="unfinished">Bottom Cover</translation>
+        <translation>ძირის საფარი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="165"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="152"/>
         <source>Top Cover</source>
-        <translation type="unfinished">Top Cover</translation>
+        <translation>ზედა საფარი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="182"/>
@@ -1546,21 +1546,21 @@
         <location filename="../FootingReinforcement/CrossRebars.ui" line="228"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="249"/>
         <source>Rounding</source>
-        <translation type="unfinished">Rounding</translation>
+        <translation>მომრგვალება</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="242"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="263"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="377"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>დიამეტრი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="249"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="270"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="384"/>
         <source>8 mm</source>
-        <translation type="unfinished">8 mm</translation>
+        <translation>8 მმ</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="261"/>
@@ -1570,7 +1570,7 @@
         <location filename="../SlabReinforcement/CrossRebars.ui" line="394"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="417"/>
         <source>Amount</source>
-        <translation type="unfinished">Amount</translation>
+        <translation>რაოდენობა</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="274"/>
@@ -1580,7 +1580,7 @@
         <location filename="../SlabReinforcement/CrossRebars.ui" line="407"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="434"/>
         <source>Spacing</source>
-        <translation type="unfinished">Spacing</translation>
+        <translation>შორისი მანძილი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="310"/>
@@ -1588,17 +1588,17 @@
         <location filename="../SlabReinforcement/CrossRebars.ui" line="331"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="444"/>
         <source>50 mm</source>
-        <translation type="unfinished">50 mm</translation>
+        <translation>50 მმ</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="215"/>
         <source>Anchor Length</source>
-        <translation type="unfinished">Anchor Length</translation>
+        <translation>სამაგრის სიგრძე</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="232"/>
         <source>Bent Angle</source>
-        <translation type="unfinished">Bent Angle</translation>
+        <translation>მოღუნვის კუთხე</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="354"/>
@@ -1616,7 +1616,7 @@
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="20"/>
@@ -1673,7 +1673,7 @@
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="189"/>
         <source>Template</source>
-        <translation type="unfinished">Template</translation>
+        <translation>შაბლონი</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="211"/>
@@ -1996,7 +1996,7 @@
         <location filename="../FootingReinforcement/MainRebars.ui" line="178"/>
         <location filename="../FootingReinforcement/Ties.ui" line="97"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>დიამეტრი</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="402"/>
@@ -2191,7 +2191,7 @@
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1447"/>
         <source>Template</source>
-        <translation type="unfinished">Template</translation>
+        <translation>შაბლონი</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1464"/>
@@ -2205,24 +2205,24 @@
         <location filename="../FootingReinforcement/MainRebars.ui" line="14"/>
         <location filename="../FootingReinforcement/Ties.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>ფორმა</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="20"/>
         <source>50 mm</source>
-        <translation type="unfinished">50 mm</translation>
+        <translation>50 მმ</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="36"/>
         <source> °</source>
-        <translation type="unfinished"> °</translation>
+        <translation> °</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="52"/>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="199"/>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="263"/>
         <source>20 mm</source>
-        <translation type="unfinished">20 mm</translation>
+        <translation>20 მმ</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="65"/>
@@ -2248,7 +2248,7 @@
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="105"/>
         <source>Pitch</source>
-        <translation type="unfinished">Pitch</translation>
+        <translation>ტონი</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="138"/>
@@ -2258,7 +2258,7 @@
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="145"/>
         <source>8 mm</source>
-        <translation type="unfinished">8 mm</translation>
+        <translation>8 მმ</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="158"/>
@@ -2275,7 +2275,7 @@
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="178"/>
         <source>Side Cover</source>
-        <translation type="unfinished">Side Cover</translation>
+        <translation>გვერდის საფარი</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="192"/>
@@ -2309,7 +2309,7 @@
         <location filename="../FootingReinforcement/Ties.ui" line="87"/>
         <location filename="../FootingReinforcement/Ties.ui" line="189"/>
         <source>0 </source>
-        <translation type="unfinished">0 </translation>
+        <translation>0 </translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainRebars.ui" line="88"/>
@@ -2339,7 +2339,7 @@
         <location filename="../ColumnReinforcement/MainRebars.ui" line="165"/>
         <location filename="../FootingReinforcement/MainRebars.ui" line="185"/>
         <source>Rounding</source>
-        <translation type="unfinished">Rounding</translation>
+        <translation>მომრგვალება</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainRebars.ui" line="179"/>
@@ -2356,35 +2356,35 @@
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="60"/>
         <source>Left Cover</source>
-        <translation type="unfinished">Left Cover</translation>
+        <translation>მარცხენა საფარი</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="77"/>
         <source>Right Cover</source>
-        <translation type="unfinished">Right Cover</translation>
+        <translation>მარჯვენა საფარი</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="97"/>
         <location filename="../FootingReinforcement/Ties.ui" line="60"/>
         <source>Top Cover</source>
-        <translation type="unfinished">Top Cover</translation>
+        <translation>ზედა საფარი</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="117"/>
         <location filename="../FootingReinforcement/Ties.ui" line="77"/>
         <source>Bottom Cover</source>
-        <translation type="unfinished">Bottom Cover</translation>
+        <translation>ძირის საფარი</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="137"/>
         <source>Offset</source>
-        <translation type="unfinished">Offset</translation>
+        <translation>წანაცვლება</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="168"/>
         <location filename="../FootingReinforcement/Ties.ui" line="111"/>
         <source>Bent Angle</source>
-        <translation type="unfinished">Bent Angle</translation>
+        <translation>მოღუნვის კუთხე</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="178"/>
@@ -2398,17 +2398,17 @@
         <location filename="../FootingReinforcement/Ties.ui" line="153"/>
         <location filename="../FootingReinforcement/Ties.ui" line="179"/>
         <source>Spacing</source>
-        <translation type="unfinished">Spacing</translation>
+        <translation>შორისი მანძილი</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="267"/>
         <source>Custom Spacing</source>
-        <translation type="unfinished">Custom Spacing</translation>
+        <translation>მორგებული ინტერვალი</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="283"/>
         <source>Remove Spacing</source>
-        <translation type="unfinished">Remove Spacing</translation>
+        <translation>ინტერვალის მოცილება</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="292"/>
@@ -2421,22 +2421,22 @@
     <message>
         <location filename="../LShapeRebar.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="29"/>
         <source>Pick Selected Face</source>
-        <translation type="unfinished">Pick Selected Face</translation>
+        <translation>აირჩიეთ მონიშნული ზედაპირი</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="42"/>
         <source>Fill all the values</source>
-        <translation type="unfinished">Fill all the values</translation>
+        <translation>შეავსეთ ყველა ველი</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="54"/>
         <source>Front Cover</source>
-        <translation type="unfinished">Front Cover</translation>
+        <translation>წინა საფარი</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="61"/>
@@ -2445,84 +2445,84 @@
         <location filename="../LShapeRebar.ui" line="105"/>
         <location filename="../LShapeRebar.ui" line="225"/>
         <source>20 mm</source>
-        <translation type="unfinished">20 mm</translation>
+        <translation>20 მმ</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="71"/>
         <source>Left Side Cover</source>
-        <translation type="unfinished">Left Side Cover</translation>
+        <translation>მარცხენა გვერდის საფარი</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="98"/>
         <source>Top Cover</source>
-        <translation type="unfinished">Top Cover</translation>
+        <translation>ზედა საფარი</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="115"/>
         <source>Rounding</source>
-        <translation type="unfinished">Rounding</translation>
+        <translation>მომრგვალება</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="129"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>დიამეტრი</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="138"/>
         <location filename="../LShapeRebar.ui" line="157"/>
         <source>Amount</source>
-        <translation type="unfinished">Amount</translation>
+        <translation>რაოდენობა</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="148"/>
         <location filename="../LShapeRebar.ui" line="171"/>
         <source>Spacing</source>
-        <translation type="unfinished">Spacing</translation>
+        <translation>შორისი მანძილი</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="178"/>
         <source>Bottom Cover</source>
-        <translation type="unfinished">Bottom Cover</translation>
+        <translation>ძირის საფარი</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="188"/>
         <source>50 mm</source>
-        <translation type="unfinished">50 mm</translation>
+        <translation>50 მმ</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="198"/>
         <source>8 mm</source>
-        <translation type="unfinished">8 mm</translation>
+        <translation>8 მმ</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="208"/>
         <source>Orientation</source>
-        <translation type="unfinished">Orientation</translation>
+        <translation>ორიენტაცია</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="218"/>
         <source>Right Side Cover</source>
-        <translation type="unfinished">Right Side Cover</translation>
+        <translation>მარჯვენა გვერდის საფარი</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="242"/>
         <source>Custom Spacing</source>
-        <translation type="unfinished">Custom Spacing</translation>
+        <translation>მორგებული ინტერვალი</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="252"/>
         <source>Remove Spacing</source>
-        <translation type="unfinished">Remove Spacing</translation>
+        <translation>ინტერვალის მოცილება</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="270"/>
         <source>image</source>
-        <translation type="unfinished">image</translation>
+        <translation>გამოსახულება</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.ui" line="292"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -2530,7 +2530,7 @@
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="26"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="63"/>
@@ -2545,7 +2545,7 @@
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="125"/>
         <source>Back</source>
-        <translation type="unfinished">Back</translation>
+        <translation>უკან</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="132"/>
@@ -2575,7 +2575,7 @@
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="250"/>
         <source>image</source>
-        <translation type="unfinished">image</translation>
+        <translation>გამოსახულება</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="285"/>
@@ -2603,12 +2603,12 @@
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="26"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="34"/>
         <source>Back</source>
-        <translation type="unfinished">Back</translation>
+        <translation>უკან</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="41"/>
@@ -2661,7 +2661,7 @@
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.ui" line="26"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.ui" line="78"/>
@@ -2676,7 +2676,7 @@
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.ui" line="163"/>
         <source>Back</source>
-        <translation type="unfinished">Back</translation>
+        <translation>უკან</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.ui" line="170"/>
@@ -2695,7 +2695,7 @@
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="20"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="20"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="125"/>
@@ -2713,7 +2713,7 @@
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="158"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="158"/>
         <source>Front Cover</source>
-        <translation type="unfinished">Front Cover</translation>
+        <translation>წინა საფარი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="165"/>
@@ -2729,31 +2729,31 @@
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="233"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="250"/>
         <source>20 mm</source>
-        <translation type="unfinished">20 mm</translation>
+        <translation>20 მმ</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="175"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="175"/>
         <source>Left Cover</source>
-        <translation type="unfinished">Left Cover</translation>
+        <translation>მარცხენა საფარი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="192"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="192"/>
         <source>Right Cover</source>
-        <translation type="unfinished">Right Cover</translation>
+        <translation>მარჯვენა საფარი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="209"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="209"/>
         <source>Bottom Cover</source>
-        <translation type="unfinished">Bottom Cover</translation>
+        <translation>ძირის საფარი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="226"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="226"/>
         <source>Top Cover</source>
-        <translation type="unfinished">Top Cover</translation>
+        <translation>ზედა საფარი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="243"/>
@@ -2771,21 +2771,21 @@
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="286"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="320"/>
         <source>Rounding</source>
-        <translation type="unfinished">Rounding</translation>
+        <translation>მომრგვალება</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="300"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="334"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="432"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>დიამეტრი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="307"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="341"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="439"/>
         <source>8 mm</source>
-        <translation type="unfinished">8 mm</translation>
+        <translation>8 მმ</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="322"/>
@@ -2795,7 +2795,7 @@
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="449"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="472"/>
         <source>Amount</source>
-        <translation type="unfinished">Amount</translation>
+        <translation>რაოდენობა</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="332"/>
@@ -2805,7 +2805,7 @@
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="462"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="486"/>
         <source>Spacing</source>
-        <translation type="unfinished">Spacing</translation>
+        <translation>შორისი მანძილი</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="365"/>
@@ -2813,17 +2813,17 @@
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="399"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="496"/>
         <source>50 mm</source>
-        <translation type="unfinished">50 mm</translation>
+        <translation>50 მმ</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="286"/>
         <source>Anchor Length</source>
-        <translation type="unfinished">Anchor Length</translation>
+        <translation>სამაგრის სიგრძე</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="303"/>
         <source>Bent Angle</source>
-        <translation type="unfinished">Bent Angle</translation>
+        <translation>მოღუნვის კუთხე</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="409"/>
@@ -2851,7 +2851,7 @@
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.py" line="84"/>
         <source>Column Reinforcement</source>
-        <translation type="unfinished">Column Reinforcement</translation>
+        <translation>სვეტის გაძლიერება</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.py" line="48"/>
@@ -2861,49 +2861,49 @@
     <message>
         <location filename="../BentShapeRebar.py" line="187"/>
         <source>Bent Shape Rebar</source>
-        <translation type="unfinished">Bent Shape Rebar</translation>
+        <translation>მოღუნული ფორმის არმატურა</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.py" line="173"/>
         <location filename="../HelicalRebar.py" line="217"/>
         <source>Left Cover</source>
-        <translation type="unfinished">Left Cover</translation>
+        <translation>მარცხენა საფარი</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.py" line="176"/>
         <location filename="../HelicalRebar.py" line="220"/>
         <source>Right Cover</source>
-        <translation type="unfinished">Right Cover</translation>
+        <translation>მარჯვენა საფარი</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.py" line="224"/>
         <source>Top Cover</source>
-        <translation type="unfinished">Top Cover</translation>
+        <translation>ზედა საფარი</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.py" line="227"/>
         <source>Bottom Cover</source>
-        <translation type="unfinished">Bottom Cover</translation>
+        <translation>ძირის საფარი</translation>
     </message>
     <message>
         <location filename="../LShapeRebar.py" line="148"/>
         <source>L-Shape Rebar</source>
-        <translation type="unfinished">L-Shape Rebar</translation>
+        <translation>მართკუთხა არმატურა</translation>
     </message>
     <message>
         <location filename="../Stirrup.py" line="207"/>
         <source>Stirrup Rebar</source>
-        <translation type="unfinished">Stirrup Rebar</translation>
+        <translation>არეული არმატურა</translation>
     </message>
     <message>
         <location filename="../StraightRebar.py" line="133"/>
         <source>Straight Rebar</source>
-        <translation type="unfinished">Straight Rebar</translation>
+        <translation>სწორი არმატურა</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.py" line="159"/>
         <source>U-Shape Rebar</source>
-        <translation type="unfinished">U-Shape Rebar</translation>
+        <translation>U-ს ფორმის არმატურა</translation>
     </message>
 </context>
 <context>
@@ -2911,53 +2911,53 @@
     <message>
         <location filename="../RebarDistribution.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../RebarDistribution.ui" line="34"/>
         <source>Rebar Distribution</source>
-        <translation type="unfinished">Rebar Distribution</translation>
+        <translation>არმატურის განაწილება</translation>
     </message>
     <message>
         <location filename="../RebarDistribution.ui" line="43"/>
         <source>image</source>
-        <translation type="unfinished">image</translation>
+        <translation>გამოსახულება</translation>
     </message>
     <message>
         <location filename="../RebarDistribution.ui" line="65"/>
         <source>No. of rebars (n)</source>
-        <translation type="unfinished">No. of rebars (n)</translation>
+        <translation>არმატურის რიცხვი</translation>
     </message>
     <message>
         <location filename="../RebarDistribution.ui" line="78"/>
         <source>Spacing (s)</source>
-        <translation type="unfinished">Spacing (s)</translation>
+        <translation>შორისი მანძილ(ებ)ი</translation>
     </message>
     <message>
         <location filename="../RebarDistribution.ui" line="89"/>
         <source>Segment 1</source>
-        <translation type="unfinished">Segment 1</translation>
+        <translation>სეგმენტი 1</translation>
     </message>
     <message>
         <location filename="../RebarDistribution.ui" line="109"/>
         <location filename="../RebarDistribution.ui" line="179"/>
         <source>100 mm</source>
-        <translation type="unfinished">100 mm</translation>
+        <translation>100 მმ</translation>
     </message>
     <message>
         <location filename="../RebarDistribution.ui" line="123"/>
         <source>Segment 2</source>
-        <translation type="unfinished">Segment 2</translation>
+        <translation>სეგმენტი 2</translation>
     </message>
     <message>
         <location filename="../RebarDistribution.ui" line="139"/>
         <source>200 mm</source>
-        <translation type="unfinished">200 mm</translation>
+        <translation>200 მმ</translation>
     </message>
     <message>
         <location filename="../RebarDistribution.ui" line="153"/>
         <source>Segment 3</source>
-        <translation type="unfinished">Segment 3</translation>
+        <translation>სეგმენტი 3</translation>
     </message>
 </context>
 <context>
@@ -2965,7 +2965,7 @@
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="44"/>
@@ -3006,7 +3006,7 @@
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="176"/>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="257"/>
         <source>20 mm</source>
-        <translation type="unfinished">20 mm</translation>
+        <translation>20 მმ</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="203"/>
@@ -3024,7 +3024,7 @@
     <message>
         <location filename="../PopUpImage.py" line="41"/>
         <source>Detailed description</source>
-        <translation type="unfinished">Detailed description</translation>
+        <translation>დაწვრილებითი აღწერა</translation>
     </message>
 </context>
 <context>
@@ -3032,12 +3032,12 @@
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.py" line="62"/>
         <source>Footing Reinforcement</source>
-        <translation type="unfinished">Footing Reinforcement</translation>
+        <translation>საძირკვლის არმირება</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.py" line="65"/>
         <source>Slab Reinforcement</source>
-        <translation type="unfinished">Slab Reinforcement</translation>
+        <translation>ფილის გაძლიერება</translation>
     </message>
 </context>
 <context>
@@ -3045,7 +3045,7 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>ფორმა</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="25"/>
@@ -3181,7 +3181,7 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="333"/>
         <source>None</source>
-        <translation>Joks</translation>
+        <translation>არცერთი</translation>
     </message>
 </context>
 <context>
@@ -3189,7 +3189,7 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>ფორმა</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="25"/>
@@ -3242,7 +3242,7 @@
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="326"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="378"/>
         <source>None</source>
-        <translation>Joks</translation>
+        <translation>არცერთი</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="128"/>
@@ -3331,7 +3331,7 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>ფორმა</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="25"/>
@@ -3648,12 +3648,12 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Main.ui" line="20"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Main.ui" line="28"/>
         <source>Back</source>
-        <translation type="unfinished">Back</translation>
+        <translation>უკან</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Main.ui" line="35"/>
@@ -3691,7 +3691,7 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>ფორმა</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="25"/>
@@ -3850,7 +3850,7 @@
     <message>
         <location filename="../RebarTools.py" line="264"/>
         <source>Beam Reinforcement</source>
-        <translation type="unfinished">Beam Reinforcement</translation>
+        <translation>არმატურის გაძლიერება</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="269"/>
@@ -3863,7 +3863,7 @@
     <message>
         <location filename="../RebarTools.py" line="174"/>
         <source>Bent-Shape Rebar</source>
-        <translation type="unfinished">Bent-Shape Rebar</translation>
+        <translation>მოღუნული არმატურა</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="179"/>
@@ -3876,7 +3876,7 @@
     <message>
         <location filename="../RebarTools.py" line="357"/>
         <source>Rebar Bill Of Material</source>
-        <translation type="unfinished">Rebar Bill Of Material</translation>
+        <translation>ნაწილების სია</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="361"/>
@@ -3889,7 +3889,7 @@
     <message>
         <location filename="../RebarTools.py" line="235"/>
         <source>Column Reinforcement</source>
-        <translation type="unfinished">Column Reinforcement</translation>
+        <translation>სვეტის გაძლიერება</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="240"/>
@@ -3915,7 +3915,7 @@
     <message>
         <location filename="../RebarTools.py" line="328"/>
         <source>Footing Reinforcement</source>
-        <translation type="unfinished">Footing Reinforcement</translation>
+        <translation>საძირკვლის არმირება</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="333"/>
@@ -3928,7 +3928,7 @@
     <message>
         <location filename="../RebarTools.py" line="206"/>
         <source>Helical Rebar</source>
-        <translation type="unfinished">Helical Rebar</translation>
+        <translation>სპირალური არმატურა</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="211"/>
@@ -3941,7 +3941,7 @@
     <message>
         <location filename="../RebarTools.py" line="110"/>
         <source>L-Shape Rebar</source>
-        <translation type="unfinished">L-Shape Rebar</translation>
+        <translation>მართკუთხა არმატურა</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="115"/>
@@ -3954,7 +3954,7 @@
     <message>
         <location filename="../RebarTools.py" line="296"/>
         <source>Slab Reinforcement</source>
-        <translation type="unfinished">Slab Reinforcement</translation>
+        <translation>ფილის გაძლიერება</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="301"/>
@@ -3967,7 +3967,7 @@
     <message>
         <location filename="../RebarTools.py" line="142"/>
         <source>Stirrup</source>
-        <translation type="unfinished">Stirrup</translation>
+        <translation>არევა</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="147"/>
@@ -3980,7 +3980,7 @@
     <message>
         <location filename="../RebarTools.py" line="46"/>
         <source>Straight Rebar</source>
-        <translation type="unfinished">Straight Rebar</translation>
+        <translation>სწორი არმატურა</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="51"/>
@@ -3993,7 +3993,7 @@
     <message>
         <location filename="../RebarTools.py" line="78"/>
         <source>U-Shape Rebar</source>
-        <translation type="unfinished">U-Shape Rebar</translation>
+        <translation>U-ს ფორმის არმატურა</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="83"/>
@@ -4007,7 +4007,7 @@
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="17"/>
         <location filename="../FootingReinforcement/SecXDirRebars.ui" line="17"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>ფორმა</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="30"/>
@@ -4019,7 +4019,7 @@
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="47"/>
         <location filename="../FootingReinforcement/SecXDirRebars.ui" line="23"/>
         <source>Rounding</source>
-        <translation type="unfinished">Rounding</translation>
+        <translation>მომრგვალება</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="57"/>
@@ -4073,7 +4073,7 @@
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="169"/>
         <location filename="../FootingReinforcement/SecXDirRebars.ui" line="136"/>
         <source>0 </source>
-        <translation type="unfinished">0 </translation>
+        <translation>0 </translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="162"/>
@@ -4092,7 +4092,7 @@
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="17"/>
         <location filename="../FootingReinforcement/SecYDirRebars.ui" line="17"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>ფორმა</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="23"/>
@@ -4145,13 +4145,13 @@
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="126"/>
         <location filename="../FootingReinforcement/SecYDirRebars.ui" line="168"/>
         <source>0 </source>
-        <translation type="unfinished">0 </translation>
+        <translation>0 </translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="119"/>
         <location filename="../FootingReinforcement/SecYDirRebars.ui" line="105"/>
         <source>Rounding</source>
-        <translation type="unfinished">Rounding</translation>
+        <translation>მომრგვალება</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="153"/>
@@ -4178,26 +4178,26 @@
         <location filename="../Stirrup.ui" line="14"/>
         <location filename="../StraightRebar.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="35"/>
         <location filename="../Stirrup.ui" line="299"/>
         <location filename="../StraightRebar.ui" line="72"/>
         <source>Fill all the values</source>
-        <translation type="unfinished">Fill all the values</translation>
+        <translation>შეავსეთ ყველა ველი</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="52"/>
         <location filename="../Stirrup.ui" line="47"/>
         <location filename="../StraightRebar.ui" line="82"/>
         <source>Pick Selected Face</source>
-        <translation type="unfinished">Pick Selected Face</translation>
+        <translation>აირჩიეთ მონიშნული ზედაპირი</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="67"/>
         <source>Side Cover</source>
-        <translation type="unfinished">Side Cover</translation>
+        <translation>გვერდის საფარი</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="74"/>
@@ -4213,86 +4213,86 @@
         <location filename="../StraightRebar.ui" line="138"/>
         <location filename="../StraightRebar.ui" line="155"/>
         <source>20 mm</source>
-        <translation type="unfinished">20 mm</translation>
+        <translation>20 მმ</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="84"/>
         <location filename="../Stirrup.ui" line="223"/>
         <source>Top Cover</source>
-        <translation type="unfinished">Top Cover</translation>
+        <translation>ზედა საფარი</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="101"/>
         <location filename="../Stirrup.ui" line="230"/>
         <location filename="../StraightRebar.ui" line="148"/>
         <source>Bottom Cover</source>
-        <translation type="unfinished">Bottom Cover</translation>
+        <translation>ძირის საფარი</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="118"/>
         <source>Pitch</source>
-        <translation type="unfinished">Pitch</translation>
+        <translation>ტონი</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="125"/>
         <location filename="../Stirrup.ui" line="206"/>
         <location filename="../StraightRebar.ui" line="236"/>
         <source>50 mm</source>
-        <translation type="unfinished">50 mm</translation>
+        <translation>50 მმ</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="135"/>
         <location filename="../Stirrup.ui" line="135"/>
         <location filename="../StraightRebar.ui" line="165"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>დიამეტრი</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="142"/>
         <location filename="../Stirrup.ui" line="142"/>
         <location filename="../StraightRebar.ui" line="172"/>
         <source>8 mm</source>
-        <translation type="unfinished">8 mm</translation>
+        <translation>8 მმ</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="156"/>
         <location filename="../Stirrup.ui" line="315"/>
         <location filename="../StraightRebar.ui" line="270"/>
         <source>image</source>
-        <translation type="unfinished">image</translation>
+        <translation>გამოსახულება</translation>
     </message>
     <message>
         <location filename="../HelicalRebar.ui" line="178"/>
         <location filename="../Stirrup.ui" line="337"/>
         <location filename="../StraightRebar.ui" line="292"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../Stirrup.ui" line="59"/>
         <source>Left Cover</source>
-        <translation type="unfinished">Left Cover</translation>
+        <translation>მარცხენა საფარი</translation>
     </message>
     <message>
         <location filename="../Stirrup.ui" line="76"/>
         <location filename="../StraightRebar.ui" line="97"/>
         <source>Front Cover</source>
-        <translation type="unfinished">Front Cover</translation>
+        <translation>წინა საფარი</translation>
     </message>
     <message>
         <location filename="../Stirrup.ui" line="90"/>
         <source>Bent Angle</source>
-        <translation type="unfinished">Bent Angle</translation>
+        <translation>მოღუნვის კუთხე</translation>
     </message>
     <message>
         <location filename="../Stirrup.ui" line="107"/>
         <source>Bent Factor</source>
-        <translation type="unfinished">Bent Factor</translation>
+        <translation>მოღუნვის ფაქტორი</translation>
     </message>
     <message>
         <location filename="../Stirrup.ui" line="121"/>
         <source>Rounding</source>
-        <translation type="unfinished">Rounding</translation>
+        <translation>მომრგვალება</translation>
     </message>
     <message>
         <location filename="../Stirrup.ui" line="160"/>
@@ -4300,7 +4300,7 @@
         <location filename="../StraightRebar.ui" line="190"/>
         <location filename="../StraightRebar.ui" line="209"/>
         <source>Amount</source>
-        <translation type="unfinished">Amount</translation>
+        <translation>რაოდენობა</translation>
     </message>
     <message>
         <location filename="../Stirrup.ui" line="170"/>
@@ -4308,44 +4308,44 @@
         <location filename="../StraightRebar.ui" line="200"/>
         <location filename="../StraightRebar.ui" line="226"/>
         <source>Spacing</source>
-        <translation type="unfinished">Spacing</translation>
+        <translation>შორისი მანძილი</translation>
     </message>
     <message>
         <location filename="../Stirrup.ui" line="216"/>
         <source>Right Cover</source>
-        <translation type="unfinished">Right Cover</translation>
+        <translation>მარჯვენა საფარი</translation>
     </message>
     <message>
         <location filename="../Stirrup.ui" line="274"/>
         <location filename="../StraightRebar.ui" line="40"/>
         <source>Custom Spacing</source>
-        <translation type="unfinished">Custom Spacing</translation>
+        <translation>მორგებული ინტერვალი</translation>
     </message>
     <message>
         <location filename="../Stirrup.ui" line="284"/>
         <location filename="../StraightRebar.ui" line="50"/>
         <source>Remove Spacing</source>
-        <translation type="unfinished">Remove Spacing</translation>
+        <translation>ინტერვალის მოცილება</translation>
     </message>
     <message>
         <location filename="../StraightRebar.ui" line="114"/>
         <source>Right Side Cover</source>
-        <translation type="unfinished">Right Side Cover</translation>
+        <translation>მარჯვენა გვერდის საფარი</translation>
     </message>
     <message>
         <location filename="../StraightRebar.ui" line="131"/>
         <source>Left Side Cover</source>
-        <translation type="unfinished">Left Side Cover</translation>
+        <translation>მარცხენა გვერდის საფარი</translation>
     </message>
     <message>
         <location filename="../StraightRebar.ui" line="246"/>
         <source>Cover along</source>
-        <translation type="unfinished">Cover along</translation>
+        <translation>საფარი რამის გასწვრივ</translation>
     </message>
     <message>
         <location filename="../StraightRebar.ui" line="259"/>
         <source>Orientation</source>
-        <translation type="unfinished">Orientation</translation>
+        <translation>ორიენტაცია</translation>
     </message>
 </context>
 <context>
@@ -4353,22 +4353,22 @@
     <message>
         <location filename="../UShapeRebar.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialogas</translation>
+        <translation>ფანჯარა</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="36"/>
         <source>Pick Selected Face</source>
-        <translation type="unfinished">Pick Selected Face</translation>
+        <translation>აირჩიეთ მონიშნული ზედაპირი</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="49"/>
         <source>Fill all the values</source>
-        <translation type="unfinished">Fill all the values</translation>
+        <translation>შეავსეთ ყველა ველი</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="61"/>
         <source>Front Cover</source>
-        <translation type="unfinished">Front Cover</translation>
+        <translation>წინა საფარი</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="68"/>
@@ -4377,84 +4377,84 @@
         <location filename="../UShapeRebar.ui" line="112"/>
         <location filename="../UShapeRebar.ui" line="225"/>
         <source>20 mm</source>
-        <translation type="unfinished">20 mm</translation>
+        <translation>20 მმ</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="78"/>
         <source>Right Side Cover</source>
-        <translation type="unfinished">Right Side Cover</translation>
+        <translation>მარჯვენა გვერდის საფარი</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="105"/>
         <source>Top Cover</source>
-        <translation type="unfinished">Top Cover</translation>
+        <translation>ზედა საფარი</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="122"/>
         <source>Rounding</source>
-        <translation type="unfinished">Rounding</translation>
+        <translation>მომრგვალება</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="136"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation>დიამეტრი</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="145"/>
         <location filename="../UShapeRebar.ui" line="164"/>
         <source>Amount</source>
-        <translation type="unfinished">Amount</translation>
+        <translation>რაოდენობა</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="155"/>
         <location filename="../UShapeRebar.ui" line="178"/>
         <source>Spacing</source>
-        <translation type="unfinished">Spacing</translation>
+        <translation>შორისი მანძილი</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="185"/>
         <source>Bottom Cover</source>
-        <translation type="unfinished">Bottom Cover</translation>
+        <translation>ძირის საფარი</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="195"/>
         <source>50 mm</source>
-        <translation type="unfinished">50 mm</translation>
+        <translation>50 მმ</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="205"/>
         <source>8 mm</source>
-        <translation type="unfinished">8 mm</translation>
+        <translation>8 მმ</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="215"/>
         <source>Orientation</source>
-        <translation type="unfinished">Orientation</translation>
+        <translation>ორიენტაცია</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="235"/>
         <source>Left Side Cover</source>
-        <translation type="unfinished">Left Side Cover</translation>
+        <translation>მარცხენა გვერდის საფარი</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="249"/>
         <source>Custom Spacing</source>
-        <translation type="unfinished">Custom Spacing</translation>
+        <translation>მორგებული ინტერვალი</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="259"/>
         <source>Remove Spacing</source>
-        <translation type="unfinished">Remove Spacing</translation>
+        <translation>ინტერვალის მოცილება</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="270"/>
         <source>image</source>
-        <translation type="unfinished">image</translation>
+        <translation>გამოსახულება</translation>
     </message>
     <message>
         <location filename="../UShapeRebar.ui" line="292"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
 </context>
 </TS>
