@@ -97,7 +97,7 @@ normalize_crowdin_files() {
 
 	for pattern in "${crowdin_fixes[@]}"; do
 		find . -type f -name "*_${pattern}\.*" | while read -r file; do
-			new_name=$(echo "$file" | sed 's/-.*\./\./')
+			new_name=${file//-*./.}
 			mv -v "$file" "$new_name"
 		done
 	done
@@ -113,8 +113,8 @@ help() {
 	echo -e "\nUsage:"
 	echo -e "\t./update_translation.sh [-R] [-U] [-r <locale>] [-u <locale>]"
 	echo -e "\nFlags:"
-	echo -e "  -R\n\tRelease all locales"
-	echo -e "  -U\n\tUpdate main translation file (locale agnostic)"
+	echo -e "  -R\n\tRelease all translations (qm files)"
+	echo -e "  -U\n\tUpdate all translations (ts files)"
 	echo -e "  -r <locale>\n\tRelease the specified locale"
 	echo -e "  -u <locale>\n\tUpdate strings for the specified locale"
 	echo -e "  -N\n\tNormalize CrowdIn filenames"
@@ -139,8 +139,11 @@ if [ $# -eq 1 ]; then
 			echo
 		done
 	elif [ "$1" == "-U" ]; then
-		# Update main file (agnostic)
-		update_locale
+		for locale in "${supported_locales[@]}"; do
+			update_locale "$locale"
+		done
+	elif [ "$1" == "-u" ]; then
+		update_locale # Update main file (agnostic)
 	elif [ "$1" == "-N" ]; then
 		normalize_crowdin_files
 	else
