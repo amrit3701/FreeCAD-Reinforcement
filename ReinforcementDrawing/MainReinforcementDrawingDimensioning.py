@@ -309,7 +309,11 @@ class _ReinforcementDrawingDimensioningDialog:
         """This function is used to set default values in "Shapes - Rebars &
         Structure" stacked widget in UI."""
         form = self.shapes_data_widget
-        form.rebars_stroke_width.setText(FreeCAD.Units.Quantity(self.rebars_stroke_width, FreeCAD.Units.Length).UserString)
+        form.rebars_stroke_width.setText(
+            FreeCAD.Units.Quantity(
+                self.rebars_stroke_width, FreeCAD.Units.Length
+            ).UserString
+        )
         if self.rebars_color_style == "Automatic":
             form.rebars_shape_color_radio.setChecked(True)
             form.rebars_custom_color_radio.setChecked(False)
@@ -323,7 +327,11 @@ class _ReinforcementDrawingDimensioningDialog:
             self.rebars_color[0], self.rebars_color[1], self.rebars_color[2]
         )
         form.rebars_color.setProperty("color", color)
-        form.structure_stroke_width.setText(FreeCAD.Units.Quantity(self.structure_stroke_width, FreeCAD.Units.Length).UserString)
+        form.structure_stroke_width.setText(
+            FreeCAD.Units.Quantity(
+                self.structure_stroke_width, FreeCAD.Units.Length
+            ).UserString
+        )
         if self.structure_color_style == "Automatic":
             form.structure_shape_color_radio.setChecked(True)
             form.structure_color_none.setChecked(False)
@@ -397,7 +405,11 @@ class _ReinforcementDrawingDimensioningDialog:
             self.dimension_text_color[2],
         )
         form.dimension_text_color.setProperty("color", color)
-        form.dimension_stroke_width.setText(FreeCAD.Units.Quantity(self.dimension_stroke_width, FreeCAD.Units.Length).UserString)
+        form.dimension_stroke_width.setText(
+            FreeCAD.Units.Quantity(
+                self.dimension_stroke_width, FreeCAD.Units.Length
+            ).UserString
+        )
         if form.dimension_line_style.findText(self.dimension_line_style) == -1:
             form.dimension_line_style.setCurrentIndex(0)
         else:

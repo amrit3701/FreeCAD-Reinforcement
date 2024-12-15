@@ -53,7 +53,9 @@ class _LayerSpacingEditDialog:
         for layer in range(1, layers_count + 1):
             self.addLayer()
             self.LayerSpacingInputFieldList[layer - 1].setText(
-                FreeCAD.Units.Quantity(self.LayerSpacingTuple[layer - 1], FreeCAD.Units.Length).UserString
+                FreeCAD.Units.Quantity(
+                    self.LayerSpacingTuple[layer - 1], FreeCAD.Units.Length
+                ).UserString
             )
 
     def connectSignalSlots(self):
@@ -68,7 +70,9 @@ class _LayerSpacingEditDialog:
         ui = FreeCADGui.UiLoader()
         layer_spacing = ui.createWidget("Gui::InputField")
         layer_spacing.setProperty("unit", "mm")
-        layer_spacing.setText(FreeCAD.Units.Quantity(30.0, FreeCAD.Units.Length).UserString)
+        layer_spacing.setText(
+            FreeCAD.Units.Quantity(30.0, FreeCAD.Units.Length).UserString
+        )
         self.LayerSpacingInputFieldList.append(layer_spacing)
 
         layout = self.form.formLayout

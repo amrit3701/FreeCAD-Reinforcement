@@ -164,9 +164,10 @@ class _HelicalRebarTaskPanel:
                     Rebar.Base.Support[0][0], Rebar.Base.Support[0][1][0]
                 )
             else:
-               normal = facenormalDirection(
-                    Rebar.Base.AttachmentSupport[0][0], Rebar.Base.AttachmentSupport[0][1][0]
-                ) 
+                normal = facenormalDirection(
+                    Rebar.Base.AttachmentSupport[0][0],
+                    Rebar.Base.AttachmentSupport[0][1][0],
+                )
         if not round(normal.z) in {1, -1}:
             self.form.topCoverLabel.setText(
                 translate("RebarAddon", "Left Cover")
@@ -420,11 +421,31 @@ def editHelicalRebar(
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
     obj = _HelicalRebarTaskPanel(vobj.Object)
-    obj.form.sideCover.setText(FreeCAD.Units.Quantity(vobj.Object.SideCover, FreeCAD.Units.Length).UserString)
-    obj.form.bottomCover.setText(FreeCAD.Units.Quantity(vobj.Object.BottomCover, FreeCAD.Units.Length).UserString)
-    obj.form.diameter.setText(FreeCAD.Units.Quantity(vobj.Object.Diameter, FreeCAD.Units.Length).UserString)
-    obj.form.topCover.setText(FreeCAD.Units.Quantity(vobj.Object.TopCover, FreeCAD.Units.Length).UserString)
-    obj.form.pitch.setText(FreeCAD.Units.Quantity(vobj.Object.Pitch, FreeCAD.Units.Length).UserString)
+    obj.form.sideCover.setText(
+        FreeCAD.Units.Quantity(
+            vobj.Object.SideCover, FreeCAD.Units.Length
+        ).UserString
+    )
+    obj.form.bottomCover.setText(
+        FreeCAD.Units.Quantity(
+            vobj.Object.BottomCover, FreeCAD.Units.Length
+        ).UserString
+    )
+    obj.form.diameter.setText(
+        FreeCAD.Units.Quantity(
+            vobj.Object.Diameter, FreeCAD.Units.Length
+        ).UserString
+    )
+    obj.form.topCover.setText(
+        FreeCAD.Units.Quantity(
+            vobj.Object.TopCover, FreeCAD.Units.Length
+        ).UserString
+    )
+    obj.form.pitch.setText(
+        FreeCAD.Units.Quantity(
+            vobj.Object.Pitch, FreeCAD.Units.Length
+        ).UserString
+    )
     FreeCADGui.Control.showDialog(obj)
 
 

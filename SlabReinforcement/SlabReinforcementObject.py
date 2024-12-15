@@ -1209,7 +1209,6 @@ class SlabReinforcementGroup:
             parallel_rebar_type == RebarTypes.lshape
             and parallel_amount_spacing_value
         ):
-
             if parallel_l_shape_hook_orintation == "Alternate":
                 cross_face_length = getParametersOfFace(
                     structure, cross_facename

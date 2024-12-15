@@ -352,7 +352,7 @@ class BOMPreferences:
         dia_weight_map = {}
         for dia in self.dia_weight_map.GetFloats():
             weight = self.dia_weight_map.GetFloat(dia)
-            weight = FreeCAD.Units.Quantity(str(weight * 10 ** 3) + "kg/m")
+            weight = FreeCAD.Units.Quantity(str(weight * 10**3) + "kg/m")
             dia_weight_map[int(dia)] = weight
         return dia_weight_map
 

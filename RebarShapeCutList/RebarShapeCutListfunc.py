@@ -1171,7 +1171,7 @@ def getRebarShapeCutList(
         column_count = max(
             x
             for x in list(range(1, len(base_rebars_list) + 1))
-            if x ** 2 <= len(base_rebars_list)
+            if x**2 <= len(base_rebars_list)
         )
     else:
         column_count = min(column_count, len(base_rebars_list))

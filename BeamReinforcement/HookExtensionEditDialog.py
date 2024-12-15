@@ -57,14 +57,19 @@ class _HookExtensionEditDialog:
                 self.addSet()
                 if self.HookExtensionTuple[layer - 1][i] is None:
                     self.HookExtensionInputFieldList[layer - 1][i].setText(
-                        FreeCAD.Units.Quantity(40.0, FreeCAD.Units.Length).UserString
+                        FreeCAD.Units.Quantity(
+                            40.0, FreeCAD.Units.Length
+                        ).UserString
                     )
                     self.HookExtensionInputFieldList[layer - 1][i].setEnabled(
                         False
                     )
                 else:
                     self.HookExtensionInputFieldList[layer - 1][i].setText(
-                        FreeCAD.Units.Quantity(self.HookExtensionTuple[layer - 1][i], FreeCAD.Units.Length).UserString
+                        FreeCAD.Units.Quantity(
+                            self.HookExtensionTuple[layer - 1][i],
+                            FreeCAD.Units.Length,
+                        ).UserString
                     )
                     self.HookExtensionInputFieldList[layer - 1][i].setEnabled(
                         True
@@ -102,7 +107,9 @@ class _HookExtensionEditDialog:
         hook_extension = ui.createWidget("Gui::InputField")
         hook_extension.setProperty("unit", "mm")
         hook_extension.setProperty("minimum", 10)
-        hook_extension.setText(FreeCAD.Units.Quantity(40.0, FreeCAD.Units.Length).UserString)
+        hook_extension.setText(
+            FreeCAD.Units.Quantity(40.0, FreeCAD.Units.Length).UserString
+        )
         h_layout.addWidget(set_label)
         h_layout.addWidget(hook_extension)
         v_layout = self.form.verticalLayout

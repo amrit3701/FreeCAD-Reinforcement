@@ -563,7 +563,7 @@ def editStirrup(
         structure = sketch.Support[0][0]
     else:
         facename = sketch.AttachmentSupport[0][1][0]
-        structure = sketch.AttachmentSupport[0][0]  
+        structure = sketch.AttachmentSupport[0][0]
     face = structure.Shape.Faces[getFaceNumber(facename) - 1]
     # StructurePRM = getTrueParametersOfStructure(structure)
     # Get parameters of the face where sketch of rebar is drawn
@@ -620,12 +620,36 @@ def editStirrup(
 def editDialog(vobj):
     FreeCADGui.Control.closeDialog()
     obj = _StirrupTaskPanel(vobj.Object)
-    obj.form.frontCover.setText(FreeCAD.Units.Quantity(vobj.Object.FrontCover, FreeCAD.Units.Length).UserString)
-    obj.form.l_sideCover.setText(FreeCAD.Units.Quantity(vobj.Object.LeftCover, FreeCAD.Units.Length).UserString)
-    obj.form.r_sideCover.setText(FreeCAD.Units.Quantity(vobj.Object.RightCover, FreeCAD.Units.Length).UserString)
-    obj.form.t_sideCover.setText(FreeCAD.Units.Quantity(vobj.Object.TopCover, FreeCAD.Units.Length).UserString)
-    obj.form.b_sideCover.setText(FreeCAD.Units.Quantity(vobj.Object.BottomCover, FreeCAD.Units.Length).UserString)
-    obj.form.diameter.setText(FreeCAD.Units.Quantity(vobj.Object.Diameter, FreeCAD.Units.Length).UserString)
+    obj.form.frontCover.setText(
+        FreeCAD.Units.Quantity(
+            vobj.Object.FrontCover, FreeCAD.Units.Length
+        ).UserString
+    )
+    obj.form.l_sideCover.setText(
+        FreeCAD.Units.Quantity(
+            vobj.Object.LeftCover, FreeCAD.Units.Length
+        ).UserString
+    )
+    obj.form.r_sideCover.setText(
+        FreeCAD.Units.Quantity(
+            vobj.Object.RightCover, FreeCAD.Units.Length
+        ).UserString
+    )
+    obj.form.t_sideCover.setText(
+        FreeCAD.Units.Quantity(
+            vobj.Object.TopCover, FreeCAD.Units.Length
+        ).UserString
+    )
+    obj.form.b_sideCover.setText(
+        FreeCAD.Units.Quantity(
+            vobj.Object.BottomCover, FreeCAD.Units.Length
+        ).UserString
+    )
+    obj.form.diameter.setText(
+        FreeCAD.Units.Quantity(
+            vobj.Object.Diameter, FreeCAD.Units.Length
+        ).UserString
+    )
     obj.form.bentAngle.setCurrentIndex(
         obj.form.bentAngle.findText(str(vobj.Object.BentAngle))
     )
@@ -638,7 +662,11 @@ def editDialog(vobj):
         obj.form.spacing_radio.setChecked(True)
         obj.form.amount.setDisabled(True)
         obj.form.spacing.setEnabled(True)
-        obj.form.spacing.setText(FreeCAD.Units.Quantity(vobj.Object.TrueSpacing, FreeCAD.Units.Length).UserString)
+        obj.form.spacing.setText(
+            FreeCAD.Units.Quantity(
+                vobj.Object.TrueSpacing, FreeCAD.Units.Length
+            ).UserString
+        )
     # obj.form.PickSelectedFace.setVisible(False)
     FreeCADGui.Control.showDialog(obj)
 

@@ -132,14 +132,26 @@ class _ColumnReinforcementDialog:
         self.form.ties_configuration.setCurrentIndex(
             self.form.ties_configuration.findText("SingleTie")
         )
-        self.ties_widget.ties_leftCover.setText(FreeCAD.Units.Quantity(40.00, "mm").UserString)
-        self.ties_widget.ties_rightCover.setText(FreeCAD.Units.Quantity(40.00, "mm").UserString)
-        self.ties_widget.ties_topCover.setText(FreeCAD.Units.Quantity(40.00, "mm").UserString)
-        self.ties_widget.ties_bottomCover.setText(FreeCAD.Units.Quantity(40.00, "mm").UserString)
+        self.ties_widget.ties_leftCover.setText(
+            FreeCAD.Units.Quantity(40.00, "mm").UserString
+        )
+        self.ties_widget.ties_rightCover.setText(
+            FreeCAD.Units.Quantity(40.00, "mm").UserString
+        )
+        self.ties_widget.ties_topCover.setText(
+            FreeCAD.Units.Quantity(40.00, "mm").UserString
+        )
+        self.ties_widget.ties_bottomCover.setText(
+            FreeCAD.Units.Quantity(40.00, "mm").UserString
+        )
         self.ties_widget.ties_allCoversEqual.setChecked(True)
         self.tiesAllCoversEqualClicked()
-        self.ties_widget.ties_offset.setText(FreeCAD.Units.Quantity(100.00, "mm").UserString)
-        self.ties_widget.ties_diameter.setText(FreeCAD.Units.Quantity(8.00, "mm").UserString)
+        self.ties_widget.ties_offset.setText(
+            FreeCAD.Units.Quantity(100.00, "mm").UserString
+        )
+        self.ties_widget.ties_diameter.setText(
+            FreeCAD.Units.Quantity(8.00, "mm").UserString
+        )
         self.ties_widget.ties_bentAngle.setCurrentIndex(
             self.ties_widget.ties_bentAngle.findText("135")
         )
@@ -149,7 +161,9 @@ class _ColumnReinforcementDialog:
         self.ties_widget.ties_number.setEnabled(True)
         self.ties_widget.ties_spacing.setEnabled(False)
         self.ties_widget.ties_number.setValue(5)
-        self.ties_widget.ties_spacing.setText(FreeCAD.Units.Quantity(100.00, "mm").UserString)
+        self.ties_widget.ties_spacing.setText(
+            FreeCAD.Units.Quantity(100.00, "mm").UserString
+        )
         # Set Main Rebars data
         self.main_rebars_widget.main_rebars_type.setCurrentIndex(
             self.main_rebars_widget.main_rebars_type.findText("StraightRebar")
@@ -164,11 +178,19 @@ class _ColumnReinforcementDialog:
                 "x-axis"
             )
         )
-        self.main_rebars_widget.main_rebars_hookExtension.setText(FreeCAD.Units.Quantity(40.00, "mm").UserString)
+        self.main_rebars_widget.main_rebars_hookExtension.setText(
+            FreeCAD.Units.Quantity(40.00, "mm").UserString
+        )
         self.main_rebars_widget.main_rebars_rounding.setValue(2)
-        self.main_rebars_widget.main_rebars_topOffset.setText(FreeCAD.Units.Quantity(0.00, "mm").UserString)
-        self.main_rebars_widget.main_rebars_bottomOffset.setText(FreeCAD.Units.Quantity(0.00, "mm").UserString)
-        self.main_rebars_widget.main_rebars_diameter.setText(FreeCAD.Units.Quantity(20.00, "mm").UserString)
+        self.main_rebars_widget.main_rebars_topOffset.setText(
+            FreeCAD.Units.Quantity(0.00, "mm").UserString
+        )
+        self.main_rebars_widget.main_rebars_bottomOffset.setText(
+            FreeCAD.Units.Quantity(0.00, "mm").UserString
+        )
+        self.main_rebars_widget.main_rebars_diameter.setText(
+            FreeCAD.Units.Quantity(20.00, "mm").UserString
+        )
         # Set Secondary Xdir Rebars Data
         self.sec_xdir_rebars_widget.xdir_rebars_type.setCurrentIndex(
             self.sec_xdir_rebars_widget.xdir_rebars_type.findText(
@@ -184,8 +206,12 @@ class _ColumnReinforcementDialog:
             FreeCAD.Units.Quantity(40.00, "mm").UserString
         )
         self.sec_xdir_rebars_widget.xdir_rebars_rounding.setValue(1)
-        self.sec_xdir_rebars_widget.xdir_rebars_topOffset.setText(FreeCAD.Units.Quantity(0.00, "mm").UserString)
-        self.sec_xdir_rebars_widget.xdir_rebars_bottomOffset.setText(FreeCAD.Units.Quantity(0.00, "mm").UserString)
+        self.sec_xdir_rebars_widget.xdir_rebars_topOffset.setText(
+            FreeCAD.Units.Quantity(0.00, "mm").UserString
+        )
+        self.sec_xdir_rebars_widget.xdir_rebars_bottomOffset.setText(
+            FreeCAD.Units.Quantity(0.00, "mm").UserString
+        )
         self.sec_xdir_rebars_widget.numberDiameter.setText(
             "2#20mm+1#16mm+2#20mm"
         )
@@ -204,22 +230,40 @@ class _ColumnReinforcementDialog:
             FreeCAD.Units.Quantity(40.00, "mm").UserString
         )
         self.sec_ydir_rebars_widget.ydir_rebars_rounding.setValue(1)
-        self.sec_ydir_rebars_widget.ydir_rebars_topOffset.setText(FreeCAD.Units.Quantity(0.00, "mm").UserString)
-        self.sec_ydir_rebars_widget.ydir_rebars_bottomOffset.setText(FreeCAD.Units.Quantity(0.00, "mm").UserString)
+        self.sec_ydir_rebars_widget.ydir_rebars_topOffset.setText(
+            FreeCAD.Units.Quantity(0.00, "mm").UserString
+        )
+        self.sec_ydir_rebars_widget.ydir_rebars_bottomOffset.setText(
+            FreeCAD.Units.Quantity(0.00, "mm").UserString
+        )
         self.sec_ydir_rebars_widget.numberDiameter.setText(
             "1#20mm+1#16mm+1#20mm"
         )
         # Set circular column data
-        self.circular_column_widget.sideCover.setText(FreeCAD.Units.Quantity(20.00, "mm").UserString)
-        self.circular_column_widget.helical_rebars_topOffset.setText(FreeCAD.Units.Quantity(40.00, "mm").UserString)
+        self.circular_column_widget.sideCover.setText(
+            FreeCAD.Units.Quantity(20.00, "mm").UserString
+        )
+        self.circular_column_widget.helical_rebars_topOffset.setText(
+            FreeCAD.Units.Quantity(40.00, "mm").UserString
+        )
         self.circular_column_widget.helical_rebars_bottomOffset.setText(
             FreeCAD.Units.Quantity(40.00, "mm").UserString
         )
-        self.circular_column_widget.pitch.setText(FreeCAD.Units.Quantity(50.00, "mm").UserString)
-        self.circular_column_widget.helical_rebars_diameter.setText(FreeCAD.Units.Quantity(8.00, "mm").UserString)
-        self.circular_column_widget.main_rebars_topOffset.setText(FreeCAD.Units.Quantity(20.00, "mm").UserString)
-        self.circular_column_widget.main_rebars_bottomOffset.setText(FreeCAD.Units.Quantity(20.00, "mm").UserString)
-        self.circular_column_widget.main_rebars_diameter.setText(FreeCAD.Units.Quantity(16.00, "mm").UserString)
+        self.circular_column_widget.pitch.setText(
+            FreeCAD.Units.Quantity(50.00, "mm").UserString
+        )
+        self.circular_column_widget.helical_rebars_diameter.setText(
+            FreeCAD.Units.Quantity(8.00, "mm").UserString
+        )
+        self.circular_column_widget.main_rebars_topOffset.setText(
+            FreeCAD.Units.Quantity(20.00, "mm").UserString
+        )
+        self.circular_column_widget.main_rebars_bottomOffset.setText(
+            FreeCAD.Units.Quantity(20.00, "mm").UserString
+        )
+        self.circular_column_widget.main_rebars_diameter.setText(
+            FreeCAD.Units.Quantity(16.00, "mm").UserString
+        )
         self.circular_column_widget.main_rebars_number_radio.setChecked(True)
         self.circular_column_widget.main_rebars_angle_radio.setChecked(False)
         self.circular_column_widget.main_rebars_number.setEnabled(True)

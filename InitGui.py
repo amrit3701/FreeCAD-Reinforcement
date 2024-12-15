@@ -45,7 +45,9 @@ class ReinforcementWorkbench(FreeCADGui.Workbench):
     global wb_icon_path
 
     MenuText = Qt.translate("ReinforcementWorkbench", "Reinforcement")
-    ToolTip = Qt.translate("ReinforcementWorkbench", "Create Building Reinforcement")
+    ToolTip = Qt.translate(
+        "ReinforcementWorkbench", "Create Building Reinforcement"
+    )
     Icon = wb_icon_path
 
     def Initialize(self):

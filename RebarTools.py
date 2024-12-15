@@ -533,6 +533,7 @@ if "Arch_Rebar" not in FreeCADGui.listCommands():
     # from ArchRebar import _CommandRebar
     # FreeCADGui.addCommand("Arch_Rebar", _CommandRebar())
 
+
 def load_translations():
     FreeCADGui.addLanguagePath(
         str(Path(__file__).parent.absolute() / "translations")
