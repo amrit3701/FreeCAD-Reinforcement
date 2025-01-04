@@ -303,7 +303,6 @@ def makeFootingReinforcement(
             footingReinforcementGroup.ViewObject
         )
 
-    footingReinforcementGroup.IsMakeOrEditRequired = False
     footingReinforcementGroup.MeshCoverAlong = mesh_cover_along
     footingReinforcementGroup.Facename = facename
     footingReinforcementGroup.Structure = structure
@@ -699,7 +698,6 @@ def editFootingReinforcement(
         column_sec_hook_extension arguments is a tuple.
     Syntax: (<value_for_sec_xdir_rebars>, <value_for_sec_ydir_rebars>).
     """
-    footingReinforcementGroup.IsMakeOrEditRequired = False
     footingReinforcementGroup.MeshCoverAlong = mesh_cover_along
     if facename:
         footingReinforcementGroup.Facename = facename

@@ -773,7 +773,6 @@ class SlabReinforcementGroup:
         if prop != "IsMakeOrEditRequired" and obj.IsMakeOrEditRequired:
             obj.IsMakeOrEditRequired = False
             self.makeOrEditSlabReinforcement(obj)
-            obj.IsMakeOrEditRequired = True
 
     def execute(self, obj):
         pass

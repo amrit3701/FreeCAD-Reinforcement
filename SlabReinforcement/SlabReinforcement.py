@@ -493,7 +493,6 @@ def editSlabReinforcement(
         Default is None
     """
     # Update value of SlabReinforcementGroup
-    slabReinforcementGroup.IsMakeOrEditRequired = False
     slabReinforcementGroup.MeshCoverAlong = mesh_cover_along
 
     if structure:
@@ -600,4 +599,5 @@ def editSlabReinforcement(
             slabReinforcementGroup.CrossDistributionRebarsSpacing = (
                 cross_distribution_rebars_amount_spacing_value
             )
+    FreeCAD.ActiveDocument.recompute()
     return slabReinforcementGroup
