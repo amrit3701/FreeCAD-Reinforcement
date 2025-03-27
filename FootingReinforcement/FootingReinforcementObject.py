@@ -942,14 +942,12 @@ class FootingReinforcementGroup:
         if prop != "IsMakeOrEditRequired" and obj.IsMakeOrEditRequired:
             obj.IsMakeOrEditRequired = False
             self.makeOrEditFootingReinforcement(obj)
-            obj.IsMakeOrEditRequired = True
 
     def execute(self, obj):
         pass
 
     def makeOrEditFootingReinforcement(self, obj):
         """Create or update Footing Reinforcement"""
-        obj.IsMakeOrEditRequired = False
         mesh_cover_along = obj.MeshCoverAlong
         facename = obj.Facename
         structure = obj.Structure
@@ -1549,7 +1547,6 @@ class FootingReinforcementGroup:
 
         self.addColumnsGroups(obj.ReinforcementGroups[1], columns_container)
         FreeCAD.ActiveDocument.recompute()
-        obj.IsMakeOrEditRequired = True
 
     def removeColumnReinforcement(self, column):
         """Remove column reinforcement from footing"""
@@ -1573,7 +1570,6 @@ class FootingReinforcementGroup:
 
     def removeSlabReinforcement(self, slab):
         """Remove slab reinforcement from footing"""
-        slab.IsMakeOrEditRequired = False
         for rebar in slab.Group:
             base_name = rebar.Base.Name
             FreeCAD.ActiveDocument.removeObject(rebar.Name)
