@@ -200,13 +200,13 @@ class _HelicalRebarTaskPanel:
     @staticmethod
     def getStandardButtons():
         return (
-            int(QtGui.QDialogButtonBox.Ok)
-            | int(QtGui.QDialogButtonBox.Apply)
-            | int(QtGui.QDialogButtonBox.Cancel)
+            QtGui.QDialogButtonBox.Ok
+            | QtGui.QDialogButtonBox.Apply
+            | QtGui.QDialogButtonBox.Cancel
         )
 
     def clicked(self, button):
-        if button == int(QtGui.QDialogButtonBox.Apply):
+        if button == QtGui.QDialogButtonBox.Apply:
             self.accept(button)
 
     def getSelectedFace(self):
@@ -260,7 +260,7 @@ class _HelicalRebarTaskPanel:
                 self.FaceName,
             )
         self.Rebar = rebar
-        if signal == int(QtGui.QDialogButtonBox.Apply):
+        if signal == QtGui.QDialogButtonBox.Apply:
             pass
         else:
             FreeCADGui.Control.closeDialog()
