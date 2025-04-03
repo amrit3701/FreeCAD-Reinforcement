@@ -27,9 +27,9 @@ __url__ = "https://www.freecadweb.org"
 
 
 from xml.etree import ElementTree
-from PySide2.QtCore import QT_TRANSLATE_NOOP
 
 import FreeCAD
+QT_TRANSLATE_NOOP = FreeCAD.Qt.QT_TRANSLATE_NOOP
 from Draft import getrgb
 
 from .ReinforcementDrawingfunc import (

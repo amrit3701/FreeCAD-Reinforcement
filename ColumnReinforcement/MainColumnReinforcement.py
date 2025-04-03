@@ -26,7 +26,8 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 from pathlib import Path
-from PySide2 import QtGui, QtWidgets
+from PySide import QtGui
+from PySide.QtCore import QCoreApplication
 
 import FreeCAD
 import FreeCADGui
@@ -78,7 +79,7 @@ class _ColumnReinforcementDialog:
             str(Path(__file__).with_suffix(".ui").absolute())
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "RebarAddon", "Column Reinforcement", None
             )
         )
@@ -598,19 +599,19 @@ class _ColumnReinforcementDialog:
     def clicked(self, button):
         """This function is executed when 'Apply' button is clicked from UI."""
         if self.form.standardButtonBox.buttonRole(button) in (
-            QtWidgets.QDialogButtonBox.AcceptRole,
-            QtWidgets.QDialogButtonBox.ApplyRole,
+            QtGui.QDialogButtonBox.AcceptRole,
+            QtGui.QDialogButtonBox.ApplyRole,
         ):
             self.accept(button)
 
         elif (
             self.form.standardButtonBox.buttonRole(button)
-            == QtWidgets.QDialogButtonBox.ResetRole
+            == QtGui.QDialogButtonBox.ResetRole
         ):
             self.reset()
         elif (
             self.form.standardButtonBox.buttonRole(button)
-            == QtWidgets.QDialogButtonBox.RejectRole
+            == QtGui.QDialogButtonBox.RejectRole
         ):
             self.form.close()
 
@@ -803,7 +804,7 @@ class _ColumnReinforcementDialog:
         self.RebarGroup = RebarGroup
         if (
             self.form.standardButtonBox.buttonRole(button)
-            != QtWidgets.QDialogButtonBox.ApplyRole
+            != QtGui.QDialogButtonBox.ApplyRole
         ):
             self.form.close()
 

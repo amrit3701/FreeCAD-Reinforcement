@@ -28,7 +28,8 @@ __url__ = "https://www.freecadweb.org"
 from pathlib import Path
 
 import FreeCADGui
-from PySide2 import QtWidgets, QtGui
+from PySide import QtGui
+from PySide.QtCore import QCoreApplication
 
 
 class _HookOrientationEditDialog:
@@ -40,7 +41,7 @@ class _HookOrientationEditDialog:
             str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "Arch", "Hook Orientation Edit Dialog", None
             )
         )
@@ -88,7 +89,7 @@ class _HookOrientationEditDialog:
         layout = self.form.verticalLayout
         index = layout.indexOf(self.form.buttonBox)
         # Create Layer label
-        layer_label = QtWidgets.QLabel("Layer" + str(layer) + ":")
+        layer_label = QtGui.QLabel("Layer" + str(layer) + ":")
         layer_label.setFont(QtGui.QFont("Sans", weight=QtGui.QFont.Bold))
         layout.insertWidget(index, layer_label)
         self.Layers.append(layer_label)
@@ -98,11 +99,11 @@ class _HookOrientationEditDialog:
         layer = len(self.Layers)
         sets = len(self.HookOrientationComboBoxList[layer - 1])
         # Create horizontal layout and its components
-        h_layout = QtWidgets.QHBoxLayout()
-        set_label = QtWidgets.QLabel("Set " + str(sets + 1))
+        h_layout = QtGui.QHBoxLayout()
+        set_label = QtGui.QLabel("Set " + str(sets + 1))
         set_label.setSizePolicy(
-            QtWidgets.QSizePolicy(
-                QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+            QtGui.QSizePolicy(
+                QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed
             )
         )
         ui = FreeCADGui.UiLoader()

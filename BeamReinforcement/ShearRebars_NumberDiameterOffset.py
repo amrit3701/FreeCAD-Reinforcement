@@ -29,7 +29,8 @@ from pathlib import Path
 
 import FreeCAD
 import FreeCADGui
-from PySide2 import QtWidgets
+from PySide import QtGui
+from PySide.QtCore import QCoreApplication
 
 from Rebarfunc import gettupleOfNumberDiameterOffset
 
@@ -42,7 +43,7 @@ class _NumberDiameterOffsetDialog:
             str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "Arch", "Rebar Number Diameter Offset Edit Dialog", None
             )
         )
@@ -85,25 +86,25 @@ class _NumberDiameterOffsetDialog:
         sets += 1
         self.SetsDict["set" + str(sets)] = []
         # Create horizontal layout and its components
-        h_layout = QtWidgets.QHBoxLayout()
-        set_label = QtWidgets.QLabel("Set " + str(sets))
+        h_layout = QtGui.QHBoxLayout()
+        set_label = QtGui.QLabel("Set " + str(sets))
         set_label.setSizePolicy(
-            QtWidgets.QSizePolicy(
-                QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+            QtGui.QSizePolicy(
+                QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed
             )
         )
         ui = FreeCADGui.UiLoader()
         number = ui.createWidget("Gui::PrefSpinBox")
         number.setSizePolicy(
-            QtWidgets.QSizePolicy(
-                QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+            QtGui.QSizePolicy(
+                QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed
             )
         )
         number.setMinimum(1)
         diameter = ui.createWidget("Gui::InputField")
         diameter.setSizePolicy(
-            QtWidgets.QSizePolicy(
-                QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+            QtGui.QSizePolicy(
+                QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed
             )
         )
         diameter.setProperty("unit", "mm")
@@ -112,8 +113,8 @@ class _NumberDiameterOffsetDialog:
         )
         offset = ui.createWidget("Gui::InputField")
         offset.setSizePolicy(
-            QtWidgets.QSizePolicy(
-                QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+            QtGui.QSizePolicy(
+                QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed
             )
         )
         offset.setProperty("unit", "mm")

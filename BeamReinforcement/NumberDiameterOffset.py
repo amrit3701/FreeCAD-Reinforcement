@@ -29,7 +29,8 @@ from pathlib import Path
 
 import FreeCAD
 import FreeCADGui
-from PySide2 import QtWidgets, QtGui
+from PySide import QtGui
+from PySide.QtCore import QCoreApplication
 
 from Rebarfunc import getdictofNumberDiameterOffset
 
@@ -45,7 +46,7 @@ class _NumberDiameterOffsetDialog:
             str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "Arch", "Rebar Number Diameter Offset", None
             )
         )
@@ -105,25 +106,25 @@ class _NumberDiameterOffsetDialog:
         sets = len(self.SetsDict["layer" + str(layer)])
         self.SetsDict["layer" + str(layer)].append([])
         # Create horizontal layout and its components
-        h_layout = QtWidgets.QHBoxLayout()
-        set_label = QtWidgets.QLabel("Set " + str(sets + 1))
+        h_layout = QtGui.QHBoxLayout()
+        set_label = QtGui.QLabel("Set " + str(sets + 1))
         set_label.setSizePolicy(
-            QtWidgets.QSizePolicy(
-                QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+            QtGui.QSizePolicy(
+                QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed
             )
         )
-        number = QtWidgets.QSpinBox()
+        number = QtGui.QSpinBox()
         number.setSizePolicy(
-            QtWidgets.QSizePolicy(
-                QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+            QtGui.QSizePolicy(
+                QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed
             )
         )
         number.setMinimum(1)
         ui = FreeCADGui.UiLoader()
         diameter = ui.createWidget("Gui::InputField")
         diameter.setSizePolicy(
-            QtWidgets.QSizePolicy(
-                QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+            QtGui.QSizePolicy(
+                QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed
             )
         )
         diameter.setProperty("unit", "mm")
@@ -132,8 +133,8 @@ class _NumberDiameterOffsetDialog:
         )
         offset = ui.createWidget("Gui::InputField")
         offset.setSizePolicy(
-            QtWidgets.QSizePolicy(
-                QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+            QtGui.QSizePolicy(
+                QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed
             )
         )
         offset.setProperty("unit", "mm")
@@ -180,13 +181,13 @@ class _NumberDiameterOffsetDialog:
         layout = self.form.verticalLayout
         index = layout.indexOf(self.form.addLayerButton)
         # Create Layer label
-        layer_label = QtWidgets.QLabel("Layer" + str(layer) + ":")
+        layer_label = QtGui.QLabel("Layer" + str(layer) + ":")
         layer_label.setFont(QtGui.QFont("Sans", weight=QtGui.QFont.Bold))
         layout.insertWidget(index, layer_label)
         self.Layers.append(layer_label)
         index += 1
         # Create Add Set button
-        add_set_button = QtWidgets.QPushButton("Add Set")
+        add_set_button = QtGui.QPushButton("Add Set")
         add_set_button.clicked.connect(
             lambda: self.addSetButtonClicked(add_set_button)
         )
@@ -194,7 +195,7 @@ class _NumberDiameterOffsetDialog:
         self.AddSetButtonList.append(add_set_button)
         index += 1
         # Create Remove Set Button
-        remove_set_button = QtWidgets.QPushButton("Remove Set")
+        remove_set_button = QtGui.QPushButton("Remove Set")
         remove_set_button.clicked.connect(
             lambda: self.removeSetButtonClicked(remove_set_button)
         )

@@ -31,7 +31,8 @@ from typing import OrderedDict as OrderedDictType
 
 import FreeCAD
 import FreeCADGui
-from PySide2 import QtWidgets
+from PySide import QtGui
+from PySide.QtCore import QCoreApplication
 
 from .BOMPreferences import BOMPreferences
 from .BOMfunc import getReinforcementRebarObjects
@@ -87,7 +88,7 @@ class _BillOfMaterialDialog:
             str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "RebarAddon", "Rebars Bill Of Material", None
             )
         )
@@ -115,10 +116,10 @@ class _BillOfMaterialDialog:
         main_layout = self.form.verticalLayout
         column_units_layouts = []
         for column, unit in reversed(list(self.column_units.items())):
-            column_name = QtWidgets.QLabel(column + " unit")
+            column_name = QtGui.QLabel(column + " unit")
             column_name.setMinimumWidth(200)
             column_unit = UnitLineEdit(unit)
-            h_layout = QtWidgets.QHBoxLayout()
+            h_layout = QtGui.QHBoxLayout()
             h_layout.setSpacing(60)
             h_layout.addWidget(column_name)
             h_layout.addWidget(column_unit)
@@ -136,17 +137,17 @@ class _BillOfMaterialDialog:
             column_header,
             column_header_disp,
         ) in self.column_headers_data.items():
-            row_widget = QtWidgets.QWidget()
-            row_widget_item = QtWidgets.QListWidgetItem()
+            row_widget = QtGui.QWidget()
+            row_widget_item = QtGui.QListWidgetItem()
 
             show_hide_checkbox = ui.createWidget("Gui::PrefCheckBox")
             show_hide_checkbox.setChecked(True)
-            column_name = QtWidgets.QLabel(column_header)
+            column_name = QtGui.QLabel(column_header)
             column_name.setMinimumWidth(160)
             column_header_disp_widget = ui.createWidget("Gui::PrefLineEdit")
             column_header_disp_widget.setText(column_header_disp)
 
-            h_layout = QtWidgets.QHBoxLayout()
+            h_layout = QtGui.QHBoxLayout()
             h_layout.addWidget(show_hide_checkbox)
             h_layout.addWidget(column_name)
             h_layout.addWidget(column_header_disp_widget)
@@ -160,17 +161,17 @@ class _BillOfMaterialDialog:
         # Add hidden columns in UI
         for column_header, column_header_disp in COLUMN_HEADERS.items():
             if column_header not in self.column_headers_data:
-                row_widget = QtWidgets.QWidget()
-                row_widget_item = QtWidgets.QListWidgetItem()
+                row_widget = QtGui.QWidget()
+                row_widget_item = QtGui.QListWidgetItem()
 
                 show_hide_checkbox = ui.createWidget("Gui::PrefCheckBox")
                 show_hide_checkbox.setChecked(False)
-                column_name = QtWidgets.QLabel(column_header)
+                column_name = QtGui.QLabel(column_header)
                 column_name.setMinimumWidth(160)
                 column_header_disp_widget = ui.createWidget("Gui::PrefLineEdit")
                 column_header_disp_widget.setText(column_header_disp)
 
-                h_layout = QtWidgets.QHBoxLayout()
+                h_layout = QtGui.QHBoxLayout()
                 h_layout.addWidget(show_hide_checkbox)
                 h_layout.addWidget(column_name)
                 h_layout.addWidget(column_header_disp_widget)
@@ -221,7 +222,7 @@ class _BillOfMaterialDialog:
         """This function is executed when Choose button clicked in ui to execute
         QFileDialog to select svg output file."""
         path = FreeCAD.ConfigGet("UserAppData")
-        output_file, file_filter = QtWidgets.QFileDialog.getSaveFileName(
+        output_file, file_filter = QtGui.QFileDialog.getSaveFileName(
             None, "Choose output file for Bill of Material", path, "*.svg"
         )
         if output_file:

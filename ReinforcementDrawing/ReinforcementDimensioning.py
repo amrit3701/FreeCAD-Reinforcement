@@ -26,10 +26,10 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
-from PySide2.QtCore import QT_TRANSLATE_NOOP
 from xml.etree import ElementTree
 
 import FreeCAD
+QT_TRANSLATE_NOOP = FreeCAD.Qt.QT_TRANSLATE_NOOP
 from Draft import getrgb
 
 from RebarData import RebarTypes

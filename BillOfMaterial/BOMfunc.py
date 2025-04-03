@@ -29,7 +29,7 @@ from typing import Dict, Optional, List, Tuple
 import re
 import Draft
 import FreeCAD
-from PySide2 import QtGui
+from PySide import QtGui
 
 
 # TODO: Use(Uncomment) typing.Literal for minimum python3.8

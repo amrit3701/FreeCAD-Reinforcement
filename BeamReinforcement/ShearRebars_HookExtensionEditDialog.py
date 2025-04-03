@@ -29,7 +29,7 @@ from pathlib import Path
 
 import FreeCAD
 import FreeCADGui
-from PySide2 import QtWidgets
+from PySide.QtCore import QCoreApplication
 
 
 class _HookExtensionEditDialog:
@@ -40,7 +40,7 @@ class _HookExtensionEditDialog:
             str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "Arch", "Hook Extension Edit Dialog", None
             )
         )

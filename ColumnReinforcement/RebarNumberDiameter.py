@@ -29,7 +29,7 @@ from pathlib import Path
 
 import FreeCAD
 import FreeCADGui
-from PySide2 import QtWidgets
+from PySide.QtCore import QCoreApplication
 
 from Rebarfunc import gettupleOfNumberDiameter
 
@@ -42,7 +42,7 @@ class _NumberDiameterDialog:
             str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "RebarAddon", "Rebar Number Diameter", None
             )
         )

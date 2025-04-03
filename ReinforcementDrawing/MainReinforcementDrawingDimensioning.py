@@ -30,7 +30,8 @@ from typing import List, Tuple, Optional
 
 import FreeCAD
 import FreeCADGui
-from PySide2 import QtGui, QtWidgets
+from PySide import QtGui
+from PySide.QtCore import QCoreApplication
 
 from BillOfMaterial.BOMfunc import getReinforcementRebarObjects
 from Rebarfunc import showWarning
@@ -237,7 +238,7 @@ class _ReinforcementDrawingDimensioningDialog:
             )
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "ReinforcementWorkbench",
                 "Reinforcement Drawing Dimensioning",
                 None,
@@ -574,7 +575,7 @@ class _ReinforcementDrawingDimensioningDialog:
         """This function is executed when Choose Template button is clicked
         in ui to execute QFileDialog to select template file."""
         path = FreeCAD.ConfigGet("UserAppData")
-        template_file, _filter = QtWidgets.QFileDialog.getOpenFileName(
+        template_file, _filter = QtGui.QFileDialog.getOpenFileName(
             None, "Choose template for Drawing", path, "*.svg"
         )
         if template_file:
@@ -602,17 +603,17 @@ class _ReinforcementDrawingDimensioningDialog:
         """This function is executed when 'Apply' button is clicked from UI."""
         if (
             self.form.standard_button_box.buttonRole(button)
-            == QtWidgets.QDialogButtonBox.AcceptRole
+            == QtGui.QDialogButtonBox.AcceptRole
         ):
             self.accept()
         elif (
             self.form.standard_button_box.buttonRole(button)
-            == QtWidgets.QDialogButtonBox.ResetRole
+            == QtGui.QDialogButtonBox.ResetRole
         ):
             self.setDefaultValues()
         elif (
             self.form.standard_button_box.buttonRole(button)
-            == QtWidgets.QDialogButtonBox.RejectRole
+            == QtGui.QDialogButtonBox.RejectRole
         ):
             self.form.close()
 

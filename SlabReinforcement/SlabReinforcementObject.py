@@ -27,7 +27,7 @@ __url__ = "https://www.freecadweb.org"
 
 import FreeCAD
 from RebarData import RebarTypes
-from PySide2.QtCore import QT_TRANSLATE_NOOP
+QT_TRANSLATE_NOOP = FreeCAD.Qt.QT_TRANSLATE_NOOP
 from Rebarfunc import (
     getFacenamesforBeamReinforcement,
     getParametersOfFace,

@@ -26,11 +26,11 @@ __author__ = "Suraj"
 __url__ = "https://www.freecadweb.org"
 
 
-from PySide2 import QtWidgets
+from PySide import QtGui
 import FreeCAD
 
 
-class UnitLineEdit(QtWidgets.QLineEdit):
+class UnitLineEdit(QtGui.QLineEdit):
     def __init__(self, contents="", parent=None):
         super().__init__(contents, parent)
         self.textEdited.connect(self.unitEdited)
