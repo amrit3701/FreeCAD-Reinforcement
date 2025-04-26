@@ -29,7 +29,8 @@ from pathlib import Path
 
 import FreeCAD
 import FreeCADGui
-from PySide2 import QtWidgets
+from PySide import QtGui
+from PySide.QtCore import QCoreApplication
 
 
 class _EditSVGConfigurationDialog:
@@ -67,7 +68,7 @@ class _EditSVGConfigurationDialog:
             str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "RebarAddon", "BOM - Edit SVG Configurations", None
             )
         )
@@ -109,7 +110,7 @@ class _EditSVGConfigurationDialog:
         """This function is executed when Choose button clicked in ui to execute
         QFileDialog to select svg template file."""
         path = FreeCAD.ConfigGet("UserAppData")
-        template_file, Filter = QtWidgets.QFileDialog.getOpenFileName(
+        template_file, Filter = QtGui.QFileDialog.getOpenFileName(
             None, "Choose template for Bill of Material", path, "*.svg"
         )
         if template_file:

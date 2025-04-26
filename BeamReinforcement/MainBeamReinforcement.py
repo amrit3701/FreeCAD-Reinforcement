@@ -30,7 +30,8 @@ from pathlib import Path
 
 import FreeCAD
 import FreeCADGui
-from PySide2 import QtWidgets, QtGui
+from PySide import QtGui
+from PySide.QtCore import QCoreApplication
 
 from BeamReinforcement import (
     ShearRebars_NumberDiameterOffset,
@@ -81,7 +82,7 @@ class _BeamReinforcementDialog:
             str(Path(__file__).with_suffix(".ui").absolute())
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "RebarAddon", "Beam Reinforcement Dialog Box", None
             )
         )
@@ -1352,19 +1353,19 @@ class _BeamReinforcementDialog:
     def clicked(self, button):
         """This function is executed when 'Apply' button is clicked from UI."""
         if self.form.standardButtonBox.buttonRole(button) in (
-            QtWidgets.QDialogButtonBox.AcceptRole,
-            QtWidgets.QDialogButtonBox.ApplyRole,
+            QtGui.QDialogButtonBox.AcceptRole,
+            QtGui.QDialogButtonBox.ApplyRole,
         ):
             self.accept(button)
 
         elif (
             self.form.standardButtonBox.buttonRole(button)
-            == QtWidgets.QDialogButtonBox.ResetRole
+            == QtGui.QDialogButtonBox.ResetRole
         ):
             self.reset()
         elif (
             self.form.standardButtonBox.buttonRole(button)
-            == QtWidgets.QDialogButtonBox.RejectRole
+            == QtGui.QDialogButtonBox.RejectRole
         ):
             self.form.close()
 
@@ -1468,7 +1469,7 @@ class _BeamReinforcementDialog:
         self.RebarGroup = RebarGroup
         if (
             self.form.standardButtonBox.buttonRole(button)
-            != QtWidgets.QDialogButtonBox.ApplyRole
+            != QtGui.QDialogButtonBox.ApplyRole
         ):
             self.form.close()
 

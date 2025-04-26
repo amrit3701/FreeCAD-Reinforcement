@@ -28,7 +28,7 @@ __url__ = "https://www.freecadweb.org"
 
 import FreeCAD
 from DraftGui import todo
-from PySide2.QtCore import QT_TRANSLATE_NOOP
+QT_TRANSLATE_NOOP = FreeCAD.Qt.QT_TRANSLATE_NOOP
 from SlabReinforcement.SlabReinforcement import (
     makeSlabReinforcement,
     editSlabReinforcement,

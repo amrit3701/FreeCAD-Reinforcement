@@ -28,8 +28,9 @@ __url__ = "https://www.freecadweb.org"
 
 import re
 from xml.etree import ElementTree
-from PySide2.QtCore import QT_TRANSLATE_NOOP
+
 import FreeCAD
+QT_TRANSLATE_NOOP = FreeCAD.Qt.QT_TRANSLATE_NOOP
 
 from .BOMfunc import getStringWidth
 from SVGfunc import getTechdrawViewScalingFactor

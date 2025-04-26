@@ -26,7 +26,8 @@ __author__ = "Shiv Charan"
 __url__ = "https://www.freecadweb.org"
 
 from pathlib import Path
-from PySide2 import QtWidgets
+from PySide import QtGui
+from PySide.QtCore import QCoreApplication
 
 import FreeCAD
 import FreeCADGui
@@ -55,7 +56,7 @@ class _SlabReinforcementDialog:
             str(Path(__file__).with_suffix(".ui").absolute())
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "RebarWorkbench", "Slab Reinforcement", None
             )
         )
@@ -456,24 +457,24 @@ class _SlabReinforcementDialog:
     def clicked(self, button):
         """This function is executed when 'Apply' button is clicked from UI."""
         if self.form.standardButtonBox.buttonRole(button) in (
-            QtWidgets.QDialogButtonBox.AcceptRole,
-            QtWidgets.QDialogButtonBox.ApplyRole,
+            QtGui.QDialogButtonBox.AcceptRole,
+            QtGui.QDialogButtonBox.ApplyRole,
         ):
             self.accept(button)
 
         elif (
             self.form.standardButtonBox.buttonRole(button)
-            == QtWidgets.QDialogButtonBox.ResetRole
+            == QtGui.QDialogButtonBox.ResetRole
         ):
             self.reset()
         elif (
             self.form.standardButtonBox.buttonRole(button)
-            == QtWidgets.QDialogButtonBox.RejectRole
+            == QtGui.QDialogButtonBox.RejectRole
         ):
             self.form.close()
         elif (
             self.form.standardButtonBox.buttonRole(button)
-            == QtWidgets.QDialogButtonBox.HelpRole
+            == QtGui.QDialogButtonBox.HelpRole
         ):
             import webbrowser
 
@@ -590,7 +591,7 @@ class _SlabReinforcementDialog:
         self.SlabReinforcementGroup = SlabReinforcementGroup
         if (
             self.form.standardButtonBox.buttonRole(button)
-            != QtWidgets.QDialogButtonBox.ApplyRole
+            != QtGui.QDialogButtonBox.ApplyRole
         ):
             self.form.close()
 

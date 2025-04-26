@@ -32,7 +32,8 @@ import Draft
 import FreeCAD
 import FreeCADGui
 import importSVG
-from PySide2 import QtGui, QtWidgets
+from PySide import QtGui
+from PySide.QtCore import QCoreApplication
 
 from BillOfMaterial.BOMfunc import getReinforcementRebarObjects
 from BillOfMaterial.UnitLineEdit import UnitLineEdit
@@ -95,7 +96,7 @@ class _RebarShapeCutListDialog:
             str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "ReinforcementWorkbench", "Rebar Shape Cut List", None
             )
         )
@@ -184,7 +185,7 @@ class _RebarShapeCutListDialog:
         """This function is executed when Choose button clicked in ui to execute
         QFileDialog to select svg output file."""
         path = FreeCAD.ConfigGet("UserAppData")
-        output_file, Filter = QtWidgets.QFileDialog.getSaveFileName(
+        output_file, Filter = QtGui.QFileDialog.getSaveFileName(
             None, "Choose output file for Rebar Shape Cut List", path, "*.svg"
         )
         if output_file:

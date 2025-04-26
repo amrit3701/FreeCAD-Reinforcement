@@ -29,7 +29,7 @@ from pathlib import Path
 
 import FreeCAD
 import FreeCADGui
-from PySide2 import QtWidgets
+from PySide.QtCore import QCoreApplication
 
 
 class _LayerSpacingEditDialog:
@@ -41,7 +41,7 @@ class _LayerSpacingEditDialog:
             str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "Arch", "Layer Spacing Edit Dialog", None
             )
         )

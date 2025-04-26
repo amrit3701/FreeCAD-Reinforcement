@@ -28,8 +28,7 @@ __url__ = "https://www.freecadweb.org"
 from pathlib import Path
 
 import FreeCADGui
-from PySide2 import QtWidgets
-
+from PySide.QtCore import QCoreApplication
 
 class _RebarTypeEditDialog:
     def __init__(self, rebar_type_tuple):
@@ -39,7 +38,7 @@ class _RebarTypeEditDialog:
             str(Path(__file__).with_suffix(".ui"))
         )
         self.form.setWindowTitle(
-            QtWidgets.QApplication.translate(
+            QCoreApplication.translate(
                 "Arch", "Rebar Type Edit Dialog", None
             )
         )
