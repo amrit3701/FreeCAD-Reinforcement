@@ -37,7 +37,8 @@ class UnitLineEdit(QtGui.QLineEdit):
 
     def unitEdited(self):
         if self.isValidUnit():
-            self.setStyleSheet("color: black;")
+            # Reset to application palette (works for Dark + Classic)
+            self.setStyleSheet("")
         else:
             self.setStyleSheet("color: red;")
 
