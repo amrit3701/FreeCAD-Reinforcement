@@ -46,6 +46,7 @@ from BillOfMaterial.BOMfunc import getReinforcementRebarObjects
 from BillOfMaterial.UnitLineEdit import UnitLineEdit
 from BillOfMaterial.config import COLUMN_HEADERS
 from .BBSfunc import getBarBendingSchedule
+from FreeCAD import Units
 
 
 # TODO: Use(Uncomment) typing.Literal for minimum python3.8
@@ -156,14 +157,20 @@ class _BarBendingScheduleDialog:
                 self.form.fontFamily.findText(self.font_family)
             )
         self.form.fontSize.setValue(self.font_size)
-        self.form.columnWidth.setText(str(self.column_width))
-        self.form.rowHeight.setText(str(self.row_height))
+        self.form.columnWidth.setText(
+            Units.Quantity(self.column_width, "mm").UserString
+        )
+        self.form.rowHeight.setText(
+            Units.Quantity(self.row_height, "mm").UserString
+        )
 
         self.form.rebarShapeColumnHeader.setText(self.rebar_shape_column_header)
         self.form.stirrupExtendedEdgeOffset.setText(
-            str(self.rebar_shape_stirrup_extended_edge_offset)
+            Units.Quantity(self.rebar_shape_stirrup_extended_edge_offset).UserString
         )
-        self.form.rebarsStrokeWidth.setText(str(self.rebar_shape_stroke_width))
+        self.form.rebarsStrokeWidth.setText(
+            Units.Quantity(self.rebar_shape_stroke_width).UserString
+        )
         if self.rebar_shape_color_style == "shape color":
             self.form.shapeColorRadio.setChecked(True)
             self.form.customColorRadio.setChecked(False)
