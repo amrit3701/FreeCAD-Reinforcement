@@ -27,13 +27,16 @@ __url__ = "https://www.freecadweb.org"
 
 
 from PySide import QtGui
-from PySide import QtSvg
+try:
+    from PySide6 import QtSvgWidgets
+except ImportError:
+    from PySide import QtSvg
 
 
 class PopUpImage(QtGui.QDialog):
     def __init__(self, img):
         QtGui.QDialog.__init__(self)
-        self.image = QtSvg.QSvgWidget(img)
+        self.image = QtSvgWidgets.QSvgWidget(img)
         self.setWindowTitle(
             QtGui.QApplication.translate(
                 "RebarTool", "Detailed description", None
