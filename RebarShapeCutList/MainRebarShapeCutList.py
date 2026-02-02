@@ -41,6 +41,7 @@ from RebarShapeCutList.RebarShapeCutListfunc import (
     getRebarShapeCutList,
     getBaseRebarsList,
 )
+from FreeCAD import Units
 
 
 # TODO: Use(Uncomment) typing.Literal for minimum python3.8
@@ -105,9 +106,11 @@ class _RebarShapeCutListDialog:
         """This function is used to add components to ui."""
         self.addUnitsInputFields()
         self.form.stirrupExtendedEdgeOffset.setText(
-            str(self.stirrup_extended_edge_offset)
+            Units.Quantity(self.stirrup_extended_edge_offset, "mm").UserString
         )
-        self.form.rebarsStrokeWidth.setText(str(self.rebars_stroke_width))
+        self.form.rebarsStrokeWidth.setText(
+            Units.Quantity(self.rebars_stroke_width, "mm").UserString
+        )
         if self.rebars_color_style == "shape color":
             self.form.shapeColorRadio.setChecked(True)
             self.form.customColorRadio.setChecked(False)
@@ -122,15 +125,21 @@ class _RebarShapeCutListDialog:
                 color_rgba[0], color_rgba[1], color_rgba[2], color_rgba[3]
             )
             self.form.rebarsColor.setProperty("color", color)
-        self.form.rowHeight.setText(str(self.row_height))
-        self.form.columnWidth.setText(str(self.column_width))
+        self.form.rowHeight.setText(
+            Units.Quantity(self.row_height, "mm").UserString
+        )
+        self.form.columnWidth.setText(
+            Units.Quantity(self.column_width, "mm").UserString
+        )
         if self.column_count == "row_count":
             self.form.rowCountCheckBox.setChecked(True)
             self.form.columnCount.setEnabled(False)
         else:
             self.form.rowCountCheckBox.setChecked(False)
             self.form.columnCount.setEnabled(True)
-        self.form.sidePadding.setText(str(self.side_padding))
+        self.form.sidePadding.setText(
+            Units.Quantity(self.side_padding, "mm").UserString
+        )
         self.form.horizontalRebarShape.setChecked(self.horizontal_rebar_shape)
         self.form.includeMark.setChecked(self.include_mark)
         self.form.includeDimensions.setChecked(self.include_dimensions)

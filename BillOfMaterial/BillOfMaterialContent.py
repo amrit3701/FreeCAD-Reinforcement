@@ -42,11 +42,10 @@ class BOMContent:
     def __init__(self, obj_name):
         """Initialize BOMContent object."""
         bom_content = FreeCAD.ActiveDocument.addObject(
-            "TechDraw::DrawViewSymbolPython", obj_name
+            "TechDraw::DrawViewSymbol", obj_name
         )
         self.setProperties(bom_content)
         self.Object = bom_content
-        bom_content.Proxy = self
 
     def setProperties(self, obj):
         """Add properties to BOMContent object."""
