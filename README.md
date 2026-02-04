@@ -41,27 +41,27 @@ Like any other FreeCAD [workbench](https://www.freecadweb.org/wiki/Workbench_Con
 ## Features of Reinforcement workbench
 
 ### Reinforcement Generation
-- [![icon](icons/wiki/StraightRebar.svg) **Straight Rebar**](https://wiki.freecadweb.org/Arch_Rebar_Straight): Creates a Straight reinforcement bar in a selected structural element
-- [![icon](icons/wiki/UShapeRebar.svg) **UShape Rebar**](https://wiki.freecadweb.org/Arch_Rebar_UShape): Creates a UShape reinforcement bar in a selected structural element 
-- [![icon](icons/wiki/LShapeRebar.svg) **LShape Rebar**](https://wiki.freecadweb.org/Arch_Rebar_LShape): Creates a LShape reinforcement bar in a selected structural element
-- [![icon](icons/wiki/BentShapeRebar.svg) **BentShape Rebar**](https://wiki.freecadweb.org/Arch_Rebar_BentShape): Creates a Bent Shape reinforcement bar in a selected structural element
-- [![icon](icons/wiki/StirrupRebar.svg) **Stirrup Rebar**](https://wiki.freecadweb.org/Arch_Rebar_Stirrup): Creates a Stirrup reinforcement bar in a selected structural element
-- [![icon](icons/wiki/HelicalRebar.svg) **Helical Rebar**](https://wiki.freecadweb.org/Arch_Rebar_Helical): Creates a Helical reinforcement bar in a selected structural element
-- [![icon](icons/wiki/ColumnReinforcement.svg) **Circular ColumnReinforcement**](https://wiki.freecadweb.org/Arch_Rebar_Circular_ColumnReinforcement): Creates reinforcing bars in a selected circular column structural element
-- [![icon](icons/wiki/ColumnReinforcement.svg) **ColumnReinforcement**](https://wiki.freecadweb.org/Arch_Rebar_ColumnReinforcement): Creates reinforcing bars in a selected rectangular column structural element
-- [![icon](icons/wiki/ColumnReinforcement.svg) **ColumnReinforcement TwoTiesSixRebars**](https://wiki.freecadweb.org/Arch_Rebar_ColumnReinforcement_TwoTiesSixRebars): Creates reinforcing bars in a selected rectangular column structural element
-- [![icon](icons/wiki/BeamReinforcement.svg) **BeamReinforcement**](https://wiki.freecadweb.org/Arch_Rebar_BeamReinforcement): Creates reinforcing bars in a selected beam structural element
-- [![icon](icons/wiki/Arch_Rebar_Slab_Reinforcement.svg) **SlabReinforcement**](https://wiki.freecadweb.org/Arch_Rebar_Slab_Reinforcement): Creates reinforcing bars in a selected slab structural element
-- [![icon](icons/wiki/Arch_Rebar_Footing_Reinforcement.svg) **FootingReinforcement**](https://wiki.freecadweb.org/Arch_Rebar_Footing_Reinforcement): Creates reinforcing bars inside a Footing Arch Structure object
-- [![icon](icons/wiki/Arch_Rebar.svg) **Rebar**](https://wiki.freecadweb.org/Arch_Rebar): Creates a custom reinforcement bar in a selected structural element using a sketch
+- [![icon](icons/wiki/StraightRebar.svg) **Straight Rebar**](https://wiki.freecad.org/Arch_Rebar_Straight): Creates a Straight reinforcement bar in a selected structural element
+- [![icon](icons/wiki/UShapeRebar.svg) **UShape Rebar**](https://wiki.freecad.org/Arch_Rebar_UShape): Creates a UShape reinforcement bar in a selected structural element
+- [![icon](icons/wiki/LShapeRebar.svg) **LShape Rebar**](https://wiki.freecad.org/Arch_Rebar_LShape): Creates a LShape reinforcement bar in a selected structural element
+- [![icon](icons/wiki/BentShapeRebar.svg) **BentShape Rebar**](https://wiki.freecad.org/Arch_Rebar_BentShape): Creates a Bent Shape reinforcement bar in a selected structural element
+- [![icon](icons/wiki/StirrupRebar.svg) **Stirrup Rebar**](https://wiki.freecad.org/Arch_Rebar_Stirrup): Creates a Stirrup reinforcement bar in a selected structural element
+- [![icon](icons/wiki/HelicalRebar.svg) **Helical Rebar**](https://wiki.freecad.org/Arch_Rebar_Helical): Creates a Helical reinforcement bar in a selected structural element
+- [![icon](icons/wiki/ColumnReinforcement.svg) **Circular ColumnReinforcement**](https://wiki.freecad.org/Arch_Rebar_Circular_ColumnReinforcement): Creates reinforcing bars in a selected circular column structural element
+- [![icon](icons/wiki/ColumnReinforcement.svg) **ColumnReinforcement**](https://wiki.freecad.org/Arch_Rebar_ColumnReinforcement): Creates reinforcing bars in a selected rectangular column structural element
+- [![icon](icons/wiki/ColumnReinforcement.svg) **ColumnReinforcement TwoTiesSixRebars**](https://wiki.freecad.org/Arch_Rebar_ColumnReinforcement_TwoTiesSixRebars): Creates reinforcing bars in a selected rectangular column structural element
+- [![icon](icons/wiki/BeamReinforcement.svg) **BeamReinforcement**](https://wiki.freecad.org/Arch_Rebar_BeamReinforcement): Creates reinforcing bars in a selected beam structural element
+- [![icon](icons/wiki/Arch_Rebar_Slab_Reinforcement.svg) **SlabReinforcement**](https://wiki.freecad.org/Arch_Rebar_Slab_Reinforcement): Creates reinforcing bars in a selected slab structural element
+- [![icon](icons/wiki/Arch_Rebar_Footing_Reinforcement.svg) **FootingReinforcement**](https://wiki.freecad.org/Arch_Rebar_Footing_Reinforcement): Creates reinforcing bars inside a Footing Arch Structure object
+- [![icon](icons/wiki/Arch_Rebar.svg) **Rebar**](https://wiki.freecad.org/Arch_Rebar): Creates a custom reinforcement bar in a selected structural element using a sketch
 
 
 ### Reinforcement Detailing
 
-- [![icon](icons/wiki/BillOfMaterial.svg) **Bill Of Material**](https://wiki.freecadweb.org/Arch_Rebar_BeamReinforcement): Creates bill of material of reinforcing bars
-- [![icon](icons/wiki/RebarShapeCutList.svg) **Rebar Shape Cut List**](https://wiki.freecadweb.org/Arch_Rebar_BeamReinforcement): Creates rebar shape cut list of reinforcing bars
-- [![icon](icons/wiki/BarBendingSchedule.svg) **Reinforcement Bar Bending Schedule**](https://wiki.freecadweb.org/Arch_Rebar_BeamReinforcement): Creates bar bending schedule of reinforcing bars
-- [![icon](icons/wiki/ReinforcementDrawingDimensioning.svg) **Reinforcement Drawing Dimensioning**](https://wiki.freecadweb.org/Arch_Rebar_Drawing_Dimensioning): Creates drawing and dimensioning of reinforcing bars
+- [![icon](icons/wiki/BillOfMaterial.svg) **Bill Of Material**](https://wiki.freecadweb.org/Reinforcement_BillOfMaterial): Creates bill of material of reinforcing bars
+- [![icon](icons/wiki/RebarShapeCutList.svg) **Rebar Shape Cut List**](https://wiki.freecadweb.org/Reinforcement_BarShapeCutList): Creates rebar shape cut list of reinforcing bars
+- [![icon](icons/wiki/BarBendingSchedule.svg) **Reinforcement Bar Bending Schedule**](https://wiki.freecadweb.org/Reinforcement_BarBendingSchedule): Creates bar bending schedule of reinforcing bars
+- [![icon](icons/wiki/ReinforcementDrawingDimensioning.svg) **Reinforcement Drawing Dimensioning**](https://wiki.freecad.org/Arch_Rebar_Drawing_Dimensioning): Creates drawing and dimensioning of reinforcing bars
 
 
 ## Documentation
