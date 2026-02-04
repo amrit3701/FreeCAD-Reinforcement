@@ -43,6 +43,7 @@ class _RebarDistributionDialog:
         self.form = FreeCADGui.PySideUic.loadUi(
             str(Path(__file__).with_suffix(".ui"))
         )
+
         self.form.setWindowTitle(
             QtGui.QApplication.translate("Arch", "Rebar Distribution", None)
         )
@@ -54,14 +55,23 @@ class _RebarDistributionDialog:
 
     def accept(self):
         amount1 = self.form.amount1.value()
-        spacing1 = self.form.spacing1.text()
-        spacing1 = FreeCAD.Units.Quantity(spacing1).Value
+        #spacing1 = self.form.spacing1.text()
+        #spacing1 = FreeCAD.Units.Quantity(spacing1).Value
+        spacing1 = FreeCAD.Units.Quantity(
+            self.form.spacing1.text()
+        ).getValueAs("mm")
         amount2 = self.form.amount2.value()
-        spacing2 = self.form.spacing2.text()
-        spacing2 = FreeCAD.Units.Quantity(spacing2).Value
+        #spacing2 = self.form.spacing2.text()
+        #spacing2 = FreeCAD.Units.Quantity(spacing2).Value
+        spacing2 = FreeCAD.Units.Quantity(
+            self.form.spacing2.text()
+        ).getValueAs("mm")
         amount3 = self.form.amount3.value()
-        spacing3 = self.form.spacing3.text()
-        spacing3 = FreeCAD.Units.Quantity(spacing3).Value
+        #spacing3 = self.form.spacing3.text()
+        #spacing3 = FreeCAD.Units.Quantity(spacing3).Value
+        spacing3 = FreeCAD.Units.Quantity(
+            self.form.spacing3.text()
+        ).getValueAs("mm")
         self.CustomSpacing = getCustomSpacingString(
             amount1,
             spacing1,
@@ -81,32 +91,55 @@ class _RebarDistributionDialog:
             spacinglist = getTupleOfCustomSpacing(custom_spacing)
             if len(spacinglist) >= 1:
                 self.form.amount1.setValue(spacinglist[0][0])
-                self.form.spacing1.setText(f"{spacinglist[0][1]} mm")
+                self.form.spacing1.setText(
+                    FreeCAD.Units.Quantity(spacinglist[0][1], "mm").UserString
+                )
             else:
                 self.form.amount1.setValue(0)
                 self.form.spacing1.setText("0 mm")
 
             if len(spacinglist) >= 2:
                 self.form.amount2.setValue(spacinglist[1][0])
-                self.form.spacing2.setText(f"{spacinglist[1][1]} mm")
+                self.form.spacing2.setText(
+                    FreeCAD.Units.Quantity(spacinglist[1][1], "mm").UserString
+                )
             else:
                 self.form.amount2.setValue(0)
                 self.form.spacing2.setText("0 mm")
 
             if len(spacinglist) == 3:
                 self.form.amount3.setValue(spacinglist[2][0])
-                self.form.spacing3.setText(f"{spacinglist[2][1]} mm")
+                self.form.spacing3.setText(
+                    FreeCAD.Units.Quantity(spacinglist[2][1], "mm").UserString
+                )
             else:
                 self.form.amount3.setValue(0)
                 self.form.spacing3.setText("0 mm")
-
+        
+        # Ensure spacing fields always show units
+        for le in (self.form.spacing1, self.form.spacing2, self.form.spacing3):
+            try:
+                q = FreeCAD.Units.Quantity(le.text())
+                le.setText(
+                    FreeCAD.Units.Quantity(q.Value, "mm").UserString
+                )
+            except Exception:
+                pass
 
 def getCustomSpacingString(
     amount1, spacing1, amount2, spacing2, amount3, spacing3, front_cover, size
 ):
+    # All lengths explicit in mm
+    spacing1 = float(spacing1)
+    spacing2 = float(spacing2)
+    spacing3 = float(spacing3)
+    size = float(size)
+    front_cover = float(front_cover)
+
     seg1_area = amount1 * spacing1 - spacing1 / 2
     seg3_area = amount3 * spacing3 - spacing3 / 2
     seg2_area = size - seg1_area - seg3_area - 2 * front_cover
+    
     if seg2_area < 0:
         FreeCAD.Console.PrintError(
             "Sum of length of segment 1 and segment 2 is greater than length of"
