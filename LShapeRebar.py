@@ -143,6 +143,10 @@ class _LShapeRebarTaskPanel:
         self.form = FreeCADGui.PySideUic.loadUi(
             str(Path(__file__).with_suffix(".ui"))
         )
+
+        if not Rebar:
+            self._init_default_lengths()
+
         self.form.setWindowTitle(
             QtGui.QApplication.translate("RebarAddon", "L-Shape Rebar", None)
         )
@@ -323,6 +327,30 @@ class _LShapeRebarTaskPanel:
         self.form.amount.setEnabled(False)
         self.form.spacing.setEnabled(True)
 
+    def _init_default_lengths(self):
+        unit = FreeCAD.Units.Length
+
+        self.form.frontCover.setText(
+            FreeCAD.Units.Quantity(20, unit).UserString
+        )
+        self.form.bottomCover.setText(
+            FreeCAD.Units.Quantity(20, unit).UserString
+        )
+        self.form.topCover.setText(
+            FreeCAD.Units.Quantity(20, unit).UserString
+        )
+        self.form.l_sideCover.setText(
+            FreeCAD.Units.Quantity(20, unit).UserString
+        )
+        self.form.r_sideCover.setText(
+            FreeCAD.Units.Quantity(20, unit).UserString
+        )
+        self.form.diameter.setText(
+            FreeCAD.Units.Quantity(8, unit).UserString
+        )
+        self.form.spacing.setText(
+            FreeCAD.Units.Quantity(50, unit).UserString
+        )
 
 def makeLShapeRebar(
     f_cover,
