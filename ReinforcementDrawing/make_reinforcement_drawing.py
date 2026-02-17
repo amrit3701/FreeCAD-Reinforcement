@@ -29,7 +29,7 @@ __url__ = "https://www.freecadweb.org"
 import FreeCAD
 import Draft
 
-from .ReinforcementDrawingView import makeReinforcementDrawingObject
+from .ReinforcementDrawingView import makeReinforcementDrawingObject, _page_view_mapping
 from .ReinforcementDimensioning import makeReinforcementDimensioningObject
 
 from .config import (
@@ -150,7 +150,18 @@ def makeReinforcementDrawing(
 
     reinforcement_drawing_page = makeReinforcementDrawingObject(template_file)
     reinforcement_drawing_page.Label = structure.Label + " Drawing"
-    drawing_content_obj = reinforcement_drawing_page.Views[0]
+    
+    # For FreeCAD 1.1 compatibility, get the view object
+    if len(reinforcement_drawing_page.Views) > 0:
+        drawing_content_obj = reinforcement_drawing_page.Views[0]
+    elif reinforcement_drawing_page.Name in _page_view_mapping:
+        drawing_content_obj = _page_view_mapping[reinforcement_drawing_page.Name]
+    else:
+        # Fallback: try to find the view object by name
+        drawing_content_obj = FreeCAD.ActiveDocument.getObject("ReinforcementDrawingView")
+        if not drawing_content_obj:
+            raise RuntimeError("Could not find ReinforcementDrawingView object")
+    
     drawing_content_obj.Label = view + " View"
     drawing_content_obj.Structure = structure
     drawing_content_obj.Rebars = rebars_list
@@ -314,7 +325,23 @@ def makeStructuresReinforcementDrawing(
         )
         if perform_dimensioning:
             drawing_page = struct_drawing_page_dict[structure]
-            drawing_view = drawing_page.Views[0]
+            
+            # For FreeCAD 1.1 compatibility, get the view object
+            if len(drawing_page.Views) > 0:
+                drawing_view = drawing_page.Views[0]
+            elif drawing_page.Name in _page_view_mapping:
+                drawing_view = _page_view_mapping[drawing_page.Name]
+            else:
+                drawing_view = FreeCAD.ActiveDocument.getObject("ReinforcementDrawingView")
+            
+            if not drawing_view:
+                FreeCAD.Console.PrintError(
+                    "Could not find ReinforcementDrawingView for page {}\n".format(
+                        drawing_page.Name
+                    )
+                )
+                continue
+
             rebars = drawing_view.VisibleRebars
             if dimension_rebars_filter_list:
                 rebars = list(set(rebars) & set(dimension_rebars_filter_list))
