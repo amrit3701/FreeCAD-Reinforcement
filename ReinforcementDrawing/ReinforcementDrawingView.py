@@ -30,7 +30,21 @@ from xml.etree import ElementTree
 
 import FreeCAD
 QT_TRANSLATE_NOOP = FreeCAD.Qt.QT_TRANSLATE_NOOP
-from Draft import getrgb
+
+# Handle getrgb import for FreeCAD 1.1 compatibility
+try:
+    from Draft import getrgb
+except ImportError:
+    # Fallback for FreeCAD 1.1 if getrgb is not available in Draft
+    def getrgb(color_tuple):
+        """Fallback getrgb function for FreeCAD 1.1"""
+        if isinstance(color_tuple, (tuple, list)) and len(color_tuple) >= 3:
+            return "#{:02x}{:02x}{:02x}".format(
+                int(color_tuple[0] * 255),
+                int(color_tuple[1] * 255),
+                int(color_tuple[2] * 255)
+            )
+        return str(color_tuple)
 
 from .ReinforcementDrawingfunc import (
     getViewPlane,
@@ -44,6 +58,10 @@ from .config import (
     DIMENSION_TOP_OFFSET,
     DIMENSION_BOTTOM_OFFSET,
 )
+
+
+# Module-level dictionary to store page->view mappings for FreeCAD 1.1 compatibility
+_page_view_mapping = {}
 
 
 class ReinforcementDrawingView:
@@ -372,86 +390,96 @@ class ReinforcementDrawingView:
     def execute(self, obj):
         """This function is executed to recompute ReinforcementDrawing
         object."""
-        if not obj.Structure:
-            FreeCAD.Console.PrintError(
-                "No structure, return without a reinforcement drawing for "
-                "{}.\n".format(obj.Name)
-            )
-            return
+        try:
+            if not obj.Structure:
+                FreeCAD.Console.PrintError(
+                    "No structure, return without a reinforcement drawing for "
+                    "{}.\n".format(obj.Name)
+                )
+                return
 
-        if not obj.Rebars:
-            FreeCAD.Console.PrintError(
-                "Empty rebars list, return without a reinforcement drawing for "
-                "{}.\n".format(obj.Name)
-            )
-            return
+            if not obj.Rebars:
+                FreeCAD.Console.PrintError(
+                    "Empty rebars list, return without a reinforcement drawing for "
+                    "{}.\n".format(obj.Name)
+                )
+                return
 
-        if obj.PositionType == "Automatic":
-            obj.setEditorMode("X", 1)
-            obj.setEditorMode("Y", 1)
-        else:
-            obj.setEditorMode("X", 0)
-            obj.setEditorMode("Y", 0)
-
-        view_plane = getViewPlane(obj.View)
-        obj.Width, obj.Height = getSVGWidthHeight(
-            obj.Structure, obj.Rebars, view_plane
-        )
-
-        if obj.ScaleType == "Automatic":
-            scaling_factor = getTechdrawViewScalingFactor(
-                obj.Width.Value,
-                obj.Height.Value,
-                obj.LeftOffset.Value,
-                obj.TopOffset.Value,
-                obj.Template.Width.Value,
-                obj.Template.Height.Value,
-                obj.MinRightOffset.Value,
-                obj.MinBottomOffset.Value,
-                obj.MaxWidth.Value,
-                obj.MaxHeight.Value,
-            )
-            obj.Scale = scaling_factor
-
-        if obj.PositionType == "Automatic":
-            obj.X = obj.Width.Value * obj.Scale / 2 + obj.LeftOffset.Value
-            obj.Y = (
-                obj.Template.Height.Value
-                - obj.Height.Value * obj.Scale / 2
-                - obj.TopOffset.Value
-            )
-
-        if obj.StructureColorStyle == "Automatic":
-            if FreeCAD.GuiUp:
-                struct_fill_style = "shape color"
+            if obj.PositionType == "Automatic":
+                obj.setEditorMode("X", 1)
+                obj.setEditorMode("Y", 1)
             else:
+                obj.setEditorMode("X", 0)
+                obj.setEditorMode("Y", 0)
+
+            view_plane = getViewPlane(obj.View)
+            obj.Width, obj.Height = getSVGWidthHeight(
+                obj.Structure, obj.Rebars, view_plane
+            )
+
+            if obj.ScaleType == "Automatic":
+                scaling_factor = getTechdrawViewScalingFactor(
+                    obj.Width.Value,
+                    obj.Height.Value,
+                    obj.LeftOffset.Value,
+                    obj.TopOffset.Value,
+                    obj.Template.Width.Value,
+                    obj.Template.Height.Value,
+                    obj.MinRightOffset.Value,
+                    obj.MinBottomOffset.Value,
+                    obj.MaxWidth.Value,
+                    obj.MaxHeight.Value,
+                )
+                obj.Scale = scaling_factor
+
+            if obj.PositionType == "Automatic":
+                obj.X = obj.Width.Value * obj.Scale / 2 + obj.LeftOffset.Value
+                obj.Y = (
+                    obj.Template.Height.Value
+                    - obj.Height.Value * obj.Scale / 2
+                    - obj.TopOffset.Value
+                )
+
+            if obj.StructureColorStyle == "Automatic":
+                if FreeCAD.GuiUp:
+                    struct_fill_style = "shape color"
+                else:
+                    struct_fill_style = getrgb(obj.StructureColor)
+            elif obj.StructureColorStyle == "Custom":
                 struct_fill_style = getrgb(obj.StructureColor)
-        elif obj.StructureColorStyle == "Custom":
-            struct_fill_style = getrgb(obj.StructureColor)
-        else:
-            struct_fill_style = "none"
+            else:
+                struct_fill_style = "none"
 
-        if obj.RebarsColorStyle == "Automatic" and FreeCAD.GuiUp:
-            rebars_color_style = "shape color"
-        else:
-            rebars_color_style = getrgb(obj.RebarsColor)
+            if obj.RebarsColorStyle == "Automatic" and FreeCAD.GuiUp:
+                rebars_color_style = "shape color"
+            else:
+                rebars_color_style = getrgb(obj.RebarsColor)
 
-        reinforcement_drawing_data = getReinforcementDrawingSVGData(
-            obj.Structure,
-            obj.Rebars,
-            view_plane,
-            obj.RebarsStrokeWidth.Value / obj.Scale,
-            rebars_color_style,
-            obj.StructureStrokeWidth.Value / obj.Scale,
-            struct_fill_style,
-        )
-        obj.Symbol = ElementTree.tostring(
-            reinforcement_drawing_data["svg"], encoding="unicode"
-        )
-        obj.VisibleRebars = reinforcement_drawing_data["rebars"]
+            reinforcement_drawing_data = getReinforcementDrawingSVGData(
+                obj.Structure,
+                obj.Rebars,
+                view_plane,
+                obj.RebarsStrokeWidth.Value / obj.Scale,
+                rebars_color_style,
+                obj.StructureStrokeWidth.Value / obj.Scale,
+                struct_fill_style,
+            )
+            
+            svg_string = ElementTree.tostring(
+                reinforcement_drawing_data["svg"], encoding="unicode"
+            )
+            obj.Symbol = svg_string
+            obj.VisibleRebars = reinforcement_drawing_data["rebars"]
 
-        if FreeCAD.GuiUp:
-            obj.ViewObject.update()
+            if FreeCAD.GuiUp:
+                obj.ViewObject.update()
+        except Exception as e:
+            FreeCAD.Console.PrintError(
+                "Error in ReinforcementDrawingView.execute(): {}\n{}".format(
+                    str(e), "".join(__import__("traceback").format_exc())
+                )
+            )
+            raise
 
     def __getstate__(self):
         return None
@@ -462,8 +490,7 @@ class ReinforcementDrawingView:
 
 def makeReinforcementDrawingObject(template_file):
     """makeReinforcementDrawingObject(TemplateFile):
-    Returns ReinforcementDrawingView object to store reinforcement drawing
-    svg.
+    Returns a DrawPage with a ReinforcementDrawingView object.
     """
     drawing_page = FreeCAD.ActiveDocument.addObject("TechDraw::DrawPage")
     template = FreeCAD.ActiveDocument.addObject(
@@ -471,8 +498,24 @@ def makeReinforcementDrawingObject(template_file):
     )
     template.Template = str(template_file)
     drawing_page.Template = template
-    reinforcement_drawing_view = ReinforcementDrawingView(
-        "ReinforcementDrawingView"
-    ).Object
-    drawing_page.addView(reinforcement_drawing_view)
+    
+    reinforcement_drawing_view_obj = FreeCAD.ActiveDocument.addObject(
+        "TechDraw::DrawViewSymbolPython", "ReinforcementDrawingView"
+    )
+    
+    try:
+        drawing_page.addView(reinforcement_drawing_view_obj)
+    except TypeError:
+        # FreeCAD 1.1: addView() doesn't support FeaturePython objects
+        # Manually add to Views list instead
+        current_views = list(drawing_page.Views)
+        current_views.append(reinforcement_drawing_view_obj)
+        drawing_page.Views = current_views
+    
+    reinforcement_drawing_view = ReinforcementDrawingView.__new__(ReinforcementDrawingView)
+    reinforcement_drawing_view.setProperties(reinforcement_drawing_view_obj)
+    reinforcement_drawing_view.Object = reinforcement_drawing_view_obj
+    reinforcement_drawing_view_obj.Proxy = reinforcement_drawing_view
+    
+    _page_view_mapping[drawing_page.Name] = reinforcement_drawing_view_obj
     return drawing_page
