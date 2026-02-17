@@ -787,6 +787,13 @@ def makeReinforcementDimensioningObject(
         dimension_multi_rebar_text_position_type
     )
     if drawing_page:
-        drawing_page.addView(dimension_obj)
+        try:
+            drawing_page.addView(dimension_obj)
+        except TypeError:
+            # FreeCAD 1.1: addView() doesn't support FeaturePython objects
+            # Manually add to Views list instead
+            current_views = list(drawing_page.Views)
+            current_views.append(dimension_obj)
+            drawing_page.Views = current_views
         drawing_page.recompute(True)
     return dimension_obj
