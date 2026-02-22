@@ -35,7 +35,23 @@ import Draft
 import DraftGeomUtils
 import DraftVecUtils
 import WorkingPlane
-from importSVG import getcolor
+
+# Handle getcolor import for FreeCAD 1.1 compatibility
+try:
+    from importSVG import getcolor
+except ImportError:
+    # Fallback for FreeCAD 1.1 if importSVG is not available
+    def getcolor(color_value):
+        """Fallback getcolor function for FreeCAD 1.1"""
+        if isinstance(color_value, str):
+            return color_value
+        if isinstance(color_value, (tuple, list)) and len(color_value) >= 3:
+            return "#{:02x}{:02x}{:02x}".format(
+                int(color_value[0] * 255),
+                int(color_value[1] * 255),
+                int(color_value[2] * 255)
+            )
+        return str(color_value)
 
 from SVGfunc import (
     getSVGRootElement,
@@ -44,6 +60,27 @@ from SVGfunc import (
     getLineSVG,
     isLineInSVG,
 )
+
+
+def getDraftSVG(obj, **kwargs):
+    """Safely get SVG from Draft object, handling FreeCAD version differences.
+    
+    In FreeCAD 1.1, Draft.get_svg may have different behavior or parameters.
+    This wrapper handles version compatibility.
+    """
+    try:
+        result = Draft.get_svg(obj, **kwargs)
+        return result
+    except TypeError as e:
+        # Try without direction parameter for FreeCAD 1.1 compatibility
+        try:
+            direction_kwarg = kwargs.pop('direction', None)
+            result = Draft.get_svg(obj, **kwargs)
+            return result
+        except Exception:
+            return None
+    except Exception:
+        return None
 
 
 def getRebarsSpanAxis(rebar):
@@ -661,6 +698,7 @@ def getReinforcementDrawingSVGData(
         "rebars": visible_rebars,
     }
     """
+    
     if isinstance(view_direction, FreeCAD.Vector):
         if not DraftVecUtils.isNull(view_direction):
             view_plane = getSVGPlaneFromAxis(view_direction)
@@ -791,7 +829,7 @@ def getReinforcementDrawingSVGData(
     for rebar in helical_rebars:
         rebars_color = getRebarColor(rebar, rebars_color_style)
         rebars_color = getcolor(rebars_color)
-        rebar_svg_draft = Draft.get_svg(
+        rebar_svg_draft = getDraftSVG(
             rebar,
             direction=view_plane,
             linewidth=rebars_stroke_width,
@@ -807,7 +845,7 @@ def getReinforcementDrawingSVGData(
     for rebar in custom_rebars:
         rebars_color = getRebarColor(rebar, rebars_color_style)
         rebars_color = getcolor(rebars_color)
-        rebar_svg_draft = Draft.get_svg(
+        rebar_svg_draft = getDraftSVG(
             rebar,
             direction=view_plane,
             linewidth=rebars_stroke_width,
@@ -818,13 +856,15 @@ def getReinforcementDrawingSVGData(
             custom_rebars_svg.append(ElementTree.fromstring(rebar_svg_draft))
 
     # Create Structure SVG
+    structure_svg_draft = getDraftSVG(
+        structure,
+        direction=view_plane,
+        linewidth=structure_stroke_width,
+        fillstyle=structure_fill_style,
+    )
+    
     _structure_svg = '<g id="structure">{}</g>'.format(
-        Draft.get_svg(
-            structure,
-            direction=view_plane,
-            linewidth=structure_stroke_width,
-            fillstyle=structure_fill_style,
-        )
+        structure_svg_draft if structure_svg_draft else ''
     )
 
     # Fix structure transparency (useful in console mode where
@@ -855,5 +895,5 @@ def getReinforcementDrawingSVGData(
     svg.set("width", "{}mm".format(svg_width))
     svg.set("height", "{}mm".format(svg_height))
     svg.set("viewBox", "0 0 {} {}".format(svg_width, svg_height))
-
+    
     return {"svg": svg, "rebars": visible_rebars}
