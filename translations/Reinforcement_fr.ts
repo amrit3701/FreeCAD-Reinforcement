@@ -6,82 +6,82 @@
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="62"/>
         <source>The font family of Bill of Material content</source>
-        <translation type="unfinished">The font family of Bill of Material content</translation>
+        <translation>La famille de police du contenu de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="75"/>
         <source>The font filename for font of Bill of Material content and is required for working in pure console mode</source>
-        <translation type="unfinished">The font filename for font of Bill of Material content and is required for working in pure console mode</translation>
+        <translation>Le nom du fichier de police du contenu de la nomenclature, requis pour le mode console pur</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="88"/>
         <source>The font size of Bill of Material content</source>
-        <translation type="unfinished">The font size of Bill of Material content</translation>
+        <translation>La taille de police du contenu de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="100"/>
         <source>The template for Bill of Material content</source>
-        <translation type="unfinished">The template for Bill of Material content</translation>
+        <translation>Le modèle du contenu de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="111"/>
         <source>The width of Bill of Material content</source>
-        <translation type="unfinished">The width of Bill of Material content</translation>
+        <translation>La largeur du contenu de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="123"/>
         <source>The height of Bill of Material content</source>
-        <translation type="unfinished">The height of Bill of Material content</translation>
+        <translation>La hauteur du contenu de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="135"/>
         <source>The left offset of Bill of Material content</source>
-        <translation type="unfinished">The left offset of Bill of Material content</translation>
+        <translation>Le décalage gauche du contenu de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="147"/>
         <source>The top offset of Bill of Material content</source>
-        <translation type="unfinished">The top offset of Bill of Material content</translation>
+        <translation>Le décalage supérieur du contenu de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="159"/>
         <source>The minimum right offset of Bill of Material content</source>
-        <translation type="unfinished">The minimum right offset of Bill of Material content</translation>
+        <translation>Le décalage droit minimal du contenu de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="171"/>
         <source>The minimum bottom offset of Bill of Material content</source>
-        <translation type="unfinished">The minimum bottom offset of Bill of Material content</translation>
+        <translation>Le décalage inférieur minimal du contenu de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="183"/>
         <source>The maximum width of Bill of Material content</source>
-        <translation type="unfinished">The maximum width of Bill of Material content</translation>
+        <translation>La largeur maximale du contenu de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="195"/>
         <source>The maximum height of Bill of Material content</source>
-        <translation type="unfinished">The maximum height of Bill of Material content</translation>
+        <translation>La hauteur maximale du contenu de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="208"/>
         <source>The preferred column width of table of Bill of Material content</source>
-        <translation type="unfinished">The preferred column width of table of Bill of Material content</translation>
+        <translation>La largeur de colonne préférée du tableau de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="220"/>
         <source>The column width of table of Bill of Material content</source>
-        <translation type="unfinished">The column width of table of Bill of Material content</translation>
+        <translation>La largeur de colonne du tableau de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="234"/>
         <source>The preferred row height of table of Bill of Material content</source>
-        <translation type="unfinished">The preferred row height of table of Bill of Material content</translation>
+        <translation>La hauteur de ligne préférée du tableau de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BillOfMaterialContent.py" line="246"/>
         <source>The row height of table of Bill of Material content</source>
-        <translation type="unfinished">The row height of table of Bill of Material content</translation>
+        <translation>La hauteur de ligne du tableau de la nomenclature</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.py" line="250"/>
@@ -104,704 +104,704 @@
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="124"/>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="1620"/>
         <source>List of reinforcement groups</source>
-        <translation type="unfinished">List of reinforcement groups</translation>
+        <translation>Liste des groupes d'armatures</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="111"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="643"/>
         <source>Check if make or update required for slab reinforcement</source>
-        <translation type="unfinished">Check if make or update required for slab reinforcement</translation>
+        <translation>Vérifier si une création ou mise à jour est requise pour le ferraillage de la dalle</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="135"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="65"/>
         <source>Mesh Cover Along for slab reinforcement</source>
-        <translation type="unfinished">Mesh Cover Along for slab reinforcement</translation>
+        <translation>Couverture de maillage le long du ferraillage de dalle</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="147"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="77"/>
         <source>Facename</source>
-        <translation type="unfinished">Facename</translation>
+        <translation>Nom de face</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="158"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="88"/>
         <source>Structure</source>
-        <translation type="unfinished">Structure</translation>
+        <translation>Structure</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="169"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="99"/>
         <source>Parallel Rebars</source>
-        <translation type="unfinished">Parallel Rebars</translation>
+        <translation>Armatures parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="182"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="138"/>
         <source>Cross Rebars</source>
-        <translation type="unfinished">Cross Rebars</translation>
+        <translation>Armatures croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="196"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="152"/>
         <source>Rebar Type for parallel rebars</source>
-        <translation type="unfinished">Rebar Type for parallel rebars</translation>
+        <translation>Type d'armature pour les barres parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="213"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="169"/>
         <source>Front Cover for parallel rebars</source>
-        <translation type="unfinished">Front Cover for parallel rebars</translation>
+        <translation>Enrobage avant pour les armatures parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="225"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="181"/>
         <source>Rear Cover for parallel rebars</source>
-        <translation type="unfinished">Rear Cover for parallel rebars</translation>
+        <translation>Enrobage arrière pour les armatures parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="237"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="193"/>
         <source>Left Cover for parallel rebars</source>
-        <translation type="unfinished">Left Cover for parallel rebars</translation>
+        <translation>Enrobage gauche pour les armatures parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="249"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="205"/>
         <source>Right Cover for parallel rebars</source>
-        <translation type="unfinished">Right Cover for parallel rebars</translation>
+        <translation>Enrobage droit pour les armatures parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="261"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="217"/>
         <source>Top Cover for parallel rebars</source>
-        <translation type="unfinished">Top Cover for parallel rebars</translation>
+        <translation>Enrobage supérieur pour les armatures parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="273"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="229"/>
         <source>Bottom Cover for parallel rebars</source>
-        <translation type="unfinished">Bottom Cover for parallel rebars</translation>
+        <translation>Enrobage inférieur pour les armatures parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="285"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="241"/>
         <source>Diameter for parallel rebars</source>
-        <translation type="unfinished">Diameter for parallel rebars</translation>
+        <translation>Diamètre pour les armatures parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="297"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="253"/>
         <source>Amount or Spacing Check for parallel rebars</source>
-        <translation type="unfinished">Amount or Spacing Check for parallel rebars</translation>
+        <translation>Vérification quantité ou espacement pour les armatures parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="309"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="265"/>
         <source>Rebar&apos;s Amount Value for parallel rebars</source>
-        <translation type="unfinished">Rebar&apos;s Amount Value for parallel rebars</translation>
+        <translation>Valeur de quantité pour les armatures parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="321"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="277"/>
         <source>Spacing Value for parallel rebars</source>
-        <translation type="unfinished">Spacing Value for parallel rebars</translation>
+        <translation>Valeur d'espacement pour les armatures parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="333"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="289"/>
         <source>Rounding for parallel rebars</source>
-        <translation type="unfinished">Rounding for parallel rebars</translation>
+        <translation>Arrondi pour les armatures parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="345"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="325"/>
         <source>L-Shape Hook Orintation for parallel L-Shape rebars</source>
-        <translation type="unfinished">L-Shape Hook Orintation for parallel L-Shape rebars</translation>
+        <translation>Orientation du crochet en L pour les armatures en L parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="358"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="398"/>
         <source>Rebar Type for cross rebars</source>
-        <translation type="unfinished">Rebar Type for cross rebars</translation>
+        <translation>Type d'armature pour les barres croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="375"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="415"/>
         <source>Front Cover for cross rebars</source>
-        <translation type="unfinished">Front Cover for cross rebars</translation>
+        <translation>Enrobage avant pour les armatures croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="387"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="427"/>
         <source>Rear Cover for cross rebars</source>
-        <translation type="unfinished">Rear Cover for cross rebars</translation>
+        <translation>Enrobage arrière pour les armatures croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="399"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="439"/>
         <source>Left Cover for cross rebars</source>
-        <translation type="unfinished">Left Cover for cross rebars</translation>
+        <translation>Enrobage gauche pour les armatures croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="411"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="451"/>
         <source>Right Cover for cross rebars</source>
-        <translation type="unfinished">Right Cover for cross rebars</translation>
+        <translation>Enrobage droit pour les armatures croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="423"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="463"/>
         <source>Top Cover for cross rebars</source>
-        <translation type="unfinished">Top Cover for cross rebars</translation>
+        <translation>Enrobage supérieur pour les armatures croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="435"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="475"/>
         <source>Bottom Cover for cross rebars</source>
-        <translation type="unfinished">Bottom Cover for cross rebars</translation>
+        <translation>Enrobage inférieur pour les armatures croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="447"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="487"/>
         <source>Diameter for cross rebars</source>
-        <translation type="unfinished">Diameter for cross rebars</translation>
+        <translation>Diamètre pour les armatures croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="459"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="499"/>
         <source>Amount or Spacing Check for cross rebars</source>
-        <translation type="unfinished">Amount or Spacing Check for cross rebars</translation>
+        <translation>Vérification quantité ou espacement pour les armatures croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="471"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="511"/>
         <source>Rebar&apos;s Amount Value for cross rebars</source>
-        <translation type="unfinished">Rebar&apos;s Amount Value for cross rebars</translation>
+        <translation>Valeur de quantité pour les armatures croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="483"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="523"/>
         <source>Spacing Value for cross rebars</source>
-        <translation type="unfinished">Spacing Value for cross rebars</translation>
+        <translation>Valeur d'espacement pour les armatures croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="495"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="535"/>
         <source>Rounding for cross rebars</source>
-        <translation type="unfinished">Rounding for cross rebars</translation>
+        <translation>Arrondi pour les armatures croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="507"/>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="571"/>
         <source>L-Shape Hook Orintation for cross L-Shape rebars</source>
-        <translation type="unfinished">L-Shape Hook Orintation for cross L-Shape rebars</translation>
+        <translation>Orientation du crochet en L pour les armatures en L croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="520"/>
         <source>Column Front Cover</source>
-        <translation type="unfinished">Column Front Cover</translation>
+        <translation>Enrobage avant du poteau</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="532"/>
         <source>Column Left Cover</source>
-        <translation type="unfinished">Column Left Cover</translation>
+        <translation>Enrobage gauche du poteau</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="544"/>
         <source>Column Right Cover</source>
-        <translation type="unfinished">Column Right Cover</translation>
+        <translation>Enrobage droit du poteau</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="556"/>
         <source>Column Rear Cover</source>
-        <translation type="unfinished">Column Rear Cover</translation>
+        <translation>Enrobage arrière du poteau</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="568"/>
         <source>Tie Top Cover</source>
-        <translation type="unfinished">Tie Top Cover</translation>
+        <translation>Enrobage supérieur de l'étrier</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="580"/>
         <source>Tie Bottom Cover</source>
-        <translation type="unfinished">Tie Bottom Cover</translation>
+        <translation>Enrobage inférieur de l'étrier</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="592"/>
         <source>Tie Bent Angle</source>
-        <translation type="unfinished">Tie Bent Angle</translation>
+        <translation>Angle de courbure de l'étrier</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="604"/>
         <source>Tie Extension Factor</source>
-        <translation type="unfinished">Tie Extension Factor</translation>
+        <translation>Facteur d'extension de l'étrier</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="616"/>
         <source>Tie Diameter</source>
-        <translation type="unfinished">Tie Diameter</translation>
+        <translation>Diamètre de l'étrier</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="628"/>
         <source>Tie Number Spacing Check</source>
-        <translation type="unfinished">Tie Number Spacing Check</translation>
+        <translation>Vérification nombre/espacement de l'étrier</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="640"/>
         <source>Tie Amount Value</source>
-        <translation type="unfinished">Tie Amount Value</translation>
+        <translation>Valeur de quantité de l'étrier</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="652"/>
         <source>Tie Spacing Value</source>
-        <translation type="unfinished">Tie Spacing Value</translation>
+        <translation>Valeur d'espacement de l'étrier</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="664"/>
         <source>Column Main Rebar&apos;s Diameter</source>
-        <translation type="unfinished">Column Main Rebar&apos;s Diameter</translation>
+        <translation>Diamètre des armatures principales du poteau</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="676"/>
         <source>Column Main Rebars TopOffset</source>
-        <translation type="unfinished">Column Main Rebars TopOffset</translation>
+        <translation>Décalage supérieur des armatures principales du poteau</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="688"/>
         <source>Column Width</source>
-        <translation type="unfinished">Column Width</translation>
+        <translation>Largeur du poteau</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="700"/>
         <source>Column Length</source>
-        <translation type="unfinished">Column Length</translation>
+        <translation>Longueur du poteau</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="712"/>
         <source>X Direction Column Number Spacing Check</source>
-        <translation type="unfinished">X Direction Column Number Spacing Check</translation>
+        <translation>Vérification nombre/espacement des poteaux en direction X</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="724"/>
         <source>X Direction Column Amount Value</source>
-        <translation type="unfinished">X Direction Column Amount Value</translation>
+        <translation>Valeur de quantité des poteaux en direction X</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="736"/>
         <source>X Direction Column Spacing Value</source>
-        <translation type="unfinished">X Direction Column Spacing Value</translation>
+        <translation>Valeur d'espacement des poteaux en direction X</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="748"/>
         <source>Y Direction Column Number Spacing Check</source>
-        <translation type="unfinished">Y Direction Column Number Spacing Check</translation>
+        <translation>Vérification nombre/espacement des poteaux en direction Y</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="760"/>
         <source>Y Direction Column Amount Value</source>
-        <translation type="unfinished">Y Direction Column Amount Value</translation>
+        <translation>Valeur de quantité des poteaux en direction Y</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="772"/>
         <source>Y Direction Column Spacing Value</source>
-        <translation type="unfinished">Y Direction Column Spacing Value</translation>
+        <translation>Valeur d'espacement des poteaux en direction Y</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="784"/>
         <source>Main Rebars Types</source>
-        <translation type="unfinished">Main Rebars Types</translation>
+        <translation>Types d'armatures principales</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="799"/>
         <source>Main L-shape Rebars Hook Orientation</source>
-        <translation type="unfinished">Main L-shape Rebars Hook Orientation</translation>
+        <translation>Orientation du crochet des armatures en L principales</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="820"/>
         <source>Main L-shape Rebars Hook Extend Along</source>
-        <translation type="unfinished">Main L-shape Rebars Hook Extend Along</translation>
+        <translation>Extension du crochet le long des armatures en L principales</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="832"/>
         <source>Main L-shape Rebars Rounding </source>
-        <translation type="unfinished">Main L-shape Rebars Rounding </translation>
+        <translation>Arrondi des armatures en L principales </translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="844"/>
         <source>Main L-shape Rebars Hook Extension</source>
-        <translation type="unfinished">Main L-shape Rebars Hook Extension</translation>
+        <translation>Extension du crochet des armatures en L principales</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="856"/>
         <source>Secoundery Rebars Check</source>
-        <translation type="unfinished">Secoundery Rebars Check</translation>
+        <translation>Vérification des armatures secondaires</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="868"/>
         <source>Secoundery Rebars Top Offset</source>
-        <translation type="unfinished">Secoundery Rebars Top Offset</translation>
+        <translation>Décalage supérieur des armatures secondaires</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="880"/>
         <source>Secoundery Rebars Number Diameter</source>
-        <translation type="unfinished">Secoundery Rebars Number Diameter</translation>
+        <translation>Nombre et diamètre des armatures secondaires</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="895"/>
         <source>Secoundery Rebars type</source>
-        <translation type="unfinished">Secoundery Rebars type</translation>
+        <translation>Type des armatures secondaires</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="910"/>
         <source>Secoundery L-Shape Rebar Hook Orientation</source>
-        <translation type="unfinished">Secoundery L-Shape Rebar Hook Orientation</translation>
+        <translation>Orientation du crochet des armatures secondaires en L</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="925"/>
         <source>Secoundery L-Shape Rebar Hook Rounding</source>
-        <translation type="unfinished">Secoundery L-Shape Rebar Hook Rounding</translation>
+        <translation>Arrondi du crochet des armatures secondaires en L</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/FootingReinforcementObject.py" line="937"/>
         <source>Secoundery L-Shape Rebar Hook Extension</source>
-        <translation type="unfinished">Secoundery L-Shape Rebar Hook Extension</translation>
+        <translation>Extension du crochet des armatures secondaires en L</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="129"/>
         <source>The parent ReinforcementDrawingView object</source>
-        <translation type="unfinished">The parent ReinforcementDrawingView object</translation>
+        <translation>L&apos;objet parent ReinforcementDrawingView</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="140"/>
         <source>The ArchRebar object to generate dimensioning</source>
-        <translation type="unfinished">The ArchRebar object to generate dimensioning</translation>
+        <translation>L&apos;objet ArchRebar pour générer la cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="151"/>
         <source>The way points type of dimension line</source>
-        <translation type="unfinished">The way points type of dimension line</translation>
+        <translation>Le type de points de passage de la ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="162"/>
         <source>The way points of dimension line</source>
-        <translation type="unfinished">The way points of dimension line</translation>
+        <translation>Les points de passage de la ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="174"/>
         <source>The position type of dimension text</source>
-        <translation type="unfinished">The position type of dimension text</translation>
+        <translation>Le type de position du texte de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="189"/>
         <source>The dimension label format</source>
-        <translation type="unfinished">The dimension label format</translation>
+        <translation>Le format de l&apos;étiquette de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="201"/>
         <source>The font family of dimension text</source>
-        <translation type="unfinished">The font family of dimension text</translation>
+        <translation>La famille de police du texte de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="213"/>
         <source>The font size of dimension text</source>
-        <translation type="unfinished">The font size of dimension text</translation>
+        <translation>La taille de police du texte de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="225"/>
         <source>The stroke width of dimension line</source>
-        <translation type="unfinished">The stroke width of dimension line</translation>
+        <translation>L&apos;épaisseur de trait de la ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="237"/>
         <source>The stroke style of dimension line</source>
-        <translation type="unfinished">The stroke style of dimension line</translation>
+        <translation>Le style de trait de la ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="255"/>
         <source>The color of dimension line</source>
-        <translation type="unfinished">The color of dimension line</translation>
+        <translation>La couleur de la ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="267"/>
         <source>The color of dimension text</source>
-        <translation type="unfinished">The color of dimension text</translation>
+        <translation>La couleur du texte de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="279"/>
         <source>The start symbol of dimension line</source>
-        <translation type="unfinished">The start symbol of dimension line</translation>
+        <translation>Le symbole de début de la ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="297"/>
         <source>The end symbol of dimension line</source>
-        <translation type="unfinished">The end symbol of dimension line</translation>
+        <translation>Le symbole de fin de la ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="315"/>
         <source>The mid points symbol of dimension line</source>
-        <translation type="unfinished">The mid points symbol of dimension line</translation>
+        <translation>Le symbole des points médians de la ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="332"/>
         <source>The left offset for automated reinforcement dimensioning</source>
-        <translation type="unfinished">The left offset for automated reinforcement dimensioning</translation>
+        <translation>Le décalage gauche pour la cotation automatique des armatures</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="344"/>
         <source>The right offset for automated reinforcement dimensioning</source>
-        <translation type="unfinished">The right offset for automated reinforcement dimensioning</translation>
+        <translation>Le décalage droit pour la cotation automatique des armatures</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="355"/>
         <source>The top offset for automated reinforcement dimensioning</source>
-        <translation type="unfinished">The top offset for automated reinforcement dimensioning</translation>
+        <translation>Le décalage supérieur pour la cotation automatique des armatures</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="367"/>
         <source>The bottom offset for automated reinforcement dimensioning</source>
-        <translation type="unfinished">The bottom offset for automated reinforcement dimensioning</translation>
+        <translation>Le décalage inférieur pour la cotation automatique des armatures</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="379"/>
         <source>The dimension line start symbol, in case of single rebar is visible</source>
-        <translation type="unfinished">The dimension line start symbol, in case of single rebar is visible</translation>
+        <translation>Le symbole de début de cotation pour une armature unique visible</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="399"/>
         <source>The dimension line end symbol, in case of single rebar is visible</source>
-        <translation type="unfinished">The dimension line end symbol, in case of single rebar is visible</translation>
+        <translation>Le symbole de fin de cotation pour une armature unique visible</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="419"/>
         <source>The dimension line start symbol, in case of multiple rebars are visible</source>
-        <translation type="unfinished">The dimension line start symbol, in case of multiple rebars are visible</translation>
+        <translation>Le symbole de début de cotation pour plusieurs armatures visibles</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="439"/>
         <source>The dimension line end symbol, in case of multiple rebars are visible</source>
-        <translation type="unfinished">The dimension line end symbol, in case of multiple rebars are visible</translation>
+        <translation>Le symbole de fin de cotation pour plusieurs armatures visibles</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="458"/>
         <source>True if dimension lines to be outside of reinforcement drawing for automated reinforcement dimensioning, in case of single rebar is visible</source>
-        <translation type="unfinished">True if dimension lines to be outside of reinforcement drawing for automated reinforcement dimensioning, in case of single rebar is visible</translation>
+        <translation>Vrai si les lignes de cotation sont à l'extérieur du dessin pour la cotation automatique, armature unique visible</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="472"/>
         <source>True if dimension lines to be outside of reinforcement drawing for automated reinforcement dimensioning, in case of multiple rebars are visible</source>
-        <translation type="unfinished">True if dimension lines to be outside of reinforcement drawing for automated reinforcement dimensioning, in case of multiple rebars are visible</translation>
+        <translation>Vrai si les lignes de cotation sont à l'extérieur du dessin pour la cotation automatique, plusieurs armatures visibles</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="485"/>
         <source>The position type of dimension text, in case of single rebar is visible</source>
-        <translation type="unfinished">The position type of dimension text, in case of single rebar is visible</translation>
+        <translation>Le type de position du texte de cotation pour une armature unique visible</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDimensioning.py" line="504"/>
         <source>The position type of dimension text, in case of multiple rebars are visible</source>
-        <translation type="unfinished">The position type of dimension text, in case of multiple rebars are visible</translation>
+        <translation>Le type de position du texte de cotation pour plusieurs armatures visibles</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="73"/>
         <source>The structure object acting as Host for rebars</source>
-        <translation type="unfinished">The structure object acting as Host for rebars</translation>
+        <translation>L'objet structure servant d'hôte pour les armatures</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="84"/>
         <source>The list of rebar objects to be included in drawing</source>
-        <translation type="unfinished">The list of rebar objects to be included in drawing</translation>
+        <translation>La liste des armatures à inclure dans le dessin</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="95"/>
         <source>The reinforcement drawing view</source>
-        <translation type="unfinished">The reinforcement drawing view</translation>
+        <translation>La vue du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="106"/>
         <source>The position type of Reinforcement Drawing on Template</source>
-        <translation type="unfinished">The position type of Reinforcement Drawing on Template</translation>
+        <translation>Le type de position du dessin d'armature sur le modèle</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="118"/>
         <source>The stroke width of rebars in Reinforcement Drawing svg</source>
-        <translation type="unfinished">The stroke width of rebars in Reinforcement Drawing svg</translation>
+        <translation>L'épaisseur de trait des armatures dans le SVG du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="130"/>
         <source>The color style of rebars in Reinforcement Drawing svg</source>
-        <translation type="unfinished">The color style of rebars in Reinforcement Drawing svg</translation>
+        <translation>Le style de couleur des armatures dans le SVG du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="142"/>
         <source>The color of rebars in Reinforcement Drawing svg</source>
-        <translation type="unfinished">The color of rebars in Reinforcement Drawing svg</translation>
+        <translation>La couleur des armatures dans le SVG du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="155"/>
         <source>The stroke width of structure in Reinforcement Drawing svg</source>
-        <translation type="unfinished">The stroke width of structure in Reinforcement Drawing svg</translation>
+        <translation>L'épaisseur de trait de la structure dans le SVG du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="167"/>
         <source>The color style of structure in Reinforcement Drawing svg</source>
-        <translation type="unfinished">The color style of structure in Reinforcement Drawing svg</translation>
+        <translation>Le style de couleur de la structure dans le SVG du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="179"/>
         <source>The color of structure in Reinforcement Drawing svg</source>
-        <translation type="unfinished">The color of structure in Reinforcement Drawing svg</translation>
+        <translation>La couleur de la structure dans le SVG du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="191"/>
         <source>The template for Reinforcement Drawing view</source>
-        <translation type="unfinished">The template for Reinforcement Drawing view</translation>
+        <translation>Le modèle pour la vue du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="202"/>
         <source>The width of Reinforcement Drawing view svg</source>
-        <translation type="unfinished">The width of Reinforcement Drawing view svg</translation>
+        <translation>La largeur du SVG de la vue du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="215"/>
         <source>The height of Reinforcement Drawing view svg</source>
-        <translation type="unfinished">The height of Reinforcement Drawing view svg</translation>
+        <translation>La hauteur du SVG de la vue du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="228"/>
         <source>The left offset of Reinforcement Drawing view</source>
-        <translation type="unfinished">The left offset of Reinforcement Drawing view</translation>
+        <translation>Le décalage gauche de la vue du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="240"/>
         <source>The top offset of Reinforcement Drawing view</source>
-        <translation type="unfinished">The top offset of Reinforcement Drawing view</translation>
+        <translation>Le décalage supérieur de la vue du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="252"/>
         <source>The minimum right offset of Reinforcement Drawing view</source>
-        <translation type="unfinished">The minimum right offset of Reinforcement Drawing view</translation>
+        <translation>Le décalage droit minimal de la vue du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="264"/>
         <source>The minimum bottom offset of Reinforcement Drawing view</source>
-        <translation type="unfinished">The minimum bottom offset of Reinforcement Drawing view</translation>
+        <translation>Le décalage inférieur minimal de la vue du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="276"/>
         <source>The maximum width of Reinforcement Drawing view</source>
-        <translation type="unfinished">The maximum width of Reinforcement Drawing view</translation>
+        <translation>La largeur maximale de la vue du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="288"/>
         <source>The maximum height of Reinforcement Drawing view</source>
-        <translation type="unfinished">The maximum height of Reinforcement Drawing view</translation>
+        <translation>La hauteur maximale de la vue du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="300"/>
         <source>The list of visible rebar objects in drawing</source>
-        <translation type="unfinished">The list of visible rebar objects in drawing</translation>
+        <translation>La liste des armatures visibles dans le dessin</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="317"/>
         <source>The left offset for each new ReinforcementDimensioning object</source>
-        <translation type="unfinished">The left offset for each new ReinforcementDimensioning object</translation>
+        <translation>Le décalage gauche pour chaque nouvel objet de cotation d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="332"/>
         <source>The right offset for each new ReinforcementDimensioning object</source>
-        <translation type="unfinished">The right offset for each new ReinforcementDimensioning object</translation>
+        <translation>Le décalage droit pour chaque nouvel objet de cotation d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="347"/>
         <source>The top offset for each new ReinforcementDimensioning object</source>
-        <translation type="unfinished">The top offset for each new ReinforcementDimensioning object</translation>
+        <translation>Le décalage supérieur pour chaque nouvel objet de cotation d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingView.py" line="362"/>
         <source>The bottom offset for each new ReinforcementDimensioning object</source>
-        <translation type="unfinished">The bottom offset for each new ReinforcementDimensioning object</translation>
+        <translation>Le décalage inférieur pour chaque nouvel objet de cotation d'armature</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="112"/>
         <source>Parallel Distribution Rebars</source>
-        <translation type="unfinished">Parallel Distribution Rebars</translation>
+        <translation>Armatures de distribution parallèles</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="125"/>
         <source>Cross Distribution Rebars</source>
-        <translation type="unfinished">Cross Distribution Rebars</translation>
+        <translation>Armatures de distribution croisées</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="301"/>
         <source>Bent Bar Length for parallel bent shape rebars</source>
-        <translation type="unfinished">Bent Bar Length for parallel bent shape rebars</translation>
+        <translation>Longueur de barre courbée pour les armatures courbées parallèles</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="313"/>
         <source>Bent Bar Angle for parallel bent shape rebars</source>
-        <translation type="unfinished">Bent Bar Angle for parallel bent shape rebars</translation>
+        <translation>Angle de courbure pour les armatures courbées parallèles</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="337"/>
         <source>Distribution Rebars Check for parallel distribution rebars</source>
-        <translation type="unfinished">Distribution Rebars Check for parallel distribution rebars</translation>
+        <translation>Vérification des armatures de distribution parallèles</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="349"/>
         <source>Diameter for parallel distribution rebars</source>
-        <translation type="unfinished">Diameter for parallel distribution rebars</translation>
+        <translation>Diamètre des armatures de distribution parallèles</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="361"/>
         <source>Amount or Spacing Check for parallel distribution rebars</source>
-        <translation type="unfinished">Amount or Spacing Check for parallel distribution rebars</translation>
+        <translation>Vérification quantité ou espacement des armatures de distribution parallèles</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="373"/>
         <source>Rebar&apos;s amount for parallel distribution rebars</source>
-        <translation type="unfinished">Rebar&apos;s amount for parallel distribution rebars</translation>
+        <translation>Quantité d&apos;armatures de distribution parallèles</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="385"/>
         <source>Rebars Spacing for parallel distribution rebars</source>
-        <translation type="unfinished">Rebars Spacing for parallel distribution rebars</translation>
+        <translation>Espacement des armatures de distribution parallèles</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="547"/>
         <source>Bent Bar Length for cross bent shape rebars</source>
-        <translation type="unfinished">Bent Bar Length for cross bent shape rebars</translation>
+        <translation>Longueur de barre courbée pour les armatures courbées croisées</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="559"/>
         <source>Bent Bar Angle for cross bent shape rebars</source>
-        <translation type="unfinished">Bent Bar Angle for cross bent shape rebars</translation>
+        <translation>Angle de courbure pour les armatures courbées croisées</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="583"/>
         <source>Distribution Rebars check for cross distribution rebars</source>
-        <translation type="unfinished">Distribution Rebars check for cross distribution rebars</translation>
+        <translation>Vérification des armatures de distribution croisées</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="595"/>
         <source>Rebars Diameter for cross distribution rebars</source>
-        <translation type="unfinished">Rebars Diameter for cross distribution rebars</translation>
+        <translation>Diamètre des armatures de distribution croisées</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="607"/>
         <source>Amount or Spacing check for cross distribution rebars</source>
-        <translation type="unfinished">Amount or Spacing check for cross distribution rebars</translation>
+        <translation>Vérification quantité ou espacement des armatures de distribution croisées</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="619"/>
         <source>Rebars amount for cross distribution rebars</source>
-        <translation type="unfinished">Rebars amount for cross distribution rebars</translation>
+        <translation>Quantité des armatures de distribution croisées</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/SlabReinforcementObject.py" line="631"/>
         <source>Spacing value for cross distribution rebars</source>
-        <translation type="unfinished">Spacing value for cross distribution rebars</translation>
+        <translation>Valeur d'espacement des armatures de distribution croisées</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.py" line="489"/>
@@ -933,264 +933,264 @@
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="20"/>
         <source>BillOfMaterial</source>
-        <translation type="unfinished">BillOfMaterial</translation>
+        <translation>Nomenclature des armatures</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="55"/>
         <source>Reinforcement Group By</source>
-        <translation type="unfinished">Reinforcement Group By</translation>
+        <translation>Regrouper les armatures par</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="68"/>
         <source>It specifies how reinforcement objects should be grouped</source>
-        <translation type="unfinished">It specifies how reinforcement objects should be grouped</translation>
+        <translation>Spécifie comment les objets d'armature doivent être regroupés</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="91"/>
         <source>Rebar Length Type</source>
-        <translation type="unfinished">Rebar Length Type</translation>
+        <translation>Type de longueur des armatures</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="104"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The rebar length calculations type.&lt;/p&gt;&lt;p&gt;- &amp;quot;RealLength&amp;quot;: length of rebar considering rounded edges.&lt;/p&gt;&lt;p&gt;- &amp;quot;LengthWithSharpEdges&amp;quot;: length of rebar assuming sharp edges of rebar.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The rebar length calculations type.&lt;/p&gt;&lt;p&gt;- &amp;quot;RealLength&amp;quot;: length of rebar considering rounded edges.&lt;/p&gt;&lt;p&gt;- &amp;quot;LengthWithSharpEdges&amp;quot;: length of rebar assuming sharp edges of rebar.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le type de calcul de la longueur des armatures.&lt;/p&gt;&lt;p&gt;- &amp;quot;LongueurRéelle&amp;quot; : longueur de l&apos;armature avec les bords arrondis.&lt;/p&gt;&lt;p&gt;- &amp;quot;LongueurAvecBordsVifs&amp;quot; : longueur de l&apos;armature avec des bords vifs.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="143"/>
         <source>Column Data</source>
-        <translation type="unfinished">Column Data</translation>
+        <translation>Données de colonne</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="159"/>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="359"/>
         <source>Column Header</source>
-        <translation type="unfinished">Column Header</translation>
+        <translation>En-tête de colonne</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="177"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;You can set sequence of column by dragging and dropping items in list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;You can set sequence of column by dragging and dropping items in list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Vous pouvez définir la séquence des colonnes en faisant glisser et déposer les éléments dans la liste&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="198"/>
         <source>Font Family</source>
-        <translation type="unfinished">Font Family</translation>
+        <translation>Famille de police</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="211"/>
         <source>The font-family of text</source>
-        <translation type="unfinished">The font-family of text</translation>
+        <translation>La famille de police du texte</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="234"/>
         <source>Font Size</source>
-        <translation type="unfinished">Font Size</translation>
+        <translation>Taille de police</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="247"/>
         <source>The font-size of text</source>
-        <translation type="unfinished">The font-size of text</translation>
+        <translation>La taille de police du texte</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="267"/>
         <source>Column Width</source>
-        <translation type="unfinished">Column Width</translation>
+        <translation>Largeur du poteau</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="280"/>
         <source>The width of each column in bar shape cut list</source>
-        <translation type="unfinished">The width of each column in bar shape cut list</translation>
+        <translation>La largeur de chaque colonne dans la liste de coupe</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="303"/>
         <source>Row Height</source>
-        <translation type="unfinished">Row Height</translation>
+        <translation>Hauteur de ligne</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="316"/>
         <source>The height of each row in bar shape cut list</source>
-        <translation type="unfinished">The height of each row in bar shape cut list</translation>
+        <translation>La hauteur de chaque ligne dans la liste de coupe</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="336"/>
         <source>The data related to Rebar Shape column</source>
-        <translation type="unfinished">The data related to Rebar Shape column</translation>
+        <translation>Les données de la colonne forme d'armature</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="339"/>
         <source>Rebar Shape column data</source>
-        <translation type="unfinished">Rebar Shape column data</translation>
+        <translation>Données de la colonne forme d'armature</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="372"/>
         <source>The column header for rebar shape column</source>
-        <translation type="unfinished">The column header for rebar shape column</translation>
+        <translation>L'en-tête de la colonne forme d'armature</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="375"/>
         <source>Rebar Shape</source>
-        <translation type="unfinished">Rebar Shape</translation>
+        <translation>Forme d'armature</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="398"/>
         <source>Stirrup Extended Edge Offset</source>
-        <translation type="unfinished">Stirrup Extended Edge Offset</translation>
+        <translation>Décalage des bords étendus de l'étrier</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="411"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The offset of extended end edges of stirrup, so that end edges of stirrup with 90 degree bent angle do not overlap with stirrup edges&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The offset of extended end edges of stirrup, so that end edges of stirrup with 90 degree bent angle do not overlap with stirrup edges&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le décalage des bords d&apos;extrémité étendus de l&apos;étrier, pour que les bords d&apos;extrémité avec un angle de 90° ne chevauchent pas les bords de l&apos;étrier&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="414"/>
         <source>2 mm</source>
-        <translation type="unfinished">2 mm</translation>
+        <translation>2 mm</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="443"/>
         <source>Rebars Stroke Width</source>
-        <translation type="unfinished">Rebars Stroke Width</translation>
+        <translation>Épaisseur de trait des armatures</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="456"/>
         <source>The stroke-width of rebars</source>
-        <translation type="unfinished">The stroke-width of rebars</translation>
+        <translation>L'épaisseur de trait des armatures</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="459"/>
         <source>0.35 mm</source>
-        <translation type="unfinished">0.35 mm</translation>
+        <translation>0,35 mm</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="488"/>
         <source>The color style of rebars</source>
-        <translation type="unfinished">The color style of rebars</translation>
+        <translation>Le style de couleur des armatures</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="491"/>
         <source>Rebars Color Style</source>
-        <translation type="unfinished">Rebars Color Style</translation>
+        <translation>Style de couleur des armatures</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="500"/>
         <source>Select color of rebar shape</source>
-        <translation type="unfinished">Select color of rebar shape</translation>
+        <translation>Sélectionner la couleur de la forme d'armature</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="503"/>
         <source>shape color</source>
-        <translation type="unfinished">shape color</translation>
+        <translation>couleur de forme</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="521"/>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="534"/>
         <source>Custom color</source>
-        <translation type="unfinished">Custom color</translation>
+        <translation>Couleur personnalisée</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="524"/>
         <source>Custom Color</source>
-        <translation type="unfinished">Custom Color</translation>
+        <translation>Couleur personnalisée</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="547"/>
         <source>The data related to rebar shape dimensions</source>
-        <translation type="unfinished">The data related to rebar shape dimensions</translation>
+        <translation>Les données relatives aux dimensions de la forme d'armature</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="550"/>
         <source>Include Dimensions</source>
-        <translation type="unfinished">Include Dimensions</translation>
+        <translation>Inclure les cotations</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="565"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then rebar edge length units will be shown in dimension label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then rebar edge length units will be shown in dimension label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si coché, les unités de longueur des bords d&apos;armature seront affichées dans l&apos;étiquette de cotation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="568"/>
         <source>Include Units in Dimension Label</source>
-        <translation type="unfinished">Include Units in Dimension Label</translation>
+        <translation>Inclure les unités dans l'étiquette de cotation</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="583"/>
         <source>Dimension Font Size</source>
-        <translation type="unfinished">Dimension Font Size</translation>
+        <translation>Taille de police des cotations</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="596"/>
         <source>The font-size of dimension text</source>
-        <translation type="unfinished">The font-size of dimension text</translation>
+        <translation>La taille de police du texte de cotation</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="616"/>
         <source>The units to be used for rebar edge length dimensions</source>
-        <translation type="unfinished">The units to be used for rebar edge length dimensions</translation>
+        <translation>Les unités à utiliser pour les cotations des longueurs de bords d&apos;armature</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="619"/>
         <source>Rebar Edge Dimension Units</source>
-        <translation type="unfinished">Rebar Edge Dimension Units</translation>
+        <translation>Unités de cotation des bords d'armature</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="636"/>
         <source>Rebar Edge Dimension Precision</source>
-        <translation type="unfinished">Rebar Edge Dimension Precision</translation>
+        <translation>Précision des cotations des bords d'armature</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="649"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The number of decimals that should be shown for rebar edge length as dimension label. Set it to -1 to use user preferred unit precision from FreeCAD unit preferences&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The number of decimals that should be shown for rebar edge length as dimension label. Set it to -1 to use user preferred unit precision from FreeCAD unit preferences&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le nombre de décimales à afficher pour la longueur de bord d&apos;armature dans l&apos;étiquette de cotation. Mettre à -1 pour utiliser la précision des unités préférée de FreeCAD&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="669"/>
         <source>Bent Angle Dimension Exclude List</source>
-        <translation type="unfinished">Bent Angle Dimension Exclude List</translation>
+        <translation>Liste des angles de courbure exclus des cotations</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="682"/>
         <source>The list of bent angles to not include their dimensions</source>
-        <translation type="unfinished">The list of bent angles to not include their dimensions</translation>
+        <translation>La liste des angles de courbure à exclure des cotations</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="685"/>
         <source>45, 90, 180</source>
-        <translation type="unfinished">45, 90, 180</translation>
+        <translation>45, 90, 180</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="702"/>
         <source>Helical Rebar Dimension Label Format</source>
-        <translation type="unfinished">Helical Rebar Dimension Label Format</translation>
+        <translation>Format de l'étiquette de cotation des armatures hélicoïdales</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="715"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The format of helical rebar dimension label.&lt;/p&gt;&lt;p&gt;%L -&amp;gt; Length of helical rebar&lt;/p&gt;&lt;p&gt;%R -&amp;gt; Helix radius of helical rebar&lt;/p&gt;&lt;p&gt;%P -&amp;gt; Helix pitch of helical rebar&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The format of helical rebar dimension label.&lt;/p&gt;&lt;p&gt;%L -&amp;gt; Length of helical rebar&lt;/p&gt;&lt;p&gt;%R -&amp;gt; Helix radius of helical rebar&lt;/p&gt;&lt;p&gt;%P -&amp;gt; Helix pitch of helical rebar&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le format de l&apos;étiquette de cotation des armatures hélicoïdales.&lt;/p&gt;&lt;p&gt;%L -&amp;gt; Longueur de l&apos;armature hélicoïdale&lt;/p&gt;&lt;p&gt;%R -&amp;gt; Rayon de l&apos;hélice&lt;/p&gt;&lt;p&gt;%P -&amp;gt; Pas de l&apos;hélice&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="718"/>
         <source>%L,r=%R,pitch=%P</source>
-        <translation type="unfinished">%L,r=%R,pitch=%P</translation>
+        <translation>%L,r=%R,pas=%P</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="745"/>
         <source>SVG Output File</source>
-        <translation type="unfinished">SVG Output File</translation>
+        <translation>Fichier SVG de sortie</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="754"/>
         <source>The output file to write bar bending schedule svg</source>
-        <translation type="unfinished">The output file to write bar bending schedule svg</translation>
+        <translation>Le fichier de sortie pour le SVG du tableau de pliage</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="757"/>
         <source>required</source>
-        <translation type="unfinished">required</translation>
+        <translation>requis</translation>
     </message>
     <message>
         <location filename="../BarBendingSchedule/MainBarBendingSchedule.ui" line="767"/>
         <source>Choose</source>
-        <translation type="unfinished">Choose</translation>
+        <translation>Choisir</translation>
     </message>
 </context>
 <context>
@@ -1318,62 +1318,62 @@
     <message>
         <location filename="../BillOfMaterial/MainBillOfMaterial.ui" line="26"/>
         <source>BillOfMaterial</source>
-        <translation type="unfinished">BillOfMaterial</translation>
+        <translation>Nomenclature des armatures</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/MainBillOfMaterial.ui" line="49"/>
         <source>Reinforcement Group By</source>
-        <translation type="unfinished">Reinforcement Group By</translation>
+        <translation>Regrouper les armatures par</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/MainBillOfMaterial.ui" line="78"/>
         <source>Rebar Length Type</source>
-        <translation type="unfinished">Rebar Length Type</translation>
+        <translation>Type de longueur des armatures</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/MainBillOfMaterial.ui" line="120"/>
         <source>Column Data</source>
-        <translation type="unfinished">Column Data</translation>
+        <translation>Données de colonne</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/MainBillOfMaterial.ui" line="136"/>
         <source>Column Header</source>
-        <translation type="unfinished">Column Header</translation>
+        <translation>En-tête de colonne</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/MainBillOfMaterial.ui" line="160"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note:&lt;/span&gt; You can set sequence of column by dragging and dropping items in above list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note:&lt;/span&gt; You can set sequence of column by dragging and dropping items in above list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Remarque :&lt;/span&gt; Vous pouvez définir la séquence des colonnes en faisant glisser et déposer les éléments dans la liste ci-dessus&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/MainBillOfMaterial.ui" line="170"/>
         <source>Create Spreadsheet</source>
-        <translation type="unfinished">Create Spreadsheet</translation>
+        <translation>Créer un tableur</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/MainBillOfMaterial.ui" line="182"/>
         <source>Create svg</source>
-        <translation type="unfinished">Create svg</translation>
+        <translation>Créer un SVG</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/MainBillOfMaterial.ui" line="192"/>
         <source>Edit SVG Configurations</source>
-        <translation type="unfinished">Edit SVG Configurations</translation>
+        <translation>Modifier les configurations SVG</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/MainBillOfMaterial.ui" line="216"/>
         <source>SVG Output File</source>
-        <translation type="unfinished">SVG Output File</translation>
+        <translation>Fichier SVG de sortie</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/MainBillOfMaterial.ui" line="232"/>
         <source>Choose</source>
-        <translation type="unfinished">Choose</translation>
+        <translation>Choisir</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/MainBillOfMaterial.ui" line="246"/>
         <source>Save Preferences</source>
-        <translation type="unfinished">Save Preferences</translation>
+        <translation>Enregistrer les préférences</translation>
     </message>
 </context>
 <context>
@@ -1386,12 +1386,12 @@
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="128"/>
         <source>Fill values for Footing Columns </source>
-        <translation type="unfinished">Fill values for Footing Columns </translation>
+        <translation>Remplir les valeurs des poteaux de semelle </translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="135"/>
         <source>Front Spacing</source>
-        <translation type="unfinished">Front Spacing</translation>
+        <translation>Espacement avant</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="142"/>
@@ -1404,22 +1404,22 @@
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="152"/>
         <source>Left Spacing</source>
-        <translation type="unfinished">Left Spacing</translation>
+        <translation>Espacement gauche</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="169"/>
         <source>Right Spacing</source>
-        <translation type="unfinished">Right Spacing</translation>
+        <translation>Espacement droit</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="186"/>
         <source>Rear Spacing</source>
-        <translation type="unfinished">Rear Spacing</translation>
+        <translation>Espacement arrière</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="203"/>
         <source>Column Length</source>
-        <translation type="unfinished">Column Length</translation>
+        <translation>Longueur du poteau</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="210"/>
@@ -1430,12 +1430,12 @@
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="220"/>
         <source>Column Width</source>
-        <translation type="unfinished">Column Width</translation>
+        <translation>Largeur du poteau</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="243"/>
         <source>Fill values for X Direction Columns</source>
-        <translation type="unfinished">Fill values for X Direction Columns</translation>
+        <translation>Remplir les valeurs des poteaux en direction X</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="255"/>
@@ -1462,12 +1462,12 @@
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="314"/>
         <source>Fill values for Y Direction Columns</source>
-        <translation type="unfinished">Fill values for Y Direction Columns</translation>
+        <translation>Remplir les valeurs des poteaux en direction Y</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/Columns.ui" line="381"/>
         <source>Add Secondary Rebars</source>
-        <translation type="unfinished">Add Secondary Rebars</translation>
+        <translation>Ajouter des armatures secondaires</translation>
     </message>
 </context>
 <context>
@@ -1482,7 +1482,7 @@
         <location filename="../FootingReinforcement/CrossRebars.ui" line="80"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="347"/>
         <source>Rebar Type</source>
-        <translation type="unfinished">Rebar Type</translation>
+        <translation>Type d'armature</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="97"/>
@@ -1534,13 +1534,13 @@
         <location filename="../FootingReinforcement/CrossRebars.ui" line="182"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="169"/>
         <source>Rear Cover</source>
-        <translation type="unfinished">Rear Cover</translation>
+        <translation>Enrobage arrière</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="211"/>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="198"/>
         <source>Hook Orientation</source>
-        <translation type="unfinished">Hook Orientation</translation>
+        <translation>Orientation du crochet</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/CrossRebars.ui" line="228"/>
@@ -1603,12 +1603,12 @@
     <message>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="354"/>
         <source>Add Distribution Rebars</source>
-        <translation type="unfinished">Add Distribution Rebars</translation>
+        <translation>Ajouter des armatures de distribution</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/CrossRebars.ui" line="370"/>
         <source>Fill values for Distribution Rebars</source>
-        <translation type="unfinished">Fill values for Distribution Rebars</translation>
+        <translation>Remplir les valeurs des armatures de distribution</translation>
     </message>
 </context>
 <context>
@@ -1621,54 +1621,54 @@
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="20"/>
         <source>Font Family</source>
-        <translation type="unfinished">Font Family</translation>
+        <translation>Famille de police</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="39"/>
         <source>Font Size</source>
-        <translation type="unfinished">Font Size</translation>
+        <translation>Taille de police</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="53"/>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="219"/>
         <source>Column Width</source>
-        <translation type="unfinished">Column Width</translation>
+        <translation>Largeur du poteau</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="70"/>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="183"/>
         <source>Row Height</source>
-        <translation type="unfinished">Row Height</translation>
+        <translation>Hauteur de ligne</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="87"/>
         <source>BOM Left Offset</source>
-        <translation type="unfinished">BOM Left Offset</translation>
+        <translation>Décalage gauche de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="104"/>
         <source>BOM Top Offset</source>
-        <translation type="unfinished">BOM Top Offset</translation>
+        <translation>Décalage supérieur de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="121"/>
         <source>BOM Min Right Offset</source>
-        <translation type="unfinished">BOM Min Right Offset</translation>
+        <translation>Décalage droit minimal de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="138"/>
         <source>BOM Min Bottom Offset</source>
-        <translation type="unfinished">BOM Min Bottom Offset</translation>
+        <translation>Décalage inférieur minimal de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="155"/>
         <source>BOM Max Width</source>
-        <translation type="unfinished">BOM Max Width</translation>
+        <translation>Largeur maximale de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="172"/>
         <source>BOM Max Height</source>
-        <translation type="unfinished">BOM Max Height</translation>
+        <translation>Hauteur maximale de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="189"/>
@@ -1679,228 +1679,228 @@
         <location filename="../BillOfMaterial/EditSVGConfiguration.ui" line="211"/>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="618"/>
         <source>Choose</source>
-        <translation type="unfinished">Choose</translation>
+        <translation>Choisir</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="14"/>
         <source>RebarShapeCutList</source>
-        <translation type="unfinished">RebarShapeCutList</translation>
+        <translation>Liste de coupe de forme d'armature</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="34"/>
         <source>Stirrup Extended Edge Offset</source>
-        <translation type="unfinished">Stirrup Extended Edge Offset</translation>
+        <translation>Décalage des bords étendus de l'étrier</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="47"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The offset of extended end edges of stirrup, so that end edges of stirrup with 90 degree bent angle do not overlap with stirrup edges&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The offset of extended end edges of stirrup, so that end edges of stirrup with 90 degree bent angle do not overlap with stirrup edges&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le décalage des bords d&apos;extrémité étendus de l&apos;étrier, pour que les bords d&apos;extrémité avec un angle de 90° ne chevauchent pas les bords de l&apos;étrier&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="50"/>
         <source>2 mm</source>
-        <translation type="unfinished">2 mm</translation>
+        <translation>2 mm</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="79"/>
         <source>Rebars Stroke Width</source>
-        <translation type="unfinished">Rebars Stroke Width</translation>
+        <translation>Épaisseur de trait des armatures</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="92"/>
         <source>The stroke-width of rebars in rebar shape cut list svg</source>
-        <translation type="unfinished">The stroke-width of rebars in rebar shape cut list svg</translation>
+        <translation>L'épaisseur de trait des armatures dans le SVG de la liste de coupe</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="95"/>
         <source>0.35 mm</source>
-        <translation type="unfinished">0.35 mm</translation>
+        <translation>0,35 mm</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="124"/>
         <source>The color style of rebars</source>
-        <translation type="unfinished">The color style of rebars</translation>
+        <translation>Le style de couleur des armatures</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="127"/>
         <source>Rebars Color Style</source>
-        <translation type="unfinished">Rebars Color Style</translation>
+        <translation>Style de couleur des armatures</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="134"/>
         <source>Select color of rebar shape</source>
-        <translation type="unfinished">Select color of rebar shape</translation>
+        <translation>Sélectionner la couleur de la forme d'armature</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="137"/>
         <source>shape color</source>
-        <translation type="unfinished">shape color</translation>
+        <translation>couleur de forme</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="153"/>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="166"/>
         <source>Custom color</source>
-        <translation type="unfinished">Custom color</translation>
+        <translation>Couleur personnalisée</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="196"/>
         <source>The height of each row of rebar shape in rebar shape cut list</source>
-        <translation type="unfinished">The height of each row of rebar shape in rebar shape cut list</translation>
+        <translation>La hauteur de chaque ligne de forme d'armature dans la liste de coupe</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="232"/>
         <source>The width of rebar shape cut list</source>
-        <translation type="unfinished">The width of rebar shape cut list</translation>
+        <translation>La largeur de la liste de coupe de forme d'armature</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="255"/>
         <source>Column Count</source>
-        <translation type="unfinished">Column Count</translation>
+        <translation>Nombre de colonnes</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="273"/>
         <source>The number of columns in rebar shape cut list</source>
-        <translation type="unfinished">The number of columns in rebar shape cut list</translation>
+        <translation>Le nombre de colonnes dans la liste de coupe de forme d'armature</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="283"/>
         <source>Set column_count &lt;= row_count</source>
-        <translation type="unfinished">Set column_count &lt;= row_count</translation>
+        <translation>Définir nb_colonnes &lt;= nb_lignes</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="286"/>
         <source>Row Count</source>
-        <translation type="unfinished">Row Count</translation>
+        <translation>Nombre de lignes</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="308"/>
         <source>Side Padding</source>
-        <translation type="unfinished">Side Padding</translation>
+        <translation>Marge latérale</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="321"/>
         <source>The padding on each side of rebar shape</source>
-        <translation type="unfinished">The padding on each side of rebar shape</translation>
+        <translation>La marge de chaque côté de la forme d'armature</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="338"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then max length edge of rebar shape will be rotated to make it horizontal&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then max length edge of rebar shape will be rotated to make it horizontal&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si coché, le bord de longueur maximale de la forme d&apos;armature sera tourné pour le rendre horizontal&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="341"/>
         <source>Horizontal Rebar Shape</source>
-        <translation type="unfinished">Horizontal Rebar Shape</translation>
+        <translation>Forme d'armature horizontale</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="351"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then rebar.Mark will be included for each rebar shape in rebar shape cut list svg&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then rebar.Mark will be included for each rebar shape in rebar shape cut list svg&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si coché, le repère de l&apos;armature sera inclus pour chaque forme dans le SVG de la liste de coupe&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="354"/>
         <source>Include Mark</source>
-        <translation type="unfinished">Include Mark</translation>
+        <translation>Inclure le repère</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="366"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then each rebar edge dimensions and bent angle dimensions will be included in rebar shape cut list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then each rebar edge dimensions and bent angle dimensions will be included in rebar shape cut list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si coché, les cotations des bords et les angles de courbure de chaque armature seront inclus dans la liste de coupe&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="369"/>
         <source>Include Dimensions</source>
-        <translation type="unfinished">Include Dimensions</translation>
+        <translation>Inclure les cotations</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="378"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then rebar edge length units will be shown in dimension label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then rebar edge length units will be shown in dimension label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si coché, les unités de longueur des bords d&apos;armature seront affichées dans l&apos;étiquette de cotation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="381"/>
         <source>Include Units in Dimension Label</source>
-        <translation type="unfinished">Include Units in Dimension Label</translation>
+        <translation>Inclure les unités dans l'étiquette de cotation</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="396"/>
         <source>The units to be used for rebar edge length dimensions</source>
-        <translation type="unfinished">The units to be used for rebar edge length dimensions</translation>
+        <translation>Les unités à utiliser pour les cotations des longueurs de bords d&apos;armature</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="399"/>
         <source>Rebar Edge Dimension Units</source>
-        <translation type="unfinished">Rebar Edge Dimension Units</translation>
+        <translation>Unités de cotation des bords d'armature</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="416"/>
         <source>Rebar Edge Dimension Precision</source>
-        <translation type="unfinished">Rebar Edge Dimension Precision</translation>
+        <translation>Précision des cotations des bords d'armature</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="429"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The number of decimals that should be shown for rebar edge length as dimension label. Set it to -1 to use user preferred unit precision from FreeCAD unit preferences&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The number of decimals that should be shown for rebar edge length as dimension label. Set it to -1 to use user preferred unit precision from FreeCAD unit preferences&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le nombre de décimales à afficher pour la longueur de bord d&apos;armature dans l&apos;étiquette de cotation. Mettre à -1 pour utiliser la précision des unités préférée de FreeCAD&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="449"/>
         <source>Dimension Font Family</source>
-        <translation type="unfinished">Dimension Font Family</translation>
+        <translation>Famille de police des cotations</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="462"/>
         <source>The font-family of dimension text</source>
-        <translation type="unfinished">The font-family of dimension text</translation>
+        <translation>La famille de police du texte de cotation</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="485"/>
         <source>Dimension Font Size</source>
-        <translation type="unfinished">Dimension Font Size</translation>
+        <translation>Taille de police des cotations</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="498"/>
         <source>The font-size of dimension text</source>
-        <translation type="unfinished">The font-size of dimension text</translation>
+        <translation>La taille de police du texte de cotation</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="518"/>
         <source>Bent Angle Dimension Exclude List</source>
-        <translation type="unfinished">Bent Angle Dimension Exclude List</translation>
+        <translation>Liste des angles de courbure exclus des cotations</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="525"/>
         <source>The list of bent angles to not include their dimensions</source>
-        <translation type="unfinished">The list of bent angles to not include their dimensions</translation>
+        <translation>La liste des angles de courbure à exclure des cotations</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="528"/>
         <source>45, 90, 180</source>
-        <translation type="unfinished">45, 90, 180</translation>
+        <translation>45, 90, 180</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="545"/>
         <source>Helical Rebar Dimension Label Format</source>
-        <translation type="unfinished">Helical Rebar Dimension Label Format</translation>
+        <translation>Format de l'étiquette de cotation des armatures hélicoïdales</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="558"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The format of helical rebar dimension label.&lt;/p&gt;&lt;p&gt;%L -&amp;gt; Length of helical rebar&lt;/p&gt;&lt;p&gt;%R -&amp;gt; Helix radius of helical rebar&lt;/p&gt;&lt;p&gt;%P -&amp;gt; Helix pitch of helical rebar&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The format of helical rebar dimension label.&lt;/p&gt;&lt;p&gt;%L -&amp;gt; Length of helical rebar&lt;/p&gt;&lt;p&gt;%R -&amp;gt; Helix radius of helical rebar&lt;/p&gt;&lt;p&gt;%P -&amp;gt; Helix pitch of helical rebar&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le format de l&apos;étiquette de cotation des armatures hélicoïdales.&lt;/p&gt;&lt;p&gt;%L -&amp;gt; Longueur de l&apos;armature hélicoïdale&lt;/p&gt;&lt;p&gt;%R -&amp;gt; Rayon de l&apos;hélice&lt;/p&gt;&lt;p&gt;%P -&amp;gt; Pas de l&apos;hélice&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="561"/>
         <source>%L,r=%R,pitch=%P</source>
-        <translation type="unfinished">%L,r=%R,pitch=%P</translation>
+        <translation>%L,r=%R,pas=%P</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="599"/>
         <source>SVG Output File</source>
-        <translation type="unfinished">SVG Output File</translation>
+        <translation>Fichier SVG de sortie</translation>
     </message>
     <message>
         <location filename="../RebarShapeCutList/MainRebarShapeCutList.ui" line="608"/>
         <source>required</source>
-        <translation type="unfinished">required</translation>
+        <translation>requis</translation>
     </message>
 </context>
 <context>
@@ -1908,12 +1908,12 @@
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="14"/>
         <source>BillOfMaterial</source>
-        <translation type="unfinished">BillOfMaterial</translation>
+        <translation>Nomenclature des armatures</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="31"/>
         <source>BOM Preferences</source>
-        <translation type="unfinished">BOM Preferences</translation>
+        <translation>Préférences de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="48"/>
@@ -1923,54 +1923,54 @@
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="71"/>
         <source>Reinforcement Group By</source>
-        <translation type="unfinished">Reinforcement Group By</translation>
+        <translation>Regrouper les armatures par</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="85"/>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="255"/>
         <source>Mark</source>
-        <translation type="unfinished">Mark</translation>
+        <translation>Repère</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="90"/>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="206"/>
         <source>Host</source>
-        <translation type="unfinished">Host</translation>
+        <translation>Hôte</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="114"/>
         <source>RebarLengthType</source>
-        <translation type="unfinished">RebarLengthType</translation>
+        <translation>Type de longueur d'armature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="128"/>
         <source>RealLength</source>
-        <translation type="unfinished">RealLength</translation>
+        <translation>Longueur réelle</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="133"/>
         <source>LengthWithSharpEdges</source>
-        <translation type="unfinished">LengthWithSharpEdges</translation>
+        <translation>Longueur avec bords vifs</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="143"/>
         <source>Column Headers</source>
-        <translation type="unfinished">Column Headers</translation>
+        <translation>En-têtes de colonnes</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="163"/>
         <source>Column Data</source>
-        <translation type="unfinished">Column Data</translation>
+        <translation>Données de colonne</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="179"/>
         <source>Column Header</source>
-        <translation type="unfinished">Column Header</translation>
+        <translation>En-tête de colonne</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="189"/>
         <source>Sequence</source>
-        <translation type="unfinished">Sequence</translation>
+        <translation>Séquence</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="229"/>
@@ -1980,12 +1980,12 @@
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="425"/>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="474"/>
         <source>Set sequence to 0 to hide column</source>
-        <translation type="unfinished">Set sequence to 0 to hide column</translation>
+        <translation>Mettre la séquence à 0 pour masquer la colonne</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="304"/>
         <source>RebarsCount</source>
-        <translation type="unfinished">RebarsCount</translation>
+        <translation>Nombre d'armatures</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="353"/>
@@ -2001,42 +2001,42 @@
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="402"/>
         <source>RebarLength</source>
-        <translation type="unfinished">RebarLength</translation>
+        <translation>Longueur d'armature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="451"/>
         <source>RebarsTotalLength</source>
-        <translation type="unfinished">RebarsTotalLength</translation>
+        <translation>Longueur totale des armatures</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="495"/>
         <source>Column Units</source>
-        <translation type="unfinished">Column Units</translation>
+        <translation>Unités de colonne</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="509"/>
         <source>Diameter unit</source>
-        <translation type="unfinished">Diameter unit</translation>
+        <translation>Unité de diamètre</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="536"/>
         <source>RebarLength unit</source>
-        <translation type="unfinished">RebarLength unit</translation>
+        <translation>Unité de longueur d'armature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="563"/>
         <source>RebarsTotalLength unit</source>
-        <translation type="unfinished">RebarsTotalLength unit</translation>
+        <translation>Unité de longueur totale des armatures</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="585"/>
         <source>Rebar Diameter Weight Map</source>
-        <translation type="unfinished">Rebar Diameter Weight Map</translation>
+        <translation>Tableau poids/diamètre des armatures</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="620"/>
         <source>6</source>
-        <translation type="unfinished">6</translation>
+        <translation>6</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="627"/>
@@ -2056,137 +2056,137 @@
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1173"/>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1212"/>
         <source> kg/mm</source>
-        <translation type="unfinished"> kg/mm</translation>
+        <translation> kg/mm</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="659"/>
         <source>8</source>
-        <translation type="unfinished">8</translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="698"/>
         <source>10</source>
-        <translation type="unfinished">10</translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="737"/>
         <source>12</source>
-        <translation type="unfinished">12</translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="776"/>
         <source>14</source>
-        <translation type="unfinished">14</translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="815"/>
         <source>16</source>
-        <translation type="unfinished">16</translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="854"/>
         <source>18</source>
-        <translation type="unfinished">18</translation>
+        <translation>18</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="893"/>
         <source>20</source>
-        <translation type="unfinished">20</translation>
+        <translation>20</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="932"/>
         <source>22</source>
-        <translation type="unfinished">22</translation>
+        <translation>22</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="971"/>
         <source>25</source>
-        <translation type="unfinished">25</translation>
+        <translation>25</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1010"/>
         <source>28</source>
-        <translation type="unfinished">28</translation>
+        <translation>28</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1049"/>
         <source>32</source>
-        <translation type="unfinished">32</translation>
+        <translation>32</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1088"/>
         <source>36</source>
-        <translation type="unfinished">36</translation>
+        <translation>36</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1127"/>
         <source>40</source>
-        <translation type="unfinished">40</translation>
+        <translation>40</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1166"/>
         <source>45</source>
-        <translation type="unfinished">45</translation>
+        <translation>45</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1205"/>
         <source>50</source>
-        <translation type="unfinished">50</translation>
+        <translation>50</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1238"/>
         <source>SVG</source>
-        <translation type="unfinished">SVG</translation>
+        <translation>SVG</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1244"/>
         <source>Font Family</source>
-        <translation type="unfinished">Font Family</translation>
+        <translation>Famille de police</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1270"/>
         <source>Font Size</source>
-        <translation type="unfinished">Font Size</translation>
+        <translation>Taille de police</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1287"/>
         <source>Column Width</source>
-        <translation type="unfinished">Column Width</translation>
+        <translation>Largeur du poteau</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1307"/>
         <source>Row Height</source>
-        <translation type="unfinished">Row Height</translation>
+        <translation>Hauteur de ligne</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1327"/>
         <source>BOM Left Offset</source>
-        <translation type="unfinished">BOM Left Offset</translation>
+        <translation>Décalage gauche de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1347"/>
         <source>BOM Top Offset</source>
-        <translation type="unfinished">BOM Top Offset</translation>
+        <translation>Décalage supérieur de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1367"/>
         <source>BOM Min Right Offset</source>
-        <translation type="unfinished">BOM Min Right Offset</translation>
+        <translation>Décalage droit minimal de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1387"/>
         <source>BOM Min Bottom Offset</source>
-        <translation type="unfinished">BOM Min Bottom Offset</translation>
+        <translation>Décalage inférieur minimal de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1407"/>
         <source>BOM Max Width</source>
-        <translation type="unfinished">BOM Max Width</translation>
+        <translation>Largeur maximale de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1427"/>
         <source>BOM Max Height</source>
-        <translation type="unfinished">BOM Max Height</translation>
+        <translation>Hauteur maximale de la nomenclature</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1447"/>
@@ -2196,7 +2196,7 @@
     <message>
         <location filename="../BillOfMaterial/BOMPreferences.ui" line="1464"/>
         <source>Font Filename</source>
-        <translation type="unfinished">Font Filename</translation>
+        <translation>Nom du fichier de police</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="14"/>
@@ -2230,7 +2230,7 @@
         <location filename="../ColumnReinforcement/MainRebars.ui" line="141"/>
         <location filename="../FootingReinforcement/MainRebars.ui" line="129"/>
         <source>Top Offset</source>
-        <translation type="unfinished">Top Offset</translation>
+        <translation>Décalage supérieur</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="72"/>
@@ -2238,12 +2238,12 @@
         <location filename="../ColumnReinforcement/MainRebars.ui" line="47"/>
         <location filename="../FootingReinforcement/MainRebars.ui" line="103"/>
         <source>40 mm</source>
-        <translation type="unfinished">40 mm</translation>
+        <translation>40 mm</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="98"/>
         <source>Helical Rebars</source>
-        <translation type="unfinished">Helical Rebars</translation>
+        <translation>Armatures hélicoïdales</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="105"/>
@@ -2253,7 +2253,7 @@
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="138"/>
         <source>Main Rebars</source>
-        <translation type="unfinished">Main Rebars</translation>
+        <translation>Armatures principales</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="145"/>
@@ -2263,14 +2263,14 @@
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="158"/>
         <source>16 mm</source>
-        <translation type="unfinished">16 mm</translation>
+        <translation>16 mm</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="171"/>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="239"/>
         <location filename="../ColumnReinforcement/MainRebars.ui" line="37"/>
         <source>Bottom Offset</source>
-        <translation type="unfinished">Bottom Offset</translation>
+        <translation>Décalage inférieur</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="178"/>
@@ -2281,7 +2281,7 @@
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="192"/>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="230"/>
         <source>Angle</source>
-        <translation type="unfinished">Angle</translation>
+        <translation>Angle</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/CircularColumn.ui" line="220"/>
@@ -2291,7 +2291,7 @@
         <location filename="../FootingReinforcement/Ties.ui" line="143"/>
         <location filename="../FootingReinforcement/Ties.ui" line="162"/>
         <source>Number</source>
-        <translation type="unfinished">Number</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainRebars.ui" line="20"/>
@@ -2315,25 +2315,25 @@
         <location filename="../ColumnReinforcement/MainRebars.ui" line="88"/>
         <location filename="../FootingReinforcement/MainRebars.ui" line="49"/>
         <source>Hook Orientation</source>
-        <translation type="unfinished">Hook Orientation</translation>
+        <translation>Orientation du crochet</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainRebars.ui" line="101"/>
         <location filename="../FootingReinforcement/MainRebars.ui" line="142"/>
         <source>Rebar Type</source>
-        <translation type="unfinished">Rebar Type</translation>
+        <translation>Type d'armature</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainRebars.ui" line="134"/>
         <location filename="../FootingReinforcement/MainRebars.ui" line="86"/>
         <source>Main Rebars:</source>
-        <translation type="unfinished">Main Rebars:</translation>
+        <translation>Armatures principales :</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainRebars.ui" line="148"/>
         <location filename="../FootingReinforcement/MainRebars.ui" line="93"/>
         <source>Hook Extend Along</source>
-        <translation type="unfinished">Hook Extend Along</translation>
+        <translation>Extension du crochet le long</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainRebars.ui" line="165"/>
@@ -2345,13 +2345,13 @@
         <location filename="../ColumnReinforcement/MainRebars.ui" line="179"/>
         <location filename="../FootingReinforcement/MainRebars.ui" line="63"/>
         <source>Hook Extension</source>
-        <translation type="unfinished">Hook Extension</translation>
+        <translation>Extension du crochet</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="53"/>
         <location filename="../FootingReinforcement/Ties.ui" line="53"/>
         <source>Ties</source>
-        <translation type="unfinished">Ties</translation>
+        <translation>Étriers</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="60"/>
@@ -2390,7 +2390,7 @@
         <location filename="../ColumnReinforcement/Ties.ui" line="178"/>
         <location filename="../FootingReinforcement/Ties.ui" line="121"/>
         <source>Extension Factor</source>
-        <translation type="unfinished">Extension Factor</translation>
+        <translation>Facteur d'extension</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="210"/>
@@ -2413,7 +2413,7 @@
     <message>
         <location filename="../ColumnReinforcement/Ties.ui" line="292"/>
         <source>Set all covers equal</source>
-        <translation type="unfinished">Set all covers equal</translation>
+        <translation>Égaliser tous les enrobages</translation>
     </message>
 </context>
 <context>
@@ -2535,12 +2535,12 @@
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="63"/>
         <source>Rectangular Column</source>
-        <translation type="unfinished">Rectangular Column</translation>
+        <translation>Poteau rectangulaire</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="92"/>
         <source>Circular Column</source>
-        <translation type="unfinished">Circular Column</translation>
+        <translation>Poteau circulaire</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="125"/>
@@ -2550,27 +2550,27 @@
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="132"/>
         <source>Next</source>
-        <translation type="unfinished">Next</translation>
+        <translation>Suivant</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="171"/>
         <source>Ties</source>
-        <translation type="unfinished">Ties</translation>
+        <translation>Étriers</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="176"/>
         <source>Main Rebars</source>
-        <translation type="unfinished">Main Rebars</translation>
+        <translation>Armatures principales</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="181"/>
         <source>XDir Secondary Rebars</source>
-        <translation type="unfinished">XDir Secondary Rebars</translation>
+        <translation>Armatures secondaires direction X</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="186"/>
         <source>YDir Secondary Rebars</source>
-        <translation type="unfinished">YDir Secondary Rebars</translation>
+        <translation>Armatures secondaires direction Y</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="250"/>
@@ -2580,22 +2580,22 @@
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="285"/>
         <source>Adjust by dragging items</source>
-        <translation type="unfinished">Adjust by dragging items</translation>
+        <translation>Ajuster en faisant glisser les éléments</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="288"/>
         <source>Ties Sequence</source>
-        <translation type="unfinished">Ties Sequence</translation>
+        <translation>Séquence des étriers</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="314"/>
         <source>Tie1</source>
-        <translation type="unfinished">Tie1</translation>
+        <translation>Étrier 1</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.ui" line="319"/>
         <source>Tie2</source>
-        <translation type="unfinished">Tie2</translation>
+        <translation>Étrier 2</translation>
     </message>
 </context>
 <context>
@@ -2613,47 +2613,47 @@
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="41"/>
         <source>Next</source>
-        <translation type="unfinished">Next</translation>
+        <translation>Suivant</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="96"/>
         <source>Parallel Rebars</source>
-        <translation type="unfinished">Parallel Rebars</translation>
+        <translation>Armatures parallèles</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="101"/>
         <source>Cross Rebars</source>
-        <translation type="unfinished">Cross Rebars</translation>
+        <translation>Armatures croisées</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="106"/>
         <source>Columns</source>
-        <translation type="unfinished">Columns</translation>
+        <translation>Poteaux</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="111"/>
         <source>Ties</source>
-        <translation type="unfinished">Ties</translation>
+        <translation>Étriers</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="116"/>
         <source>Main Rebars</source>
-        <translation type="unfinished">Main Rebars</translation>
+        <translation>Armatures principales</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="121"/>
         <source>XDir Secondary Rebars</source>
-        <translation type="unfinished">XDir Secondary Rebars</translation>
+        <translation>Armatures secondaires direction X</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="126"/>
         <source>YDir Secondary Rebars</source>
-        <translation type="unfinished">YDir Secondary Rebars</translation>
+        <translation>Armatures secondaires direction Y</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/MainFootingReinforcement.ui" line="210"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#fc0107;&quot;&gt;This feature is currently in development mode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#fc0107;&quot;&gt;This feature is currently in development mode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#fc0107;&quot;&gt;This feature is currently in development mode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -2666,12 +2666,12 @@
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.ui" line="78"/>
         <source>Parallel Rebars</source>
-        <translation type="unfinished">Parallel Rebars</translation>
+        <translation>Armatures parallèles</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.ui" line="83"/>
         <source>Cross Rebars</source>
-        <translation type="unfinished">Cross Rebars</translation>
+        <translation>Armatures croisées</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.ui" line="163"/>
@@ -2681,12 +2681,12 @@
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.ui" line="170"/>
         <source>Next</source>
-        <translation type="unfinished">Next</translation>
+        <translation>Suivant</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/MainSlabReinforcement.ui" line="188"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#fc0107;&quot;&gt;This feature is currently in development mode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#fc0107;&quot;&gt;This feature is currently in development mode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#fc0107;&quot;&gt;This feature is currently in development mode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -2701,13 +2701,13 @@
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="125"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="125"/>
         <source>Mesh Cover Along</source>
-        <translation type="unfinished">Mesh Cover Along</translation>
+        <translation>Couverture de maillage le long</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="141"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="141"/>
         <source>Rebar Type</source>
-        <translation type="unfinished">Rebar Type</translation>
+        <translation>Type d'armature</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="158"/>
@@ -2759,13 +2759,13 @@
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="243"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="243"/>
         <source>Rear Cover</source>
-        <translation type="unfinished">Rear Cover</translation>
+        <translation>Enrobage arrière</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="272"/>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="272"/>
         <source>Hook Orientation</source>
-        <translation type="unfinished">Hook Orientation</translation>
+        <translation>Orientation du crochet</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/ParallelRebars.ui" line="286"/>
@@ -2828,12 +2828,12 @@
     <message>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="409"/>
         <source>Add Distribution Rebars</source>
-        <translation type="unfinished">Add Distribution Rebars</translation>
+        <translation>Ajouter des armatures de distribution</translation>
     </message>
     <message>
         <location filename="../SlabReinforcement/ParallelRebars.ui" line="425"/>
         <source>Fill values for Distribution Rebars</source>
-        <translation type="unfinished">Fill values for Distribution Rebars</translation>
+        <translation>Remplir les valeurs des armatures de distribution</translation>
     </message>
 </context>
 <context>
@@ -2841,12 +2841,12 @@
     <message>
         <location filename="../BillOfMaterial/EditSVGConfiguration.py" line="73"/>
         <source>BOM - Edit SVG Configurations</source>
-        <translation type="unfinished">BOM - Edit SVG Configurations</translation>
+        <translation>Nomenclature - Modifier les configurations SVG</translation>
     </message>
     <message>
         <location filename="../BillOfMaterial/MainBillOfMaterial.py" line="93"/>
         <source>Rebars Bill Of Material</source>
-        <translation type="unfinished">Rebars Bill Of Material</translation>
+        <translation>Nomenclature des armatures</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/MainColumnReinforcement.py" line="84"/>
@@ -2856,7 +2856,7 @@
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.py" line="48"/>
         <source>Rebar Number Diameter</source>
-        <translation type="unfinished">Rebar Number Diameter</translation>
+        <translation>Nombre et diamètre des armatures</translation>
     </message>
     <message>
         <location filename="../BentShapeRebar.py" line="187"/>
@@ -2970,37 +2970,37 @@
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="44"/>
         <source>Number of rebars (n)</source>
-        <translation type="unfinished">Number of rebars (n)</translation>
+        <translation>Nombre d&apos;armatures (n)</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="57"/>
         <source>Diameter (d)</source>
-        <translation type="unfinished">Diameter (d)</translation>
+        <translation>Diamètre (d)</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="68"/>
         <source>Number#Diameter</source>
-        <translation type="unfinished">Number#Diameter</translation>
+        <translation>Nombre#Diamètre</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="81"/>
         <source>2#20mm+1#16mm+2#20mm</source>
-        <translation type="unfinished">2#20mm+1#16mm+2#20mm</translation>
+        <translation>2#20mm+1#16mm+2#20mm</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="101"/>
         <source>Set 2</source>
-        <translation type="unfinished">Set 2</translation>
+        <translation>Ensemble 2</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="127"/>
         <source>16 mm</source>
-        <translation type="unfinished">16 mm</translation>
+        <translation>16 mm</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="150"/>
         <source>Set 3</source>
-        <translation type="unfinished">Set 3</translation>
+        <translation>Ensemble 3</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="176"/>
@@ -3011,12 +3011,12 @@
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="203"/>
         <source>Rebars Number Diameter</source>
-        <translation type="unfinished">Rebars Number Diameter</translation>
+        <translation>Nombre et diamètre des armatures</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/RebarNumberDiameter.ui" line="231"/>
         <source>Set 1</source>
-        <translation type="unfinished">Set 1</translation>
+        <translation>Ensemble 1</translation>
     </message>
 </context>
 <context>
@@ -3050,133 +3050,133 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="25"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Dimension Label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Dimension Label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Les données relatives à l&apos;étiquette de cotation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="28"/>
         <source>Dimension Label</source>
-        <translation type="unfinished">Dimension Label</translation>
+        <translation>Étiquette de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="70"/>
         <source>Dimension Label Format</source>
-        <translation type="unfinished">Dimension Label Format</translation>
+        <translation>Format de l'étiquette de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="86"/>
         <source>Dimension Font Family</source>
-        <translation type="unfinished">Dimension Font Family</translation>
+        <translation>Famille de police des cotations</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="93"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The font family of dimension label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The font family of dimension label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;La famille de police de l&apos;étiquette de cotation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="112"/>
         <source>Dimension Font Size</source>
-        <translation type="unfinished">Dimension Font Size</translation>
+        <translation>Taille de police des cotations</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="119"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The font size of the dimension label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The font size of the dimension label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;La taille de police de l&apos;étiquette de cotation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="135"/>
         <source>Dimension Text Color</source>
-        <translation type="unfinished">Dimension Text Color</translation>
+        <translation>Couleur du texte de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="142"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The color of the dimension label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The color of the dimension label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;La couleur de l&apos;étiquette de cotation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="161"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Dimension Line&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Dimension Line&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Les données relatives à la ligne de cotation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="164"/>
         <source>Dimension Line</source>
-        <translation type="unfinished">Dimension Line</translation>
+        <translation>Ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="206"/>
         <source>Dimension Stroke Width</source>
-        <translation type="unfinished">Dimension Stroke Width</translation>
+        <translation>Épaisseur de trait de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="213"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The stroke-width of dimension line&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The stroke-width of dimension line&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;L&apos;épaisseur de trait de la ligne de cotation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="216"/>
         <source>0.35 mm</source>
-        <translation type="unfinished">0.35 mm</translation>
+        <translation>0,35 mm</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="235"/>
         <source>Dimension Line Style</source>
-        <translation type="unfinished">Dimension Line Style</translation>
+        <translation>Style de ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="242"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The stroke style of dimension line&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The stroke style of dimension line&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le style de trait de la ligne de cotation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="252"/>
         <source>Continuous</source>
-        <translation type="unfinished">Continuous</translation>
+        <translation>Continu</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="257"/>
         <source>Dash</source>
-        <translation type="unfinished">Dash</translation>
+        <translation>Tiret</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="262"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="328"/>
         <source>Dot</source>
-        <translation type="unfinished">Dot</translation>
+        <translation>Point</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="267"/>
         <source>DashDot</source>
-        <translation type="unfinished">DashDot</translation>
+        <translation>Tiret-point</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="272"/>
         <source>DashDotDot</source>
-        <translation type="unfinished">DashDotDot</translation>
+        <translation>Tiret-point-point</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="286"/>
         <source>Dimension Line Color</source>
-        <translation type="unfinished">Dimension Line Color</translation>
+        <translation>Couleur de la ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="293"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The color of the dimension line&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The color of the dimension line&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;La couleur de la ligne de cotation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="306"/>
         <source>Dimension Line Mid Point Symbol</source>
-        <translation type="unfinished">Dimension Line Mid Point Symbol</translation>
+        <translation>Symbole du point médian de ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="313"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line midpoints symbol&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line midpoints symbol&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le symbole des points médians de la ligne de cotation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="323"/>
         <source>Thick</source>
-        <translation type="unfinished">Thick</translation>
+        <translation>Épais</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions1.ui" line="333"/>
@@ -3194,23 +3194,23 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="25"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Single Rebar Dimension&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Single Rebar Dimension&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Les données relatives à la cotation d&apos;armature unique&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="28"/>
         <source>Single Rebar Dimension</source>
-        <translation type="unfinished">Single Rebar Dimension</translation>
+        <translation>Cotation d'armature unique</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="76"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="294"/>
         <source>Dimension Line Start Symbol</source>
-        <translation type="unfinished">Dimension Line Start Symbol</translation>
+        <translation>Symbole de début de ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="83"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line start symbol, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line start symbol, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le symbole de début de ligne de cotation, pour une armature unique visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="93"/>
@@ -3218,7 +3218,7 @@
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="311"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="363"/>
         <source>FilledArrow</source>
-        <translation type="unfinished">FilledArrow</translation>
+        <translation>Flèche pleine</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="98"/>
@@ -3226,7 +3226,7 @@
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="316"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="368"/>
         <source>Thick</source>
-        <translation type="unfinished">Thick</translation>
+        <translation>Épais</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="103"/>
@@ -3234,7 +3234,7 @@
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="321"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="373"/>
         <source>Dot</source>
-        <translation type="unfinished">Dot</translation>
+        <translation>Point</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="108"/>
@@ -3248,82 +3248,82 @@
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="128"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="346"/>
         <source>Dimension Line End Symbol</source>
-        <translation type="unfinished">Dimension Line End Symbol</translation>
+        <translation>Symbole de fin de ligne de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="135"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line end symbol, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line end symbol, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le symbole de fin de ligne de cotation, pour une armature unique visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="180"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="398"/>
         <source>Text Position Type</source>
-        <translation type="unfinished">Text Position Type</translation>
+        <translation>Type de position du texte</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="187"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension label position type, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension label position type, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le type de position de l&apos;étiquette de cotation, pour une armature unique visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="197"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="415"/>
         <source>StartOfLine</source>
-        <translation type="unfinished">StartOfLine</translation>
+        <translation>Début de ligne</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="202"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="420"/>
         <source>MidOfLine</source>
-        <translation type="unfinished">MidOfLine</translation>
+        <translation>Milieu de ligne</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="207"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="425"/>
         <source>EndOfLine</source>
-        <translation type="unfinished">EndOfLine</translation>
+        <translation>Fin de ligne</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="221"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then dimension lines are to be outside of reinforcement drawing, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then dimension lines are to be outside of reinforcement drawing, in case of single rebar is visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si coché, les lignes de cotation sont à l&apos;extérieur du dessin d&apos;armature, pour une armature unique visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="224"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="442"/>
         <source>Outer Dimension</source>
-        <translation type="unfinished">Outer Dimension</translation>
+        <translation>Cotation extérieure</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="243"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Multi Rebar Dimension&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Multi Rebar Dimension&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Les données relatives à la cotation multi-armatures&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="246"/>
         <source>Multi Rebar Dimension</source>
-        <translation type="unfinished">Multi Rebar Dimension</translation>
+        <translation>Cotation multi-armatures</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="301"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line start symbol, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line start symbol, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le symbole de début de ligne de cotation, pour plusieurs armatures visibles&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="353"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line end symbol, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension line end symbol, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le symbole de fin de ligne de cotation, pour plusieurs armatures visibles&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="405"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension label position type, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The dimension label position type, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le type de position de l&apos;étiquette de cotation, pour plusieurs armatures visibles&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions2.ui" line="439"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then dimension lines are to be outside of reinforcement drawing, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then dimension lines are to be outside of reinforcement drawing, in case of multiple rebars are visible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si coché, les lignes de cotation sont à l&apos;extérieur du dessin d&apos;armature, pour plusieurs armatures visibles&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -3337,22 +3337,22 @@
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="25"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="240"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Dimension Offset&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data related to Dimension Offset&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Les données relatives au décalage de cotation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="28"/>
         <source>Dimension Offset</source>
-        <translation type="unfinished">Dimension Offset</translation>
+        <translation>Décalage de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="76"/>
         <source>Left Offset</source>
-        <translation type="unfinished">Left Offset</translation>
+        <translation>Décalage gauche</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="89"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The left offset of the dimension from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The left offset of the dimension from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le décalage gauche de la cotation par rapport au dessin&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="92"/>
@@ -3364,82 +3364,82 @@
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="389"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="430"/>
         <source>0.35 mm</source>
-        <translation type="unfinished">0.35 mm</translation>
+        <translation>0,35 mm</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="117"/>
         <source>Right Offset</source>
-        <translation type="unfinished">Right Offset</translation>
+        <translation>Décalage droit</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="130"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The right offset of the dimension from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The right offset of the dimension from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le décalage droit de la cotation par rapport au dessin&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="158"/>
         <source>Top Offset</source>
-        <translation type="unfinished">Top Offset</translation>
+        <translation>Décalage supérieur</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="171"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The top offset of the dimension from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The top offset of the dimension from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le décalage supérieur de la cotation par rapport au dessin&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="199"/>
         <source>Bottom Offset</source>
-        <translation type="unfinished">Bottom Offset</translation>
+        <translation>Décalage inférieur</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="212"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The bottom offset of the dimension from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The bottom offset of the dimension from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le décalage inférieur de la cotation par rapport au dessin&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="243"/>
         <source>Dimension Offset Increment</source>
-        <translation type="unfinished">Dimension Offset Increment</translation>
+        <translation>Incrément de décalage de cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="291"/>
         <source>Left Offset Increment</source>
-        <translation type="unfinished">Left Offset Increment</translation>
+        <translation>Incrément de décalage gauche</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="304"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The increment in the left offset to move each new dimension label away from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The increment in the left offset to move each new dimension label away from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;L&apos;incrément du décalage gauche pour déplacer chaque nouvelle cotation vers la gauche&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="332"/>
         <source>Right Offset Increment</source>
-        <translation type="unfinished">Right Offset Increment</translation>
+        <translation>Incrément de décalage droit</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="345"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The increment in the right offset to move each new dimension label away from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The increment in the right offset to move each new dimension label away from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;L&apos;incrément du décalage droit pour déplacer chaque nouvelle cotation vers la droite&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="373"/>
         <source>Top Offset Increment</source>
-        <translation type="unfinished">Top Offset Increment</translation>
+        <translation>Incrément de décalage supérieur</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="386"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The increment in the top offset to move each new dimension label away from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The increment in the top offset to move each new dimension label away from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;L&apos;incrément du décalage supérieur pour déplacer chaque nouvelle cotation vers le haut&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="414"/>
         <source>Bottom Offset Increment</source>
-        <translation type="unfinished">Bottom Offset Increment</translation>
+        <translation>Incrément de décalage inférieur</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Dimensions3.ui" line="427"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The increment in the bottom offset to move each new dimension label away from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The increment in the bottom offset to move each new dimension label away from drawing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;L&apos;incrément du décalage inférieur pour déplacer chaque nouvelle cotation vers le bas&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -3447,137 +3447,137 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="14"/>
         <source>ReinforcementDrawingAndDimensioning_Drawing</source>
-        <translation type="unfinished">ReinforcementDrawingAndDimensioning_Drawing</translation>
+        <translation>DessinEtCotationDuFerraillage_Dessin</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="20"/>
         <source>Drawing</source>
-        <translation type="unfinished">Drawing</translation>
+        <translation>Dessin</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="56"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum width of drawing on &lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;template&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum width of drawing on &lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;template&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;La largeur maximale du dessin sur le modèle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="59"/>
         <source>297 mm</source>
-        <translation type="unfinished">297 mm</translation>
+        <translation>297 mm</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="72"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum height of drawing on &lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;template&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum height of drawing on &lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;template&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;La hauteur maximale du dessin sur le modèle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="75"/>
         <source>210 mm</source>
-        <translation type="unfinished">210 mm</translation>
+        <translation>210 mm</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="88"/>
         <source>Drawing Min Bottom Offset</source>
-        <translation type="unfinished">Drawing Min Bottom Offset</translation>
+        <translation>Décalage inférieur minimal du dessin</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="110"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then Right view is generated&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then Right view is generated&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si coché, la vue de droite est générée&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="113"/>
         <source>Right</source>
-        <translation type="unfinished">Right</translation>
+        <translation>Droite</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="126"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then Top view is generated&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then Top view is generated&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si coché, la vue de dessus est générée&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="129"/>
         <source>Top</source>
-        <translation type="unfinished">Top</translation>
+        <translation>Supérieur</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="142"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then Rear view is generated&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then Rear view is generated&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si coché, la vue arrière est générée&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="145"/>
         <source>Rear</source>
-        <translation type="unfinished">Rear</translation>
+        <translation>Arrière</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="158"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then Front view is generated&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then Front view is generated&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si coché, la vue de face est générée&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="161"/>
         <source>Front</source>
-        <translation type="unfinished">Front</translation>
+        <translation>Avant</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="177"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then Bottom view is generated&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then Bottom view is generated&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si coché, la vue de dessous est générée&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="180"/>
         <source>Bottom</source>
-        <translation type="unfinished">Bottom</translation>
+        <translation>Inférieur</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="193"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then Left view is generated&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If Checked, then Left view is generated&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si coché, la vue de gauche est générée&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="196"/>
         <source>Left</source>
-        <translation type="unfinished">Left</translation>
+        <translation>Gauche</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="206"/>
         <source>Drawing Top Offset</source>
-        <translation type="unfinished">Drawing Top Offset</translation>
+        <translation>Décalage supérieur du dessin</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="213"/>
         <source>Drawing Min Right Offset</source>
-        <translation type="unfinished">Drawing Min Right Offset</translation>
+        <translation>Décalage droit minimal du dessin</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="220"/>
         <source>Drawing Left Offset</source>
-        <translation type="unfinished">Drawing Left Offset</translation>
+        <translation>Décalage gauche du dessin</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="227"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dimensioning is performed&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dimensioning is performed&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;La cotation est effectuée&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="230"/>
         <source>yes</source>
-        <translation type="unfinished">yes</translation>
+        <translation>oui</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="243"/>
         <source>Drawing Max Height</source>
-        <translation type="unfinished">Drawing Max Height</translation>
+        <translation>Hauteur maximale du dessin</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="253"/>
         <source>Views</source>
-        <translation type="unfinished">Views</translation>
+        <translation>Vues</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="263"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum bottom offset of the drawing view on &lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;template&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum bottom offset of the drawing view on &lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;template&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le décalage inférieur minimal de la vue du dessin sur le modèle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="266"/>
@@ -3585,62 +3585,62 @@
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="342"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="368"/>
         <source>0.35 mm</source>
-        <translation type="unfinished">0.35 mm</translation>
+        <translation>0,35 mm</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="279"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The top offset of the drawing view on t&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;emplate&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The top offset of the drawing view on t&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;emplate&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le décalage supérieur de la vue du dessin sur le modèle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="295"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dimensioning is not performed&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dimensioning is not performed&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;La cotation n&apos;est pas effectuée&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="298"/>
         <source>no</source>
-        <translation type="unfinished">no</translation>
+        <translation>non</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="308"/>
         <source>Template File</source>
-        <translation type="unfinished">Template File</translation>
+        <translation>Fichier de modèle</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="317"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The template file to be used for the reinforcement drawing page&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The template file to be used for the reinforcement drawing page&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le fichier de modèle à utiliser pour le dessin d&apos;armature&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="320"/>
         <source>required</source>
-        <translation type="unfinished">required</translation>
+        <translation>requis</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="330"/>
         <source>Choose</source>
-        <translation type="unfinished">Choose</translation>
+        <translation>Choisir</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="339"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The left offset of the drawing view on t&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;emplate&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The left offset of the drawing view on t&lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;emplate&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le décalage gauche de la vue du dessin sur le modèle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="358"/>
         <source>Dimensioning</source>
-        <translation type="unfinished">Dimensioning</translation>
+        <translation>Cotation</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="365"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum right offset of the drawing view on &lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;template&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum right offset of the drawing view on &lt;span style=&quot; font-family:&apos;monospace&apos;;&quot;&gt;template&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le décalage droit minimal de la vue du dessin sur le modèle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Drawing.ui" line="381"/>
         <source>Drawing Max Width</source>
-        <translation type="unfinished">Drawing Max Width</translation>
+        <translation>Largeur maximale du dessin</translation>
     </message>
 </context>
 <context>
@@ -3658,32 +3658,32 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Main.ui" line="35"/>
         <source>Next</source>
-        <translation type="unfinished">Next</translation>
+        <translation>Suivant</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Main.ui" line="81"/>
         <source>Shapes - Rebars &amp; Structure</source>
-        <translation type="unfinished">Shapes - Rebars &amp; Structure</translation>
+        <translation>Formes - Armatures et structure</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Main.ui" line="86"/>
         <source>Drawing - Views &amp; Options</source>
-        <translation type="unfinished">Drawing - Views &amp; Options</translation>
+        <translation>Dessin - Vues et options</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Main.ui" line="91"/>
         <source>Dimensions - Labels &amp; Lines</source>
-        <translation type="unfinished">Dimensions - Labels &amp; Lines</translation>
+        <translation>Cotations - Étiquettes et lignes</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Main.ui" line="96"/>
         <source>Dimensions - Single &amp; Multi Rebars</source>
-        <translation type="unfinished">Dimensions - Single &amp; Multi Rebars</translation>
+        <translation>Cotations - Armature unique et multiple</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Main.ui" line="101"/>
         <source>Dimensions - Offsets &amp; Increments</source>
-        <translation type="unfinished">Dimensions - Offsets &amp; Increments</translation>
+        <translation>Cotations - Décalages et incréments</translation>
     </message>
 </context>
 <context>
@@ -3696,50 +3696,50 @@
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="25"/>
         <source>The data related to Rebar Shape</source>
-        <translation type="unfinished">The data related to Rebar Shape</translation>
+        <translation>Les données relatives à la forme d&apos;armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="28"/>
         <source>Rebar Shape</source>
-        <translation type="unfinished">Rebar Shape</translation>
+        <translation>Forme d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="76"/>
         <source>Rebars Stroke Width</source>
-        <translation type="unfinished">Rebars Stroke Width</translation>
+        <translation>Épaisseur de trait des armatures</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="89"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The stroke-width of rebars&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The stroke-width of rebars&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;L&apos;épaisseur de trait des armatures&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="92"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="259"/>
         <source>0.35 mm</source>
-        <translation type="unfinished">0.35 mm</translation>
+        <translation>0,35 mm</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="117"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="284"/>
         <source>The color style of rebars</source>
-        <translation type="unfinished">The color style of rebars</translation>
+        <translation>Le style de couleur des armatures</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="120"/>
         <source>Rebars Color Style</source>
-        <translation type="unfinished">Rebars Color Style</translation>
+        <translation>Style de couleur des armatures</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="129"/>
         <source>Select color of rebar shape</source>
-        <translation type="unfinished">Select color of rebar shape</translation>
+        <translation>Sélectionner la couleur de la forme d'armature</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="132"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="299"/>
         <source>shape color</source>
-        <translation type="unfinished">shape color</translation>
+        <translation>couleur de forme</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="153"/>
@@ -3747,48 +3747,48 @@
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="330"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="346"/>
         <source>Custom color</source>
-        <translation type="unfinished">Custom color</translation>
+        <translation>Couleur personnalisée</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="156"/>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="333"/>
         <source>custom color</source>
-        <translation type="unfinished">custom color</translation>
+        <translation>couleur personnalisée</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="192"/>
         <source>The data related to Structure Shape</source>
-        <translation type="unfinished">The data related to Structure Shape</translation>
+        <translation>Les données relatives à la forme de la structure</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="195"/>
         <source>Structure Shape</source>
-        <translation type="unfinished">Structure Shape</translation>
+        <translation>Forme de la structure</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="243"/>
         <source>Structure Stroke Width</source>
-        <translation type="unfinished">Structure Stroke Width</translation>
+        <translation>Épaisseur de trait de la structure</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="256"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The stroke-width of structure&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The stroke-width of structure&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;L&apos;épaisseur de trait de la structure&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="287"/>
         <source>Structure Color Style</source>
-        <translation type="unfinished">Structure Color Style</translation>
+        <translation>Style de couleur de la structure</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="296"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select color of structure shape&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select color of structure shape&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sélectionner la couleur de la forme de structure&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ReinforcementDrawing/ReinforcementDrawingDimensioning_Shapes.ui" line="312"/>
         <source>no color</source>
-        <translation type="unfinished">no color</translation>
+        <translation>sans couleur</translation>
     </message>
 </context>
 <context>
@@ -3806,17 +3806,17 @@
     <message>
         <location filename="../ReinforcementDrawing/MainReinforcementDrawingDimensioning.py" line="245"/>
         <source>Reinforcement Drawing Dimensioning</source>
-        <translation type="unfinished">Reinforcement Drawing Dimensioning</translation>
+        <translation>Cotation du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../InitGui.py" line="48"/>
         <source>Reinforcement</source>
-        <translation type="unfinished">Reinforcement</translation>
+        <translation>Ferraillage</translation>
     </message>
     <message>
         <location filename="../InitGui.py" line="49"/>
         <source>Create Building Reinforcement</source>
-        <translation type="unfinished">Create Building Reinforcement</translation>
+        <translation>Créer un ferraillage de bâtiment</translation>
     </message>
 </context>
 <context>
@@ -3829,7 +3829,7 @@
     <message>
         <location filename="../RebarTools.py" line="423"/>
         <source>Generate Bar Bending Schedule</source>
-        <translation type="unfinished">Generate Bar Bending Schedule</translation>
+        <translation>Générer le tableau de pliage des barres</translation>
     </message>
 </context>
 <context>
@@ -3842,7 +3842,7 @@
     <message>
         <location filename="../RebarTools.py" line="392"/>
         <source>Generate Rebar Shape Cut List</source>
-        <translation type="unfinished">Generate Rebar Shape Cut List</translation>
+        <translation>Générer la liste de coupe de forme d&apos;armature</translation>
     </message>
 </context>
 <context>
@@ -3855,7 +3855,7 @@
     <message>
         <location filename="../RebarTools.py" line="269"/>
         <source>Creates a Beam Reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished">Creates a Beam Reinforcement from the selected face of the Structural element.</translation>
+        <translation>Crée un ferraillage de poutre à partir de la face sélectionnée de l&apos;élément structurel.</translation>
     </message>
 </context>
 <context>
@@ -3868,7 +3868,7 @@
     <message>
         <location filename="../RebarTools.py" line="179"/>
         <source>Creates a BentShape bar reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished">Creates a BentShape bar reinforcement from the selected face of the Structural element.</translation>
+        <translation>Crée un ferraillage en forme courbée à partir de la face sélectionnée de l'élément structurel.</translation>
     </message>
 </context>
 <context>
@@ -3881,7 +3881,7 @@
     <message>
         <location filename="../RebarTools.py" line="361"/>
         <source>Generate Rebars Bill Of Material</source>
-        <translation type="unfinished">Generate Rebars Bill Of Material</translation>
+        <translation>Générer la nomenclature des armatures</translation>
     </message>
 </context>
 <context>
@@ -3894,7 +3894,7 @@
     <message>
         <location filename="../RebarTools.py" line="240"/>
         <source>Creates a Column Reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished">Creates a Column Reinforcement from the selected face of the Structural element.</translation>
+        <translation>Crée un ferraillage de poteau à partir de la face sélectionnée de l'élément structurel.</translation>
     </message>
 </context>
 <context>
@@ -3902,12 +3902,12 @@
     <message>
         <location filename="../RebarTools.py" line="451"/>
         <source>Reinforcement Drawing Dimensioning</source>
-        <translation type="unfinished">Reinforcement Drawing Dimensioning</translation>
+        <translation>Cotation du dessin d'armature</translation>
     </message>
     <message>
         <location filename="../RebarTools.py" line="455"/>
         <source>Generate Reinforcement Drawing Dimensioning</source>
-        <translation type="unfinished">Generate Reinforcement Drawing Dimensioning</translation>
+        <translation>Générer la cotation du dessin d'armature</translation>
     </message>
 </context>
 <context>
@@ -3920,7 +3920,7 @@
     <message>
         <location filename="../RebarTools.py" line="333"/>
         <source>Creates a Footing Reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished">Creates a Footing Reinforcement from the selected face of the Structural element.</translation>
+        <translation>Crée un ferraillage de semelle à partir de la face sélectionnée de l'élément structurel.</translation>
     </message>
 </context>
 <context>
@@ -3933,7 +3933,7 @@
     <message>
         <location filename="../RebarTools.py" line="211"/>
         <source>Creates a Helical bar reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished">Creates a Helical bar reinforcement from the selected face of the Structural element.</translation>
+        <translation>Crée un ferraillage hélicoïdal à partir de la face sélectionnée de l'élément structurel.</translation>
     </message>
 </context>
 <context>
@@ -3946,7 +3946,7 @@
     <message>
         <location filename="../RebarTools.py" line="115"/>
         <source>Creates a L-Shape bar reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished">Creates a L-Shape bar reinforcement from the selected face of the Structural element.</translation>
+        <translation>Crée un ferraillage en forme de L à partir de la face sélectionnée de l'élément structurel.</translation>
     </message>
 </context>
 <context>
@@ -3959,7 +3959,7 @@
     <message>
         <location filename="../RebarTools.py" line="301"/>
         <source>Creates a Slab Reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished">Creates a Slab Reinforcement from the selected face of the Structural element.</translation>
+        <translation>Crée un ferraillage de dalle à partir de la face sélectionnée de l'élément structurel.</translation>
     </message>
 </context>
 <context>
@@ -3972,7 +3972,7 @@
     <message>
         <location filename="../RebarTools.py" line="147"/>
         <source>Creates a Stirrup bar reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished">Creates a Stirrup bar reinforcement from the selected face of the Structural element.</translation>
+        <translation>Crée un ferraillage en étrier à partir de la face sélectionnée de l'élément structurel.</translation>
     </message>
 </context>
 <context>
@@ -3985,7 +3985,7 @@
     <message>
         <location filename="../RebarTools.py" line="51"/>
         <source>Creates a Straight bar reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished">Creates a Straight bar reinforcement from the selected face of the Structural element.</translation>
+        <translation>Crée un ferraillage droit à partir de la face sélectionnée de l'élément structurel.</translation>
     </message>
 </context>
 <context>
@@ -3998,7 +3998,7 @@
     <message>
         <location filename="../RebarTools.py" line="83"/>
         <source>Creates a U-Shape bar reinforcement from the selected face of the Structural element.</source>
-        <translation type="unfinished">Creates a U-Shape bar reinforcement from the selected face of the Structural element.</translation>
+        <translation>Crée un ferraillage en forme de U à partir de la face sélectionnée de l'élément structurel.</translation>
     </message>
 </context>
 <context>
@@ -4013,7 +4013,7 @@
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="30"/>
         <location filename="../FootingReinforcement/SecXDirRebars.ui" line="103"/>
         <source>Hook Extension</source>
-        <translation type="unfinished">Hook Extension</translation>
+        <translation>Extension du crochet</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="47"/>
@@ -4025,48 +4025,48 @@
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="57"/>
         <location filename="../FootingReinforcement/SecXDirRebars.ui" line="156"/>
         <source>40 mm</source>
-        <translation type="unfinished">40 mm</translation>
+        <translation>40 mm</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="73"/>
         <source>Bottom Offset</source>
-        <translation type="unfinished">Bottom Offset</translation>
+        <translation>Décalage inférieur</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="92"/>
         <location filename="../FootingReinforcement/SecXDirRebars.ui" line="129"/>
         <source>2#20mm+1#16mm+2#20mm</source>
-        <translation type="unfinished">2#20mm+1#16mm+2#20mm</translation>
+        <translation>2#20mm+1#16mm+2#20mm</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="99"/>
         <location filename="../FootingReinforcement/SecXDirRebars.ui" line="86"/>
         <source>Rebar Type</source>
-        <translation type="unfinished">Rebar Type</translation>
+        <translation>Type d'armature</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="106"/>
         <location filename="../FootingReinforcement/SecXDirRebars.ui" line="79"/>
         <source>Number#Diameter</source>
-        <translation type="unfinished">Number#Diameter</translation>
+        <translation>Nombre#Diamètre</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="113"/>
         <location filename="../FootingReinforcement/SecXDirRebars.ui" line="110"/>
         <source>Top Offset</source>
-        <translation type="unfinished">Top Offset</translation>
+        <translation>Décalage supérieur</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="132"/>
         <location filename="../FootingReinforcement/SecXDirRebars.ui" line="62"/>
         <source>Hook Orientation</source>
-        <translation type="unfinished">Hook Orientation</translation>
+        <translation>Orientation du crochet</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="139"/>
         <location filename="../FootingReinforcement/SecXDirRebars.ui" line="30"/>
         <source>Edit Number and Diameter</source>
-        <translation type="unfinished">Edit Number and Diameter</translation>
+        <translation>Modifier le nombre et le diamètre</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="146"/>
@@ -4078,12 +4078,12 @@
     <message>
         <location filename="../ColumnReinforcement/SecXDirRebars.ui" line="162"/>
         <source>Secondary Rebars Along x-direction:</source>
-        <translation type="unfinished">Secondary Rebars Along x-direction:</translation>
+        <translation>Armatures secondaires le long de la direction X :</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/SecXDirRebars.ui" line="178"/>
         <source>Secondary Rebars Along x-direction in a column:</source>
-        <translation type="unfinished">Secondary Rebars Along x-direction in a column:</translation>
+        <translation>Armatures secondaires le long de la direction X dans un poteau :</translation>
     </message>
 </context>
 <context>
@@ -4098,47 +4098,47 @@
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="23"/>
         <location filename="../FootingReinforcement/SecYDirRebars.ui" line="56"/>
         <source>Edit Number and Diameter</source>
-        <translation type="unfinished">Edit Number and Diameter</translation>
+        <translation>Modifier le nombre et le diamètre</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="42"/>
         <location filename="../FootingReinforcement/SecYDirRebars.ui" line="35"/>
         <source>1#20mm+1#16mm+1#20mm</source>
-        <translation type="unfinished">1#20mm+1#16mm+1#20mm</translation>
+        <translation>1#20mm+1#16mm+1#20mm</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="55"/>
         <source>Secondary Rebars Along y-direction:</source>
-        <translation type="unfinished">Secondary Rebars Along y-direction:</translation>
+        <translation>Armatures secondaires le long de la direction Y :</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="65"/>
         <location filename="../FootingReinforcement/SecYDirRebars.ui" line="66"/>
         <source>40 mm</source>
-        <translation type="unfinished">40 mm</translation>
+        <translation>40 mm</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="81"/>
         <location filename="../FootingReinforcement/SecYDirRebars.ui" line="112"/>
         <source>Hook Extension</source>
-        <translation type="unfinished">Hook Extension</translation>
+        <translation>Extension du crochet</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="88"/>
         <location filename="../FootingReinforcement/SecYDirRebars.ui" line="42"/>
         <source>Top Offset</source>
-        <translation type="unfinished">Top Offset</translation>
+        <translation>Décalage supérieur</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="95"/>
         <location filename="../FootingReinforcement/SecYDirRebars.ui" line="161"/>
         <source>Rebar Type</source>
-        <translation type="unfinished">Rebar Type</translation>
+        <translation>Type d'armature</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="102"/>
         <source>Bottom Offset</source>
-        <translation type="unfinished">Bottom Offset</translation>
+        <translation>Décalage inférieur</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="109"/>
@@ -4157,18 +4157,18 @@
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="153"/>
         <location filename="../FootingReinforcement/SecYDirRebars.ui" line="178"/>
         <source>Number#Diameter</source>
-        <translation type="unfinished">Number#Diameter</translation>
+        <translation>Nombre#Diamètre</translation>
     </message>
     <message>
         <location filename="../ColumnReinforcement/SecYDirRebars.ui" line="172"/>
         <location filename="../FootingReinforcement/SecYDirRebars.ui" line="131"/>
         <source>Hook Orientation</source>
-        <translation type="unfinished">Hook Orientation</translation>
+        <translation>Orientation du crochet</translation>
     </message>
     <message>
         <location filename="../FootingReinforcement/SecYDirRebars.ui" line="144"/>
         <source>Secondary Rebars Along y-direction in a column:</source>
-        <translation type="unfinished">Secondary Rebars Along y-direction in a column:</translation>
+        <translation>Armatures secondaires le long de la direction Y dans un poteau :</translation>
     </message>
 </context>
 <context>
